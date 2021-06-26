@@ -1,6 +1,6 @@
 {
   "name": "flowhealthcheck--core",
-  "version": "1.0.70",
+  "version": "1.0.77",
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {

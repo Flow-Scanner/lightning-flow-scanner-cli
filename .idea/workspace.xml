@@ -2,20 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/rubenhalman.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flowhealthcheck-core.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/data/IdPrefixes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/data/customPrefixes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowElement.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowElementConnector.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowMetadata.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowNode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowVariable.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +39,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
@@ -40,6 +47,9 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
@@ -76,7 +86,13 @@
       <workItem from="1624635135438" duration="1660000" />
       <workItem from="1624666606548" duration="2180000" />
       <workItem from="1624669152810" duration="23000" />
-      <workItem from="1624669259956" duration="2960000" />
+      <workItem from="1624669259956" duration="3072000" />
+      <workItem from="1624673376138" duration="10000" />
+      <workItem from="1624673438317" duration="881000" />
+      <workItem from="1624674487773" duration="531000" />
+      <workItem from="1624675115304" duration="229000" />
+      <workItem from="1624675502420" duration="576000" />
+      <workItem from="1624676084721" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -92,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624671386553</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init">
+      <created>1624673267216</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1624673267216</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +137,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="include out for debugging" />
     <MESSAGE value="fixed the issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the issue" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>

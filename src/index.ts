@@ -1,8 +1,12 @@
+import {ScanFlows} from './main/libs/ScanFlows';
+import {Flow} from './main/models/Flow';
 import {RuleOptions} from './main/models/RuleOptions';
 
-export function scan() {
+export function scan(flow) {
 
-  let result: RuleOptions = new RuleOptions(true, true, true,
+  const testFlow = new Flow(flow);
+  const options = new RuleOptions(true, true, true,
     true, true, true, true, true);
-  return result;
+
+  return ScanFlows([testFlow], options);
 }
