@@ -2,19 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/data/rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/Rule.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +119,8 @@
       <workItem from="1624830805167" duration="84000" />
       <workItem from="1624831287134" duration="1273000" />
       <workItem from="1624832752474" duration="65000" />
-      <workItem from="1624834241557" duration="3000" />
+      <workItem from="1624834241557" duration="42000" />
+      <workItem from="1624835401852" duration="564000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -178,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624820677574</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add rule info to scanresults">
+      <created>1624834271923</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1624834271923</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,6 +205,7 @@
     <MESSAGE value="update" />
     <MESSAGE value="fixes" />
     <MESSAGE value="add scanresults" />
-    <option name="LAST_COMMIT_MESSAGE" value="add scanresults" />
+    <MESSAGE value="add rule info to scanresults" />
+    <option name="LAST_COMMIT_MESSAGE" value="add rule info to scanresults" />
   </component>
 </project>

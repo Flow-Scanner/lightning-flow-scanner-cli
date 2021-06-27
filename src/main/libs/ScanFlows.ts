@@ -14,36 +14,28 @@ export function ScanFlows(flows: Flow[], options: ScanOptions) : Flow[] {
 
   for (const flow of flows) {
     if (options.dmlStatementInLoop) {
-      flow.dmlStatementInLoop = new DMLStatementInLoop().execute(flow);
-      flow.scanResults.push(new ScanResult('DMLStatementInLoop', flow.dmlStatementInLoop));
+      flow.scanResults.push(new ScanResult('DMLStatementInLoop', new DMLStatementInLoop().execute(flow)));
     }
     if (options.duplicateDMLOperations) {
-      flow.duplicateDMLOperationsByNavigation = new DuplicateDMLOperationsByNavigation().execute(flow);
-      flow.scanResults.push(new ScanResult('DuplicateDMLOperationsByNavigation', flow.duplicateDMLOperationsByNavigation));
+      flow.scanResults.push(new ScanResult('DuplicateDMLOperationsByNavigation', new DuplicateDMLOperationsByNavigation().execute(flow)));
     }
     if (options.hardcodedIds) {
-      flow.nodesWithHardcodedIds = new HardcodedIds().execute(flow);
-      flow.scanResults.push(new ScanResult('HardcodedIds', flow.nodesWithHardcodedIds));
+      flow.scanResults.push(new ScanResult('HardcodedIds', new HardcodedIds().execute(flow)));
     }
     if (options.missingDescription) {
-      flow.missingDescription = new MissingFlowDescription().execute(flow);
-      flow.scanResults.push(new ScanResult('MissingFlowDescription', flow.missingDescription));
+      flow.scanResults.push(new ScanResult('MissingFlowDescription', new MissingFlowDescription().execute(flow)));
     }
     if (options.missingFaultPaths) {
-      flow.missingFaultPaths = new MissingFaultPath().execute(flow);
-      flow.scanResults.push(new ScanResult('MissingFaultPath', flow.missingFaultPaths));
+      flow.scanResults.push(new ScanResult('MissingFaultPath', new MissingFaultPath().execute(flow)));
     }
     if (options.missingNullHandlers) {
-      flow.missingNullHandlers = new MissingNullHandler().execute(flow);
-      flow.scanResults.push(new ScanResult('MissingNullHandler', flow.missingNullHandlers));
+      flow.scanResults.push(new ScanResult('MissingNullHandler', new MissingNullHandler().execute(flow)));
     }
     if (options.unconnectedElements) {
-      flow.unconnectedElements = new UnconnectedElements().execute(flow);
-      flow.scanResults.push(new ScanResult('UnconnectedElements', flow.unconnectedElements));
+      flow.scanResults.push(new ScanResult('UnconnectedElements', new UnconnectedElements().execute(flow)));
     }
     if (options.unusedVariables) {
-      flow.unusedVariables = new UnusedVariables().execute(flow);
-      flow.scanResults.push(new ScanResult('UnusedVariables', flow.unusedVariables));
+      flow.scanResults.push(new ScanResult('UnusedVariables', new UnusedVariables().execute(flow)));
     }
   }
   return flows;
