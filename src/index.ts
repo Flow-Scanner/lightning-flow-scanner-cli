@@ -1,14 +1,14 @@
 import {FixFlows} from './main/libs/FixFlows';
 import {ScanFlows} from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
-import {RuleOptions} from './main/models/RuleOptions';
+import {ScanOptions} from './main/models/ScanOptions';
 
-export function scan(flows :Flow[], ruleOptions : RuleOptions): Flow[] {
+export function scan(flows :Flow[], scanOptions : ScanOptions): Flow[] {
 
-  return ScanFlows(flows, ruleOptions);
+  return ScanFlows(flows, scanOptions);
 }
 
-export function fix(flows :Flow[], ruleOptions : RuleOptions): Flow[] {
+export function fix(flows :Flow[]): Flow[] {
 
   return FixFlows(flows);
 }

@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/libs/BuildFlow.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/libs/ConvertFlowNodes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/libs/Helper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanOptions.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,9 +29,6 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
@@ -89,12 +86,13 @@
       <workItem from="1624799909654" duration="318000" />
       <workItem from="1624800722514" duration="822000" />
       <workItem from="1624803559502" duration="558000" />
-      <workItem from="1624804161416" duration="29000" />
-      <workItem from="1624806041254" duration="3000" />
-      <workItem from="1624806207713" duration="69000" />
-      <workItem from="1624806384274" duration="876000" />
-      <workItem from="1624807343025" duration="19000" />
-      <workItem from="1624807376880" duration="78000" />
+      <workItem from="1624811340089" duration="113000" />
+      <workItem from="1624811456507" duration="53000" />
+      <workItem from="1624811513206" duration="114000" />
+      <workItem from="1624811631356" duration="619000" />
+      <workItem from="1624812296743" duration="19000" />
+      <workItem from="1624812775073" duration="127000" />
+      <workItem from="1624815637163" duration="96000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -131,14 +129,7 @@
       <option name="project" value="LOCAL" />
       <updated>1624758008281</updated>
     </task>
-    <task id="LOCAL-00006" summary="update">
-      <created>1624804179725</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1624804179725</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
