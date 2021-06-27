@@ -2,6 +2,7 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
+import {ScanResult} from "./ScanResult";
 
 export class Flow {
 
@@ -18,6 +19,7 @@ export class Flow {
   public uri?;
   public root?;
   public resultCount?;
+  public scanResults?: ScanResult[] = [];
   public unconnectedElements?: FlowElement [];
   public unusedVariables?: FlowVariable [];
   public nodesWithHardcodedIds?: FlowElement [];
