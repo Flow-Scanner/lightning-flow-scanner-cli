@@ -1,10 +1,19 @@
 import {Flow} from "../models/Flow";
 import {FlowElement} from "../models/FlowElement";
 import {FlowVariable} from "../models/FlowVariable";
+import {Rule} from "../models/Rule";
+import * as rules from "../data/rules.json";
 
-export class UnusedVariables{
+export class UnusedVariables extends Rule{
 
-    public execute(flow: Flow) {
+  constructor(
+  ) {
+    const rule = rules.rules.find(rule => rule.name === "UnusedVariables");
+    super(rule.name, rule.label, rule.text);
+  }
+
+
+  public execute(flow: Flow) {
         const unusedVariables : FlowVariable[] = [];
         for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
             // first check if any inside of flow elements

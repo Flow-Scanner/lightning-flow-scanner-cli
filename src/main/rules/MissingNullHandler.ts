@@ -1,7 +1,15 @@
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
+import {Rule} from '../models/Rule';
+import * as rules from "../data/rules.json";
 
-export class MissingNullHandler{
+export class MissingNullHandler extends Rule{
+
+    constructor(
+    ) {
+      const rule = rules.rules.find(rule => rule.name === "MissingNullHandler");
+      super(rule.name, rule.label, rule.text);
+    }
 
     public execute(flow: Flow) {
 

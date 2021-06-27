@@ -1,10 +1,18 @@
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
+import {Rule} from "../models/Rule";
+import * as rules from "../data/rules.json";
 
-export class UnconnectedElements {
+export class UnconnectedElements extends Rule{
 
-    public execute(flow: Flow) {
+  constructor(
+  ) {
+    const rule = rules.rules.find(rule => rule.name === "UnconnectedElements");
+    super(rule.name, rule.label, rule.text);
+  }
+
+  public execute(flow: Flow) {
         const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
         let indexesToProcess = [this.findStart(flowElements)];
         const processedElementIndexes: number[] = [];
