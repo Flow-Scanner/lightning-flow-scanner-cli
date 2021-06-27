@@ -20,14 +20,6 @@ export class Flow {
   public root?;
   public resultCount?;
   public scanResults?: ScanResult[] = [];
-  public unconnectedElements?: FlowElement [];
-  public unusedVariables?: FlowVariable [];
-  public nodesWithHardcodedIds?: FlowElement [];
-  public dmlStatementInLoop?: FlowElement[];
-  public duplicateDMLOperationsByNavigation?: FlowElement[];
-  public missingFaultPaths?: FlowElement[];
-  public missingNullHandlers?: FlowElement[];
-  public missingDescription?: boolean;
 
   public processedData?;
   public nodes?: FlowNode[];
