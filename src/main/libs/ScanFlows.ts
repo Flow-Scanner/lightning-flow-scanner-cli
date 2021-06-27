@@ -9,7 +9,7 @@ import {MissingNullHandler} from '../rules/MissingNullHandler';
 import {UnconnectedElements} from '../rules/UnconnectedElements';
 import {UnusedVariables} from '../rules/UnusedVariables';
 
-export function ScanFlows(flows: Flow[], options: RuleOptions) {
+export function ScanFlows(flows: Flow[], options: RuleOptions) : Flow[] {
 
   for (const flow of flows) {
     if (options.dmlStatementInLoop) {

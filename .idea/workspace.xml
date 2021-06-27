@@ -2,27 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/data/IdPrefixes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/data/customPrefixes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowElement.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowElementConnector.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowMetadata.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowNode.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowVariable.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +75,9 @@
       <workItem from="1624674487773" duration="531000" />
       <workItem from="1624675115304" duration="229000" />
       <workItem from="1624675502420" duration="576000" />
-      <workItem from="1624676084721" duration="12000" />
+      <workItem from="1624676084721" duration="150000" />
+      <workItem from="1624748577007" duration="2863000" />
+      <workItem from="1624757132313" duration="629000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -115,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624673267216</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="poc">
+      <created>1624676223848</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1624676223848</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,6 +130,7 @@
     <MESSAGE value="include out for debugging" />
     <MESSAGE value="fixed the issue" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="poc" />
+    <option name="LAST_COMMIT_MESSAGE" value="poc" />
   </component>
 </project>
