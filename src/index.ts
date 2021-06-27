@@ -1,11 +1,8 @@
 import {ScanFlows} from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
+import {RuleOptions} from './main/models/RuleOptions';
 
-export function scan(flows, ruleOptions): Flow[] {
+export function scan(flows :Flow[], ruleOptions : RuleOptions): Flow[] {
 
-  const processedFlows: Flow[] = [];
-  for(const flow of flows){
-    processedFlows.push( new Flow(flow));
-  }
-  return ScanFlows(processedFlows, ruleOptions);
+  return ScanFlows(flows, ruleOptions);
 }
