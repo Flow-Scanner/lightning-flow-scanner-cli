@@ -1,10 +1,19 @@
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
+import {Rule} from '../models/Rule';
+import * as rules from "../data/rules.json";
 
-export class DuplicateDMLOperationsByNavigation {
+export class DuplicateDMLOperationsByNavigation extends Rule{
 
-    public execute(flow: Flow) {
+  constructor(
+  ) {
+    const rule = rules.rules.find(rule => rule.name === "DuplicateDMLOperationsByNavigation");
+    super(rule.name, rule.label, rule.text);
+  }
+
+
+  public execute(flow: Flow) {
 
         const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
         const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];

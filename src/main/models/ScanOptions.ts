@@ -1,4 +1,4 @@
-export class RuleOptions {
+export class ScanOptions {
 
     public dmlStatementInLoop: boolean;
     public duplicateDMLOperations: boolean;

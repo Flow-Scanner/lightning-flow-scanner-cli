@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/data/rules.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/Rule.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +31,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JSON" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -84,6 +94,40 @@
       <workItem from="1624799909654" duration="318000" />
       <workItem from="1624800722514" duration="822000" />
       <workItem from="1624803559502" duration="558000" />
+      <workItem from="1624811340089" duration="113000" />
+      <workItem from="1624811456507" duration="53000" />
+      <workItem from="1624811513206" duration="114000" />
+      <workItem from="1624811631356" duration="619000" />
+      <workItem from="1624812296743" duration="19000" />
+      <workItem from="1624812775073" duration="127000" />
+      <workItem from="1624815637163" duration="147000" />
+      <workItem from="1624819065685" duration="1478000" />
+      <workItem from="1624820782077" duration="57000" />
+      <workItem from="1624821518656" duration="27000" />
+      <workItem from="1624822320540" duration="515000" />
+      <workItem from="1624825342434" duration="21000" />
+      <workItem from="1624826397137" duration="11000" />
+      <workItem from="1624826514816" duration="3000" />
+      <workItem from="1624826550893" duration="3000" />
+      <workItem from="1624826566941" duration="3000" />
+      <workItem from="1624826608627" duration="4000" />
+      <workItem from="1624826659496" duration="5000" />
+      <workItem from="1624826695511" duration="4000" />
+      <workItem from="1624826728012" duration="3000" />
+      <workItem from="1624827229432" duration="144000" />
+      <workItem from="1624827381902" duration="160000" />
+      <workItem from="1624827573925" duration="141000" />
+      <workItem from="1624827735231" duration="71000" />
+      <workItem from="1624827816906" duration="30000" />
+      <workItem from="1624827856086" duration="57000" />
+      <workItem from="1624827937850" duration="50000" />
+      <workItem from="1624828000614" duration="909000" />
+      <workItem from="1624829456519" duration="109000" />
+      <workItem from="1624829619129" duration="257000" />
+      <workItem from="1624830805167" duration="84000" />
+      <workItem from="1624831287134" duration="1273000" />
+      <workItem from="1624832752474" duration="65000" />
+      <workItem from="1624834241557" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -120,7 +164,21 @@
       <option name="project" value="LOCAL" />
       <updated>1624758008281</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fixes">
+      <created>1624815773511</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1624815773512</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add scanresults">
+      <created>1624820677574</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1624820677574</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +203,8 @@
     <MESSAGE value="init" />
     <MESSAGE value="poc" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="fixes" />
+    <MESSAGE value="add scanresults" />
+    <option name="LAST_COMMIT_MESSAGE" value="add scanresults" />
   </component>
 </project>

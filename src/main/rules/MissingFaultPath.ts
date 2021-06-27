@@ -1,8 +1,15 @@
 import {Flow} from "../models/Flow";
+import {Rule} from "../models/Rule";
 import {FlowElement} from "../models/FlowElement";
+import * as rules from "../data/rules.json";
 
-export class MissingFaultPath{
+export class MissingFaultPath extends Rule{
 
+  constructor(
+  ) {
+    const rule = rules.rules.find(rule => rule.name === "MissingFaultPath");
+    super(rule.name, rule.label, rule.text);
+  }
     public execute(flow: Flow) {
 
         const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
