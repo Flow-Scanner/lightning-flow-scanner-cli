@@ -1,14 +1,14 @@
+import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
 import {Rule} from '../models/Rule';
-import * as rules from "../data/rules.json";
 
 export class DuplicateDMLOperationsByNavigation extends Rule{
 
   constructor(
   ) {
-    const rule = rules.rules.find(rule => rule.name === "DuplicateDMLOperationsByNavigation");
+    const rule = rules.rules.find(rule => rule.name === 'DuplicateDMLOperationsByNavigation');
     super(rule.name, rule.label, rule.text);
   }
 

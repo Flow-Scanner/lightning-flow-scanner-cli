@@ -1,6 +1,6 @@
-import {FlowElement} from "./FlowElement";
-import {FlowVariable} from "./FlowVariable";
-import * as rules from '../data/rules.json';
+import * as rules from '../config/rules.json';
+import {FlowElement} from './FlowElement';
+import {FlowVariable} from './FlowVariable';
 
 export class ScanResult {
 

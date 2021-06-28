@@ -1,14 +1,14 @@
-import {Flow} from "../models/Flow";
-import {FlowElement} from "../models/FlowElement";
-import {FlowVariable} from "../models/FlowVariable";
-import {Rule} from "../models/Rule";
-import * as rules from "../data/rules.json";
+import * as rules from '../config/rules.json';
+import {Flow} from '../models/Flow';
+import {FlowElement} from '../models/FlowElement';
+import {FlowVariable} from '../models/FlowVariable';
+import {Rule} from '../models/Rule';
 
 export class UnusedVariables extends Rule{
 
   constructor(
   ) {
-    const rule = rules.rules.find(rule => rule.name === "UnusedVariables");
+    const rule = rules.rules.find(rule => rule.name === 'UnusedVariables');
     super(rule.name, rule.label, rule.text);
   }
 

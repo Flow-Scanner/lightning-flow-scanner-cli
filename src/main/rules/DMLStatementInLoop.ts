@@ -1,13 +1,13 @@
+import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {Rule} from '../models/Rule';
-import * as rules from '../data/rules.json';
 
 export class DMLStatementInLoop extends Rule{
 
   constructor(
   ) {
-    const rule = rules.rules.find(rule => rule.name === "DMLStatementInLoop");
+    const rule = rules.rules.find(rule => rule.name === 'DMLStatementInLoop');
     super(rule.name, rule.label, rule.text);
   }
 

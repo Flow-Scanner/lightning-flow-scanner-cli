@@ -1,13 +1,13 @@
-import {Flow} from "../models/Flow";
-import {Rule} from "../models/Rule";
-import {FlowElement} from "../models/FlowElement";
-import * as rules from "../data/rules.json";
+import * as rules from '../config/rules.json';
+import {Flow} from '../models/Flow';
+import {FlowElement} from '../models/FlowElement';
+import {Rule} from '../models/Rule';
 
 export class MissingFaultPath extends Rule{
 
   constructor(
   ) {
-    const rule = rules.rules.find(rule => rule.name === "MissingFaultPath");
+    const rule = rules.rules.find(rule => rule.name === 'MissingFaultPath');
     super(rule.name, rule.label, rule.text);
   }
     public execute(flow: Flow) {

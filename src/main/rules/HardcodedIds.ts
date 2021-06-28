@@ -1,12 +1,12 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
+import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {Rule} from '../models/Rule';
-import * as rules from "../data/rules.json";
 
 export class HardcodedIds extends Rule{
 
   constructor() {
-    const rule = rules.rules.find(rule => rule.name === "HardcodedIds");
+    const rule = rules.rules.find(rule => rule.name === 'HardcodedIds');
     super(rule.name, rule.label, rule.text);
   }
 

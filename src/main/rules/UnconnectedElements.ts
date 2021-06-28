@@ -1,14 +1,14 @@
+import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
-import {Rule} from "../models/Rule";
-import * as rules from "../data/rules.json";
+import {Rule} from '../models/Rule';
 
 export class UnconnectedElements extends Rule{
 
   constructor(
   ) {
-    const rule = rules.rules.find(rule => rule.name === "UnconnectedElements");
+    const rule = rules.rules.find(rule => rule.name === 'UnconnectedElements');
     super(rule.name, rule.label, rule.text);
   }
 

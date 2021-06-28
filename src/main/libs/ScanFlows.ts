@@ -1,5 +1,6 @@
 import {Flow} from '../models/Flow';
 import {ScanOptions} from '../models/ScanOptions';
+import {ScanResult} from '../models/ScanResult';
 import {DMLStatementInLoop} from '../rules/DMLStatementInLoop';
 import {DuplicateDMLOperationsByNavigation} from '../rules/DuplicateDMLOperationsByNavigation';
 import {HardcodedIds} from '../rules/HardcodedIds';
@@ -8,7 +9,6 @@ import {MissingFlowDescription} from '../rules/MissingFlowDescription';
 import {MissingNullHandler} from '../rules/MissingNullHandler';
 import {UnconnectedElements} from '../rules/UnconnectedElements';
 import {UnusedVariables} from '../rules/UnusedVariables';
-import {ScanResult} from "../models/ScanResult";
 
 export function ScanFlows(flows: Flow[], options: ScanOptions) : Flow[] {
 

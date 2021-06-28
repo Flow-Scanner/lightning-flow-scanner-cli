@@ -2,7 +2,7 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
-import {ScanResult} from "./ScanResult";
+import {ScanResult} from './ScanResult';
 
 export class Flow {
 
