@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +121,8 @@
       <workItem from="1624981980635" duration="1400000" />
       <workItem from="1624987379207" duration="1000" />
       <workItem from="1624995080529" duration="10000" />
-      <workItem from="1624998407763" duration="203000" />
+      <workItem from="1624998407763" duration="427000" />
+      <workItem from="1625000212280" duration="34000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -187,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624910724510</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add type to scanresult">
+      <created>1624998672758</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1624998672758</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +223,7 @@
     <MESSAGE value="add scanresults" />
     <MESSAGE value="add rule info to scanresults" />
     <MESSAGE value="cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup" />
+    <MESSAGE value="add type to scanresult" />
+    <option name="LAST_COMMIT_MESSAGE" value="add type to scanresult" />
   </component>
 </project>
