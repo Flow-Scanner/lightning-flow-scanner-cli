@@ -10,8 +10,10 @@ export class ScanResult {
 
     if (Array.isArray(results)){
       this.resultCount = results.length;
+      this.type = 'Element';
     } else {
       this.resultCount = 1;
+      this.type = 'Flow';
     }
 
     const ruleData = rules.rules.find(rule => rule.name === ruleName);
@@ -21,6 +23,7 @@ export class ScanResult {
 
   public ruleName: String;
   public ruleLabel: String;
+  public type: String;
   public ruleDescription: String;
   public results?: (FlowElement[] | FlowVariable[] | Boolean);
   public resultCount: Number;
