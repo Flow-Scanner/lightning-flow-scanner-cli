@@ -7,6 +7,7 @@ export class ScanResult {
   constructor(ruleName:string, results: (FlowElement[] | FlowVariable[] | Boolean)) {
     this.ruleName = ruleName;
     this.results = results;
+    this.resultCount = 0;
 
     if (Array.isArray(results)){
       this.resultCount = results.length;
