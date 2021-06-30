@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowResult.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/FlowResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
@@ -144,7 +142,9 @@
       <workItem from="1625004169867" duration="1351000" />
       <workItem from="1625075708369" duration="5036000" />
       <workItem from="1625081299936" duration="430000" />
-      <workItem from="1625086272989" duration="172000" />
+      <workItem from="1625086272989" duration="254000" />
+      <workItem from="1625087132685" duration="59000" />
+      <workItem from="1625087605450" duration="463000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -230,7 +230,21 @@
       <option name="project" value="LOCAL" />
       <updated>1625002588326</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="refactor and add output">
+      <created>1625086498794</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1625086498794</updated>
+    </task>
+    <task id="LOCAL-00014" summary="rename">
+      <created>1625087184292</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1625087184292</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,6 +275,8 @@
     <MESSAGE value="cleanup" />
     <MESSAGE value="add type to scanresult" />
     <MESSAGE value="add default" />
-    <option name="LAST_COMMIT_MESSAGE" value="add default" />
+    <MESSAGE value="refactor and add output" />
+    <MESSAGE value="rename" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename" />
   </component>
 </project>

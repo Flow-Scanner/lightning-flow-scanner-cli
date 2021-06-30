@@ -1,13 +1,20 @@
 import {Flow} from './Flow';
-import {FlowResult} from './FlowResult';
+import {RuleResult} from './RuleResult';
 
 export class ScanResult {
 
-  constructor(flow: Flow, scanResults: FlowResult[]) {
+  constructor(flow: Flow, ruleResults: RuleResult[]) {
     this.flow = flow;
-    this.scanResults = scanResults;
+    this.ruleResults = ruleResults;
+
+    let totalResults = 0;
+    for(const ruleResult of ruleResults){
+      totalResults = totalResults + ruleResult.resultCount;
+    }
+    this.resultCount = totalResults;
   }
 
   public flow: Flow;
-  public scanResults: FlowResult[];
+  public ruleResults: RuleResult[];
+  public resultCount: number;
 }

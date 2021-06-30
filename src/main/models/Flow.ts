@@ -2,7 +2,7 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
-import {FlowResult} from './FlowResult';
+import {RuleResult} from './RuleResult';
 
 export class Flow {
 
@@ -19,7 +19,7 @@ export class Flow {
   public uri?;
   public root?;
   public resultCount?;
-  public scanResults?: FlowResult[] = [];
+  public scanResults?: RuleResult[] = [];
 
   public processedData?;
   public nodes?: FlowNode[];

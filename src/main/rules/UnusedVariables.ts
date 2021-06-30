@@ -3,7 +3,7 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowVariable} from '../models/FlowVariable';
 import {Rule} from '../models/Rule';
-import {FlowResult} from '../models/FlowResult';
+import {RuleResult} from '../models/RuleResult';
 
 export class UnusedVariables extends Rule {
 
@@ -27,7 +27,7 @@ export class UnusedVariables extends Rule {
         }
       }
     }
-    return new FlowResult('UnusedVariables', 'pattern', unusedVariables);
+    return new RuleResult('UnusedVariables', 'pattern', unusedVariables);
   }
 
 }

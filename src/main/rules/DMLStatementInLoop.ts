@@ -1,7 +1,7 @@
 import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
-import {FlowResult} from '../models/FlowResult';
+import {RuleResult} from '../models/RuleResult';
 import {Rule} from '../models/Rule';
 
 export class DMLStatementInLoop extends Rule {
@@ -61,7 +61,7 @@ export class DMLStatementInLoop extends Rule {
         dmlStatementsInLoops.push(element);
       }
     }
-    return new FlowResult('DMLStatementInLoop','pattern', dmlStatementsInLoops);
+    return new RuleResult('DMLStatementInLoop','pattern', dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {

@@ -2,7 +2,7 @@ import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {Rule} from '../models/Rule';
-import {FlowResult} from "../models/FlowResult";
+import {RuleResult} from "../models/RuleResult";
 
 export class MissingNullHandler extends Rule {
 
@@ -55,6 +55,6 @@ export class MissingNullHandler extends Rule {
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new FlowResult('MissingNullHandler', 'pattern', getOperationsWithoutNullHandler);
+    return new RuleResult('MissingNullHandler', 'pattern', getOperationsWithoutNullHandler);
   }
 }

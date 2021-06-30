@@ -2,7 +2,7 @@ import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {Rule} from '../models/Rule';
-import {FlowResult} from "../models/FlowResult";
+import {RuleResult} from "../models/RuleResult";
 
 export class MissingFaultPath extends Rule{
 
@@ -21,6 +21,6 @@ export class MissingFaultPath extends Rule{
                 elementsWithoutFaultPath.push(element);
             }
         }
-      return new FlowResult('MissingFaultPath','pattern', elementsWithoutFaultPath);
+      return new RuleResult('MissingFaultPath','pattern', elementsWithoutFaultPath);
     }
 }

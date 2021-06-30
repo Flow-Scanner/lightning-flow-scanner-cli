@@ -1,7 +1,7 @@
 import {Flow} from '../models/Flow';
 import {ScanResult} from '../models/ScanResult';
 import {ScanOptions} from '../models/ScanOptions';
-import {FlowResult} from '../models/FlowResult';
+import {RuleResult} from '../models/RuleResult';
 import {DMLStatementInLoop} from '../rules/DMLStatementInLoop';
 import {DuplicateDMLOperationsByNavigation} from '../rules/DuplicateDMLOperationsByNavigation';
 import {HardcodedIds} from '../rules/HardcodedIds';
@@ -16,7 +16,7 @@ export function ScanFlows(flows: Flow[], options: ScanOptions) : ScanResult[] {
   const flowResults : ScanResult[] = [];
   for (const flow of flows) {
 
-    const scanResults: FlowResult[] = [];
+    const scanResults: RuleResult[] = [];
     if (options.dmlStatementInLoop) {
       scanResults.push(new DMLStatementInLoop().execute(flow));
     }

@@ -3,7 +3,7 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
 import {Rule} from '../models/Rule';
-import {FlowResult} from '../models/FlowResult';
+import {RuleResult} from '../models/RuleResult';
 
 export class UnconnectedElements extends Rule {
 
@@ -61,7 +61,7 @@ export class UnconnectedElements extends Rule {
         unconnectedElements.push(element);
       }
     }
-    return new FlowResult('UnconnectedElements', 'pattern', unconnectedElements);
+    return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {
