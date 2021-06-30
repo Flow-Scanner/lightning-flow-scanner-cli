@@ -2,8 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowResult.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +40,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
@@ -124,7 +139,12 @@
       <workItem from="1624998407763" duration="427000" />
       <workItem from="1625000212280" duration="34000" />
       <workItem from="1625002303190" duration="164000" />
-      <workItem from="1625002537005" duration="35000" />
+      <workItem from="1625002537005" duration="302000" />
+      <workItem from="1625002853064" duration="428000" />
+      <workItem from="1625004169867" duration="1351000" />
+      <workItem from="1625075708369" duration="5036000" />
+      <workItem from="1625081299936" duration="430000" />
+      <workItem from="1625086272989" duration="172000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -203,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625002447228</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add default">
+      <created>1625002588326</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1625002588326</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,6 +260,7 @@
     <MESSAGE value="add rule info to scanresults" />
     <MESSAGE value="cleanup" />
     <MESSAGE value="add type to scanresult" />
-    <option name="LAST_COMMIT_MESSAGE" value="add type to scanresult" />
+    <MESSAGE value="add default" />
+    <option name="LAST_COMMIT_MESSAGE" value="add default" />
   </component>
 </project>

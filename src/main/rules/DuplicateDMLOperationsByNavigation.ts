@@ -3,6 +3,7 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
 import {Rule} from '../models/Rule';
+import {FlowResult} from "../models/FlowResult";
 
 export class DuplicateDMLOperationsByNavigation extends Rule{
 
@@ -79,7 +80,7 @@ export class DuplicateDMLOperationsByNavigation extends Rule{
                 }
             } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
         }
-        return duplicateDMLOperationsByNavigation;
+    return new FlowResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation);
     }
 
     private findStartReference(element: FlowElement) {

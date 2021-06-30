@@ -1,6 +1,7 @@
 import {Flow} from '../models/Flow';
-import {ScanOptions} from '../models/ScanOptions';
 import {ScanResult} from '../models/ScanResult';
+import {ScanOptions} from '../models/ScanOptions';
+import {FlowResult} from '../models/FlowResult';
 import {DMLStatementInLoop} from '../rules/DMLStatementInLoop';
 import {DuplicateDMLOperationsByNavigation} from '../rules/DuplicateDMLOperationsByNavigation';
 import {HardcodedIds} from '../rules/HardcodedIds';
@@ -10,33 +11,37 @@ import {MissingNullHandler} from '../rules/MissingNullHandler';
 import {UnconnectedElements} from '../rules/UnconnectedElements';
 import {UnusedVariables} from '../rules/UnusedVariables';
 
-export function ScanFlows(flows: Flow[], options: ScanOptions) : Flow[] {
+export function ScanFlows(flows: Flow[], options: ScanOptions) : ScanResult[] {
 
+  const flowResults : ScanResult[] = [];
   for (const flow of flows) {
+
+    const scanResults: FlowResult[] = [];
     if (options.dmlStatementInLoop) {
-      flow.scanResults.push(new ScanResult('DMLStatementInLoop', new DMLStatementInLoop().execute(flow)));
+      scanResults.push(new DMLStatementInLoop().execute(flow));
     }
     if (options.duplicateDMLOperations) {
-      flow.scanResults.push(new ScanResult('DuplicateDMLOperationsByNavigation', new DuplicateDMLOperationsByNavigation().execute(flow)));
+      scanResults.push(new DuplicateDMLOperationsByNavigation().execute(flow));
     }
     if (options.hardcodedIds) {
-      flow.scanResults.push(new ScanResult('HardcodedIds', new HardcodedIds().execute(flow)));
+      scanResults.push(new HardcodedIds().execute(flow));
     }
     if (options.missingDescription) {
-      flow.scanResults.push(new ScanResult('MissingFlowDescription', new MissingFlowDescription().execute(flow)));
+      scanResults.push(new MissingFlowDescription().execute(flow));
     }
     if (options.missingFaultPaths) {
-      flow.scanResults.push(new ScanResult('MissingFaultPath', new MissingFaultPath().execute(flow)));
+      scanResults.push(new MissingFaultPath().execute(flow));
     }
     if (options.missingNullHandlers) {
-      flow.scanResults.push(new ScanResult('MissingNullHandler', new MissingNullHandler().execute(flow)));
+      scanResults.push(new MissingNullHandler().execute(flow));
     }
     if (options.unconnectedElements) {
-      flow.scanResults.push(new ScanResult('UnconnectedElements', new UnconnectedElements().execute(flow)));
+      scanResults.push(new UnconnectedElements().execute(flow));
     }
     if (options.unusedVariables) {
-      flow.scanResults.push(new ScanResult('UnusedVariables', new UnusedVariables().execute(flow)));
+      scanResults.push(new UnusedVariables().execute(flow));
     }
+    flowResults.push(new ScanResult(flow, scanResults));
   }
-  return flows;
+  return flowResults;
 }

@@ -2,6 +2,7 @@ import * as IdPrefixes from '../data/IdPrefixes.json';
 import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
 import {Rule} from '../models/Rule';
+import {FlowResult} from "../models/FlowResult";
 
 export class HardcodedIds extends Rule{
 
@@ -34,6 +35,6 @@ export class HardcodedIds extends Rule{
         }
       }
     }
-    return nodesWithHardcodedIds;
+    return new FlowResult('HardcodedIds', 'pattern', nodesWithHardcodedIds);
   }
 }

@@ -1,5 +1,6 @@
 import * as rules from '../config/rules.json';
 import {Flow} from '../models/Flow';
+import {FlowResult} from '../models/FlowResult';
 import {Rule} from '../models/Rule';
 
 export class MissingFlowDescription extends Rule{
@@ -11,6 +12,6 @@ export class MissingFlowDescription extends Rule{
     }
 
     public execute(flow: Flow) {
-        return !flow.xmldata.Flow.description;
+      return new FlowResult('MissingFlowDescription', 'flow', [!flow.xmldata.Flow.description]);
     }
 }
