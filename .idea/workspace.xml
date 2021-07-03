@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39dc3c2f-88b9-41de-83e4-0dda45242f84" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/libs/DynamicRule.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/GetRules.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/IRuleDefinition.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/RuleStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/FlowResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/ScanOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanOptions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/models/ScanResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/ScanResult.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
@@ -42,12 +47,13 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/rules" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -144,7 +150,29 @@
       <workItem from="1625081299936" duration="430000" />
       <workItem from="1625086272989" duration="254000" />
       <workItem from="1625087132685" duration="59000" />
-      <workItem from="1625087605450" duration="463000" />
+      <workItem from="1625087605450" duration="549000" />
+      <workItem from="1625088160392" duration="1000" />
+      <workItem from="1625088281548" duration="31000" />
+      <workItem from="1625088317080" duration="1000" />
+      <workItem from="1625088436566" duration="650000" />
+      <workItem from="1625092930075" duration="170000" />
+      <workItem from="1625093194203" duration="17000" />
+      <workItem from="1625093218810" duration="24000" />
+      <workItem from="1625094239987" duration="129000" />
+      <workItem from="1625244779506" duration="321000" />
+      <workItem from="1625246508422" duration="108000" />
+      <workItem from="1625252869691" duration="4746000" />
+      <workItem from="1625304309044" duration="2383000" />
+      <workItem from="1625306765168" duration="4019000" />
+      <workItem from="1625312105416" duration="16000" />
+      <workItem from="1625312270712" duration="57000" />
+      <workItem from="1625312348681" duration="87000" />
+      <workItem from="1625312718172" duration="91000" />
+      <workItem from="1625313023194" duration="776000" />
+      <workItem from="1625313907509" duration="23000" />
+      <workItem from="1625314925798" duration="56000" />
+      <workItem from="1625314988152" duration="44000" />
+      <workItem from="1625315480466" duration="1414000" />
     </task>
     <task id="LOCAL-00001" summary="include out for debugging">
       <created>1624616881365</created>
@@ -244,11 +272,28 @@
       <option name="project" value="LOCAL" />
       <updated>1625087184292</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add count">
+      <created>1625088135874</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1625088135874</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -277,6 +322,7 @@
     <MESSAGE value="add default" />
     <MESSAGE value="refactor and add output" />
     <MESSAGE value="rename" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename" />
+    <MESSAGE value="add count" />
+    <option name="LAST_COMMIT_MESSAGE" value="add count" />
   </component>
 </project>

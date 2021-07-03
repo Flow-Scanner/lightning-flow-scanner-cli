@@ -1,18 +1,22 @@
 import * as rules from '../config/rules.json';
+import {IRuleDefinition} from '../libs/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
-import {Rule} from '../models/Rule';
-import {RuleResult} from "../models/RuleResult";
+import {RuleResult} from '../models/RuleResult';
 
-export class DuplicateDMLOperationsByNavigation extends Rule{
+export class DuplicateDMLOperationsByNavigation implements IRuleDefinition{
 
-  constructor(
-  ) {
-    const rule = rules.rules.find(rule => rule.name === 'DuplicateDMLOperationsByNavigation');
-    super(rule.name, rule.label, rule.text);
+  constructor() {
+    const rule = rules.rules.find(rule => rule.name === 'DMLStatementInLoop');
+    this.name = rule.name;
+    this.label = rule.label;
+    this.text = rule.text;
   }
 
+  public name: string;
+  public label: string;
+  public text: string;
 
   public execute(flow: Flow) {
 

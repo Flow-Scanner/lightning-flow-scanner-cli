@@ -8,7 +8,6 @@ export class RuleResult {
     this.results = results;
     this.ruleName = ruleName;
     this.type = type;
-    this.resultCount = results.length;
 
     const ruleData = rules.rules.find(rule => rule.name === ruleName);
     this.ruleDescription = ruleData.text;
@@ -20,6 +19,5 @@ export class RuleResult {
   public ruleLabel: string;
   public ruleName: string;
   public type: string;
-  public resultCount: number;
 
 }

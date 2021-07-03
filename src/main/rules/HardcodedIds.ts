@@ -1,16 +1,21 @@
 import * as rules from '../config/rules.json';
 import * as IdPrefixes from '../data/IdPrefixes.json';
+import {IRuleDefinition} from '../libs/IRuleDefinition';
 import {Flow} from '../models/Flow';
-import {Rule} from '../models/Rule';
 import {RuleResult} from '../models/RuleResult';
 
-export class HardcodedIds extends Rule{
+export class HardcodedIds implements IRuleDefinition{
 
   constructor() {
-    const rule = rules.rules.find(rule => rule.name === 'HardcodedIds');
-    super(rule.name, rule.label, rule.text);
+    const rule = rules.rules.find(rule => rule.name === 'DMLStatementInLoop');
+    this.name = rule.name;
+    this.label = rule.label;
+    this.text = rule.text;
   }
 
+  public name: string;
+  public label: string;
+  public text: string;
   public execute(flow: Flow) {
     const prefixes = IdPrefixes.ids.map(prefix => {
       return prefix['Key Prefix'];
