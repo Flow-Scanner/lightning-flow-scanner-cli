@@ -18,7 +18,7 @@ export class UnusedVariables implements IRuleDefinition{
   public label: string;
   public text: string;
 
-  public execute(flow: Flow) {
+  public execute(flow: Flow) : RuleResult {
     const unusedVariables: FlowVariable[] = [];
     for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
       // first check if any inside of flow elements

@@ -18,7 +18,7 @@ export class UnconnectedElements implements IRuleDefinition{
   public label: string;
   public text: string;
 
-  public execute(flow: Flow) {
+  public execute(flow: Flow) : RuleResult {
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];

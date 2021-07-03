@@ -17,7 +17,7 @@ export class MissingNullHandler implements IRuleDefinition{
   public label: string;
   public text: string;
 
-  public execute(flow: Flow) {
+  public execute(flow: Flow) : RuleResult {
 
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];

@@ -16,7 +16,7 @@ export class HardcodedIds implements IRuleDefinition{
   public name: string;
   public label: string;
   public text: string;
-  public execute(flow: Flow) {
+  public execute(flow: Flow) : RuleResult {
     const prefixes = IdPrefixes.ids.map(prefix => {
       return prefix['Key Prefix'];
     });

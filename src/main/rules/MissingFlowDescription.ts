@@ -16,7 +16,7 @@ export class MissingFlowDescription implements IRuleDefinition{
   public label: string;
   public text: string;
 
-    public execute(flow: Flow) {
+    public execute(flow: Flow) : RuleResult {
       return new RuleResult('MissingFlowDescription', 'flow', [!flow.xmldata.Flow.description]);
     }
 }

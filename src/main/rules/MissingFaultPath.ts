@@ -17,7 +17,7 @@ export class MissingFaultPath implements IRuleDefinition {
   public label: string;
   public text: string;
 
-  public execute(flow: Flow) {
+  public execute(flow: Flow) : RuleResult {
 
     const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
     const flowElementsWhereFaultPathIsApplicable: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement && typesWithFaultPath.includes(node.subtype)) as FlowElement[];
