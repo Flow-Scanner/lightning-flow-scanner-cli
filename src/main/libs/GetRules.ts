@@ -2,7 +2,7 @@ import * as rules from '../config/rules.json';
 import {DynamicRule} from './DynamicRule';
 import {IRuleDefinition} from './IRuleDefinition';
 
-export function GetRules(allRules : boolean, ruleNames : string[]) : IRuleDefinition[] {
+export function GetRules(allRules : boolean, ruleNames? : string[]) : IRuleDefinition[] {
   const matchedRules : any = [];
 
   if(allRules){
