@@ -2,7 +2,6 @@ import * as rules from '../config/rules.json';
 import {IRuleDefinition} from '../libs/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
-import {Rule} from '../models/Rule';
 import {RuleResult} from '../models/RuleResult';
 
 export class MissingNullHandler implements IRuleDefinition{

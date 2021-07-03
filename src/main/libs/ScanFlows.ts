@@ -9,9 +9,9 @@ export function ScanFlows(flows: Flow[], ruleNames? : string[]) : ScanResult[] {
 
   let selectedRules : IRuleDefinition[];
   if(ruleNames){
-    selectedRules = GetRules(false, ruleNames);
+    selectedRules = GetRules(ruleNames);
   } else {
-    selectedRules = GetRules(true, []);
+    selectedRules = GetRules();
   }
 
   for (const flow of flows) {
