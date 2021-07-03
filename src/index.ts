@@ -5,12 +5,20 @@ import {ScanFlows} from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
 import {ScanResult} from './main/models/ScanResult';
 
-export function getRules(allRules : boolean, ruleNames : string[]): IRuleDefinition[] {
-  return GetRules(allRules, ruleNames);
+export function getRules(ruleNames? : string[]): IRuleDefinition[] {
+  if(ruleNames){
+    return GetRules(ruleNames);
+  } else {
+    return GetRules();
+  }
 }
 
-export function scan(flows :Flow[], ruleNames : string[]): ScanResult[] {
-  return ScanFlows(flows, ruleNames);
+export function scan(flows :Flow[], ruleNames? : string[]): ScanResult[] {
+  if(ruleNames){
+    return ScanFlows(flows, ruleNames);
+  } else {
+    return ScanFlows(flows);
+  }
 }
 
 export function fix(flows :Flow[]): Flow[] {
