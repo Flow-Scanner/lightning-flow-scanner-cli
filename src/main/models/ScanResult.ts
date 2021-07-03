@@ -1,28 +1,13 @@
-import {FlowElement} from "./FlowElement";
-import {FlowVariable} from "./FlowVariable";
-import * as rules from '../data/rules.json';
+import {Flow} from './Flow';
+import {RuleResult} from './RuleResult';
 
 export class ScanResult {
 
-  constructor(ruleName:string, results: (FlowElement[] | FlowVariable[] | Boolean)) {
-    this.ruleName = ruleName;
-    this.results = results;
-
-    if (Array.isArray(results)){
-      this.resultCount = results.length;
-    } else {
-      this.resultCount = 1;
-    }
-
-    const ruleData = rules.rules.find(rule => rule.name === ruleName);
-    this.ruleLabel = ruleData.label;
-    this.ruleDescription = ruleData.text;
+  constructor(flow: Flow, ruleResults: RuleResult[]) {
+    this.flow = flow;
+    this.ruleResults = ruleResults;
   }
 
-  public ruleName: String;
-  public ruleLabel: String;
-  public ruleDescription: String;
-  public results?: (FlowElement[] | FlowVariable[] | Boolean);
-  public resultCount: Number;
-
+  public flow: Flow;
+  public ruleResults: RuleResult[];
 }

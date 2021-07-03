@@ -1,16 +1,22 @@
-import {Flow} from "../models/Flow";
-import {Rule} from "../models/Rule";
-import * as rules from "../data/rules.json";
+import * as rules from '../config/rules.json';
+import {IRuleDefinition} from '../libs/IRuleDefinition';
+import {Flow} from '../models/Flow';
+import {RuleResult} from '../models/RuleResult';
 
-export class MissingFlowDescription extends Rule{
+export class MissingFlowDescription implements IRuleDefinition{
 
-    constructor(
-    ) {
-      const rule = rules.rules.find(rule => rule.name === "MissingFlowDescription");
-      super(rule.name, rule.label, rule.text);
-    }
+  constructor() {
+    const rule = rules.rules.find(rule => rule.name === 'DMLStatementInLoop');
+    this.name = rule.name;
+    this.label = rule.label;
+    this.text = rule.text;
+  }
+
+  public name: string;
+  public label: string;
+  public text: string;
 
     public execute(flow: Flow) {
-        return !flow.xmldata.Flow.description;
+      return new RuleResult('MissingFlowDescription', 'flow', [!flow.xmldata.Flow.description]);
     }
 }

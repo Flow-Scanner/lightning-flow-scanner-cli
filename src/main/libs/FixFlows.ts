@@ -8,9 +8,11 @@ import {BuildFlow} from './BuildFlow';
 export function FixFlows(flows: Flow[]) {
 
   for (const flow of flows) {
-    const unconnectedElements = new UnconnectedElements().execute(flow);
-    const unusedVariables = new UnusedVariables().execute(flow);
+    const unconnectedElements = new UnconnectedElements().execute(flow).results;
+    const unusedVariables = new UnusedVariables().execute(flow).results;
+    // @ts-ignore
     const unusedVariableReferences = unusedVariables ? unusedVariables.map(unusedVariable => unusedVariable.name) : [];
+    // @ts-ignore
     const unconnectedElementsReferences = unconnectedElements ? unconnectedElements.map(unconnectedElement => unconnectedElement.name) : [];
     const nodesToBuild = flow.nodes.filter(node => {
         switch (node.nodeType) {

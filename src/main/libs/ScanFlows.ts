@@ -1,42 +1,25 @@
 import {Flow} from '../models/Flow';
-import {ScanOptions} from '../models/ScanOptions';
-import {DMLStatementInLoop} from '../rules/DMLStatementInLoop';
-import {DuplicateDMLOperationsByNavigation} from '../rules/DuplicateDMLOperationsByNavigation';
-import {HardcodedIds} from '../rules/HardcodedIds';
-import {MissingFaultPath} from '../rules/MissingFaultPath';
-import {MissingFlowDescription} from '../rules/MissingFlowDescription';
-import {MissingNullHandler} from '../rules/MissingNullHandler';
-import {UnconnectedElements} from '../rules/UnconnectedElements';
-import {UnusedVariables} from '../rules/UnusedVariables';
-import {ScanResult} from "../models/ScanResult";
+import {RuleResult} from '../models/RuleResult';
+import {ScanResult} from '../models/ScanResult';
+import {GetRules} from './GetRules';
+import {IRuleDefinition} from './IRuleDefinition';
 
-export function ScanFlows(flows: Flow[], options: ScanOptions) : Flow[] {
+export function ScanFlows(flows: Flow[], ruleNames? : string[]) : ScanResult[] {
+  const flowResults : ScanResult[] = [];
+
+  let selectedRules : IRuleDefinition[];
+  if(ruleNames){
+    selectedRules = GetRules(ruleNames);
+  } else {
+    selectedRules = GetRules();
+  }
 
   for (const flow of flows) {
-    if (options.dmlStatementInLoop) {
-      flow.scanResults.push(new ScanResult('DMLStatementInLoop', new DMLStatementInLoop().execute(flow)));
+    const scanResults: RuleResult[] = [];
+    for (const rule of selectedRules){
+      scanResults.push(rule.execute(flow));
     }
-    if (options.duplicateDMLOperations) {
-      flow.scanResults.push(new ScanResult('DuplicateDMLOperationsByNavigation', new DuplicateDMLOperationsByNavigation().execute(flow)));
-    }
-    if (options.hardcodedIds) {
-      flow.scanResults.push(new ScanResult('HardcodedIds', new HardcodedIds().execute(flow)));
-    }
-    if (options.missingDescription) {
-      flow.scanResults.push(new ScanResult('MissingFlowDescription', new MissingFlowDescription().execute(flow)));
-    }
-    if (options.missingFaultPaths) {
-      flow.scanResults.push(new ScanResult('MissingFaultPath', new MissingFaultPath().execute(flow)));
-    }
-    if (options.missingNullHandlers) {
-      flow.scanResults.push(new ScanResult('MissingNullHandler', new MissingNullHandler().execute(flow)));
-    }
-    if (options.unconnectedElements) {
-      flow.scanResults.push(new ScanResult('UnconnectedElements', new UnconnectedElements().execute(flow)));
-    }
-    if (options.unusedVariables) {
-      flow.scanResults.push(new ScanResult('UnusedVariables', new UnusedVariables().execute(flow)));
-    }
+    flowResults.push(new ScanResult(flow, scanResults));
   }
-  return flows;
+  return flowResults;
 }
