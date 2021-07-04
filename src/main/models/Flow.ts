@@ -44,7 +44,7 @@ export class Flow {
   }
 
   private preProcessNodes(xml) {
-    const mergeableVariables = ['variables', 'constants', 'formulas', 'stages', 'textTemplates'];
+    const mergeableVariables = ['variables', 'choices', 'constants', 'dynamicChoiceSets', 'formulas', 'stages', 'textTemplates'];
     const flowMetadata = ['$',
       'description',
       'apiVersion',
