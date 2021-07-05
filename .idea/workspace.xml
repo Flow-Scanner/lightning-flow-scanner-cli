@@ -4,7 +4,7 @@
     <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/Flow.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Flow.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +21,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
@@ -77,6 +78,8 @@
       <workItem from="1625358208199" duration="3000" />
       <workItem from="1625396759467" duration="857000" />
       <workItem from="1625399666917" duration="262000" />
+      <workItem from="1625408666847" duration="464000" />
+      <workItem from="1625409147180" duration="1155000" />
     </task>
     <task id="LOCAL-00003" summary="rename">
       <created>1625319458614</created>
@@ -92,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625326407280</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update flow var types">
+      <created>1625408740341</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1625408740341</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,6 +126,7 @@
     <MESSAGE value="make rulenames optional for GetRules" />
     <MESSAGE value="rename" />
     <MESSAGE value="add return type to rules" />
-    <option name="LAST_COMMIT_MESSAGE" value="add return type to rules" />
+    <MESSAGE value="update flow var types" />
+    <option name="LAST_COMMIT_MESSAGE" value="update flow var types" />
   </component>
 </project>

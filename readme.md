@@ -1,11 +1,32 @@
-getRules(ruleNames? : string[]): IRuleDefinition[];
+# Lightning Flow Scan(Core)
+### _Find bugs and optimise Salesforce Lightning Flows._
 
-Return all rules if no ruleNames are specified. 
+## Core module
 
-scan(flows :Flow[], ruleNames? : string[]): ScanResult[];
+Used in both the VSCode extension as well as SFDX plugin with the same name.
 
-Runs all rules if no ruleNames are specified. 
+## Rules(Currently included):
 
-fix(flows :Flow[]): Flow[];
+      "DML statements in a loop",
+      "Duplicate DML operations",
+      "Hardcoded Ids",
+      "Missing flow description",
+      "Missing error handlers",
+      "Missing null handlers",
+      "Unconnected elements",
+      "Unused variables"
 
-Removes unused variables and unconnected elements from flows
+## Functions
+
+`getRules(ruleNames? : string[]): IRuleDefinition[];`
+
+Returns all rules if there are no ruleNames specified. In case ruleNames are specified, it will only return rules which are included by name. 
+
+`scan(flows :Flow[], ruleNames? : string[]): ScanResult[];`
+
+Runs all rules if there are no ruleNames specified. In case ruleNames are specified, it will only run rules which are included by name. 
+
+`fix(flows :Flow[]): Flow[];`
+
+Removes unused variables and unconnected elements from all selected flows.
+
