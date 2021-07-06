@@ -1,7 +1,7 @@
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {ScanResult} from '../models/ScanResult';
-import {GetRules} from './GetRules';
+import {GetRuleDefinitions} from './GetRuleDefinitions';
 import {IRuleDefinition} from './IRuleDefinition';
 
 export function ScanFlows(flows: Flow[], ruleNames? : string[]) : ScanResult[] {
@@ -9,9 +9,9 @@ export function ScanFlows(flows: Flow[], ruleNames? : string[]) : ScanResult[] {
 
   let selectedRules : IRuleDefinition[];
   if(ruleNames){
-    selectedRules = GetRules(ruleNames);
+    selectedRules = GetRuleDefinitions(ruleNames);
   } else {
-    selectedRules = GetRules();
+    selectedRules = GetRuleDefinitions();
   }
 
   for (const flow of flows) {

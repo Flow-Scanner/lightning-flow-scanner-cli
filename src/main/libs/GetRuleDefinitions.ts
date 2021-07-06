@@ -1,21 +1,22 @@
-import * as rules from '../config/rules.json';
+import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {DynamicRule} from './DynamicRule';
 import {IRuleDefinition} from './IRuleDefinition';
 
-export function GetRules(ruleNames? : string[]) : IRuleDefinition[] {
+export function GetRuleDefinitions(ruleNames? : string[]) : IRuleDefinition[] {
   const matchedRules : any = [];
 
-  if(ruleNames){
+  if(ruleNames && Array.isArray(ruleNames)){
     for(const ruleName of ruleNames){
       const matchedRule = new DynamicRule(ruleName);
       // @ts-ignore
       matchedRules.push(matchedRule);
     }
   } else {
-    rules.rules.forEach(rule => {
-      const matchedRule = new DynamicRule(rule.name);
+    // tslint:disable-next-line:forin
+    for (const rule in RuleDefinitions) {
+      const matchedRule = new DynamicRule(rule);
       matchedRules.push(matchedRule);
-    });
+    }
   }
   return matchedRules;
 }
