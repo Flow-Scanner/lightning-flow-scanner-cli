@@ -13,7 +13,7 @@ export function getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[] {
   }
 }
 
-export function Scan(flows :Flow[], ruleNames? : string[]): ScanResult[] {
+export function scan(flows :Flow[], ruleNames? : string[]): ScanResult[] {
   if(ruleNames){
     return ScanFlows(flows, ruleNames);
   } else {
@@ -21,6 +21,6 @@ export function Scan(flows :Flow[], ruleNames? : string[]): ScanResult[] {
   }
 }
 
-export function Fix(flows :Flow[]): Flow[] {
+export function fix(flows :Flow[]): Flow[] {
   return FixFlows(flows);
 }

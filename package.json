@@ -1,6 +1,6 @@
 {
   "name": "lightningflowscan-core",
-  "version": "1.1.7",
+  "version": "1.1.12",
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "tsc"
   },
   "keywords": [],
-  "author": "Ruben <halmanrf@gmail.com>",
+  "author": "Ruben",
   "license": "ISC",
   "description": "",
   "dependencies": {
