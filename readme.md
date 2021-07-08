@@ -18,15 +18,15 @@ Used in both the VSCode extension as well as SFDX plugin with the same name.
 
 ## Functions
 
-`GetRuleDefinitions(ruleNames? : string[]): IRuleDefinition[];`
+`getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[];`
 
 Returns all rules if there are no ruleNames specified. In case ruleNames are specified, it will only return rules which are included by name. 
 
-`Scan(flows :Flow[], ruleNames? : string[]): ScanResult[];`
+`scan(flows :Flow[], ruleNames? : string[]): ScanResult[];`
 
 Runs all rules if there are no ruleNames specified. In case ruleNames are specified, it will only run rules which are included by name. 
 
-`Fix(flows :Flow[]): Flow[];`
+`fix(flows :Flow[]): Flow[];`
 
 Removes unused variables and unconnected elements from all selected flows.
 
