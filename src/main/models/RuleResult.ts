@@ -1,4 +1,5 @@
-import * as rules from '../config/rules.json';
+import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleInfo} from '../ruledefinitions/RuleInfo';
 import {FlowElement} from './FlowElement';
 import {FlowVariable} from './FlowVariable';
 
@@ -9,9 +10,13 @@ export class RuleResult {
     this.ruleName = ruleName;
     this.type = type;
 
-    const ruleData = rules.rules.find(rule => rule.name === ruleName);
-    this.ruleDescription = ruleData.text;
-    this.ruleLabel = ruleData.label;
+    for (const ruleDefinitionName in RuleDefinitions) {
+      if (ruleDefinitionName === ruleName) {
+        const rule = RuleInfo(RuleDefinitions[ruleDefinitionName]);
+        this.ruleDescription = rule.text;
+        this.ruleLabel = rule.label;
+      }
+    }
   }
 
   public results?: (FlowElement[] | FlowVariable[] | [boolean]);

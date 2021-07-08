@@ -1,15 +1,15 @@
 import {FixFlows} from './main/libs/FixFlows';
-import { GetRules } from './main/libs/GetRules';
+import { GetRuleDefinitions } from './main/libs/GetRuleDefinitions';
 import {IRuleDefinition} from './main/libs/IRuleDefinition';
 import {ScanFlows} from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
 import {ScanResult} from './main/models/ScanResult';
 
-export function getRules(ruleNames? : string[]): IRuleDefinition[] {
+export function getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[] {
   if(ruleNames){
-    return GetRules(ruleNames);
+    return GetRuleDefinitions(ruleNames);
   } else {
-    return GetRules();
+    return GetRuleDefinitions();
   }
 }
 

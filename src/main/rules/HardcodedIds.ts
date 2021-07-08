@@ -1,14 +1,15 @@
-import * as rules from '../config/rules.json';
 import * as IdPrefixes from '../data/IdPrefixes.json';
 import {IRuleDefinition} from '../libs/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
+import {RuleInfo} from "../ruledefinitions/RuleInfo";
+import {RuleDefinitions} from "../ruledefinitions/RuleDefinitions";
 
 export class HardcodedIds implements IRuleDefinition{
 
   constructor() {
-    const rule = rules.rules.find(rule => rule.name === 'DMLStatementInLoop');
-    this.name = rule.name;
+    const rule = RuleInfo(RuleDefinitions.HardcodedIds);
+    this.name = RuleDefinitions.HardcodedIds;
     this.label = rule.label;
     this.text = rule.text;
   }
