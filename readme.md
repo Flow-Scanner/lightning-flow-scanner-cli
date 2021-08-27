@@ -1,8 +1,7 @@
 # Lightning Flow Scanner(Core)
 ### _Used in both the VSCode extension as well as SFDX plugin with the same name._
 
-
-## Rules(Currently included):
+## Rules Included:
 
       "DML statements in a loop",
       "Duplicate DML operations",
@@ -13,7 +12,7 @@
       "Unconnected elements",
       "Unused variables"
 
-## Available Functions
+## Functions
 
 `getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[];`
 
