@@ -26,7 +26,7 @@ Returns all rules if there are no ruleNames specified. In case ruleNames are spe
 
 Runs all rules if there are no ruleNames specified. In case ruleNames are specified, it will only run rules which are included by name. 
 
-`fix(flows :Flow[]): Flow[];`
+`fix(flows :Flow[]): ScanResult[];`
 
 Removes unused variables and unconnected elements from all selected flows.
 
