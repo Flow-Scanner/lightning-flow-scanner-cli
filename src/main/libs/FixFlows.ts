@@ -9,10 +9,6 @@ import {RuleResult} from "../models/RuleResult";
 
 export function FixFlows(flows: Flow[]) : ScanResult[] {
 
-  // for (const rule of selectedRules){
-  //   scanResults.push(rule.execute(flow));
-  // }
-  // flowResults.push(new ScanResult(flow, scanResults));
   const flowResults : ScanResult[] = [];
   for (const flow of flows) {
     const unconnectedElementsResult : RuleResult = new UnconnectedElements().execute(flow);
