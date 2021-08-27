@@ -1,9 +1,6 @@
-# Lightning Flow Scan(Core)
-### _Find bugs and optimise Salesforce Lightning Flows._
+# Lightning Flow Scanner(Core)
+### _Used in both the VSCode extension as well as SFDX plugin with the same name._
 
-## Core module
-
-Used in both the VSCode extension as well as SFDX plugin with the same name.
 
 ## Rules(Currently included):
 
