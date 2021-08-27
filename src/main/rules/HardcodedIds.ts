@@ -1,5 +1,5 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
-import {IRuleDefinition} from '../libs/IRuleDefinition';
+import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {RuleInfo} from "../ruledefinitions/RuleInfo";

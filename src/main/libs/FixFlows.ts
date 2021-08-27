@@ -4,16 +4,24 @@ import {FlowVariable} from '../models/FlowVariable';
 import {UnconnectedElements} from '../rules/UnconnectedElements';
 import {UnusedVariables} from '../rules/UnusedVariables';
 import {BuildFlow} from './BuildFlow';
+import {ScanResult} from "../models/ScanResult";
+import {RuleResult} from "../models/RuleResult";
 
-export function FixFlows(flows: Flow[]) {
+export function FixFlows(flows: Flow[]) : ScanResult[] {
 
+  // for (const rule of selectedRules){
+  //   scanResults.push(rule.execute(flow));
+  // }
+  // flowResults.push(new ScanResult(flow, scanResults));
+  const flowResults : ScanResult[] = [];
   for (const flow of flows) {
-    const unconnectedElements = new UnconnectedElements().execute(flow).results;
-    const unusedVariables = new UnusedVariables().execute(flow).results;
+    const unconnectedElementsResult : RuleResult = new UnconnectedElements().execute(flow);
+    const unusedVariablesResult : RuleResult = new UnusedVariables().execute(flow);
+    const ruleResults: RuleResult[] = [unusedVariablesResult, unconnectedElementsResult];
     // @ts-ignore
-    const unusedVariableReferences = unusedVariables ? unusedVariables.map(unusedVariable => unusedVariable.name) : [];
+    const unusedVariableReferences = unusedVariablesResult.results ? unusedVariablesResult.results.map(unusedVariable => unusedVariable.name) : [];
     // @ts-ignore
-    const unconnectedElementsReferences = unconnectedElements ? unconnectedElements.map(unconnectedElement => unconnectedElement.name) : [];
+    const unconnectedElementsReferences = unconnectedElementsResult.results ? unconnectedElementsResult.results.map(unconnectedElement => unconnectedElement.name) : [];
     const nodesToBuild = flow.nodes.filter(node => {
         switch (node.nodeType) {
           case 'variable':
@@ -34,6 +42,7 @@ export function FixFlows(flows: Flow[]) {
       }
     );
     flow.processedData = BuildFlow(nodesToBuild);
+    flowResults.push(new ScanResult(flow, ruleResults));
   }
-  return flows;
+  return flowResults;
 }
