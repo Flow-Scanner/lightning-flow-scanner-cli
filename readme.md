@@ -13,7 +13,7 @@
       "Unconnected elements",
       "Unused variables"
 
-## Functions
+## Available Functions
 
 `getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[];`
 
