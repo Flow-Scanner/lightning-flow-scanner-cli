@@ -3,14 +3,14 @@
 
 ## Rules Included:
 
-      "DML statements in a loop",
-      "Duplicate DML operations",
-      "Hardcoded Ids",
-      "Missing flow description",
-      "Missing error handlers",
-      "Missing null handlers",
-      "Unconnected elements",
-      "Unused variables"
+      DML statements in a loop,
+      Duplicate DML operations,
+      Hardcoded Ids,
+      Missing flow description,
+      Missing error handlers,
+      Missing null handlers,
+      Unconnected elements,
+      Unused variables
 
 ## Functions
 
