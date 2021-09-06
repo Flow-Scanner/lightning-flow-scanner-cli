@@ -5,12 +5,12 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
     case RuleDefinitions.DMLStatementInLoop:
       return {
         label: 'DML statements in a loop',
-        text: 'To avoid hitting Apex governor limits, we recommend bunching all your database changes together at the end of the flow, whether those changes create, update, or delete records.'
+        text: 'To avoid hitting Apex governor limits, we recommend grouping all of your database changes together at the end of the flow, whether those changes create, update, or delete records.'
       };
     case RuleDefinitions.DuplicateDMLOperationsByNavigation:
       return {
         label: 'Duplicate DML operations',
-        text: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate from the later screen to the previous screen. Otherwise, the flow can make duplicate changes to the database."
+        text: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operatiosn."
       };
 
     case RuleDefinitions.HardcodedIds:
@@ -21,7 +21,7 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
     case RuleDefinitions.MissingFlowDescription:
       return {
         label: 'Missing flow description',
-        text: 'Flow Descriptions are the closed thing to documentation. It is recommended to provide information about where it is used and what it will do.'
+        text: 'Flow descriptions are the closest thing to documentation. It is recommended to provide information about where it is used and what it will do.'
       };
     case RuleDefinitions.MissingFaultPath:
       return {
@@ -31,17 +31,17 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
     case RuleDefinitions.MissingNullHandler:
       return {
         label: 'Missing null handlers',
-        text: 'If a Get Records operation does not find any data it will return null. You should use decision element on that variable to check if the result is not null.'
+        text: 'If a Get Records operation does not find any data it will return null. You should use a decision element on that variable to check if the result is not null.'
       };
     case RuleDefinitions.UnconnectedElements:
       return {
         label: 'Unconnected elements',
-        text: 'Removing unconnected elements which are not being used by the Flow, will make your Flow more performant and maintainable.'
+        text: 'Removing unconnected elements which are not being used by the Flow makes your Flow more performant and maintainable.'
       };
     case RuleDefinitions.UnusedVariables:
       return {
         label: 'Unused variables',
-        text: 'Removing unconnected variables which are not being used by the Flow, will make your Flow more performant and maintainable.'
+        text: 'Removing unconnected variables which are not being used by the Flow makes your Flow more performant and maintainable.'
       };
   }
 }
