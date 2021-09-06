@@ -10,7 +10,7 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
     case RuleDefinitions.DuplicateDMLOperationsByNavigation:
       return {
         label: 'Duplicate DML operations',
-        text: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operatiosn."
+        text: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations."
       };
 
     case RuleDefinitions.HardcodedIds:
