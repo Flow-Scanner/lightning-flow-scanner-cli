@@ -1,4 +1,4 @@
-import {IRuleDefinition} from '../libs/IRuleDefinition';
+import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowVariable} from '../models/FlowVariable';

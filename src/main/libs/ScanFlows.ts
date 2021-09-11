@@ -2,7 +2,7 @@ import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {ScanResult} from '../models/ScanResult';
 import {GetRuleDefinitions} from './GetRuleDefinitions';
-import {IRuleDefinition} from './IRuleDefinition';
+import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 
 export function ScanFlows(flows: Flow[], ruleNames? : string[]) : ScanResult[] {
   const flowResults : ScanResult[] = [];
