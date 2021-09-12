@@ -23,6 +23,7 @@
   "exclude": [
     "node_modules",
     "out/**",
-    ".idea/**"
+    ".idea/**",
+    "tests/**/*.test.ts"
   ]
 }

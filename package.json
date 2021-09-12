@@ -4,7 +4,7 @@
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -12,8 +12,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/chai": "^4.2.21",
+    "chai": "^4.3.4",
+    "global": "^4.4.0",
+    "logging": "^3.3.0",
+    "mocha": "^9.1.1",
+    "ts-node": "^10.2.1",
     "tslint": "^6.1.3",
     "typescript": "^4.3.4"
   },
-  "repository": "https://github.com/Force-Config-Control/lightning-flow-scanner-core.git"
+  "repository": "https://github.com/Force-Config-Control/lightning-flow-scanner-core.git",
+  "devDependencies": {
+    "@types/mocha": "^9.0.0"
+  }
 }

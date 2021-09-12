@@ -2,15 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/Override.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/RuleOption.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/GetRules.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/MissingFaultPaths.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/allDMLStatementsInALoop.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/assignHardcodedId.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/createproperty.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/duplchangesbynav.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/main-add-vars-example.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/mainwithloosenodes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/queryinaloop.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/secondary-example.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/selectedUris.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/testNullCheckAssignment.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/unusedVariables.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testfiles/withDescription.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/RuleResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +32,26 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="tests" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsbtTreeLayoutManager">
@@ -30,11 +63,19 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="/usr/local/Cellar/yvm/4.1.4/yvm.sh" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -47,6 +88,86 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="npm.test">
+    <configuration default="true" type="js.build_tools.npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.16.1/bin/node" />
+      <package-manager value="/usr/local/Cellar/yarn/1.22.11/libexec" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="$USER_HOME$/.nvm/versions/node/v16.1.0/bin/node" />
+      <package-manager value="/usr/local/Cellar/yarn/1.22.11/libexec" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="GetRuleDefinitions function" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>$USER_HOME$/.nvm/versions/node/v16.1.0/bin/node</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/tests/GetRules.test.ts</test-file>
+      <test-names>
+        <name value="GetRuleDefinitions function" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="When there is a flow description (1)" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>$USER_HOME$/.nvm/versions/node/v16.1.0/bin/node</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts</test-file>
+      <test-names>
+        <name value="When there is a flow description" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="When there is a flow description" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>$USER_HOME$/.nvm/versions/node/v16.1.0/bin/node</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts</test-file>
+      <test-names>
+        <name value="When there is a flow description" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Mocha.GetRuleDefinitions function" />
+      <item itemvalue="Mocha.When there is a flow description" />
+      <item itemvalue="Mocha.When there is a flow description (1)" />
+      <item itemvalue="npm.test" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Mocha.GetRuleDefinitions function" />
+        <item itemvalue="npm.test" />
+        <item itemvalue="Mocha.When there is a flow description (1)" />
+        <item itemvalue="Mocha.When there is a flow description" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -109,6 +230,12 @@
       <workItem from="1631405637450" duration="4000" />
       <workItem from="1631405741922" duration="1227000" />
       <workItem from="1631408145603" duration="2160000" />
+      <workItem from="1631468973825" duration="2573000" />
+      <workItem from="1631471968777" duration="231000" />
+      <workItem from="1631472202638" duration="4669000" />
+      <workItem from="1631476885042" duration="651000" />
+      <workItem from="1631477539281" duration="1140000" />
+      <workItem from="1631479476295" duration="1989000" />
     </task>
     <task id="LOCAL-00003" summary="rename">
       <created>1625319458614</created>
@@ -157,6 +284,13 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/test/GetRules.test.js.map" />
+        <option value="$PROJECT_DIR$/test/GetRules.test.js" />
+        <option value="$PROJECT_DIR$/test/GetRules.test.d.ts" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -182,5 +316,52 @@
     <MESSAGE value="update readme" />
     <MESSAGE value="replace json by enum" />
     <option name="LAST_COMMIT_MESSAGE" value="replace json by enum" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts</url>
+          <line>12</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts</url>
+          <line>21</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/index.ts</url>
+          <line>21</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/index.ts</url>
+          <line>23</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts</url>
+          <line>12</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts</url>
+          <line>27</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/tests/GetRules.test.ts</url>
+          <line>7</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/index.ts</url>
+          <line>26</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
