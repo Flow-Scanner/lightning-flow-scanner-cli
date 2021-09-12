@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "Missing Flow Description": "off",
+    "MissingFlowDescription": "off"
+  },
+  "overrides": [
+    {
+      "flowName": "mainflow",
+      "rules": {
+        "HardcodedIds": "off"
+      }
+    }
+  ]
+}

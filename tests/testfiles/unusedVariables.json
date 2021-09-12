@@ -1,0 +1,198 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "apiVersion": [
+      "51.0"
+    ],
+    "assignments": [
+      {
+        "name": [
+          "testassignment"
+        ],
+        "label": [
+          "testassignment"
+        ],
+        "locationX": [
+          "205"
+        ],
+        "locationY": [
+          "223"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "usedVariable"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "test"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "constants": [
+      {
+        "name": [
+          "testConstant"
+        ],
+        "dataType": [
+          "String"
+        ]
+      }
+    ],
+    "formulas": [
+      {
+        "name": [
+          "testFormula"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "expression": [
+          "'abc'"
+        ]
+      }
+    ],
+    "interviewLabel": [
+      "unusedVariables {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "unusedVariables"
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "CanvasMode"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "FREE_FORM_CANVAS"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "OriginBuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "AutoLaunchedFlow"
+    ],
+    "stages": [
+      {
+        "name": [
+          "testStage"
+        ],
+        "isActive": [
+          "false"
+        ],
+        "label": [
+          "testStage"
+        ],
+        "stageOrder": [
+          "1"
+        ]
+      }
+    ],
+    "start": [
+      {
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "50"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "testassignment"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Draft"
+    ],
+    "textTemplates": [
+      {
+        "name": [
+          "testTextTemplateq"
+        ],
+        "isViewedAsPlainText": [
+          "false"
+        ],
+        "text": [
+          "<p>abc</p>"
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "name": [
+          "testVariable"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      },
+      {
+        "name": [
+          "usedVariable"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      }
+    ]
+  }
+}

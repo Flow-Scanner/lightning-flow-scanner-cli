@@ -1,0 +1,443 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "actionCalls": [
+      {
+        "name": [
+          "createtask"
+        ],
+        "label": [
+          "createtask"
+        ],
+        "locationX": [
+          "903"
+        ],
+        "locationY": [
+          "334"
+        ],
+        "actionName": [
+          "NewTask"
+        ],
+        "actionType": [
+          "quickAction"
+        ],
+        "inputParameters": [
+          {
+            "name": [
+              "OwnerId"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "incvar"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "makenote"
+        ],
+        "label": [
+          "makenote"
+        ],
+        "locationX": [
+          "924"
+        ],
+        "locationY": [
+          "573"
+        ],
+        "actionName": [
+          "NewNote"
+        ],
+        "actionType": [
+          "quickAction"
+        ],
+        "inputParameters": [
+          {
+            "name": [
+              "Title"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "{!incvar} items on {!$Flow.CurrentDateTime}"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "assignments": [
+      {
+        "name": [
+          "anyassignment"
+        ],
+        "label": [
+          "anyassignment"
+        ],
+        "locationX": [
+          "700"
+        ],
+        "locationY": [
+          "330"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "int"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "numberValue": [
+                  "1.0"
+                ]
+              }
+            ]
+          }
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "createtask"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "count"
+        ],
+        "label": [
+          "count"
+        ],
+        "locationX": [
+          "704"
+        ],
+        "locationY": [
+          "583"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "somecount"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "incvar"
+                ]
+              }
+            ]
+          }
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "makenote"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "looseNode"
+        ],
+        "label": [
+          "looseNode"
+        ],
+        "locationX": [
+          "250"
+        ],
+        "locationY": [
+          "519"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "incvar"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "numberValue": [
+                  "1.0"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "name": [
+          "valuebucketdecision"
+        ],
+        "label": [
+          "valuebucketdecision"
+        ],
+        "locationX": [
+          "399"
+        ],
+        "locationY": [
+          "326"
+        ],
+        "defaultConnector": [
+          {
+            "targetReference": [
+              "anyassignment"
+            ]
+          }
+        ],
+        "defaultConnectorLabel": [
+          "Default Outcome"
+        ],
+        "rules": [
+          {
+            "name": [
+              "notzero"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "incvar"
+                ],
+                "operator": [
+                  "GreaterThan"
+                ],
+                "rightValue": [
+                  {
+                    "numberValue": [
+                      "0.0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "leftValueReference": [
+                  "incvar"
+                ],
+                "operator": [
+                  "LessThanOrEqualTo"
+                ],
+                "rightValue": [
+                  {
+                    "numberValue": [
+                      "50.0"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "label": [
+              "notzero"
+            ]
+          },
+          {
+            "name": [
+              "morethan50"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "incvar"
+                ],
+                "operator": [
+                  "GreaterThan"
+                ],
+                "rightValue": [
+                  {
+                    "numberValue": [
+                      "50.0"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "count"
+                ]
+              }
+            ],
+            "label": [
+              "morethan50"
+            ]
+          }
+        ]
+      }
+    ],
+    "interviewLabel": [
+      "mainflowwithloosenodes {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "mainflowwithloosenodes"
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "OriginBuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "AutoLaunchedFlow"
+    ],
+    "start": [
+      {
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "310"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "valuebucketdecision"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Active"
+    ],
+    "variables": [
+      {
+        "name": [
+          "incvar"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "true"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "10.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "int"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ]
+      },
+      {
+        "name": [
+          "intlist"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "true"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ]
+      },
+      {
+        "name": [
+          "somecount"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "0.0"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,705 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "actionCalls": [
+      {
+        "name": [
+          "testaction"
+        ],
+        "label": [
+          "testaction"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "1766"
+        ],
+        "actionName": [
+          "FeedItem.NewTaskFromFeedItem"
+        ],
+        "actionType": [
+          "quickAction"
+        ],
+        "inputParameters": [
+          {
+            "name": [
+              "contextId"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "$User.Id"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "assignments": [
+      {
+        "name": [
+          "anyassignment"
+        ],
+        "label": [
+          "anyassignment"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "158"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "intlist"
+            ],
+            "operator": [
+              "Add"
+            ],
+            "value": [
+              {
+                "numberValue": [
+                  "1.0"
+                ]
+              }
+            ]
+          }
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "count"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "anyassignmenttest"
+        ],
+        "label": [
+          "anyassignmenttest"
+        ],
+        "locationX": [
+          "264"
+        ],
+        "locationY": [
+          "998"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "intlist"
+            ],
+            "operator": [
+              "RemoveAll"
+            ]
+          }
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "loopoverints"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "count"
+        ],
+        "label": [
+          "count"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "278"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "intlist"
+            ],
+            "operator": [
+              "Add"
+            ],
+            "value": [
+              {
+                "numberValue": [
+                  "2.0"
+                ]
+              }
+            ]
+          }
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "getAcc_0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "testfault"
+        ],
+        "label": [
+          "testfault"
+        ],
+        "locationX": [
+          "440"
+        ],
+        "locationY": [
+          "878"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "int"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "numberValue": [
+                  "1.0"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "name": [
+          "testDecision"
+        ],
+        "label": [
+          "testDecision"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "1430"
+        ],
+        "defaultConnector": [
+          {
+            "targetReference": [
+              "testSubFlow"
+            ]
+          }
+        ],
+        "defaultConnectorLabel": [
+          "Default Outcome"
+        ],
+        "rules": [
+          {
+            "name": [
+              "testOutcome"
+            ],
+            "conditionLogic": [
+              "or"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "intlist"
+                ],
+                "operator": [
+                  "NotEqualTo"
+                ]
+              }
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "testSubFlow"
+                ]
+              }
+            ],
+            "label": [
+              "testOutcome"
+            ]
+          }
+        ]
+      }
+    ],
+    "interviewLabel": [
+      "MissingFaultPaths {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "MissingFaultPaths"
+    ],
+    "loops": [
+      {
+        "name": [
+          "loopoverints"
+        ],
+        "label": [
+          "loopoverints"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "878"
+        ],
+        "collectionReference": [
+          "intlist"
+        ],
+        "iterationOrder": [
+          "Asc"
+        ],
+        "nextValueConnector": [
+          {
+            "targetReference": [
+              "anyassignmenttest"
+            ]
+          }
+        ],
+        "noMoreValuesConnector": [
+          {
+            "targetReference": [
+              "testPause"
+            ]
+          }
+        ]
+      }
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "CanvasMode"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "AUTO_LAYOUT_CANVAS"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "OriginBuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "AutoLaunchedFlow"
+    ],
+    "recordCreates": [
+      {
+        "name": [
+          "createExample_0"
+        ],
+        "label": [
+          "createExample"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "518"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "updateExample_0"
+            ]
+          }
+        ],
+        "inputAssignments": [
+          {
+            "field": [
+              "Name"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "test1234"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Account"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      }
+    ],
+    "recordDeletes": [
+      {
+        "name": [
+          "delete"
+        ],
+        "label": [
+          "delete"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "758"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "loopoverints"
+            ]
+          }
+        ],
+        "faultConnector": [
+          {
+            "targetReference": [
+              "testfault"
+            ]
+          }
+        ],
+        "inputReference": [
+          "getAcc_0"
+        ]
+      }
+    ],
+    "recordLookups": [
+      {
+        "name": [
+          "getAcc_0"
+        ],
+        "label": [
+          "getAcc"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "398"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "createExample_0"
+            ]
+          }
+        ],
+        "getFirstRecordOnly": [
+          "false"
+        ],
+        "object": [
+          "Account"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      }
+    ],
+    "recordUpdates": [
+      {
+        "name": [
+          "updateExample_0"
+        ],
+        "label": [
+          "updateExample"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "638"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "delete"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "Name"
+            ],
+            "operator": [
+              "IsNull"
+            ],
+            "value": [
+              {
+                "booleanValue": [
+                  "false"
+                ]
+              }
+            ]
+          }
+        ],
+        "inputAssignments": [
+          {
+            "field": [
+              "Active__c"
+            ],
+            "value": [
+              {
+                "booleanValue": [
+                  "true"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Account"
+        ]
+      }
+    ],
+    "start": [
+      {
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "0"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "anyassignment"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Active"
+    ],
+    "subflows": [
+      {
+        "name": [
+          "testSubFlow"
+        ],
+        "label": [
+          "testSubFlow"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "1646"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "testaction"
+            ]
+          }
+        ],
+        "flowName": [
+          "secondaryflow"
+        ]
+      }
+    ],
+    "variables": [
+      {
+        "name": [
+          "incvar"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "true"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "10.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "int"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ]
+      },
+      {
+        "name": [
+          "intlist"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "true"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ]
+      },
+      {
+        "name": [
+          "somecount"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "scale": [
+          "2"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "0.0"
+            ]
+          }
+        ]
+      }
+    ],
+    "waits": [
+      {
+        "name": [
+          "testPause"
+        ],
+        "label": [
+          "testPause"
+        ],
+        "locationX": [
+          "176"
+        ],
+        "locationY": [
+          "1214"
+        ],
+        "defaultConnector": [
+          {
+            "targetReference": [
+              "testDecision"
+            ]
+          }
+        ],
+        "defaultConnectorLabel": [
+          "Default Path"
+        ],
+        "waitEvents": [
+          {
+            "name": [
+              "testp"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "testDecision"
+                ]
+              }
+            ],
+            "eventType": [
+              "AlarmEvent"
+            ],
+            "inputParameters": [
+              {
+                "name": [
+                  "AlarmTime"
+                ],
+                "value": [
+                  {
+                    "elementReference": [
+                      "$Flow.CurrentDateTime"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "TimeOffset"
+                ]
+              },
+              {
+                "name": [
+                  "TimeOffsetUnit"
+                ]
+              }
+            ],
+            "label": [
+              "testp"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "description": [
+      "a description included"
+    ],
+    "interviewLabel": [
+      "dupwnavwithdescription {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "dupwnavwithdescription"
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "CanvasMode"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "FREE_FORM_CANVAS"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "OriginBuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "Flow"
+    ],
+    "recordCreates": [
+      {
+        "name": [
+          "change"
+        ],
+        "label": [
+          "change"
+        ],
+        "locationX": [
+          "62"
+        ],
+        "locationY": [
+          "399"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "getAny"
+            ]
+          }
+        ],
+        "inputReference": [
+          "createAcc"
+        ]
+      }
+    ],
+    "recordLookups": [
+      {
+        "name": [
+          "getAny"
+        ],
+        "label": [
+          "getAny"
+        ],
+        "locationX": [
+          "264"
+        ],
+        "locationY": [
+          "417"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "screen2"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "Active__c"
+            ],
+            "operator": [
+              "EqualTo"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "Yes"
+                ]
+              }
+            ]
+          }
+        ],
+        "getFirstRecordOnly": [
+          "true"
+        ],
+        "object": [
+          "Account"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      }
+    ],
+    "screens": [
+      {
+        "description": [
+          "screenflow example"
+        ],
+        "name": [
+          "screen1"
+        ],
+        "label": [
+          "screen1"
+        ],
+        "locationX": [
+          "169"
+        ],
+        "locationY": [
+          "247"
+        ],
+        "allowBack": [
+          "true"
+        ],
+        "allowFinish": [
+          "true"
+        ],
+        "allowPause": [
+          "true"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "change"
+            ]
+          }
+        ],
+        "showFooter": [
+          "true"
+        ],
+        "showHeader": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "screen2"
+        ],
+        "label": [
+          "screen2"
+        ],
+        "locationX": [
+          "215"
+        ],
+        "locationY": [
+          "622"
+        ],
+        "allowBack": [
+          "true"
+        ],
+        "allowFinish": [
+          "true"
+        ],
+        "allowPause": [
+          "true"
+        ],
+        "showFooter": [
+          "true"
+        ],
+        "showHeader": [
+          "true"
+        ]
+      }
+    ],
+    "start": [
+      {
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "50"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "screen1"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Active"
+    ],
+    "variables": [
+      {
+        "description": [
+          "a"
+        ],
+        "name": [
+          "createAcc"
+        ],
+        "dataType": [
+          "SObject"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "objectType": [
+          "Account"
+        ]
+      }
+    ]
+  }
+}

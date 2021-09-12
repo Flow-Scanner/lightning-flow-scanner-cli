@@ -1,0 +1,464 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "assignments": [
+      {
+        "name": [
+          "testuse"
+        ],
+        "label": [
+          "testuse"
+        ],
+        "locationX": [
+          "171"
+        ],
+        "locationY": [
+          "719"
+        ],
+        "assignmentItems": [
+          {
+            "assignToReference": [
+              "test"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "gettest1.Id"
+                ]
+              }
+            ]
+          },
+          {
+            "assignToReference": [
+              "test"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "gettest2.Account.Id"
+                ]
+              }
+            ]
+          },
+          {
+            "assignToReference": [
+              "test"
+            ],
+            "operator": [
+              "Assign"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "gettest3.Account.Id"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "name": [
+          "ifnotnull"
+        ],
+        "label": [
+          "ifnotnull"
+        ],
+        "locationX": [
+          "214"
+        ],
+        "locationY": [
+          "556"
+        ],
+        "defaultConnectorLabel": [
+          "Default Outcome"
+        ],
+        "rules": [
+          {
+            "name": [
+              "notnull"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "gettest1"
+                ],
+                "operator": [
+                  "IsNull"
+                ],
+                "rightValue": [
+                  {
+                    "booleanValue": [
+                      "false"
+                    ]
+                  }
+                ]
+              },
+              {
+                "leftValueReference": [
+                  "gettest3"
+                ],
+                "operator": [
+                  "IsNull"
+                ],
+                "rightValue": [
+                  {
+                    "booleanValue": [
+                      "false"
+                    ]
+                  }
+                ]
+              },
+              {
+                "leftValueReference": [
+                  "gettest2"
+                ],
+                "operator": [
+                  "IsNull"
+                ],
+                "rightValue": [
+                  {
+                    "booleanValue": [
+                      "false"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "testuse"
+                ]
+              }
+            ],
+            "label": [
+              "notnull"
+            ]
+          }
+        ]
+      }
+    ],
+    "interviewLabel": [
+      "testNullCheck {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "testNullCheck"
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "CanvasMode"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "FREE_FORM_CANVAS"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "OriginBuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "AutoLaunchedFlow"
+    ],
+    "recordLookups": [
+      {
+        "name": [
+          "gettest1"
+        ],
+        "label": [
+          "gettest1"
+        ],
+        "locationX": [
+          "228"
+        ],
+        "locationY": [
+          "334"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "gettest2"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "Active__c"
+            ],
+            "operator": [
+              "EqualTo"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "Yes"
+                ]
+              }
+            ]
+          }
+        ],
+        "getFirstRecordOnly": [
+          "true"
+        ],
+        "object": [
+          "Account"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "gettest2"
+        ],
+        "label": [
+          "gettest2"
+        ],
+        "locationX": [
+          "419"
+        ],
+        "locationY": [
+          "214"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "gettest3"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "Birthdate"
+            ],
+            "operator": [
+              "IsNull"
+            ],
+            "value": [
+              {
+                "booleanValue": [
+                  "false"
+                ]
+              }
+            ]
+          }
+        ],
+        "getFirstRecordOnly": [
+          "true"
+        ],
+        "object": [
+          "Contact"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "gettest3"
+        ],
+        "label": [
+          "gettest3"
+        ],
+        "locationX": [
+          "601"
+        ],
+        "locationY": [
+          "331"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "testGet4"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "AccountId"
+            ],
+            "operator": [
+              "IsNull"
+            ],
+            "value": [
+              {
+                "booleanValue": [
+                  "false"
+                ]
+              }
+            ]
+          }
+        ],
+        "getFirstRecordOnly": [
+          "true"
+        ],
+        "object": [
+          "Asset"
+        ],
+        "storeOutputAutomatically": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "testGet4"
+        ],
+        "label": [
+          "testGet4"
+        ],
+        "locationX": [
+          "423"
+        ],
+        "locationY": [
+          "460"
+        ],
+        "assignNullValuesIfNoRecordsFound": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "ifnotnull"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "field": [
+              "Active__c"
+            ],
+            "operator": [
+              "IsNull"
+            ],
+            "value": [
+              {
+                "booleanValue": [
+                  "false"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Account"
+        ],
+        "outputReference": [
+          "acc"
+        ],
+        "queriedFields": [
+          "Id"
+        ]
+      }
+    ],
+    "start": [
+      {
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "50"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "gettest1"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Active"
+    ],
+    "variables": [
+      {
+        "name": [
+          "acc"
+        ],
+        "dataType": [
+          "SObject"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ],
+        "objectType": [
+          "Account"
+        ]
+      },
+      {
+        "name": [
+          "test"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      }
+    ]
+  }
+}
