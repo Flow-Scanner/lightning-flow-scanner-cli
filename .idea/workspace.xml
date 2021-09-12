@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/Override.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/RuleOption.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/GetRules.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/GetRuleDefinitions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/ScanFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +20,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
   </component>
   <component name="ProjectId" id="1uo5ou8HEYrTdfqoUMKou8p3JJA" />
   <component name="PropertiesComponent">
@@ -93,6 +101,14 @@
       <workItem from="1625528223550" duration="315000" />
       <workItem from="1625528603848" duration="28000" />
       <workItem from="1625529085611" duration="275000" />
+      <workItem from="1631368278962" duration="166000" />
+      <workItem from="1631369873269" duration="6000" />
+      <workItem from="1631369901436" duration="243000" />
+      <workItem from="1631370328719" duration="395000" />
+      <workItem from="1631395925420" duration="3415000" />
+      <workItem from="1631405637450" duration="4000" />
+      <workItem from="1631405741922" duration="1227000" />
+      <workItem from="1631408145603" duration="2160000" />
     </task>
     <task id="LOCAL-00003" summary="rename">
       <created>1625319458614</created>

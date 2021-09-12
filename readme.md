@@ -9,8 +9,8 @@
       Missing flow description,
       Missing error handlers,
       Missing null handlers,
-      Unconnected elements,
-      Unused variables
+      Unconnected elements(auto-fix),
+      Unused variables(auto-fix)
 
 ## Functions
 

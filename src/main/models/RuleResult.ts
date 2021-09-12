@@ -6,6 +6,7 @@ import {FlowVariable} from './FlowVariable';
 export class RuleResult {
 
   constructor(ruleName: string, type: string, results?: (FlowElement[] | FlowVariable[] | [boolean])) {
+
     this.results = results;
     this.ruleName = ruleName;
     this.type = type;
