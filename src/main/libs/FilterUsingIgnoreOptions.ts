@@ -1,16 +1,20 @@
 import {RuleOptions} from "../models/RuleOptions";
 import {ScanResult} from "../models/ScanResult";
 import {RuleOption} from "../models/RuleOption";
+import createLogger from 'logging';
 
 export function FilterUsingIgnoreOptions(scanResults: ScanResult[], ruleOptions: RuleOptions): ScanResult[] {
 
+  const logger = createLogger('FeatureName');
+
   const ruleSettings = ruleOptions.ruleSettings;
   let deactivatedRules: string[] = [];
-  for (const ruleSetting : RuleOption of ruleSettings) {
+  for (const ruleSetting of ruleSettings) {
     if (ruleSetting.level === 'off') {
       deactivatedRules.push(ruleSetting.name);
     }
   }
+
   let filteredScanResults = [];
   for (const scanResult of scanResults) {
     if (scanResult.ruleResults.filter(ruleResult => {
@@ -18,7 +22,15 @@ export function FilterUsingIgnoreOptions(scanResults: ScanResult[], ruleOptions:
         return ruleResult;
       }
     })) {
-      filteredScanResults.push(scanResult);
+      filteredScanResults.push(new ScanResult(scanResult.flow, scanResult.ruleResults.filter(ruleResult => {
+        if (!deactivatedRules.includes(ruleResult.ruleName)) {
+          return ruleResult;
+        }
+        else {
+          ruleResult.results = [];
+          return ruleResult;
+        }
+      })));
     }
 
     // todo check overrides
@@ -28,18 +40,3 @@ export function FilterUsingIgnoreOptions(scanResults: ScanResult[], ruleOptions:
 
   return filteredScanResults;
 }
-
-// {
-//   "rules": {
-//   "rule1": "error",
-//     "rule2": "off"
-// },
-//   "overrides": [
-//   {
-//     "flowName": "myFlow1",
-//     "rules": {
-//       "rule1": "off"
-//     }
-//   }
-// ]
-// }
