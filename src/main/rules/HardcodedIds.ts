@@ -41,6 +41,6 @@ export class HardcodedIds implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult('HardcodedIds', 'pattern', nodesWithHardcodedIds);
+    return new RuleResult('HardcodedIds', 'pattern', nodesWithHardcodedIds.length > 0, nodesWithHardcodedIds);
   }
 }

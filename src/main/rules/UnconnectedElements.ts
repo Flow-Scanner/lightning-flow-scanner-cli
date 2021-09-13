@@ -68,7 +68,7 @@ export class UnconnectedElements implements IRuleDefinition{
         unconnectedElements.push(element);
       }
     }
-    return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements);
+    return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements.length > 0, unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {

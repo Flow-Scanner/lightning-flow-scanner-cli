@@ -4,10 +4,10 @@ import {IRuleDefinition} from './main/interfaces/IRuleDefinition';
 import {ScanFlows} from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
 import {ScanResult} from './main/models/ScanResult';
-import {RuleOptions} from "./main/models/RuleOptions";
-import {FilterUsingIgnoreOptions} from "./main/libs/FilterUsingIgnoreOptions";
+import {ScannerOptions} from "./main/models/ScannerOptions";
+import {ApplyOverrides} from "./main/libs/ApplyOverrides";
 
-export function getRuleDefinitions(ruleNames?: string[]): IRuleDefinition[] {
+export function GetRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames) {
     return GetRuleDefinitions(ruleNames);
   } else {
@@ -15,21 +15,21 @@ export function getRuleDefinitions(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-export function scan(flows: Flow[], ruleNames?: string[], ruleOptions?: RuleOptions): ScanResult[] {
+export function Scan(flows: Flow[], ruleOptions?: ScannerOptions): ScanResult[] {
 
   let scanResults: ScanResult[];
-  if (ruleNames) {
-    scanResults = ScanFlows(flows, ruleNames);
+  if(ruleOptions && ruleOptions.activeRules){
+    scanResults = ScanFlows(flows, ruleOptions.activeRules);
   } else {
     scanResults = ScanFlows(flows);
   }
-  if(ruleOptions){
-    scanResults = FilterUsingIgnoreOptions(scanResults, ruleOptions);
+  if(ruleOptions && ruleOptions.overrides){
+    scanResults = ApplyOverrides(scanResults, ruleOptions.overrides);
   }
 
   return scanResults;
 }
 
-export function fix(flows: Flow[]): ScanResult[] {
+export function Fix(flows: Flow[]): ScanResult[] {
   return FixFlows(flows);
 }

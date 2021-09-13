@@ -1,9 +1,9 @@
 export class Override {
-  public flowName: string;
-  public rules: [any];
+  public ruleName: string;
+  public result: string;
 
-  constructor(flowName, rules){
-    this.flowName = flowName;
-    this.rules = rules;
+  constructor(ruleName, result){
+    this.ruleName = ruleName;
+    this.result = result;
   }
 }

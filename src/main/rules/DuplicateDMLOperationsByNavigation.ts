@@ -85,7 +85,7 @@ export class DuplicateDMLOperationsByNavigation implements IRuleDefinition{
                 }
             } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
         }
-    return new RuleResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation);
+    return new RuleResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation.length > 0, duplicateDMLOperationsByNavigation);
     }
 
     private findStartReference(element: FlowElement) {

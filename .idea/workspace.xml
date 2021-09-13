@@ -2,29 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/GetRules.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/MissingFaultPaths.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/allDMLStatementsInALoop.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/assignHardcodedId.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/createproperty.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/duplchangesbynav.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/main-add-vars-example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/mainwithloosenodes.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/queryinaloop.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/secondary-example.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/selectedUris.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/testNullCheckAssignment.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/unusedVariables.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/testfiles/withDescription.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libs/ApplyOverrides.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/FlowScanOverrides.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/models/ScannerOptions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/IgnoreScanResultDuplicateDML.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/IgnoreScanResultsAllDuplicateDMLs.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/Override.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Override.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleOption.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/models/RuleResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/GetRules.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GetRules.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SpecifyRulesToScan.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.test">
+  <component name="RunManager" selected="Mocha.When there is a a rule override">
     <configuration default="true" type="js.build_tools.npm">
       <command value="run" />
       <scripts />
@@ -121,6 +123,21 @@
       <test-file>$PROJECT_DIR$/tests/GetRules.test.ts</test-file>
       <test-names>
         <name value="GetRuleDefinitions function" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="When there is a a rule override" type="mocha-javascript-test-runner" temporary="true" nameIsGenerated="true">
+      <node-interpreter>$USER_HOME$/.nvm/versions/node/v14.16.1/bin/node</node-interpreter>
+      <node-options />
+      <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <ui>bdd</ui>
+      <extra-mocha-options>--require ts-node/register</extra-mocha-options>
+      <test-kind>SUITE</test-kind>
+      <test-file>$PROJECT_DIR$/tests/IgnoreDuplicateDML.test.ts</test-file>
+      <test-names>
+        <name value="When there is a a rule override" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -158,10 +175,12 @@
       <item itemvalue="Mocha.GetRuleDefinitions function" />
       <item itemvalue="Mocha.When there is a flow description" />
       <item itemvalue="Mocha.When there is a flow description (1)" />
+      <item itemvalue="Mocha.When there is a a rule override" />
       <item itemvalue="npm.test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Mocha.When there is a a rule override" />
         <item itemvalue="Mocha.GetRuleDefinitions function" />
         <item itemvalue="npm.test" />
         <item itemvalue="Mocha.When there is a flow description (1)" />
@@ -235,7 +254,14 @@
       <workItem from="1631472202638" duration="4669000" />
       <workItem from="1631476885042" duration="651000" />
       <workItem from="1631477539281" duration="1140000" />
-      <workItem from="1631479476295" duration="1989000" />
+      <workItem from="1631479476295" duration="3337000" />
+      <workItem from="1631483290749" duration="198000" />
+      <workItem from="1631483530743" duration="1162000" />
+      <workItem from="1631484697646" duration="320000" />
+      <workItem from="1631485020489" duration="5817000" />
+      <workItem from="1631491153341" duration="3007000" />
+      <workItem from="1631494352595" duration="36000" />
+      <workItem from="1631494598070" duration="953000" />
     </task>
     <task id="LOCAL-00003" summary="rename">
       <created>1625319458614</created>
@@ -279,18 +305,32 @@
       <option name="project" value="LOCAL" />
       <updated>1625523055589</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add test files">
+      <created>1631481612557</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1631481612557</updated>
+    </task>
+    <task id="LOCAL-00010" summary="initial ignore logic">
+      <created>1631481635344</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1631481635344</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add tests and logger">
+      <created>1631481676283</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1631481676283</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/test/GetRules.test.js.map" />
-        <option value="$PROJECT_DIR$/test/GetRules.test.js" />
-        <option value="$PROJECT_DIR$/test/GetRules.test.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -315,7 +355,10 @@
     <MESSAGE value="update flow var types" />
     <MESSAGE value="update readme" />
     <MESSAGE value="replace json by enum" />
-    <option name="LAST_COMMIT_MESSAGE" value="replace json by enum" />
+    <MESSAGE value="add test files" />
+    <MESSAGE value="initial ignore logic" />
+    <MESSAGE value="add tests and logger" />
+    <option name="LAST_COMMIT_MESSAGE" value="add tests and logger" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -331,35 +374,9 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/index.ts</url>
-          <line>21</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/index.ts</url>
-          <line>23</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts</url>
-          <line>12</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts</url>
-          <line>27</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/tests/GetRules.test.ts</url>
           <line>7</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/index.ts</url>
-          <line>26</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

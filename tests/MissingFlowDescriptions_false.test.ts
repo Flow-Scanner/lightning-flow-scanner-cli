@@ -23,7 +23,7 @@ describe("When there is a flow description",async function () {
         const missingDescription = new MissingFlowDescription().execute(flow);
 
         // ASSERT
-      expect(missingDescription.results[0]).to.equal(false);
+      expect(missingDescription.occurs).to.equal(false);
         // assert.strictEqual(missingDescription, false);
     });
 });

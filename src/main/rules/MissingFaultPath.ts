@@ -28,6 +28,6 @@ export class MissingFaultPath implements IRuleDefinition {
         elementsWithoutFaultPath.push(element);
       }
     }
-    return new RuleResult('MissingFaultPath', 'pattern', elementsWithoutFaultPath);
+    return new RuleResult('MissingFaultPath', 'pattern', elementsWithoutFaultPath.length > 0, elementsWithoutFaultPath);
   }
 }

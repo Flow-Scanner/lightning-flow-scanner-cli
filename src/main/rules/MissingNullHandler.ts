@@ -62,6 +62,6 @@ export class MissingNullHandler implements IRuleDefinition{
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult('MissingNullHandler', 'pattern', getOperationsWithoutNullHandler);
+    return new RuleResult('MissingNullHandler', 'pattern', getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
   }
 }

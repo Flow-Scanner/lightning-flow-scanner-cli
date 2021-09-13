@@ -15,9 +15,9 @@ export function FixFlows(flows: Flow[]) : ScanResult[] {
     const unusedVariablesResult : RuleResult = new UnusedVariables().execute(flow);
     const ruleResults: RuleResult[] = [unusedVariablesResult, unconnectedElementsResult];
     // @ts-ignore
-    const unusedVariableReferences = unusedVariablesResult.results ? unusedVariablesResult.results.map(unusedVariable => unusedVariable.name) : [];
+    const unusedVariableReferences = unusedVariablesResult.details ? unusedVariablesResult.details.map(unusedVariable => unusedVariable.name) : [];
     // @ts-ignore
-    const unconnectedElementsReferences = unconnectedElementsResult.results ? unconnectedElementsResult.results.map(unconnectedElement => unconnectedElement.name) : [];
+    const unconnectedElementsReferences = unconnectedElementsResult.details ? unconnectedElementsResult.details.map(unconnectedElement => unconnectedElement.name) : [];
     const nodesToBuild = flow.nodes.filter(node => {
         switch (node.nodeType) {
           case 'variable':
