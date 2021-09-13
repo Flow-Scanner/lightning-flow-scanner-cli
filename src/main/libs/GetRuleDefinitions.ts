@@ -1,6 +1,6 @@
+import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {DynamicRule} from './DynamicRule';
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 
 export function GetRuleDefinitions(ruleNames? : string[]) : IRuleDefinition[] {
   const matchedRules : any = [];

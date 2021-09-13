@@ -9,20 +9,20 @@
       Missing flow description,
       Missing error handlers,
       Missing null handlers,
-      Unconnected elements,
-      Unused variables
+      Unconnected elements(auto-fix),
+      Unused variables(auto-fix)
 
 ## Functions
 
-`getRuleDefinitions(ruleNames? : string[]): IRuleDefinition[];`
+`GetRules(ruleNames? : string[]): IRuleDefinition[];`
 
 Returns all rules if there are no ruleNames specified. In case ruleNames are specified, it will only return rules which are included by name. 
 
-`scan(flows :Flow[], ruleNames? : string[]): ScanResult[];`
+`Scan(flows: Flow[], ruleOptions?: ScannerOptions): ScanResult[];`
 
-Runs all rules if there are no ruleNames specified. In case ruleNames are specified, it will only run rules which are included by name. 
+If there are no ruleNames specified, it will run all available rules by default. In case that there are ruleNames specified, only the  specified rules will be ran.
 
-`fix(flows :Flow[]): ScanResult[];`
+`Fix(flows :Flow[]): ScanResult[];`
 
-Removes unused variables and unconnected elements from all selected flows.
+Remove unused variables and unconnected elements from selected flows automatically.
 

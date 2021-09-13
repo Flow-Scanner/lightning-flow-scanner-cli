@@ -2,8 +2,8 @@ import * as IdPrefixes from '../data/IdPrefixes.json';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
-import {RuleInfo} from "../ruledefinitions/RuleInfo";
-import {RuleDefinitions} from "../ruledefinitions/RuleDefinitions";
+import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleInfo} from '../ruledefinitions/RuleInfo';
 
 export class HardcodedIds implements IRuleDefinition{
 
@@ -41,6 +41,6 @@ export class HardcodedIds implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult('HardcodedIds', 'pattern', nodesWithHardcodedIds);
+    return new RuleResult('HardcodedIds', 'pattern', nodesWithHardcodedIds.length > 0, nodesWithHardcodedIds);
   }
 }

@@ -33,7 +33,7 @@ export class UnusedVariables implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult('UnusedVariables', 'pattern', unusedVariables);
+    return new RuleResult('UnusedVariables', 'pattern', unusedVariables.length > 0, unusedVariables);
   }
 
 }

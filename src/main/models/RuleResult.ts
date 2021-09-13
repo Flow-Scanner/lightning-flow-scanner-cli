@@ -5,8 +5,12 @@ import {FlowVariable} from './FlowVariable';
 
 export class RuleResult {
 
-  constructor(ruleName: string, type: string, results?: (FlowElement[] | FlowVariable[] | [boolean])) {
-    this.results = results;
+  constructor(ruleName: string, type: string, occurs : boolean, details?: (FlowElement[] | FlowVariable[])) {
+
+    this.occurs = occurs;
+    if(details){
+      this.details = details;
+    }
     this.ruleName = ruleName;
     this.type = type;
 
@@ -19,7 +23,9 @@ export class RuleResult {
     }
   }
 
-  public results?: (FlowElement[] | FlowVariable[] | [boolean]);
+  public details?: (FlowElement[] | FlowVariable[]);
+  public occurs: boolean;
+
   public ruleDescription: string;
   public ruleLabel: string;
   public ruleName: string;

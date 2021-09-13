@@ -68,7 +68,7 @@ export class DMLStatementInLoop implements IRuleDefinition{
         dmlStatementsInLoops.push(element);
       }
     }
-    return new RuleResult('DMLStatementInLoop','pattern', dmlStatementsInLoops);
+    return new RuleResult('DMLStatementInLoop','pattern', dmlStatementsInLoops.length > 0, dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {
