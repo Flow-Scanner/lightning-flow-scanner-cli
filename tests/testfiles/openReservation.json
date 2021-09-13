@@ -1,0 +1,1135 @@
+{
+  "Flow": {
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "actionCalls": [
+      {
+        "name": [
+          "openReservationSubtab"
+        ],
+        "label": [
+          "openReservationSubtab"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "854"
+        ],
+        "actionName": [
+          "c:openRecordAction"
+        ],
+        "actionType": [
+          "component"
+        ],
+        "inputParameters": [
+          {
+            "name": [
+              "recordId"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varReservationId"
+                ]
+              }
+            ]
+          },
+          {
+            "name": [
+              "sobject"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "ReservationAPIName"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "description": [
+          "Invokes a generic apex method that updates Lead or Contact status fields as defined in the custom metadata"
+        ],
+        "name": [
+          "updateLeadContactReservationStatus"
+        ],
+        "label": [
+          "updateLeadContactReservationStatus"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "734"
+        ],
+        "actionName": [
+          "ReservationManager"
+        ],
+        "actionType": [
+          "apex"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "openReservationSubtab"
+            ]
+          }
+        ],
+        "inputParameters": [
+          {
+            "name": [
+              "recordId"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varRecordId"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "apiVersion": [
+      "52.0"
+    ],
+    "choices": [
+      {
+        "name": [
+          "Day1"
+        ],
+        "choiceText": [
+          "<span style=\"background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);\">1 Day</span>"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "1.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "Day30"
+        ],
+        "choiceText": [
+          "<span style=\"background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);\">30 Days</span>"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "30.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "Day60"
+        ],
+        "choiceText": [
+          "<span style=\"background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);\">60 Days</span>"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "60.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "Day7"
+        ],
+        "choiceText": [
+          "<span style=\"background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);\">7 Days</span>"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "7.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "GreaterThan60"
+        ],
+        "choiceText": [
+          "<span style=\"background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);\">More than 60 Days</span>"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "61.0"
+            ]
+          }
+        ]
+      }
+    ],
+    "constants": [
+      {
+        "name": [
+          "Contact"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "Contact"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "Lead"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "Lead"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "ReservationAPIName"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "Reservation__c"
+            ]
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "name": [
+          "assignCustomerLookup"
+        ],
+        "label": [
+          "assignCustomerLookup"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "398"
+        ],
+        "defaultConnectorLabel": [
+          "[Default Outcome]"
+        ],
+        "rules": [
+          {
+            "name": [
+              "isContact"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "varSobjectType"
+                ],
+                "operator": [
+                  "EqualTo"
+                ],
+                "rightValue": [
+                  {
+                    "elementReference": [
+                      "Contact"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "createContactReservation"
+                ]
+              }
+            ],
+            "label": [
+              "isContact"
+            ]
+          },
+          {
+            "name": [
+              "isLead"
+            ],
+            "conditionLogic": [
+              "and"
+            ],
+            "conditions": [
+              {
+                "leftValueReference": [
+                  "varSobjectType"
+                ],
+                "operator": [
+                  "EqualTo"
+                ],
+                "rightValue": [
+                  {
+                    "elementReference": [
+                      "Lead"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "connector": [
+              {
+                "targetReference": [
+                  "createLeadReservation"
+                ]
+              }
+            ],
+            "label": [
+              "isLead"
+            ]
+          }
+        ]
+      }
+    ],
+    "description": [
+      "Create Reservation Flow with LWC."
+    ],
+    "dynamicChoiceSets": [
+      {
+        "description": [
+          "Shows all the market records by state"
+        ],
+        "name": [
+          "marketRecordsByState"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "displayField": [
+          "Name"
+        ],
+        "filterLogic": [
+          "and"
+        ],
+        "filters": [
+          {
+            "field": [
+              "State__c"
+            ],
+            "operator": [
+              "EqualTo"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varState"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Market__c"
+        ],
+        "outputAssignments": [
+          {
+            "assignToReference": [
+              "varMarket"
+            ],
+            "field": [
+              "Id"
+            ]
+          }
+        ],
+        "valueField": [
+          "Id"
+        ]
+      }
+    ],
+    "formulas": [
+      {
+        "name": [
+          "calcEndDate"
+        ],
+        "dataType": [
+          "Date"
+        ],
+        "expression": [
+          "{!reservationStartDate}+{!varResLength}"
+        ]
+      },
+      {
+        "name": [
+          "currentDate"
+        ],
+        "dataType": [
+          "Date"
+        ],
+        "expression": [
+          "{!$Flow.CurrentDate}"
+        ]
+      }
+    ],
+    "interviewLabel": [
+      "createReservation {!$Flow.CurrentDateTime}"
+    ],
+    "label": [
+      "Create Reservation"
+    ],
+    "processMetadataValues": [
+      {
+        "name": [
+          "BuilderType"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "LightningFlowBuilder"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "CanvasMode"
+        ],
+        "value": [
+          {
+            "stringValue": [
+              "AUTO_LAYOUT_CANVAS"
+            ]
+          }
+        ]
+      }
+    ],
+    "processType": [
+      "Flow"
+    ],
+    "recordCreates": [
+      {
+        "name": [
+          "createContactReservation"
+        ],
+        "label": [
+          "createContactReservation"
+        ],
+        "locationX": [
+          "50"
+        ],
+        "locationY": [
+          "518"
+        ],
+        "assignRecordIdToReference": [
+          "varReservationId"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "updateLeadContactReservationStatus"
+            ]
+          }
+        ],
+        "inputAssignments": [
+          {
+            "field": [
+              "Contact__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varRecordId"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "End_Date__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "calcEndDate"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Market__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varMarket"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Start_Date__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "reservationStartDate"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Status__c"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "Draft"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Total_Number_of_Guests__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "numberOfGuests.value"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Reservation__c"
+        ]
+      },
+      {
+        "name": [
+          "createLeadReservation"
+        ],
+        "label": [
+          "createLeadReservation"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "518"
+        ],
+        "assignRecordIdToReference": [
+          "varReservationId"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "updateLeadContactReservationStatus"
+            ]
+          }
+        ],
+        "inputAssignments": [
+          {
+            "field": [
+              "End_Date__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "calcEndDate"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Lead__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varRecordId"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Market__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "varMarket"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Start_Date__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "reservationStartDate"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Status__c"
+            ],
+            "value": [
+              {
+                "stringValue": [
+                  "Draft"
+                ]
+              }
+            ]
+          },
+          {
+            "field": [
+              "Total_Number_of_Guests__c"
+            ],
+            "value": [
+              {
+                "elementReference": [
+                  "numberOfGuests.value"
+                ]
+              }
+            ]
+          }
+        ],
+        "object": [
+          "Reservation__c"
+        ]
+      }
+    ],
+    "runInMode": [
+      "SystemModeWithSharing"
+    ],
+    "screens": [
+      {
+        "name": [
+          "CustomerDetails"
+        ],
+        "label": [
+          "Customer Details"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "158"
+        ],
+        "allowBack": [
+          "false"
+        ],
+        "allowFinish": [
+          "true"
+        ],
+        "allowPause": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "ReservationDetails"
+            ]
+          }
+        ],
+        "fields": [
+          {
+            "name": [
+              "reservationHelperForm"
+            ],
+            "extensionName": [
+              "c:reservationHelperForm"
+            ],
+            "fieldType": [
+              "ComponentInstance"
+            ],
+            "inputParameters": [
+              {
+                "name": [
+                  "customerid"
+                ],
+                "value": [
+                  {
+                    "elementReference": [
+                      "varRecordId"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "objecttype"
+                ],
+                "value": [
+                  {
+                    "elementReference": [
+                      "varSobjectType"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "state"
+                ],
+                "value": [
+                  {
+                    "elementReference": [
+                      "varState"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "isRequired": [
+              "true"
+            ],
+            "outputParameters": [
+              {
+                "assignToReference": [
+                  "varMarket"
+                ],
+                "name": [
+                  "requestedMarket"
+                ]
+              },
+              {
+                "assignToReference": [
+                  "varNoOfGuests"
+                ],
+                "name": [
+                  "numberOfPeople"
+                ]
+              },
+              {
+                "assignToReference": [
+                  "varResLength"
+                ],
+                "name": [
+                  "endDays"
+                ]
+              },
+              {
+                "assignToReference": [
+                  "varStartDate"
+                ],
+                "name": [
+                  "startDate"
+                ]
+              }
+            ]
+          }
+        ],
+        "showFooter": [
+          "false"
+        ],
+        "showHeader": [
+          "false"
+        ]
+      },
+      {
+        "description": [
+          "Provide Reservation Details"
+        ],
+        "name": [
+          "ReservationDetails"
+        ],
+        "label": [
+          "Reservation Details"
+        ],
+        "locationX": [
+          "314"
+        ],
+        "locationY": [
+          "278"
+        ],
+        "allowBack": [
+          "true"
+        ],
+        "allowFinish": [
+          "true"
+        ],
+        "allowPause": [
+          "false"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "assignCustomerLookup"
+            ]
+          }
+        ],
+        "fields": [
+          {
+            "name": [
+              "selectMarket"
+            ],
+            "choiceReferences": [
+              "marketRecordsByState"
+            ],
+            "dataType": [
+              "String"
+            ],
+            "fieldText": [
+              "Where do they want the space?"
+            ],
+            "fieldType": [
+              "DropdownBox"
+            ],
+            "isRequired": [
+              "true"
+            ]
+          },
+          {
+            "name": [
+              "reservationStartDate"
+            ],
+            "dataType": [
+              "Date"
+            ],
+            "defaultValue": [
+              {
+                "elementReference": [
+                  "currentDate"
+                ]
+              }
+            ],
+            "fieldText": [
+              "When do they need the space?"
+            ],
+            "fieldType": [
+              "InputField"
+            ],
+            "isRequired": [
+              "false"
+            ]
+          },
+          {
+            "name": [
+              "numberOfGuests"
+            ],
+            "extensionName": [
+              "flowruntime:slider"
+            ],
+            "fieldType": [
+              "ComponentInstance"
+            ],
+            "inputParameters": [
+              {
+                "name": [
+                  "label"
+                ],
+                "value": [
+                  {
+                    "stringValue": [
+                      "For how many people?"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "max"
+                ],
+                "value": [
+                  {
+                    "numberValue": [
+                      "250.0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "min"
+                ],
+                "value": [
+                  {
+                    "numberValue": [
+                      "2.0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": [
+                  "size"
+                ],
+                "value": [
+                  {
+                    "stringValue": [
+                      "medium"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "isRequired": [
+              "true"
+            ],
+            "storeOutputAutomatically": [
+              "true"
+            ]
+          },
+          {
+            "name": [
+              "reservationDuration"
+            ],
+            "choiceReferences": [
+              "Day1",
+              "Day7",
+              "Day30",
+              "Day60",
+              "GreaterThan60"
+            ],
+            "dataType": [
+              "Number"
+            ],
+            "defaultSelectedChoiceReference": [
+              "Day7"
+            ],
+            "fieldText": [
+              "How long do they want the space?"
+            ],
+            "fieldType": [
+              "RadioButtons"
+            ],
+            "isRequired": [
+              "false"
+            ],
+            "scale": [
+              "0"
+            ]
+          }
+        ],
+        "showFooter": [
+          "true"
+        ],
+        "showHeader": [
+          "true"
+        ]
+      }
+    ],
+    "start": [
+      {
+        "locationX": [
+          "188"
+        ],
+        "locationY": [
+          "0"
+        ],
+        "connector": [
+          {
+            "targetReference": [
+              "CustomerDetails"
+            ]
+          }
+        ]
+      }
+    ],
+    "status": [
+      "Active"
+    ],
+    "variables": [
+      {
+        "name": [
+          "varMarket"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "varNoOfGuests"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "true"
+        ],
+        "scale": [
+          "0"
+        ]
+      },
+      {
+        "name": [
+          "varRecordId"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "true"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      },
+      {
+        "name": [
+          "varReservationId"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "true"
+        ]
+      },
+      {
+        "name": [
+          "varResLength"
+        ],
+        "dataType": [
+          "Number"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "true"
+        ],
+        "scale": [
+          "0"
+        ],
+        "value": [
+          {
+            "numberValue": [
+              "0.0"
+            ]
+          }
+        ]
+      },
+      {
+        "name": [
+          "varSobjectType"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "true"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      },
+      {
+        "name": [
+          "varStartDate"
+        ],
+        "dataType": [
+          "Date"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "false"
+        ],
+        "isOutput": [
+          "true"
+        ]
+      },
+      {
+        "description": [
+          "Holds state value for customer record"
+        ],
+        "name": [
+          "varState"
+        ],
+        "dataType": [
+          "String"
+        ],
+        "isCollection": [
+          "false"
+        ],
+        "isInput": [
+          "true"
+        ],
+        "isOutput": [
+          "false"
+        ]
+      }
+    ]
+  }
+}

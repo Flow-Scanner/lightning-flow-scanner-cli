@@ -3,6 +3,7 @@ import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
 import {RuleResult} from './RuleResult';
+import createLogger from "logging";
 
 export class Flow {
 
@@ -52,7 +53,8 @@ export class Flow {
       'processType',
       'interviewLabel',
       'label',
-      'status'
+      'status',
+      'runInMode'
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
