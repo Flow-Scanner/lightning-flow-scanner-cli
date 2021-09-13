@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/libs/ApplyOverrides.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/FlowScanOverrides.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/models/ScannerOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/IgnoreScanResultDuplicateDML.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/IgnoreScanResultsAllDuplicateDMLs.test.ts" afterDir="false" />
+    <list default="true" id="4af2dbdd-23b3-4cfc-9783-188ca2407b78" name="Default Changelist" comment="add example ruleoptions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/FilterUsingIgnoreOptions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/libs/FixFlows.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/Override.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/Override.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/RuleOption.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/RuleOptions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/models/RuleResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/models/RuleResult.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DMLStatementInLoop.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/DuplicateDMLOperationsByNavigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/HardcodedIds.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFaultPath.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingFlowDescription.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/MissingNullHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnconnectedElements.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/rules/UnusedVariables.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/GetRules.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GetRules.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/IgnoreLogicMissingDescription.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SpecifyRulesToScan.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/MissingFlowDescriptions_false.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/testfiles/RuleOptions.json" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -261,7 +239,7 @@
       <workItem from="1631485020489" duration="5817000" />
       <workItem from="1631491153341" duration="3007000" />
       <workItem from="1631494352595" duration="36000" />
-      <workItem from="1631494598070" duration="953000" />
+      <workItem from="1631494598070" duration="1234000" />
     </task>
     <task id="LOCAL-00003" summary="rename">
       <created>1625319458614</created>
@@ -326,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631481676283</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add override and specify logic plus tests">
+      <created>1631495609230</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1631495609230</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +343,8 @@
     <MESSAGE value="add test files" />
     <MESSAGE value="initial ignore logic" />
     <MESSAGE value="add tests and logger" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tests and logger" />
+    <MESSAGE value="add override and specify logic plus tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="add override and specify logic plus tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
