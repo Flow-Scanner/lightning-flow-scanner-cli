@@ -31,7 +31,7 @@ describe("When there is a a rule override",async function () {
   it("there is no result for that override", async function () {
 
     // ACT
-    const scanResults = index.Scan([flow], ruleOptions);
+    const scanResults = index.scan([flow], ruleOptions);
 
     // ASSERT
     expect(scanResults[0].ruleResults.find(result => result.ruleName === "DuplicateDMLOperationsByNavigation").details.length).to.equal(0);

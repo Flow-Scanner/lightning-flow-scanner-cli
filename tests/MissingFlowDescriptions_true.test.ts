@@ -1,6 +1,6 @@
 import "mocha";
 import {Flow} from "../src/main/models/Flow";
-import withDescription = require("./testfiles/withDescription.json");
+import withDescription = require("./testfiles/createproperty.json");
 import {MissingFlowDescription} from "../src/main/rules/MissingFlowDescription";
 import {expect} from "chai";
 
@@ -23,7 +23,7 @@ describe("When there is a flow description",async function () {
         const missingDescription = new MissingFlowDescription().execute(flow);
 
         // ASSERT
-      expect(missingDescription.occurs).to.equal(false);
+      expect(missingDescription.occurs).to.equal(true);
         // assert.strictEqual(missingDescription, false);
     });
 });
