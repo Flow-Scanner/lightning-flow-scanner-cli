@@ -7,7 +7,7 @@ import {Flow} from './main/models/Flow';
 import {ScannerOptions} from './main/models/ScannerOptions';
 import {ScanResult} from './main/models/ScanResult';
 
-export function GetRules(ruleNames?: string[]): IRuleDefinition[] {
+export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames) {
     return GetRuleDefinitions(ruleNames);
   } else {
@@ -15,7 +15,7 @@ export function GetRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-export function Scan(flows: Flow[], ruleOptions?: ScannerOptions): ScanResult[] {
+export function scan(flows: Flow[], ruleOptions?: ScannerOptions): ScanResult[] {
 
   let scanResults: ScanResult[];
   if(ruleOptions && ruleOptions.activeRules){
@@ -30,6 +30,6 @@ export function Scan(flows: Flow[], ruleOptions?: ScannerOptions): ScanResult[] 
   return scanResults;
 }
 
-export function Fix(flows: Flow[]): ScanResult[] {
+export function fix(flows: Flow[]): ScanResult[] {
   return FixFlows(flows);
 }
