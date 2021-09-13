@@ -1,11 +1,11 @@
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowVariable} from '../models/FlowVariable';
+import {RuleResult} from '../models/RuleResult';
+import {ScanResult} from '../models/ScanResult';
 import {UnconnectedElements} from '../rules/UnconnectedElements';
 import {UnusedVariables} from '../rules/UnusedVariables';
 import {BuildFlow} from './BuildFlow';
-import {ScanResult} from "../models/ScanResult";
-import {RuleResult} from "../models/RuleResult";
 
 export function FixFlows(flows: Flow[]) : ScanResult[] {
 

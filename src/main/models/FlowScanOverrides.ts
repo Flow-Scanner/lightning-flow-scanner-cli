@@ -1,4 +1,4 @@
-import {Override} from "./Override";
+import {Override} from './Override';
 
 export class FlowScanOverrides {
   public flowName: string;

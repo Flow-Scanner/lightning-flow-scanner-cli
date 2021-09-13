@@ -1,5 +1,5 @@
-import {ScanResult} from "../models/ScanResult";
-import {FlowScanOverrides} from "../models/FlowScanOverrides";
+import {FlowScanOverrides} from '../models/FlowScanOverrides';
+import {ScanResult} from '../models/ScanResult';
 
 export function ApplyOverrides(scanResults: ScanResult[], overrides: FlowScanOverrides[]): ScanResult[] {
 
