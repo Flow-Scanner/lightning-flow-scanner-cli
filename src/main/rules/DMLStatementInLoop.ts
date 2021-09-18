@@ -3,20 +3,13 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import { RuleInfo } from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class DMLStatementInLoop implements IRuleDefinition{
+export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.DMLStatementInLoop);
-    this.name = RuleDefinitions.DMLStatementInLoop;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.DMLStatementInLoop);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
 

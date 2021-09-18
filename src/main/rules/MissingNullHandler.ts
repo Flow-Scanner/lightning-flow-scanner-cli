@@ -3,20 +3,13 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class MissingNullHandler implements IRuleDefinition{
+export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.MissingNullHandler);
-    this.name = RuleDefinitions.MissingNullHandler;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.MissingNullHandler);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
 

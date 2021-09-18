@@ -4,20 +4,13 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class DuplicateDMLOperationsByNavigation implements IRuleDefinition{
+export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.DuplicateDMLOperationsByNavigation);
-    this.name = RuleDefinitions.DuplicateDMLOperationsByNavigation;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.DuplicateDMLOperationsByNavigation);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
 

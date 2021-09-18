@@ -3,20 +3,14 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class MissingFaultPath implements IRuleDefinition {
+export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.MissingFaultPath);
-    this.name = RuleDefinitions.MissingFaultPath;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.MissingFaultPath);
   }
 
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
 

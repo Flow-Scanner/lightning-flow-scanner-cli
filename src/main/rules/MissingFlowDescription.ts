@@ -2,20 +2,13 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class MissingFlowDescription implements IRuleDefinition{
+export class MissingFlowDescription extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.MissingFlowDescription);
-    this.name = RuleDefinitions.MissingFlowDescription;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.MissingFlowDescription);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
     let missingFlowDescription = !flow.xmldata.Flow.description;

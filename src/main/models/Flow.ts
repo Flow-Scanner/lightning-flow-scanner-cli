@@ -19,7 +19,6 @@ export class Flow {
   public status?;
   public uri?;
   public root?;
-  public resultCount?;
   public scanResults?: RuleResult[] = [];
 
   public processedData?;

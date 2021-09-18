@@ -3,20 +3,14 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class HardcodedIds implements IRuleDefinition{
+export class HardcodedIds extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.HardcodedIds);
-    this.name = RuleDefinitions.HardcodedIds;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.HardcodedIds);
   }
 
-  public name: string;
-  public label: string;
-  public text: string;
   public execute(flow: Flow) : RuleResult {
     const prefixes = IdPrefixes.ids.map(prefix => {
       return prefix['Key Prefix'];

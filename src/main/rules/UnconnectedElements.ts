@@ -4,20 +4,13 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class UnconnectedElements implements IRuleDefinition{
+export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.UnconnectedElements);
-    this.name = RuleDefinitions.UnconnectedElements;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.UnconnectedElements);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];

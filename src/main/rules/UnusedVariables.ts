@@ -4,20 +4,13 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleCommon} from "./RuleCommon";
 
-export class UnusedVariables implements IRuleDefinition{
+export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    const rule = RuleInfo(RuleDefinitions.UnusedVariables);
-    this.name = RuleDefinitions.UnusedVariables;
-    this.label = rule.label;
-    this.text = rule.text;
+    super(RuleDefinitions.UnusedVariables);
   }
-
-  public name: string;
-  public label: string;
-  public text: string;
 
   public execute(flow: Flow) : RuleResult {
     const unusedVariables: FlowVariable[] = [];
