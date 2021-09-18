@@ -8,7 +8,7 @@ import {RuleCommon} from "./RuleCommon";
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.MissingFaultPath, 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5');
+    super(RuleDefinitions.MissingFaultPath, ['https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5']);
   }
 
 

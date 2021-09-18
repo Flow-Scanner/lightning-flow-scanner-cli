@@ -6,13 +6,13 @@ export class RuleCommon{
   public label;
   public name;
   public uri;
-  public docRef;
+  public docRefs: string[];
   public text: string;
 
-  constructor(name:RuleDefinitions, docRef?){
+  constructor(name:RuleDefinitions, docRefs? : string[]){
 
-    if(docRef){
-      this.docRef = docRef;
+    if(docRefs){
+      this.docRefs = docRefs;
     }
     this.name = name;
     const rule = RuleInfo(name);

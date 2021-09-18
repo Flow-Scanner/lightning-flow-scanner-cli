@@ -8,7 +8,7 @@ import {RuleCommon} from "./RuleCommon";
 export class HardcodedIds extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.HardcodedIds, 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5');
+    super(RuleDefinitions.HardcodedIds, ['https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5']);
   }
 
   public execute(flow: Flow) : RuleResult {
