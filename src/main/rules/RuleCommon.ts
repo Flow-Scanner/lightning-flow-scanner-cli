@@ -6,7 +6,7 @@ export class RuleCommon{
   public label;
   public name;
   public uri;
-  public docRefs: string[];
+  public docRefs: string[] = [];
   public text: string;
 
   constructor(name:RuleDefinitions, docRefs? : string[]){
