@@ -6,10 +6,10 @@ export class RuleCommon{
   public label;
   public name;
   public uri;
-  public docRefs: string[] = [];
+  public docRefs:  {label: string, path: string}[] = [];
   public text: string;
 
-  constructor(name:RuleDefinitions, docRefs? : string[]){
+  constructor(name:RuleDefinitions, docRefs? :  {label: string, path: string}[]){
 
     if(docRefs){
       this.docRefs = docRefs;
