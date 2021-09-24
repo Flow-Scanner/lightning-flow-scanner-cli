@@ -7,5 +7,5 @@ export function BuildFlow(nodesToMerge) {
     const nodesOfType = nodesToMerge.filter(node => subtype === node.subtype);
     res = convertFlowNodes(res, nodesOfType, subtype);
   }
-  return {Flow: res};
+  return res;
 }

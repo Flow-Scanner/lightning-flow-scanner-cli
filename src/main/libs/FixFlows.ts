@@ -37,7 +37,8 @@ export function FixFlows(flows: Flow[]) : ScanResult[] {
         }
       }
     );
-    flow.processedData = BuildFlow(nodesToBuild);
+    flow.xmldata['Flow'] = BuildFlow(nodesToBuild);
+    flow.preProcessNodes();
     flowResults.push(new ScanResult(flow, ruleResults));
   }
   return flowResults;

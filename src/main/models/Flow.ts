@@ -39,12 +39,13 @@ export class Flow {
       this.path = args.path;
     }
     this.xmldata = args.xmldata;
-    this.preProcessNodes(args.xmldata);
+    this.preProcessNodes();
 
   }
 
-  private preProcessNodes(xml) {
-    const mergeableVariables = ['variables', 'choices', 'constants', 'dynamicChoiceSets', 'formulas', 'stages', 'textTemplates'];
+  public preProcessNodes() {
+
+    const flowVariables = ['variables', 'choices', 'constants', 'dynamicChoiceSets', 'formulas', 'stages', 'textTemplates'];
     const flowMetadata = ['$',
       'description',
       'apiVersion',
@@ -57,7 +58,7 @@ export class Flow {
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
-    const flowXML = xml.Flow;
+    const flowXML = this.xmldata.Flow;
     for (const nodeType in flowXML) {
       const nodesOfType = flowXML[nodeType];
       // skip xmlns url
@@ -72,7 +73,7 @@ export class Flow {
             node
           ));
         }
-      } else if (mergeableVariables.includes(nodeType)) {
+      } else if (flowVariables.includes(nodeType)) {
         for (const node of nodesOfType) {
           allNodes.push(
             new FlowVariable(node.name, nodeType, node)
@@ -87,18 +88,18 @@ export class Flow {
       }
     }
 
-    this.label = xml.Flow.label;
-    this.interviewLabel = xml.Flow.interviewLabel;
-    this.processType = xml.Flow.processType;
-    this.processMetadataValues = xml.Flow.processMetadataValues;
-    this.start = xml.Flow.start;
-    this.status = xml.Flow.status;
+    this.label = this.xmldata.Flow.label;
+    this.interviewLabel = this.xmldata.Flow.interviewLabel;
+    this.processType = this.xmldata.Flow.processType;
+    this.processMetadataValues = this.xmldata.Flow.processMetadataValues;
+    this.start = this.xmldata.Flow.start;
+    this.status = this.xmldata.Flow.status;
 
     let type;
-    if (xml.Flow.start[0].triggerType) {
-      type = 'Trigger:' + xml.Flow.start[0].triggerType;
+    if (this.xmldata.Flow.start[0].triggerType) {
+      type = 'Trigger:' + this.xmldata.Flow.start[0].triggerType;
     } else {
-      type = xml.Flow.processType[0] === 'Flow' ? 'Visual Flow' : xml.Flow.processType;
+      type = this.xmldata.Flow.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.Flow.processType;
     }
     this.type = type;
     this.nodes = allNodes;
