@@ -19,9 +19,7 @@ export class Flow {
   public status?;
   public uri?;
   public root?;
-  public scanResults?: RuleResult[] = [];
 
-  public processedData?;
   public nodes?: FlowNode[];
 
   constructor(args) {
@@ -38,7 +36,7 @@ export class Flow {
     if (args.path) {
       this.path = args.path;
     }
-    this.xmldata = args.xmldata;
+    this.xmldata = args.xmldata.Flow;
     this.preProcessNodes();
 
   }
@@ -58,9 +56,8 @@ export class Flow {
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
-    const flowXML = this.xmldata.Flow;
-    for (const nodeType in flowXML) {
-      const nodesOfType = flowXML[nodeType];
+    for (const nodeType in this.xmldata) {
+      const nodesOfType = this.xmldata[nodeType];
       // skip xmlns url
       if (nodeType == '$') {
         this.root = nodesOfType;
@@ -88,18 +85,18 @@ export class Flow {
       }
     }
 
-    this.label = this.xmldata.Flow.label;
-    this.interviewLabel = this.xmldata.Flow.interviewLabel;
-    this.processType = this.xmldata.Flow.processType;
-    this.processMetadataValues = this.xmldata.Flow.processMetadataValues;
-    this.start = this.xmldata.Flow.start;
-    this.status = this.xmldata.Flow.status;
+    this.label = this.xmldata.label;
+    this.interviewLabel = this.xmldata.interviewLabel;
+    this.processType = this.xmldata.processType;
+    this.processMetadataValues = this.xmldata.processMetadataValues;
+    this.start = this.xmldata.start;
+    this.status = this.xmldata.status;
 
     let type;
-    if (this.xmldata.Flow.start[0].triggerType) {
-      type = 'Trigger:' + this.xmldata.Flow.start[0].triggerType;
+    if (this.xmldata.start[0].triggerType) {
+      type = 'Trigger:' + this.xmldata.start[0].triggerType;
     } else {
-      type = this.xmldata.Flow.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.Flow.processType;
+      type = this.xmldata.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.processType;
     }
     this.type = type;
     this.nodes = allNodes;

@@ -55,9 +55,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
                                 for (const nextElement of elementsByReferences) {
                                     const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
                                     if('screens' === nextElement.subtype){
-                                    //    todo check if nextelement has previous
-                                        // @ts-ignore
-                                        if (dmlBeforeNextScreen.length > 0 && nextElement.element.allowBack && nextElement.element.allowBack[0] == 'true'){
+                                        if (dmlBeforeNextScreen.length > 0 && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
                                             duplicateDMLOperationsByNavigation.push(nextElement);
                                         }
                                     } else if (!processedElementIndexes.includes(nextIndex)){

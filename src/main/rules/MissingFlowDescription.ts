@@ -11,7 +11,7 @@ export class MissingFlowDescription extends RuleCommon implements IRuleDefinitio
   }
 
   public execute(flow: Flow) : RuleResult {
-    let missingFlowDescription = !flow.xmldata.Flow.description;
+    let missingFlowDescription = !flow.xmldata.description;
     return new RuleResult(RuleDefinitions.MissingFlowDescription, 'flow', missingFlowDescription);
   }
 }

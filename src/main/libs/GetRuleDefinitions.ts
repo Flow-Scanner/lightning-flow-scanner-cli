@@ -8,7 +8,6 @@ export function GetRuleDefinitions(ruleNames? : string[]) : IRuleDefinition[] {
   if(ruleNames && Array.isArray(ruleNames)){
     for(const ruleName of ruleNames){
       const matchedRule = new DynamicRule(ruleName);
-      // @ts-ignore
       matchedRules.push(matchedRule);
     }
   } else {
