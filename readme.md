@@ -1,5 +1,5 @@
 # Lightning Flow Scanner(Core)
-### _Used in both the VSCode extension as well as SFDX plugin with the same name._
+### _As used in both the VSCode extension as well as SFDX plugin with the same name._
 
 ## Rules Included:
 
