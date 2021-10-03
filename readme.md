@@ -1,16 +1,17 @@
-# Lightning Flow Scanner(Core)
-### _As used in both the VSCode extension as well as SFDX plugin._
+# Lightning Flow Scanner(Rule Engine)
+
+### _The core contains the rule engine used in both the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX plugin](https://www.npmjs.com/package/lightning-flow-scanner)._
 
 ## Available Rules:
 
-      DML statements in a loop,
-      Duplicate DML operations,
-      Hardcoded Ids,
-      Missing flow description,
-      Missing error handlers,
-      Missing null handlers,
-      Unconnected elements(auto-fix),
-      Unused variables(auto-fix)
+* DML statements in a loop
+* Duplicate DML operations
+* Hardcoded Ids
+* Missing flow description
+* Missing error handlers
+* Missing null handlers
+* Unconnected elements(fixable)
+* Unused variables(fixable)
 
 ## Functions
 
