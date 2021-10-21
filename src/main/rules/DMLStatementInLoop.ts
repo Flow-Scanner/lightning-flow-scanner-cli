@@ -25,7 +25,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
       const processedLoopElementIndexes: number[] = [];
       do {
         indexesToProcess = indexesToProcess.filter(index => !processedLoopElementIndexes.includes(index));
-        if (indexesToProcess.length <= 0) {
+        if(indexesToProcess.length <= 0 || (indexesToProcess.length == 1 && indexesToProcess[0] == -1)){
           break;
         }
         for (const [index, element] of flowElements.entries()) {
