@@ -25,31 +25,32 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
       const processedLoopElementIndexes: number[] = [];
       do {
         indexesToProcess = indexesToProcess.filter(index => !processedLoopElementIndexes.includes(index));
-        if (indexesToProcess.length > 0) {
-          for (const [index, element] of flowElements.entries()) {
-            if (indexesToProcess.includes(index)) {
-              const connectors = [];
-              for (const connector of element.connectors) {
-                if (connector.reference) {
-                  connectors.push(connector);
-                }
+        if(indexesToProcess.length <= 0 || (indexesToProcess.length == 1 && indexesToProcess[0] == -1)){
+          break;
+        }
+        for (const [index, element] of flowElements.entries()) {
+          if (indexesToProcess.includes(index)) {
+            const connectors = [];
+            for (const connector of element.connectors) {
+              if (connector.reference) {
+                connectors.push(connector);
               }
-              if (dmlStatementTypes.includes(element.subtype)) {
-                dmlInLoopIndexes.push(index);
-              }
-              if (connectors.length > 0) {
-                const elementsByReferences = flowElements.filter(element => connectors.map(c => c.reference).includes(element.name));
-                for (const nextElement of elementsByReferences) {
-                  const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
-                  if ('loops' === nextElement.subtype) {
-                    reachedEndOfLoop = true;
-                  } else if (!processedLoopElementIndexes.includes(nextIndex)) {
-                    indexesToProcess.push(nextIndex);
-                  }
-                }
-              }
-              processedLoopElementIndexes.push(index);
             }
+            if (dmlStatementTypes.includes(element.subtype)) {
+              dmlInLoopIndexes.push(index);
+            }
+            if (connectors.length > 0) {
+              const elementsByReferences = flowElements.filter(element => connectors.map(c => c.reference).includes(element.name));
+              for (const nextElement of elementsByReferences) {
+                const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
+                if ('loops' === nextElement.subtype) {
+                  reachedEndOfLoop = true;
+                } else if (!processedLoopElementIndexes.includes(nextIndex)) {
+                  indexesToProcess.push(nextIndex);
+                }
+              }
+            }
+            processedLoopElementIndexes.push(index);
           }
         }
       } while (reachedEndOfLoop === false);
