@@ -17,41 +17,46 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
-    do {
-      indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
-      if (indexesToProcess.length > 0) {
-        for (const [index, element] of flowElements.entries()) {
-          if (indexesToProcess.includes(index)) {
-            const references: string[] = [];
-            if (element.connectors && element.connectors.length > 0) {
-              for (const connector of element.connectors) {
-                if (connector.reference) {
-                  references.push(connector.reference);
+    if(indexesToProcess[0] && indexesToProcess[0] === -1) {
+      throw 'Can not find starting element';
+    }
+    else {
+      do {
+        indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
+        if (indexesToProcess.length > 0) {
+          for (const [index, element] of flowElements.entries()) {
+            if (indexesToProcess.includes(index)) {
+              const references: string[] = [];
+              if (element.connectors && element.connectors.length > 0) {
+                for (const connector of element.connectors) {
+                  if (connector.reference) {
+                    references.push(connector.reference);
+                  }
                 }
               }
-            }
-            if (references.length > 0) {
-              const elementsByReferences = flowElements.filter(element => references.includes(element.name));
-              for (const nextElement of elementsByReferences) {
-                const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
-                if (!processedElementIndexes.includes(nextIndex)) {
-                  indexesToProcess.push(nextIndex);
+              if (references.length > 0) {
+                const elementsByReferences = flowElements.filter(element => references.includes(element.name));
+                for (const nextElement of elementsByReferences) {
+                  const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
+                  if (!processedElementIndexes.includes(nextIndex)) {
+                    indexesToProcess.push(nextIndex);
+                  }
                 }
               }
+              processedElementIndexes.push(index);
             }
-            processedElementIndexes.push(index);
+          }
+        } else {
+          for (const index of flowElements.keys()) {
+            if (!processedElementIndexes.includes(index)) {
+              unconnectedElementIndexes.push(index);
+              unconnectedElementIndexes.push(index);
+            }
           }
         }
-      } else {
-        for (const index of flowElements.keys()) {
-          if (!processedElementIndexes.includes(index)) {
-            unconnectedElementIndexes.push(index);
-            unconnectedElementIndexes.push(index);
-          }
-        }
-      }
-    } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
+      } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
 
+    }
     const processedElements = [];
     const unconnectedElements = [];
     for (const [index, element] of flowElements.entries()) {
@@ -64,6 +69,7 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
     return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements.length > 0, unconnectedElements);
   }
 
+  // Todo find start reference (< 43.0 API)
   private findStart(nodes: FlowNode[]) {
     return nodes.findIndex(n => {
       return n.subtype === 'start';

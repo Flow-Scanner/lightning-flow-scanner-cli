@@ -16,6 +16,7 @@ export class Flow {
   public processMetadataValues?;
   public type?;
   public start?;
+  public startElementReference?;
   public status?;
   public uri?;
   public root?;
@@ -52,7 +53,8 @@ export class Flow {
       'interviewLabel',
       'label',
       'status',
-      'runInMode'
+      'runInMode',
+      'startElementReference'
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
@@ -90,12 +92,14 @@ export class Flow {
     this.processType = this.xmldata.processType;
     this.processMetadataValues = this.xmldata.processMetadataValues;
     this.start = this.xmldata.start;
+    this.startElementReference = this.xmldata.startElementReference;
     this.status = this.xmldata.status;
 
     let type;
-    if (this.xmldata.start[0].triggerType) {
+    if (this.xmldata.start && this.xmldata.start[0].triggerType) {
       type = 'Trigger:' + this.xmldata.start[0].triggerType;
-    } else {
+    }
+    else {
       type = this.xmldata.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.processType;
     }
     this.type = type;
