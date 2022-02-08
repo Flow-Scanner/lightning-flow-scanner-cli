@@ -54,7 +54,8 @@ export class Flow {
       'label',
       'status',
       'runInMode',
-      'startElementReference'
+      'startElementReference',
+      'isTemplate'
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
