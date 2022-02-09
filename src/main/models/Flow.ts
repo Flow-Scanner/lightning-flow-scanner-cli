@@ -59,6 +59,13 @@ export class Flow {
     ];
 
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
+    this.label = this.xmldata.label;
+    this.interviewLabel = this.xmldata.interviewLabel;
+    this.processType = this.xmldata.processType;
+    this.processMetadataValues = this.xmldata.processMetadataValues;
+    this.startElementReference = this.xmldata.startElementReference;
+    this.status = this.xmldata.status;
+    this.start = this.xmldata.start;
     for (const nodeType in this.xmldata) {
       const nodesOfType = this.xmldata[nodeType];
       // skip xmlns url
@@ -87,24 +94,18 @@ export class Flow {
         }
       }
     }
-
-    this.label = this.xmldata.label;
-    this.interviewLabel = this.xmldata.interviewLabel;
-    this.processType = this.xmldata.processType;
-    this.processMetadataValues = this.xmldata.processMetadataValues;
-    this.start = this.xmldata.start;
-    this.startElementReference = this.xmldata.startElementReference;
-    this.status = this.xmldata.status;
-
+    this.nodes = allNodes;
     let type;
     if (this.xmldata.start && this.xmldata.start[0].triggerType) {
-      type = 'Trigger:' + this.xmldata.start[0].triggerType;
+      type = this.xmldata.start[0].triggerType;
     }
     else {
-      type = this.xmldata.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.processType;
+      type = this.xmldata.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.processType[0] === 'Workflow' ? 'Process Builder' : this.xmldata.processType;
     }
     this.type = type;
-    this.nodes = allNodes;
+
+
+
   }
 
 }

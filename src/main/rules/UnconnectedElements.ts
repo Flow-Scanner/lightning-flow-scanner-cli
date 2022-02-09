@@ -17,11 +17,17 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
-    if(indexesToProcess[0] && indexesToProcess[0] === -1) {
+    if(indexesToProcess[0] && indexesToProcess[0] === -1 && !flow.startElementReference) {
       throw 'Can not find starting element';
     }
-    else {
-      do {
+    if (indexesToProcess[0] && indexesToProcess[0] === -1 && flow.startElementReference) {
+      indexesToProcess = [
+        flowElements.findIndex(n => {
+          return n.name == flow.startElementReference[0];
+        })
+      ];
+    }
+    do {
         indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
         if (indexesToProcess.length > 0) {
           for (const [index, element] of flowElements.entries()) {
@@ -56,7 +62,6 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         }
       } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
 
-    }
     const processedElements = [];
     const unconnectedElements = [];
     for (const [index, element] of flowElements.entries()) {
@@ -69,7 +74,6 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
     return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements.length > 0, unconnectedElements);
   }
 
-  // Todo find start reference (< 43.0 API)
   private findStart(nodes: FlowNode[]) {
     return nodes.findIndex(n => {
       return n.subtype === 'start';
