@@ -2,8 +2,6 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
-import {RuleResult} from './RuleResult';
-import createLogger from "logging";
 
 export class Flow {
 
@@ -23,13 +21,44 @@ export class Flow {
 
   public nodes?: FlowNode[];
 
+  private flowVariables = [
+    'choices',
+    'constants',
+    'dynamicChoiceSets',
+    'formulas',
+    'stages',
+    'textTemplates',
+    'variables'
+  ];
+  private flowMetadata = [
+    'description',
+    'apiVersion',
+    'processMetadataValues',
+    'processType',
+    'interviewLabel',
+    'label',
+    'status',
+    'runInMode',
+    'startElementReference',
+    'isTemplate'
+  ];
+  private flowNodes = [
+    'actionCalls',
+    'apexPluginCalls',
+    'assignments',
+    'loops',
+    'recordCreates',
+    'recordDeletes',
+    'recordLookups',
+    'recordUpdates',
+    'screens',
+    'start',
+    'steps',
+    'subflows',
+    'waits'
+  ];
+
   constructor(args) {
-    this.interviewLabel = args.interviewLabel;
-    this.label = args.label;
-    this.processMetadataValues = args.processMetadataValues;
-    this.processType = args.processType;
-    this.start = args.start;
-    this.status = args.status;
     this.uri = args.uri;
     if (args.uri) {
       this.path = args.uri.fsPath;
@@ -39,26 +68,10 @@ export class Flow {
     }
     this.xmldata = args.xmldata.Flow;
     this.preProcessNodes();
-
   }
 
   public preProcessNodes() {
 
-    const flowVariables = ['variables', 'choices', 'constants', 'dynamicChoiceSets', 'formulas', 'stages', 'textTemplates'];
-    const flowMetadata = ['$',
-      'description',
-      'apiVersion',
-      'processMetadataValues',
-      'processType',
-      'interviewLabel',
-      'label',
-      'status',
-      'runInMode',
-      'startElementReference',
-      'isTemplate'
-    ];
-
-    const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
     this.label = this.xmldata.label;
     this.interviewLabel = this.xmldata.interviewLabel;
     this.processType = this.xmldata.processType;
@@ -66,6 +79,9 @@ export class Flow {
     this.startElementReference = this.xmldata.startElementReference;
     this.status = this.xmldata.status;
     this.start = this.xmldata.start;
+    // replace with processtype
+    this.type = this.xmldata.processType;
+    const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
       const nodesOfType = this.xmldata[nodeType];
       // skip xmlns url
@@ -73,39 +89,28 @@ export class Flow {
         this.root = nodesOfType;
         continue;
       }
-      if (flowMetadata.includes(nodeType)) {
+      if (this.flowMetadata.includes(nodeType)) {
         for (const node of nodesOfType) {
           allNodes.push(new FlowMetadata(
             nodeType,
             node
           ));
         }
-      } else if (flowVariables.includes(nodeType)) {
+      } else if (this.flowVariables.includes(nodeType)) {
         for (const node of nodesOfType) {
           allNodes.push(
             new FlowVariable(node.name, nodeType, node)
           );
         }
-      } else {
+      } else if (this.flowNodes.includes(nodeType)) {
         for (const node of nodesOfType) {
-          allNodes.push(
-            new FlowElement(node.name, nodeType, node)
-          );
+            allNodes.push(
+              new FlowElement(node.name, nodeType, node)
+            );
         }
       }
     }
     this.nodes = allNodes;
-    let type;
-    if (this.xmldata.start && this.xmldata.start[0].triggerType) {
-      type = this.xmldata.start[0].triggerType;
-    }
-    else {
-      type = this.xmldata.processType[0] === 'Flow' ? 'Visual Flow' : this.xmldata.processType[0] === 'Workflow' ? 'Process Builder' : this.xmldata.processType;
-    }
-    this.type = type;
-
-
-
   }
 
 }
