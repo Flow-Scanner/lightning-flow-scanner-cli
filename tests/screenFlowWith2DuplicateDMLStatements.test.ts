@@ -18,7 +18,7 @@ describe('When scanning a screen flow with 2 screens, a dml statements in betwee
     });
 
   });
-  it('DuplicateDMLOperationsByNavigation should have a result', () => {
+  it('DuplicateDMLOperationsByNavigation should have 2 results', () => {
     const results : ScanResult[] = scan([flow],  new ScannerOptions(['DuplicateDMLOperationsByNavigation']));
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperationsByNavigation');

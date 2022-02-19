@@ -15,24 +15,15 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
 
   public execute(flow: Flow) : RuleResult {
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
-    const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
     const duplicateDMLOperationsByNavigation: FlowElement[] = [];
-    let indexesToProcess;
-    if (flow.startElementReference) {
-      indexesToProcess = [
-        flowElements.findIndex(n => {
-          return n.name == flow.startElementReference[0];
-        })
-      ];
-    } else {
-      indexesToProcess = [this.findStart(flowElements)];
-    }
-    if(indexesToProcess[0] && indexesToProcess[0] === -1) {
+    const startingNode = this.findStart(flow);
+    if(!startingNode || startingNode === -1) {
       throw 'Can not find starting element';
     }
-    let dmlOperationAfterScreen = false;
+    let dmlFlag = false;
+    let indexesToProcess = [startingNode];
     do {
       indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
       if (indexesToProcess.length > 0) {
@@ -46,17 +37,13 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
                 }
               }
             }
-            if(dmlStatementTypes.includes(element.subtype)) {
-              dmlOperationAfterScreen = true;
-            } else if(dmlOperationAfterScreen === true && element.subtype === 'screens' && element.element['allowBack'] && element.element['allowBack'][0] == 'true'){
-              dmlOperationAfterScreen = false;
-            }
+            dmlFlag = this.flagDML(element, dmlFlag);
             if (references.length > 0) {
               const elementsByReferences = flowElements.filter(element => references.includes(element.name));
               for (const nextElement of elementsByReferences) {
                 const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
                 if('screens' === nextElement.subtype){
-                  if (dmlOperationAfterScreen && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
+                  if (dmlFlag && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
                     duplicateDMLOperationsByNavigation.push(nextElement);
                   }
                 }
@@ -69,6 +56,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
           }
         }
       } else {
+        // skip unconnected elements
         for (const index of flowElements.keys()) {
           if (!processedElementIndexes.includes(index)) {
             unconnectedElementIndexes.push(index);
@@ -79,10 +67,30 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
     return new RuleResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation.length > 0, duplicateDMLOperationsByNavigation);
   }
 
-  private findStart(nodes: FlowNode[]) {
-    return nodes.findIndex(n => {
-      return n.subtype === 'start';
-    });
+  private flagDML(element, dmlFlag) {
+    const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
+    if(dmlStatementTypes.includes(element.subtype)) {
+      return true;
+    } else if(dmlFlag === true && element.subtype === 'screens' && element.element['allowBack'] && element.element['allowBack'][0] == 'true'){
+      return false;
+    } else {
+      return dmlFlag;
+    }
+  }
+
+  private findStart(flow: Flow) {
+    const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
+    let start;
+    if (flow.startElementReference) {
+      start = flowElements.findIndex(n => {
+          return n.name == flow.startElementReference[0];
+        });
+    } else {
+      start = flowElements.findIndex(n => {
+        return n.subtype === 'start';
+      });
+    }
+    return start;
   }
 
 }
