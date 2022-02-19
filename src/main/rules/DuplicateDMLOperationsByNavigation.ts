@@ -2,9 +2,10 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowElementConnector} from '../models/FlowElementConnector';
+import {FlowNode} from '../models/FlowNode';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IRuleDefinition{
 
@@ -13,74 +14,75 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
   }
 
   public execute(flow: Flow) : RuleResult {
-
-        const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
-        const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
-        const screenElements: FlowElement[] = flow.nodes.filter(node => node.subtype === 'screens') as FlowElement[];
-        const duplicateDMLOperationsByNavigation: FlowElement[] = [];
-
-        for (const element of screenElements) {
-            let startIndex;
-            let indexesToProcess: number [];
-
-            const connector: FlowElementConnector = this.findStartReference(element);
-            if(connector && connector.reference){
-                startIndex = flowElements.findIndex(element => element.name === connector.reference);
-                indexesToProcess = [startIndex];
-            }
-
-            const processedElementIndexes: number[] = [];
-            const unconnectedElementIndexes: number[] = [];
-            const dmlBeforeNextScreen: number[] = [];
-
-            if(!indexesToProcess){
-                continue;
-            }
-            do {
-                indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
-                if (indexesToProcess.length > 0) {
-                    for (const [index, elem] of flowElements.entries()) {
-                        if (indexesToProcess.includes(index)) {
-                            const connectors = [];
-                            for (const connector of elem.connectors) {
-                                if (connector.reference) {
-                                    connectors.push(connector);
-                                }
-                            }
-                            if(dmlStatementTypes.includes(elem.subtype)) {
-                                dmlBeforeNextScreen.push(index);
-                            }
-                            if (connectors.length > 0) {
-                                const elementsByReferences = flowElements.filter(element => connectors.map(c => c.reference).includes(element.name));
-                                for (const nextElement of elementsByReferences) {
-                                    const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
-                                    if('screens' === nextElement.subtype){
-                                        if (dmlBeforeNextScreen.length > 0 && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
-                                            duplicateDMLOperationsByNavigation.push(nextElement);
-                                        }
-                                    } else if (!processedElementIndexes.includes(nextIndex)){
-                                        indexesToProcess.push(nextIndex);
-                                    }
-                                }
-                            }
-                            processedElementIndexes.push(index);
-                        }
-                    }
-                } else {
-                    for (const index of flowElements.keys()) {
-                        if (!processedElementIndexes.includes(index)) {
-                            unconnectedElementIndexes.push(index);
-                            unconnectedElementIndexes.push(index);
-                        }
-                    }
+    const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
+    const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
+    const processedElementIndexes: number[] = [];
+    const unconnectedElementIndexes: number[] = [];
+    const duplicateDMLOperationsByNavigation: FlowElement[] = [];
+    let indexesToProcess;
+    if (flow.startElementReference) {
+      indexesToProcess = [
+        flowElements.findIndex(n => {
+          return n.name == flow.startElementReference[0];
+        })
+      ];
+    } else {
+      indexesToProcess = [this.findStart(flowElements)];
+    }
+    if(indexesToProcess[0] && indexesToProcess[0] === -1) {
+      throw 'Can not find starting element';
+    }
+    let dmlOperationAfterScreen = false;
+    do {
+      indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
+      if (indexesToProcess.length > 0) {
+        for (const [index, element] of flowElements.entries()) {
+          if (indexesToProcess.includes(index)) {
+            const references: string[] = [];
+            if (element.connectors && element.connectors.length > 0) {
+              for (const connector of element.connectors) {
+                if (connector.reference) {
+                  references.push(connector.reference);
                 }
-            } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
+              }
+            }
+            if(dmlStatementTypes.includes(element.subtype)) {
+              dmlOperationAfterScreen = true;
+            } else if(dmlOperationAfterScreen === true && element.subtype === 'screens' && element.element['allowBack'] && element.element['allowBack'][0] == 'true'){
+              dmlOperationAfterScreen = false;
+            }
+            if (references.length > 0) {
+              const elementsByReferences = flowElements.filter(element => references.includes(element.name));
+              for (const nextElement of elementsByReferences) {
+                const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
+                if('screens' === nextElement.subtype){
+                  if (dmlOperationAfterScreen && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
+                    duplicateDMLOperationsByNavigation.push(nextElement);
+                  }
+                }
+                if (!processedElementIndexes.includes(nextIndex)){
+                  indexesToProcess.push(nextIndex);
+                }
+              }
+            }
+            processedElementIndexes.push(index);
+          }
         }
+      } else {
+        for (const index of flowElements.keys()) {
+          if (!processedElementIndexes.includes(index)) {
+            unconnectedElementIndexes.push(index);
+          }
+        }
+      }
+    } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
     return new RuleResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation.length > 0, duplicateDMLOperationsByNavigation);
-    }
+  }
 
-    private findStartReference(element: FlowElement) {
-        return element.connectors.find(el => el.type === 'connector');
-    }
+  private findStart(nodes: FlowNode[]) {
+    return nodes.findIndex(n => {
+      return n.subtype === 'start';
+    });
+  }
 
 }
