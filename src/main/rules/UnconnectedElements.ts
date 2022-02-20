@@ -4,7 +4,7 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
@@ -41,9 +41,9 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
                 }
               }
               if (references.length > 0) {
-                const elementsByReferences = flowElements.filter(element => references.includes(element.name));
+                const elementsByReferences = flowElements.filter(anElement => references.includes(anElement.name));
                 for (const nextElement of elementsByReferences) {
-                  const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
+                  const nextIndex = flowElements.findIndex(anElement => nextElement.name === anElement.name);
                   if (!processedElementIndexes.includes(nextIndex)) {
                     indexesToProcess.push(nextIndex);
                   }
@@ -55,7 +55,6 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         } else {
           for (const index of flowElements.keys()) {
             if (!processedElementIndexes.includes(index)) {
-              unconnectedElementIndexes.push(index);
               unconnectedElementIndexes.push(index);
             }
           }
