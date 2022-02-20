@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-core",
-  "version": "1.0.42",
+  "version": "1.0.44",
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {
