@@ -1,6 +1,7 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
+import {FlowType} from '../models/FlowType';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
@@ -9,7 +10,7 @@ import {RuleCommon} from './RuleCommon';
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnusedVariables, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
+    super(RuleDefinitions.UnusedVariables, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {

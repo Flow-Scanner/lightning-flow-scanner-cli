@@ -1,6 +1,7 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
+import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
@@ -8,7 +9,7 @@ import {RuleCommon} from './RuleCommon';
 export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DMLStatementInLoop, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.DMLStatementInLoop, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
   public execute(flow: Flow) : RuleResult {

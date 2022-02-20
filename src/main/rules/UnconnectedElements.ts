@@ -2,6 +2,7 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
+import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
@@ -9,7 +10,7 @@ import {RuleCommon} from './RuleCommon';
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnconnectedElements, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
+    super(RuleDefinitions.UnconnectedElements, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {

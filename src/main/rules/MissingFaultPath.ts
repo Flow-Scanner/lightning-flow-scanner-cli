@@ -1,14 +1,15 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
+import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.MissingFaultPath, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.MissingFaultPath, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{label: 'Flow Best Practices', path:'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
 

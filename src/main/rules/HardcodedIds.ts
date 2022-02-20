@@ -1,6 +1,7 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
+import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
@@ -8,7 +9,7 @@ import {RuleCommon} from './RuleCommon';
 export class HardcodedIds extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.HardcodedIds, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey', 'Workflow'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.HardcodedIds, FlowType.allTypes,[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
   public execute(flow: Flow) : RuleResult {

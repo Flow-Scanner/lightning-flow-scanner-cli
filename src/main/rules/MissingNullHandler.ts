@@ -1,6 +1,7 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
+import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
@@ -8,7 +9,7 @@ import {RuleCommon} from './RuleCommon';
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.MissingNullHandler, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
+    super(RuleDefinitions.MissingNullHandler, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {

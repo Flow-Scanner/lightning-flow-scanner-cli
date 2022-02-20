@@ -18,7 +18,6 @@ export class Flow {
   public status?;
   public uri?;
   public root?;
-
   public nodes?: FlowNode[];
 
   private flowVariables = [
