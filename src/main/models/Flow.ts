@@ -39,12 +39,14 @@ export class Flow {
     'status',
     'runInMode',
     'startElementReference',
-    'isTemplate'
+    'isTemplate',
+    'fullName'
   ];
   private flowNodes = [
     'actionCalls',
     'apexPluginCalls',
     'assignments',
+    'decisions',
     'loops',
     'recordCreates',
     'recordDeletes',
