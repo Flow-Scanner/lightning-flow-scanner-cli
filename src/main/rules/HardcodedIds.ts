@@ -3,12 +3,12 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class HardcodedIds extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.HardcodedIds, [{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.HardcodedIds, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey', 'Workflow'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -35,6 +35,6 @@ export class HardcodedIds extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult('HardcodedIds', 'pattern', nodesWithHardcodedIds.length > 0, nodesWithHardcodedIds);
+    return new RuleResult( nodesWithHardcodedIds.length > 0, this.name, 'pattern', nodesWithHardcodedIds);
   }
 }

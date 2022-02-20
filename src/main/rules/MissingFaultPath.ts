@@ -8,12 +8,11 @@ import {RuleCommon} from "./RuleCommon";
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.MissingFaultPath, [{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.MissingFaultPath, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
 
   public execute(flow: Flow) : RuleResult {
-
     const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
     const flowElementsWhereFaultPathIsApplicable: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement && typesWithFaultPath.includes(node.subtype)) as FlowElement[];
     const elementsWithoutFaultPath: FlowElement[] = [];
@@ -22,6 +21,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
         elementsWithoutFaultPath.push(element);
       }
     }
-    return new RuleResult('MissingFaultPath', 'pattern', elementsWithoutFaultPath.length > 0, elementsWithoutFaultPath);
+    return new RuleResult( elementsWithoutFaultPath.length > 0, this.name, 'pattern', elementsWithoutFaultPath);
   }
 }

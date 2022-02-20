@@ -5,15 +5,14 @@ import {FlowVariable} from './FlowVariable';
 
 export class RuleResult {
 
-  constructor(ruleName: string, type: string, occurs : boolean, details?: (FlowElement[] | FlowVariable[])) {
+  constructor(occurs: boolean, ruleName: string, type: string, details?: (FlowElement[] | FlowVariable[])) {
 
     this.occurs = occurs;
+    this.ruleName = ruleName;
+    this.type = type;
     if(details){
       this.details = details;
     }
-    this.ruleName = ruleName;
-    this.type = type;
-
     for (const ruleDefinitionName in RuleDefinitions) {
       if (ruleDefinitionName === ruleName) {
         const rule = RuleInfo(RuleDefinitions[ruleDefinitionName]);

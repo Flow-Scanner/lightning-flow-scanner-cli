@@ -1,4 +1,4 @@
-import {RuleDefinitions} from "../ruledefinitions/RuleDefinitions";
+import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
 import {RuleInfo} from '../ruledefinitions/RuleInfo';
 
 export class RuleCommon{
@@ -8,12 +8,14 @@ export class RuleCommon{
   public uri;
   public docRefs:  {label: string, path: string}[] = [];
   public text: string;
+  public supportedTypes: string[];
 
-  constructor(name:RuleDefinitions, docRefs? :  {label: string, path: string}[]){
+  constructor(name:RuleDefinitions, supportedTypes:string[], docRefs? :  {label: string, path: string}[]){
 
     if(docRefs){
       this.docRefs = docRefs;
     }
+    this.supportedTypes = supportedTypes;
     this.name = name;
     const rule = RuleInfo(name);
     this.label = rule.label;

@@ -8,7 +8,7 @@ import {RuleCommon} from './RuleCommon';
 export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DuplicateDMLOperationsByNavigation);
+    super(RuleDefinitions.DuplicateDMLOperationsByNavigation, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -62,7 +62,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult('DuplicateDMLOperationsByNavigation', 'pattern', duplicateDMLOperationsByNavigation.length > 0, duplicateDMLOperationsByNavigation);
+    return new RuleResult( duplicateDMLOperationsByNavigation.length > 0, this.name, 'pattern', duplicateDMLOperationsByNavigation);
   }
 
   private flagDML(element, dmlFlag) {

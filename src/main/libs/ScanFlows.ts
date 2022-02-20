@@ -16,11 +16,12 @@ export function ScanFlows(flows: Flow[], ruleNames?: string[]): ScanResult[] {
   for (const flow of flows) {
     const ruleResults: RuleResult[] = [];
     for (const rule of selectedRules) {
-      try {
-        ruleResults.push(rule.execute(flow));
-      } catch (error) {
-        // todo push error result
-        ruleResults.push(new RuleResult(rule.name, "error", false, [error]));
+      if(rule.supportedTypes.includes(flow.type[0])) {
+        try {
+          ruleResults.push(rule.execute(flow));
+        } catch (error) {
+          ruleResults.push(new RuleResult( true, rule.name, 'error', [error]));
+        }
       }
     }
     flowResults.push(new ScanResult(flow, ruleResults));

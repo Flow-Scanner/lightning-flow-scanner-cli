@@ -3,16 +3,15 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.MissingNullHandler);
+    super(RuleDefinitions.MissingNullHandler, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
   }
 
   public execute(flow: Flow) : RuleResult {
-
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
     const decisionElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && node.subtype === 'decisions') as FlowElement[];
@@ -50,6 +49,6 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult('MissingNullHandler', 'pattern', getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
+    return new RuleResult( getOperationsWithoutNullHandler.length > 0, this.name, 'pattern', getOperationsWithoutNullHandler);
   }
 }

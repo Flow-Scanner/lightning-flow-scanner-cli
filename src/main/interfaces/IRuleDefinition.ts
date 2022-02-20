@@ -6,6 +6,7 @@ export interface IRuleDefinition {
   name: string;
   label: string;
   text: string;
+  supportedTypes: string[];
 
   execute(flow: Flow): RuleResult;
 }

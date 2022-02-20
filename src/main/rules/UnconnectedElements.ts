@@ -9,7 +9,7 @@ import {RuleCommon} from './RuleCommon';
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnconnectedElements);
+    super(RuleDefinitions.UnconnectedElements, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -70,7 +70,7 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         unconnectedElements.push(element);
       }
     }
-    return new RuleResult('UnconnectedElements', 'pattern', unconnectedElements.length > 0, unconnectedElements);
+    return new RuleResult( unconnectedElements.length > 0, this.name, 'pattern', unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {

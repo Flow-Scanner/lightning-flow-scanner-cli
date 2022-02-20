@@ -4,12 +4,12 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnusedVariables);
+    super(RuleDefinitions.UnusedVariables, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey']);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -26,7 +26,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult('UnusedVariables', 'pattern', unusedVariables.length > 0, unusedVariables);
+    return new RuleResult( unusedVariables.length > 0, this.name, 'pattern', unusedVariables);
   }
 
 }

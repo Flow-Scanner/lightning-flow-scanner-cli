@@ -3,16 +3,15 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {RuleResult} from '../models/RuleResult';
 import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from "./RuleCommon";
+import {RuleCommon} from './RuleCommon';
 
 export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DMLStatementInLoop, [{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.DMLStatementInLoop, ['AutoLaunchedFlow', 'Flow', 'CustomEvent', 'Survey'],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
   public execute(flow: Flow) : RuleResult {
-
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element') as FlowElement[];
     const loopElements: FlowElement[] = flow.nodes.filter(node => node.subtype === 'loops') as FlowElement[];
@@ -40,9 +39,9 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
               dmlInLoopIndexes.push(index);
             }
             if (connectors.length > 0) {
-              const elementsByReferences = flowElements.filter(element => connectors.map(c => c.reference).includes(element.name));
+              const elementsByReferences = flowElements.filter(anElement => connectors.map(c => c.reference).includes(anElement.name));
               for (const nextElement of elementsByReferences) {
-                const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
+                const nextIndex = flowElements.findIndex(anElement => nextElement.name === anElement.name);
                 if ('loops' === nextElement.subtype) {
                   reachedEndOfLoop = true;
                 } else if (!processedLoopElementIndexes.includes(nextIndex)) {
@@ -62,7 +61,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
         dmlStatementsInLoops.push(element);
       }
     }
-    return new RuleResult('DMLStatementInLoop','pattern', dmlStatementsInLoops.length > 0, dmlStatementsInLoops);
+    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, 'pattern', dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {

@@ -1,4 +1,4 @@
-import {FlowScanOverrides} from "./FlowScanOverrides";
+import {FlowScanOverrides} from './FlowScanOverrides';
 
 export class ScannerOptions {
   public activeRules: string[];
