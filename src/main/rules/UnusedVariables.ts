@@ -14,6 +14,9 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
   }
 
   public execute(flow: Flow) : RuleResult {
+    if(flow.type === 'Survey'){
+      return new RuleResult( false, this.name, 'pattern');
+    }
     const unusedVariables: FlowVariable[] = [];
     for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
       // first check if any inside of flow elements

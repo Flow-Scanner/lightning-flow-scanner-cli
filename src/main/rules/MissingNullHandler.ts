@@ -13,6 +13,9 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
   }
 
   public execute(flow: Flow) : RuleResult {
+    if(flow.type === 'Survey'){
+      return new RuleResult( false, this.name, 'pattern');
+    }
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
     const decisionElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && node.subtype === 'decisions') as FlowElement[];

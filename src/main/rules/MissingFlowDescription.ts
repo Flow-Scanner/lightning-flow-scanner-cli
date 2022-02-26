@@ -12,6 +12,9 @@ export class MissingFlowDescription extends RuleCommon implements IRuleDefinitio
   }
 
   public execute(flow: Flow) : RuleResult {
+    if(flow.type === 'Survey'){
+      return new RuleResult( false, this.name, 'flow');
+    }
     const missingFlowDescription = !flow.xmldata.description;
     return new RuleResult(missingFlowDescription, this.name, 'flow');
   }

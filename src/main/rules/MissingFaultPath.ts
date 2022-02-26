@@ -14,6 +14,9 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
 
   public execute(flow: Flow) : RuleResult {
+    if(flow.type === 'Survey'){
+      return new RuleResult( false, this.name, 'pattern');
+    }
     const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
     const flowElementsWhereFaultPathIsApplicable: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement && typesWithFaultPath.includes(node.subtype)) as FlowElement[];
     const elementsWithoutFaultPath: FlowElement[] = [];

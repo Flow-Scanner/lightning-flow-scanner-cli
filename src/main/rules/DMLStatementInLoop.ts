@@ -9,8 +9,8 @@ import {RuleCommon} from './RuleCommon';
 export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DMLStatementInLoop, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
-  }
+  super(RuleDefinitions.DMLStatementInLoop, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+}
 
   public execute(flow: Flow) : RuleResult {
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];

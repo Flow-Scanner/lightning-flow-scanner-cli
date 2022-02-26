@@ -14,6 +14,9 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
   }
 
   public execute(flow: Flow) : RuleResult {
+    if(flow.type === 'Survey'){
+      return new RuleResult( false, this.name, 'pattern');
+    }
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];
