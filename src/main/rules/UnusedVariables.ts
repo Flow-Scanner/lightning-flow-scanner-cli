@@ -14,7 +14,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
   }
 
   public execute(flow: Flow) : RuleResult {
-    if(flow.type === 'Survey'){
+    if(flow.type[0] === 'Survey'){
       return new RuleResult( false, this.name, 'pattern');
     }
     const unusedVariables: FlowVariable[] = [];
