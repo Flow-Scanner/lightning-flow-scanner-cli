@@ -23,6 +23,7 @@
   },
   "repository": "https://github.com/Force-Config-Control/lightning-flow-scanner-core.git",
   "devDependencies": {
-    "@types/mocha": "^9.0.0"
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^20.3.2"
   }
 }
