@@ -5,10 +5,11 @@ import {FlowVariable} from './FlowVariable';
 
 export class RuleResult {
 
-  constructor(occurs: boolean, ruleName: string, type: string, details?: (FlowElement[] | FlowVariable[])) {
+  constructor(occurs: boolean, ruleName: string, severity:string, type: string, details?: (FlowElement[] | FlowVariable[])) {
 
     this.occurs = occurs;
     this.ruleName = ruleName;
+    this.severity = severity;
     this.type = type;
     if(details){
       this.details = details;
@@ -28,6 +29,7 @@ export class RuleResult {
   public ruleDescription: string;
   public ruleLabel: string;
   public ruleName: string;
+  public severity: string;
   public type: string;
 
 }
