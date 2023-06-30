@@ -4,8 +4,8 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowNode} from '../models/FlowNode';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../definitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
@@ -74,7 +74,7 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         unconnectedElements.push(element);
       }
     }
-    return new RuleResult( unconnectedElements.length > 0, this.name, 'pattern', unconnectedElements);
+    return new RuleResult( unconnectedElements.length > 0, this.name, 'pattern', this.severity, unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {

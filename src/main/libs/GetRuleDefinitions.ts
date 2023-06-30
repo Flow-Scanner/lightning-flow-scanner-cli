@@ -1,5 +1,5 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {RuleDefinitions} from '../definitions/RuleDefinitions';
+import {RuleDefinitions} from '../models/RuleDefinitions';
 import {DynamicRule} from './DynamicRule';
 
 export function GetRuleDefinitions(ruleConfig?: Map<string, string>): IRuleDefinition[] {

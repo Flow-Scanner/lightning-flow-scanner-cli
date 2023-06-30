@@ -28,8 +28,6 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
       const ruleName = Object.keys(rule)[0];
       const ruleSeverity = rule[ruleName].severity;
       ruleNameSeverityMap.set(ruleName, ruleSeverity);
-      console.log(`Rule Name: ${ruleName}`);
-      console.log(`Severity: ${ruleSeverity}`);
     });
 
     if (ruleNameSeverityMap.size > 0) {
@@ -54,7 +52,7 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
             console.log(`Exception Name: ${exceptionName}`);
             console.log(`Property Name: ${propertyName}`);
             console.log(`Unused Variables: ${unusedVariables}`);
-            // Additional processing of exceptions if needed
+            // todo Additional processing of exceptions if needed
           });
         });
       });

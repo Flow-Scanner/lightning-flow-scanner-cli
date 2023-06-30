@@ -1,10 +1,10 @@
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../definitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
 
 export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IRuleDefinition{
 
@@ -66,7 +66,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult( duplicateDMLOperationsByNavigation.length > 0, this.name, 'pattern', duplicateDMLOperationsByNavigation);
+    return new RuleResult( duplicateDMLOperationsByNavigation.length > 0, this.name, 'pattern', this.severity, duplicateDMLOperationsByNavigation);
   }
 
   private flagDML(element, dmlFlag) {

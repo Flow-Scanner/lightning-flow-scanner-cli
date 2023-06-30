@@ -23,9 +23,11 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): Sca
 
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
-          ruleResults.push(rule.execute(flow));
+          // rule.execute(flow)
+          let t = rule.execute(flow);
+          ruleResults.push(t);
         } catch (error) {
-          ruleResults.push(new RuleResult(true, rule.name, "error", [error]));
+          ruleResults.push(new RuleResult(true, rule.name, "error", "error", [error]));
         }
       }
     }
