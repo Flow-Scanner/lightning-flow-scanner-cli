@@ -1,21 +1,31 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleDefinitions} from '../definitions/RuleDefinitions';
 import {DynamicRule} from './DynamicRule';
 
-export function GetRuleDefinitions(ruleNames? : string[]) : IRuleDefinition[] {
-  const matchedRules : any = [];
+export function GetRuleDefinitions(ruleConfig?: Map<string, string>): IRuleDefinition[] {
+  const matchedRules: any[] = [];
+  let severity = 'error';
 
-  if(ruleNames && Array.isArray(ruleNames)){
-    for(const ruleName of ruleNames){
+  if (ruleConfig && ruleConfig instanceof Map) {
+    for (const ruleName of ruleConfig.keys()) {
       const matchedRule = new DynamicRule(ruleName);
+      const configuredSeverity = ruleConfig.get(ruleName);
+      if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
+        severity = configuredSeverity;
+      } else {
+        throw new Error(`Invalid severity "${configuredSeverity}" provided for rule "${ruleName}".`);
+      }
+      matchedRule['severity'] = severity;
       matchedRules.push(matchedRule);
     }
   } else {
     // tslint:disable-next-line:forin
     for (const rule in RuleDefinitions) {
       const matchedRule = new DynamicRule(rule);
+      matchedRule['severity'] = severity;
       matchedRules.push(matchedRule);
     }
   }
+
   return matchedRules;
 }

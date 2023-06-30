@@ -1,5 +1,5 @@
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import {RuleDefinitions} from '../definitions/RuleDefinitions';
+import {RuleInfo} from '../definitions/RuleInfo';
 
 export class RuleCommon{
 

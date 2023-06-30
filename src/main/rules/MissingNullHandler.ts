@@ -3,7 +3,7 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleDefinitions} from '../definitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
 
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition{

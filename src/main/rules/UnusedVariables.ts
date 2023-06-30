@@ -4,7 +4,7 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleDefinitions} from '../definitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
 
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{

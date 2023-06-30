@@ -3,7 +3,7 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
+import {RuleDefinitions} from '../definitions/RuleDefinitions';
 import {RuleCommon} from './RuleCommon';
 
 export class HardcodedIds extends RuleCommon implements IRuleDefinition{
