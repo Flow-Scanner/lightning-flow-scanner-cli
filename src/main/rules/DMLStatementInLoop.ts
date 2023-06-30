@@ -14,7 +14,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', []);
+      return new RuleResult( false, this.name, 'pattern', this.severity, []);
     }
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element') as FlowElement[];

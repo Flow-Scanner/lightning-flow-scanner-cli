@@ -17,15 +17,13 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): Sca
   for (const flow of flows) {
     const ruleResults: RuleResult[] = [];
     for (const rule of selectedRules) {
-
-      // todo severity add to rule result
-      // rule.severity
-
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
-          // rule.execute(flow)
-          let t = rule.execute(flow);
-          ruleResults.push(t);
+          const result = rule.execute(flow);
+          if(result.severity !== rule.severity){
+            result.severity = rule.severity;
+          }
+          ruleResults.push(result);
         } catch (error) {
           ruleResults.push(new RuleResult(true, rule.name, "error", "error", [error]));
         }
