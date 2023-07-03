@@ -18,13 +18,12 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
 
   it('DuplicateDMLOperationsByNavigation should have 2 results', () => {
     const ruleConfig = {
-      rules: [
+      rules: 
         {
           MissingFlowDescription: {
             severity: 'error',
           },
         },
-      ],
     };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
