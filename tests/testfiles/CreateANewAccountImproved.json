@@ -1,1 +1,281 @@
-{"Flow":{"$":{"xmlns":"http://soap.sforce.com/2006/04/metadata"},"assignments":[{"name":["NewAccountName"],"label":["NewAccountName"],"locationX":["428"],"locationY":["193"],"assignmentItems":[{"assignToReference":["createAccount.Name"],"operator":["Assign"],"value":[{"elementReference":["New_Account_Name"]}]}],"connector":[{"targetReference":["createAccountRecord"]}]}],"interviewLabel":["CreateANewAccountImproved {!$Flow.CurrentDateTime}"],"label":["CreateANewAccountImproved"],"processMetadataValues":[{"name":["BuilderType"],"value":[{"stringValue":["LightningFlowBuilder"]}]},{"name":["CanvasMode"],"value":[{"stringValue":["FREE_FORM_CANVAS"]}]},{"name":["OriginBuilderType"],"value":[{"stringValue":["LightningFlowBuilder"]}]}],"processType":["Flow"],"recordCreates":[{"name":["createAccountRecord"],"label":["createAccountRecord"],"locationX":["449"],"locationY":["463"],"connector":[{"targetReference":["ViewAccountId"]}],"inputReference":["createAccount"]}],"screens":[{"name":["NameNewAccount"],"label":["NameNewAccount"],"locationX":["178"],"locationY":["214"],"allowBack":["true"],"allowFinish":["true"],"allowPause":["true"],"connector":[{"targetReference":["NewAccountName"]}],"fields":[{"name":["New_Account_Name"],"dataType":["String"],"fieldText":["New Account Name"],"fieldType":["InputField"],"isRequired":["false"]}],"showFooter":["true"],"showHeader":["true"]},{"name":["ViewAccountId"],"label":["View AccountId"],"locationX":["172"],"locationY":["454"],"allowBack":["false"],"allowFinish":["true"],"allowPause":["true"],"fields":[{"name":["AccountNameDisplay"],"fieldText":["<p>{!createAccount.Name}</p>"],"fieldType":["DisplayText"]}],"showFooter":["true"],"showHeader":["true"]}],"start":[{"locationX":["50"],"locationY":["50"],"connector":[{"targetReference":["NameNewAccount"]}]}],"status":["Active"],"variables":[{"name":["createAccount"],"dataType":["SObject"],"isCollection":["false"],"isInput":["false"],"isOutput":["false"],"objectType":["Account"]}]}}
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "assignments": [
+            {
+                "name": [
+                    "NewAccountName"
+                ],
+                "label": [
+                    "NewAccountName"
+                ],
+                "locationX": [
+                    "428"
+                ],
+                "locationY": [
+                    "193"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "createAccount.Name"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "New_Account_Name"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "createAccountRecord"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "interviewLabel": [
+            "CreateANewAccountImproved {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "CreateANewAccountImproved"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "FREE_FORM_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "Flow"
+        ],
+        "recordCreates": [
+            {
+                "name": [
+                    "createAccountRecord"
+                ],
+                "label": [
+                    "createAccountRecord"
+                ],
+                "locationX": [
+                    "449"
+                ],
+                "locationY": [
+                    "463"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "ViewAccountId"
+                        ]
+                    }
+                ],
+                "inputReference": [
+                    "createAccount"
+                ]
+            }
+        ],
+        "screens": [
+            {
+                "name": [
+                    "NameNewAccount"
+                ],
+                "label": [
+                    "NameNewAccount"
+                ],
+                "locationX": [
+                    "178"
+                ],
+                "locationY": [
+                    "214"
+                ],
+                "allowBack": [
+                    "true"
+                ],
+                "allowFinish": [
+                    "true"
+                ],
+                "allowPause": [
+                    "true"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "NewAccountName"
+                        ]
+                    }
+                ],
+                "fields": [
+                    {
+                        "name": [
+                            "New_Account_Name"
+                        ],
+                        "dataType": [
+                            "String"
+                        ],
+                        "fieldText": [
+                            "New Account Name"
+                        ],
+                        "fieldType": [
+                            "InputField"
+                        ],
+                        "isRequired": [
+                            "false"
+                        ]
+                    }
+                ],
+                "showFooter": [
+                    "true"
+                ],
+                "showHeader": [
+                    "true"
+                ]
+            },
+            {
+                "name": [
+                    "ViewAccountId"
+                ],
+                "label": [
+                    "View AccountId"
+                ],
+                "locationX": [
+                    "172"
+                ],
+                "locationY": [
+                    "454"
+                ],
+                "allowBack": [
+                    "false"
+                ],
+                "allowFinish": [
+                    "true"
+                ],
+                "allowPause": [
+                    "true"
+                ],
+                "fields": [
+                    {
+                        "name": [
+                            "AccountNameDisplay"
+                        ],
+                        "fieldText": [
+                            "<p>{!createAccount.Name}</p>"
+                        ],
+                        "fieldType": [
+                            "DisplayText"
+                        ]
+                    }
+                ],
+                "showFooter": [
+                    "true"
+                ],
+                "showHeader": [
+                    "true"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "50"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "NameNewAccount"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "name": [
+                    "createAccount"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            },
+            {
+                "name": [
+                    "createAccount2"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            }
+        ]
+    }
+}

@@ -26,7 +26,6 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
 
   if (ruleOptions && ruleOptions.rules) {
     Object.entries(ruleOptions.rules).forEach(([ruleName, rule]) => {
-      console.log(ruleName);
       const ruleSeverity = rule.severity;
       ruleNameSeverityMap.set(ruleName, ruleSeverity);
     });
@@ -42,27 +41,30 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
 
   if (ruleOptions && ruleOptions.exceptions) {
     Object.entries(ruleOptions.exceptions).forEach(([exceptionName, innerObjects]) => {
+      
       innerObjects.forEach((innerObject: { [property: string]: any[]; }) => {
         const propertyNames = Object.keys(innerObject);
         propertyNames.forEach((propertyName) => {
-          const elements = innerObject[propertyName];
 
+          const elements = innerObject[propertyName];
           scanResults.forEach((scanResult) => {
-            scanResult.ruleResults.forEach((ruleResult) => {
-              if (ruleResult.ruleName === propertyName) {
-                if (elements === null) {
-                  ruleResult.details = [];
-                  ruleResult.occurs = false;
-                } else {
-                  const filteredDetails = ruleResult.details.filter((detail) => {
-                    const detailNames = detail.name ? [detail.name] : [];
-                    return !detailNames.some((name) => elements.includes(name));
-                  });
-                  ruleResult.details = filteredDetails;
-                  ruleResult.occurs = filteredDetails.length > 0;
+            if(scanResult.flow.label == exceptionName){
+              scanResult.ruleResults.forEach((ruleResult) => {
+                if (ruleResult.ruleName === propertyName) {
+                  if (elements === null) {
+                    ruleResult.details = [];
+                    ruleResult.occurs = false;
+                  } else {
+                    const filteredDetails = ruleResult.details.filter((detail) => {
+                      const detailNames = detail.name ? [detail.name] : [];
+                      return !detailNames.some((name) => elements.includes(name));
+                    });
+                    ruleResult.details = filteredDetails;
+                    ruleResult.occurs = filteredDetails.length > 0;
+                  }
                 }
-              }
-            });
+              });
+            }
           });
         });
       });
