@@ -39,40 +39,30 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
     scanResults = ScanFlows(flows);
   }
 
-  if (ruleOptions && ruleOptions.exceptions) {
-    Object.entries(ruleOptions.exceptions).forEach(([exceptionName, innerObjects]) => {
-      
-      innerObjects.forEach((innerObject: { [property: string]: any[]; }) => {
-        const propertyNames = Object.keys(innerObject);
-        propertyNames.forEach((propertyName) => {
-
-          const elements = innerObject[propertyName];
-          scanResults.forEach((scanResult) => {
-            if(scanResult.flow.label == exceptionName){
-              scanResult.ruleResults.forEach((ruleResult) => {
-                if (ruleResult.ruleName === propertyName) {
-                  if (elements === null) {
-                    ruleResult.details = [];
-                    ruleResult.occurs = false;
-                  } else {
-                    const filteredDetails = ruleResult.details.filter((detail) => {
-                      const detailNames = detail.name ? [detail.name] : [];
-                      return !detailNames.some((name) => elements.includes(name));
-                    });
-                    ruleResult.details = filteredDetails;
-                    ruleResult.occurs = filteredDetails.length > 0;
-                  }
-                }
-              });
-            }
-          });
+if (ruleOptions && ruleOptions.exceptions) {
+  Object.entries(ruleOptions.exceptions).forEach(([exceptionName, exceptionElements]) => {
+    scanResults.forEach((scanResult) => {
+      if (scanResult.flow.label[0] === exceptionName) {
+        scanResult.ruleResults.forEach((ruleResult) => {
+          if (exceptionElements[ruleResult.ruleName]) {
+            const detailNames = exceptionElements[ruleResult.ruleName];
+            const filteredDetails = ruleResult.details.filter((detail) => {
+              return !detailNames.includes(detail.name);
+            });
+            ruleResult.details = filteredDetails;
+            ruleResult.occurs = filteredDetails.length > 0;
+          }
         });
-      });
+      }
     });
-  }
+  });
+}
+
+  
 
   return scanResults;
 }
+
 
 export function fix(flows: Flow[]): ScanResult[] {
   return FixFlows(flows);

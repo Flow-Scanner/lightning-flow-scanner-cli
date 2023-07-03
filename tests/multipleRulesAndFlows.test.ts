@@ -44,17 +44,13 @@ describe('When scanning multiple flows', () => {
       ,
       exceptions: 
         {
-          CreateANewAccountWithChild: [
+          CreateANewAccountWithChild: 
             { "DuplicateDMLOperationsByNavigation": ["ViewAccountId", "ViewAccountId_0"] },
-          ],
-          CreateANewAccountImproved: [
+          CreateANewAccountImproved: 
             { "UnusedVariables": ["createAccount2"] }
-          ],
         }
       };
-
     const results: ScanResult[] = scan(flows, ruleConfig);
-    console.log(JSON.stringify(results));
     expect(results.length).to.equal(2);
   });
 });

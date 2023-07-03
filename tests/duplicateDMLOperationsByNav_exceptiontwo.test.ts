@@ -32,14 +32,12 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
       ,
       exceptions: 
         {
-          CreateANewAccountWithChild: [
+          CreateANewAccountWithChild: 
             { "DuplicateDMLOperationsByNavigation": ["ViewAccountId", "ViewAccountId_0"] }
-          ]
         }
       };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
-    console.log(JSON.stringify(results));
     const ruleResult = results[0].ruleResults.find(
       (result) => result.ruleName === 'DuplicateDMLOperationsByNavigation'
     );

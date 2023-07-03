@@ -27,15 +27,14 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
         },
       exceptions: 
         {
-            CreateANewAccountWithChild: [
+            CreateANewAccountWithChild: 
                 {"DuplicateDMLOperationsByNavigation":["ViewAccountId"]}
-              ]
         }
     };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
+    console.log(JSON.stringify(results[0].ruleResults));
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperationsByNavigation');
-    expect(results[0].ruleResults[0].details.length).to.equal(1);
-  });
+    expect(results[0].ruleResults[0].details.length).to.equal(1);  });
 });
