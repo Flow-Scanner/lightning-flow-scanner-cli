@@ -4,8 +4,8 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
@@ -15,7 +15,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern');
+      return new RuleResult( false, this.name, 'pattern', this.severity);
     }
     const unusedVariables: FlowVariable[] = [];
     for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
@@ -30,7 +30,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult( unusedVariables.length > 0, this.name, 'pattern', unusedVariables);
+    return new RuleResult( unusedVariables.length > 0, this.name, 'pattern', this.severity, unusedVariables);
   }
 
 }

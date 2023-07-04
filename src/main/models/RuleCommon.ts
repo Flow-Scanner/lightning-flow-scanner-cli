@@ -1,10 +1,11 @@
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleInfo} from '../ruledefinitions/RuleInfo';
+import { RuleDefinitions } from "../definitions/RuleDefinitions";
+import { RuleInfo } from "../definitions/RuleInfo";
 
 export class RuleCommon{
 
   public label;
   public name;
+  public severity;
   public uri;
   public docRefs:  {label: string, path: string}[] = [];
   public text: string;
@@ -20,6 +21,7 @@ export class RuleCommon{
     const rule = RuleInfo(name);
     this.label = rule.label;
     this.text = rule.text;
+    this.severity = 'error';
     this.uri = 'https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/' + name + '.ts';
   }
 }

@@ -2,8 +2,8 @@ import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 
 export class MissingFlowDescription extends RuleCommon implements IRuleDefinition{
 
@@ -13,9 +13,9 @@ export class MissingFlowDescription extends RuleCommon implements IRuleDefinitio
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'flow');
+      return new RuleResult( false, this.name, 'flow', this.severity);
     }
     const missingFlowDescription = !flow.xmldata.description;
-    return new RuleResult(missingFlowDescription, this.name, 'flow');
+    return new RuleResult(missingFlowDescription, this.name, 'flow', this.severity);
   }
 }

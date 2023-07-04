@@ -1,10 +1,10 @@
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
 
 export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
@@ -14,7 +14,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', []);
+      return new RuleResult( false, this.name, 'pattern', this.severity, []);
     }
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element') as FlowElement[];
@@ -65,7 +65,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
         dmlStatementsInLoops.push(element);
       }
     }
-    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, 'pattern', dmlStatementsInLoops);
+    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, 'pattern', this.severity ,dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {

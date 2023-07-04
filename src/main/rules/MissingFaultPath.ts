@@ -3,8 +3,8 @@ import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
-import {RuleDefinitions} from '../ruledefinitions/RuleDefinitions';
-import {RuleCommon} from './RuleCommon';
+import {RuleCommon} from '../models/RuleCommon';
+import { RuleDefinitions } from '../definitions/RuleDefinitions';
 
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
@@ -12,10 +12,9 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     super(RuleDefinitions.MissingFaultPath, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{label: 'Flow Best Practices', path:'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
-
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', []);
+      return new RuleResult( false, this.name, 'pattern', this.severity, []);
     }
     const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
     const flowElementsWhereFaultPathIsApplicable: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement && typesWithFaultPath.includes(node.subtype)) as FlowElement[];
@@ -25,6 +24,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
         elementsWithoutFaultPath.push(element);
       }
     }
-    return new RuleResult( elementsWithoutFaultPath.length > 0, this.name, 'pattern', elementsWithoutFaultPath);
+    return new RuleResult( elementsWithoutFaultPath.length > 0, this.name, 'pattern', this.severity, elementsWithoutFaultPath);
   }
 }
