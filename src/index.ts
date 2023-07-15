@@ -17,15 +17,16 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
 
 export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const ruleNameSeverityMap = new Map<string, string>();
-
-  if (ruleOptions?.rules) {
+  let scanResults : ScanResult[];
+  if (ruleOptions?.rules && Object.entries(ruleOptions.rules).length > 0) {
     for (const [ruleName, rule] of Object.entries(ruleOptions.rules)) {
       const ruleSeverity = rule.severity;
       ruleNameSeverityMap.set(ruleName, ruleSeverity);
     }
+    scanResults = ScanFlows(flows, ruleNameSeverityMap);
+  } else {
+    scanResults = ScanFlows(flows);
   }
-
-  let scanResults: ScanResult[] = ScanFlows(flows, ruleNameSeverityMap);
 
   if (ruleOptions?.exceptions) {
     for (const [exceptionName, exceptionElements] of Object.entries(ruleOptions.exceptions)) {

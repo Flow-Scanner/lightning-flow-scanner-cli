@@ -5,7 +5,7 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
 
-describe('When scanning a screen flow with 2 screens, a DML statement in between, and no limits to navigation', () => {
+describe('When scanning a screen flow with 2 DML statements between screens and one marked as exception', () => {
   let flow: Flow;
   
   before('arrange', () => {
@@ -16,7 +16,7 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
     });
   });
 
-  it('DuplicateDMLOperationsByNavigation should have 2 results', () => {
+  it('DuplicateDMLOperationsByNavigation should have 1 result', () => {
     const ruleConfig = {
       rules: 
         { 
@@ -33,7 +33,6 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
     };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
-    console.log(JSON.stringify(results[0].ruleResults));
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperationsByNavigation');
     expect(results[0].ruleResults[0].details.length).to.equal(1);  });
