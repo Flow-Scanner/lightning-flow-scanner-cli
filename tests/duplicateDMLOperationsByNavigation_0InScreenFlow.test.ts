@@ -5,7 +5,7 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccountImproved from './testfiles/CreateANewAccountImproved.json';
 
-describe('When scanning a screen flow with 2 screens, a DML statement in between, and limits in navigation of the later screen', () => {
+describe('When scanning a screen flow with 2 screens, a DML statement in between, and correct limits in navigation of the later screen', () => {
   let flow: Flow;
   
   before('arrange', () => {
