@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { getRules, scan } from '../src';
+import { scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import AssignTaskOwner from './testfiles/AssignTaskOwner.json';
@@ -16,11 +16,11 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
     });
   });
 
-  it('DuplicateDMLOperationsByNavigation should have no result', () => {
+  it('DuplicateDMLOperations should have no result', () => {
     const ruleConfig = {
       rules: 
         {
-          DuplicateDMLOperationsByNavigation: {
+          DuplicateDMLOperations: {
             severity: 'error',
           },
         },

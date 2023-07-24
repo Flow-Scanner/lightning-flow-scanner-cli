@@ -1,6 +1,6 @@
 export enum RuleDefinitions {
   DMLStatementInLoop = 'DMLStatementInLoop',
-  DuplicateDMLOperationsByNavigation = 'DuplicateDMLOperationsByNavigation',
+  DuplicateDMLOperations = 'DuplicateDMLOperations',
   HardcodedIds = 'HardcodedIds',
   MissingFlowDescription = 'MissingFlowDescription',
   MissingFaultPath = 'MissingFaultPath',

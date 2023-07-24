@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { getRules, scan } from '../src';
+import { scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
@@ -16,11 +16,11 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
     });
   });
 
-  it('DuplicateDMLOperationsByNavigation should have 0 results', () => {
+  it('DuplicateDMLOperations should have 0 results', () => {
     const ruleConfig = {
       rules:
       {
-        DuplicateDMLOperationsByNavigation:
+        DuplicateDMLOperations:
         {
           severity: 'error',
         },
@@ -33,13 +33,13 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
       exceptions: 
         {
           CreateANewAccountWithChild: 
-            { "DuplicateDMLOperationsByNavigation": ["ViewAccountId", "ViewAccountId_0"] }
+            { "DuplicateDMLOperations": ["ViewAccountId", "ViewAccountId_0"] }
         }
       };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     const ruleResult = results[0].ruleResults.find(
-      (result) => result.ruleName === 'DuplicateDMLOperationsByNavigation'
+      (result) => result.ruleName === 'DuplicateDMLOperations'
     );
     expect(ruleResult?.occurs).to.be.false;
 

@@ -1,5 +1,5 @@
 import {DMLStatementInLoop} from '../rules/DMLStatementInLoop';
-import {DuplicateDMLOperationsByNavigation} from '../rules/DuplicateDMLOperationsByNavigation';
+import {DuplicateDMLOperations} from '../rules/DuplicateDMLOperations';
 import {HardcodedIds} from '../rules/HardcodedIds';
 import {MissingFaultPath} from '../rules/MissingFaultPath';
 import {MissingFlowDescription} from '../rules/MissingFlowDescription';
@@ -9,7 +9,7 @@ import {UnusedVariables} from '../rules/UnusedVariables';
 
 export const rulestore: {} = {
   DMLStatementInLoop,
-  DuplicateDMLOperationsByNavigation,
+  DuplicateDMLOperations,
   HardcodedIds,
   MissingFaultPath,
   MissingFlowDescription,
