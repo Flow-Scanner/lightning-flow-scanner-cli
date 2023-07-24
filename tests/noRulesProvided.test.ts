@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { getRules, scan } from '../src';
+import { scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccount from './testfiles/CreateANewAccount.json';

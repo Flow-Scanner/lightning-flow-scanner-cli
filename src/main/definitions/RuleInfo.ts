@@ -7,7 +7,7 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
         label: 'DML statements in a loop',
         text: 'To avoid hitting Apex governor limits, we recommend grouping all of your database changes together at the end of the flow, whether those changes create, update, or delete records.'
       };
-    case RuleDefinitions.DuplicateDMLOperationsByNavigation:
+    case RuleDefinitions.DuplicateDMLOperations:
       return {
         label: 'Duplicate DML operations',
         text: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations."

@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { getRules, scan } from '../src';
+import { scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
@@ -28,7 +28,7 @@ describe('When scanning multiple flows', () => {
     const ruleConfig = {
       rules:
       {
-        DuplicateDMLOperationsByNavigation:
+        DuplicateDMLOperations:
         {
           severity: 'error',
         },
@@ -45,7 +45,7 @@ describe('When scanning multiple flows', () => {
       exceptions: 
         {
           CreateANewAccountWithChild: 
-            { "DuplicateDMLOperationsByNavigation": ["ViewAccountId", "ViewAccountId_0"] },
+            { "DuplicateDMLOperations": ["ViewAccountId", "ViewAccountId_0"] },
           CreateANewAccountImproved: 
             { "UnusedVariables": ["createAccount2"] }
         }

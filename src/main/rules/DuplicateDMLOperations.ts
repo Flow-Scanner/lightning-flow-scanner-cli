@@ -6,10 +6,10 @@ import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
 
-export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IRuleDefinition{
+export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DuplicateDMLOperationsByNavigation, FlowType.visualTypes);
+    super(RuleDefinitions.DuplicateDMLOperations, FlowType.visualTypes);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -19,7 +19,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
-    const duplicateDMLOperationsByNavigation: FlowElement[] = [];
+    const DuplicateDMLOperations: FlowElement[] = [];
     const startingNode = this.findStart(flow);
     if(!startingNode || startingNode === -1) {
       throw 'Can not find starting element';
@@ -45,8 +45,8 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
               for (const nextElement of elementsByReferences) {
                 const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
                 if('screens' === nextElement.subtype){
-                  if (dmlFlag && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true'){
-                    duplicateDMLOperationsByNavigation.push(nextElement);
+                  if (dmlFlag && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true' && nextElement.element['showFooter'][0] == 'true'){
+                    DuplicateDMLOperations.push(nextElement);
                   }
                 }
                 if (!processedElementIndexes.includes(nextIndex)){
@@ -66,7 +66,7 @@ export class DuplicateDMLOperationsByNavigation extends RuleCommon implements IR
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult( duplicateDMLOperationsByNavigation.length > 0, this.name, 'pattern', this.severity, duplicateDMLOperationsByNavigation);
+    return new RuleResult( DuplicateDMLOperations.length > 0, this.name, 'pattern', this.severity, DuplicateDMLOperations);
   }
 
   private flagDML(element, dmlFlag) {
