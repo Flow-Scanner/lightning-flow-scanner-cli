@@ -1,4 +1,4 @@
-import { rulestore } from './RuleStore';
+import { rulestore } from '../store/RuleStore';
 
 export class DynamicRule {
   constructor(className: string) {

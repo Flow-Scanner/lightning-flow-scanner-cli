@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan } from '../src';
+import { getRules, scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccount from './testfiles/CreateANewAccount.json';
@@ -17,7 +17,7 @@ describe('When running with empty rule config', () => {
   });
   
 
-  it('all 8 default rules should be used', () => {
+  it('all default rules should be used', () => {
 
     const ruleConfig = {
         rules: 
@@ -31,7 +31,7 @@ describe('When running with empty rule config', () => {
           }
       };
     const results: ScanResult[] = scan([flow], ruleConfig);
-
-    expect(results[0].ruleResults.length).to.equal(8);
+    const rules = getRules();
+    expect(results[0].ruleResults.length).to.equal(rules.length);
   });
 });

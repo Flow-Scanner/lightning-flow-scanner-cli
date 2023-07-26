@@ -19,6 +19,8 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): Sca
     for (const rule of selectedRules) {
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
+          //  if rule has config
+
           const result = rule.execute(flow);
           if(result.severity !== rule.severity){
             result.severity = rule.severity;

@@ -1,6 +1,6 @@
 import { RuleDefinitions } from './RuleDefinitions';
 
-export function RuleInfo(ruleDefinitions : RuleDefinitions) {
+export function RuleInfo(ruleDefinitions: RuleDefinitions) {
   switch (ruleDefinitions) {
     case RuleDefinitions.DMLStatementInLoop:
       return {
@@ -17,6 +17,11 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
       return {
         label: 'Hardcoded Ids',
         text: 'IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.'
+      };
+    case RuleDefinitions.FlowNaming:
+      return {
+        label: 'Missing null handlers',
+        text: 'If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.'
       };
     case RuleDefinitions.MissingFlowDescription:
       return {

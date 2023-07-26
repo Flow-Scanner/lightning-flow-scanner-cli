@@ -5,22 +5,21 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import Hidenav from './testfiles/hidenav.json';
 
-describe('A screen flow with a DML statements between where the screen after the DML hides the navigation', () => {
+describe('A flow with incorrect naming', () => {
   let flow: Flow;
   
   before('arrange', () => {
-    // ARRANGE
     flow = new Flow({
       path: 'anypath',
       xmldata: Hidenav,
     });
   });
 
-  it('DuplicateDMLOperations should have no result', () => {
+  it('should have a result', () => {
     const ruleConfig = {
       rules: 
         { 
-          DuplicateDMLOperations: 
+          FlowNaming: 
                 {
                     severity: 'error',
                 },
@@ -29,6 +28,6 @@ describe('A screen flow with a DML statements between where the screen after the
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperations');
-  });
+    expect(results[0].ruleResults[0].ruleName).to.equal('FlowNaming');
+    expect(results[0].ruleResults[0].details.length).to.equal(1);  });
 });

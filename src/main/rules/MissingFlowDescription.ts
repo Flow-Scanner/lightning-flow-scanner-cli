@@ -3,7 +3,7 @@ import {Flow} from '../models/Flow';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
-import { RuleDefinitions } from '../definitions/RuleDefinitions';
+import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class MissingFlowDescription extends RuleCommon implements IRuleDefinition{
 

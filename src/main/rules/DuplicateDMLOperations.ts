@@ -1,4 +1,4 @@
-import { RuleDefinitions } from '../definitions/RuleDefinitions';
+import { RuleDefinitions } from '../store/RuleDefinitions';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
