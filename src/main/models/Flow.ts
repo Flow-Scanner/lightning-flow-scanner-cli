@@ -7,7 +7,7 @@ export class Flow {
 
   public label: string;
   public xmldata;
-  public path?: string;
+  public path: string;
 
   public interviewLabel?: string;
   public processType?;
@@ -82,7 +82,6 @@ export class Flow {
     this.startElementReference = this.xmldata.startElementReference;
     this.status = this.xmldata.status;
     this.start = this.xmldata.start;
-    // replace with processtype
     this.type = this.xmldata.processType;
     const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {

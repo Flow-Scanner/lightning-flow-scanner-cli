@@ -7,7 +7,7 @@ import { Flow } from './main/models/Flow';
 import { ScanResult } from './main/models/ScanResult';
 
 export function getRules(ruleNames?: string[]): IRuleDefinition[] {
-  if (ruleNames) {
+  if (ruleNames && ruleNames.length > 0) {
     const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, 'error']));
     return GetRuleDefinitions(ruleSeverityMap);
   } else {
@@ -16,14 +16,13 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
 }
 
 export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
-  const ruleNameSeverityMap = new Map<string, string>();
+  const ruleMap = new Map<string, {}>();
   let scanResults : ScanResult[];
   if (ruleOptions?.rules && Object.entries(ruleOptions.rules).length > 0) {
     for (const [ruleName, rule] of Object.entries(ruleOptions.rules)) {
-      const ruleSeverity = rule.severity;
-      ruleNameSeverityMap.set(ruleName, ruleSeverity);
+      ruleMap.set(ruleName, rule);
     }
-    scanResults = ScanFlows(flows, ruleNameSeverityMap);
+    scanResults = ScanFlows(flows, ruleMap);
   } else {
     scanResults = ScanFlows(flows);
   }

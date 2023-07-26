@@ -10,7 +10,7 @@ describe('A flow with incorrect naming', () => {
   
   before('arrange', () => {
     flow = new Flow({
-      path: 'anypath',
+      path: './testfiles/CreateANewAccount.flow-meta.xml',
       xmldata: Hidenav,
     });
   });
@@ -22,6 +22,7 @@ describe('A flow with incorrect naming', () => {
           FlowNaming: 
                 {
                     severity: 'error',
+                    expression: '[A-Za-z0-9]'
                 },
         }
     };

@@ -4,7 +4,7 @@ import {RuleResult} from '../models/RuleResult';
 import {ScanResult} from '../models/ScanResult';
 import {GetRuleDefinitions} from './GetRuleDefinitions';
 
-export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): ScanResult[] {
+export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanResult[] {
   const flowResults: ScanResult[] = [];
   let selectedRules: IRuleDefinition[] = [];
 
@@ -19,9 +19,12 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): Sca
     for (const rule of selectedRules) {
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
-          //  if rule has config
-
-          const result = rule.execute(flow);
+          let config;
+          if(rulesConfig){
+            config = rulesConfig.get(keys(rulesConfig).find(element => element = rule.name))
+            delete config.severity;
+          } 
+          const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config) : rule.execute(flow);
           if(result.severity !== rule.severity){
             result.severity = rule.severity;
           }
@@ -35,4 +38,10 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, string>): Sca
   }
 
   return flowResults;
+}
+
+
+function keys<K extends PropertyKey>(m: Map<K, any> | { [P in K]: any }): K[] {
+  if (m instanceof Map) return Array.from(m.keys())
+  return Object.keys(m) as K[]
 }
