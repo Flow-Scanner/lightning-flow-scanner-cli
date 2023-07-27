@@ -1,15 +1,15 @@
-import { RuleDefinitions } from '../definitions/RuleDefinitions';
+import { RuleDefinitions } from '../store/RuleDefinitions';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {DynamicRule} from './DynamicRule';
 
-export function GetRuleDefinitions(ruleConfig?: Map<string, string>): IRuleDefinition[] {
+export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinition[] {
   const matchedRules: any[] = [];
   let severity = 'error';
 
   if (ruleConfig && ruleConfig instanceof Map) {
     for (const ruleName of ruleConfig.keys()) {
       const matchedRule = new DynamicRule(ruleName);
-      const configuredSeverity = ruleConfig.get(ruleName);
+      const configuredSeverity = ruleConfig.get(ruleName)['severity'];
       if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
         severity = configuredSeverity;
       } else {

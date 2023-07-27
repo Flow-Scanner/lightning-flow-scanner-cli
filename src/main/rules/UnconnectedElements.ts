@@ -5,7 +5,7 @@ import {FlowNode} from '../models/FlowNode';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
-import { RuleDefinitions } from '../definitions/RuleDefinitions';
+import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 

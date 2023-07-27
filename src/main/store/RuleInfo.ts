@@ -1,7 +1,12 @@
 import { RuleDefinitions } from './RuleDefinitions';
 
-export function RuleInfo(ruleDefinitions : RuleDefinitions) {
+export function RuleInfo(ruleDefinitions: RuleDefinitions) {
   switch (ruleDefinitions) {
+    case RuleDefinitions.APIVersion:
+      return {
+        label: 'Old API version',
+        text: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.'
+      };
     case RuleDefinitions.DMLStatementInLoop:
       return {
         label: 'DML statements in a loop',
@@ -17,6 +22,11 @@ export function RuleInfo(ruleDefinitions : RuleDefinitions) {
       return {
         label: 'Hardcoded Ids',
         text: 'IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.'
+      };
+    case RuleDefinitions.FlowName:
+      return {
+        label: 'Flow Naming Convention',
+        text: 'Readability of flow is very important. Agreeing on and following the same naming conventions will ease collaboration.'
       };
     case RuleDefinitions.MissingFlowDescription:
       return {

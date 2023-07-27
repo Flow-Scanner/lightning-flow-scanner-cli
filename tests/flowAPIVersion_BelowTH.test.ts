@@ -3,32 +3,33 @@ import 'mocha';
 import { scan } from '../src';
 import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
-import Hidenav from './testfiles/hidenav.json';
+import Hidenav from './testfiles/api58test.json';
 
-describe('A screen flow with a DML statements between where the screen after the DML hides the navigation', () => {
+describe('A flow with the API version attribute below the configured threshold', () => {
   let flow: Flow;
   
   before('arrange', () => {
-    // ARRANGE
     flow = new Flow({
-      path: 'anypath',
+      path: './testfiles/api58test.flow-meta.xml',
       xmldata: Hidenav,
     });
   });
 
-  it('DuplicateDMLOperations should have no result', () => {
+  it('should have a result', () => {
     const ruleConfig = {
       rules: 
         { 
-          DuplicateDMLOperations: 
+          APIVersion: 
                 {
                     severity: 'error',
+                    expression: '>55'
                 },
         }
     };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperations');
+    expect(results[0].ruleResults[0].ruleName).to.equal('APIVersion');
+    expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 });

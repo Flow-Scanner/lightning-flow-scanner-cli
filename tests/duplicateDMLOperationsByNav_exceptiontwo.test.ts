@@ -11,7 +11,7 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
   before('arrange', () => {
     // ARRANGE
     flow = new Flow({
-      path: 'anypath',
+      path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccountWithChild,
     });
   });

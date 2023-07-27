@@ -9,5 +9,5 @@ export interface IRuleDefinition {
   supportedTypes: string[];
   severity?: string;
 
-  execute(flow: Flow, severity?:string): RuleResult;
+  execute(flow: Flow, ruleOptions? : {}): RuleResult;
 }
