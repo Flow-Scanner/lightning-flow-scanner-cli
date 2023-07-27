@@ -8,9 +8,8 @@ export class Flow {
 
   public label: string;
   public xmldata;
-  public path: string;
-  public name: string;
-
+  public name?: string;
+  public path?: string;
   public interviewLabel?: string;
   public processType?;
   public processMetadataValues?;
