@@ -14,9 +14,12 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
 
   public execute(flow: Flow, options?: { expression: string }): RuleResult {
 
-    const flowAPIVersion = flow.xmldata.apiVersion[0];
-    var flowAPIVersionNumber: number = +flowAPIVersion;
-
+    let flowAPIVersionNumber: number;
+    if(flow.xmldata.apiVersion && flow.xmldata.apiVersion[0]){
+      const flowAPIVersion = flow.xmldata.apiVersion[0];
+      flowAPIVersionNumber = +flowAPIVersion;
+    }
+    
     if (flowAPIVersionNumber) {
       if (options && options.expression) {
         const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
