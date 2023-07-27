@@ -26,7 +26,7 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
     case RuleDefinitions.FlowName:
       return {
         label: 'Flow Naming Convention',
-        text: 'Readability of flow is very important. Agreeing on and following the same naming conventions will ease collaboration.'
+        text: 'Readability of a flow is very important. Setting a naming convention for the Flow Name will improve the findability/searchability and overall consistency. It is recommended to at least provide a domain and a short description of the actions undertaken in the flow, in example Service_OrderFulfillment.'
       };
     case RuleDefinitions.FlowDescription:
       return {
