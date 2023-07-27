@@ -11,7 +11,7 @@ describe('When running with empty rule config', () => {
   before('arrange', () => {
     // ARRANGE
     flow = new Flow({
-      path: 'anypath',
+      path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccount,
     });
   });

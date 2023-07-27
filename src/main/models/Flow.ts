@@ -2,12 +2,14 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
+import p from 'path';
 
 export class Flow {
 
   public label: string;
   public xmldata;
   public path: string;
+  public name: string;
 
   public interviewLabel?: string;
   public processType?;
@@ -69,6 +71,11 @@ export class Flow {
     if (args.path) {
       this.path = args.path;
     }
+    let flowName = p.basename(p.basename(this.path), p.extname(this.path));
+    if(flowName.includes('.')){
+      flowName = flowName.split('.')[0]
+    }
+    this.name = flowName;
     this.xmldata = args.xmldata.Flow;
     this.preProcessNodes();
   }

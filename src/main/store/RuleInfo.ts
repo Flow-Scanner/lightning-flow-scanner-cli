@@ -20,8 +20,8 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
       };
     case RuleDefinitions.FlowNaming:
       return {
-        label: 'Missing null handlers',
-        text: 'If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.'
+        label: 'Flow Naming Convention',
+        text: ''
       };
     case RuleDefinitions.MissingFlowDescription:
       return {

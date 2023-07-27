@@ -5,12 +5,12 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import Hidenav from './testfiles/hidenav.json';
 
-describe('A flow with correct naming', () => {
+describe('A flow with incorrect naming and set exception', () => {
   let flow: Flow;
   
   before('arrange', () => {
     flow = new Flow({
-      path: './testfiles/CreateANewAccount.flow-meta.xml',
+      path: './testfiles/AAAA.flow-meta.xml',
       xmldata: Hidenav,
     });
   });
@@ -22,8 +22,13 @@ describe('A flow with correct naming', () => {
           FlowNaming: 
                 {
                     severity: 'error',
-                    expression: '[A-Za-z0-9]'
+                    expression: '[0-9]'
                 },
+        },
+        exceptions: 
+        {
+            AAAA: 
+                {"FlowNaming":["AAAA"]}
         }
     };
 
