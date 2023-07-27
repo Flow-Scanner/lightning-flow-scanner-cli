@@ -2,7 +2,7 @@ import {FlowElement} from './FlowElement';
 import {FlowMetadata} from './FlowMetadata';
 import {FlowNode} from './FlowNode';
 import {FlowVariable} from './FlowVariable';
-import p from 'path';
+import * as p from 'path';
 
 export class Flow {
 
