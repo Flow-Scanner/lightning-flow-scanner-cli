@@ -19,7 +19,7 @@ describe('A flow with correct naming', () => {
     const ruleConfig = {
       rules: 
         { 
-          FlowNaming: 
+          FlowName: 
                 {
                     severity: 'error',
                     expression: '[A-Za-z0-9]'
@@ -29,7 +29,7 @@ describe('A flow with correct naming', () => {
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('FlowNaming');
+    expect(results[0].ruleResults[0].ruleName).to.equal('FlowName');
     expect(results[0].ruleResults[0].occurs).to.equal(false);
   });
 });

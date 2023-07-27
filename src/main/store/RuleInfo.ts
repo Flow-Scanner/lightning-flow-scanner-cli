@@ -18,7 +18,7 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
         label: 'Hardcoded Ids',
         text: 'IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.'
       };
-    case RuleDefinitions.FlowNaming:
+    case RuleDefinitions.FlowName:
       return {
         label: 'Flow Naming Convention',
         text: ''

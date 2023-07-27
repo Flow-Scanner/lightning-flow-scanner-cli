@@ -5,10 +5,10 @@ import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
 import { RuleDefinitions } from '../store/RuleDefinitions';
 
-export class FlowNaming extends RuleCommon implements IRuleDefinition{
+export class FlowName extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.FlowNaming, FlowType.allTypes);
+    super(RuleDefinitions.FlowName, FlowType.allTypes);
   }
 
   public execute(flow: Flow, options? :{expression : string}) : RuleResult {

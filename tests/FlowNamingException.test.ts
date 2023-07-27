@@ -19,7 +19,7 @@ describe('A flow with incorrect naming and set exception', () => {
     const ruleConfig = {
       rules: 
         { 
-          FlowNaming: 
+          FlowName: 
                 {
                     severity: 'error',
                     expression: '[0-9]'
@@ -28,13 +28,13 @@ describe('A flow with incorrect naming and set exception', () => {
         exceptions: 
         {
             AAAA: 
-                {"FlowNaming":["AAAA"]}
+                {"FlowName":["AAAA"]}
         }
     };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('FlowNaming');
+    expect(results[0].ruleResults[0].ruleName).to.equal('FlowName');
     expect(results[0].ruleResults[0].occurs).to.equal(false);
   });
 });
