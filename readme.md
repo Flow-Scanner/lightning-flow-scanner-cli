@@ -6,6 +6,25 @@
 
 ___
 
+### Old API version
+
+Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.
+
+Default Value: `>50.0`
+
+Configuration example:
+```
+APIVersion:
+    {
+        severity: 'error',
+        expression: '===58'
+    }
+```
+
+Configuration ID: `APIVersion` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/APIVersion.ts))_
+
+___
+
 ### DML statements in a loop
 
 To avoid hitting Apex governor limits, we recommend grouping all of your changes together at the end of the flow, whether those changes create, update, or delete records.
@@ -27,6 +46,25 @@ ___
 IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.
 
 Configuration ID: `HardcodedIds` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedIds.ts))_
+
+___
+
+### Flow naming conventions
+
+Readability of flow is very important. Agreeing on and following the same naming conventions will ease collaboration.
+
+Default Value: `[A-Za-z0-9]+_[A-Za-z0-9]+`
+
+Configuration example:
+```
+FlowName:
+    {
+        severity: 'error',
+        expression: '[A-Za-z0-9]'
+    }
+```
+
+Configuration ID: `FlowName` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowName.ts))_
 
 ___
 

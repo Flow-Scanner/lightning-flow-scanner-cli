@@ -4,7 +4,7 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
   switch (ruleDefinitions) {
     case RuleDefinitions.APIVersion:
       return {
-        label: 'Old API Version',
+        label: 'Old API version',
         text: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.'
       };
     case RuleDefinitions.DMLStatementInLoop:
