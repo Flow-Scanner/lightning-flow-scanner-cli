@@ -4,7 +4,7 @@ import { DuplicateDMLOperations } from '../rules/DuplicateDMLOperations';
 import { HardcodedIds } from '../rules/HardcodedIds';
 import { FlowName } from '../rules/FlowName';
 import { MissingFaultPath } from '../rules/MissingFaultPath';
-import { MissingFlowDescription } from '../rules/MissingFlowDescription';
+import { FlowDescription } from '../rules/FlowDescription';
 import { MissingNullHandler } from '../rules/MissingNullHandler';
 import { UnconnectedElements } from '../rules/UnconnectedElements';
 import { UnusedVariables } from '../rules/UnusedVariables';
@@ -16,7 +16,7 @@ export const rulestore: {} = {
   HardcodedIds,
   FlowName,
   MissingFaultPath,
-  MissingFlowDescription,
+  FlowDescription,
   MissingNullHandler,
   UnconnectedElements,
   UnusedVariables

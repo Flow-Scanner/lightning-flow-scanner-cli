@@ -16,11 +16,11 @@ describe('When scanning a flow without description', () => {
     });
   });
 
-  it('MissingFlowDescription should have a result', () => {
+  it('FlowDescription should have a result', () => {
     const ruleConfig = {
       rules: 
         {
-          MissingFlowDescription: {
+          FlowDescription: {
             severity: 'error',
           },
         },
@@ -29,7 +29,7 @@ describe('When scanning a flow without description', () => {
     const results: ScanResult[] = scan([flow], ruleConfig);
 
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('MissingFlowDescription');
+    expect(results[0].ruleResults[0].ruleName).to.equal('FlowDescription');
     expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 });

@@ -10,12 +10,12 @@ import { RuleDefinitions } from '../store/RuleDefinitions';
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnconnectedElements, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super(RuleDefinitions.UnconnectedElements, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', this.severity, []);
+      return new RuleResult( false, this.name, this.type, this.severity, []);
     }
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     let indexesToProcess = [this.findStart(flowElements)];
@@ -74,7 +74,7 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         unconnectedElements.push(element);
       }
     }
-    return new RuleResult( unconnectedElements.length > 0, this.name, 'pattern', this.severity, unconnectedElements);
+    return new RuleResult( unconnectedElements.length > 0, this.name, this.type, this.severity, unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {

@@ -9,12 +9,12 @@ import {RuleCommon} from '../models/RuleCommon';
 export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-  super(RuleDefinitions.DMLStatementInLoop, [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+  super(RuleDefinitions.DMLStatementInLoop, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
 }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', this.severity, []);
+      return new RuleResult( false, this.name, this.type, this.severity, []);
     }
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element') as FlowElement[];
@@ -65,7 +65,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
         dmlStatementsInLoops.push(element);
       }
     }
-    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, 'pattern', this.severity ,dmlStatementsInLoops);
+    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, this.type, this.severity ,dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {

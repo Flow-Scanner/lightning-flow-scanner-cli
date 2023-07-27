@@ -9,12 +9,12 @@ import {RuleCommon} from '../models/RuleCommon';
 export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DuplicateDMLOperations, FlowType.visualTypes);
+    super(RuleDefinitions.DuplicateDMLOperations, 'pattern', FlowType.visualTypes);
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', this.severity, []);
+      return new RuleResult( false, this.name, this.type, this.severity, []);
     }
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     const processedElementIndexes: number[] = [];
@@ -66,7 +66,7 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult( DuplicateDMLOperations.length > 0, this.name, 'pattern', this.severity, DuplicateDMLOperations);
+    return new RuleResult( DuplicateDMLOperations.length > 0, this.name, this.type, this.severity, DuplicateDMLOperations);
   }
 
   private flagDML(element, dmlFlag) {

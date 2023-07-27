@@ -36,7 +36,7 @@ describe('When scanning multiple flows', () => {
         {
           severity: 'error',
         },
-        MissingFlowDescription:
+        FlowDescription:
         {
           severity: 'error',
         }

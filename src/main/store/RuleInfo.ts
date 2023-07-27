@@ -28,7 +28,7 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
         label: 'Flow Naming Convention',
         text: 'Readability of flow is very important. Agreeing on and following the same naming conventions will ease collaboration.'
       };
-    case RuleDefinitions.MissingFlowDescription:
+    case RuleDefinitions.FlowDescription:
       return {
         label: 'Missing flow description',
         text: 'Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.'

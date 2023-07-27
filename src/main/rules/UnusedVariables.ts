@@ -10,12 +10,12 @@ import { RuleDefinitions } from '../store/RuleDefinitions';
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnusedVariables, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super(RuleDefinitions.UnusedVariables, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', this.severity);
+      return new RuleResult( false, this.name, this.type, this.severity);
     }
     const unusedVariables: FlowVariable[] = [];
     for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
@@ -30,7 +30,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult( unusedVariables.length > 0, this.name, 'pattern', this.severity, unusedVariables);
+    return new RuleResult( unusedVariables.length > 0, this.name, this.type, this.severity, unusedVariables);
   }
 
 }

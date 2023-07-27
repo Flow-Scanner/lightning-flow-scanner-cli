@@ -9,7 +9,7 @@ import * as ts from "typescript";
 export class APIVersion extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.APIVersion, FlowType.allTypes);
+    super(RuleDefinitions.APIVersion, 'flow', FlowType.allTypes);
   }
 
   public execute(flow: Flow, options?: { expression: string }): RuleResult {
@@ -20,12 +20,12 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     if (flowAPIVersionNumber) {
       if (options && options.expression) {
         const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
-        return new RuleResult(!expressionEvaluation, this.name, 'flow', this.severity, !expressionEvaluation ? (''+flowAPIVersionNumber) : undefined);
+        return new RuleResult(!expressionEvaluation, this.name, this.type, this.severity, !expressionEvaluation ? (''+flowAPIVersionNumber) : undefined);
       } else {
-        return new RuleResult(false, this.name, 'flow', this.severity);
+        return new RuleResult(false, this.name, this.type, this.severity);
       }
     } else {
-      return new RuleResult(true, this.name, 'flow', this.severity, 'API Version <50');
+      return new RuleResult(true, this.name, this.type, this.severity, 'API Version <50');
     }
 
 

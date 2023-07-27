@@ -24,7 +24,7 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
         {
           severity: 'error',
         },
-        MissingFlowDescription:
+        FlowDescription:
         {
           severity: 'error',
         }
@@ -44,7 +44,7 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
     expect(ruleResult?.occurs).to.be.false;
 
     const ruleResul2 = results[0].ruleResults.find(
-      (result) => result.ruleName === 'MissingFlowDescription'
+      (result) => result.ruleName === 'FlowDescription'
     );
     expect(ruleResul2?.occurs).to.be.true;
   });

@@ -9,7 +9,7 @@ import {RuleCommon} from '../models/RuleCommon';
 export class HardcodedIds extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.HardcodedIds, FlowType.allTypes,[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super(RuleDefinitions.HardcodedIds, 'pattern', FlowType.allTypes,[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
   }
 
   public execute(flow: Flow) : RuleResult {
@@ -36,6 +36,6 @@ export class HardcodedIds extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult( nodesWithHardcodedIds.length > 0, this.name, 'pattern', this.severity, nodesWithHardcodedIds);
+    return new RuleResult( nodesWithHardcodedIds.length > 0, this.name, this.type, this.severity, nodesWithHardcodedIds);
   }
 }

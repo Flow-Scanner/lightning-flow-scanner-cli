@@ -10,12 +10,14 @@ export class RuleCommon{
   public docRefs:  {label: string, path: string}[] = [];
   public text: string;
   public supportedTypes: string[];
+  public type: string;
 
-  constructor(name:RuleDefinitions, supportedTypes:string[], docRefs? :  {label: string, path: string}[]){
+  constructor(name:RuleDefinitions, type: string, supportedTypes:string[], docRefs? :  {label: string, path: string}[]){
 
     if(docRefs){
       this.docRefs = docRefs;
     }
+    this.type = type;
     this.supportedTypes = supportedTypes;
     this.name = name;
     const rule = RuleInfo(name);

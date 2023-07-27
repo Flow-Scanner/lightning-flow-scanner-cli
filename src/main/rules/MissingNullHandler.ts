@@ -9,12 +9,12 @@ import { RuleDefinitions } from '../store/RuleDefinitions';
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.MissingNullHandler, [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super(RuleDefinitions.MissingNullHandler, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, 'pattern', this.severity, []);
+      return new RuleResult( false, this.name, this.type, this.severity, []);
     }
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
@@ -53,6 +53,6 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult( getOperationsWithoutNullHandler.length > 0, this.name, 'pattern', this.severity, getOperationsWithoutNullHandler);
+    return new RuleResult( getOperationsWithoutNullHandler.length > 0, this.name, this.type, this.severity, getOperationsWithoutNullHandler);
   }
 }

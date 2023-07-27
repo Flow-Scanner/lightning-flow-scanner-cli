@@ -72,7 +72,7 @@ ___
 
 Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.
 
-Configuration ID: `MissingFlowDescription` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingFlowDescription.ts))_
+Configuration ID: `FlowDescription` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
 
 ___
 
