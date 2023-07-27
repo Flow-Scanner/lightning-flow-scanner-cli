@@ -2,6 +2,11 @@ import { RuleDefinitions } from './RuleDefinitions';
 
 export function RuleInfo(ruleDefinitions: RuleDefinitions) {
   switch (ruleDefinitions) {
+    case RuleDefinitions.APIVersion:
+      return {
+        label: 'Old API Version',
+        text: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.'
+      };
     case RuleDefinitions.DMLStatementInLoop:
       return {
         label: 'DML statements in a loop',
@@ -21,7 +26,7 @@ export function RuleInfo(ruleDefinitions: RuleDefinitions) {
     case RuleDefinitions.FlowName:
       return {
         label: 'Flow Naming Convention',
-        text: ''
+        text: 'Readability of flow is very important. Agreeing on and following the same naming conventions will ease collaboration.'
       };
     case RuleDefinitions.MissingFlowDescription:
       return {

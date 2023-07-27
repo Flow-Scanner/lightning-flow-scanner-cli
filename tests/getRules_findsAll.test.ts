@@ -5,6 +5,6 @@ import 'mocha';
 describe('GetRuleDefinitions function', () => {
   it('should return 9 rules', () => {
     const result = getRules();
-    expect(result.length).to.equal(9);
+    expect(result.length).to.equal(10);
   });
 });

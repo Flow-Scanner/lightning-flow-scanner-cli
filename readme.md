@@ -81,4 +81,3 @@ If there are no rules specified, the scan will run all available rules by defaul
 `fix(flows :Flow[]): ScanResult[];`
 
 Removes unused variables and unconnected elements from selected flows automatically.
-

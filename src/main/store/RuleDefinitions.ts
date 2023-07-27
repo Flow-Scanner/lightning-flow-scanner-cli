@@ -1,4 +1,5 @@
 export enum RuleDefinitions {
+  APIVersion = 'APIVersion',
   DMLStatementInLoop = 'DMLStatementInLoop',
   DuplicateDMLOperations = 'DuplicateDMLOperations',
   HardcodedIds = 'HardcodedIds',
