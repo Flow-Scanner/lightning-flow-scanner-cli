@@ -105,17 +105,3 @@ ___
 Unconnected variables which are not being used by the Flow should be avoided to keep Flow more efficient and maintainable.
 
 Configuration ID: `UnusedVariables` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariables.ts))_
-
-## Core Functions
-
-`getRules(ruleNames? : string[]): IRuleDefinition[];`
-
-Returns all rules that are currently available if there are no ruleNames specified. In case ruleNames are specified, it will only return rules which are included by name. 
-
-`scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[];`
-
-If there are no rules specified, the scan will run all available rules by default. In case that there are ruleNames specified, only the  specified rules will be ran. Specified exceptions will be ignored from the results altogether. 
-
-`fix(flows :Flow[]): ScanResult[];`
-
-Removes unused variables and unconnected elements from selected flows automatically.
