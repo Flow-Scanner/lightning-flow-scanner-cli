@@ -3,19 +3,24 @@ import { Flow } from '../models/Flow';
 import { FlowType } from '../models/FlowType';
 import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class FlowDescription extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.FlowDescription, 'flow', FlowType.allTypes);
+    super({
+      name: 'FlowDescription',
+      label: 'Missing flow description',
+      description: 'Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.',
+      type: 'flow',
+      supportedFlowTypes: FlowType.allTypes
+    });
   }
 
   public execute(flow: Flow): RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(false, this.name, 'flow', this.severity);
+      return new RuleResult(this, false);
     }
     const missingFlowDescription = !flow.xmldata.description;
-    return new RuleResult(missingFlowDescription, this.name, this.type, this.severity, 'undefined');
+    return new RuleResult(this, missingFlowDescription, 'undefined');
   }
 }

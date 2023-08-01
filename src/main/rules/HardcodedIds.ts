@@ -1,18 +1,27 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
-import { RuleDefinitions } from '../store/RuleDefinitions';
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {Flow} from '../models/Flow';
-import {FlowType} from '../models/FlowType';
-import {RuleResult} from '../models/RuleResult';
-import {RuleCommon} from '../models/RuleCommon';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { Flow } from '../models/Flow';
+import { FlowType } from '../models/FlowType';
+import { RuleResult } from '../models/RuleResult';
+import { RuleCommon } from '../models/RuleCommon';
 
-export class HardcodedIds extends RuleCommon implements IRuleDefinition{
+export class HardcodedIds extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-    super(RuleDefinitions.HardcodedIds, 'pattern', FlowType.allTypes,[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
+    super({
+      name: 'HardcodedIds',
+      label: 'Hardcoded Ids',
+      description: 'IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.',
+      type: 'pattern',
+      supportedFlowTypes: FlowType.allTypes
+    },
+    {
+      docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]
+    } 
+    );
   }
 
-  public execute(flow: Flow) : RuleResult {
+  public execute(flow: Flow): RuleResult {
     const prefixes = IdPrefixes.ids.map(prefix => {
       return prefix['Key Prefix'];
     });
@@ -25,17 +34,15 @@ export class HardcodedIds extends RuleCommon implements IRuleDefinition{
     for (const prefix of prefixes) {
       const match18charIds: RegExp = new RegExp('\\b' + prefix + '\\w{15}\\b');
       const match15charIds: RegExp = new RegExp('\\b' + prefix + '\\w{12}\\b');
-
       for (const node of flow.nodes) {
         const nodeString = JSON.stringify(node);
         const hardcodedIdsL18 = nodeString.match(match18charIds);
         const hardcodedIdsL15 = nodeString.match(match15charIds);
-
         if (hardcodedIdsL15 || hardcodedIdsL18) {
           nodesWithHardcodedIds.push(node);
         }
       }
     }
-    return new RuleResult( nodesWithHardcodedIds.length > 0, this.name, this.type, this.severity, nodesWithHardcodedIds);
+    return new RuleResult(this, nodesWithHardcodedIds.length > 0, nodesWithHardcodedIds);
   }
 }

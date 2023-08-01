@@ -5,7 +5,7 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccount from './testfiles/CreateANewAccount.json';
 
-describe('When running with empty rule config', () => {
+describe('When running with empty object rules in the rule config', () => {
   let flow: Flow;
 
   before('arrange', () => {

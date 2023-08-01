@@ -9,7 +9,7 @@ import { MissingNullHandler } from '../rules/MissingNullHandler';
 import { UnconnectedElements } from '../rules/UnconnectedElements';
 import { UnusedVariables } from '../rules/UnusedVariables';
 
-export const rulestore: {} = {
+export const DefaultRuleStore: {} = {
   APIVersion,
   DMLStatementInLoop,
   DuplicateDMLOperations,

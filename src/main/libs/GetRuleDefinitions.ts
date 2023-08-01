@@ -1,6 +1,6 @@
-import { RuleDefinitions } from '../store/RuleDefinitions';
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {DynamicRule} from './DynamicRule';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { DefaultRuleStore } from '../store/DefaultRuleStore';
+import { DynamicRule } from './DynamicRule';
 
 export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinition[] {
   const matchedRules: any[] = [];
@@ -20,7 +20,8 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
     }
   } else {
     // tslint:disable-next-line:forin
-    for (const rule in RuleDefinitions) {
+    for (const rule in DefaultRuleStore) {
+      //  todo dynamic custom rule
       const matchedRule = new DynamicRule(rule);
       matchedRule['severity'] = severity;
       matchedRules.push(matchedRule);

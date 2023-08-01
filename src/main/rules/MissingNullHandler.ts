@@ -4,17 +4,22 @@ import {FlowElement} from '../models/FlowElement';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
-import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.MissingNullHandler, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super({
+      name: 'MissingNullHandler',
+      label: 'Missing null handlers',
+      description: 'If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.',
+      type: 'pattern',
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+    });
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, this.type, this.severity, []);
+      return new RuleResult( this, false);
     }
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
@@ -53,6 +58,6 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult( getOperationsWithoutNullHandler.length > 0, this.name, this.type, this.severity, getOperationsWithoutNullHandler);
+    return new RuleResult( this, getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
   }
 }

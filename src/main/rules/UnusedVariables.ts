@@ -5,17 +5,22 @@ import {FlowType} from '../models/FlowType';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
-import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class UnusedVariables extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnusedVariables, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super({
+      name: 'UnusedVariables',
+      label: 'Unused variables',
+      description: 'Removing unconnected variables which are not being used by the Flow makes your Flow more efficient and maintainable.',
+      type: 'pattern',
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+    });
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, this.type, this.severity);
+      return new RuleResult( this, false);
     }
     const unusedVariables: FlowVariable[] = [];
     for (const variable of flow.nodes.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
@@ -30,7 +35,7 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
         }
       }
     }
-    return new RuleResult( unusedVariables.length > 0, this.name, this.type, this.severity, unusedVariables);
+    return new RuleResult( this, unusedVariables.length > 0, unusedVariables);
   }
 
 }

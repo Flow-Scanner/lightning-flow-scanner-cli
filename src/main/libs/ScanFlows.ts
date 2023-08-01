@@ -19,10 +19,12 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
     for (const rule of selectedRules) {
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
-          let config;
+          let config = undefined;
           if(rulesConfig){
-            config = rulesConfig.get(keys(rulesConfig).find(element => element = rule.name))
-            delete config.severity;
+            const configKeys = keys(rulesConfig);
+            let matchedKey = configKeys.find(element => element = rule.name);
+            config = rulesConfig.get(matchedKey);
+            config['severity'];
           } 
           const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config) : rule.execute(flow);
           if(result.severity !== rule.severity){
@@ -30,7 +32,8 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
           }
           ruleResults.push(result);
         } catch (error) {
-          ruleResults.push(new RuleResult(true, rule.name, "error", "error", [error]));
+          // todo handle errors
+
         }
       }
     }

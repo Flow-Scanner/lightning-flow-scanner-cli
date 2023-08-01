@@ -1,11 +1,11 @@
-import { rulestore } from '../store/RuleStore';
+import { DefaultRuleStore } from '../store/DefaultRuleStore';
 
 export class DynamicRule {
   constructor(className: string) {
 
-    if (rulestore[className] === undefined || rulestore[className] === null) {
+    if (DefaultRuleStore[className] === undefined || DefaultRuleStore[className] === null) {
       throw new Error(`Class type of \'${className}\' is not in the store`);
     }
-    return new rulestore[className]();
+    return new DefaultRuleStore[className]();
   }
 }

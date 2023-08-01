@@ -5,8 +5,9 @@ export interface IRuleDefinition {
   uri: string;
   name: string;
   label: string;
-  text: string;
+  description: string;
   supportedTypes: string[];
+  type: string;
   severity?: string;
 
   execute(flow: Flow, ruleOptions? : {}): RuleResult;

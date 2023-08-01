@@ -1,32 +1,28 @@
-import { RuleDefinitions } from '../store/RuleDefinitions';
-import { RuleInfo } from '../store/RuleInfo';
-import {FlowElement} from './FlowElement';
-import {FlowVariable} from './FlowVariable';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { FlowElement } from './FlowElement';
+import { FlowVariable } from './FlowVariable';
 
 export class RuleResult {
 
   public occurs: boolean;
-  public ruleDescription: string;
-  public ruleLabel: string;
   public ruleName: string;
+  public ruleLabel: string;
+  public ruleDescription: string;
   public severity: string;
+  public supportedFlowTypes: string[]
   public type: string;
   public details?: (FlowElement[] | FlowVariable[] | string);
 
-  constructor(occurs: boolean, ruleName: string, type: string, severity:string, details? : (FlowElement[] | FlowVariable[] | string)) {
+  constructor(info: IRuleDefinition, occurs: boolean, details?: (FlowElement[] | FlowVariable[] | string)) {
+    this.ruleName = info.name;
+    this.ruleDescription = info.description;
+    this.ruleLabel = info.label;
+    this.supportedFlowTypes = info.supportedTypes;
+    this.severity = info.severity ? info.severity : 'error';
+    this.type = info.type;
     this.occurs = occurs;
-    this.ruleName = ruleName;
-    this.severity = severity;
-    this.type = type;
-    if(details){
-        this.details = details;
-    }
-    for (const ruleDefinitionName in RuleDefinitions) {
-      if (ruleDefinitionName === ruleName) {
-        const rule = RuleInfo(RuleDefinitions[ruleDefinitionName]);
-        this.ruleDescription = rule.text;
-        this.ruleLabel = rule.label;
-      }
+    if (details) {
+      this.details = details;
     }
   }
 

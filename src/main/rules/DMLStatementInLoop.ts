@@ -1,20 +1,27 @@
-import { RuleDefinitions } from '../store/RuleDefinitions';
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {Flow} from '../models/Flow';
-import {FlowElement} from '../models/FlowElement';
-import {FlowType} from '../models/FlowType';
-import {RuleResult} from '../models/RuleResult';
-import {RuleCommon} from '../models/RuleCommon';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { Flow } from '../models/Flow';
+import { FlowElement } from '../models/FlowElement';
+import { FlowType } from '../models/FlowType';
+import { RuleResult } from '../models/RuleResult';
+import { RuleCommon } from '../models/RuleCommon';
 
-export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
+export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
 
   constructor() {
-  super(RuleDefinitions.DMLStatementInLoop, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes],[{'label': 'Flow Best Practices', 'path':'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5'}]);
-}
+    super({
+      name: 'DMLStatementInLoop',
+      label: 'DML statements in a loop',
+      description: 'To avoid hitting Apex governor limits, we recommend grouping all of your database changes together at the end of the flow, whether those changes create, update, or delete records.',
+      type: 'pattern',
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+    },
+    {docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]}
+    );
+  }
 
-  public execute(flow: Flow) : RuleResult {
-    if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, this.type, this.severity, []);
+  public execute(flow: Flow): RuleResult {
+    if (flow.type[0] === 'Survey') {
+      return new RuleResult(this, false);
     }
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element') as FlowElement[];
@@ -24,11 +31,11 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
     for (const loopElement of loopElements) {
       const startOfLoop = flowElements.findIndex(element => element.name === this.findStartOfLoopReference(loopElement));
       let reachedEndOfLoop = false;
-      let indexesToProcess: number [] = [startOfLoop];
+      let indexesToProcess: number[] = [startOfLoop];
       const processedLoopElementIndexes: number[] = [];
       do {
         indexesToProcess = indexesToProcess.filter(index => !processedLoopElementIndexes.includes(index));
-        if(indexesToProcess.length <= 0 || (indexesToProcess.length == 1 && indexesToProcess[0] == -1)){
+        if (indexesToProcess.length <= 0 || (indexesToProcess.length == 1 && indexesToProcess[0] == -1)) {
           break;
         }
         for (const [index, element] of flowElements.entries()) {
@@ -58,14 +65,13 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition{
         }
       } while (reachedEndOfLoop === false);
     }
-
     const dmlStatementsInLoops: FlowElement[] = [];
     for (const [index, element] of flowElements.entries()) {
       if (dmlInLoopIndexes.includes(index)) {
         dmlStatementsInLoops.push(element);
       }
     }
-    return new RuleResult(dmlStatementsInLoops.length > 0, this.name, this.type, this.severity ,dmlStatementsInLoops);
+    return new RuleResult(this, dmlStatementsInLoops.length > 0, dmlStatementsInLoops);
   }
 
   private findStartOfLoopReference(loopElement: FlowElement) {

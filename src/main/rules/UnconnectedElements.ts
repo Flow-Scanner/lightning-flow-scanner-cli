@@ -5,17 +5,22 @@ import {FlowNode} from '../models/FlowNode';
 import {FlowType} from '../models/FlowType';
 import {RuleResult} from '../models/RuleResult';
 import {RuleCommon} from '../models/RuleCommon';
-import { RuleDefinitions } from '../store/RuleDefinitions';
 
 export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.UnconnectedElements, 'pattern', [...FlowType.backEndTypes, ...FlowType.visualTypes]);
+    super({
+      name: 'UnconnectedElements',
+      label: 'Unconnected elements',
+      description: 'Removing unconnected elements which are not being used by the Flow makes your Flow more efficient and maintainable.',
+      type: 'pattern',
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+    });
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, this.type, this.severity, []);
+      return new RuleResult( this, false);
     }
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     let indexesToProcess = [this.findStart(flowElements)];
@@ -74,7 +79,7 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
         unconnectedElements.push(element);
       }
     }
-    return new RuleResult( unconnectedElements.length > 0, this.name, this.type, this.severity, unconnectedElements);
+    return new RuleResult( this, unconnectedElements.length > 0, unconnectedElements);
   }
 
   private findStart(nodes: FlowNode[]) {

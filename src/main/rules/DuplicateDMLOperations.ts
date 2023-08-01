@@ -1,4 +1,3 @@
-import { RuleDefinitions } from '../store/RuleDefinitions';
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
 import {Flow} from '../models/Flow';
 import {FlowElement} from '../models/FlowElement';
@@ -9,12 +8,18 @@ import {RuleCommon} from '../models/RuleCommon';
 export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinition{
 
   constructor() {
-    super(RuleDefinitions.DuplicateDMLOperations, 'pattern', FlowType.visualTypes);
+    super({
+      name: 'DuplicateDMLOperations',
+      label: 'Duplicate DML operations',
+      description: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations.",
+      type: 'pattern',
+      supportedFlowTypes: FlowType.visualTypes
+    });
   }
 
   public execute(flow: Flow) : RuleResult {
     if(flow.type[0] === 'Survey'){
-      return new RuleResult( false, this.name, this.type, this.severity, []);
+      return new RuleResult(this, false);
     }
     const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
     const processedElementIndexes: number[] = [];
@@ -66,7 +71,7 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult( DuplicateDMLOperations.length > 0, this.name, this.type, this.severity, DuplicateDMLOperations);
+    return new RuleResult( this, DuplicateDMLOperations.length > 0, DuplicateDMLOperations);
   }
 
   private flagDML(element, dmlFlag) {
