@@ -21,7 +21,6 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
   } else {
     // tslint:disable-next-line:forin
     for (const rule in DefaultRuleStore) {
-      //  todo dynamic custom rule
       const matchedRule = new DynamicRule(rule);
       matchedRule['severity'] = severity;
       matchedRules.push(matchedRule);

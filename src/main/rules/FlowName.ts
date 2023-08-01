@@ -19,6 +19,6 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
   public execute(flow: Flow, options?: { expression: string }): RuleResult {
     const regexExp = (options && options.expression) ? options.expression : '[A-Za-z0-9]+_[A-Za-z0-9]+';
     const conventionApplied = new RegExp(regexExp).test(flow.name);
-    return new RuleResult(this, !conventionApplied, (!conventionApplied) ? flow.name : undefined);
+    return new RuleResult(this, !conventionApplied, (!conventionApplied) ? ('The name ' + flow.name + ' does not meet the regex convention ' + regexExp) : undefined);
   }
 }
