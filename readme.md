@@ -94,7 +94,7 @@ ___
 
 ### Unconnected elements
 
-Unconnected elements which are not being used by the Flow should be avoided to keep Flows efficient and maintainable. 
+Unconnected elements which are not in use by the Flow should be avoided to keep the Flow as efficient and maintainable as possible. 
 
 Configuration ID: `UnconnectedElements` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElements.ts))_
 
@@ -102,6 +102,6 @@ ___
 
 ### Unused variables
 
-Unconnected variables which are not being used by the Flow should be avoided to keep Flow more efficient and maintainable.
+Unconnected variables which are not in use by the Flow should be avoided to keep the Flow as efficient and maintainable as possible. 
 
 Configuration ID: `UnusedVariables` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariables.ts))_

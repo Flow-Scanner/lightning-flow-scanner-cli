@@ -1,13 +1,14 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import {Flow} from '../models/Flow';
-import {RuleResult} from '../models/RuleResult';
-import {ScanResult} from '../models/ScanResult';
-import {GetRuleDefinitions} from './GetRuleDefinitions';
+import { Flow } from '../models/Flow';
+import { RuleResult } from '../models/RuleResult';
+import { ScanResult } from '../models/ScanResult';
+import { GetRuleDefinitions } from './GetRuleDefinitions';
+import { keys } from './Keys';
 
 export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanResult[] {
+
   const flowResults: ScanResult[] = [];
   let selectedRules: IRuleDefinition[] = [];
-
   if (rulesConfig) {
     selectedRules = GetRuleDefinitions(rulesConfig);
   } else {
@@ -20,20 +21,19 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
       if (rule.supportedTypes.includes(flow.type[0])) {
         try {
           let config = undefined;
-          if(rulesConfig){
+          if (rulesConfig) {
             const configKeys = keys(rulesConfig);
             let matchedKey = configKeys.find(element => element = rule.name);
             config = rulesConfig.get(matchedKey);
             config['severity'];
-          } 
+          }
           const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config) : rule.execute(flow);
-          if(result.severity !== rule.severity){
+          if (result.severity !== rule.severity) {
             result.severity = rule.severity;
           }
           ruleResults.push(result);
         } catch (error) {
-          // todo handle errors
-
+          throw new Error("Something went wrong while executing " + rule.name);
         }
       }
     }
@@ -41,10 +41,4 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
   }
 
   return flowResults;
-}
-
-
-function keys<K extends PropertyKey>(m: Map<K, any> | { [P in K]: any }): K[] {
-  if (m instanceof Map) return Array.from(m.keys())
-  return Object.keys(m) as K[]
 }
