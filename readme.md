@@ -25,6 +25,14 @@ Configuration ID: `APIVersion` _([View source code](https://github.com/Force-Con
 
 ___
 
+### Copy of API Name
+
+Having multiple elements called Copy_X_Of_Element will decrease the readability of the Flow. If you copy and paste them, make sure to update the API name of the new copy.
+
+Configuration ID: `CopyOf` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/CopyOf.ts))_
+
+___
+
 ### DML statements in a loop
 
 To avoid hitting Apex governor limits, we recommend grouping all of your changes together at the end of the flow, whether those changes create, update, or delete records.
@@ -41,11 +49,11 @@ Configuration ID: `DuplicateDMLOperations` _([View source code](https://github.c
 
 ___
 
-### Hardcoded Ids
+### Missing flow description
 
-IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.
+Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.
 
-Configuration ID: `HardcodedIds` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedIds.ts))_
+Configuration ID: `FlowDescription` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
 
 ___
 
@@ -68,11 +76,11 @@ Configuration ID: `FlowName` _([View source code](https://github.com/Force-Confi
 
 ___
 
-### Missing flow description
+### Hardcoded Ids
 
-Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.
+IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.
 
-Configuration ID: `FlowDescription` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
+Configuration ID: `HardcodedIds` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedIds.ts))_
 
 ___
 
