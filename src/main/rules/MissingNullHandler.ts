@@ -1,11 +1,11 @@
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {Flow} from '../models/Flow';
-import {FlowElement} from '../models/FlowElement';
-import {FlowType} from '../models/FlowType';
-import {RuleResult} from '../models/RuleResult';
-import {RuleCommon} from '../models/RuleCommon';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { Flow } from '../models/Flow';
+import { FlowElement } from '../models/FlowElement';
+import { FlowType } from '../models/FlowType';
+import { RuleResult } from '../models/RuleResult';
+import { RuleCommon } from '../models/RuleCommon';
 
-export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
+export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
 
   constructor() {
     super({
@@ -17,9 +17,9 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
     });
   }
 
-  public execute(flow: Flow) : RuleResult {
-    if(flow.type[0] === 'Survey'){
-      return new RuleResult( this, false);
+  public execute(flow: Flow): RuleResult {
+    if (flow.type[0] === 'Survey') {
+      return new RuleResult(this, false);
     }
     const getOperations = ['recordLookups'];
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
@@ -35,19 +35,27 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
       } else {
         resultReference = getElement.element['outputReference'];
       }
-
       for (const el of decisionElements) {
-
         const rules = el.element['rules'];
         for (const rule of rules) {
           for (const condition of rule.conditions) {
-            const referenceFound = (condition.leftValueReference && condition.leftValueReference.length > 0 && condition.leftValueReference[0] === resultReference);
-            const nullOperator = (condition.operator && condition.operator.length > 0 && condition.operator[0] === 'IsNull');
-            const isFalse = (condition.rightValue && condition.rightValue.length > 0 && condition.rightValue[0].booleanValue && condition.rightValue[0].booleanValue.length > 0
-              && condition.rightValue[0].booleanValue[0].toLowerCase() === 'false');
-            if (
-              referenceFound && nullOperator && isFalse
-            ) {
+
+            let referenceFound: boolean = false;
+            let isNullOperator: boolean = false;
+            let checksIfFalse: boolean = false;
+            if (condition.leftValueReference && condition.leftValueReference.length > 0) {
+              let valueReference = condition.leftValueReference;
+              referenceFound = (valueReference[0] == resultReference[0]);
+            }
+            if (condition.operator && condition.operator.length > 0) {
+              let operator = condition.operator[0];
+              isNullOperator = (operator === 'IsNull');
+            }
+            if (condition.rightValue && condition.rightValue.length > 0 && condition.rightValue[0].booleanValue && condition.rightValue[0].booleanValue.length > 0) {
+              let rightValue = condition.rightValue[0].booleanValue[0];
+              checksIfFalse = (rightValue.toLowerCase() === 'false');
+            }
+            if (referenceFound && isNullOperator && checksIfFalse) {
               nullCheckFound = true;
             }
           }
@@ -58,6 +66,6 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition{
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult( this, getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
+    return new RuleResult(this, getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
   }
 }
