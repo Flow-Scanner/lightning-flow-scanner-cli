@@ -21,6 +21,6 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
       return new RuleResult(this, false);
     }
     const missingFlowDescription = !flow.xmldata.description;
-    return new RuleResult(this, missingFlowDescription, 'undefined');
+    return new RuleResult(this, missingFlowDescription, missingFlowDescription ? 'undefined' : undefined);
   }
 }
