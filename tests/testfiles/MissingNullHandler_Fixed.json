@@ -1,0 +1,218 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "assignments": [
+            {
+                "name": [
+                    "Assign_New_Account_Name"
+                ],
+                "label": [
+                    "Assign New Account Name"
+                ],
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "350"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "GetAnAccount.Name"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Test"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "decisions": [
+            {
+                "name": [
+                    "ifAccountNotNull"
+                ],
+                "label": [
+                    "ifAccountNotNull"
+                ],
+                "locationX": [
+                    "182"
+                ],
+                "locationY": [
+                    "242"
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "notnull"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "GetAnAccount"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_New_Account_Name"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "notnull"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "A flow demonstrating how to fix the violation of the rule 'MissingNullHandler'."
+        ],
+        "interviewLabel": [
+            "MissingNullHandler_Fixed {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "MissingNullHandler_Fixed"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "recordLookups": [
+            {
+                "name": [
+                    "GetAnAccount"
+                ],
+                "label": [
+                    "GetAnAccount"
+                ],
+                "locationX": [
+                    "182"
+                ],
+                "locationY": [
+                    "134"
+                ],
+                "assignNullValuesIfNoRecordsFound": [
+                    "false"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "ifAccountNotNull"
+                        ]
+                    }
+                ],
+                "filters": [
+                    {
+                        "field": [
+                            "Name"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Acme"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "getFirstRecordOnly": [
+                    "true"
+                ],
+                "object": [
+                    "Account"
+                ],
+                "storeOutputAutomatically": [
+                    "true"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "56"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "GetAnAccount"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ]
+    }
+}
