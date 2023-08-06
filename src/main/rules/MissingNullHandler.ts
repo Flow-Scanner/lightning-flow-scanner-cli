@@ -31,7 +31,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       let nullCheckFound = false;
       let resultReference;
       if (getElement.element['storeOutputAutomatically']) {
-        resultReference = getElement.name;
+        resultReference = [getElement.name];
       } else {
         resultReference = getElement.element['outputReference'];
       }
@@ -44,8 +44,8 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
-              let valueReference = condition.leftValueReference;
-              referenceFound = (valueReference[0] == resultReference[0]);
+              let valueReference = condition.leftValueReference[0];
+              referenceFound = (valueReference == resultReference[0]);
             }
             if (condition.operator && condition.operator.length > 0) {
               let operator = condition.operator[0];
