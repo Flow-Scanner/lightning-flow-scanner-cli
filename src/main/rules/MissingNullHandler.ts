@@ -25,25 +25,19 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
     const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
     const decisionElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && node.subtype === 'decisions') as FlowElement[];
     const getOperationsWithoutNullHandler = [];
-
     for (const getElement of getOperationElements) {
-
+      const elementName = getElement.name;
       let nullCheckFound = false;
       let resultReferences = [];
-
-      let t1 = getElement.element['storeOutputAutomatically'];
-      let t2 = getElement.element['outputAssignments'];
-      let t3 = getElement.element['outputReference'];
-
       if (getElement.element['storeOutputAutomatically']) {
-        resultReferences = [getElement.name];
+        resultReferences = [elementName];
+      } else if(getElement.element['outputReference']){
+        resultReferences = getElement.element['outputReference'];
       } else if(getElement.element['outputAssignments']) {
         const outputAssignments = getElement.element['outputAssignments'];
         for (const assignment of outputAssignments) {
           resultReferences.push(assignment.assignToReference)
         }
-      } else if(getElement.element['outputReference'] && getElement.element['outputReference'].size > 0){
-        resultReferences = getElement.element['outputReference'];
       }
       for (const el of decisionElements) {
         const rules = el.element['rules'];
@@ -54,9 +48,11 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
             let checksIfFalse: boolean = false;
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
               let valueReference = condition.leftValueReference[0];
-                // todo loop over resultReference 
               for(let ref of resultReferences){
                 referenceFound = ref.includes(valueReference);
+                if(referenceFound){
+                  break;
+                }
               }
             }
             if (condition.operator && condition.operator.length > 0) {
@@ -73,7 +69,6 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
           }
         }
       }
-
       if (!nullCheckFound) {
         getOperationsWithoutNullHandler.push(getElement);
       }

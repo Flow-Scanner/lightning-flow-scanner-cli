@@ -1,0 +1,1194 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "apiVersion": [
+            "56.0"
+        ],
+        "decisions": [
+            {
+                "name": [
+                    "contact_doublon_selectionne"
+                ],
+                "label": [
+                    "Contact en doublon doublon sélectionné ?"
+                ],
+                "locationX": [
+                    "248"
+                ],
+                "locationY": [
+                    "1190"
+                ],
+                "defaultConnector": [
+                    {
+                        "isGoTo": [
+                            "true"
+                        ],
+                        "targetReference": [
+                            "Interlocuteur"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Non"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Oui_doublon_s_lectionn"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "selectedDuplicateContact.Id"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Renseigner_targetContactid_avec_doublon_potentiel_selectionne"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Oui doublon sélectionné"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Conversion_reussie"
+                ],
+                "label": [
+                    "Conversion réussie ?"
+                ],
+                "locationX": [
+                    "578"
+                ],
+                "locationY": [
+                    "2462"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Conversion_KO_message"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Non"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Oui_conversion_reussie"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "finalConvertedContactId"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Conversion_OK_message"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Oui, conversion réussie"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "conversion_vers_une_opport"
+                ],
+                "label": [
+                    "conversion vers une opport ?"
+                ],
+                "locationX": [
+                    "314"
+                ],
+                "locationY": [
+                    "2678"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Set_redirect_to_Interlo"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Non, pas d'opport ciblée"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Oui_opport_cibl_e"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "currentLead.Offre_convertie__c"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "create_contact_role_on_opport"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Oui, opport ciblée"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Doublons_potentiels_trouves"
+                ],
+                "label": [
+                    "Doublons potentiels trouvés ?"
+                ],
+                "locationX": [
+                    "578"
+                ],
+                "locationY": [
+                    "674"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Interlocuteur"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Non"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Oui_doublons_trouves"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "Interlo_doublon_potentiel.duplicateContacts"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Renseigner_booleen_doublon_trouves"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Oui, doublons trouvés"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Initial_Lead_data_OK"
+                ],
+                "label": [
+                    "Initial Lead data OK ?"
+                ],
+                "locationX": [
+                    "2360"
+                ],
+                "locationY": [
+                    "242"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Donnees_manquantes"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "KO"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Lead_data_OK"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "currentLead.hbiz__apifc_SIRET__c"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "currentLead.OwnerId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "005"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "currentLead.Salutation"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "currentLead.Produit__c"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "currentLead.Phone"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "currentLead"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Get_etab_from_Rubis"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Lead data OK"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Interlocuteur_options"
+                ],
+                "label": [
+                    "Interlocuteur options"
+                ],
+                "locationX": [
+                    "578"
+                ],
+                "locationY": [
+                    "1082"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Get_all_opport"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Sélection existant"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "doublon_selectionne"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "radioInterlo"
+                                ],
+                                "operator": [
+                                    "EqualTo"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "elementReference": [
+                                            "interlo_select_duplicate"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "contact_doublon_selectionne"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Sélection doublon"
+                        ]
+                    },
+                    {
+                        "name": [
+                            "creation"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "radioInterlo"
+                                ],
+                                "operator": [
+                                    "EqualTo"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "elementReference": [
+                                            "interlo_create"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Vider_targetContactId"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Création"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Opport_Options"
+                ],
+                "label": [
+                    "Opport Options"
+                ],
+                "locationX": [
+                    "578"
+                ],
+                "locationY": [
+                    "1898"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "add_existing_Opport_to_Lead"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Existing opport"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "No_opport"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "radioOpport"
+                                ],
+                                "operator": [
+                                    "EqualTo"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "elementReference": [
+                                            "opp_none"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Pas_d_offre_convertie"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "No opport"
+                        ]
+                    },
+                    {
+                        "name": [
+                            "Create_opport"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "radioOpport"
+                                ],
+                                "operator": [
+                                    "EqualTo"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "elementReference": [
+                                            "opp_create"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Creer_affaire"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Create opport"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Siret_trouv_dans_Rubis"
+                ],
+                "label": [
+                    "Siret trouvé dans Rubis ?"
+                ],
+                "locationX": [
+                    "1502"
+                ],
+                "locationY": [
+                    "458"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Lancement_import_Calypso"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "SIRET non trouvé"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "SIRET_trouve"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "targetEtablissement"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Interlo_doublon_potentiel"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "SIRET trouvé"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "abc"
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "abc {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "abc"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "Flow"
+        ],
+        "recordCreates": [
+            {
+                "name": [
+                    "create_contact_role_on_opport"
+                ],
+                "label": [
+                    "Create contact role on opport"
+                ],
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "2786"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Set_redirect_to_Opport"
+                        ]
+                    }
+                ],
+                "faultConnector": [
+                    {
+                        "isGoTo": [
+                            "true"
+                        ],
+                        "targetReference": [
+                            "Rollback"
+                        ]
+                    }
+                ],
+                "inputAssignments": [
+                    {
+                        "field": [
+                            "ContactId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "finalConvertedContactId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "OpportunityId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "currentLead.Offre_convertie__c"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "Role"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Interlocuteur affaire"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "object": [
+                    "OpportunityContactRole"
+                ],
+                "storeOutputAutomatically": [
+                    "true"
+                ]
+            },
+            {
+                "description": [
+                    "Crée une affaire et stocke son Id entant que cible de la conversion à venir. Mise à jour : puisqu'il n'est pas possible de convertir vers une opport (diff de record type d'account sur Interlo & Offre), l'affaire créée est renseignée sur un champ custo"
+                ],
+                "name": [
+                    "Creer_affaire"
+                ],
+                "label": [
+                    "Créer affaire"
+                ],
+                "locationX": [
+                    "314"
+                ],
+                "locationY": [
+                    "2006"
+                ],
+                "assignRecordIdToReference": [
+                    "currentLead.Offre_convertie__c"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "add_new_Affaire_to_Lead"
+                        ]
+                    }
+                ],
+                "faultConnector": [
+                    {
+                        "isGoTo": [
+                            "true"
+                        ],
+                        "targetReference": [
+                            "Rollback"
+                        ]
+                    }
+                ],
+                "inputAssignments": [
+                    {
+                        "field": [
+                            "AccountId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "targetEtablissement.Id"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "CloseDate"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "defaultCloseDate"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "Name"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Ne pas modifier"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "Produit__c"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "currentLead.Produit__c"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "RecordTypeId"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "012w0000000MQHvAAO"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "StageName"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Détectée"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "object": [
+                    "Opportunity"
+                ]
+            }
+        ],
+        "runInMode": [
+            "SystemModeWithoutSharing"
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "2234"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Initial_lead_data"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "name": [
+                    "conversionResultMessage"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "description": [
+                    "pas possible d'assigner une opport lors la conversion. A la place, une champ custo du Lead est utilisé (Offre_convertie)"
+                ],
+                "name": [
+                    "createOpport"
+                ],
+                "dataType": [
+                    "Boolean"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "value": [
+                    {
+                        "booleanValue": [
+                            "false"
+                        ]
+                    }
+                ]
+            },
+            {
+                "description": [
+                    "Lead en cours de conversion"
+                ],
+                "name": [
+                    "currentLead"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Lead"
+                ]
+            },
+            {
+                "description": [
+                    "vrai si des doublons potentiels ont été identifiés"
+                ],
+                "name": [
+                    "doublonsPotentielsTrouves"
+                ],
+                "dataType": [
+                    "Boolean"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "value": [
+                    {
+                        "booleanValue": [
+                            "false"
+                        ]
+                    }
+                ]
+            },
+            {
+                "description": [
+                    "Reçoit l'id de l'établissemnt créé suite à un appel Calypso"
+                ],
+                "name": [
+                    "etabFromCalypsoId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "description": [
+                    "Id du contact vers lequel a été converti le Lead"
+                ],
+                "name": [
+                    "finalConvertedContactId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "description": [
+                    "Destination de la redirection finale : Opport, si une opport a été ciblée. Sinon interlocuteur."
+                ],
+                "name": [
+                    "finalRedirectRecordId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "name": [
+                    "nbExistingOpportFound"
+                ],
+                "dataType": [
+                    "Number"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "scale": [
+                    "0"
+                ]
+            },
+            {
+                "description": [
+                    "Id du Lead en cours de convertion"
+                ],
+                "name": [
+                    "recordId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "true"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "description": [
+                    "Contact en doublon potentiel sélectionne comme cible de convertion"
+                ],
+                "name": [
+                    "selectedDuplicateContact"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Contact"
+                ]
+            },
+            {
+                "name": [
+                    "targetContactId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "description": [
+                    "Etablissement ciblé par la convertion"
+                ],
+                "name": [
+                    "targetEtablissement"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            },
+            {
+                "name": [
+                    "targetOpport"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Opportunity"
+                ]
+            }
+        ]
+    }
+}
