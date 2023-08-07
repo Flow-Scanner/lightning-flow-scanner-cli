@@ -125,7 +125,7 @@ ___
 
 Unconnected elements which are not in use by the Flow should be avoided to keep the Flow as efficient and maintainable as possible. 
 
-**Configuration ID: `UnconnectedElements` **
+**Configuration ID: `UnconnectedElements`**
 _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElements.ts))_
 
 ___
