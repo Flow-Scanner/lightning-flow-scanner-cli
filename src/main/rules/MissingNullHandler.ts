@@ -29,23 +29,35 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
     for (const getElement of getOperationElements) {
 
       let nullCheckFound = false;
-      let resultReference;
+      let resultReferences = [];
+
+      let t1 = getElement.element['storeOutputAutomatically'];
+      let t2 = getElement.element['outputAssignments'];
+      let t3 = getElement.element['outputReference'];
+
       if (getElement.element['storeOutputAutomatically']) {
-        resultReference = [getElement.name];
-      } else {
-        resultReference = getElement.element['outputReference'];
+        resultReferences = [getElement.name];
+      } else if(getElement.element['outputAssignments']) {
+        const outputAssignments = getElement.element['outputAssignments'];
+        for (const assignment of outputAssignments) {
+          resultReferences.push(assignment.assignToReference)
+        }
+      } else if(getElement.element['outputReference'] && getElement.element['outputReference'].size > 0){
+        resultReferences = getElement.element['outputReference'];
       }
       for (const el of decisionElements) {
         const rules = el.element['rules'];
         for (const rule of rules) {
           for (const condition of rule.conditions) {
-
             let referenceFound: boolean = false;
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
               let valueReference = condition.leftValueReference[0];
-              referenceFound = (valueReference == resultReference[0]);
+                // todo loop over resultReference 
+              for(let ref of resultReferences){
+                referenceFound = ref.includes(valueReference);
+              }
             }
             if (condition.operator && condition.operator.length > 0) {
               let operator = condition.operator[0];

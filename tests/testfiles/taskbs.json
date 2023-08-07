@@ -1,0 +1,1002 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "apiVersion": [
+            "57.0"
+        ],
+        "assignments": [
+            {
+                "name": [
+                    "Assign_Contact"
+                ],
+                "label": [
+                    "Assign Contact"
+                ],
+                "locationX": [
+                    "314"
+                ],
+                "locationY": [
+                    "503"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$Record.WhoId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "description": [
+                    "When there is no ContactId on the Opp, and there is no Primary OCR, We assign the first Contact the Flow \"Gets\" from the Account related to the Opp."
+                ],
+                "name": [
+                    "Assign_Contact_from_Account_Opp"
+                ],
+                "label": [
+                    "Assign Contact from Account.Opp"
+                ],
+                "locationX": [
+                    "1106"
+                ],
+                "locationY": [
+                    "1259"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Var_ContactId_Account"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.WhoId"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Var_ContactId_Account"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Assign_Contact_from_OCR"
+                ],
+                "label": [
+                    "Assign Contact from OCR"
+                ],
+                "locationX": [
+                    "842"
+                ],
+                "locationY": [
+                    "1043"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Var_OCRId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.WhoId"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Var_OCRId"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Assign_Contact_from_Opportunity"
+                ],
+                "label": [
+                    "Assign Contact from Opportunity"
+                ],
+                "locationX": [
+                    "578"
+                ],
+                "locationY": [
+                    "827"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Get_Opportunity.ContactId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.WhoId"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Get_Opportunity.ContactId"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Assign_Lead"
+                ],
+                "label": [
+                    "Assign Lead"
+                ],
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "503"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$Record.WhoId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "No_Contact_Lead"
+                ],
+                "label": [
+                    "No Contact/Lead"
+                ],
+                "locationX": [
+                    "1546"
+                ],
+                "locationY": [
+                    "611"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "$Record.Lead__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "$Record.Contact__c"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "decisions": [
+            {
+                "name": [
+                    "Contact_on_Opportunity"
+                ],
+                "label": [
+                    "Contact on Opportunity?"
+                ],
+                "locationX": [
+                    "809"
+                ],
+                "locationY": [
+                    "719"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Get_OCR_from_related_Opp"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "True_Contact_on_Opp"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "Get_Opportunity.ContactId"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_Contact_from_Opportunity"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "True - Contact on Opp"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Found_Contact_from_Account"
+                ],
+                "label": [
+                    "Found Contact from Account?"
+                ],
+                "locationX": [
+                    "1238"
+                ],
+                "locationY": [
+                    "1151"
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "True_Found_Contact_from_Account"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "Var_ContactId_Account"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_Contact_from_Account_Opp"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "True - Found Contact from Account"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Found_Primary_OCR"
+                ],
+                "label": [
+                    "Found Primary OCR?"
+                ],
+                "locationX": [
+                    "1040"
+                ],
+                "locationY": [
+                    "935"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Get_Contact_from_Account_Opp"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "No Primary OCR"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "True_Found_Primary_OCR"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "Get_OCR_from_related_Opp"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_Contact_from_OCR"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "True - Found Primary OCR"
+                        ]
+                    }
+                ]
+            },
+            {
+                "description": [
+                    "Check if the \"WhoId\" is a Lead or a Contact."
+                ],
+                "name": [
+                    "Lead_Or_Contact_related_to_the_Task"
+                ],
+                "label": [
+                    "Lead Or Contact related to the Task"
+                ],
+                "locationX": [
+                    "613"
+                ],
+                "locationY": [
+                    "395"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Task_created_from_Opportunity"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Null"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "Lead"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "$Record.WhoId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "00Q"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_Lead"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Lead"
+                        ]
+                    },
+                    {
+                        "name": [
+                            "Contact"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "$Record.WhoId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "003"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Assign_Contact"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "Contact"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Task_created_from_Opportunity"
+                ],
+                "label": [
+                    "Task created from Opportunity?"
+                ],
+                "locationX": [
+                    "1177"
+                ],
+                "locationY": [
+                    "503"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "No_Contact_Lead"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "True_Opp"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "$Record.WhatId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "006"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "connector": [
+                            {
+                                "targetReference": [
+                                    "Get_Opportunity"
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "True - Opp"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Task_Related_to_Case_WI"
+                ],
+                "label": [
+                    "Task Related to Case/WI?"
+                ],
+                "locationX": [
+                    "199"
+                ],
+                "locationY": [
+                    "287"
+                ],
+                "defaultConnector": [
+                    {
+                        "targetReference": [
+                            "Lead_Or_Contact_related_to_the_Task"
+                        ]
+                    }
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "True_Relates_to_Case_WI"
+                        ],
+                        "conditionLogic": [
+                            "or"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "$Record.WhatId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "500"
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "leftValueReference": [
+                                    "$Record.WhatId"
+                                ],
+                                "operator": [
+                                    "StartsWith"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "stringValue": [
+                                            "a2G"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "True - Relates to Case/WI"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "WI-02771\r\nWI-02814 - Added logic to populate the WhoId and the Contact when Task created from an Opportunity. Migrate the logic from Appex."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "Task - Before - SDR/Sales Trigger {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Task - Before - SDR/Sales Trigger"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "recordLookups": [
+            {
+                "name": [
+                    "Get_Contact_from_Account_Opp"
+                ],
+                "label": [
+                    "Get Contact from Account.Opp"
+                ],
+                "locationX": [
+                    "1238"
+                ],
+                "locationY": [
+                    "1043"
+                ],
+                "assignNullValuesIfNoRecordsFound": [
+                    "true"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Found_Contact_from_Account"
+                        ]
+                    }
+                ],
+                "filterLogic": [
+                    "and"
+                ],
+                "filters": [
+                    {
+                        "field": [
+                            "AccountId"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "Get_Opportunity.AccountId"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "object": [
+                    "Contact"
+                ],
+                "outputAssignments": [
+                    {
+                        "assignToReference": [
+                            "Var_ContactId_Account"
+                        ],
+                        "field": [
+                            "Id"
+                        ]
+                    }
+                ]
+            },
+            {
+                "description": [
+                    "Get the Primary Opportunity Contact Role from the related Opportunity"
+                ],
+                "name": [
+                    "Get_OCR_from_related_Opp"
+                ],
+                "label": [
+                    "Get OCR from related Opp"
+                ],
+                "locationX": [
+                    "1040"
+                ],
+                "locationY": [
+                    "827"
+                ],
+                "assignNullValuesIfNoRecordsFound": [
+                    "true"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Found_Primary_OCR"
+                        ]
+                    }
+                ],
+                "filterLogic": [
+                    "and"
+                ],
+                "filters": [
+                    {
+                        "field": [
+                            "OpportunityId"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$Record.WhatId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "IsPrimary"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "booleanValue": [
+                                    "true"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "object": [
+                    "OpportunityContactRole"
+                ],
+                "outputAssignments": [
+                    {
+                        "assignToReference": [
+                            "Var_OCRId"
+                        ],
+                        "field": [
+                            "ContactId"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "Get_Opportunity"
+                ],
+                "label": [
+                    "Get Opportunity"
+                ],
+                "locationX": [
+                    "809"
+                ],
+                "locationY": [
+                    "611"
+                ],
+                "assignNullValuesIfNoRecordsFound": [
+                    "false"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Contact_on_Opportunity"
+                        ]
+                    }
+                ],
+                "filterLogic": [
+                    "and"
+                ],
+                "filters": [
+                    {
+                        "field": [
+                            "Id"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$Record.WhatId"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "getFirstRecordOnly": [
+                    "true"
+                ],
+                "object": [
+                    "Opportunity"
+                ],
+                "storeOutputAutomatically": [
+                    "true"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "73"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Task_Related_to_Case_WI"
+                        ]
+                    }
+                ],
+                "filterFormula": [
+                    "(ISNEW() || ISCHANGED({!$Record.WhoId}))  && \r\nCONTAINS({!$Label.SDR_Sales_Profiles},{!$Profile.Name})"
+                ],
+                "object": [
+                    "Task"
+                ],
+                "recordTriggerType": [
+                    "CreateAndUpdate"
+                ],
+                "triggerType": [
+                    "RecordBeforeSave"
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "name": [
+                    "Var_ContactId_Account"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "name": [
+                    "Var_OCRId"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            }
+        ]
+    }
+}
