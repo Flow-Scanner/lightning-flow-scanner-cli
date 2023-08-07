@@ -4,15 +4,27 @@
 
 ## Rules
 
+- [Old API version](#old-api-version)
+- [Copy of API Name](#copy-of-api-name)
+- [DML statements in a loop](#dml-statements-in-a-loop)
+- [Duplicate DML operations](#duplicate-dml-operations)
+- [Missing flow description](#missing-flow-description)
+- [Flow naming conventions](#flow-naming-conventions)
+- [Hardcoded Ids](#hardcoded-ids)
+- [Missing error handlers](#missing-error-handlers)
+- [Missing null handlers](#missing-null-handlers)
+- [Unconnected elements](#unconnected-elements)
+- [Unused variables](#unused-variables) 
+
 ___
 
 ### Old API version
 
 Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.
 
-Default Value: `>50.0`
+_Default Value: `>50.0`_
 
-Configuration example:
+_Configuration example:_
 ```
 APIVersion:
     {
@@ -21,7 +33,8 @@ APIVersion:
     }
 ```
 
-Configuration ID: `APIVersion` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/APIVersion.ts))_
+**Configuration ID: `APIVersion`**
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/APIVersion.ts))_
 
 ___
 
@@ -29,7 +42,8 @@ ___
 
 Having multiple elements called Copy_X_Of_Element will decrease the readability of the Flow. If you copy and paste them, make sure to update the API name of the new copy.
 
-Configuration ID: `CopyOf` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/CopyOf.ts))_
+**Configuration ID: `CopyOf`**
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/CopyOf.ts))_
 
 ___
 
@@ -37,7 +51,8 @@ ___
 
 To avoid hitting Apex governor limits, we recommend grouping all of your changes together at the end of the flow, whether those changes create, update, or delete records.
 
-Configuration ID: `DMLStatementInLoop` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DMLStatementInLoop.ts))_
+**Configuration ID: `DMLStatementInLoop`**
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DMLStatementInLoop.ts))_
 
 ___
 
@@ -45,7 +60,8 @@ ___
 
 If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations.
 
-Configuration ID: `DuplicateDMLOperations` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DuplicateDMLOperations.ts))_
+**Configuration ID: `DuplicateDMLOperations`**
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DuplicateDMLOperations.ts))_
 
 ___
 
@@ -53,7 +69,8 @@ ___
 
 Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.
 
-Configuration ID: `FlowDescription` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
+**Configuration ID: `FlowDescription`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
 
 ___
 
@@ -61,9 +78,9 @@ ___
 
 Readability of a flow is very important. Setting a naming convention for the Flow Name will improve the findability/searchability and overall consistency. It is recommended to at least provide a domain and a short description of the actions undertaken in the flow, in example Service_OrderFulfillment.
 
-Default Value: `[A-Za-z0-9]+_[A-Za-z0-9]+`
+_Default Value: `[A-Za-z0-9]+_[A-Za-z0-9]+`_
 
-Configuration example:
+_Configuration example:_
 ```
 FlowName:
     {
@@ -72,7 +89,8 @@ FlowName:
     }
 ```
 
-Configuration ID: `FlowName` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowName.ts))_
+**Configuration ID: `FlowName`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowName.ts))_
 
 ___
 
@@ -80,7 +98,8 @@ ___
 
 IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.
 
-Configuration ID: `HardcodedIds` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedIds.ts))_
+**Configuration ID: `HardcodedIds`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedIds.ts))_
 
 ___
 
@@ -88,7 +107,8 @@ ___
 
 Sometimes a flow doesn’t perform an operation that you configured it to do. By default, the flow shows an error message to the user and emails the admin who created the flow. However, you can control that behavior.
 
-Configuration ID: `MissingFaultPath` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingFaultPath.ts))_
+**Configuration ID: `MissingFaultPath`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingFaultPath.ts))_
 
 ___
 
@@ -96,7 +116,8 @@ ___
 
 If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.
 
-Configuration ID: `MissingNullHandler` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingNullHandler.ts))_
+**Configuration ID: `MissingNullHandler`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingNullHandler.ts))_
 
 ___
 
@@ -104,7 +125,8 @@ ___
 
 Unconnected elements which are not in use by the Flow should be avoided to keep the Flow as efficient and maintainable as possible. 
 
-Configuration ID: `UnconnectedElements` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElements.ts))_
+**Configuration ID: `UnconnectedElements` **
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElements.ts))_
 
 ___
 
@@ -112,4 +134,5 @@ ___
 
 Unconnected variables which are not in use by the Flow should be avoided to keep the Flow as efficient and maintainable as possible. 
 
-Configuration ID: `UnusedVariables` _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariables.ts))_
+**Configuration ID: `UnusedVariables`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariables.ts))_
