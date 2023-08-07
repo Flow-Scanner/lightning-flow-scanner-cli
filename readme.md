@@ -20,7 +20,7 @@ ___
 
 ### Old API version
 
-Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0 and it is recommended to limit variation and to update them on a regular basis.
+Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.
 
 _Default Value: `>50.0`_
 
