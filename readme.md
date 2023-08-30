@@ -1,6 +1,6 @@
 # Lightning Flow Scanner(Rule Engine)
 
-##### _This the rule engine is used in both the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX plugin](https://www.npmjs.com/package/lightning-flow-scanner) of the same name._
+##### _This rule engine is used in both the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX Plugin](https://www.npmjs.com/package/lightning-flow-scanner) of the same name._
 
 ## Rules
 
