@@ -14,7 +14,8 @@ export class UnusedVariables extends RuleCommon implements IRuleDefinition{
       label: 'Unused variables',
       description: 'Removing unconnected variables which are not being used by the Flow makes your Flow more efficient and maintainable.',
       type: 'pattern',
-      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      docRefs: []
     });
   }
 

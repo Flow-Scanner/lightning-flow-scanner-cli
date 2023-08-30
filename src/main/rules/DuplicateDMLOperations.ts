@@ -13,7 +13,8 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
       label: 'Duplicate DML operations',
       description: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations.",
       type: 'pattern',
-      supportedFlowTypes: FlowType.visualTypes
+      supportedFlowTypes: FlowType.visualTypes,
+      docRefs: []
     });
   }
 

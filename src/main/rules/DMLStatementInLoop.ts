@@ -13,9 +13,9 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
       label: 'DML statements in a loop',
       description: 'To avoid hitting Apex governor limits, we recommend grouping all of your database changes together at the end of the flow, whether those changes create, update, or delete records.',
       type: 'pattern',
-      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]
     },
-    {docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]}
     );
   }
 

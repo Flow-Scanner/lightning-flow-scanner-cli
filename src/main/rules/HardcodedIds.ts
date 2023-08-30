@@ -13,11 +13,9 @@ export class HardcodedIds extends RuleCommon implements IRuleDefinition {
       label: 'Hardcoded Ids',
       description: 'IDs are org-specific, so don’t hard-code IDs. Instead, pass them into variables when the flow starts. You can do so, for example, by using merge fields in URL parameters or by using a Get Records element.',
       type: 'pattern',
-      supportedFlowTypes: FlowType.allTypes
+      supportedFlowTypes: FlowType.allTypes,
+      docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }, {'label' : "Don't hard code Record Type IDs in Flow. By Stephen Church.", 'path' : 'https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6947530300012826624%29'}]
     },
-    {
-      docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]
-    } 
     );
   }
 

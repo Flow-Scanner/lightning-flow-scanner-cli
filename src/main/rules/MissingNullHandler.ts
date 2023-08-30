@@ -13,7 +13,8 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       label: 'Missing null handlers',
       description: 'If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.',
       type: 'pattern',
-      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      docRefs: []
     });
   }
 

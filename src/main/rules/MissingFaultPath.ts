@@ -14,10 +14,8 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       description: 'Sometimes a flow doesn’t perform an operation that you configured it to do. By default, the flow shows an error message to the user and emails the admin who created the flow. However, you can control that behavior.',
       type: 'pattern',
       supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
-    },
-      {
-        docRefs: [{ label: 'Flow Best Practices', path: 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]
-      }
+      docRefs: [{ label: 'Flow Best Practices', path: 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }]
+    }
     );
   }
 

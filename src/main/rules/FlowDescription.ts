@@ -12,7 +12,8 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
       label: 'Missing flow description',
       description: 'Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.',
       type: 'flow',
-      supportedFlowTypes: FlowType.allTypes
+      supportedFlowTypes: FlowType.allTypes,
+      docRefs: []
     });
   }
 

@@ -8,6 +8,7 @@ export interface IRuleDefinition {
   description: string;
   supportedTypes: string[];
   type: string;
+  docRefs:  {label: string, path: string}[];
   severity?: string;
 
   execute(flow: Flow, ruleOptions? : {}): RuleResult;

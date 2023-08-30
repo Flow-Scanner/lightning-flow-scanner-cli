@@ -14,7 +14,8 @@ export class UnconnectedElements extends RuleCommon implements IRuleDefinition{
       label: 'Unconnected elements',
       description: 'Removing unconnected elements which are not being used by the Flow makes your Flow more efficient and maintainable.',
       type: 'pattern',
-      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      docRefs: []
     });
   }
 

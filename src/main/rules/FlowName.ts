@@ -12,7 +12,8 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
       label: 'Flow Naming Convention',
       description: 'Readability of a flow is very important. Setting a naming convention for the Flow Name will improve the findability/searchability and overall consistency. It is recommended to at least provide a domain and a short description of the actions undertaken in the flow, in example Service_OrderFulfillment.',
       type: 'flow',
-      supportedFlowTypes: FlowType.allTypes
+      supportedFlowTypes: FlowType.allTypes,
+      docRefs: [{'label' : "Naming your Flows is more critical than ever. By Stephen Church", 'path' : 'https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx?utm_source=share&utm_medium=member_desktop'}]
     });
   }
 

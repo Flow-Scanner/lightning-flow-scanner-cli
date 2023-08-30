@@ -13,6 +13,7 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       description: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow Object since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.',
       type: 'flow',
       supportedFlowTypes: FlowType.allTypes,
+      docRefs: []
     });
   }
 

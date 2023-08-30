@@ -13,7 +13,8 @@ export class CopyOf extends RuleCommon implements IRuleDefinition {
       label: 'Copy Of API Name',
       description: 'Having multiple elements called Copy_X_Of_Element will decrease the readability of the Flow. If you copy and paste them, make sure to update the API name of the new copy.',
       type: 'pattern',
-      supportedFlowTypes: FlowType.allTypes
+      supportedFlowTypes: FlowType.allTypes,
+      docRefs: []
     }
     );
   }
