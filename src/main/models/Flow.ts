@@ -26,8 +26,6 @@ export class Flow {
     'constants',
     'dynamicChoiceSets',
     'formulas',
-    'stages',
-    'textTemplates',
     'variables'
   ];
   private flowMetadata = [
@@ -38,6 +36,8 @@ export class Flow {
     'interviewLabel',
     'label',
     'status',
+    'stages',
+    'textTemplates',
     'runInMode',
     'startElementReference',
     'isTemplate',
@@ -56,6 +56,7 @@ export class Flow {
     'collectionProcessors',
     'decisions',
     'loops',
+    'orchestratedStages',
     'recordCreates',
     'recordDeletes',
     'recordLookups',
