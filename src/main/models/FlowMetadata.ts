@@ -1,6 +1,6 @@
-import {FlowNode} from './FlowNode';
+import {FlowElement} from './FlowElement';
 
-export class FlowMetadata extends FlowNode{
+export class FlowMetadata extends FlowElement{
 
     constructor(subtype:string, element:object){
         super('metadata', subtype, element);

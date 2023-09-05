@@ -1,11 +1,12 @@
-import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {Flow} from '../models/Flow';
-import {FlowElement} from '../models/FlowElement';
-import {FlowType} from '../models/FlowType';
-import {RuleResult} from '../models/RuleResult';
-import {RuleCommon} from '../models/RuleCommon';
+import { IRuleDefinition } from '../interfaces/IRuleDefinition';
+import { Flow } from '../models/Flow';
+import { FlowNode } from '../models/FlowNode';
+import { FlowType } from '../models/FlowType';
+import { RuleResult } from '../models/RuleResult';
+import { RuleCommon } from '../models/RuleCommon';
+import { ResultDetails } from '../models/ResultDetails';
 
-export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinition{
+export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinition {
 
   constructor() {
     super({
@@ -13,21 +14,22 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
       label: 'Duplicate DML operations',
       description: "If the flow commits changes to the database or performs actions between two screens, don't let users navigate back between screen. Otherwise, the flow may perform duplicate database operations.",
       type: 'pattern',
-      supportedFlowTypes: FlowType.visualTypes,
-      docRefs: []
+      supportedTypes: FlowType.visualTypes,
+      docRefs: [],
+      isConfigurable: false
     });
   }
 
-  public execute(flow: Flow) : RuleResult {
-    if(flow.type[0] === 'Survey'){
+  public execute(flow: Flow): RuleResult {
+    if (flow.type[0] === 'Survey') {
       return new RuleResult(this, false);
     }
-    const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
+    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
-    const DuplicateDMLOperations: FlowElement[] = [];
+    const DuplicateDMLOperations: FlowNode[] = [];
     const startingNode = this.findStart(flow);
-    if(!startingNode || startingNode === -1) {
+    if (!startingNode || startingNode === -1) {
       throw 'Can not find starting element';
     }
     let dmlFlag = false;
@@ -50,12 +52,12 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
               const elementsByReferences = flowElements.filter(element => references.includes(element.name));
               for (const nextElement of elementsByReferences) {
                 const nextIndex = flowElements.findIndex(element => nextElement.name === element.name);
-                if('screens' === nextElement.subtype){
-                  if (dmlFlag && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true' && nextElement.element['showFooter'][0] == 'true'){
+                if ('screens' === nextElement.subtype) {
+                  if (dmlFlag && nextElement.element['allowBack'] && nextElement.element['allowBack'][0] == 'true' && nextElement.element['showFooter'][0] == 'true') {
                     DuplicateDMLOperations.push(nextElement);
                   }
                 }
-                if (!processedElementIndexes.includes(nextIndex)){
+                if (!processedElementIndexes.includes(nextIndex)) {
                   indexesToProcess.push(nextIndex);
                 }
               }
@@ -72,14 +74,19 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
         }
       }
     } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
-    return new RuleResult( this, DuplicateDMLOperations.length > 0, DuplicateDMLOperations);
+
+    let results = [];
+    for (const det of DuplicateDMLOperations) {
+      results.push(new ResultDetails(det));
+    }
+    return new RuleResult(this, DuplicateDMLOperations.length > 0, results);
   }
 
   private flagDML(element, dmlFlag) {
     const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
-    if(dmlStatementTypes.includes(element.subtype)) {
+    if (dmlStatementTypes.includes(element.subtype)) {
       return true;
-    } else if(dmlFlag === true && element.subtype === 'screens' && element.element['allowBack'] && element.element['allowBack'][0] == 'true'){
+    } else if (dmlFlag === true && element.subtype === 'screens' && element.element['allowBack'] && element.element['allowBack'][0] == 'true') {
       return false;
     } else {
       return dmlFlag;
@@ -87,12 +94,12 @@ export class DuplicateDMLOperations extends RuleCommon implements IRuleDefinitio
   }
 
   private findStart(flow: Flow) {
-    const flowElements: FlowElement[] = flow.nodes.filter(node => node instanceof FlowElement) as FlowElement[];
+    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     let start;
     if (flow.startElementReference) {
       start = flowElements.findIndex(n => {
-          return n.name == flow.startElementReference[0];
-        });
+        return n.name == flow.startElementReference[0];
+      });
     } else {
       start = flowElements.findIndex(n => {
         return n.subtype === 'start';

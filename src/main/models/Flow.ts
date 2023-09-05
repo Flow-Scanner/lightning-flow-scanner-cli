@@ -1,7 +1,7 @@
-import {FlowElement} from './FlowElement';
-import {FlowMetadata} from './FlowMetadata';
-import {FlowNode} from './FlowNode';
-import {FlowVariable} from './FlowVariable';
+import { FlowNode } from './FlowNode';
+import { FlowMetadata } from './FlowMetadata';
+import { FlowElement } from './FlowElement';
+import { FlowVariable } from './FlowVariable';
 import * as p from 'path';
 
 export class Flow {
@@ -19,7 +19,7 @@ export class Flow {
   public status?;
   public uri?;
   public root?;
-  public nodes?: FlowNode[];
+  public elements?: FlowElement[];
 
   private flowVariables = [
     'choices',
@@ -41,7 +41,13 @@ export class Flow {
     'runInMode',
     'startElementReference',
     'isTemplate',
-    'fullName'
+    'fullName',
+    'timeZoneSidKey',
+    'isAdditionalPermissionRequiredToRun',
+    'migratedFromWorkflowRuleName',
+    'triggerOrder',
+    'Environments',
+    'segment'
   ];
   private flowNodes = [
     'actionCalls',
@@ -71,7 +77,7 @@ export class Flow {
       this.path = args.path;
     }
     let flowName = p.basename(p.basename(this.path), p.extname(this.path));
-    if(flowName.includes('.')){
+    if (flowName.includes('.')) {
       flowName = flowName.split('.')[0]
     }
     this.name = flowName;
@@ -89,7 +95,7 @@ export class Flow {
     this.status = this.xmldata.status;
     this.start = this.xmldata.start;
     this.type = this.xmldata.processType;
-    const allNodes: (FlowVariable | FlowElement | FlowMetadata)[] = [];
+    const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
       const nodesOfType = this.xmldata[nodeType];
       // skip xmlns url
@@ -112,13 +118,13 @@ export class Flow {
         }
       } else if (this.flowNodes.includes(nodeType)) {
         for (const node of nodesOfType) {
-            allNodes.push(
-              new FlowElement(node.name, nodeType, node)
-            );
+          allNodes.push(
+            new FlowNode(node.name, nodeType, node)
+          );
         }
       }
     }
-    this.nodes = allNodes;
+    this.elements = allNodes;
   }
 
 }

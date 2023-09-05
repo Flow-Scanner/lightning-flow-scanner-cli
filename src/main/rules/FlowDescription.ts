@@ -3,6 +3,8 @@ import { Flow } from '../models/Flow';
 import { FlowType } from '../models/FlowType';
 import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
+import { FlowAttribute } from '../models/FlowAttribute';
+import { ResultDetails } from '../models/ResultDetails';
 
 export class FlowDescription extends RuleCommon implements IRuleDefinition {
 
@@ -12,8 +14,9 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
       label: 'Missing flow description',
       description: 'Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.',
       type: 'flow',
-      supportedFlowTypes: FlowType.allTypes,
-      docRefs: []
+      supportedTypes: FlowType.allTypes(),
+      docRefs: [],
+      isConfigurable: false
     });
   }
 
@@ -22,6 +25,6 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
       return new RuleResult(this, false);
     }
     const missingFlowDescription = !flow.xmldata.description;
-    return new RuleResult(this, missingFlowDescription, missingFlowDescription ? 'undefined' : undefined);
+    return new RuleResult(this, missingFlowDescription, [new ResultDetails(new FlowAttribute(!missingFlowDescription ? 'undefined' : undefined, "description", "!==null"))]);
   }
 }
