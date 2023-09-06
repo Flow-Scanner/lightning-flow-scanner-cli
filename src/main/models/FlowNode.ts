@@ -5,6 +5,8 @@ export class FlowNode extends FlowElement {
 
     public connectors: FlowElementConnector[] = [];
     public name: string;
+    public locationX: string;
+    public locationY: string;
 
     constructor(name: string, subtype: string, element: object) {
         super('node', subtype, element);
@@ -13,6 +15,8 @@ export class FlowNode extends FlowElement {
         if (connectors.length > 0 && connectors[0] !== undefined) {
             this.connectors = connectors;
         }
+        this.locationX = element["locationX"][0];
+        this.locationY = element["locationY"][0];
     }
 
     private getConnectors(subtype, element) {

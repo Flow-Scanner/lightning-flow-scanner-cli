@@ -8,10 +8,6 @@ export class ResultDetails {
     public name: string;
     public type: string;
     public metaType: string;
-    public locationX?: string;
-    public locationY?: string;
-    public connectsTo?: string[];
-    public attributeExpression?: string;
     public details: {};
 
     constructor(violation: FlowNode | FlowVariable | FlowAttribute) {
@@ -19,23 +15,17 @@ export class ResultDetails {
         this.name = violation.name;
         this.metaType = violation.metaType;
         this.type = violation.subtype;
+        if(violation.metaType === 'variable'){
+            let element = violation as FlowVariable;
+            this.details = {dataType: element.dataType}
+        }
         if (violation.metaType === 'node') {
             let element = violation as FlowNode;
-            if (element.connectors) {
-                this.connectsTo = element.connectors.map(connector => connector.reference);
-            }
-            if (element.element["locationX"]) {
-                this.locationX = element.element["locationX"];
-            }
-            if (element.element["locationY"]) {
-                this.locationY = element.element["locationY"];
-            }
+            this.details = {locationX: element.locationX, locationY: element.locationY, connectsTo: element.connectors.map(connector => connector.reference)}
         }
         if (violation.metaType === 'attribute'){
             let element = violation as FlowAttribute;
-            this.attributeExpression = element.expression;
+            this.details = {expression: element.expression}
         }
-
-    
     }
 }
