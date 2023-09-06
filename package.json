@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-core",
-  "version": "2.21.0",
+  "version": "2.22.0",
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "Ruben",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "description": "",
   "dependencies": {
     "@types/chai": "^4.2.21",

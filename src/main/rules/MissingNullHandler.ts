@@ -1,9 +1,10 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { Flow } from '../models/Flow';
-import { FlowElement } from '../models/FlowElement';
+import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
+import { ResultDetails } from '../models/ResultDetails';
 
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
 
@@ -13,7 +14,9 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       label: 'Missing null handlers',
       description: 'If a Get Records operation does not find any data it will return null. Use a decision element on the operation result variable to validate that the result is not null.',
       type: 'pattern',
-      supportedFlowTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes]
+      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      docRefs: [],
+      isConfigurable: false
     });
   }
 
@@ -22,8 +25,8 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       return new RuleResult(this, false);
     }
     const getOperations = ['recordLookups'];
-    const getOperationElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && getOperations.includes(node.subtype)) as FlowElement[];
-    const decisionElements: FlowElement[] = flow.nodes.filter(node => node.nodeType === 'element' && node.subtype === 'decisions') as FlowElement[];
+    const getOperationElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as FlowNode[];
+    const decisionElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as FlowNode[];
     const getOperationsWithoutNullHandler = [];
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;
@@ -73,6 +76,10 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    return new RuleResult(this, getOperationsWithoutNullHandler.length > 0, getOperationsWithoutNullHandler);
+    let results = [];
+    for (const det of getOperationsWithoutNullHandler) {
+      results.push(new ResultDetails(det));
+    }
+    return new RuleResult(this, getOperationsWithoutNullHandler.length > 0, results);
   }
 }

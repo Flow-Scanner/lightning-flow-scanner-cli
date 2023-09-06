@@ -1,11 +1,13 @@
-import {FlowNode} from './FlowNode';
+import { FlowElement } from './FlowElement';
 
-export class FlowVariable extends FlowNode{
+export class FlowVariable extends FlowElement {
 
-        public name:string;
+    public name: string;
+    public dataType: string;
 
-        constructor(name:string, subtype:string, element:object){
-            super('variable', subtype, element);
-            this.name = name[0];
-        }
+    constructor(name: string, subtype: string, element: object) {
+        super('variable', subtype, element);
+        this.name = name[0];
+        this.dataType = element["dataType"][0];
+    }
 }

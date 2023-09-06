@@ -28,7 +28,7 @@ describe('A flow with incorrect naming and set exception', () => {
         exceptions: 
         {
             AAAA: 
-                {"FlowName":["The name AAAA does not meet the regex convention [0-9]"]}
+                {"FlowName":["AAAA"]}
         }
     };
 

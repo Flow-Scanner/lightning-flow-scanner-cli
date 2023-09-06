@@ -1,6 +1,6 @@
 # Lightning Flow Scanner(Rule Engine)
 
-##### _This the rule engine is used in both the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX plugin](https://www.npmjs.com/package/lightning-flow-scanner) of the same name._
+##### _This rule engine is used in both the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX Plugin](https://www.npmjs.com/package/lightning-flow-scanner) of the same name._
 
 ## Rules
 
@@ -20,7 +20,7 @@ ___
 
 ### Old API version
 
-Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.
+Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow Object since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.
 
 _Default Value: `>50.0`_
 

@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowElement } from './FlowElement';
-import { FlowVariable } from './FlowVariable';
+import { ResultDetails } from './ResultDetails';
 
 export class RuleResult {
 
@@ -11,9 +10,9 @@ export class RuleResult {
   public severity: string;
   public supportedFlowTypes: string[]
   public type: string;
-  public details?: (FlowElement[] | FlowVariable[] | string);
+  public details: ResultDetails[] = [];
 
-  constructor(info: IRuleDefinition, occurs: boolean, details?: (FlowElement[] | FlowVariable[] | string)) {
+  constructor(info: IRuleDefinition, occurs: boolean, details?: ResultDetails[]) {
     this.ruleName = info.name;
     this.ruleDescription = info.description;
     this.ruleLabel = info.label;

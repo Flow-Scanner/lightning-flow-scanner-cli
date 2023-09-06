@@ -3,6 +3,8 @@ import { Flow } from '../models/Flow';
 import { FlowType } from '../models/FlowType';
 import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
+import { ResultDetails } from '../models/ResultDetails';
+import { FlowAttribute } from '../models/FlowAttribute';
 
 export class APIVersion extends RuleCommon implements IRuleDefinition {
 
@@ -10,9 +12,11 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     super({
       name: 'APIVersion',
       label: 'Old API version',
-      description: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.',
+      description: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow Object since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.',
       type: 'flow',
-      supportedFlowTypes: FlowType.allTypes,
+      supportedTypes: FlowType.allTypes(),
+      docRefs: [],
+      isConfigurable: true
     });
   }
 
@@ -26,12 +30,12 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     if (flowAPIVersionNumber) {
       if (options && options.expression) {
         const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
-        return new RuleResult(this, !expressionEvaluation, !expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined);
+        return new RuleResult(this, !expressionEvaluation, [new ResultDetails(new FlowAttribute(!expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined, "apiVersion", options.expression))]);
       } else {
         return new RuleResult(this, false);
       }
     } else {
-      return new RuleResult(this, true, 'API Version <50');
+      return new RuleResult(this, true, [new ResultDetails(new FlowAttribute('API Version <50', "apiVersion", "<50"))]);
     }
   }
 }

@@ -1,5 +1,5 @@
-import {Flow} from '../models/Flow';
-import {RuleResult} from '../models/RuleResult';
+import { Flow } from '../models/Flow';
+import { RuleResult } from '../models/RuleResult';
 
 export interface IRuleDefinition {
   uri: string;
@@ -8,7 +8,9 @@ export interface IRuleDefinition {
   description: string;
   supportedTypes: string[];
   type: string;
+  docRefs: { label: string, path: string }[];
+  isConfigurable: boolean;
   severity?: string;
 
-  execute(flow: Flow, ruleOptions? : {}): RuleResult;
+  execute(flow: Flow, ruleOptions?: {}): RuleResult;
 }
