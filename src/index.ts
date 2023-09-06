@@ -32,7 +32,6 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
   if (ruleOptions?.exceptions) {
     for (const [exceptionName, exceptionElements] of Object.entries(ruleOptions.exceptions)) {
       for (const scanResult of scanResults) {
-
         if (scanResult.flow.name === exceptionName) {
           for (const ruleResult of scanResult.ruleResults as RuleResult[]) {
             if (exceptionElements[ruleResult.ruleName]) {
