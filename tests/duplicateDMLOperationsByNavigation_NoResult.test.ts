@@ -16,11 +16,11 @@ describe('When scanning a screen flow with 2 screens, a DML statement in between
     });
   });
 
-  it('DuplicateDMLOperations should have no result', () => {
+  it('DuplicateDMLOperation should have no result', () => {
     const ruleConfig = {
       rules: 
         {
-          DuplicateDMLOperations: {
+          DuplicateDMLOperation: {
             severity: 'error',
           },
         },

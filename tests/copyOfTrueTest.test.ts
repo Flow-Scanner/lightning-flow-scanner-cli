@@ -16,11 +16,11 @@ describe('In a normal flow without copied elements', () => {
     });
   });
 
-  it('CopyOf should have no result', () => {
+  it('CopyAPIName should have no result', () => {
     const ruleConfig = {
       rules: 
         {
-          CopyOf: {
+          CopyAPIName: {
             severity: 'error',
           },
         },
@@ -29,7 +29,7 @@ describe('In a normal flow without copied elements', () => {
     const results: ScanResult[] = scan([flow], ruleConfig);
 
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('CopyOf');
+    expect(results[0].ruleResults[0].ruleName).to.equal('CopyAPIName');
     expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 });

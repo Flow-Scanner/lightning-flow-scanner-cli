@@ -11,8 +11,8 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: 'FlowDescription',
-      label: 'Missing flow description',
-      description: 'Descriptions are useful for documentation purposes. It is recommended to provide information about where it is used and what it will do.',
+      label: 'Missing Flow Description',
+      description: "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
       type: 'flow',
       supportedTypes: FlowType.allTypes(),
       docRefs: [],
@@ -22,9 +22,11 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
 
   public execute(flow: Flow): RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, false);
+      return new RuleResult(this, []);
     }
     const missingFlowDescription = !flow.xmldata.description;
-    return new RuleResult(this, missingFlowDescription, [new ResultDetails(new FlowAttribute(!missingFlowDescription ? 'undefined' : undefined, "description", "!==null"))]);
+    return (missingFlowDescription ? 
+      new RuleResult(this, [new ResultDetails(new FlowAttribute('undefined', "description", "!==null"))]) :
+      new RuleResult(this, []));
   }
 }

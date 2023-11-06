@@ -6,13 +6,13 @@ import { RuleCommon } from '../models/RuleCommon';
 import { FlowNode } from '../models/FlowNode';
 import { ResultDetails } from '../models/ResultDetails';
 
-export class CopyOf extends RuleCommon implements IRuleDefinition {
+export class CopyAPIName extends RuleCommon implements IRuleDefinition {
 
   constructor() {
     super({
-      name: 'CopyOf',
+      name: 'CopyAPIName',
       label: 'Copy Of API Name',
-      description: 'Having multiple elements called Copy_X_Of_Element will decrease the readability of the Flow. If you copy and paste them, make sure to update the API name of the new copy.',
+      description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
       type: 'pattern',
       supportedTypes: FlowType.allTypes(),
       docRefs: [],
@@ -35,6 +35,6 @@ export class CopyOf extends RuleCommon implements IRuleDefinition {
     for (const det of copyOfElements) {
       results.push(new ResultDetails(det));
     }
-    return new RuleResult(this, copyOfElements.length > 0, results);
+    return new RuleResult(this, results);
   }
 }

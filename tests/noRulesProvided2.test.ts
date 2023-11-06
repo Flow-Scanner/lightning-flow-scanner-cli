@@ -27,7 +27,7 @@ describe('When running with empty object rules in the rule config', () => {
         exceptions: 
           {
               CreateANewAccountWithChild: 
-                  {"DuplicateDMLOperations":["ViewAccountId"]}
+                  {"DuplicateDMLOperation":["ViewAccountId"]}
           }
       };
     const results: ScanResult[] = scan([flow], ruleConfig);

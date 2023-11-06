@@ -16,11 +16,11 @@ describe('When scanning a screen flow with 2 screens, one DML statement in betwe
     });
   });
 
-  it('DuplicateDMLOperations should have a result', () => {
+  it('DuplicateDMLOperation should have a result', () => {
     const ruleConfig = {
       rules: 
         {
-          DuplicateDMLOperations: {
+          DuplicateDMLOperation: {
             severity: 'error',
           },
         },
@@ -29,7 +29,7 @@ describe('When scanning a screen flow with 2 screens, one DML statement in betwe
     const results: ScanResult[] = scan([flow], ruleConfig);
 
     expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperations');
+    expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperation');
     expect(results[0].ruleResults[0].details.length).to.equal(1);
   });
 });

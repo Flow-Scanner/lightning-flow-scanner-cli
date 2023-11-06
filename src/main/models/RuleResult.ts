@@ -9,13 +9,14 @@ export class RuleResult {
   public severity: string;
   public details: ResultDetails[] = [];
 
-  constructor(info: IRuleDefinition, occurs: boolean, details?: ResultDetails[]) {
+  constructor(info: IRuleDefinition, details: ResultDetails[]) {
     this.ruleDefinition = info;
     this.ruleName = info.name;
     this.severity = info.severity ? info.severity : 'error';
-    this.occurs = occurs;
-    if (details) {
-      this.details = details;
+    this.occurs = false;
+    this.details = details;
+    if(details.length > 0){
+      this.occurs = true;
     }
   }
 

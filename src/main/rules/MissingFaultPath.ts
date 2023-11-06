@@ -5,38 +5,56 @@ import { FlowType } from '../models/FlowType';
 import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import { ResultDetails } from '../models/ResultDetails';
+import { Compiler } from '../libs/Compiler';
 
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
-
   constructor() {
     super({
       name: 'MissingFaultPath',
       label: 'Missing error handlers',
-      description: 'Sometimes a flow doesn’t perform an operation that you configured it to do. By default, the flow shows an error message to the user and emails the admin who created the flow. However, you can control that behavior.',
+      description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
       type: 'pattern',
       supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
       docRefs: [{ label: 'Flow Best Practices', path: 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
-      isConfigurable: false
-    }
-    );
+      isConfigurable: false,
+    });
   }
 
   public execute(flow: Flow): RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, false);
+      return new RuleResult(this, []);
     }
-    const typesWithFaultPath = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'];
-    const flowElementsWhereFaultPathIsApplicable: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode && typesWithFaultPath.includes(node.subtype)) as FlowNode[];
-    const elementsWithoutFaultPath: FlowNode[] = [];
-    for (const element of flowElementsWhereFaultPathIsApplicable) {
-      if (!element.connectors.find(connector => 'faultConnector' === connector.type)) {
-        elementsWithoutFaultPath.push(element);
+
+    const compiler = new Compiler();
+    const results: ResultDetails[] = [];
+    const elementsWhereFaultPathIsApplicable = (flow.elements.filter((node) => node instanceof FlowNode && ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'].includes(node.subtype)) as FlowNode[]).map((e) => e.name);
+
+    const visitCallback = (element: FlowNode) => {
+      // Check if the element should have a fault path
+      if (!element.connectors.find((connector) => connector.type === 'faultConnector') && elementsWhereFaultPathIsApplicable.includes(element.name)) {
+        // Check if the element is part of another fault path
+        if (!this.isPartOfFaultHandlingFlow(element, flow)) {
+          results.push(new ResultDetails(element));
+        }
+      }
+    };
+
+    // Use the Compiler for traversal
+    compiler.traverseFlow(flow, flow.startReference, visitCallback);
+
+    return new RuleResult(this, results);
+  }
+
+  private isPartOfFaultHandlingFlow(element: FlowNode, flow: Flow): boolean {
+    const flowelements = flow.elements.filter(el => el instanceof FlowNode) as FlowNode[];
+    for (const otherElement of flowelements) {
+      if (otherElement !== element) {
+        // Check if the otherElement has a faultConnector pointing to element
+        if (otherElement.connectors.find((connector) => connector.type === 'faultConnector' && connector.reference === element.name)) {
+          return true;
+        }
       }
     }
-    let results = [];
-    for (const det of elementsWithoutFaultPath) {
-      results.push(new ResultDetails(det));
-    }
-    return new RuleResult(this, elementsWithoutFaultPath.length > 0, results);
+    return false;
   }
 }

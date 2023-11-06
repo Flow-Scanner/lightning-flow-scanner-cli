@@ -20,6 +20,7 @@ export class Flow {
   public uri?;
   public root?;
   public elements?: FlowElement[];
+  public startReference;
 
   private flowVariables = [
     'choices',
@@ -93,8 +94,8 @@ export class Flow {
     this.processType = this.xmldata.processType;
     this.processMetadataValues = this.xmldata.processMetadataValues;
     this.startElementReference = this.xmldata.startElementReference;
-    this.status = this.xmldata.status;
     this.start = this.xmldata.start;
+    this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
     const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
@@ -126,6 +127,24 @@ export class Flow {
       }
     }
     this.elements = allNodes;
+    this.startReference = this.findStart();
+  }
+
+  private findStart() {
+    let start = '';
+    const flowElements: FlowNode[] = this.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    if (this.startElementReference) {
+      start = this.startElementReference[0];
+    } else if(flowElements.find(n => {
+      return n.subtype === 'start';
+    })){
+      let startElement = flowElements.find(n => {
+        return n.subtype === 'start';
+      });
+      start = startElement.connectors[0].reference;
+    }
+    return start;
   }
 
 }
+

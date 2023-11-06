@@ -11,8 +11,8 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: 'APIVersion',
-      label: 'Old API version',
-      description: 'Newer API components may cause older versions of Flows to start behaving incorrectly due to differences in the underlying mechanics. The Api Version has been available as an attribute on the Flow Object since API v50.0. It is recommended to limit variation between API versions and to maintain them on a regular basis.',
+      label: 'Outdated API Version',
+      description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
       type: 'flow',
       supportedTypes: FlowType.allTypes(),
       docRefs: [],
@@ -30,12 +30,14 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     if (flowAPIVersionNumber) {
       if (options && options.expression) {
         const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
-        return new RuleResult(this, !expressionEvaluation, [new ResultDetails(new FlowAttribute(!expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined, "apiVersion", options.expression))]);
+        return (!expressionEvaluation ?
+          new RuleResult(this, [new ResultDetails(new FlowAttribute(!expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined, "apiVersion", options.expression))]) :
+          new RuleResult(this, []));
       } else {
-        return new RuleResult(this, false);
+        return new RuleResult(this, []);
       }
     } else {
-      return new RuleResult(this, true, [new ResultDetails(new FlowAttribute('API Version <50', "apiVersion", "<50"))]);
+      return new RuleResult(this, [new ResultDetails(new FlowAttribute('API Version <49', "apiVersion", "<49"))]);
     }
   }
 }

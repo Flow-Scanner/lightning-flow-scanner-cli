@@ -1,0 +1,164 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "dosomethingelse"
+                ],
+                "label": [
+                    "dosomethingelse"
+                ],
+                "locationX": [
+                    "440"
+                ],
+                "locationY": [
+                    "242"
+                ],
+                "actionName": [
+                    "NewTask"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "inputParameters": [
+                    {
+                        "name": [
+                            "OwnerId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$User.Id"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "nameSegment": [
+                    "NewTask"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            },
+            {
+                "name": [
+                    "log_call"
+                ],
+                "label": [
+                    "log call"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "134"
+                ],
+                "actionName": [
+                    "LogACall"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "faultConnector": [
+                    {
+                        "targetReference": [
+                            "dosomethingelse"
+                        ]
+                    }
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "nameSegment": [
+                    "LogACall"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            }
+        ],
+        "apiVersion": [
+            "58.0"
+        ],
+        "description": [
+            "This flow demonstrates how to resolve a violation of the rule \"Missing Error Handler\"."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "Fix: Missing Error Handler {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Fix: Missing Error Handler"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "log_call"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ]
+    }
+}

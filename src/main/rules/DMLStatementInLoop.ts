@@ -11,8 +11,8 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: 'DMLStatementInLoop',
-      label: 'DML statements in a loop',
-      description: 'To avoid hitting Apex governor limits, we recommend grouping all of your database changes together at the end of the flow, whether those changes create, update, or delete records.',
+      label: 'DML statement in a loop',
+      description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your record-related operations, including creation, updates, or deletions, at the conclusion of the flow.",
       type: 'pattern',
       supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
       docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
@@ -23,7 +23,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
 
   public execute(flow: Flow): RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, false);
+      return new RuleResult(this, []);
     }
     const dmlStatementTypes = ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates'];
     const flowElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node') as FlowNode[];
@@ -77,7 +77,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
     for (const det of dmlStatementsInLoops) {
       results.push(new ResultDetails(det));
     }
-    return new RuleResult(this, dmlStatementsInLoops.length > 0, results);
+    return new RuleResult(this, results);
   }
 
   private findStartOfLoopReference(loopElement: FlowNode) {
