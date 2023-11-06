@@ -1,25 +1,25 @@
 import { APIVersion } from '../rules/APIVersion';
-import { CopyOf } from '../rules/CopyOf';
+import { CopyAPIName } from '../rules/CopyAPIName';
 import { DMLStatementInLoop } from '../rules/DMLStatementInLoop';
-import { DuplicateDMLOperations } from '../rules/DuplicateDMLOperations';
+import { DuplicateDMLOperation } from '../rules/DuplicateDMLOperation';
 import { FlowDescription } from '../rules/FlowDescription';
 import { FlowName } from '../rules/FlowName';
-import { HardcodedIds } from '../rules/HardcodedIds';
+import { HardcodedId } from '../rules/HardcodedId';
 import { MissingFaultPath } from '../rules/MissingFaultPath';
 import { MissingNullHandler } from '../rules/MissingNullHandler';
-import { UnconnectedElements } from '../rules/UnconnectedElements';
-import { UnusedVariables } from '../rules/UnusedVariables';
+import { UnconnectedElement } from '../rules/UnconnectedElement';
+import { UnusedVariable } from '../rules/UnusedVariable';
 
 export const DefaultRuleStore: {} = {
   APIVersion,
-  CopyOf,
+  CopyAPIName,
   DMLStatementInLoop,
-  DuplicateDMLOperations,
+  DuplicateDMLOperation,
   FlowDescription,
   FlowName,
-  HardcodedIds,
+  HardcodedId,
   MissingFaultPath,
   MissingNullHandler,
-  UnconnectedElements,
-  UnusedVariables
+  UnconnectedElement,
+  UnusedVariable
 };

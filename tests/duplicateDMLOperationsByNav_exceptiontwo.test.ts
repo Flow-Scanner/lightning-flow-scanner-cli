@@ -5,7 +5,7 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
 
-describe('When scanning a screen flow with 2 DML statements between screens and both marked as exception', () => {
+describe('strange', () => {
   let flow: Flow;
 
   before('arrange', () => {
@@ -16,11 +16,11 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
     });
   });
 
-  it('DuplicateDMLOperations should have 0 results', () => {
+  it('error', () => {
     const ruleConfig = {
       rules:
       {
-        DuplicateDMLOperations:
+        DuplicateDMLOperation:
         {
           severity: 'error',
         },
@@ -33,13 +33,13 @@ describe('When scanning a screen flow with 2 DML statements between screens and 
       exceptions: 
         {
           CreateANewAccountWithChild: 
-            { "DuplicateDMLOperations": ["ViewAccountId", "ViewAccountId_0"] }
+            { "DuplicateDMLOperation": ["ViewAccountId", "ViewAccountId_0"] }
         }
       };
 
     const results: ScanResult[] = scan([flow], ruleConfig);
     const ruleResult = results[0].ruleResults.find(
-      (result) => result.ruleName === 'DuplicateDMLOperations'
+      (result) => result.ruleName === 'DuplicateDMLOperation'
     );
     expect(ruleResult?.occurs).to.be.false;
 

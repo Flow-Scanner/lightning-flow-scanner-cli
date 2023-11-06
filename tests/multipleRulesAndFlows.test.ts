@@ -28,11 +28,11 @@ describe('When scanning multiple flows', () => {
     const ruleConfig = {
       rules:
       {
-        DuplicateDMLOperations:
+        DuplicateDMLOperation:
         {
           severity: 'error',
         },
-        UnusedVariables:
+        UnusedVariable:
         {
           severity: 'error',
         },
@@ -45,9 +45,9 @@ describe('When scanning multiple flows', () => {
       exceptions: 
         {
           CreateANewAccountWithChild: 
-            { "DuplicateDMLOperations": ["ViewAccountId", "ViewAccountId_0"] },
+            { "DuplicateDMLOperation": ["ViewAccountId", "ViewAccountId_0"] },
           CreateANewAccountImproved: 
-            { "UnusedVariables": ["createAccount2"] }
+            { "UnusedVariable": ["createAccount2"] }
         }
       };
     const results: ScanResult[] = scan(flows, ruleConfig);

@@ -1,0 +1,205 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "create_account_manually"
+                ],
+                "label": [
+                    "create account manually"
+                ],
+                "locationX": [
+                    "440"
+                ],
+                "locationY": [
+                    "242"
+                ],
+                "actionName": [
+                    "FeedItem.NewTaskFromFeedItem"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "inputParameters": [
+                    {
+                        "name": [
+                            "contextId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$User.Id"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "nameSegment": [
+                    "FeedItem.NewTaskFromFeedItem"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            }
+        ],
+        "apiVersion": [
+            "58.0"
+        ],
+        "description": [
+            "This flow demonstrates a violation of the rule \"Hardcoded Ids\"."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "Hardcoded Ids {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Hardcoded Ids"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "recordCreates": [
+            {
+                "name": [
+                    "create_Test_Account"
+                ],
+                "label": [
+                    "create Test Account"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "134"
+                ],
+                "faultConnector": [
+                    {
+                        "targetReference": [
+                            "create_account_manually"
+                        ]
+                    }
+                ],
+                "inputAssignments": [
+                    {
+                        "field": [
+                            "Name"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Test Account"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "field": [
+                            "OwnerId"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "005Dn000006GuG4IAK"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "object": [
+                    "Account"
+                ],
+                "storeOutputAutomatically": [
+                    "true"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "create_Test_Account"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "name": [
+                    "Account"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            }
+        ]
+    }
+}
