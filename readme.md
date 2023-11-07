@@ -5,16 +5,16 @@
 ## Rules
 
 - [Outdated API Version](#outdated-api-version)
-- [Copy of API Name](#copy-of-api-name)
-- [DML statements in a loop](#dml-statements-in-a-loop)
-- [Duplicate DML operations](#duplicate-dml-operations)
-- [Missing flow description](#missing-flow-description)
-- [Flow naming conventions](#flow-naming-conventions)
-- [Hardcoded Ids](#hardcoded-ids)
-- [Missing fault path](#missing-fault-path)
-- [Missing null handlers](#missing-null-handlers)
-- [Unconnected elements](#unconnected-elements)
-- [Unused variables](#unused-variables) 
+- [Copy API Name](#copy-api-name)
+- [DML Statement In A Loop'](#dml-statement-in-a-loop)
+- [Duplicate DML Operation](#duplicate-dml-operation)
+- [Missing Flow Description](#missing-flow-description)
+- [Flow Naming Convention](#flow-naming-convention)
+- [Hardcoded Id](#hardcoded-id)
+- [Missing Fault Path](#missing-fault-path)
+- [Missing Null Handler](#missing-null-handler)
+- [Unconnected Element](#unconnected-element)
+- [Unused Variable](#unused-variable) 
 
 ___
 

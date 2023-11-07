@@ -11,7 +11,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: 'DMLStatementInLoop',
-      label: 'DML statement in a loop',
+      label: 'DML Statement In A Loop',
       description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your record-related operations, including creation, updates, or deletions, at the conclusion of the flow.",
       type: 'pattern',
       supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
