@@ -11,7 +11,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: 'MissingFaultPath',
-      label: 'Missing error handlers',
+      label: 'Missing Fault Path',
       description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
       type: 'pattern',
       supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
