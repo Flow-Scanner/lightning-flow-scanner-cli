@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import 'mocha';
 
 describe('GetRuleDefinitions function', () => {
-  it('should return 11 rules', () => {
+  it('should return 12 rules', () => {
     const result = getRules();
-    expect(result.length).to.equal(11);
+    expect(result.length).to.equal(12);
   });
 });

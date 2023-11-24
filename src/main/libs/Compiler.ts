@@ -8,6 +8,22 @@ export class Compiler {
         this.visitedElements = new Set<string>();
     }
 
+    isInLoop = (flow: Flow, element: FlowNode, startOfLoop: FlowNode): boolean => {
+        const connectors = element.connectors || [];
+        for (const connector of connectors) {
+          if (connector.reference) {
+            const referencedElement = (flow.elements as FlowNode[]).find(el => el.name === connector.reference);
+            if (referencedElement === startOfLoop) {
+              return true;
+            }
+            if (this.isInLoop(flow, referencedElement, startOfLoop)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      };
+
     traverseFlow(flow: Flow, startElementName: string, visitCallback: (element: FlowNode) => void) {
         // Iterative Deepening Depth-First Search (IDDFS)
         let depth = 0;

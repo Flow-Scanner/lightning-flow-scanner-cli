@@ -1,0 +1,282 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "dosomethingelse"
+                ],
+                "label": [
+                    "dosomethingelse"
+                ],
+                "locationX": [
+                    "440"
+                ],
+                "locationY": [
+                    "434"
+                ],
+                "actionName": [
+                    "NewCase"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "nameSegment": [
+                    "NewCase"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            }
+        ],
+        "apiVersion": [
+            "58.0"
+        ],
+        "decisions": [
+            {
+                "name": [
+                    "notnull"
+                ],
+                "label": [
+                    "notnull"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "434"
+                ],
+                "defaultConnectorLabel": [
+                    "Default Outcome"
+                ],
+                "rules": [
+                    {
+                        "name": [
+                            "notnulln"
+                        ],
+                        "conditionLogic": [
+                            "and"
+                        ],
+                        "conditions": [
+                            {
+                                "leftValueReference": [
+                                    "SOQL_Query_Example"
+                                ],
+                                "operator": [
+                                    "IsNull"
+                                ],
+                                "rightValue": [
+                                    {
+                                        "booleanValue": [
+                                            "false"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "label": [
+                            "notnull"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "This flow demonstrates how to resolve a violation of the rule \"SOQL Query In A Loop\"."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "Fix: SOQL Query In A Loop {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Fix: SOQL Query In A Loop"
+        ],
+        "loops": [
+            {
+                "description": [
+                    "an example loop"
+                ],
+                "name": [
+                    "aLoop"
+                ],
+                "label": [
+                    "aLoop"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "134"
+                ],
+                "collectionReference": [
+                    "Accounts"
+                ],
+                "iterationOrder": [
+                    "Asc"
+                ],
+                "noMoreValuesConnector": [
+                    {
+                        "targetReference": [
+                            "SOQL_Query_Example"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "recordLookups": [
+            {
+                "name": [
+                    "SOQL_Query_Example"
+                ],
+                "label": [
+                    "SOQL Query Example"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "326"
+                ],
+                "assignNullValuesIfNoRecordsFound": [
+                    "false"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "notnull"
+                        ]
+                    }
+                ],
+                "faultConnector": [
+                    {
+                        "targetReference": [
+                            "dosomethingelse"
+                        ]
+                    }
+                ],
+                "filterLogic": [
+                    "and"
+                ],
+                "filters": [
+                    {
+                        "field": [
+                            "Active__c"
+                        ],
+                        "operator": [
+                            "EqualTo"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "Yes"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "getFirstRecordOnly": [
+                    "true"
+                ],
+                "object": [
+                    "Account"
+                ],
+                "storeOutputAutomatically": [
+                    "true"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "aLoop"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "description": [
+                    "A collection of Accounts"
+                ],
+                "name": [
+                    "Accounts"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "true"
+                ],
+                "isInput": [
+                    "true"
+                ],
+                "isOutput": [
+                    "true"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            }
+        ]
+    }
+}
