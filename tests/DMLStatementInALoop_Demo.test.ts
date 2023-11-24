@@ -5,7 +5,7 @@ import { Flow } from '../src/main/models/Flow';
 import { ScanResult } from '../src/main/models/ScanResult';
 import dmlstatementsinaloop from './testfiles/DMLStatementInALoop_Demo.json';
 
-describe('In the DML_statements_in_a_loop flow', () => {
+describe('In the DMLStatementInALoop_Demo flow', () => {
   let flow: Flow;
   
   before('arrange', () => {

@@ -49,7 +49,7 @@ ___
 
 ### DML Statement In A Loop
 
-To prevent exceeding Apex governor limits, it is advisable to consolidate all your record-related operations, including creation, updates, or deletions, at the conclusion of the flow.
+To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.
 
 **Configuration ID: `DMLStatementInLoop`**
 _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DMLStatementInLoop.ts))_
@@ -118,6 +118,15 @@ When a Get Records operation doesn't find any data, it returns null. To ensure d
 
 **Configuration ID: `MissingNullHandler`** 
 _([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingNullHandler.ts))_
+
+___
+
+### SOQL Query In A Loop
+
+To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.
+
+**Configuration ID: `SOQLQueryInLoop`** 
+_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/SOQLQueryInLoop.ts))_
 
 ___
 

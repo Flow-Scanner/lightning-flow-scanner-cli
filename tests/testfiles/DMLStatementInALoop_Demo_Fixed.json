@@ -1,0 +1,357 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "create_case_manually"
+                ],
+                "label": [
+                    "create case manually"
+                ],
+                "locationX": [
+                    "440"
+                ],
+                "locationY": [
+                    "542"
+                ],
+                "actionName": [
+                    "FeedItem.NewTaskFromFeedItem"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "inputParameters": [
+                    {
+                        "name": [
+                            "contextId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "aLoop.Id"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "nameSegment": [
+                    "FeedItem.NewTaskFromFeedItem"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            }
+        ],
+        "apiVersion": [
+            "58.0"
+        ],
+        "assignments": [
+            {
+                "description": [
+                    "Assigns values to newCase variable."
+                ],
+                "name": [
+                    "createNewCaseAssignment"
+                ],
+                "label": [
+                    "createNewCaseAssignment"
+                ],
+                "locationX": [
+                    "264"
+                ],
+                "locationY": [
+                    "242"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "newCase.AccountId"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "aLoop.Id"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "newCase.OwnerId"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "aLoop.OwnerId"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "assignToReference": [
+                            "newCases"
+                        ],
+                        "operator": [
+                            "Add"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "newCase"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "aLoop"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "This flow demonstrates how to resolve a violation of the rule \"DML Statement In A Loop\"."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "DML Statement In A Loop Fixed {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Fix: DML Statement In A Loop"
+        ],
+        "loops": [
+            {
+                "description": [
+                    "an example loop"
+                ],
+                "name": [
+                    "aLoop"
+                ],
+                "label": [
+                    "aLoop"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "134"
+                ],
+                "collectionReference": [
+                    "Accounts"
+                ],
+                "iterationOrder": [
+                    "Asc"
+                ],
+                "nextValueConnector": [
+                    {
+                        "targetReference": [
+                            "createNewCaseAssignment"
+                        ]
+                    }
+                ],
+                "noMoreValuesConnector": [
+                    {
+                        "targetReference": [
+                            "insert_cases"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "recordCreates": [
+            {
+                "name": [
+                    "insert_cases"
+                ],
+                "label": [
+                    "insert cases"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "434"
+                ],
+                "faultConnector": [
+                    {
+                        "targetReference": [
+                            "create_case_manually"
+                        ]
+                    }
+                ],
+                "inputReference": [
+                    "newCases"
+                ]
+            }
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "aLoop"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "description": [
+                    "A collection of Accounts"
+                ],
+                "name": [
+                    "Accounts"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "true"
+                ],
+                "isInput": [
+                    "true"
+                ],
+                "isOutput": [
+                    "true"
+                ],
+                "objectType": [
+                    "Account"
+                ]
+            },
+            {
+                "name": [
+                    "newCase"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Case"
+                ]
+            },
+            {
+                "description": [
+                    "Collection of New Cases"
+                ],
+                "name": [
+                    "newCases"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "true"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Case"
+                ]
+            },
+            {
+                "description": [
+                    "a task"
+                ],
+                "name": [
+                    "task"
+                ],
+                "dataType": [
+                    "SObject"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "objectType": [
+                    "Task"
+                ]
+            }
+        ]
+    }
+}

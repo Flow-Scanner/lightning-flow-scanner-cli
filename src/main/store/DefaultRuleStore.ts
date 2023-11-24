@@ -7,6 +7,7 @@ import { FlowName } from '../rules/FlowName';
 import { HardcodedId } from '../rules/HardcodedId';
 import { MissingFaultPath } from '../rules/MissingFaultPath';
 import { MissingNullHandler } from '../rules/MissingNullHandler';
+import { SOQLQueryInLoop } from '../rules/SOQLQueryInLoop';
 import { UnconnectedElement } from '../rules/UnconnectedElement';
 import { UnusedVariable } from '../rules/UnusedVariable';
 
@@ -20,6 +21,7 @@ export const DefaultRuleStore: {} = {
   HardcodedId,
   MissingFaultPath,
   MissingNullHandler,
+  SOQLQueryInLoop,
   UnconnectedElement,
   UnusedVariable
 };
