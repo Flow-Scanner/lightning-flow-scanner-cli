@@ -13,6 +13,7 @@
 - [Hardcoded Id](#hardcoded-id)
 - [Missing Fault Path](#missing-fault-path)
 - [Missing Null Handler](#missing-null-handler)
+- [SOQL Query In A Loop'](#soql-query-in-a-loop)
 - [Unconnected Element](#unconnected-element)
 - [Unused Variable](#unused-variable) 
 
