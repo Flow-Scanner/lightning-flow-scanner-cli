@@ -22,7 +22,23 @@ export class FlowNode extends FlowElement {
     private getConnectors(subtype, element) {
 
         if (subtype === 'start') {
-            return [new FlowElementConnector('connector', element.connector, {})];
+            const connectors = [];
+            connectors.push(
+                new FlowElementConnector('connector', element.connector, {})
+            );
+            if (Array.isArray(element.scheduledPaths)) {
+                for (const asyncElement of element?.scheduledPaths) {
+                    if (asyncElement.connector) {
+                        connectors.push(
+                            new FlowElementConnector('connector', asyncElement.connector, {
+                                childName: asyncElement?.name?.[0] ?? 'AsyncAfterCommit',
+                                childOf: 'rules'
+                            })
+                        )
+                    }
+                }
+            }
+            return connectors;
         } else if (subtype === 'decisions') {
             const connectors = [];
             connectors.push(

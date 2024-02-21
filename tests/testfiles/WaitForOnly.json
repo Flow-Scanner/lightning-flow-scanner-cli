@@ -1,0 +1,63 @@
+{
+    "Flow": {
+      "$": { "xmlns": "http://soap.sforce.com/2006/04/metadata" },
+      "apiVersion": ["60.0"],
+      "assignments": [
+        {
+          "description": ["Default Action for Asynchronous Transaction"],
+          "name": ["VariableAssignment"],
+          "label": ["VariableAssignment"],
+          "locationX": ["706"],
+          "locationY": ["382"],
+          "assignmentItems": [
+            {
+              "assignToReference": ["$Record.Name"],
+              "operator": ["Assign"],
+              "value": [{ "stringValue": ["Test"] }]
+            }
+          ]
+        }
+      ],
+      "description": ["AsyncOnlyAutomation"],
+      "environments": ["Default"],
+      "interviewLabel": ["AsyncOnlyTransaction {!$Flow.CurrentDateTime}"],
+      "label": ["Async_OnlyTransaction"],
+      "processMetadataValues": [
+        {
+          "name": ["BuilderType"],
+          "value": [{ "stringValue": ["LightningFlowBuilder"] }]
+        },
+        {
+          "name": ["CanvasMode"],
+          "value": [{ "stringValue": ["FREE_FORM_CANVAS"] }]
+        },
+        {
+          "name": ["OriginBuilderType"],
+          "value": [{ "stringValue": ["LightningFlowBuilder"] }]
+        }
+      ],
+      "processType": ["AutoLaunchedFlow"],
+      "start": [
+        {
+          "locationX": ["185"],
+          "locationY": ["0"],
+          "object": ["Account"],
+          "recordTriggerType": ["Create"],
+          "scheduledPaths": [
+            { "pathType": ["AsyncAfterCommit"] },
+            {
+              "name": ["Wait_For"],
+              "connector": [{ "targetReference": ["VariableAssignment"] }],
+              "label": ["Wait For"],
+              "offsetNumber": ["2"],
+              "offsetUnit": ["Hours"],
+              "timeSource": ["RecordTriggerEvent"]
+            }
+          ],
+          "triggerType": ["RecordAfterSave"]
+        }
+      ],
+      "status": ["Active"]
+    }
+  }
+  
