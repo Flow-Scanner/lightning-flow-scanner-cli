@@ -7,10 +7,10 @@ import createANewAccount from './testfiles/CreateANewAccount.json';
 import UnconnectedScreensWithDuplicateDML from './testfiles/UnconnectedScreensWithDuplicateDML.json';
 import CreateANewAccountImproved from './testfiles/CreateANewAccountImproved.json';
 
-describe('', () => {
+describe('The DuplicateDMLOperation Rule ', () => {
   let flow: core.Flow;
 
-  it('In a flow with a DML statement inbetween screens DuplicateDMLOperation should have 1 result', () => {
+  it('should have 1 result in a flow with a DML statement inbetween screens ', () => {
     flow = new core.Flow({
       path: 'anypath',
       xmldata: createANewAccount,
@@ -29,7 +29,7 @@ describe('', () => {
     expect(results[0].ruleResults[0].details.length).to.equal(1);
   });
   
-  it('In a flow with 2 DML statements inbetween screens DuplicateDMLOperation should have 2 results', () => {
+  it('should have 2 results in a flow with 2 DML statements inbetween screens', () => {
     flow = new core.Flow({
       path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccountWithChild,
@@ -49,7 +49,7 @@ describe('', () => {
     expect(results[0].ruleResults[0].details.length).to.equal(2);
   });
 
-  it('In a flow with 2 DML statements inbetween screens DuplicateDMLOperation should have 1 result when 1 is specied as exception', () => {
+  it('should have 1 result when 1 is specied as exception in a flow with 2 DML statements inbetween screens', () => {
     flow = new core.Flow({
       path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccountWithChild,
@@ -75,7 +75,7 @@ describe('', () => {
     expect(results[0].ruleResults[0].details.length).to.equal(1);  
   });
 
-  it('In a flow with 2 DML statements inbetween screens DuplicateDMLOperation should have no results when all are specied as exception', () => {
+  it('should have no results when all are specied as exception in a flow with 2 DML statements inbetween screens', () => {
     flow = new core.Flow({
       path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccountWithChild,
@@ -112,7 +112,7 @@ describe('', () => {
     expect(ruleResul2?.occurs).to.be.true;
   });
 
-  it('DuplicateDMLOperation should have no results in a random flow without screens', () => {
+  it('should have no results in a random flow without screens', () => {
     flow = new core.Flow({
       path: 'anypath',
       xmldata: AssignTaskOwner,
@@ -129,7 +129,7 @@ describe('', () => {
     expect(results[0].ruleResults.length).to.equal(0);
   });
   
-  it('DuplicateDMLOperation should have no result in a flow with dmls and unconnected screens', () => {
+  it('should have no result in a flow with dmls and unconnected screens', () => {
     flow = new core.Flow({
       path: 'anypath',
       xmldata: UnconnectedScreensWithDuplicateDML,
@@ -148,7 +148,7 @@ describe('', () => {
     expect(results[0].ruleResults[0].details.length).to.equal(0);
   });
 
-  it('DuplicateDMLOperation should have no result when restrictions to the navigation are implemented', () => {
+  it('should have no result when restrictions to the navigation are implemented', () => {
     flow = new core.Flow({
       path: 'anypath',
       xmldata: CreateANewAccountImproved,
