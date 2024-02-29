@@ -1,11 +1,9 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import Flow from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
-import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { ResultDetails } from '../models/ResultDetails';
 import { Compiler } from '../libs/Compiler';
+import * as core from '../../index';
 
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   constructor() {
@@ -20,13 +18,13 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, []);
+      return new core.RuleResult(this, []);
     }
 
     const compiler = new Compiler();
-    const results: ResultDetails[] = [];
+    const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (flow.elements.filter((node) => node instanceof FlowNode && ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'].includes(node.subtype)) as FlowNode[]).map((e) => e.name);
 
     const visitCallback = (element: FlowNode) => {
@@ -34,7 +32,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       if (!element.connectors.find((connector) => connector.type === 'faultConnector') && elementsWhereFaultPathIsApplicable.includes(element.name)) {
         // Check if the element is part of another fault path
         if (!this.isPartOfFaultHandlingFlow(element, flow)) {
-          results.push(new ResultDetails(element));
+          results.push(new core.ResultDetails(element));
         }
       }
     };
@@ -42,10 +40,10 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     // Use the Compiler for traversal
     compiler.traverseFlow(flow, flow.startReference, visitCallback);
 
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 
-  private isPartOfFaultHandlingFlow(element: FlowNode, flow: Flow): boolean {
+  private isPartOfFaultHandlingFlow(element: FlowNode, flow: core.Flow): boolean {
     const flowelements = flow.elements.filter(el => el instanceof FlowNode) as FlowNode[];
     for (const otherElement of flowelements) {
       if (otherElement !== element) {

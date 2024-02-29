@@ -1,5 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { ResultDetails } from './ResultDetails';
+import ResultDetails from './ResultDetails';
 
 export default class RuleResult {
 
