@@ -1,10 +1,8 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
-import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition {
 
@@ -20,9 +18,9 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
     });
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, []);
+      return new core.RuleResult(this, []);
     }
     const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     const processedElementIndexes: number[] = [];
@@ -77,9 +75,9 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
 
     let results = [];
     for (const det of DuplicateDMLOperations) {
-      results.push(new ResultDetails(det));
+      results.push(new core.ResultDetails(det));
     }
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 
   private flagDML(element, dmlFlag) {
@@ -93,7 +91,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
     }
   }
 
-  private findStart(flow: Flow) {
+  private findStart(flow: core.Flow) {
     const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     let start;
     if (flow.startElementReference) {

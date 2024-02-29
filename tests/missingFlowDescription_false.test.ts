@@ -1,16 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan } from '../src';
-import { Flow } from '../src/main/models/Flow';
-import { ScanResult } from '../src/main/models/ScanResult';
+import * as core from '../src'
+
 import CreateANewAccount from './testfiles/CreateANewAccount.json';
 
 describe('When scanning a flow with description', () => {
-  let flow: Flow;
+  let flow: core.Flow;
 
   before('arrange', () => {
     // ARRANGE
-    flow = new Flow({
+    flow = new core.Flow({
       path: 'anypath',
       xmldata: CreateANewAccount,
     });
@@ -26,7 +25,7 @@ describe('When scanning a flow with description', () => {
         },
     };
 
-    const results: ScanResult[] = scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
 
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('FlowDescription');

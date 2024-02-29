@@ -1,10 +1,8 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
+import * as core from '../../index';
 import { FlowType } from '../models/FlowType';
-import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import { FlowNode } from '../models/FlowNode';
-import { ResultDetails } from '../models/ResultDetails';
 
 export class CopyAPIName extends RuleCommon implements IRuleDefinition {
 
@@ -21,7 +19,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
 
     const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     const copyOfElements = [];
@@ -33,8 +31,8 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
     }
     let results = [];
     for (const det of copyOfElements) {
-      results.push(new ResultDetails(det));
+      results.push(new core.ResultDetails(det));
     }
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 }

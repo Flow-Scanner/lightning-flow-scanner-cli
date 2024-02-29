@@ -1,4 +1,4 @@
-import { Flow } from '../models/Flow';
+import Flow from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 
 export class Compiler {
@@ -26,7 +26,7 @@ export class Compiler {
 
     traverseFlow(flow: Flow, startElementName: string, visitCallback: (element: FlowNode) => void) {
         // Iterative Deepening Depth-First Search (IDDFS)
-        let depth = 0;
+        // let depth = 0;
         let elementsToVisit = [startElementName];
 
         while (elementsToVisit.length > 0) {
@@ -44,8 +44,8 @@ export class Compiler {
             }
             
             elementsToVisit = nextElements;
-            depth++;
             // add logic to control depth or terminate the traversal based on requirements.
+            // depth++;
         }
     }
 

@@ -1,13 +1,11 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
-import { RuleResult } from '../models/RuleResult';
-import { ScanResult } from '../models/ScanResult';
 import { GetRuleDefinitions } from './GetRuleDefinitions';
 import { keys } from './Keys';
+import * as core from '../../index';
 
-export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanResult[] {
+export function ScanFlows(flows: core.Flow[], rulesConfig?: Map<string, {}>): core.ScanResult[] {
 
-  const flowResults: ScanResult[] = [];
+  const flowResults: core.ScanResult[] = [];
   let selectedRules: IRuleDefinition[] = [];
   if (rulesConfig) {
     selectedRules = GetRuleDefinitions(rulesConfig);
@@ -18,7 +16,7 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
   for (const flow of flows) {
 
     try{
-      const ruleResults: RuleResult[] = [];
+      const ruleResults: core.RuleResult[] = [];
       for (const rule of selectedRules) {
         if (rule.supportedTypes.includes(flow.type[0])) {
           try {
@@ -39,7 +37,7 @@ export function ScanFlows(flows: Flow[], rulesConfig?: Map<string, {}>): ScanRes
           }
         }
       }
-      flowResults.push(new ScanResult(flow, ruleResults));
+      flowResults.push(new core.ScanResult(flow, ruleResults));
     }
     catch (error) { 
       console.log(error.message)

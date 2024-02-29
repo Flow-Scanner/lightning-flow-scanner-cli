@@ -2,7 +2,7 @@ import { FlowAttribute } from "./FlowAttribute";
 import { FlowNode } from "./FlowNode";
 import { FlowVariable } from "./FlowVariable";
 
-export class ResultDetails {
+export default class ResultDetails {
 
     public violation: FlowNode | FlowVariable | FlowAttribute;
     public name: string;

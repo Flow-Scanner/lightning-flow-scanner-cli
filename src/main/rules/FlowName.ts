@@ -1,10 +1,8 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
 import { FlowType } from '../models/FlowType';
-import { RuleResult } from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import { FlowAttribute } from '../models/FlowAttribute';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class FlowName extends RuleCommon implements IRuleDefinition {
 
@@ -20,11 +18,11 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: Flow, options?: { expression: string }): RuleResult {
+  public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
     const regexExp = (options && options.expression) ? options.expression : '[A-Za-z0-9]+_[A-Za-z0-9]+';
     const conventionApplied = new RegExp(regexExp).test(flow.name);
     return (!conventionApplied ?
-      new RuleResult(this, [new ResultDetails(new FlowAttribute(flow.name, 'name', regexExp))]) :
-      new RuleResult(this, []));
+      new core.RuleResult(this, [new core.ResultDetails(new FlowAttribute(flow.name, 'name', regexExp))]) :
+      new core.RuleResult(this, []));
   }
 }

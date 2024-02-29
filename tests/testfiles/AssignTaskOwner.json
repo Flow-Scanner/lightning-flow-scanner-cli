@@ -1,1 +1,266 @@
-{"Flow":{"$":{"xmlns":"http://soap.sforce.com/2006/04/metadata"},"actionCalls":[{"name":["createtask"],"label":["createtask"],"locationX":["744"],"locationY":["328"],"actionName":["NewTask"],"actionType":["quickAction"],"inputParameters":[{"name":["OwnerId"],"value":[{"elementReference":["incvar"]}]}]}],"assignments":[{"name":["AssignRelatedToId"],"label":["AssignRelatedToId"],"locationX":["504"],"locationY":["326"],"assignmentItems":[{"assignToReference":["Id"],"operator":["Assign"],"value":[{"stringValue":["00109000002M1yRAAS"]}]}],"connector":[{"targetReference":["createtask"]}]}],"description":["Example flow creating a new case demonstrating the rule Hardcoded Ids"],"interviewLabel":["AssignTaskOwner {!$Flow.CurrentDateTime}"],"label":["AssignTaskOwner"],"processMetadataValues":[{"name":["BuilderType"],"value":[{"stringValue":["LightningFlowBuilder"]}]},{"name":["CanvasMode"],"value":[{"stringValue":["FREE_FORM_CANVAS"]}]},{"name":["OriginBuilderType"],"value":[{"stringValue":["LightningFlowBuilder"]}]}],"processType":["AutoLaunchedFlow"],"start":[{"locationX":["50"],"locationY":["310"],"connector":[{"targetReference":["AssignRelatedToId"]}]}],"status":["Active"],"variables":[{"name":["Id"],"dataType":["String"],"isCollection":["false"],"isInput":["false"],"isOutput":["false"]},{"name":["incvar"],"dataType":["Number"],"isCollection":["false"],"isInput":["true"],"isOutput":["false"],"scale":["2"],"value":[{"numberValue":["10.0"]}]},{"name":["int"],"dataType":["Number"],"isCollection":["false"],"isInput":["false"],"isOutput":["false"],"scale":["2"]},{"name":["intlist"],"dataType":["Number"],"isCollection":["true"],"isInput":["false"],"isOutput":["false"],"scale":["2"]},{"name":["somecount"],"dataType":["Number"],"isCollection":["false"],"isInput":["false"],"isOutput":["false"],"scale":["2"],"value":[{"numberValue":["0.0"]}]}]}}
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "createtask"
+                ],
+                "label": [
+                    "createtask"
+                ],
+                "locationX": [
+                    "744"
+                ],
+                "locationY": [
+                    "328"
+                ],
+                "actionName": [
+                    "NewTask"
+                ],
+                "actionType": [
+                    "quickAction"
+                ],
+                "inputParameters": [
+                    {
+                        "name": [
+                            "OwnerId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "incvar"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "assignments": [
+            {
+                "name": [
+                    "AssignRelatedToId"
+                ],
+                "label": [
+                    "AssignRelatedToId"
+                ],
+                "locationX": [
+                    "504"
+                ],
+                "locationY": [
+                    "326"
+                ],
+                "assignmentItems": [
+                    {
+                        "assignToReference": [
+                            "Id"
+                        ],
+                        "operator": [
+                            "Assign"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "00109000002M1yRAAS"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "createtask"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description": [
+            "Example flow creating a new case demonstrating the rule Hardcoded Ids"
+        ],
+        "interviewLabel": [
+            "AssignTaskOwner {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "AssignTaskOwner"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "FREE_FORM_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "310"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "AssignRelatedToId"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "status": [
+            "Active"
+        ],
+        "variables": [
+            {
+                "name": [
+                    "Id"
+                ],
+                "dataType": [
+                    "String"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ]
+            },
+            {
+                "name": [
+                    "incvar"
+                ],
+                "dataType": [
+                    "Number"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "true"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "scale": [
+                    "2"
+                ],
+                "value": [
+                    {
+                        "numberValue": [
+                            "10.0"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "int"
+                ],
+                "dataType": [
+                    "Number"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "scale": [
+                    "2"
+                ]
+            },
+            {
+                "name": [
+                    "intlist"
+                ],
+                "dataType": [
+                    "Number"
+                ],
+                "isCollection": [
+                    "true"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "scale": [
+                    "2"
+                ]
+            },
+            {
+                "name": [
+                    "somecount"
+                ],
+                "dataType": [
+                    "Number"
+                ],
+                "isCollection": [
+                    "false"
+                ],
+                "isInput": [
+                    "false"
+                ],
+                "isOutput": [
+                    "false"
+                ],
+                "scale": [
+                    "2"
+                ],
+                "value": [
+                    {
+                        "numberValue": [
+                            "0.0"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

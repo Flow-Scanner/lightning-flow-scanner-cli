@@ -4,7 +4,7 @@ import { FlowElement } from './FlowElement';
 import { FlowVariable } from './FlowVariable';
 import * as p from 'path';
 
-export class Flow {
+export default class Flow {
 
   public label: string;
   public xmldata;
