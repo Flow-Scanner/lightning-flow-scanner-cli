@@ -1,7 +1,7 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
-import { RuleResult } from '../models/RuleResult';
-import { ScanResult } from '../models/ScanResult';
+import Flow from '../models/Flow';
+import RuleResult from '../models/RuleResult';
+import ScanResult from '../models/ScanResult';
 import { GetRuleDefinitions } from './GetRuleDefinitions';
 import { keys } from './Keys';
 

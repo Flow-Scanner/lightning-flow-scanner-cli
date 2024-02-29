@@ -1,5 +1,5 @@
-import { Flow } from '../models/Flow';
-import { RuleResult } from '../models/RuleResult';
+import Flow from '../models/Flow';
+import RuleResult from '../models/RuleResult';
 
 export interface IRuleDefinition {
   uri: string;

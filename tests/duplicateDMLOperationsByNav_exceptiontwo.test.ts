@@ -1,16 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan } from '../src';
-import { Flow } from '../src/main/models/Flow';
-import { ScanResult } from '../src/main/models/ScanResult';
+import * as core from '../src'
+
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
 
 describe('strange', () => {
-  let flow: Flow;
+  let flow: core.Flow;
 
   before('arrange', () => {
     // ARRANGE
-    flow = new Flow({
+    flow = new core.Flow({
       path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
       xmldata: CreateANewAccountWithChild,
     });
@@ -37,7 +36,7 @@ describe('strange', () => {
         }
       };
 
-    const results: ScanResult[] = scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
     const ruleResult = results[0].ruleResults.find(
       (result) => result.ruleName === 'DuplicateDMLOperation'
     );

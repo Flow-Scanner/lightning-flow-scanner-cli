@@ -1,7 +1,7 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { Flow } from '../models/Flow';
+import Flow from '../models/Flow';
 import { FlowType } from '../models/FlowType';
-import { RuleResult } from '../models/RuleResult';
+import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import { FlowNode } from '../models/FlowNode';
 import { ResultDetails } from '../models/ResultDetails';
