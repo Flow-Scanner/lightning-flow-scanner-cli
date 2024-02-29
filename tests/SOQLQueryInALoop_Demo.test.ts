@@ -3,7 +3,7 @@ import 'mocha';
 import * as core from '../src'
 import flowfile from './testfiles/SOQLQueryInALoop_Demo.json';
 
-describe('In the SOQLQueryInALoop_Demo flow', () => {
+describe('In the SOQLQueryInALoop Demo flow', () => {
   let flow: core.Flow;
   
   before('arrange', () => {

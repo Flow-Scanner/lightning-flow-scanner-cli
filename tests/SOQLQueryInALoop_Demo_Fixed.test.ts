@@ -3,7 +3,7 @@ import 'mocha';
 import * as core from '../src';
 import flowfile from './testfiles/SOQLQueryInALoop_Demo_Fixed.json';
 
-describe('In the SOQLQueryInALoop_Demo flow', () => {
+describe('In the SOQLQueryInALoop_Fixed Demo flow', () => {
   let flow: core.Flow;
   
   before('arrange', () => {
@@ -15,7 +15,6 @@ describe('In the SOQLQueryInALoop_Demo flow', () => {
   });
 
   it('there should be no result for the rule SOQLQueryInLoop', ()                                                                            => {
-
     const results: core.ScanResult[] = core.scan([flow]);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(0);

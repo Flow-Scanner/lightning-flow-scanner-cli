@@ -1,10 +1,8 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import Flow from '../models/Flow';
 import { FlowType } from '../models/FlowType';
-import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class HardcodedId extends RuleCommon implements IRuleDefinition {
 
@@ -21,7 +19,7 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     const prefixes = IdPrefixes.ids.map(prefix => {
       return prefix['Key Prefix'];
     });
@@ -45,8 +43,8 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
     }
     let results = [];
     for (const det of nodesWithHardcodedIds) {
-      results.push(new ResultDetails(det));
+      results.push(new core.ResultDetails(det));
     }
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 }

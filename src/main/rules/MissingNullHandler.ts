@@ -1,10 +1,9 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import Flow from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
 
@@ -20,7 +19,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): RuleResult {
     if (flow.type[0] === 'Survey') {
       return new RuleResult(this, []);
     }
@@ -78,7 +77,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
     }
     let results = [];
     for (const det of getOperationsWithoutNullHandler) {
-      results.push(new ResultDetails(det));
+      results.push(new core.ResultDetails(det));
     }
     return new RuleResult(this, results);
   }

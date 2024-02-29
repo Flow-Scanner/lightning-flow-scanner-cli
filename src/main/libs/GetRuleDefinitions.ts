@@ -8,15 +8,17 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
 
   if (ruleConfig && ruleConfig instanceof Map) {
     for (const ruleName of ruleConfig.keys()) {
-      const matchedRule = new DynamicRule(ruleName);
-      const configuredSeverity = ruleConfig.get(ruleName)['severity'];
-      if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
-        severity = configuredSeverity;
-      } else {
-        throw new Error(`Invalid severity "${configuredSeverity}" provided for rule "${ruleName}".`);
+      try{
+        const matchedRule = new DynamicRule(ruleName);
+          const configuredSeverity = ruleConfig.get(ruleName)['severity'];
+          if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
+            severity = configuredSeverity;
+          } 
+          matchedRule['severity'] = severity;
+          matchedRules.push(matchedRule);
+      } catch (error) {
+        console.log(error.message)
       }
-      matchedRule['severity'] = severity;
-      matchedRules.push(matchedRule);
     }
   } else {
     // tslint:disable-next-line:forin

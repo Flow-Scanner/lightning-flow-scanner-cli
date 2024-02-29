@@ -6,7 +6,7 @@
 
 - [Outdated API Version](#outdated-api-version)
 - [Copy API Name](#copy-api-name)
-- [DML Statement In A Loop'](#dml-statement-in-a-loop)
+- [DML Statement In A Loop](#dml-statement-in-a-loop)
 - [Duplicate DML Operation](#duplicate-dml-operation)
 - [Missing Flow Description](#missing-flow-description)
 - [Flow Naming Convention](#flow-naming-convention)

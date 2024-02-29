@@ -4,7 +4,7 @@ import { FixFlows } from './main/libs/FixFlows';
 import { GetRuleDefinitions } from './main/libs/GetRuleDefinitions';
 import { ScanFlows } from './main/libs/ScanFlows';
 import Flow from './main/models/Flow';
-import { ResultDetails } from './main/models/ResultDetails';
+import ResultDetails from './main/models/ResultDetails';
 import RuleResult from './main/models/RuleResult';
 import ScanResult from './main/models/ScanResult';
 
@@ -58,3 +58,4 @@ export function fix(flows: Flow[]): ScanResult[] {
 export { default as Flow } from './main/models/Flow';
 export { default as ScanResult } from './main/models/ScanResult';
 export { default as RuleResult } from './main/models/RuleResult';
+export { default as ResultDetails } from './main/models/ResultDetails';

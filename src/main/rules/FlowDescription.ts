@@ -1,10 +1,8 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import Flow from '../models/Flow';
 import { FlowType } from '../models/FlowType';
-import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import { FlowAttribute } from '../models/FlowAttribute';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class FlowDescription extends RuleCommon implements IRuleDefinition {
 
@@ -20,13 +18,13 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, []);
+      return new core.RuleResult(this, []);
     }
     const missingFlowDescription = !flow.xmldata.description;
     return (missingFlowDescription ? 
-      new RuleResult(this, [new ResultDetails(new FlowAttribute('undefined', "description", "!==null"))]) :
-      new RuleResult(this, []));
+      new core.RuleResult(this, [new core.ResultDetails(new FlowAttribute('undefined', "description", "!==null"))]) :
+      new core.RuleResult(this, []));
   }
 }

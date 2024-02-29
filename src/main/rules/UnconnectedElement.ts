@@ -1,11 +1,9 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import Flow from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 import { FlowElement } from '../models/FlowElement';
 import { FlowType } from '../models/FlowType';
-import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import { ResultDetails } from '../models/ResultDetails';
+import * as core from '../../index';
 
 export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
 
@@ -21,9 +19,9 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, []);
+      return new core.RuleResult(this, []);
     }
     const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
     let indexesToProcess = [this.findStart(flowElements)];
@@ -84,9 +82,9 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     }
     let results = [];
     for (const det of unconnectedElements) {
-      results.push(new ResultDetails(det));
+      results.push(new core.ResultDetails(det));
     }
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 
   private findStart(nodes: FlowElement[]) {
