@@ -1,17 +1,14 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan, getRules } from '../src';
-
-import { Flow } from '../src/main/models/Flow';
-import { ScanResult } from '../src/main/models/ScanResult';
+import * as core from '../src';
 import CreateANewAccount from './testfiles/CreateANewAccount.json';
 
 describe('When running with empty rule config', () => {
-  let flow: Flow;
+  let flow: core.Flow;
 
   before('arrange', () => {
     // ARRANGE
-    flow = new Flow({
+    flow = new core.Flow({
       path: 'anypath',
       xmldata: CreateANewAccount,
     });
@@ -19,8 +16,8 @@ describe('When running with empty rule config', () => {
 
   it('all default rules should be used', () => {
 
-    const results: ScanResult[] = scan([flow], undefined);
-    const rules = getRules();
+    const results: core.ScanResult[] = core.scan([flow], undefined);
+    const rules = core.getRules();
     expect(results[0].ruleResults.length).to.equal(rules.length);
   });
 });

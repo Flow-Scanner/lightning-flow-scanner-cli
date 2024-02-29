@@ -1,9 +1,9 @@
-import { Flow } from '../models/Flow';
+import Flow from '../models/Flow';
 import { FlowNode } from '../models/FlowNode';
 import { FlowVariable } from '../models/FlowVariable';
 import { ResultDetails } from '../models/ResultDetails';
-import { RuleResult } from '../models/RuleResult';
-import { ScanResult } from '../models/ScanResult';
+import RuleResult from '../models/RuleResult';
+import ScanResult from '../models/ScanResult';
 import { UnconnectedElement } from '../rules/UnconnectedElement';
 import { UnusedVariable } from '../rules/UnusedVariable';
 import { BuildFlow } from './BuildFlow';

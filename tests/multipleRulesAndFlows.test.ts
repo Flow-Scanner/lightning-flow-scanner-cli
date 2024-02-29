@@ -1,23 +1,21 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan } from '../src';
-import { Flow } from '../src/main/models/Flow';
-import { ScanResult } from '../src/main/models/ScanResult';
+import * as core from '../src';
 import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
 import CreateANewAccountImproved from './testfiles/CreateANewAccountImproved.json';
 
 describe('When scanning multiple flows', () => {
-    let flow: Flow;
-    let flow2: Flow;
-    let flows: Flow[];
+    let flow: core.Flow;
+    let flow2: core.Flow;
+    let flows: core.Flow[];
 
     before('arrange', () => {
       // ARRANGE
-      flow = new Flow({
+      flow = new core.Flow({
         path: 'anypath',
         xmldata: CreateANewAccountWithChild,
       });
-      flow2 = new Flow({
+      flow2 = new core.Flow({
         path: 'anypath2',
         xmldata: CreateANewAccountImproved,
       });
@@ -50,7 +48,7 @@ describe('When scanning multiple flows', () => {
             { "UnusedVariable": ["createAccount2"] }
         }
       };
-    const results: ScanResult[] = scan(flows, ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results.length).to.equal(2);
   });
 });

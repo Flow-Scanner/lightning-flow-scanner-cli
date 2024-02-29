@@ -1,16 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import { scan } from '../src';
-import { Flow } from '../src/main/models/Flow';
-import { ScanResult } from '../src/main/models/ScanResult';
+import * as core from '../src'
+
 import CreateANewAccountWithChild from './testfiles/MissingNullHandler_Fixed.json';
 
 describe('When scanning a flow with null handlers', () => {
-    let flow: Flow;
+    let flow: core.Flow;
 
     before('arrange', () => {
         // ARRANGE
-        flow = new Flow({
+        flow = new core.Flow({
             path: './testfiles/tc.flow-meta.xml',
             xmldata: CreateANewAccountWithChild,
         });
@@ -26,7 +25,7 @@ describe('When scanning a flow with null handlers', () => {
                 },
             }
         };
-        const results: ScanResult[] = scan([flow], ruleConfig);
+        const results: core.ScanResult[] = core.scan([flow], ruleConfig);
         expect(results[0].ruleResults[0].ruleName).to.equal('MissingNullHandler')
         expect(results[0].ruleResults[0].occurs).to.equal(false);
     });
