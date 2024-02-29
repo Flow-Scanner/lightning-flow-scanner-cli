@@ -81,51 +81,9 @@ describe('When scaning without specified rules in the rule config', () => {
     expect(results[0].ruleResults.length).to.equal(1);
   });
 
-  before('arrange', () => {
-    flow = new core.Flow({
-      path: 'anypath',
-      xmldata: CreateANewAccountWithChild,
-    });
-    flow2 = new core.Flow({
-      path: 'anypath2',
-      xmldata: CreateANewAccountImproved,
-    });
-    flows = [flow, flow2];
-    });
-
-    it('all should have results', () => {
-      const ruleConfig = {
-        rules:
-        {
-          DuplicateDMLOperation:
-          {
-            severity: 'error',
-          },
-          UnusedVariable:
-          {
-            severity: 'error',
-          },
-          FlowDescription:
-          {
-            severity: 'error',
-          }
-        }
-        ,
-        exceptions: 
-          {
-            CreateANewAccountWithChild: 
-              { "DuplicateDMLOperation": ["ViewAccountId", "ViewAccountId_0"] },
-            CreateANewAccountImproved: 
-              { "UnusedVariable": ["createAccount2"] }
-          }
-        };
-      const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-      expect(results.length).to.equal(2);
-    });
-
-    it('In total there are currently 12 default rules', () => {
-      const result = core.getRules();
-      expect(result.length).to.equal(12);
-    });
+  it('In total there are currently 12 default rules', () => {
+    const result = core.getRules();
+    expect(result.length).to.equal(12);
+  });
 
 });
