@@ -2,7 +2,6 @@ import Flow from '../models/Flow';
 import RuleResult from '../models/RuleResult';
 
 export interface IRuleDefinition {
-  uri: string;
   name: string;
   label: string;
   description: string;
@@ -10,6 +9,7 @@ export interface IRuleDefinition {
   type: string;
   docRefs: { label: string, path: string }[];
   isConfigurable: boolean;
+  uri?: string;
   severity?: string;
 
   execute(flow: Flow, ruleOptions?: {}): RuleResult;
