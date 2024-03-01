@@ -1,6 +1,6 @@
 import { FlowElement } from './FlowElement';
 
-export class FlowVariable extends FlowElement {
+export default class FlowVariable extends FlowElement {
 
     public name: string;
     public dataType: string;

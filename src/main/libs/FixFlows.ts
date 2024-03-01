@@ -1,4 +1,3 @@
-import { FlowVariable } from '../models/FlowVariable';
 import { UnconnectedElement } from '../rules/UnconnectedElement';
 import { UnusedVariable } from '../rules/UnusedVariable';
 import { BuildFlow } from './BuildFlow';
@@ -16,7 +15,7 @@ export function FixFlows(flows: core.Flow[]): core.ScanResult[] {
     const nodesToBuild = flow.elements.filter(node => {
       switch (node.metaType) {
         case 'variable':
-          const nodeVar = node as FlowVariable;
+          const nodeVar = node as core.FlowVariable;
           if (!unusedVariableReferences.includes(nodeVar.name)) {
             return node;
           }
