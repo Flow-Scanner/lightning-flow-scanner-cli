@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
@@ -11,7 +10,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
       label: 'Duplicate DML Operation',
       description: "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
       type: 'pattern',
-      supportedTypes: FlowType.visualTypes,
+      supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
       isConfigurable: false
     });

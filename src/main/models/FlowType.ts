@@ -1,4 +1,4 @@
-export class FlowType {
+export default class FlowType {
 
   public static backEndTypes = ['AutoLaunchedFlow', 'CustomEvent', 'InvocableProcess', 'Orchestrator', 'EvaluationFlow', 'ActionCadenceAutolaunchedFlow'];
   public static processBuilder = ['Workflow'];

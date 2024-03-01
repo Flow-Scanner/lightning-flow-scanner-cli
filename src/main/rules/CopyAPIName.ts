@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 
 export class CopyAPIName extends RuleCommon implements IRuleDefinition {
@@ -11,7 +10,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
       label: 'Copy API Name',
       description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
       type: 'pattern',
-      supportedTypes: FlowType.allTypes(),
+      supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
       isConfigurable: false
     }

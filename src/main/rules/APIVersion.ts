@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import { FlowAttribute } from '../models/FlowAttribute';
 
@@ -12,7 +11,7 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       label: 'Outdated API Version',
       description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
       type: 'flow',
-      supportedTypes: FlowType.allTypes(),
+      supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
       isConfigurable: true
     });

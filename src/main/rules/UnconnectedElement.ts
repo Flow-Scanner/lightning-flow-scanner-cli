@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { FlowElement } from '../models/FlowElement';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
@@ -12,7 +11,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
       label: 'Unconnected Element',
       description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
       type: 'pattern',
-      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false
     });

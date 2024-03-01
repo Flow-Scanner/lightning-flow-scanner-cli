@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import { Compiler } from '../libs/Compiler';
 import * as core from '../../index';
@@ -12,7 +11,7 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
       label: 'DML Statement In A Loop',
       description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
       type: 'pattern',
-      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
       isConfigurable: false
     });

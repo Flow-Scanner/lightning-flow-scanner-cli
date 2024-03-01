@@ -1,5 +1,4 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {FlowType} from '../models/FlowType';
 import {RuleCommon} from '../models/RuleCommon';
 import * as core from '../../index';
 
@@ -11,7 +10,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition{
       label: 'Unused Variable',
       description: "To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use.",
       type: 'pattern',
-      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false
     });
