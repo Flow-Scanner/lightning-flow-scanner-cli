@@ -3,6 +3,12 @@ import { RuleParser } from "./RuleParser";
 
 export class RuleLoader {
     static loadCustomRule(filePath: string): IRuleDefinition | undefined {
-        return RuleParser.parseRuleFile(filePath);
+
+        // todo verify attributes & method
+        // return RuleParser.parseRuleFile(filePath);
+        const externalRule: any = require(filePath);
+        const customRuleInstance = new externalRule() as IRuleDefinition;
+        return customRuleInstance;
+
     }
 }
