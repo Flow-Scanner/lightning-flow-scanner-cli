@@ -1,5 +1,4 @@
 import {IRuleDefinition} from '../interfaces/IRuleDefinition';
-import {FlowNode} from '../models/FlowNode';
 import {FlowType} from '../models/FlowType';
 import {FlowVariable} from '../models/FlowVariable';
 import {RuleCommon} from '../models/RuleCommon';
@@ -28,7 +27,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition{
     for (const variable of flow.elements.filter(node => node instanceof FlowVariable) as FlowVariable[]) {
       // first check if any inside of flow elements
       const variableName = variable.name;
-      if ([...JSON.stringify(flow.elements.filter(node => node instanceof FlowNode)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index).length === 0) {
+      if ([...JSON.stringify(flow.elements.filter(node => node instanceof core.FlowNode)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index).length === 0) {
         // if none found check in other flow variables
         const insideCounter = [...JSON.stringify(variable).matchAll(new RegExp(variable.name, 'gi'))].map(a => a.index);
         const variableUsage = [...JSON.stringify(flow.elements.filter(node => node instanceof FlowVariable)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index);

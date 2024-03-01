@@ -2,7 +2,6 @@ import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
 import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
-import { FlowNode } from '../models/FlowNode';
 
 export class CopyAPIName extends RuleCommon implements IRuleDefinition {
 
@@ -21,7 +20,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
 
   public execute(flow: core.Flow): core.RuleResult {
 
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     const copyOfElements = [];
     for (const element of flowElements) {
       const copyOf = new RegExp('Copy_[0-9]+_of_[A-Za-z0-9]+').test(element.name);

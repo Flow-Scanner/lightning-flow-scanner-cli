@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import { Compiler } from '../libs/Compiler';
@@ -25,8 +24,8 @@ export class DMLStatementInLoop extends RuleCommon implements IRuleDefinition {
     }
 
     const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
-    const loopElements: FlowNode[] = flow.elements.filter(node => node.subtype === 'loops') as FlowNode[];
-    const dmlStatementsInLoops: FlowNode[] = [];
+    const loopElements: core.FlowNode[] = flow.elements.filter(node => node.subtype === 'loops') as core.FlowNode[];
+    const dmlStatementsInLoops: core.FlowNode[] = [];
     const compiler = new Compiler();
 
     // Check if a DML statement is inside a loop

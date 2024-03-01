@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
@@ -24,8 +23,8 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       return new RuleResult(this, []);
     }
     const getOperations = ['recordLookups'];
-    const getOperationElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as FlowNode[];
-    const decisionElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as FlowNode[];
+    const getOperationElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as core.FlowNode[];
+    const decisionElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as core.FlowNode[];
     const getOperationsWithoutNullHandler = [];
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;

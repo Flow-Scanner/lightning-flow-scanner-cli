@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import { Compiler } from '../libs/Compiler';
@@ -25,9 +24,9 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
     const compiler = new Compiler();
     const results: core.ResultDetails[] = [];
-    const elementsWhereFaultPathIsApplicable = (flow.elements.filter((node) => node instanceof FlowNode && ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'].includes(node.subtype)) as FlowNode[]).map((e) => e.name);
+    const elementsWhereFaultPathIsApplicable = (flow.elements.filter((node) => node instanceof core.FlowNode && ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'].includes(node.subtype)) as core.FlowNode[]).map((e) => e.name);
 
-    const visitCallback = (element: FlowNode) => {
+    const visitCallback = (element: core.FlowNode) => {
       // Check if the element should have a fault path
       if (!element.connectors.find((connector) => connector.type === 'faultConnector') && elementsWhereFaultPathIsApplicable.includes(element.name)) {
         // Check if the element is part of another fault path
@@ -43,8 +42,8 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     return new core.RuleResult(this, results);
   }
 
-  private isPartOfFaultHandlingFlow(element: FlowNode, flow: core.Flow): boolean {
-    const flowelements = flow.elements.filter(el => el instanceof FlowNode) as FlowNode[];
+  private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
+    const flowelements = flow.elements.filter(el => el instanceof core.FlowNode) as core.FlowNode[];
     for (const otherElement of flowelements) {
       if (otherElement !== element) {
         // Check if the otherElement has a faultConnector pointing to element

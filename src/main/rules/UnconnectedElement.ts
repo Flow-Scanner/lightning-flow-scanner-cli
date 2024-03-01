@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
 import { FlowElement } from '../models/FlowElement';
 import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
@@ -23,7 +22,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     if (flow.type[0] === 'Survey') {
       return new core.RuleResult(this, []);
     }
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];

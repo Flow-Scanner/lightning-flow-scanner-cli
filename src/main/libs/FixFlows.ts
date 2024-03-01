@@ -1,4 +1,3 @@
-import { FlowNode } from '../models/FlowNode';
 import { FlowVariable } from '../models/FlowVariable';
 import { UnconnectedElement } from '../rules/UnconnectedElement';
 import { UnusedVariable } from '../rules/UnusedVariable';
@@ -23,7 +22,7 @@ export function FixFlows(flows: core.Flow[]): core.ScanResult[] {
           }
           break;
         case 'node':
-          const nodeElement = node as FlowNode;
+          const nodeElement = node as core.FlowNode;
           if (!unconnectedElementsReferences.includes(nodeElement.name)) {
             return node;
           }

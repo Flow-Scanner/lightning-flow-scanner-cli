@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
 import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
@@ -22,10 +21,10 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
     if (flow.type[0] === 'Survey') {
       return new core.RuleResult(this, []);
     }
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
-    const DuplicateDMLOperations: FlowNode[] = [];
+    const DuplicateDMLOperations: core.FlowNode[] = [];
     const startingNode = this.findStart(flow);
     if (!startingNode || startingNode === -1) {
       throw 'Can not find starting element';
@@ -92,7 +91,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
   }
 
   private findStart(flow: core.Flow) {
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     let start;
     if (flow.startElementReference) {
       start = flowElements.findIndex(n => {

@@ -1,5 +1,5 @@
 import Flow from '../models/Flow';
-import { FlowNode } from '../models/FlowNode';
+import FlowNode from '../models/FlowNode';
 
 export class Compiler {
     private visitedElements: Set<string>;

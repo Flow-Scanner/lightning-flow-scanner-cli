@@ -1,7 +1,7 @@
 import { FlowElementConnector } from './FlowElementConnector';
 import { FlowElement } from './FlowElement';
 
-export class FlowNode extends FlowElement {
+export default class FlowNode extends FlowElement {
 
     public connectors: FlowElementConnector[] = [];
     public name: string;
