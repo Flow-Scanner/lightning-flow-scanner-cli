@@ -1,6 +1,6 @@
 import { FlowAttribute } from "./FlowAttribute";
 import FlowNode from "./FlowNode";
-import ssFlowVariable from "./FlowVariable";
+import FlowVariable from "./FlowVariable";
 
 export default class ResultDetails {
 
