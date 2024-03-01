@@ -61,6 +61,7 @@ export { default as FlowElement } from './main/models/FlowElement';
 export { default as FlowNode } from './main/models/FlowNode';
 export { default as FlowType } from './main/models/FlowType';
 export { default as FlowVariable } from './main/models/FlowVariable';
+export { default as Compiler } from './main/libs/Compiler';
 export { default as ScanResult } from './main/models/ScanResult';
 export { default as RuleResult } from './main/models/RuleResult';
 export { default as ResultDetails } from './main/models/ResultDetails';

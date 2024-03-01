@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { RuleCommon } from '../models/RuleCommon';
-import { Compiler } from '../libs/Compiler';
 import * as core from '../../index';
 
 export class SOQLQueryInLoop extends RuleCommon implements IRuleDefinition {
@@ -25,7 +24,7 @@ export class SOQLQueryInLoop extends RuleCommon implements IRuleDefinition {
       const dmlStatementTypes = ['recordLookups'];
       const loopElements: core.FlowNode[] = flow.elements.filter(node => node.subtype === 'loops') as core.FlowNode[];
       const dmlStatementsInLoops: core.FlowNode[] = [];
-      const compiler = new Compiler();
+      const compiler = new core.Compiler();
   
       // Check if a DML statement is inside a loop
       for (const loopElement of loopElements) {

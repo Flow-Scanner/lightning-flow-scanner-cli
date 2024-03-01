@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { RuleCommon } from '../models/RuleCommon';
-import { Compiler } from '../libs/Compiler';
 import * as core from '../../index';
 
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
@@ -21,7 +20,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       return new core.RuleResult(this, []);
     }
 
-    const compiler = new Compiler();
+    const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (flow.elements.filter((node) => node instanceof core.FlowNode && ['recordLookups', 'recordDeletes', 'recordUpdates', 'recordCreates', 'waits', 'actionCalls'].includes(node.subtype)) as core.FlowNode[]).map((e) => e.name);
 
@@ -35,7 +34,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       }
     };
 
-    // Use the Compiler for traversal
+    // Use the core.Compiler for traversal
     compiler.traverseFlow(flow, flow.startReference, visitCallback);
 
     return new core.RuleResult(this, results);
