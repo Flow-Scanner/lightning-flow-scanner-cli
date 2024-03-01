@@ -1,5 +1,4 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowElement } from '../models/FlowElement';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
@@ -85,7 +84,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     return new core.RuleResult(this, results);
   }
 
-  private findStart(nodes: FlowElement[]) {
+  private findStart(nodes: core.FlowElement[]) {
     return nodes.findIndex(n => {
       return n.subtype === 'start';
     });

@@ -1,5 +1,5 @@
 import { FlowElementConnector } from './FlowElementConnector';
-import { FlowElement } from './FlowElement';
+import FlowElement from './FlowElement';
 
 export default class FlowNode extends FlowElement {
 

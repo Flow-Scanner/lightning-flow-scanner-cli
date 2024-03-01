@@ -1,4 +1,4 @@
-import { FlowElement } from './FlowElement';
+import FlowElement from './FlowElement';
 
 export default class FlowVariable extends FlowElement {
 
