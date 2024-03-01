@@ -1,6 +1,5 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { RuleCommon } from '../models/RuleCommon';
-import { FlowAttribute } from '../models/FlowAttribute';
 import * as core from '../../index';
 
 export class FlowDescription extends RuleCommon implements IRuleDefinition {
@@ -23,7 +22,7 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
     }
     const missingFlowDescription = !flow.xmldata.description;
     return (missingFlowDescription ? 
-      new core.RuleResult(this, [new core.ResultDetails(new FlowAttribute('undefined', "description", "!==null"))]) :
+      new core.RuleResult(this, [new core.ResultDetails(new core.FlowAttribute('undefined', "description", "!==null"))]) :
       new core.RuleResult(this, []));
   }
 }

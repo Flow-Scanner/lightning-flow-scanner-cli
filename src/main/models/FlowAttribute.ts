@@ -1,4 +1,4 @@
-export class FlowAttribute {
+export default class FlowAttribute {
 
     public name: string;
     public subtype: string;

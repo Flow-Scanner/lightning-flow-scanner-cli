@@ -56,9 +56,9 @@ export function fix(flows: Flow[]): ScanResult[] {
 }
 
 export { default as Flow } from './main/models/Flow';
+export { default as FlowAttribute } from './main/models/FlowAttribute';
 export { default as FlowNode } from './main/models/FlowNode';
 export { default as FlowType } from './main/models/FlowType';
-
 export { default as FlowVariable } from './main/models/FlowVariable';
 export { default as ScanResult } from './main/models/ScanResult';
 export { default as RuleResult } from './main/models/RuleResult';

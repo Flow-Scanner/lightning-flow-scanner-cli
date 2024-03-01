@@ -1,7 +1,6 @@
 import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
 import { RuleCommon } from '../models/RuleCommon';
-import { FlowAttribute } from '../models/FlowAttribute';
 
 export class APIVersion extends RuleCommon implements IRuleDefinition {
 
@@ -28,13 +27,13 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       if (options && options.expression) {
         const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
         return (!expressionEvaluation ?
-          new core.RuleResult(this, [new core.ResultDetails(new FlowAttribute(!expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined, "apiVersion", options.expression))]) :
+          new core.RuleResult(this, [new core.ResultDetails(new core.FlowAttribute(!expressionEvaluation ? ('' + flowAPIVersionNumber) : undefined, "apiVersion", options.expression))]) :
           new core.RuleResult(this, []));
       } else {
         return new core.RuleResult(this, []);
       }
     } else {
-      return new core.RuleResult(this, [new core.ResultDetails(new FlowAttribute('API Version <49', "apiVersion", "<49"))]);
+      return new core.RuleResult(this, [new core.ResultDetails(new core.FlowAttribute('API Version <49', "apiVersion", "<49"))]);
     }
   }
 }

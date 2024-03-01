@@ -1,4 +1,4 @@
-import { FlowAttribute } from "./FlowAttribute";
+import FlowAttribute from "./FlowAttribute";
 import FlowNode from "./FlowNode";
 import FlowVariable from "./FlowVariable";
 
