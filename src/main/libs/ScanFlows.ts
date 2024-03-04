@@ -1,4 +1,3 @@
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { GetRuleDefinitions } from './GetRuleDefinitions';
 import { keys } from './Keys';
 import * as core from '../../index';
@@ -6,7 +5,7 @@ import * as core from '../../index';
 export function ScanFlows(flows: core.Flow[], rulesConfig?: Map<string, {}>): core.ScanResult[] {
 
   const flowResults: core.ScanResult[] = [];
-  let selectedRules: IRuleDefinition[] = [];
+  let selectedRules: core.IRuleDefinition[] = [];
   if (rulesConfig) {
     selectedRules = GetRuleDefinitions(rulesConfig);
   } else {

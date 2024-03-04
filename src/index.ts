@@ -1,4 +1,4 @@
-import { IRuleDefinition } from './main/interfaces/IRuleDefinition';
+import IRuleDefinition from './main/interfaces/IRuleDefinition';
 import { IRulesConfig } from './main/interfaces/IRulesConfig';
 import { FixFlows } from './main/libs/FixFlows';
 import { GetRuleDefinitions } from './main/libs/GetRuleDefinitions';
@@ -65,3 +65,4 @@ export { default as Compiler } from './main/libs/Compiler';
 export { default as ScanResult } from './main/models/ScanResult';
 export { default as RuleResult } from './main/models/RuleResult';
 export { default as ResultDetails } from './main/models/ResultDetails';
+export { default as IRuleDefinition } from './main/interfaces/IRuleDefinition';

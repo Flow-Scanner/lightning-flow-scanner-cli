@@ -1,9 +1,8 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
-export class HardcodedId extends RuleCommon implements IRuleDefinition {
+export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
 
   constructor() {
     super({

@@ -1,4 +1,4 @@
-import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import IRuleDefinition from "../interfaces/IRuleDefinition";
 import { RuleParser } from "./RuleParser";
 
 export class RuleLoader {

@@ -1,8 +1,7 @@
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
 import { RuleCommon } from '../models/RuleCommon';
 
-export class CopyAPIName extends RuleCommon implements IRuleDefinition {
+export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
 
   constructor() {
     super({
