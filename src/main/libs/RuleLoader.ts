@@ -9,6 +9,5 @@ export class RuleLoader {
         const externalRule: any = require(filePath);
         const customRuleInstance = new externalRule() as IRuleDefinition;
         return customRuleInstance;
-
     }
 }

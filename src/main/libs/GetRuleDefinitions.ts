@@ -16,10 +16,9 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
         }
         if(configuredPath){
 
-          // TODO CR
-          // let customRule = RuleLoader.loadCustomRule(configuredPath);
-          // selectedRules['severity'] = severity;
-          // selectedRules.push(customRule);
+          let customRule = RuleLoader.loadCustomRule(configuredPath);
+          selectedRules['severity'] = severity;
+          selectedRules.push(customRule);
         } else {
           const matchedRule = new DynamicRule(ruleName);
           matchedRule['severity'] = severity;
