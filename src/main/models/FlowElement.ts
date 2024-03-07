@@ -1,4 +1,4 @@
-export class FlowElement{
+export default class FlowElement{
 
     public subtype:string;
     public metaType:string;

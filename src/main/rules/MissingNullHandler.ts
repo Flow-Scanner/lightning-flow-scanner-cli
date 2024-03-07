@@ -1,11 +1,8 @@
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
-import { FlowType } from '../models/FlowType';
 import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
-export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
+export class MissingNullHandler extends RuleCommon implements core.IRuleDefinition {
 
   constructor() {
     super({
@@ -13,7 +10,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       label: 'Missing Null Handler',
       description: "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
       type: 'pattern',
-      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false
     });
@@ -24,8 +21,8 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
       return new RuleResult(this, []);
     }
     const getOperations = ['recordLookups'];
-    const getOperationElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as FlowNode[];
-    const decisionElements: FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as FlowNode[];
+    const getOperationElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as core.FlowNode[];
+    const decisionElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as core.FlowNode[];
     const getOperationsWithoutNullHandler = [];
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;

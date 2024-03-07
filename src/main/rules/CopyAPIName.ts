@@ -1,10 +1,7 @@
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
 import * as core from '../../index';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
-import { FlowNode } from '../models/FlowNode';
 
-export class CopyAPIName extends RuleCommon implements IRuleDefinition {
+export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
 
   constructor() {
     super({
@@ -12,7 +9,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
       label: 'Copy API Name',
       description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
       type: 'pattern',
-      supportedTypes: FlowType.allTypes(),
+      supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
       isConfigurable: false
     }
@@ -21,7 +18,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
 
   public execute(flow: core.Flow): core.RuleResult {
 
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     const copyOfElements = [];
     for (const element of flowElements) {
       const copyOf = new RegExp('Copy_[0-9]+_of_[A-Za-z0-9]+').test(element.name);

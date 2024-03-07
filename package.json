@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-core",
-  "version": "2.27.0",
+  "version": "2.28.0",
   "main": "out/**",
   "types": "out/index.d.ts",
   "scripts": {
@@ -26,5 +26,6 @@
   "devDependencies": {
     "@types/jsforce": "^1.11.0",
     "@types/mocha": "^9.0.0"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

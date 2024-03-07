@@ -1,11 +1,7 @@
-import { IRuleDefinition } from '../interfaces/IRuleDefinition';
-import { FlowNode } from '../models/FlowNode';
-import { FlowElement } from '../models/FlowElement';
-import { FlowType } from '../models/FlowType';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../../index';
 
-export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
+export class UnconnectedElement extends RuleCommon implements core.IRuleDefinition {
 
   constructor() {
     super({
@@ -13,7 +9,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
       label: 'Unconnected Element',
       description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
       type: 'pattern',
-      supportedTypes: [...FlowType.backEndTypes, ...FlowType.visualTypes],
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false
     });
@@ -23,7 +19,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     if (flow.type[0] === 'Survey') {
       return new core.RuleResult(this, []);
     }
-    const flowElements: FlowNode[] = flow.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     let indexesToProcess = [this.findStart(flowElements)];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
@@ -87,7 +83,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     return new core.RuleResult(this, results);
   }
 
-  private findStart(nodes: FlowElement[]) {
+  private findStart(nodes: core.FlowElement[]) {
     return nodes.findIndex(n => {
       return n.subtype === 'start';
     });
