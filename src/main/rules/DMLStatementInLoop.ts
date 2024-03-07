@@ -19,28 +19,32 @@ export class DMLStatementInLoop extends RuleCommon implements core.IRuleDefiniti
     if (flow.type[0] === 'Survey') {
       return new core.RuleResult(this, []);
     }
-
+    
     const dmlStatementTypes = ['recordDeletes', 'recordUpdates', 'recordCreates'];
     const loopElements: core.FlowNode[] = flow.elements.filter(node => node.subtype === 'loops') as core.FlowNode[];
     const dmlStatementsInLoops: core.FlowNode[] = [];
-    const compiler = new core.Compiler();
 
-    // Check if a DML statement is inside a loop
-    for (const loopElement of loopElements) {
-      const startOfLoop = loopElement;
+    const findDML = (element: core.FlowNode) => {
+      if (dmlStatementTypes.includes(element.subtype)) {
+        dmlStatementsInLoops.push(element);
+      }
+    };
 
-      compiler.traverseFlow(flow, loopElement.name, (element) => {
-        if (dmlStatementTypes.includes(element.subtype) && compiler.isInLoop(flow, element, startOfLoop)) {
-          dmlStatementsInLoops.push(element);
-        }
-      });
+    for (const element of loopElements) {
+      let loopEnd: string | undefined;
+      // Check if 'noMoreValuesConnector' attribute exists
+      if (element.element['noMoreValuesConnector'] && element.element['noMoreValuesConnector'][0]) {
+        loopEnd = element.element['noMoreValuesConnector'][0].targetReference[0];
+      } else {
+        loopEnd = element.name;
+      }
+      new core.Compiler().traverseFlow(flow, element.name, findDML, loopEnd);
     }
 
-    let results = [];
-    for (const det of dmlStatementsInLoops) {
-      results.push(new core.ResultDetails(det));
-    }
+    // Create result details
+    const results = dmlStatementsInLoops.map(det => new core.ResultDetails(det));
 
     return new core.RuleResult(this, results);
   }
+
 }
