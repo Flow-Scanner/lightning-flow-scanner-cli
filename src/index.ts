@@ -7,7 +7,6 @@ import Flow from './main/models/Flow';
 import ResultDetails from './main/models/ResultDetails';
 import RuleResult from './main/models/RuleResult';
 import ScanResult from './main/models/ScanResult';
-import * as core from '.';
 
 export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
