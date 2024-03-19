@@ -11,19 +11,19 @@ export class CustomFlowName implements IRuleDefinition{
   docRefs: any;
 
   constructor(){
-    this.name = 'FlowName';
-    this.label = 'Naming Convention';
-    this.description='New Description';
+    this.name = 'CustomNamingConvention';
+    this.label = 'Custom Naming Convention';
+    this.description='custom execute function ';
     this.type = 'flow';
     this.supportedTypes = FlowType.allTypes();
     isConfigurable: true;
   }
 
   public execute(flow: Flow, options?: { expression: string }): RuleResult {
-    const regexExp = (options && options.expression) ? options.expression : '[A-Za-z0-9]+_[A-Za-z0-9]+';
-    const conventionApplied = new RegExp(regexExp).test(flow.name);
+
+    const conventionApplied = (flow.name)?.startsWith('AcmeCorp_]');
     return (!conventionApplied ?
-      new RuleResult(this, [new ResultDetails(new FlowAttribute(flow.name, 'name', regexExp))]) :
+      new RuleResult(this, [new ResultDetails(new FlowAttribute(flow.name, 'name', 'The Name needs to start with AcmeCorp_'))]) :
       new RuleResult(this, []));
   }
 }

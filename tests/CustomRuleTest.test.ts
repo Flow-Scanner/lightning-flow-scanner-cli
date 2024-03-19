@@ -8,27 +8,21 @@ describe('A custom rule', () => {
 
     it(' should give result', () => {
         flow = new core.Flow({
-            path: './testfiles/****.flow-meta.xml',
+            path: './testfiles/CustomRuleExample.flow-meta.xml',
             xmldata: Hidenav,
         });
         const ruleConfig = {
             rules:
             {
-                FlowName:
+                CustomNamingConvention:
                 {
                     severity: 'error',
-                    expression: '[A-Za-z0-9]'
-                },
-                CustomFlowName:
-                {
-                    severity: 'error',
-                    path: './src/data/CustomFlowName.ts'
+                    path: './src/data/CustomRuleExample.ts'
                 }
             }
         };
 
         const results: core.ScanResult[] = core.scan([flow], ruleConfig);
-        expect(results[0].ruleResults.length).to.equal(2);
         expect(results[0].ruleResults[0].occurs).to.equal(true);
     });
 });
