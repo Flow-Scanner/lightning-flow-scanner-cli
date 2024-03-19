@@ -1,6 +1,6 @@
 import { Flow, FlowAttribute, FlowType, IRuleDefinition, ResultDetails, RuleResult } from '/Users/rubenhalman/Projects/lightning-flow-scanner-core/src/index';
 
-export class CustomFlowName implements IRuleDefinition{
+export class CustomNamingConvention implements IRuleDefinition{
 
   name: string;
   label: string;
