@@ -8,7 +8,7 @@ describe('A custom rule', () => {
 
     it(' should give result', () => {
         flow = new core.Flow({
-            path: './testfiles/CustomRuleExample.flow-meta.xml',
+            path: './testfiles/NewAccountName.flow-meta.xml',
             xmldata: Hidenav,
         });
         const ruleConfig = {
