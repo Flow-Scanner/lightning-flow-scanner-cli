@@ -1,148 +1,125 @@
-# Lightning Flow Scanner(Rule Set)
+# Lightning Flow Scanner Core
 
-##### _This core rule set is used in both the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details) and the [SFDX Plugin](https://www.npmjs.com/package/lightning-flow-scanner) of the same name._
+_An Extensible Rule Engine for Salesforce Flows used by the Lightning Flow Scanner [Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner) and [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details)._ 
 
-## Rules
+- [Default Ruleset](#default-ruleset)
+- [Configurations](#configurations)
+  - [Rule Configuration](#rule-configuration)
+  - [Custom Rule Interface](#custom-rule-interface)
+  - [Exception Configuration](#exception-configuration)
+- [Development Setup](#development-setup)
 
-- [Outdated API Version](#outdated-api-version)
-- [Copy API Name](#copy-api-name)
-- [DML Statement In A Loop](#dml-statement-in-a-loop)
-- [Duplicate DML Operation](#duplicate-dml-operation)
-- [Missing Flow Description](#missing-flow-description)
-- [Flow Naming Convention](#flow-naming-convention)
-- [Hardcoded Id](#hardcoded-id)
-- [Missing Fault Path](#missing-fault-path)
-- [Missing Null Handler](#missing-null-handler)
-- [SOQL Query In A Loop](#soql-query-in-a-loop)
-- [Unconnected Element](#unconnected-element)
-- [Unused Variable](#unused-variable) 
+## Default Ruleset
 
-___
+The default ruleset consists of the following rules:
 
-### Outdated API Version
+- Outdated API Version (configurable)
+- Copy API Name
+- DML Statement In A Loop
+- Duplicate DML Operation
+- Missing Flow Description
+- Flow Naming Convention (configurable)
+- Hardcoded Id
+- Missing Fault Path
+- Missing Null Handler
+- SOQL Query In A Loop
+- Unconnected Element
+- Unused Variable 
 
-Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.
+For more details on the ruleset and its configurability see  _[Default Rule Definitions](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/docs/defaultrules.md)_
 
-_Default Value: `>49.0`_
+## Configurations
 
-_Configuration example:_
-```
-APIVersion:
-    {
-        severity: 'error',
-        expression: '===58'
+### Rule Configuration
+
+Using the rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
+
+```json
+{
+    "rules": {
+        "<RuleName>": {
+            "severity": "<Severity>",
+            "expression": "<Expression>",
+            "path": "<Path>"
+        }
     }
+}
 ```
 
-**Configuration ID: `APIVersion`**
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/APIVersion.ts))_
+- **Severity:**
+  - Optional values for severity are "error", "warning", and "note".
+  - If severity is provided, it overwrites the default severity, which is "error".
 
-___
+- **Expression:**
+  - Expression is used to overwrite standard values in configurable rules.
 
-### Copy API Name
+- **Path:**
+  - If a path is provided, it can either replace an existing rule with a new rule definition or load a custom rule.
+  - Ensure that the rule name used in the path matches the  exported class name of the rule.
 
-Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.
+### Custom Rule Interface
 
-**Configuration ID: `CopyAPIName`**
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/CopyAPIName.ts))_
+To create custom rules that can be loaded using the path attribute of the rule configurations, they need to adhere to the IRuleInterface. Please refer to the _[Custom Rule Creation Guide](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/docs/customruleguide.md)_ for detailed instructions.
 
-___
+### Exception Configuration
 
-### DML Statement In A Loop
+Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
-To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.
-
-**Configuration ID: `DMLStatementInLoop`**
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DMLStatementInLoop.ts))_
-
-___
-
-### Duplicate DML Operation
-
-When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.
-
-**Configuration ID: `DuplicateDMLOperation`**
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/DuplicateDMLOperation.ts))_
-
-___
-
-### Missing Flow Description
-
-Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.
-
-**Configuration ID: `FlowDescription`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowDescription.ts))_
-
-___
-
-### Flow Naming Convention
-
-The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.
-
-_Default Value: `[A-Za-z0-9]+_[A-Za-z0-9]+`_
-
-_Configuration example:_
-```
-FlowName:
-    {
-        severity: 'error',
-        expression: '[A-Za-z0-9]'
-    }
+```json
+{
+  "exceptions": {
+    "<FlowName>": {
+      "<RuleName>": [
+        "<ResultName>",
+        "<ResultName>",
+        ...
+      ]
+    },
+    ...
+  }
+}
 ```
 
-**Configuration ID: `FlowName`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/FlowName.ts))_
+- **FlowName:**
+  - The name of the flow where exceptions apply.
 
-___
+- **RuleName:**
+  - The name of the rule for which exceptions are defined.
 
-### Hardcoded Id
+- **ResultName:**
+  - The specific result or condition within the rule for which exceptions are specified.
 
-Avoid hard-coding IDs as they are org-specific. Instead, pass them into variables at the start of the flow. You can achieve this by utilizing merge fields in URL parameters or employing a Get Records element.
+## Development Setup
 
-**Configuration ID: `HardcodedId`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedId.ts))_
+Follow these steps to set up your development environment:
 
-___
+1. **Clone Repository**: Begin by cloning the Lightning Flow Scanner Core repository to your local machine:
 
-### Missing Fault Path
+    ```bash
+    git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git
+    ```
 
-At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.
+2. **Install Dependencies**: Navigate into the cloned repository directory and install the necessary dependencies using Yarn:
 
-**Configuration ID: `MissingFaultPath`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingFaultPath.ts))_
+    ```bash
+    cd lightning-flow-scanner-core
+    yarn install
+    ```
 
-___
+3. **Build**: Compile the TypeScript source files into JavaScript using the TypeScript compiler:
 
-### Missing Null Handler
+    ```bash
+    yarn build
+    ```
 
-When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.
+    This command generates the compiled JavaScript files in the `out` directory.
 
-**Configuration ID: `MissingNullHandler`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/MissingNullHandler.ts))_
+4. **Run Tests**: Ensure the module functions correctly by running the test suites:
 
-___
+    ```bash
+    yarn test
+    ```
 
-### SOQL Query In A Loop
+    This command uses Mocha to run tests located in the `tests` directory and provides feedback on the module's functionality.
 
-To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.
-
-**Configuration ID: `SOQLQueryInLoop`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/SOQLQueryInLoop.ts))_
-
-___
-
-### Unconnected Element
-
-To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.
-
-**Configuration ID: `UnconnectedElement`**
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElement.ts))_
-
-___
-
-### Unused Variable
-
-To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use. 
-
-**Configuration ID: `UnusedVariable`** 
-_([View source code](https://github.com/Force-Config-Control/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariable.ts))_
+5. **Debugging in IDE**: If needed, set up your integrated development environment (IDE) for debugging TypeScript code. Configure breakpoints, inspect variables, and step through the code to identify and resolve issues efficiently.

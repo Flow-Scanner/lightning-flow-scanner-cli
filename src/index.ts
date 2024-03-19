@@ -18,6 +18,7 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
 }
 
 export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
+
   const ruleMap = new Map<string, {}>();
   let scanResults: ScanResult[];
   if (ruleOptions?.rules && Object.entries(ruleOptions.rules).length > 0) {
@@ -54,6 +55,7 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
 export function fix(flows: Flow[]): ScanResult[] {
   return FixFlows(flows);
 }
+
 
 export { default as Flow } from './main/models/Flow';
 export { default as FlowAttribute } from './main/models/FlowAttribute';

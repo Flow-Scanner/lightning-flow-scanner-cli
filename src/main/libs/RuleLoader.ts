@@ -1,13 +1,29 @@
 import IRuleDefinition from "../interfaces/IRuleDefinition";
-import { RuleParser } from "./RuleParser";
+import path from 'path'; // Import the path module
 
 export class RuleLoader {
-    static loadCustomRule(filePath: string): IRuleDefinition | undefined {
+    static loadCustomRule(ruleName: string, filePath: string): IRuleDefinition | undefined {
+        try {
+            // Resolve the filePath to an absolute path relative to the current working directory
+            const absolutePath = path.resolve(process.cwd(), filePath);
 
-        // todo verify attributes & method
-        // return RuleParser.parseRuleFile(filePath);
-        const externalRule: any = require(filePath);
-        const customRuleInstance = new externalRule() as IRuleDefinition;
-        return customRuleInstance;
+            // Synchronously load the module based on the absolute file path
+            const module = require(absolutePath);
+
+            // Check if the module exports the given rule
+            if (module[ruleName] && typeof module[ruleName] === 'function') {
+                // Create an instance of the rule class
+                const customRuleInstance = new module[ruleName]();
+                return customRuleInstance as IRuleDefinition;
+            } else {
+                // Handle case where module does not contain CustomFlowName
+                console.error(`Error: ${filePath} does not export ${ruleName} class.`);
+                return undefined;
+            }
+        } catch (error) {
+            // Handle import errors
+            console.error(`Error importing ${filePath}:`, error);
+            return undefined;
+        }
     }
 }

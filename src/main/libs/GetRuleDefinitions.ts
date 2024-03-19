@@ -16,7 +16,7 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
         }
         if(configuredPath){
 
-          let customRule = RuleLoader.loadCustomRule(configuredPath);
+          let customRule = RuleLoader.loadCustomRule(ruleName, configuredPath);
           selectedRules['severity'] = severity;
           selectedRules.push(customRule);
         } else {
