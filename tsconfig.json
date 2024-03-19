@@ -24,6 +24,7 @@
     "node_modules",
     "out/**",
     ".idea/**",
+    "src/data/CustomFlowName.ts",
     "tests/**/*.test.ts"
   ]
 }

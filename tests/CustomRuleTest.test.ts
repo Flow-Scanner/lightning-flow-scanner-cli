@@ -22,7 +22,7 @@ describe('A custom rule', () => {
                 CustomFlowName:
                 {
                     severity: 'error',
-                    path: '/Users/rubenhalman/Desktop/CustomFlowName.ts'
+                    path: './src/data/CustomFlowName.ts'
                 }
             }
         };
