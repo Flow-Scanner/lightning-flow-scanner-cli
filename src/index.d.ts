@@ -1,12 +1,12 @@
 // index.d.ts
-
-import { FlowNode, FlowType } from "typescript";
 import IRuleDefinition from "./main/interfaces/IRuleDefinition";
 import { IRulesConfig } from "./main/interfaces/IRulesConfig";
 import Compiler from "./main/libs/Compiler";
 import Flow from "./main/models/Flow";
 import FlowAttribute from "./main/models/FlowAttribute";
 import FlowElement from "./main/models/FlowElement";
+import FlowType from "./main/models/FlowType";
+import FlowNode from "./main/models/FlowNode";
 import FlowVariable from "./main/models/FlowVariable";
 import ResultDetails from "./main/models/ResultDetails";
 import RuleResult from "./main/models/RuleResult";
