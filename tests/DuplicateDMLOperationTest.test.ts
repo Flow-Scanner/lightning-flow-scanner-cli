@@ -126,7 +126,7 @@ describe('The DuplicateDMLOperation Rule ', () => {
         },
     };
     const results: core.ScanResult[] = core.scan([flow], ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(0);
+    expect(results[0].ruleResults[0].occurs).to.equal(false);
   });
   
   it('should have no result in a flow with dmls and unconnected screens', () => {

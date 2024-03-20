@@ -1,31 +1,28 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as core from '../src'
-import CreateANewAccount from './testfiles/CreateANewAccount.json';
-import CreateANewAccountWithChild from './testfiles/CreateANewAccountWithChild.json';
-import CreateANewAccountImproved from './testfiles/CreateANewAccountImproved.json';
+import unconnectedElement from './testfiles/UnconnectedElement.json';
+import waitForOnly from './testfiles/WaitForOnly.json';
 
-describe('When scaning without specified rules in the rule config', () => {
+describe('Rule Configurations ', () => {
 
-  let flow: core.Flow;
   let flow2: core.Flow;
-  let flows: core.Flow[];
 
-  before('arrange', () => {
-    flow = new core.Flow({
-      path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
-      xmldata: CreateANewAccount,
+  it(' should use default when no configuration is provided', () => {
+    flow2 = new core.Flow({
+      path: './testfiles/unconnectedElement.flow-meta.xml',
+      xmldata: unconnectedElement,
     });
-  });
-
-  it('all default rules should be used when no configuration is provided', () => {
-
-    const results: core.ScanResult[] = core.scan([flow], undefined);
+    const results: core.ScanResult[] = core.scan([flow2], undefined);
     const rules = core.getRules();
     expect(results[0].ruleResults.length).to.equal(rules.length);
   });
   
-  it('all default rules should be used when no rules are specified', () => {
+  it(' should use default when no rules are specified', () => {
+    flow2 = new core.Flow({
+      path: './testfiles/unconnectedElement.flow-meta.xml',
+      xmldata: unconnectedElement,
+    });
     const ruleConfig = {
         rules: 
           { 
@@ -37,12 +34,16 @@ describe('When scaning without specified rules in the rule config', () => {
                   {"DuplicateDMLOperation":["ViewAccountId"]}
           }
       };
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan([flow2], ruleConfig);
     const rules = core.getRules();
     expect(results[0].ruleResults.length).to.equal(rules.length);
   });
 
   it('incorrect rule severity configurations are defaulted', () => {
+    flow2 = new core.Flow({
+      path: './testfiles/unconnectedElement.flow-meta.xml',
+      xmldata: unconnectedElement,
+    });
     const ruleConfig = {
         rules: 
           { 
@@ -52,13 +53,16 @@ describe('When scaning without specified rules in the rule config', () => {
             }
           }
       };
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
-    const rules = core.getRules();
+    const results: core.ScanResult[] = core.scan([flow2], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
   });
 
 
   it('incorrect rule configurations are skipped', () => {
+    flow2 = new core.Flow({
+      path: './testfiles/unconnectedElement.flow-meta.xml',
+      xmldata: unconnectedElement,
+    });
     const ruleConfig = {
         rules: 
           { 
@@ -77,7 +81,7 @@ describe('When scaning without specified rules in the rule config', () => {
                   {"DuplicateDMLOperation":["ViewAccountId"]}
           }
       };
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan([flow2], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
   });
 

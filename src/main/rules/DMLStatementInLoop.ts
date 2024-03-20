@@ -9,7 +9,7 @@ export class DMLStatementInLoop extends RuleCommon implements core.IRuleDefiniti
       label: 'DML Statement In A Loop',
       description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
       type: 'pattern',
-      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
+      supportedTypes: core.FlowType.backEndTypes,
       docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
       isConfigurable: false
     });

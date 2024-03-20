@@ -34,6 +34,8 @@ export function ScanFlows(flows: core.Flow[], rulesConfig?: Map<string, {}>): co
           } catch (error) { 
             throw new error("Something went wrong while executing " + rule.name + " in the Flow: '" + flow.name + "'");
           }
+        } else {
+          ruleResults.push(new core.RuleResult(rule, []));
         }
       }
       flowResults.push(new core.ScanResult(flow, ruleResults));
