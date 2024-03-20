@@ -4,16 +4,45 @@
 A custom rule class typically follows this structure:
 
 ```typescript
-const core = await import('https://Lightning-Flow-Scanner.github.io/lightning-flow-scanner-core/types.d.ts');
+// Import necessary types and classes from the local core repository
+import { Flow, FlowAttribute, FlowType, IRuleDefinition, ResultDetails, RuleResult } from './lightning-flow-scanner-core/src/index';
 
-export class CustomRule extends core.IRuleDefinition {
-    execute(flow: core.Flow, ruleOptions?: {}): core.RuleResult {
-        // Implement rule logic here
-    }
+export class CustomNamingConvention implements IRuleDefinition{
+
+  name: string;
+  label: string;
+  description: string;
+  type:string;
+  supportedTypes:string[];
+  isConfigurable: boolean;
+  docRefs: any;
+
+  constructor(){
+    this.name = 'CustomNamingConvention';
+    this.label = 'Custom Naming Convention';
+    this.description='custom execute function ';
+    this.type = 'flow';
+    this.supportedTypes = FlowType.allTypes();
+    isConfigurable: true;
+  }
+
+  // Create custom execute logic
+  public execute(flow: Flow, options?: { expression: string }): RuleResult {
+
+    const conventionApplied = (flow.name)?.startsWith('AcmeCorp_]');
+    return (!conventionApplied ?
+      new RuleResult(this, [new ResultDetails(new FlowAttribute(flow.name, 'name', 'The Name needs to start with AcmeCorp_'))]) :
+      new RuleResult(this, []));
+  }
 }
+
 ```
 
-In this example, a dynamic import is utilized to import types from our GitHub Pages, but you can also import the types from a local version of the core repo. The execute method within the CustomRule class can implement any logic while having access to the flow being analyzed and the user-provided configurations.
+In this code:
+- We're importing necessary types and classes from the local core repository using a relative path (./lightning-flow-scanner-core/src/index). Make sure to adjust the path according to your local Core Module.
+- We're defining the CustomNamingConvention class, implementing the IRuleDefinition interface.
+- We're setting up the class properties such as name, label, description, etc., as per your provided example.
+- We're implementing the execute method, which performs the custom logic for your rule. This method takes a Flow object as input and returns a RuleResult.
 
 ## Custom Rule Interface
 
