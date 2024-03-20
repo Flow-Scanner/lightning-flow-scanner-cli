@@ -4,7 +4,7 @@
 A custom rule class typically follows this structure:
 
 ```typescript
-// Import necessary types and classes from the local core repository
+// Import necessary types and classes from a local core repository
 import { Flow, FlowAttribute, FlowType, IRuleDefinition, ResultDetails, RuleResult } from './lightning-flow-scanner-core/src/index';
 
 export class CustomNamingConvention implements IRuleDefinition{
