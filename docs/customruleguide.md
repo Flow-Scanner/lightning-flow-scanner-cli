@@ -69,6 +69,53 @@ The Flow Compiler is a powerful tool provided by the Lightning Flow Scanner Core
 
 ### Compiler Overview:
 The Compiler class consists of methods designed to traverse flow elements effectively:
-- Constructor: The constructor initializes the visitedElements set, which keeps track of visited elements during traversal.
-- traverseFlow Method: This method implements the Iterative Deepening Depth-First Search (IDDFS) algorithm for traversing flow elements. It iteratively explores each element, starting from a specified starting point, and visits each element by calling the provided callback function. The traversal continues until all elements are visited or until a specified end point is reached.
+- Constructor: Initializes the visitedElements set, which keeps track of visited elements during traversal.
+- traverseFlow Method: Implements the Iterative Deepening Depth-First Search (IDDFS) algorithm for traversing flow elements. It iteratively explores each element, starting from a specified starting point, and visits each element by calling the provided callback function. The traversal continues until all elements are visited or until a specified end point is reached.
 - findNextElements Method: This private method is used internally by the traverseFlow method to find the next elements to visit based on the connectors of the current element. It examines the connectors of the current element and identifies the next elements to traverse.
+
+### Example Rule Using the Compiler:
+```typescript
+c // Import the Compiler class
+import Compiler from 'path/to/your/local/core/module';
+
+// Assume we have a custom rule that checks for the presence of certain elements in the flow
+// We'll define a custom rule class with an execute method that utilizes the Compiler to traverse through flow elements
+
+export class CustomRuleExample implements IRuleDefinition {
+
+  constructor() {
+    // Constructor logic
+  }
+
+  // Define the execute method to perform custom logic
+  public execute(flow: Flow): RuleResult {
+    const compiler = new Compiler(); // Initialize the compiler
+
+    // Callback function to be executed on each visited element
+    const visitCallback = (element: FlowNode) => {
+      // Check if the current element meets certain conditions
+      if (element.subtype === 'screen') {
+        // Perform custom logic based on the element type
+        console.log(`Found a screen element named ${element.name}`);
+        // Add the element to the result or perform other actions
+      }
+    };
+
+    // Start traversing the flow from a specific starting element
+    // In this example, we'll start from the first element
+    compiler.traverseFlow(flow, flow.elements[0].name, visitCallback);
+
+    // Return the result of the rule execution
+    return new RuleResult(this, []); // Assume no violations found for simplicity
+  }s
+}
+```
+
+In this example:
+- We first import the Compiler class.
+- We define a custom rule class CustomRuleExample with an execute method.
+- Inside the execute method, we initialize a new instance of the Compiler.
+- We define a callback function visitCallback that is executed on each visited element. In this example, we check if the element subtype is a screen and perform custom logic accordingly.
+- We call the traverseFlow method of the compiler to start traversing the flow from the first element (flow.elements[0].name) and provide the visitCallback function.
+- Inside the visitCallback function, we perform custom logic based on the visited elements.
+- Finally, we return the result of the rule execution.
