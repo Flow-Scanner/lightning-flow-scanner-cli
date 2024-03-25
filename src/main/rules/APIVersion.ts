@@ -1,3 +1,4 @@
+import * as core from '../../index';
 import { RuleCommon } from '../models/RuleCommon';
 
 export class APIVersion extends RuleCommon implements core.IRuleDefinition {
