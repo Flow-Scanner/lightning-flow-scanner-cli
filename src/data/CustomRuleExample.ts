@@ -1,4 +1,4 @@
-import { Flow, FlowAttribute, FlowType, IRuleDefinition, ResultDetails, RuleResult } from '../index';
+import { Flow, FlowAttribute, FlowType, IRuleDefinition, ResultDetails, RuleResult } from '../main/internals/internals';
 
 export class CustomNamingConvention implements IRuleDefinition{
 

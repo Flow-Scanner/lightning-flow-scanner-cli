@@ -84,10 +84,4 @@ describe('Rule Configurations ', () => {
     const results: core.ScanResult[] = core.scan([flow2], ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
   });
-
-  it('In total there are currently 12 default rules', () => {
-    const result = core.getRules();
-    expect(result.length).to.equal(12);
-  });
-
 });

@@ -1,6 +1,6 @@
 import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
-import * as core from '../../index';
+import * as core from '../internals/internals';
 
 export class MissingNullHandler extends RuleCommon implements core.IRuleDefinition {
 

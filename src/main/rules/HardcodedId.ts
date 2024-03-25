@@ -1,6 +1,6 @@
 import * as IdPrefixes from '../data/IdPrefixes.json';
 import { RuleCommon } from '../models/RuleCommon';
-import * as core from '../../index';
+import * as core from '../internals/internals';
 
 export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
 

@@ -1,4 +1,4 @@
-import * as core from '../../index';
+import * as core from '../internals/internals';
 import { RuleCommon } from '../models/RuleCommon';
 
 export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {

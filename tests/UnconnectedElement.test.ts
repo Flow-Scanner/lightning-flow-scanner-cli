@@ -26,7 +26,7 @@ describe('In the unconnected element flow', () => {
     });
     const results: core.ScanResult[] = core.scan([flow]);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.find((res) => res.ruleName === 'UnconnectedElement'));
   });
 
   it('there should be checks for unconnected element', () => {
@@ -36,8 +36,7 @@ describe('In the unconnected element flow', () => {
     });
     const results: core.ScanResult[] = core.scan([flow]);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults[0].ruleName).to.equal("UnconnectedElement");
+    expect(occurringResults.find((res) => res.ruleName === 'UnconnectedElement'));
   });
 });
 

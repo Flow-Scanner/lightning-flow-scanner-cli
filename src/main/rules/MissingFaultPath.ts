@@ -1,5 +1,5 @@
 import { RuleCommon } from '../models/RuleCommon';
-import * as core from '../../index';
+import * as core from '../internals/internals';
 
 export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition {
   constructor() {

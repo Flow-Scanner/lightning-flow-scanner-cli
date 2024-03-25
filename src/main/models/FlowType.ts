@@ -6,7 +6,7 @@ export default class FlowType {
   public static unsupportedTypes = ['CheckoutFlow', 'FSCLending', 'FSCLending', 'LoyaltyManagementFlow'];
 
   public static allTypes = function () {
-    return [...this.backEndTypes, ...this.processBuilder, ...this.visualTypes];
+    return [...this.backEndTypes, ...this.visualTypes];
   }
 
 }

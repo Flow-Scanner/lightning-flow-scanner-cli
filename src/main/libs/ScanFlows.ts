@@ -1,6 +1,6 @@
 import { GetRuleDefinitions } from './GetRuleDefinitions';
 import { keys } from './Keys';
-import * as core from '../../index';
+import * as core from '../../main/internals/internals';
 
 export function ScanFlows(flows: core.Flow[], rulesConfig?: Map<string, {}>): core.ScanResult[] {
 

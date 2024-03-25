@@ -1,5 +1,6 @@
 import IRuleDefinition from './main/interfaces/IRuleDefinition';
 import { IRulesConfig } from './main/interfaces/IRulesConfig';
+import { FixFlows } from './main/libs/FixFlows';
 import { GetRuleDefinitions } from './main/libs/GetRuleDefinitions';
 import { ScanFlows } from './main/libs/ScanFlows';
 import Flow from './main/models/Flow';
@@ -50,6 +51,11 @@ export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
 
   return scanResults;
 }
+
+export function fix(flows: Flow[]): ScanResult[] {
+  return FixFlows(flows);
+}
+
 
 export { default as Flow } from './main/models/Flow';
 export { default as FlowAttribute } from './main/models/FlowAttribute';

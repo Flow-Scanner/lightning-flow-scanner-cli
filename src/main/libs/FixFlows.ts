@@ -1,7 +1,7 @@
 import { UnconnectedElement } from '../rules/UnconnectedElement';
 import { UnusedVariable } from '../rules/UnusedVariable';
 import { BuildFlow } from './BuildFlow';
-import * as core from '../../index';
+import * as core from '../internals/internals';
 
 export function FixFlows(flows: core.Flow[]): core.ScanResult[] {
 
