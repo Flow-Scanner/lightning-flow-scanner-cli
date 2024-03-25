@@ -10,7 +10,8 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
       type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [{ label: 'Flow Best Practices', path: 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
-      isConfigurable: false,
+      isConfigurable: false, 
+      autoFixable: false
     });
   }
 

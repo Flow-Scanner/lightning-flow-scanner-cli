@@ -11,7 +11,8 @@ export class UnusedVariable extends RuleCommon implements core.IRuleDefinition {
       type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     });
   }
 

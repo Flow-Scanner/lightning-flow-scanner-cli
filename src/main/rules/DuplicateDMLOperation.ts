@@ -11,7 +11,8 @@ export class DuplicateDMLOperation extends RuleCommon implements core.IRuleDefin
       type: 'pattern',
       supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     });
   }
 

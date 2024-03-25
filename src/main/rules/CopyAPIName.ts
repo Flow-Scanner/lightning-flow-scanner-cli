@@ -11,7 +11,8 @@ export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
       type: 'pattern',
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     }
     );
   }

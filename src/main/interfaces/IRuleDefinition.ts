@@ -9,6 +9,7 @@ export default interface IRuleDefinition {
   type: string;
   docRefs: { label: string, path: string }[];
   isConfigurable: boolean;
+  autoFixable: boolean;
   uri?: string;
   severity?: string;
 

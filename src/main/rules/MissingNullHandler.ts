@@ -12,7 +12,8 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
       type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     });
   }
 

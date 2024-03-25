@@ -7,5 +7,6 @@ export class RuleInfo {
     public supportedTypes: string[];
     public docRefs:  {label: string, path: string}[];
     public isConfigurable: boolean;
+    public autoFixable: boolean;
 
 }

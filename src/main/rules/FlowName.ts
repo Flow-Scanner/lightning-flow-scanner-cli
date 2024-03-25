@@ -11,7 +11,8 @@ export class FlowName extends RuleCommon implements core.IRuleDefinition {
       type: 'flow',
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [{ 'label': "Naming your Flows is more critical than ever. By Stephen Church", 'path': 'https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx?utm_source=share&utm_medium=member_desktop' }],
-      isConfigurable: true
+      isConfigurable: true, 
+      autoFixable: false
     });
   }
 

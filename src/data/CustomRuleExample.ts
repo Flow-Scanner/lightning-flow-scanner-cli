@@ -8,6 +8,7 @@ export class CustomNamingConvention implements IRuleDefinition{
   type:string;
   supportedTypes:string[];
   isConfigurable: boolean;
+  autoFixable: boolean;
   docRefs: any;
 
   constructor(){
@@ -16,7 +17,9 @@ export class CustomNamingConvention implements IRuleDefinition{
     this.description='custom execute function ';
     this.type = 'flow';
     this.supportedTypes = FlowType.allTypes();
-    isConfigurable: true;
+    this.isConfigurable =  true;
+    this.autoFixable = false;
+
   }
 
   public execute(flow: Flow, options?: { expression: string }): RuleResult {

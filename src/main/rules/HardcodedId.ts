@@ -12,7 +12,8 @@ export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
       type: 'pattern',
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }, {'label' : "Don't hard code Record Type IDs in Flow. By Stephen Church.", 'path' : 'https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6947530300012826624%29'}],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     },
     );
   }

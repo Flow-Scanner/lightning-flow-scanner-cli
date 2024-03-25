@@ -11,7 +11,8 @@ export class FlowDescription extends RuleCommon implements core.IRuleDefinition 
       type: 'flow',
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
-      isConfigurable: false
+      isConfigurable: false, 
+      autoFixable: false
     });
   }
 
