@@ -52,13 +52,15 @@ export function fix(results : ScanResult[]): ScanResult[] {
   
   let newResults = [];
   for (let result of results){
-    let flow = result.flow;
-    let ruleResults = result.ruleResults;
-    let ruleNames = ruleResults.filter((r) => r.occurs).map((r) => r.ruleName);
-    if(ruleNames.includes('UnusedVariable') || ruleNames.includes('UnconnectedElement')){
-      result.flow = FixFlows(flow, ruleResults);
-      newResults.push(result);
+    if(result.ruleResults && result.ruleResults.length > 0){
+      let fixables:RuleResult[] = result.ruleResults.filter((r) => r.ruleName === 'UnusedVariable' && r.occurs || r.ruleName === 'UnconnectedElement' && r.occurs );
+      if(fixables && fixables.length > 0){
+        const newFlow: Flow = FixFlows(result.flow, fixables);
+        result.flow = newFlow;
+        newResults.push(result);
+      }
     }
+   
   }
 
   return newResults

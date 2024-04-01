@@ -83,7 +83,11 @@ export class Flow {
       flowName = flowName.split('.')[0]
     }
     this.name = flowName;
-    this.xmldata = args.xmldata.Flow;
+    if(args.xmldata && args.xmldata.Flow){
+      this.xmldata = args.xmldata.Flow;
+    } else if(args.xmldata){
+      this.xmldata = args.xmldata;
+    }
     this.preProcessNodes();
   }
 

@@ -3,9 +3,10 @@ import * as core from '../internals/internals';
 
 export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.Flow {
 
-  const flowResults: core.ScanResult[] = [];
-  const unusedVariableReferences = ruleResults.find((r) => r.ruleName === 'UnusedVariable').details.map((d) => d.name);
-  const unconnectedElementsReferences = ruleResults.find((r) => r.ruleName === 'UnconnectedElement').details.map((d) => d.name);
+  const unusedVariableRes = ruleResults.find((r) => r.ruleName === 'UnusedVariable');
+  const unusedVariableReferences = (unusedVariableRes && unusedVariableRes.details && unusedVariableRes.details.length > 0) ? unusedVariableRes.details.map((d) => d.name) : [];
+  const unconnectedElementsRes = ruleResults.find((r) => r.ruleName === 'UnconnectedElement');
+  const unconnectedElementsReferences = (unconnectedElementsRes && unconnectedElementsRes.details && unconnectedElementsRes.details.length > 0) ? unconnectedElementsRes.details.map((d) => d.name) : [];
   const nodesToBuild = flow.elements.filter(node => {
     switch (node.metaType) {
       case 'variable':
@@ -25,8 +26,10 @@ export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.
     }
   }
   );
-  flow.xmldata = BuildFlow(nodesToBuild);
-  flow.preProcessNodes();
-  flowResults.push(new core.ScanResult(flow, ruleResults));
-  return flow;
+  let xmldata = BuildFlow(nodesToBuild);
+  const newFlow = new core.Flow({
+    'uri': flow.uri,
+    'xmldata': xmldata
+  });
+  return newFlow;
 }
