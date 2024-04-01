@@ -1,11 +1,11 @@
-import IRuleDefinition from "../interfaces/IRuleDefinition";
-import path from 'path'; // Import the path module
+import p from "path-browserify";
+import {IRuleDefinition} from "../interfaces/IRuleDefinition";
 
 export class RuleLoader {
     static loadCustomRule(ruleName: string, filePath: string): IRuleDefinition | undefined {
         try {
             // Resolve the filePath to an absolute path relative to the current working directory
-            const absolutePath = path.resolve(process.cwd(), filePath);
+            const absolutePath = p.resolve(process.cwd(), filePath);
 
             // Synchronously load the module based on the absolute file path
             const module = require(absolutePath);

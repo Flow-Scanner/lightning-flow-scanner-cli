@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import * as core from '../src'
+import * as core from '../src/index'
 import Hidenav from './testfiles/api58test.json';
 
 describe('A flow with the API version attribute below the configured threshold', () => {

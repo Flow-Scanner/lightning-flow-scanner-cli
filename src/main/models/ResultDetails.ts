@@ -1,8 +1,8 @@
-import FlowAttribute from "./FlowAttribute";
-import FlowNode from "./FlowNode";
-import FlowVariable from "./FlowVariable";
+import {FlowAttribute} from "./FlowAttribute";
+import {FlowNode} from "./FlowNode";
+import {FlowVariable} from "./FlowVariable";
 
-export default class ResultDetails {
+export class ResultDetails {
 
     public violation: FlowNode | FlowVariable | FlowAttribute;
     public name: string;

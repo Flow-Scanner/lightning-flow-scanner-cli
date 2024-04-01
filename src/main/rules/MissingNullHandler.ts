@@ -1,4 +1,3 @@
-import RuleResult from '../models/RuleResult';
 import { RuleCommon } from '../models/RuleCommon';
 import * as core from '../internals/internals';
 
@@ -17,9 +16,9 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
     });
   }
 
-  public execute(flow: core.Flow): RuleResult {
+  public execute(flow: core.Flow): core.RuleResult {
     if (flow.type[0] === 'Survey') {
-      return new RuleResult(this, []);
+      return new core.RuleResult(this, []);
     }
     const getOperations = ['recordLookups'];
     const getOperationElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as core.FlowNode[];
@@ -77,6 +76,6 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
     for (const det of getOperationsWithoutNullHandler) {
       results.push(new core.ResultDetails(det));
     }
-    return new RuleResult(this, results);
+    return new core.RuleResult(this, results);
   }
 }

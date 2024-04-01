@@ -1,4 +1,4 @@
-import FlowElement from './FlowElement';
+import {FlowElement} from './FlowElement';
 
 export class FlowMetadata extends FlowElement{
 

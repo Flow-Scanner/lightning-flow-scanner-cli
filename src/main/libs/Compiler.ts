@@ -1,7 +1,7 @@
-import Flow from '../models/Flow';
-import FlowNode from '../models/FlowNode';
+import {Flow} from '../models/Flow';
+import {FlowNode} from '../models/FlowNode';
 
-export default class Compiler {
+export class Compiler {
     public visitedElements: Set<string>;
 
     constructor() {

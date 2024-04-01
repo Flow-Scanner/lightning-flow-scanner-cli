@@ -49,7 +49,7 @@ In this code:
 When creating custom rules, it's essential to adhere to the IRuleDefinition interface, which defines the required properties and methods for a rule definition:
 
 ```typescript
-export default interface IRuleDefinition {
+export interface IRuleDefinition {
   name: string;
   label: string;
   description: string;

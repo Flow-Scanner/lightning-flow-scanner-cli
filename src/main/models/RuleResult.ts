@@ -1,7 +1,7 @@
-import IRuleDefinition from '../interfaces/IRuleDefinition';
-import ResultDetails from './ResultDetails';
+import {IRuleDefinition} from '../interfaces/IRuleDefinition';
+import {ResultDetails} from './ResultDetails';
 
-export default class RuleResult {
+export class RuleResult {
 
   public occurs: boolean;
   public ruleName: string;

@@ -1,7 +1,7 @@
-import Flow from './Flow';
-import RuleResult from './RuleResult';
+import {Flow} from './Flow';
+import {RuleResult} from './RuleResult';
 
-export default class ScanResult {
+export class ScanResult {
 
   constructor(flow: Flow, ruleResults: RuleResult[]) {
     this.flow = flow;

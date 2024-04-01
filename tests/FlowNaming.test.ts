@@ -1,15 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as core from '../src'
-import Hidenav from './testfiles/hidenav.json';
+import unconnectedElement from './testfiles/UnconnectedElement.json';
 
 describe('A flow with correct naming', () => {
   let flow: core.Flow;
   
   before('arrange', () => {
     flow = new core.Flow({
-      path: './testfiles/CreateANewAccount.flow-meta.xml',
-      xmldata: Hidenav,
+      path: './testfiles/Async_OnlyTransaction.flow-meta.xml',
+      xmldata: unconnectedElement,
     });
   });
 
@@ -20,7 +20,7 @@ describe('A flow with correct naming', () => {
           FlowName: 
                 {
                     severity: 'error',
-                    expression: '[A-Za-z0-9]'
+                    expression: '[A-Za-z0-9]+_[A-Za-z0-9]+'
                 },
         }
     };

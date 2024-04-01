@@ -2,5 +2,5 @@ node_modules/
 /out/
 .vscode/settings.json
 src/main/.DS_Store
-.yarn/install-state.gz
-.yarn/install-state.gz
+.yarn/**
+**.gz
