@@ -17,20 +17,24 @@ export class UnusedVariable extends RuleCommon implements core.IRuleDefinition {
   }
 
   public execute(flow: core.Flow) : core.RuleResult {
-    if(flow.type[0] === 'Survey'){
-      return new core.RuleResult( this, []);
-    }
+    
     const unusedVariables: core.FlowVariable[] = [];
     for (const variable of flow.elements.filter(node => node instanceof core.FlowVariable) as core.FlowVariable[]) {
-      // first check if any inside of flow elements
       const variableName = variable.name;
       if ([...JSON.stringify(flow.elements.filter(node => node instanceof core.FlowNode)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index).length === 0) {
-        // if none found check in other flow variables
-        const insideCounter = [...JSON.stringify(variable).matchAll(new RegExp(variable.name, 'gi'))].map(a => a.index);
-        const variableUsage = [...JSON.stringify(flow.elements.filter(node => node instanceof core.FlowVariable)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index);
-        if (variableUsage.length === insideCounter.length) {
-          unusedVariables.push(variable);
+        // if not found in any inside of flow elements
+
+        if([...JSON.stringify(flow.elements.filter(node => node instanceof core.FlowResource)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index).length === 0){
+          const insideCounter = [...JSON.stringify(variable).matchAll(new RegExp(variable.name, 'gi'))].map(a => a.index);
+          const variableUsage = [...JSON.stringify(flow.elements.filter(node => node instanceof core.FlowVariable)).matchAll(new RegExp(variableName, 'gi'))].map(a => a.index);
+          // finally also checks indexes where name occurs in the variable itself and where name occurs in all variables
+          // when this is the same, variable must be unused.
+          if (variableUsage.length === insideCounter.length) {
+            unusedVariables.push(variable);
+          }
         }
+
+        
       }
     }
     let results = [];

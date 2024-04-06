@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-core",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "main": "out/**",
   "types": "index.d.ts",
   "scripts": {
@@ -17,6 +17,7 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "^20.4.5",
     "@types/path-browserify": "^1",
+    "@types/xml2js": "^0",
     "chai": "^4.3.4",
     "logging": "^3.3.0",
     "mocha": "^9.1.1",
@@ -26,6 +27,7 @@
   },
   "packageManager": "yarn@4.1.1",
   "dependencies": {
-    "path-browserify": "^1.0.1"
+    "path-browserify": "^1.0.1",
+    "xml2js": "^0.6.2"
   }
 }

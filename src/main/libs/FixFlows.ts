@@ -23,12 +23,14 @@ export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.
         break;
       case 'metadata':
         return node;
+      case 'resource':
+        return node;
     }
   }
   );
   let xmldata = BuildFlow(nodesToBuild);
   const newFlow = new core.Flow({
-    'uri': flow.uri,
+    'path': flow.fsPath,
     'xmldata': xmldata
   });
   return newFlow;

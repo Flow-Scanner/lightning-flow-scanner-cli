@@ -17,9 +17,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
   }
 
   public execute(flow: core.Flow): core.RuleResult {
-    if (flow.type[0] === 'Survey') {
-      return new core.RuleResult(this, []);
-    }
+
     const getOperations = ['recordLookups'];
     const getOperationElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && getOperations.includes(node.subtype)) as core.FlowNode[];
     const decisionElements: core.FlowNode[] = flow.elements.filter(node => node.metaType === 'node' && node.subtype === 'decisions') as core.FlowNode[];

@@ -1,0 +1,57 @@
+{
+    "$": {
+      "xmlns": "http://soap.sforce.com/2006/04/metadata"
+    },
+    "apiVersion": ["58.0"],
+    "description": ["This flow demonstrates a violation of the rule \"Unused Variable\"."],
+    "environments": ["Default"],
+    "interviewLabel": ["Unused Variable {!$Flow.CurrentDateTime}"],
+    "label": ["Unused Variable"],
+    "processMetadataValues": [
+      {
+        "name": ["BuilderType"],
+        "value": [{"stringValue": ["LightningFlowBuilder"]}]
+      },
+      {
+        "name": ["CanvasMode"],
+        "value": [{"stringValue": ["AUTO_LAYOUT_CANVAS"]}]
+      },
+      {
+        "name": ["OriginBuilderType"],
+        "value": [{"stringValue": ["LightningFlowBuilder"]}]
+      }
+    ],
+    "processType": ["Flow"],
+    "screens": [
+      {
+        "name": ["mock_screen"],
+        "label": ["mock screen"],
+        "locationX": ["176"],
+        "locationY": ["134"],
+        "allowBack": ["true"],
+        "allowFinish": ["true"],
+        "allowPause": ["true"],
+        "showFooter": ["true"],
+        "showHeader": ["true"]
+      }
+    ],
+    "start": [
+      {
+        "locationX": ["50"],
+        "locationY": ["0"],
+        "connector": [{"targetReference": ["mock_screen"]}]
+      }
+    ],
+    "status": ["Active"],
+    "variables": [
+      {
+        "name": ["anUnusedVariable"],
+        "dataType": ["String"],
+        "isCollection": ["false"],
+        "isInput": ["false"],
+        "isOutput": ["false"],
+        "value": [{"stringValue": ["hello world"]}]
+      }
+    ]
+  }
+  

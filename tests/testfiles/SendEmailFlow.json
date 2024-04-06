@@ -1,0 +1,184 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "actionCalls": [
+            {
+                "name": [
+                    "Send_Email"
+                ],
+                "label": [
+                    "Send Email"
+                ],
+                "locationX": [
+                    "176"
+                ],
+                "locationY": [
+                    "323"
+                ],
+                "actionName": [
+                    "emailSimple"
+                ],
+                "actionType": [
+                    "emailSimple"
+                ],
+                "flowTransactionModel": [
+                    "CurrentTransaction"
+                ],
+                "inputParameters": [
+                    {
+                        "name": [
+                            "emailSubject"
+                        ],
+                        "value": [
+                            {
+                                "stringValue": [
+                                    "My Subject"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": [
+                            "emailBody"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "myTextTemplate"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": [
+                            "recipientId"
+                        ],
+                        "value": [
+                            {
+                                "elementReference": [
+                                    "$User.Id"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "nameSegment": [
+                    "emailSimple"
+                ],
+                "versionSegment": [
+                    "1"
+                ]
+            }
+        ],
+        "apiVersion": [
+            "60.0"
+        ],
+        "environments": [
+            "Default"
+        ],
+        "formulas": [
+            {
+                "name": [
+                    "myFormula"
+                ],
+                "dataType": [
+                    "DateTime"
+                ],
+                "expression": [
+                    "NOW()"
+                ]
+            }
+        ],
+        "interviewLabel": [
+            "SendEmailFlow {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "SendEmailFlow"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "start": [
+            {
+                "locationX": [
+                    "50"
+                ],
+                "locationY": [
+                    "0"
+                ],
+                "connector": [
+                    {
+                        "targetReference": [
+                            "Send_Email"
+                        ]
+                    }
+                ],
+                "object": [
+                    "Account"
+                ],
+                "recordTriggerType": [
+                    "Create"
+                ],
+                "triggerType": [
+                    "RecordAfterSave"
+                ]
+            }
+        ],
+        "status": [
+            "Draft"
+        ],
+        "textTemplates": [
+            {
+                "name": [
+                    "myTextTemplate"
+                ],
+                "isViewedAsPlainText": [
+                    "false"
+                ],
+                "text": [
+                    "<p>{!myFormula}</p>"
+                ]
+            }
+        ]
+    }
+}

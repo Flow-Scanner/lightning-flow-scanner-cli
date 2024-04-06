@@ -17,9 +17,7 @@ export class DuplicateDMLOperation extends RuleCommon implements core.IRuleDefin
   }
 
   public execute(flow: core.Flow): core.RuleResult {
-    if (flow.type[0] === 'Survey') {
-      return new core.RuleResult(this, []);
-    }
+
     const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];

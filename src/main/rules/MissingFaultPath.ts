@@ -16,9 +16,6 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
   }
 
   public execute(flow: core.Flow): core.RuleResult {
-    if (flow.type[0] === 'Survey') {
-      return new core.RuleResult(this, []);
-    }
 
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];

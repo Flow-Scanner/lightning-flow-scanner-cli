@@ -6,6 +6,7 @@ import {FlowAttribute} from "../models/FlowAttribute";
 import {FlowElement} from "../models/FlowElement";
 import {FlowType} from "../models/FlowType";
 import {FlowNode} from "../models/FlowNode";
+import {FlowResource} from "../models/FlowResource";
 import {FlowVariable} from "../models/FlowVariable";
 import {ResultDetails} from "../models/ResultDetails";
 import {RuleResult} from "../models/RuleResult";
@@ -17,6 +18,7 @@ export {
   FlowNode,
   FlowType,
   FlowVariable,
+  FlowResource,
   Flow,
   Compiler,
   ScanResult,

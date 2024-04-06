@@ -6,8 +6,9 @@ import AssignTaskOwner from './testfiles/AssignTaskOwner.json';
 import createANewAccount from './testfiles/CreateANewAccount.json';
 import UnconnectedScreensWithDuplicateDML from './testfiles/UnconnectedScreensWithDuplicateDML.json';
 import CreateANewAccountImproved from './testfiles/CreateANewAccountImproved.json';
+import Hidenav from './testfiles/hidenav.json';
 
-describe('The DuplicateDMLOperation Rule ', () => {
+describe('DuplicateDMLOperation  ', () => {
   let flow: core.Flow;
 
   it('should have 1 result in a flow with a DML statement inbetween screens ', () => {
@@ -165,6 +166,26 @@ describe('The DuplicateDMLOperation Rule ', () => {
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperation');
     expect(results[0].ruleResults[0].details.length).to.equal(0);
+  });
+
+  it('A screen flow with a DML statements between where the screen after the DML hides the navigation should have no result', () => {
+    flow = new core.Flow({
+      path: 'anypath',
+      xmldata: Hidenav,
+    });
+    const ruleConfig = {
+      rules: 
+        { 
+          DuplicateDMLOperation: 
+                {
+                    severity: 'error',
+                },
+        }
+    };
+
+    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    expect(results[0].ruleResults.length).to.equal(1);
+    expect(results[0].ruleResults[0].ruleName).to.equal('DuplicateDMLOperation');
   });
 });
 

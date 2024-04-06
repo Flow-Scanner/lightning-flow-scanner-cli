@@ -17,9 +17,6 @@ export class SOQLQueryInLoop extends RuleCommon implements core.IRuleDefinition 
   }
 
   public execute(flow: core.Flow): core.RuleResult {
-    if (flow.type[0] === 'Survey') {
-      return new core.RuleResult(this, []);
-    }
 
     const dmlStatementTypes = ['recordLookups'];
     const loopElements: core.FlowNode[] = flow.elements.filter(node => node.subtype === 'loops') as core.FlowNode[];

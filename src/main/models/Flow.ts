@@ -3,13 +3,13 @@ import { FlowMetadata } from './FlowMetadata';
 import {FlowElement} from './FlowElement';
 import {FlowVariable} from './FlowVariable';
 import p from "path-browserify";
+import { FlowResource } from './FlowResource';
 
 export class Flow {
 
   public label: string;
   public xmldata;
   public name?: string;
-  public path?: string;
   public interviewLabel?: string;
   public processType?;
   public processMetadataValues?;
@@ -17,7 +17,7 @@ export class Flow {
   public start?;
   public startElementReference?;
   public status?;
-  public uri?;
+  public fsPath;
   public root?;
   public elements?: FlowElement[];
   public startReference;
@@ -29,6 +29,7 @@ export class Flow {
     'formulas',
     'variables'
   ];
+  private flowResources = ['textTemplates', 'stages'];
   private flowMetadata = [
     'description',
     'apiVersion',
@@ -37,8 +38,6 @@ export class Flow {
     'interviewLabel',
     'label',
     'status',
-    'stages',
-    'textTemplates',
     'runInMode',
     'startElementReference',
     'isTemplate',
@@ -70,15 +69,9 @@ export class Flow {
     'waits'
   ];
 
-  constructor(args) {
-    this.uri = args.uri;
-    if (args.uri) {
-      this.path = args.uri.fsPath;
-    }
-    if (args.path) {
-      this.path = args.path;
-    }
-    let flowName = p.basename(p.basename(this.path), p.extname(this.path));
+  constructor(args :{path: string, xmldata: any}) {
+    this.fsPath = p.resolve(args.path);
+    let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
     if (flowName.includes('.')) {
       flowName = flowName.split('.')[0]
     }
@@ -126,6 +119,12 @@ export class Flow {
         for (const node of nodesOfType) {
           allNodes.push(
             new FlowNode(node.name, nodeType, node)
+          );
+        }
+      } else if (this.flowResources.includes(nodeType)) {
+        for (const node of nodesOfType) {
+          allNodes.push(
+            new FlowResource(node.name, nodeType, node)
           );
         }
       }
