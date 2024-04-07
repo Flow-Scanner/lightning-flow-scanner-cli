@@ -2,29 +2,29 @@
 
 _An Extensible Rule Engine for Salesforce Flows used by the Lightning Flow Scanner [Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner) and [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details)._ 
 
-- [Default Ruleset](#default-ruleset)
+- [Default Rules](#default-rules)
 - [Configurations](#configurations)
   - [Rule Configuration](#rule-configuration)
   - [Custom Rule Interface](#custom-rule-interface)
   - [Exception Configuration](#exception-configuration)
 - [Development Setup](#development-setup)
 
-## Default Ruleset
+## Default Rules
 
-The default ruleset consists of the following rules:
-
-- Outdated API Version (configurable)
-- Copy API Name
-- DML Statement In A Loop
-- Duplicate DML Operation
-- Missing Flow Description
-- Flow Naming Convention (configurable)
-- Hardcoded Id
-- Missing Fault Path
-- Missing Null Handler
-- SOQL Query In A Loop
-- Unconnected Element
-- Unused Variable 
+| Rule       | Description |
+|--------------|:-----------|
+| **Outdated API Version** | Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them. |
+| **Copy API Name** | Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy. |
+| **DML Statement In A Loop** |  To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow. |
+| **Duplicate DML Operation** |   When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow. |
+| **Hardcoded Id** |  Avoid hard-coding IDs as they are org-specific. Instead, pass them into variables at the start of the flow. You can achieve this by utilizing merge fields in URL parameters or employing a Get Records element. |
+| **Flow Naming Convention** |  The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'. |
+| **Missing Flow Description** |   Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose. |
+| **Missing Fault Path** |  At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path. |
+| **Missing Null Handler**      |   When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result. |
+| **SOQL Query In A Loop** |  To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow. |
+| **Unconnected Element** |  Unconnected elements which are not being used by the Flow should be avoided to keep Flows efficient and maintainable. |
+| **Unused Variable**      |  To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use. |
 
 For more details on the ruleset and its configurability see  _[Default Rule Definitions](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/docs/defaultrules.md)_
 
