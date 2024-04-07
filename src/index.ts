@@ -7,8 +7,6 @@ import {Flow} from './main/models/Flow';
 import {ResultDetails} from './main/models/ResultDetails';
 import {RuleResult} from './main/models/RuleResult';
 import {ScanResult} from './main/models/ScanResult';
-import {loadFlows} from './main/libs/loadFlows';
-import { XMLParser } from './main/libs/XMLParser';
 
 export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
@@ -66,24 +64,6 @@ export function fix(results : ScanResult[]): ScanResult[] {
   }
 
   return newResults
-}
-
-export async function parse(uris: string | string[]): Promise<Flow[]> {
-  let flows: Flow[] = [];
-  try {
-      const data = await loadFlows(uris);
-      for (const uri of Object.keys(data)) {
-          const parsedFlow = await new XMLParser().execute(data[uri]);
-          flows.push(new Flow({
-            path: uri,
-            xmldata: parsedFlow
-        }));
-      }
-      return flows;
-  } catch (err) {
-      console.error('Error Parsing Flow Files:', err);
-      throw err; // Re-throw the error to be handled by the caller
-  }
 }
 
 export { Flow } from './main/models/Flow';
