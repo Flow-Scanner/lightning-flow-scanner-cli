@@ -6,7 +6,6 @@ export interface IRuleDefinition {
   label: string;
   description: string;
   supportedTypes: string[];
-  type: string;
   docRefs: { label: string, path: string }[];
   isConfigurable: boolean;
   autoFixable: boolean;

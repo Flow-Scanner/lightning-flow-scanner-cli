@@ -8,7 +8,6 @@ export class FlowDescription extends RuleCommon implements core.IRuleDefinition 
       name: 'FlowDescription',
       label: 'Missing Flow Description',
       description: "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
-      type: 'flow',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false, 

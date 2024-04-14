@@ -8,7 +8,6 @@ export class UnconnectedElement extends RuleCommon implements core.IRuleDefiniti
       name: 'UnconnectedElement',
       label: 'Unconnected Element',
       description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
-      type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false, 

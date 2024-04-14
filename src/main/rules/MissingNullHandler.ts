@@ -8,7 +8,6 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
       name: 'MissingNullHandler',
       label: 'Missing Null Handler',
       description: "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
-      type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false, 

@@ -7,7 +7,6 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
       name: 'MissingFaultPath',
       label: 'Missing Fault Path',
       description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
-      type: 'pattern',
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [{ label: 'Flow Best Practices', path: 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
       isConfigurable: false, 
