@@ -6,7 +6,7 @@ export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
     constructor() {
         super({
             name: 'AutoLayout',
-            label: 'Use Auto-Layout Mode',
+            label: 'Auto-Layout Mode',
             description: "With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",
             supportedTypes: core.FlowType.allTypes(),
             docRefs: [],
