@@ -9,7 +9,6 @@ export class RuleCommon {
   public docRefs: { label: string, path: string }[] = [];
   public description: string;
   public supportedTypes: string[];
-  public type: string;
   public isConfigurable: boolean;
   public autoFixable: boolean;
 
@@ -20,7 +19,6 @@ export class RuleCommon {
     }
   ) {
     this.name = info.name;
-    this.type = info.type;
     this.supportedTypes = info.supportedTypes;
     this.label = info.label;
     this.description = info.description;

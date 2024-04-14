@@ -8,7 +8,6 @@ export class DuplicateDMLOperation extends RuleCommon implements core.IRuleDefin
       name: 'DuplicateDMLOperation',
       label: 'Duplicate DML Operation',
       description: "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
-      type: 'pattern',
       supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
       isConfigurable: false, 

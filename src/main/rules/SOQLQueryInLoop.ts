@@ -8,7 +8,6 @@ export class SOQLQueryInLoop extends RuleCommon implements core.IRuleDefinition 
       name: 'SOQLQueryInLoop',
       label: 'SOQL Query In A Loop',
       description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
-      type: 'pattern',
       supportedTypes: core.FlowType.backEndTypes,
       docRefs: [{ 'label': 'Flow Best Practices', 'path': 'https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5' }],
       isConfigurable: false, 
