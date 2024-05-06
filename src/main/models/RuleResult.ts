@@ -8,8 +8,9 @@ export class RuleResult {
   public ruleDefinition: IRuleDefinition;
   public severity: string;
   public details: ResultDetails[] = [];
+  public errorMessage: string;
 
-  constructor(info: IRuleDefinition, details: ResultDetails[]) {
+  constructor(info: IRuleDefinition, details: ResultDetails[], errorMessage?:string) {
     this.ruleDefinition = info;
     this.ruleName = info.name;
     this.severity = info.severity ? info.severity : 'error';
@@ -17,6 +18,9 @@ export class RuleResult {
     this.details = details;
     if(details.length > 0){
       this.occurs = true;
+    }
+    if(errorMessage){
+      this.errorMessage = errorMessage;
     }
   }
 

@@ -3,6 +3,7 @@ import 'mocha';
 import * as core from '../src'
 import unconnectedElement from './testfiles/UnconnectedElement.json';
 import Hidenav from './testfiles/hidenav.json';
+import flawed from './testfiles/flawedflow.json';
 
 describe('Rule Configurations ', () => {
 
@@ -17,6 +18,16 @@ describe('Rule Configurations ', () => {
     const rules = core.getRules();
     expect(results[0].ruleResults.length).to.equal(rules.length);
   });
+
+  it(' should return errormessage when file seems corrupt', () => {
+    flow2 = new core.Flow({
+      path: './testfiles/flawed.flow-meta.xml',
+      xmldata: flawed,
+    });
+    const results: core.ScanResult[] = core.scan([flow2], undefined);
+    expect(results[0].ruleResults[0].errorMessage);
+  });
+  
   
   it(' should use default when no rules are specified', () => {
     flow2 = new core.Flow({

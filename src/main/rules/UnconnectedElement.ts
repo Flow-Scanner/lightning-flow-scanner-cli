@@ -17,75 +17,35 @@ export class UnconnectedElement extends RuleCommon implements core.IRuleDefiniti
 
   public execute(flow: core.Flow): core.RuleResult {
 
-    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
-    let indexesToProcess = [this.findStart(flowElements)];
-    const processedElementIndexes: number[] = [];
-    const unconnectedElementIndexes: number[] = [];
-    if (indexesToProcess[0] && indexesToProcess[0] === -1 && !flow.startElementReference) {
-      throw 'Can not find starting element';
-    }
-    if (indexesToProcess[0] && indexesToProcess[0] === -1 && flow.startElementReference) {
-      indexesToProcess = [
-        flowElements.findIndex(n => {
-          return n.name == flow.startElementReference[0];
-        })
-      ];
-    }
-    do {
-      indexesToProcess = indexesToProcess.filter(index => !processedElementIndexes.includes(index));
-      if (indexesToProcess.length > 0) {
-        for (const [index, element] of flowElements.entries()) {
-          if (indexesToProcess.includes(index)) {
-            const references: string[] = [];
-            if (element.connectors && element.connectors.length > 0) {
-              for (const connector of element.connectors) {
-                if (connector.reference) {
-                  references.push(connector.reference);
-                }
-              }
-            }
-            if (references.length > 0) {
-              const elementsByReferences = flowElements.filter(anElement => references.includes(anElement.name));
-              for (const nextElement of elementsByReferences) {
-                const nextIndex = flowElements.findIndex(anElement => nextElement.name === anElement.name);
-                if (!processedElementIndexes.includes(nextIndex)) {
-                  indexesToProcess.push(nextIndex);
-                }
-              }
-            }
-            processedElementIndexes.push(index);
-          }
-        }
-      } else {
-        for (const index of flowElements.keys()) {
-          if (!processedElementIndexes.includes(index)) {
-            unconnectedElementIndexes.push(index);
-          }
-        }
-      }
-    } while ((processedElementIndexes.length + unconnectedElementIndexes.length) < flowElements.length);
+    const connectedElements: Set<string> = new Set<string>();
 
-    const processedElements = [];
-    const unconnectedElements = [];
-    for (const [index, element] of flowElements.entries()) {
-      if (processedElementIndexes.includes(index)) {
-        processedElements.push(element);
-      } else if (unconnectedElementIndexes.includes(index)) {
-        unconnectedElements.push(element);
-      }
+    // Callback function to log connected elements
+    const logConnected = (element: core.FlowNode) => {
+      connectedElements.add(element.name);
+    };
+
+    // Get Traversable Nodes
+    const flowElements: core.FlowNode[] = flow.elements.filter(node => node instanceof core.FlowNode) as core.FlowNode[];
+
+    // Find start of Flow
+    const startIndex = this.findStart(flowElements);
+
+    // Start traversal from the start node
+    if (startIndex !== -1) {
+      new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
     }
-    let results = [];
-    for (const det of unconnectedElements) {
-      results.push(new core.ResultDetails(det));
-    }
+
+    const unconnectedElements: core.FlowNode[] = flowElements.filter(element => !connectedElements.has(element.name));
+
+    // Create result details
+    const results = unconnectedElements.map(det => new core.ResultDetails(det));
+
     return new core.RuleResult(this, results);
   }
 
-  private findStart(nodes: core.FlowElement[]) {
+  private findStart(nodes: core.FlowNode[]) {
     return nodes.findIndex(n => {
       return n.subtype === 'start';
     });
   }
-
-
 }
