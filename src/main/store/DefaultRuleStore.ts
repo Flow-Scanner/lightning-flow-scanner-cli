@@ -6,6 +6,7 @@ import { DuplicateDMLOperation } from '../rules/DuplicateDMLOperation';
 import { FlowDescription } from '../rules/FlowDescription';
 import { FlowName } from '../rules/FlowName';
 import { HardcodedId } from '../rules/HardcodedId';
+import { InactiveFlow } from '../rules/InactiveFlow';
 import { MissingFaultPath } from '../rules/MissingFaultPath';
 import { MissingNullHandler } from '../rules/MissingNullHandler';
 import { ProcessBuilder } from '../rules/ProcessBuilder';
@@ -27,5 +28,6 @@ export const DefaultRuleStore: {} = {
   ProcessBuilder,
   SOQLQueryInLoop,
   UnconnectedElement,
-  UnusedVariable
+  UnusedVariable,
+  InactiveFlow,
 };

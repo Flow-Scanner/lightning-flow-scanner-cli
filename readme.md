@@ -27,6 +27,7 @@ _An Extensible Rule Engine for Salesforce Flows used by the Lightning Flow Scann
 | **Unconnected Element** ([`UnconnectedElement`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElement.ts)) | Unconnected elements which are not being used by the Flow should be avoided to keep Flows efficient and maintainable. |
 | **Unused Variable** ([`UnusedVariable`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariable.ts)) | To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use. |
 | **Process Builder** ([`ProcessBuilder`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/ProcessBuilder.ts)) | Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Ensure you're prepared for this transition by migrating your organization's automation to Flow. Refer to official documentation for more information on the transition process and tools available. |
+| **Inactive Flow** ([`InactiveFlow`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/InactiveFlow.ts)) | It's better to delete flows that are no longer used rather than have them be inactive. Inactive flows can still delete records when testing them, and parent flows will run an inactive subflow if no active version is found. |
 
 ## Configurations
 

@@ -1,0 +1,66 @@
+{
+    "Flow": {
+        "$": {
+            "xmlns": "http://soap.sforce.com/2006/04/metadata"
+        },
+        "apiVersion": [
+            "58.0"
+        ],
+        "description": [
+            "This flow demonstrates an active flow that does not violate the rule \"Inactive Flow\"."
+        ],
+        "environments": [
+            "Default"
+        ],
+        "interviewLabel": [
+            "Active Flow {!$Flow.CurrentDateTime}"
+        ],
+        "label": [
+            "Active Flow"
+        ],
+        "processMetadataValues": [
+            {
+                "name": [
+                    "BuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "CanvasMode"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "AUTO_LAYOUT_CANVAS"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": [
+                    "OriginBuilderType"
+                ],
+                "value": [
+                    {
+                        "stringValue": [
+                            "LightningFlowBuilder"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "processType": [
+            "AutoLaunchedFlow"
+        ],
+        "status": [
+            "Active"
+        ]
+    }
+}
