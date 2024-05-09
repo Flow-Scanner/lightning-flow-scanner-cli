@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "license": "AGPL-3.0",
-  "description": "",
+  "description": "A rule engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows.",
   "repository": "https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git",
   "devDependencies": {
     "@types/chai": "^4.2.21",
