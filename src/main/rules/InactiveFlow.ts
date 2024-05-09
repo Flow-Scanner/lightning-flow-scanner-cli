@@ -7,7 +7,7 @@ export class InactiveFlow extends RuleCommon implements core.IRuleDefinition {
     super({
       name: 'InactiveFlow',
       label: 'Inactive Flow',
-      description: 'It\'s better to delete flows that are no longer used rather than have them be inactive. Inactive flows can still delete records when testing them, and parent flows will run an inactive subflow if no active version is found.',
+      description: 'Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.',
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
       isConfigurable: true, 
