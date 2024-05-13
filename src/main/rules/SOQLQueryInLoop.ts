@@ -30,8 +30,8 @@ export class SOQLQueryInLoop extends RuleCommon implements core.IRuleDefinition 
     for (const element of loopElements) {
       let loopEnd: string | undefined;
       // Check if 'noMoreValuesConnector' attribute exists
-      if (element.element['noMoreValuesConnector'] && element.element['noMoreValuesConnector'][0]) {
-        loopEnd = element.element['noMoreValuesConnector'][0].targetReference[0];
+      if (element.element['noMoreValuesConnector'] && element.element['noMoreValuesConnector']) {
+        loopEnd = element.element['noMoreValuesConnector'].targetReference;
       } else {
         loopEnd = element.name;
       }

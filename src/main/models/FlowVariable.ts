@@ -7,7 +7,7 @@ export class FlowVariable extends FlowElement {
 
     constructor(name: string, subtype: string, element: object) {
         super('variable', subtype, element);
-        this.name = name[0];
-        this.dataType = element["dataType"][0];
+        this.name = name;
+        this.dataType = element["dataType"];
     }
 }

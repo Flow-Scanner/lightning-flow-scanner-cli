@@ -6,7 +6,7 @@ export class FlowElementConnector{
     public alias:string;
     public reference:string;
     public childName:string;
-    public childOf:string;
+    public childOf:boolean;
 
     constructor(type:string, element:object, args){
         this.type = type;
@@ -14,8 +14,8 @@ export class FlowElementConnector{
         this.childName = args.childName ? args.childName : undefined;
         this.childOf = args.childOf ? args.childOf : undefined;
 
-        if(element && element[0] && element[0].targetReference && element[0].targetReference[0]){
-            this.reference = element[0].targetReference[0];
+        if(element && element['targetReference']){
+            this.reference = element['targetReference'];
         }
     }
 }

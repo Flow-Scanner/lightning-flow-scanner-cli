@@ -1,36 +1,46 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import * as core from '../src';
-import obsolete from './testfiles/ObsoleteFlow_Demo.json';
-import active from './testfiles/ActiveFlow_Demo.json';
-
-describe('In the ObsoleteFlow flow', () => {
-  let obsoleteflow, activeflow: core.Flow;
+import * as core from '../src'
+import * as path from 'path-browserify';
   
-  before('arrange', () => {
-    // ARRANGE
-    obsoleteflow = new core.Flow({
-      path: './testfiles/ObsoleteFlow_Demo.flow',
-      xmldata: obsolete,
-    });
-    activeflow = new core.Flow({
-        path: './testfiles/ActiveFlow_Demo.flow',
-        xmldata: active,
-      });
-  });
+describe('InactiveFlow', () => {
+  let example_uri = path.join(__dirname, './xmlfiles/Utility_Copy_Files_Subflow.flow-meta.xml');
+  let fixed_uri = path.join(__dirname, './xmlfiles/Missing_Flow_Description_Fixed.flow-meta.xml');
 
-  it('there should be one result for the rule InactiveFlow', () => {
+  it('should return a result when flow is inactive', async () => {
 
-    const results: core.ScanResult[] = core.scan([obsoleteflow]);
+    let flows = await core.parse([example_uri]);
+    const ruleConfig = {
+      rules: 
+        {
+          InactiveFlow: {
+            severity: 'error',
+          },
+        },
+    };
+
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(1);
     expect(occurringResults[0].ruleName).to.equal("InactiveFlow");
   });
 
-  it('there should be no results for an active flow', () => {
+  it('should have no result when flow is active', async () => {
 
-    const results: core.ScanResult[] = core.scan([activeflow]);
-    const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    let flows = await core.parse([fixed_uri]);
+    const ruleConfig = {
+      rules: 
+        {
+          FlowDescription: {
+            severity: 'error',
+          },
+        },
+    };
+
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
+
+    expect(results[0].ruleResults.length).to.equal(1);
+    expect(results[0].ruleResults[0].ruleName).to.equal('FlowDescription');
+    expect(results[0].ruleResults[0].occurs).to.equal(false);
   });
 });

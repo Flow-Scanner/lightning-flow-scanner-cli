@@ -18,8 +18,8 @@ export class APIVersion extends RuleCommon implements core.IRuleDefinition {
   public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
 
     let flowAPIVersionNumber: number;
-    if (flow.xmldata.apiVersion && flow.xmldata.apiVersion[0]) {
-      const flowAPIVersion = flow.xmldata.apiVersion[0];
+    if (flow.xmldata.apiVersion) {
+      const flowAPIVersion = flow.xmldata.apiVersion;
       flowAPIVersionNumber = +flowAPIVersion;
     }
     if (flowAPIVersionNumber) {

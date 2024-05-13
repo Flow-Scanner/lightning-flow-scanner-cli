@@ -1,18 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as core from '../src'
-import missingFlowDescription from './testfiles/MissingFlowDescription_Demo.json';
-import CreateANewAccount from './testfiles/CreateANewAccount.json';
-
+import * as path from 'path-browserify';
+  
 describe('FlowDescription', () => {
-  let flow: core.Flow;
+  let example_uri = path.join(__dirname, './xmlfiles/Missing_Flow_Description.flow-meta.xml');
+  let fixed_uri = path.join(__dirname, './xmlfiles/Missing_Flow_Description_Fixed.flow-meta.xml');
 
-  it(' should return a result when a flow is missing a description', () => {
+  it('should return a result when missing a description', async () => {
 
-    flow = new core.Flow({
-        path: './testfiles/Missing_Flow_Description.flow',
-        xmldata: missingFlowDescription,
-      });
+    let flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: 
         {
@@ -22,17 +19,15 @@ describe('FlowDescription', () => {
         },
     };
 
-    const results: core.ScanResult[] = core.scan([flow]);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(1);
     expect(occurringResults[0].ruleName).to.equal("FlowDescription");
   });
 
-  it('FlowDescription should have no result', () => {
-    flow = new core.Flow({
-        path: 'anypath',
-        xmldata: CreateANewAccount,
-      });
+  it('should have no result when provided a description', async () => {
+
+    let flows = await core.parse([fixed_uri]);
     const ruleConfig = {
       rules: 
         {
@@ -42,7 +37,7 @@ describe('FlowDescription', () => {
         },
     };
 
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
 
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('FlowDescription');

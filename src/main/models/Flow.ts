@@ -1,12 +1,11 @@
-import {FlowNode} from './FlowNode';
-import { FlowMetadata } from './FlowMetadata';
-import {FlowElement} from './FlowElement';
-import {FlowVariable} from './FlowVariable';
+import { FlowNode } from "./FlowNode";
+import { FlowMetadata } from "./FlowMetadata";
+import { FlowElement } from "./FlowElement";
+import { FlowVariable } from "./FlowVariable";
 import p from "path-browserify";
-import { FlowResource } from './FlowResource';
+import { FlowResource } from "./FlowResource";
 
 export class Flow {
-
   public label: string;
   public xmldata;
   public name?: string;
@@ -23,69 +22,68 @@ export class Flow {
   public startReference;
 
   private flowVariables = [
-    'choices',
-    'constants',
-    'dynamicChoiceSets',
-    'formulas',
-    'variables'
+    "choices",
+    "constants",
+    "dynamicChoiceSets",
+    "formulas",
+    "variables",
   ];
-  private flowResources = ['textTemplates', 'stages'];
+  private flowResources = ["textTemplates", "stages"];
   private flowMetadata = [
-    'description',
-    'apiVersion',
-    'processMetadataValues',
-    'processType',
-    'interviewLabel',
-    'label',
-    'status',
-    'runInMode',
-    'startElementReference',
-    'isTemplate',
-    'fullName',
-    'timeZoneSidKey',
-    'isAdditionalPermissionRequiredToRun',
-    'migratedFromWorkflowRuleName',
-    'triggerOrder',
-    'Environments',
-    'segment'
+    "description",
+    "apiVersion",
+    "processMetadataValues",
+    "processType",
+    "interviewLabel",
+    "label",
+    "status",
+    "runInMode",
+    "startElementReference",
+    "isTemplate",
+    "fullName",
+    "timeZoneSidKey",
+    "isAdditionalPermissionRequiredToRun",
+    "migratedFromWorkflowRuleName",
+    "triggerOrder",
+    "environments",
+    "segment",
   ];
   private flowNodes = [
-    'actionCalls',
-    'apexPluginCalls',
-    'assignments',
-    'collectionProcessors',
-    'decisions',
-    'loops',
-    'orchestratedStages',
-    'recordCreates',
-    'recordDeletes',
-    'recordLookups',
-    'recordUpdates',
-    'recordRollbacks',
-    'screens',
-    'start',
-    'steps',
-    'subflows',
-    'waits'
+    "actionCalls",
+    "apexPluginCalls",
+    "assignments",
+    "collectionProcessors",
+    "decisions",
+    "loops",
+    "orchestratedStages",
+    "recordCreates",
+    "recordDeletes",
+    "recordLookups",
+    "recordUpdates",
+    "recordRollbacks",
+    "screens",
+    "start",
+    "steps",
+    "subflows",
+    "waits",
   ];
 
-  constructor(args :{path: string, xmldata: any}) {
-    this.fsPath = p.resolve(args.path);
+  constructor(path: string, data?: any) {
+    this.fsPath = p.resolve(path);
     let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
-    if (flowName.includes('.')) {
-      flowName = flowName.split('.')[0]
+    if (flowName.includes(".")) {
+      flowName = flowName.split(".")[0];
     }
     this.name = flowName;
-    if(args.xmldata && args.xmldata.Flow){
-      this.xmldata = args.xmldata.Flow;
-    } else if(args.xmldata){
-      this.xmldata = args.xmldata;
+    if(data){
+      if (data.Flow) {
+        this.xmldata = data.Flow;
+      } else this.xmldata = data;
+      this.preProcessNodes();
     }
-    this.preProcessNodes();
   }
 
   public preProcessNodes() {
-
     this.label = this.xmldata.label;
     this.interviewLabel = this.xmldata.interviewLabel;
     this.processType = this.xmldata.processType;
@@ -96,36 +94,48 @@ export class Flow {
     this.type = this.xmldata.processType;
     const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
-      const nodesOfType = this.xmldata[nodeType];
       // skip xmlns url
-      if (nodeType == '$') {
-        this.root = nodesOfType;
-        continue;
-      }
+      // if (nodeType == "@xmlns") {
+      //   continue;
+      // }
+      let data = this.xmldata[nodeType];
       if (this.flowMetadata.includes(nodeType)) {
-        for (const node of nodesOfType) {
-          allNodes.push(new FlowMetadata(
-            nodeType,
-            node
-          ));
+        if (Array.isArray(data)) {
+          for (const node of data) {
+            allNodes.push(new FlowMetadata(nodeType, node));
+          }
+          for (const node of data) {
+          }
+        } else {
+          allNodes.push(new FlowMetadata(nodeType, data));
         }
       } else if (this.flowVariables.includes(nodeType)) {
-        for (const node of nodesOfType) {
-          allNodes.push(
-            new FlowVariable(node.name, nodeType, node)
-          );
+        if (Array.isArray(data)) {
+          for (const node of data) {
+            allNodes.push(
+              new FlowVariable(node.name, nodeType, node)
+            );
+          }
+        } else {
+          allNodes.push(new FlowVariable(data.name, nodeType, data));
         }
       } else if (this.flowNodes.includes(nodeType)) {
-        for (const node of nodesOfType) {
-          allNodes.push(
-            new FlowNode(node.name, nodeType, node)
-          );
+        if (Array.isArray(data)) {
+          for (const node of data) {
+            allNodes.push(new FlowNode(node.name, nodeType, node));
+          }
+        } else {
+          allNodes.push(new FlowNode(data.name, nodeType, data));
         }
       } else if (this.flowResources.includes(nodeType)) {
-        for (const node of nodesOfType) {
-          allNodes.push(
-            new FlowResource(node.name, nodeType, node)
-          );
+        if (Array.isArray(data)) {
+          for (const node of data) {
+            allNodes.push(
+              new FlowResource(node.name, nodeType, node)
+            );
+          }
+        } else {
+          allNodes.push(new FlowResource(data.name, nodeType, data));
         }
       }
     }
@@ -134,20 +144,22 @@ export class Flow {
   }
 
   private findStart() {
-    let start = '';
-    const flowElements: FlowNode[] = this.elements.filter(node => node instanceof FlowNode) as FlowNode[];
+    let start = "";
+    const flowElements: FlowNode[] = this.elements.filter(
+      (node) => node instanceof FlowNode
+    ) as FlowNode[];
     if (this.startElementReference) {
-      start = this.startElementReference[0];
-    } else if(flowElements.find(n => {
-      return n.subtype === 'start';
-    })){
-      let startElement = flowElements.find(n => {
-        return n.subtype === 'start';
+      start = this.startElementReference;
+    } else if (
+      flowElements.find((n) => {
+        return n.subtype === "start";
+      })
+    ) {
+      let startElement = flowElements.find((n) => {
+        return n.subtype === "start";
       });
-      start = startElement.connectors[0].reference;
+      start = startElement.connectors[0]["reference"];
     }
     return start;
   }
-
 }
-

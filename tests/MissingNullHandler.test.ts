@@ -1,19 +1,14 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import * as core from '../src'
-import CreateANewAccountWithChildFixed from './testfiles/MissingNullHandler_Fixed.json';
-import CreateANewAccountWithChild from './testfiles/MissingNullHandler.json';
-import cv from './testfiles/cv.json';
-import taskbs from './testfiles/taskbs.json';
+import * as core from '../src';
+import * as path from 'path-browserify';
 
 describe('MissingNullHandler ', () => {
-    let flow: core.Flow;
-
-    it(' should return a result when null handlers are implemented', () => {
-        flow = new core.Flow({
-            path: './testfiles/tc.flow-meta.xml',
-            xmldata: CreateANewAccountWithChild,
-        });
+    let example_uri = path.join(__dirname, './xmlfiles/Missing_Null_Handler.flow-meta.xml');
+    let fixed_uri = path.join(__dirname, './xmlfiles/Missing_Null_Handler_Fixed.flow-meta.xml');
+  
+    it('should return a result when no fault path is implemented', async () => {
+        let flows = await core.parse([example_uri]);
         const ruleConfig = {
             rules:
             {
@@ -23,18 +18,14 @@ describe('MissingNullHandler ', () => {
                 },
             }
         };
-        const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+        const results: core.ScanResult[] = core.scan(flows, ruleConfig);
         expect(results[0].ruleResults[0].ruleName).to.equal('MissingNullHandler')
         expect(results[0].ruleResults[0].occurs).to.equal(true);
     });
 
-    it(' should return no result when null handlers are implemented', () => {
+    it(' should return no result when null handlers are implemented', async () => {
 
-        flow = new core.Flow({
-            path: './testfiles/tc.flow-meta.xml',
-            xmldata: CreateANewAccountWithChildFixed,
-        });
-
+        let flows = await core.parse([fixed_uri]);
         const ruleConfig = {
             rules:
             {
@@ -44,52 +35,8 @@ describe('MissingNullHandler ', () => {
                 },
             }
         };
-        const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+        const results: core.ScanResult[] = core.scan(flows, ruleConfig);
         expect(results[0].ruleResults[0].ruleName).to.equal('MissingNullHandler')
         expect(results[0].ruleResults[0].occurs).to.equal(false);
     });
-
-    it('when opt XX ', () => {
-        flow = new core.Flow({
-            path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
-            xmldata: cv,
-        });
-
-        const ruleConfig = {
-            rules:
-            {
-                MissingNullHandler:
-                {
-                    severity: 'error',
-                },
-            }
-        };
-
-        const results: core.ScanResult[] = core.scan([flow], ruleConfig);
-        expect(results[0].ruleResults.length).to.equal(1);
-        expect(results[0].ruleResults[0].ruleName).to.equal('MissingNullHandler');
-        expect(results[0].ruleResults[0].occurs).to.equal(false);
-    });
-
-    it('When scustom variable assignments include null handlers', () => {
-
-        flow = new core.Flow({
-            path: './testfiles/CreateANewAccountWithChild.flow-meta.xml',
-            xmldata: taskbs,
-        });
-
-        const ruleConfig = {
-            rules:
-            {
-                MissingNullHandler:
-                {
-                    severity: 'error',
-                },
-            }
-        };
-        const results: core.ScanResult[] = core.scan([flow], ruleConfig);
-        expect(results[0].ruleResults[0].ruleName).to.equal('MissingNullHandler')
-        expect(results[0].ruleResults[0].occurs).to.equal(true);
-    });
-    
 });

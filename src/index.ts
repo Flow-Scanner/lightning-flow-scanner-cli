@@ -2,8 +2,10 @@ import {IRuleDefinition} from './main/interfaces/IRuleDefinition';
 import { IRulesConfig } from './main/interfaces/IRulesConfig';
 import { FixFlows } from './main/libs/FixFlows';
 import { GetRuleDefinitions } from './main/libs/GetRuleDefinitions';
+import { ParseFlows } from './main/libs/ParseFlows';
 import { ScanFlows } from './main/libs/ScanFlows';
 import {Flow} from './main/models/Flow';
+import { ParsedFlow } from './main/models/ParsedFlow';
 import {ResultDetails} from './main/models/ResultDetails';
 import {RuleResult} from './main/models/RuleResult';
 import {ScanResult} from './main/models/ScanResult';
@@ -17,8 +19,20 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-export function scan(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
+export function parse(selectedUris: any): Promise<ParsedFlow[]> {
+  return ParseFlows(selectedUris);
+}
 
+
+
+export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
+
+  let flows: Flow[] = [];
+  for(let flow of parsedFlows){
+    if(!flow.errorMessage && flow.flow){
+      flows.push(flow.flow);
+    }
+  }
   let scanResults: ScanResult[];
   if (ruleOptions?.rules && Object.entries(ruleOptions.rules).length > 0) {
     scanResults = ScanFlows(flows, ruleOptions);

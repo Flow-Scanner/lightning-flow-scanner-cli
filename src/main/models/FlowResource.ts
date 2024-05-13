@@ -6,6 +6,6 @@ export class FlowResource extends FlowElement {
 
     constructor(name: string, subtype: string, element: object) {
         super('resource', subtype, element);
-        this.name = name[0];
+        this.name = name;
     }
 }

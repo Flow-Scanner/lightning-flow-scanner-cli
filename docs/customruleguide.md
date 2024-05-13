@@ -103,7 +103,7 @@ export class CustomRuleExample implements IRuleDefinition {
 
     // Start traversing the flow from a specific starting element
     // In this example, we'll start from the first element
-    compiler.traverseFlow(flow, flow.elements[0].name, visitCallback);
+    compiler.traverseFlow(flow, flow.elements.name, visitCallback);
 
     // Return the result of the rule execution
     return new RuleResult(this, []); // Assume no violations found for simplicity
@@ -116,6 +116,6 @@ In this example:
 - We define a custom rule class CustomRuleExample with an execute method.
 - Inside the execute method, we initialize a new instance of the Compiler.
 - We define a callback function visitCallback that is executed on each visited element. In this example, we check if the element subtype is a screen and perform custom logic accordingly.
-- We call the traverseFlow method of the compiler to start traversing the flow from the first element (flow.elements[0].name) and provide the visitCallback function.
+- We call the traverseFlow method of the compiler to start traversing the flow from the first element (flow.elements.name) and provide the visitCallback function.
 - Inside the visitCallback function, we perform custom logic based on the visited elements.
 - Finally, we return the result of the rule execution.

@@ -1,29 +1,23 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as core from '../src';
-import dmlstatementsinaloop from './testfiles/DMLStatementInALoop_Demo.json';
-import dmlstatementsinaloopfixed from './testfiles/DMLStatementInALoop_Demo_Fixed.json';
+import * as path from 'path-browserify';
 
 describe('DMLStatementInLoop ', () => {
-  let flow: core.Flow;
+  let example_uri = path.join(__dirname, './xmlfiles/DML_Statement_In_A_Loop.flow-meta.xml');
+  let fixed_uri = path.join(__dirname, './xmlfiles/Duplicate_DML_Operation_Fixed.flow-meta.xml');
   
-  it('there should be one result for the rule DMLStatementInLoop', ()                                                                            => {
-    flow = new core.Flow({
-        path: './testfiles/DML_statements_in_a_loop.flow',
-        xmldata: dmlstatementsinaloop,
-      });
-    const results: core.ScanResult[] = core.scan([flow]);
+  it('there should be one result for the rule DMLStatementInLoop', async ()                                                                            => {
+    let flows = await core.parse([example_uri])
+    const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(1);
     expect(occurringResults[0].ruleName).to.equal("DMLStatementInLoop");
   });
 
-  it('there should be no result for the rule DMLStatementInLoop', ()                                                                            => {
-    flow = new core.Flow({
-      path: './testfiles/DML_statements_in_a_loop_fixed.flow',
-      xmldata: dmlstatementsinaloopfixed,
-    });
-    const results: core.ScanResult[] = core.scan([flow]);
+  it('there should be no result for the rule DMLStatementInLoop', async ()                                                                            => {
+    let flows = await core.parse([fixed_uri])
+    const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(0);
   });

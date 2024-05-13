@@ -17,12 +17,12 @@ export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
 
     public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
 
-        if (flow.xmldata.processMetadataValues && flow.xmldata.processMetadataValues[0]) {
+        if (flow.processMetadataValues) {
 
-            const CanvasMode = flow.xmldata.processMetadataValues.find(mdv => mdv.name[0] === 'CanvasMode');
-            const AutoLayout = CanvasMode.value[0] && typeof CanvasMode.value[0] === 'object' && 'stringValue' in CanvasMode.value[0] && Array.isArray(CanvasMode.value[0].stringValue) && CanvasMode.value[0].stringValue[0] === "AUTO_LAYOUT_CANVAS";
+            const CanvasMode = flow.xmldata.processMetadataValues.find(mdv => mdv.name === 'CanvasMode');
+            const AutoLayout = CanvasMode.value && typeof CanvasMode.value === 'object' && CanvasMode.value.stringValue && CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
             return (!AutoLayout ?
-                new core.RuleResult(this, [new core.ResultDetails(new core.FlowAttribute(CanvasMode.value[0]?.stringValue[0], "CanvasMode", '!== AUTO_LAYOUT_CANVAS'))]) :
+                new core.RuleResult(this, [new core.ResultDetails(new core.FlowAttribute(CanvasMode.value?.stringValue, "CanvasMode", '!== AUTO_LAYOUT_CANVAS'))]) :
                 new core.RuleResult(this, []));
         }
     }

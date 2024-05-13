@@ -1,8 +1,9 @@
-# Lightning Flow Scanner
+ [![Lightning Flow Scanner Banner](./src/media/bannerslim.png)](https://github.com/Lightning-Flow-Scanner)
 
-_An Extensible Rule Engine for Salesforce Flows used by the Lightning Flow Scanner [Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner) and [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details)._ 
+_An Extensible Rule Engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows. Used by the Lightning Flow Scanner [Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner) and [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details)._ 
 
 - [Default Rules](#default-rules)
+- [Core Functions](#core-functions)
 - [Configurations](#configurations)
   - [Rule Configuration](#rule-configuration)
   - [Custom Rule Interface](#custom-rule-interface)
@@ -28,6 +29,26 @@ _An Extensible Rule Engine for Salesforce Flows used by the Lightning Flow Scann
 | **SOQL Query In A Loop** ([`SOQLQueryInLoop`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/SOQLQueryInLoop.ts)) | To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow. |
 | **Unconnected Element** ([`UnconnectedElement`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElement.ts)) | Unconnected elements which are not being used by the Flow should be avoided to keep Flows efficient and maintainable. |
 | **Unused Variable** ([`UnusedVariable`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariable.ts)) | To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use. |
+
+## Core Functions
+
+The `index.ts` file in this repository contains the core functionality of the Lightning Flow Scanner Core. Below is an overview of the main functions exported from this file:
+
+### `getRules(ruleNames?: string[]): IRuleDefinition[]`
+
+This function retrieves the rule definitions used by the Lightning Flow Scanner. It takes an optional array of rule names as an argument and returns an array of `IRuleDefinition` objects representing the rules to be executed.
+
+### `parse(selectedUris: any): Promise<ParsedFlow[]>`
+
+The `parse` function parses the metadata of Salesforce Lightning Flows, Process Builders, and Workflows from the provided URIs. It returns a Promise that resolves to an array of `ParsedFlow` objects containing the parsed metadata.
+
+### `scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`
+
+The `scan` function conducts static analysis on the parsed metadata of Lightning Flows, Process Builders, and Workflows using the specified rules. It takes an array of `ParsedFlow` objects and an optional `IRulesConfig` object as arguments and returns an array of `ScanResult` objects representing the results of the analysis.
+
+### `fix(results: ScanResult[]): ScanResult[]`
+
+The `fix` function attempts to automatically fix certain issues identified during the static analysis. It takes an array of `ScanResult` objects as input and returns a modified array with any applicable fixes applied.
 
 ## Configurations
 
@@ -104,13 +125,13 @@ Follow these steps to set up your development environment:
 
     ```bash
     cd lightning-flow-scanner-core
-    yarn install
+    npm install
     ```
 
 3. **Build**: Compile the TypeScript source files into JavaScript using the TypeScript compiler:
 
     ```bash
-    yarn build
+    npm run build
     ```
 
     This command generates the compiled JavaScript files in the `out` directory.
@@ -118,7 +139,7 @@ Follow these steps to set up your development environment:
 4. **Run Tests**: Ensure the module functions correctly by running the test suites:
 
     ```bash
-    yarn test
+    npm run test
     ```
 
     This command uses Mocha to run tests located in the `tests` directory and provides feedback on the module's functionality.

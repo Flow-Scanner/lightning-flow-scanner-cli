@@ -1,17 +1,15 @@
 import { assert, expect } from 'chai';
 import 'mocha';
-import * as core from '../src'
-import Hidenav from './testfiles/hidenav.json';
-import Api58 from './testfiles/api58test.json';
+import * as core from '../src';
+import * as path from 'path-browserify';
 
 describe('APIVersion', () => {
-  let flow: core.Flow;
+  let example_uri = path.join(__dirname, './xmlfiles/Outdated_API_Version.flow-meta.xml');
+  let fixed_uri = path.join(__dirname, './xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml');
 
-  it(' should have a result when attribute is missing', () => {
-    flow = new core.Flow({
-        path: './testfiles/CreateANewAccount.flow-meta.xml',
-        xmldata: Hidenav,
-      });
+  it('should have a result when attribute is missing', async () => {
+
+    let flows = await core.parse([example_uri])
     const ruleConfig = {
       rules: 
         { 
@@ -22,17 +20,14 @@ describe('APIVersion', () => {
         }
     };
 
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('APIVersion');
     expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 
-  it('should have a result when below configured threshold', () => {
-    flow = new core.Flow({
-        path: './testfiles/api58test.flow-meta.xml',
-        xmldata: Api58,
-      });
+  it('should have a result when below configured threshold', async () => {
+    let flows = await core.parse([example_uri])
     const ruleConfig = {
       rules: 
         { 
@@ -44,19 +39,15 @@ describe('APIVersion', () => {
         }
     };
 
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('APIVersion');
     expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 
-  it('should have no result when version is meeting threshold', () => {
+  it('should have no result when version is meeting threshold', async () => {
 
-    flow = new core.Flow({
-      path: './testfiles/api58test.flow-meta.xml',
-      xmldata: Api58,
-    });
-    
+    let flows = await core.parse([fixed_uri])
     const ruleConfig = {
       rules: 
         { 
@@ -67,7 +58,7 @@ describe('APIVersion', () => {
         }
     };
 
-    const results: core.ScanResult[] = core.scan([flow], ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results[0].ruleResults.length).to.equal(1);
     expect(results[0].ruleResults[0].ruleName).to.equal('APIVersion');
     expect(results[0].ruleResults[0].occurs).to.equal(false);
