@@ -43,7 +43,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
-              let valueReference = condition.leftValueReference[0];
+              let valueReference = condition.leftValueReference;
               for(let ref of resultReferences){
                 referenceFound = ref.includes(valueReference);
                 if(referenceFound){
@@ -52,11 +52,11 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
               }
             }
             if (condition.operator && condition.operator.length > 0) {
-              let operator = condition.operator[0];
+              let operator = condition.operator;
               isNullOperator = (operator === 'IsNull');
             }
-            if (condition.rightValue && condition.rightValue.length > 0 && condition.rightValue[0].booleanValue && condition.rightValue[0].booleanValue.length > 0) {
-              let rightValue = condition.rightValue[0].booleanValue[0];
+            if (condition.rightValue && condition.rightValue.length > 0 && condition.rightValue.booleanValue && condition.rightValue.booleanValue.length > 0) {
+              let rightValue = condition.rightValue.booleanValue;
               checksIfFalse = (rightValue.toLowerCase() === 'false');
             }
             if (referenceFound && isNullOperator && checksIfFalse) {
