@@ -5,8 +5,8 @@
   "types": "index.d.ts",
   "engines": {"node": "^18 || ^20"},
   "scripts": {
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register tests/**/*.test.ts",
-    "build": "tsc",
+    "test": "TS_NODE_PROJECT=tsconfig.cjs.json mocha -r ts-node/register tests/**/*.test.ts",
+    "build": "tsc -p tsconfig.cjs.json",
     "prepare": "husky",
     "precommit": "lint-staged",
     "lint": "eslint src",

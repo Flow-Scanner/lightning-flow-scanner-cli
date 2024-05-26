@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "es6",
-    "outDir": "out",
+    "outDir": "dist",
     "moduleResolution":"node",
     "lib": [
       "es2020.string",
