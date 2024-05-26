@@ -21,7 +21,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/chai": "^4.2.21",
-    "@types/mocha": "^9.1.1",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20.4.5",
     "chai": "^4.4.1",
     "eslint": "^8.57.0",
