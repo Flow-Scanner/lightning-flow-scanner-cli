@@ -8,7 +8,9 @@
     "build": "tsc",
     "prepare": "husky",
     "precommit": "lint-staged",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepack": "npm run build && npm run dist",
+    "dist": "rollup --config"
   },
   "keywords": [],
   "license": "AGPL-3.0",
@@ -25,6 +27,7 @@
     "logging": "^3.3.0",
     "mocha": "^9.1.1",
     "prettier": "^3.2.5",
+    "rollup": "^4.18.0",
     "ts-node": "^10.2.1",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.10.0"

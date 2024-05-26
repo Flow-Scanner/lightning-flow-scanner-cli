@@ -4,3 +4,6 @@ node_modules/
 src/main/.DS_Store
 .yarn/**
 **.gz
+
+dist/
+out/
