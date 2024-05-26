@@ -37,7 +37,7 @@
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.10.0"
   },
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "npm@10.8.0",
   "dependencies": {
     "@types/path-browserify": "^1.0.2",
     "path-browserify": "^1.0.1",
