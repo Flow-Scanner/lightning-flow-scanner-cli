@@ -2,8 +2,9 @@ import { FlowNode } from "./FlowNode";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
-import p from "path-browserify";
+import * as p from "path-browserify";
 import { FlowResource } from "./FlowResource";
+import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
 
 export class Flow {
   public label: string;
@@ -21,13 +22,7 @@ export class Flow {
   public elements?: FlowElement[];
   public startReference;
 
-  private flowVariables = [
-    "choices",
-    "constants",
-    "dynamicChoiceSets",
-    "formulas",
-    "variables",
-  ];
+  private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
   private flowResources = ["textTemplates", "stages"];
   private flowMetadata = [
     "description",
@@ -68,16 +63,17 @@ export class Flow {
     "waits",
   ];
 
-  constructor(path: string, data?: any) {
+  constructor(path: string, data?: unknown) {
     this.fsPath = p.resolve(path);
     let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
     if (flowName.includes(".")) {
       flowName = flowName.split(".")[0];
     }
     this.name = flowName;
-    if(data){
-      if (data.Flow) {
-        this.xmldata = data.Flow;
+    if (data) {
+      const hasFlowElement = !!data && typeof data === "object" && "Flow" in data;
+      if (hasFlowElement) {
+        this.xmldata = (data as XMLSerializedAsObject).Flow;
       } else this.xmldata = data;
       this.preProcessNodes();
     }
@@ -98,13 +94,11 @@ export class Flow {
       // if (nodeType == "@xmlns") {
       //   continue;
       // }
-      let data = this.xmldata[nodeType];
+      const data = this.xmldata[nodeType];
       if (this.flowMetadata.includes(nodeType)) {
         if (Array.isArray(data)) {
           for (const node of data) {
             allNodes.push(new FlowMetadata(nodeType, node));
-          }
-          for (const node of data) {
           }
         } else {
           allNodes.push(new FlowMetadata(nodeType, data));
@@ -112,9 +106,7 @@ export class Flow {
       } else if (this.flowVariables.includes(nodeType)) {
         if (Array.isArray(data)) {
           for (const node of data) {
-            allNodes.push(
-              new FlowVariable(node.name, nodeType, node)
-            );
+            allNodes.push(new FlowVariable(node.name, nodeType, node));
           }
         } else {
           allNodes.push(new FlowVariable(data.name, nodeType, data));
@@ -130,9 +122,7 @@ export class Flow {
       } else if (this.flowResources.includes(nodeType)) {
         if (Array.isArray(data)) {
           for (const node of data) {
-            allNodes.push(
-              new FlowResource(node.name, nodeType, node)
-            );
+            allNodes.push(new FlowResource(node.name, nodeType, node));
           }
         } else {
           allNodes.push(new FlowResource(data.name, nodeType, data));
@@ -155,7 +145,7 @@ export class Flow {
         return n.subtype === "start";
       })
     ) {
-      let startElement = flowElements.find((n) => {
+      const startElement = flowElements.find((n) => {
         return n.subtype === "start";
       });
       start = startElement.connectors[0]["reference"];
