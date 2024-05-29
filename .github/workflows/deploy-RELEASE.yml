@@ -39,8 +39,8 @@ jobs:
           scope: rubenhalman
       - run: npm ci
       - run: |
-          git config --global user.name $USER_NAME
-          git config --global user.email $USER_EMAIL
+          git config --global user.name ${{ vars.USER_NAME }}
+          git config --global user.email ${{ vars.USER_EMAIL }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
