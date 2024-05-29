@@ -40,8 +40,8 @@ jobs:
           scope: rubenhalman
       - run: npm ci
       - run: |
-          git config --global user.name $USER_NAME
-          git config --global user.email $USER_EMAIL
+          git config --global user.name ${{ vars.USER_NAME }}
+          git config --global user.email ${{ vars.USER_EMAIL }}
       - run: BETAID=$(date '+%Y%m%d%H%M') && npm version prerelease --preid="beta$BETAID"
         shell: bash
       - run: npm publish --tag beta
