@@ -42,7 +42,7 @@ jobs:
       - run: |
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
-      - run: npm version prerelease --preid="beta"
+      - run: npm version patch
         shell: bash
       - run: npm publish --tag beta
         env:
