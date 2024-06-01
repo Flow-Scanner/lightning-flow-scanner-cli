@@ -28,7 +28,8 @@ jobs:
   deploy_to_npm:
     name: Deploy to NPM (beta)
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+        contents: write
     environment:
       name: beta
     steps:
@@ -42,7 +43,17 @@ jobs:
       - run: |
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
-      - run: npm version patch
+      - run: npm i -D semver node-jq
+      - run: |
+          export original_npm_package_version=$(npx node-jq ".version" package.json)
+          echo $original_npm_package_version
+          export npm_package_version=$(npx semver $original_npm_package_version --increment patch --coerce)
+          echo $npm_package_version
+      - run: npx node-jq --arg version "$npm_package_version" '.version=$version' package.json > package2.json && rm package.json && mv package2.json package.json
+      - run: |
+          git commit -am "ci: update package json to $npm_package_version [skip ci]"
+          git push
+      - run: npm version $npm_package_version
         shell: bash
       - run: npm publish --tag beta
         env:
