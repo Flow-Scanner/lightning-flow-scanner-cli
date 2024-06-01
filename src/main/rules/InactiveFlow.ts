@@ -19,13 +19,13 @@ export class InactiveFlow extends RuleCommon implements core.IRuleDefinition {
     const inactiveFlows = [];
     for (const node of flow.elements) {
       const nodeElementString = JSON.stringify(node.element);
-      if (node.subtype == "status" && nodeElementString != '"Active"') {
+      if (node.subtype == "status" && nodeElementString != '\"Active\"') {
         inactiveFlows.push(node);
       }
     }
     let results = [];
     for (const det of inactiveFlows) {
-      results.push(new core.ResultDetails(det));
+      results.push(new core.ResultDetails(new core.FlowAttribute(JSON.stringify(det.element), det.subtype,"!= Active")));
     }
     return new core.RuleResult(this, results);
   }
