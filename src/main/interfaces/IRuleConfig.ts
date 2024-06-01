@@ -1,4 +1,4 @@
 export interface IRuleConfig {
-    severity?: string;
-    path?: string;
-  }
+  severity?: string;
+  path?: string;
+}
