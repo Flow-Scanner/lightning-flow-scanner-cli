@@ -1,10 +1,7 @@
 import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
 
-export class DuplicateDMLOperation
-  extends RuleCommon
-  implements core.IRuleDefinition
-{
+export class DuplicateDMLOperation extends RuleCommon implements core.IRuleDefinition {
   constructor() {
     super({
       name: "DuplicateDMLOperation",
@@ -94,11 +91,7 @@ export class DuplicateDMLOperation
   }
 
   private flagDML(element, dmlFlag) {
-    const dmlStatementTypes = [
-      "recordDeletes",
-      "recordUpdates",
-      "recordCreates",
-    ];
+    const dmlStatementTypes = ["recordDeletes", "recordUpdates", "recordCreates"];
     if (dmlStatementTypes.includes(element.subtype)) {
       return true;
     } else if (

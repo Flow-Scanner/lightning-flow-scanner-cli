@@ -42,7 +42,7 @@ jobs:
       - run: |
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
-      - run: BETAID=$(date '+%Y%m%d%H%M') && npm version prerelease --preid="beta$BETAID"
+      - run: npm version prerelease --preid="beta"
         shell: bash
       - run: npm publish --tag beta
         env:

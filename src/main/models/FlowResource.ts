@@ -1,11 +1,10 @@
-import {FlowElement} from './FlowElement';
+import { FlowElement } from "./FlowElement";
 
 export class FlowResource extends FlowElement {
+  public name: string;
 
-    public name: string;
-
-    constructor(name: string, subtype: string, element: object) {
-        super('resource', subtype, element);
-        this.name = name;
-    }
+  constructor(name: string, subtype: string, element: object) {
+    super("resource", subtype, element);
+    this.name = name;
+  }
 }

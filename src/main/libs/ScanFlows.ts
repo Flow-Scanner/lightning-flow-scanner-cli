@@ -1,10 +1,7 @@
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
 import * as core from "../../main/internals/internals";
 
-export function ScanFlows(
-  flows: core.Flow[],
-  ruleOptions?: core.IRulesConfig
-): core.ScanResult[] {
+export function ScanFlows(flows: core.Flow[], ruleOptions?: core.IRulesConfig): core.ScanResult[] {
   const flowResults: core.ScanResult[] = [];
 
   let selectedRules: core.IRuleDefinition[] = [];
@@ -24,11 +21,7 @@ export function ScanFlows(
       try {
         if (rule.supportedTypes.includes(flow.type)) {
           let config = undefined;
-          if (
-            ruleOptions &&
-            ruleOptions["rules"] &&
-            ruleOptions["rules"][rule.name]
-          ) {
+          if (ruleOptions && ruleOptions["rules"] && ruleOptions["rules"][rule.name]) {
             config = ruleOptions["rules"][rule.name];
           }
           const result =
@@ -44,10 +37,7 @@ export function ScanFlows(
         }
       } catch (error) {
         let message =
-          "Something went wrong while executing " +
-          rule.name +
-          " in the Flow: '" +
-          flow.name;
+          "Something went wrong while executing " + rule.name + " in the Flow: '" + flow.name;
         ruleResults.push(new core.RuleResult(rule, [], message));
       }
     }
