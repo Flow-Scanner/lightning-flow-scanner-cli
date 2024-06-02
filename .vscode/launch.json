@@ -11,7 +11,7 @@
       // "preLaunchTask": "npm: build",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "env": { "TS_NODE_PROJECT": "tsconfig.cjs.json" },
-      "args": ["-r", "ts-node/register", "tests/**/InactiveFlow.test.ts"],
+      "args": ["-r", "ts-node/register", "tests/**/*.test.ts"],
       "internalConsoleOptions": "openOnSessionStart",
       "sourceMaps": true,
       "outDir": "${workspaceFolder}/out"
