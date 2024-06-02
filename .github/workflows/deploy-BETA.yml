@@ -39,23 +39,13 @@ jobs:
           node-version: 18.x
           registry-url: https://registry.npmjs.org
           scope: rubenhalman
-      - run: npm ci
-      - run: |
-          git config --global user.name ${{ vars.USER_NAME }}
-          git config --global user.email ${{ vars.USER_EMAIL }}
-      # - run: npm i -D semver node-jq
-      # - run: |
-      #     export original_npm_package_version=$(npx node-jq ".version" package.json)
-      #     echo $original_npm_package_version
-      #     export npm_package_version=$(npx semver $original_npm_package_version --increment patch --coerce)
-      #     echo $npm_package_version
-      # - run: npx node-jq --arg version "$npm_package_version" '.version=$version' package.json > package2.json && rm package.json && mv package2.json package.json
-      # - run: |
-      #     git commit -am "ci: update package json to $npm_package_version [skip ci]" --no-verify
-      #     git push
-      # - run: npm version $npm_package_version
-      - run: BETAID=$(date '+%Y%m%d%H%M') && npm version prerelease --preid="beta$BETAID"
-        shell: bash
-      - run: npm publish --tag beta
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm i -D @semantic-release @semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/npm @semantic-release/git
+      - name: Publish Beta
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKENX }}
+        run: npx semantic-release
+
