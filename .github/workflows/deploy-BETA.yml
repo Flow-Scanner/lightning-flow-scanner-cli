@@ -48,7 +48,6 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
-          npm i -D semantic-release @semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/npm @semantic-release/git conventional-changelog-conventionalcommits
       - name: Publish Beta
         env:
           GITHUB_TOKEN: ${{ secrets.TOKENX }}
