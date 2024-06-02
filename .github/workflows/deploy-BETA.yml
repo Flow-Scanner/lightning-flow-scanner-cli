@@ -37,6 +37,9 @@ jobs:
       name: beta
     steps:
       - uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4.0.2
         with:
           node-version: 20.x
@@ -48,7 +51,7 @@ jobs:
           npm i -D semantic-release @semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/npm @semantic-release/git conventional-changelog-conventionalcommits
       - name: Publish Beta
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKENX }}
           NPM_TOKEN: ${{ secrets.NPM_TOKENX }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
         run: npx semantic-release
