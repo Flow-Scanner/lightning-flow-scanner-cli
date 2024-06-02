@@ -5,6 +5,7 @@ export default {
   branches: [
     {
       name: "master",
+      channel: "beta"
     },
   ],
   plugins: [
