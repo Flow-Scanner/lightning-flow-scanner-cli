@@ -38,7 +38,7 @@
     "semantic-release": "^24.0.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "typescript-eslint": "^7.14.1"
   },
   "packageManager": "npm@10.8.0",
