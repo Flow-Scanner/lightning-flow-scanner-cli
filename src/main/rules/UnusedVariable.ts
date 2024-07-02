@@ -11,7 +11,7 @@ export class UnusedVariable extends RuleCommon implements core.IRuleDefinition {
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false,
-      autoFixable: false,
+      autoFixable: true,
     });
   }
 
@@ -53,7 +53,7 @@ export class UnusedVariable extends RuleCommon implements core.IRuleDefinition {
         }
       }
     }
-    let results = [];
+    const results = [];
     for (const det of unusedVariables) {
       results.push(new core.ResultDetails(det));
     }

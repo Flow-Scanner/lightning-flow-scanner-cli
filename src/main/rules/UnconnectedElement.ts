@@ -11,7 +11,7 @@ export class UnconnectedElement extends RuleCommon implements core.IRuleDefiniti
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false,
-      autoFixable: false,
+      autoFixable: true,
     });
   }
 
