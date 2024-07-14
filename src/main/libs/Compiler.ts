@@ -54,9 +54,6 @@ export class Compiler {
       for (const connector of currentElement.connectors) {
         const foundConnector = this.recurse(connector);
         // Check if the reference exists in the flow elements
-        if (!foundConnector) {
-          continue;
-        }
         const nextElement = flow.elements?.find(
           (element) => element instanceof FlowNode && element.name === foundConnector.reference
         );
@@ -68,12 +65,9 @@ export class Compiler {
     return nextElements;
   }
 
-  private recurse(connector: FlowElementConnector): FlowElementConnector | void {
-    if (connector.reference) {
+  private recurse(connector: FlowElementConnector): FlowElementConnector {
+    if (connector.reference || !connector.connector) {
       return connector;
-    }
-    if (!connector) {
-      return;
     }
     return this.recurse(new FlowElementConnector("connector", connector.connector, {}));
   }
