@@ -6,6 +6,7 @@ export class FlowElementConnector {
   public reference: string;
   public childName: string;
   public childOf: boolean;
+  public connector: FlowElementConnector;
 
   constructor(type: string, element: object, args) {
     this.type = type;
@@ -15,6 +16,9 @@ export class FlowElementConnector {
 
     if (element && element["targetReference"]) {
       this.reference = element["targetReference"];
+    }
+    if (element && "connector" in element) {
+      this.connector = element["connector"] as FlowElementConnector;
     }
   }
 }

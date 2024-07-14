@@ -9,7 +9,7 @@ export class FlowNode extends FlowElement {
 
   constructor(provName: string, subtype: string, element: object) {
     super("node", subtype, element);
-    let nodeName = subtype === "start" ? "flowstart" : provName;
+    const nodeName = subtype === "start" ? "flowstart" : provName;
     this.name = nodeName;
     const connectors = this.getConnectors(subtype, element);
     this.connectors = connectors;
@@ -18,13 +18,13 @@ export class FlowNode extends FlowElement {
   }
 
   private getConnectors(subtype, element) {
+    const connectors: FlowElementConnector[] = [];
     if (subtype === "start") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }
       if (Array.isArray(element.scheduledPaths)) {
-        for (const asyncElement of element?.scheduledPaths) {
+        for (const asyncElement of element?.scheduledPaths || []) {
           if (asyncElement.connector) {
             connectors.push(
               new FlowElementConnector("connector", asyncElement.connector, {
@@ -46,7 +46,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "decisions") {
-      const connectors = [];
       if (element.defaultConnector) {
         connectors.push(new FlowElementConnector("defaultConnector", element.defaultConnector, {}));
       }
@@ -79,7 +78,6 @@ export class FlowNode extends FlowElement {
         ? [new FlowElementConnector("connector", element.connector, {})]
         : [];
     } else if (subtype === "loops") {
-      const connectors = [];
       if (element.nextValueConnector) {
         connectors.push(
           new FlowElementConnector("nextValueConnector", element.nextValueConnector, {})
@@ -92,7 +90,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "actionCalls") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }
@@ -101,7 +98,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "waits") {
-      const connectors = [];
       if (element.defaultConnector) {
         connectors.push(new FlowElementConnector("defaultConnector", element.defaultConnector, {}));
       }
@@ -123,7 +119,6 @@ export class FlowNode extends FlowElement {
 
       return connectors;
     } else if (subtype === "recordCreates") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }
@@ -132,7 +127,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "recordDeletes") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }
@@ -141,7 +135,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "recordLookups") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }
@@ -150,7 +143,6 @@ export class FlowNode extends FlowElement {
       }
       return connectors;
     } else if (subtype === "recordUpdates") {
-      const connectors = [];
       if (element.connector) {
         connectors.push(new FlowElementConnector("connector", element.connector, {}));
       }

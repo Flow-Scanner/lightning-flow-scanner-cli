@@ -1,4 +1,5 @@
 import { Flow } from "../models/Flow";
+import { FlowElementConnector } from "../models/FlowElementConnector";
 import { FlowNode } from "../models/FlowNode";
 
 export class Compiler {
@@ -51,18 +52,23 @@ export class Compiler {
 
     if (currentElement.connectors && currentElement.connectors.length > 0) {
       for (const connector of currentElement.connectors) {
-        if (connector.reference) {
-          // Check if the reference exists in the flow elements
-          const nextElement = flow.elements.find(
-            (element) => element instanceof FlowNode && element.name === connector.reference
-          );
-          if (nextElement instanceof FlowNode && nextElement.name !== endElementName) {
-            nextElements.push(nextElement.name);
-          }
+        const foundConnector = this.recurse(connector);
+        // Check if the reference exists in the flow elements
+        const nextElement = flow.elements?.find(
+          (element) => element instanceof FlowNode && element.name === foundConnector.reference
+        );
+        if (nextElement instanceof FlowNode && nextElement.name !== endElementName) {
+          nextElements.push(nextElement.name);
         }
       }
     }
-
     return nextElements;
+  }
+
+  private recurse(connector: FlowElementConnector): FlowElementConnector {
+    if (connector.reference || !connector.connector) {
+      return connector;
+    }
+    return this.recurse(new FlowElementConnector("connector", connector.connector, {}));
   }
 }
