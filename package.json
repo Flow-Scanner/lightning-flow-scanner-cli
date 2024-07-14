@@ -13,7 +13,8 @@
     "precommit": "lint-staged",
     "lint": "eslint src",
     "prepack": "npm run build && npm run dist",
-    "dist": "rollup --config"
+    "dist": "rollup --config",
+    "test:coverage": "nyc npm test"
   },
   "keywords": [],
   "license": "MIT",
@@ -32,6 +33,7 @@
     "lint-staged": "^15.2.7",
     "logging": "^3.3.0",
     "mocha": "^10.6.0",
+    "nyc": "^17.0.0",
     "prettier": "^3.3.3",
     "rollup": "^4.18.1",
     "rollup-plugin-polyfill-node": "^0.13.0",

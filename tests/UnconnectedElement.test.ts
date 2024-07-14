@@ -4,12 +4,22 @@ import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("UnconnectedElement", () => {
-  let example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
-
   it("there should be checks for unconnected element", async () => {
-    let flows = await core.parse([example_uri]);
+    const example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
+    const flows = await core.parse([example_uri]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.find((res) => res.ruleName === "UnconnectedElement"));
+  });
+
+  it("async path there should be checks for unconnected element", async () => {
+    const connectedElementTestFile = path.join(
+      __dirname,
+      "./xmlfiles/Unconnected_Element_Async.flow-meta.xml"
+    );
+    const flows = await core.parse([connectedElementTestFile]);
+    const results: core.ScanResult[] = core.scan(flows);
+    const occurringResults = results.pop()?.ruleResults.filter((rule) => rule.occurs);
+    expect(occurringResults?.find((res) => res.ruleName === "UnconnectedElement"));
   });
 });
