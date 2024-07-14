@@ -20,6 +20,12 @@ describe("UnconnectedElement", () => {
     const flows = await core.parse([connectedElementTestFile]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results.pop()?.ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults?.find((res) => res.ruleName === "UnconnectedElement"));
+    const unconnectedElementResult = occurringResults?.filter(
+      (res) => res.ruleName === "UnconnectedElement"
+    );
+    expect(unconnectedElementResult);
+    unconnectedElementResult?.forEach((unconnectedElem) => {
+      expect(unconnectedElem.details.pop()?.name).to.equal("UnconnectedElementTestOnAsync");
+    });
   });
 });
