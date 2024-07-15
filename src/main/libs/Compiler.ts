@@ -18,11 +18,11 @@ export class Compiler {
     let elementsToVisit = [startElementName];
 
     while (elementsToVisit.length > 0) {
-      const nextElements = [];
+      const nextElements: string[] = [];
 
       for (const elementName of elementsToVisit) {
         if (!this.visitedElements.has(elementName)) {
-          const currentElement = flow.elements.find(
+          const currentElement = flow.elements?.find(
             (element) => element instanceof FlowNode && element.name === elementName
           ) as FlowNode;
           if (currentElement) {
@@ -49,17 +49,19 @@ export class Compiler {
   ): string[] {
     const nextElements: string[] = [];
 
-    if (currentElement.connectors && currentElement.connectors.length > 0) {
-      for (const connector of currentElement.connectors) {
-        const targetReference =
-          connector?.connectorTargetReference?.targetReference ?? connector.reference;
-        // Check if the reference exists in the flow elements
-        const nextElement = flow.elements?.find(
-          (element) => element instanceof FlowNode && element.name === targetReference
-        );
-        if (nextElement instanceof FlowNode && nextElement.name !== endElementName) {
-          nextElements.push(nextElement.name);
-        }
+    if (!currentElement.connectors || currentElement.connectors.length === 0) {
+      return nextElements;
+    }
+
+    for (const connector of currentElement.connectors) {
+      const targetReference =
+        connector?.connectorTargetReference?.targetReference ?? connector.reference;
+      // Check if the reference exists in the flow elements
+      const nextElement = flow.elements?.find(
+        (element) => element instanceof FlowNode && element.name === targetReference
+      );
+      if (nextElement instanceof FlowNode && nextElement.name !== endElementName) {
+        nextElements.push(nextElement.name);
       }
     }
     return nextElements;
