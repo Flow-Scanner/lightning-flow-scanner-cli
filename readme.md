@@ -54,7 +54,7 @@ The `fix` function attempts to automatically fix certain issues identified durin
 
 ### Rule Configuration
 
-Using the rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
+Using the  rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
 
 ```json
 {
