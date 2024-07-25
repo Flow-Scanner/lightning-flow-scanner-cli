@@ -13,7 +13,9 @@
     "precommit": "lint-staged",
     "lint": "eslint src",
     "prepack": "npm run build && npm run dist",
-    "dist": "rollup --config",
+    "rollup": "rollup --config",
+    "uglify": "uglifyjs dist/index.js --compress -o dist/index.min.js",
+    "dist": "npm run rollup && npm run uglify",
     "test:coverage": "nyc npm test"
   },
   "keywords": [],
@@ -44,7 +46,8 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
     "typescript": "^5.5.3",
-    "typescript-eslint": "^7.16.0"
+    "typescript-eslint": "^7.16.0",
+    "uglify-js": "^3.19.0"
   },
   "packageManager": "npm@10.8.0",
   "dependencies": {

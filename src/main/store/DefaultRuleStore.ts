@@ -12,9 +12,10 @@ import { MissingNullHandler } from "../rules/MissingNullHandler";
 import { ProcessBuilder } from "../rules/ProcessBuilder";
 import { SOQLQueryInLoop } from "../rules/SOQLQueryInLoop";
 import { UnconnectedElement } from "../rules/UnconnectedElement";
+import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
 
-export const DefaultRuleStore: {} = {
+export const DefaultRuleStore: object = {
   APIVersion,
   AutoLayout,
   CopyAPIName,
@@ -30,4 +31,5 @@ export const DefaultRuleStore: {} = {
   UnconnectedElement,
   UnusedVariable,
   InactiveFlow,
+  UnsafeRunningContext,
 };
