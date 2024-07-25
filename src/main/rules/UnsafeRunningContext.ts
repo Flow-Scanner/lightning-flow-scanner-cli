@@ -26,7 +26,7 @@ export class UnsafeRunningContext extends RuleCommon implements core.IRuleDefini
 
   public execute(flow: core.Flow): core.RuleResult {
     const hasRunInMode = "runInMode" in flow.xmldata;
-    const runInMode: string = flow.xmldata?.runInMode;
+    const runInMode: string = hasRunInMode ? flow.xmldata.runInMode : undefined;
     const riskyMode: string = "SystemModeWithoutSharing";
 
     const results: core.ResultDetails[] = [];
