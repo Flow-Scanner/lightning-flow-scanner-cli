@@ -36,7 +36,6 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
     // tslint:disable-next-line:forin
     for (const rule in DefaultRuleStore) {
       const matchedRule = new DynamicRule(rule);
-      matchedRule["severity"] = "error";
       selectedRules.push(matchedRule);
     }
   }
