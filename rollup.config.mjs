@@ -9,16 +9,16 @@ export default {
       dir: "dist",
       format: "umd",
       name: "lightningflowscanner",
-      sourcemap: true,
+      sourcemap: false,
       globals: {
         "path-browserify": "p",
         xmlbuilder2: "xmlbuilder2",
       },
-    }
+    },
   ],
   plugins: [
     nodePolyfills(),
-    typescript({tsconfig: `tsconfig.umd.json`}),
+    typescript({ tsconfig: `tsconfig.umd.json` }),
     nodeResolve({ preferBuiltins: true }),
     nodePolyfills(),
   ],
