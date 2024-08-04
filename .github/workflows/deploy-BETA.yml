@@ -49,6 +49,10 @@ jobs:
           npm ci
           npm run build
           cp package*.json out && cp tsconfig.cjs.json out
+          mkdir -p out/src
+          mkdir -p out/src/media
+          cp ./src/media/bannerslim.png out/src/media 
+          cp readme.md out
       - name: Semantic Release Dependency
         run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release
       - name: Publish Beta
