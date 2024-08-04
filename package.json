@@ -12,7 +12,7 @@
     "prepare": "husky",
     "precommit": "lint-staged",
     "lint": "eslint src",
-    "prepack": "npm run build",
+    "prepack": "npm run build && cp package.json ./out",
     "rollup": "rollup --config",
     "uglify": "uglifyjs dist/index.js --compress -o dist/index.min.js",
     "dist": "npm run rollup && npm run uglify",
