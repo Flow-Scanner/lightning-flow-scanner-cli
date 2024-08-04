@@ -42,9 +42,11 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --only=production --ignore-scripts
-          git config --global user.name ${{ vars.USER_NAME }}
-          git config --global user.email ${{ vars.USER_EMAIL }}
           echo "install done"
+          git config --global user.name ${{ vars.USER_NAME }}
+          echo "user name"
+          git config --global user.email ${{ vars.USER_EMAIL }}
+          echo "user email"
           git add .
           echo "add done"
           git commit -m "chore(release): ${{ steps.generate-release-number.outputs.NEW_VER }} [skip ci]" --no-verify
