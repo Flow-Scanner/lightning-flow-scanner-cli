@@ -39,10 +39,10 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          git add package.json package-lock.json
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
-          git commit -m "chore(release): ${{ steps.generate-release-number.outputs.NEW_VER }} [skip ci]"
+          git add .
+          git commit -m "chore(release): ${{ steps.generate-release-number.outputs.NEW_VER }} [skip ci]" --no-verify
           git push origin master
           git tag v${{ steps.generate-release-number.outputs.NEW_VER }}
           git push --tags
