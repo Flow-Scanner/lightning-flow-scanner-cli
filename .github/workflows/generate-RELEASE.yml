@@ -41,7 +41,9 @@ jobs:
       - name: Install dependencies
         run: |
           export NEW_VER=${{ steps.generate-release-number.outputs.NEW_VER }}
-          cat package.json | jq --arg NEW_VER "$NEW_VER" '.version = $NEW_VER' package.json
+          jq --arg NEW_VER "$NEW_VER" '.version = $NEW_VER' package.json > tmp.json
+          rm package.json
+          mv tmp.json package.json
           npm install
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
