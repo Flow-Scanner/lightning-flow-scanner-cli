@@ -37,7 +37,7 @@ jobs:
           npm install -g semver
           export OLD_VER=$(semver --coerce $(cat package.json | jq .version))
           export NEW_VER=$(semver --coerce $(cat package.json | jq .version) --increment minor)
-          sed -i -e "s/$(echo $OLD_VER)/$(echo $NEW_VER)/" package.json
+          cat package.json | jq --arg NEW_VER "$NEW_VER" '.version = $NEW_VER' package.json
           echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: |
