@@ -37,10 +37,10 @@ jobs:
           npm install -g semver
           export OLD_VER=$(semver --coerce $(cat package.json | jq .version))
           export NEW_VER=$(semver --coerce $(cat package.json | jq .version) --increment minor)
-          cat package.json | jq --arg NEW_VER "$NEW_VER" '.version = $NEW_VER' package.json
           echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: |
+          cat package.json | jq --arg NEW_VER "$NEW_VER" '.version = $NEW_VER' package.json
           npm install
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
