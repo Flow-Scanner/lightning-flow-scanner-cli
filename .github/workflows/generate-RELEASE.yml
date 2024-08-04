@@ -42,20 +42,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          echo "install done"
           git config --global user.name ${{ vars.USER_NAME }}
-          echo "user name"
           git config --global user.email ${{ vars.USER_EMAIL }}
-          echo "user email"
           git add .
-          echo "add done"
           git commit -m "chore(release): ${{ steps.generate-release-number.outputs.NEW_VER }} [skip ci]" --no-verify
-          echo "commit done"
           git push origin master
-          echo "push done"
           git tag v${{ steps.generate-release-number.outputs.NEW_VER }}
-          echo "tag done"
           git push --tags
-          echo "tag push done"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
