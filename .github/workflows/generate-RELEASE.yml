@@ -7,7 +7,7 @@
 #######################################
 # Start the job on all push to master #
 #######################################
-name: "Generate a Release"
+name: Generate a Release
 on:
   workflow_dispatch:
 
