@@ -7,11 +7,11 @@
 #######################################
 # Start the job on all push to master #
 #######################################
-name: 'Build & Deploy - RELEASE'
+name: "Build & Deploy - RELEASE"
 on:
   release:
     # Want to run the automation when a release is created
-    types: ['created']
+    types: ["created"]
 
 permissions: read-all
 
