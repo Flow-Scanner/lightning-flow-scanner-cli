@@ -17,11 +17,9 @@ on:
 jobs:
   # Deploy to NPM
   deploy_to_npm:
-    name: Deploy to NPM (release)
+    name: Generate a Release Version and Commit to Repo
     runs-on: ubuntu-latest
     permissions: read-all
-    environment:
-      name: release
     steps:
       - uses: actions/checkout@v4
       # Setup .npmrc file to publish to npm
