@@ -1,11 +1,13 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("Rule Configurations ", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri1 = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
-  let example_uri2 = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation_Fixed.flow-meta.xml");
 
   it(" should use default when no configuration is provided", async () => {
     let flows = await core.parse([example_uri1]);

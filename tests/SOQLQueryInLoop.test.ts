@@ -1,11 +1,13 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("SOQLQueryInLoop ", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/SOQL_Query_In_A_Loop.flow-meta.xml");
-  let fixed_uri = path.join(__dirname, "./xmlfiles/SOQL_Query_In_A_Loop_Fixed.flow-meta.xml");
 
   it("there should be one result for the rule SOQLQueryInLoop", async () => {
     let flows = await core.parse([example_uri]);

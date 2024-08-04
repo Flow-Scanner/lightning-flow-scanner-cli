@@ -1,9 +1,12 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("DMLStatementInLoop ", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/DML_Statement_In_A_Loop.flow-meta.xml");
   let fixed_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation_Fixed.flow-meta.xml");
 

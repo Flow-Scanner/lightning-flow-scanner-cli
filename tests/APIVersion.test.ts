@@ -1,11 +1,14 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("APIVersion", () => {
-  let example_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version.flow-meta.xml");
-  let fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
+  const example_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version.flow-meta.xml");
+  const fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
 
   it("should have a result when attribute is missing", async () => {
     let flows = await core.parse([example_uri]);
