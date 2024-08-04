@@ -19,9 +19,12 @@ jobs:
   deploy_to_npm:
     name: Generate a Release Version and Commit to Repo
     runs-on: ubuntu-latest
-    permissions: read-all
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PATX }}
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4.0.2
         with:
