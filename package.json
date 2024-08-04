@@ -50,7 +50,6 @@
     "typescript-eslint": "^8.0.0",
     "uglify-js": "^3.19.1"
   },
-  "packageManager": "npm@10.8.2",
   "dependencies": {
     "@types/path-browserify": "^1.0.2",
     "path-browserify": "^1.0.1",
