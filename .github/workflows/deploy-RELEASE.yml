@@ -48,7 +48,6 @@ jobs:
           cp ./src/media/bannerslim.png out/src/media 
           cp readme.md out
           cd out
-          npm pack
-          npm publish $(ls -all | grep "lightningflowscanner" | awk '{print $9}')
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
