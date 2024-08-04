@@ -37,11 +37,11 @@ jobs:
           npm install -g semver
           export OLD_VER=$(semver --coerce $(cat package.json | jq .version))
           export NEW_VER=$(semver --coerce $(cat package.json | jq .version) --increment minor)
-          sed -E "s/$(echo $OLD_VER)/$(echo $NEW_VER)/" package.json <<< package.json
+          sed -i -e "s/$(echo $OLD_VER)/$(echo $NEW_VER)/" package.json
           echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: |
-          npm install --only=production --ignore-scripts
+          npm install
           echo "install done"
           git config --global user.name ${{ vars.USER_NAME }}
           echo "user name"
