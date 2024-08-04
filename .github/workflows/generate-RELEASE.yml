@@ -38,7 +38,7 @@ jobs:
           echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: |
-          npm ci
+          npm install
           git add package.json package-lock.json
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
