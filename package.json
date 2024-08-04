@@ -1,10 +1,10 @@
 {
   "name": "lightning-flow-scanner-core",
   "version": "3.22.1",
-  "main": "out/**",
+  "main": "out/index.js",
   "types": "index.d.ts",
   "engines": {
-    "node": "^18 || ^20"
+    "node": "^18 || ^20 || ^22" 
   },
   "scripts": {
     "test": "TS_NODE_PROJECT=tsconfig.cjs.json mocha",
@@ -12,11 +12,12 @@
     "prepare": "husky",
     "precommit": "lint-staged",
     "lint": "eslint src",
-    "prepack": "npm run build && npm run dist",
+    "prepack": "npm run build",
     "rollup": "rollup --config",
     "uglify": "uglifyjs dist/index.js --compress -o dist/index.min.js",
     "dist": "npm run rollup && npm run uglify",
-    "test:coverage": "nyc npm test"
+    "test:coverage": "nyc npm test",
+    "postversion": "cp -r package.json .. && cp -r npm-shrinkwrap.json .."
   },
   "keywords": [],
   "license": "MIT",
@@ -25,7 +26,9 @@
     "type": "git",
     "url": "git+https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git"
   },
-  "files": ["out"],
+  "files": [
+    "out/**"
+  ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -55,5 +58,8 @@
     "@types/path-browserify": "^1.0.2",
     "path-browserify": "^1.0.1",
     "xmlbuilder2": "^3.1.1"
+  },
+  "exports":{
+    "." :"./out/"
   }
 }

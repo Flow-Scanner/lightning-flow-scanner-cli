@@ -5,7 +5,7 @@ export default {
   branches: [
     {
       name: "master",
-      channel: "beta"
+      channel: "beta",
     },
   ],
   plugins: [
@@ -32,11 +32,11 @@ export default {
         changelogFile: "CHANGELOG.md",
       },
     ],
-    "@semantic-release/npm",
+    ["@semantic-release/npm", { pkgRoot: "out" }],
     [
       "@semantic-release/git",
       {
-        assets: ["package.json", "package-lock.json", "CHANGELOG.md"],
+        assets: ["package.json", "package-lock.json", "npm-shrinkwrap.json", "CHANGELOG.md"],
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
     ],

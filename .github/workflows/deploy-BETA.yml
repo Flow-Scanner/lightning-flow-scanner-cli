@@ -7,7 +7,7 @@
 #######################################
 # Start the job on all push to master #
 #######################################
-name: 'Build & Deploy - Beta'
+name: "Build & Deploy - Beta"
 on:
   push:
     branches:
@@ -23,7 +23,6 @@ concurrency:
 # Set the Job #
 ###############
 jobs:
-
   # Deploy to NPM
   deploy_to_npm:
     name: Deploy to NPM (beta)
@@ -32,12 +31,12 @@ jobs:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
-      id-token: write 
+      id-token: write
     environment:
       name: beta
     steps:
       - uses: actions/checkout@v4
-        with: 
+        with:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v4.0.2
@@ -49,14 +48,10 @@ jobs:
         run: |
           npm ci
       - name: Semantic Release Dependency
-        run: |
-          npm install -g semantic-release
-          cd semantic-release
-          npm install
+        run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release
       - name: Publish Beta
         env:
           GITHUB_TOKEN: ${{ secrets.TOKENX }}
           NPM_TOKEN: ${{ secrets.NPM_TOKENX }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
-        run: semantic-release -e ./semantic-release/release.config.mjs
-
+        run: semantic-release
