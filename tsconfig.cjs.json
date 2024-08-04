@@ -6,7 +6,7 @@
     "outDir": "out",
     "lib": ["es2020.string", "es6"],
     "experimentalDecorators": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "rootDir": "src",
     "strict": false /* enable all strict type-checking options */,
     "baseUrl": ".",
@@ -22,7 +22,8 @@
   ],
   "ts-node": {
     "compilerOptions": {
-      "module": "NodeNext"
+      "module": "NodeNext",
+      "sourceMap": true
     }
   }
 }
