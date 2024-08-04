@@ -25,9 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git"
   },
-  "files": [
-    "out/**"
-  ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -57,8 +54,5 @@
     "@types/path-browserify": "^1.0.2",
     "path-browserify": "^1.0.1",
     "xmlbuilder2": "^3.1.1"
-  },
-  "exports":{
-    "." :"./out/"
   }
 }
