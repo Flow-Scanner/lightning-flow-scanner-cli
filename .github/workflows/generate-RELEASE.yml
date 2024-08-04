@@ -41,7 +41,7 @@ jobs:
           echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: |
-          npm install
+          npm install --only=production --ignore-scripts
           git config --global user.name ${{ vars.USER_NAME }}
           git config --global user.email ${{ vars.USER_EMAIL }}
           echo "install done"
