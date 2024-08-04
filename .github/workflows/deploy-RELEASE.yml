@@ -43,6 +43,7 @@ jobs:
           cp package.json out
           cp tsconfig.cjs.json out
           cd out
+          npm install --production
           npm pack
           npm publish $(ls -all | grep "lightningflowscanner" | awk '{print $9}')
         env:
