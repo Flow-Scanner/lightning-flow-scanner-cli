@@ -1,9 +1,12 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("MissingNullHandler ", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/Missing_Null_Handler.flow-meta.xml");
   let fixed_uri = path.join(__dirname, "./xmlfiles/Missing_Null_Handler_Fixed.flow-meta.xml");
 

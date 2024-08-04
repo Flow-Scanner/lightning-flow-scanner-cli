@@ -1,9 +1,12 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("Autolayout", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
   let fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
 

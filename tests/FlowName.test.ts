@@ -1,9 +1,12 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("FlowName", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/FlowNamingConvention.flow-meta.xml");
   let fixed_uri = path.join(__dirname, "./xmlfiles/Flow_Naming_Convention_Fixed.flow-meta.xml");
 

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
@@ -9,6 +8,10 @@ import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { UnsafeRunningContext } from "../src/main/rules/UnsafeRunningContext";
 
 describe("UnsafeRunningContext", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   const unsafeRunningContext: UnsafeRunningContext = new UnsafeRunningContext();
 
   it("should have a scan result for without sharing system mode", async () => {

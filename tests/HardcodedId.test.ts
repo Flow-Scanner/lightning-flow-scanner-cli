@@ -1,9 +1,12 @@
-import { assert, expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("HardcodedId", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/Hardcoded_Id.flow-meta.xml");
 
   it("there should be one result for the rule HardcodedIds", async () => {

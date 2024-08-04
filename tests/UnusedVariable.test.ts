@@ -1,9 +1,12 @@
-import { expect } from "chai";
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
 describe("UnusedVariable Rule", () => {
+  let expect;
+  before(async () => {
+    expect = (await import("chai")).expect;
+  });
   let example_uri = path.join(__dirname, "./xmlfiles/Unused_Variable.flow-meta.xml");
   let fixed_uri = path.join(__dirname, "./xmlfiles/Unused_Variable_Fixed.flow-meta.xml");
 
