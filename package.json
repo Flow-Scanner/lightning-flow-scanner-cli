@@ -17,7 +17,7 @@
     "uglify": "uglifyjs dist/index.js --compress -o dist/index.min.js",
     "dist": "npm run rollup && npm run uglify",
     "test:coverage": "nyc npm test",
-    "postversion": "cp package.json .. && cp package-lock.json .. && cp npm-shrinkwrap.json .."
+    "postversion": "cp package.json .. && cp package-lock.json .."
   },
   "keywords": [],
   "license": "MIT",
