@@ -48,7 +48,7 @@ jobs:
         run: |
           npm ci
           npm run build
-          cp package.json out && cp tsconfig.cjs.json out
+          cp package*.json out && cp tsconfig.cjs.json out
       - name: Semantic Release Dependency
         run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release
       - name: Publish Beta
