@@ -1,0 +1,55 @@
+---
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+#######################################
+# Start the job on all push to master #
+#######################################
+name: Generate a Release
+on:
+  workflow_dispatch:
+
+###############
+# Set the Job #
+###############
+jobs:
+  # Deploy to NPM
+  deploy_to_npm:
+    name: Deploy to NPM (release)
+    runs-on: ubuntu-latest
+    permissions: read-all
+    environment:
+      name: release
+    steps:
+      - uses: actions/checkout@v4
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+          scope: rubenhalman
+      - name: Generate New Release Number
+        id: generate-release-number
+        run: |
+          npm install -g semver
+          export OLD_VER=$(semver --coerce $(cat package.json | jq .version))
+          export NEW_VER=$(semver --coerce $(cat package.json | jq .version) --increment minor)
+          sed -E "s/$(echo $OLD_VER)/$(echo $NEW_VER)/" package.json <<< package.json
+          echo "NEW_VER=$(echo $NEW_VER)" >> "$GITHUB_OUTPUT"
+      - name: Install dependencies
+        run: |
+          npm ci
+          git add package.json package-lock.json
+          git config --global user.name ${{ vars.USER_NAME }}
+          git config --global user.email ${{ vars.USER_EMAIL }}
+          git commit -m "chore(release): ${{ steps.generate-release-number.outputs.NEW_VER }} [skip ci]"
+          git push origin master
+          git tag v${{ steps.generate-release-number.outputs.NEW_VER }}
+          git push --tags
+      - run: |
+          cd out
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
