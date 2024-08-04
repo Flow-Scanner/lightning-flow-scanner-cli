@@ -57,8 +57,5 @@ jobs:
           echo "tag done"
           git push --tags
           echo "tag push done"
-      - run: |
-          cd out
-          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}

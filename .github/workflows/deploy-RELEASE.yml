@@ -37,10 +37,12 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
           scope: rubenhalman
-      - run: npm ci
-      - run: |
-          git config --global user.name ${{ vars.USER_NAME }}
-          git config --global user.email ${{ vars.USER_EMAIL }}
-      - run: npm publish
+      - name: Publish
+        run: |
+          npm run build
+          cp package.json out
+          cp tsconfig.cjs.json out
+          cd out
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
