@@ -7,17 +7,9 @@
 #######################################
 # Start the job on all push to master #
 #######################################
-name: "Build & Deploy - Alpha"
+name: "Generate a Release"
 on:
-  push:
-    branches:
-      - alpha
-
-permissions: read-all
-
-concurrency:
-  group: ${{ github.ref_name }}-${{ github.workflow }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 ###############
 # Set the Job #
