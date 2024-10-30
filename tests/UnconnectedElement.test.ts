@@ -40,4 +40,25 @@ describe("UnconnectedElement", () => {
       expect(ruleDetail.name).to.equal("UnconnectedElementTestOnAsync");
     });
   });
+
+  it("should fix the unconnected element error", async () => {
+    const connectedElementTestFile = path.join(
+      __dirname,
+      "./xmlfiles/Unconnected_Element.flow-meta.xml"
+    );
+    let flows = await core.parse([connectedElementTestFile]);
+    const ruleConfig = {
+      rules: {
+        UnconnectedElement: {
+          severity: "error",
+        },
+      },
+    };
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
+    const fixedResults: core.ScanResult[] = core.fix(results);
+    const fixedFlow: ParsedFlow = new ParsedFlow(connectedElementTestFile, fixedResults[0].flow);
+    const newResults: core.ScanResult[] = core.scan([fixedFlow], ruleConfig);
+    const fixedResultsOccurring = newResults[0].ruleResults.filter((rule) => rule.occurs);
+    expect(fixedResultsOccurring.length).to.equal(0);
+  });
 });
