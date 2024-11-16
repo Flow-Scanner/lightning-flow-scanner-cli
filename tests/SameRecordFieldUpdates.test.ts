@@ -2,7 +2,8 @@ import "mocha";
 
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { SameRecordFieldUpdates } from "../src/main/rules/SameRecordFieldUpdates";
-import { RuleResult, Flow } from "../src";
+import { RuleResult, Flow, parse, scan, ScanResult } from "../src";
+import * as path from "path-browserify";
 
 describe("SameRecordFieldUpdates", () => {
   let expect;
@@ -132,5 +133,41 @@ describe("SameRecordFieldUpdates", () => {
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
     expect(ruleResult.occurs).to.be.false;
+  });
+
+  it("should not trigger from default configuration on store", async () => {
+    let example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
+    let flows = await parse([example_uri1]);
+    const ruleConfig = {
+      rules: {},
+      exceptions: {},
+    };
+    const results: ScanResult[] = scan(flows, ruleConfig);
+    const scanResults = results.pop();
+
+    scanResults?.ruleResults.forEach((rule) => {
+      expect(rule.occurs).to.be.false;
+    });
+  });
+
+  it("should trigger when opt-in configuration", async () => {
+    let example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
+    let flows = await parse([example_uri1]);
+    const ruleConfig = {
+      rules: {
+        SameRecordFieldUpdates: {
+          severity: "error",
+        },
+      },
+      exceptions: {},
+    };
+    const results: ScanResult[] = scan(flows, ruleConfig);
+    const scanResults = results.pop();
+
+    const expectedRule = scanResults?.ruleResults.find(
+      (rule) => rule.ruleName === "SameRecordFieldUpdates"
+    );
+    expect(expectedRule).to.be.ok;
+    expect(expectedRule?.occurs).to.be.true;
   });
 });
