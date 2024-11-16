@@ -21,6 +21,7 @@ export class Flow {
   public root?;
   public elements?: FlowElement[];
   public startReference;
+  public triggerOrder?: number;
 
   private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
   private flowResources = ["textTemplates", "stages"];
@@ -88,6 +89,7 @@ export class Flow {
     this.start = this.xmldata.start;
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
+    this.triggerOrder = this.xmldata.triggerOrder;
     const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
       // skip xmlns url
