@@ -1,6 +1,8 @@
 export class FlowType {
+  public static autolaunchedType = "AutoLaunchedFlow";
+
   public static backEndTypes = [
-    "AutoLaunchedFlow",
+    this.autolaunchedType,
     "CustomEvent",
     "InvocableProcess",
     "Orchestrator",
