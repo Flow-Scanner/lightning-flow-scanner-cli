@@ -1,6 +1,8 @@
 import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
+import { ParsedFlow } from "../src/main/models/ParsedFlow";
+import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
 
 describe("MissingFaultPath", () => {
   let expect;
@@ -23,5 +25,19 @@ describe("MissingFaultPath", () => {
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults.length).to.equal(0);
+  });
+
+  it("should skip before save flows due to salesforce limitation", async () => {
+    const { default: rawFile } = await import(
+      "./jsonfiles/MissingFaultPath_BeforeSave_Bypass.json",
+      {
+        with: { type: "json" },
+      }
+    );
+    const parsedFile: ParsedFlow[] = rawFile as {} as ParsedFlow[];
+    const missingFaultPathRule = new MissingFaultPath();
+    const flow: core.Flow = parsedFile.pop()?.flow as core.Flow;
+    const scanResults: core.RuleResult = missingFaultPathRule.execute(flow);
+    expect(scanResults.occurs).to.be.false;
   });
 });

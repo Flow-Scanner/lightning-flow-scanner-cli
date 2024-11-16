@@ -24,7 +24,7 @@ describe("MissingNullHandler ", () => {
     expect(results[0].ruleResults[0].occurs).to.equal(true);
   });
 
-  it(" should return no result when null handlers are implemented", async () => {
+  it("should return no result when null handlers are implemented", async () => {
     let flows = await core.parse([fixed_uri]);
     const ruleConfig = {
       rules: {
