@@ -23,7 +23,7 @@ export class Compiler {
       for (const elementName of elementsToVisit) {
         if (!this.visitedElements.has(elementName)) {
           const currentElement = flow.elements?.find(
-            (element) => element instanceof FlowNode && element.name === elementName
+            (element) => element.name === elementName
           ) as FlowNode;
           if (currentElement) {
             visitCallback(currentElement);

@@ -2,6 +2,15 @@ import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
 
 export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition {
+  protected applicableElements: string[] = [
+    "recordLookups",
+    "recordDeletes",
+    "recordUpdates",
+    "recordCreates",
+    "waits",
+    "actionCalls",
+  ];
+
   constructor() {
     super({
       name: "MissingFaultPath",
@@ -24,26 +33,23 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (
-      flow.elements.filter(
-        (node) =>
-          node instanceof core.FlowNode &&
-          [
-            "recordLookups",
-            "recordDeletes",
-            "recordUpdates",
-            "recordCreates",
-            "waits",
-            "actionCalls",
-          ].includes(node.subtype)
-      ) as core.FlowNode[]
+      flow.elements.filter((node) => {
+        const proxyNode = node as {} as core.FlowNode;
+        const validSubtype = this.applicableElements.includes(proxyNode.subtype);
+        return validSubtype;
+      }) as core.FlowNode[]
     ).map((e) => e.name);
 
+    const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+
     const visitCallback = (element: core.FlowNode) => {
-      // Check if the element should have a fault path
       if (
         !element.connectors.find((connector) => connector.type === "faultConnector") &&
         elementsWhereFaultPathIsApplicable.includes(element.name)
       ) {
+        if (isRecordBeforeSave && element.subtype === "recordUpdates") {
+          return;
+        }
         // Check if the element is part of another fault path
         if (!this.isPartOfFaultHandlingFlow(element, flow)) {
           results.push(new core.ResultDetails(element));
