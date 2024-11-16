@@ -34,14 +34,16 @@ export class SameRecordFieldUpdates extends RuleCommon implements core.IRuleDefi
     );
 
     if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
-      return new core.RuleResult(this, []);
+      return new core.RuleResult(this, results);
     }
-
-    const resultDetails: core.ResultDetails[] = [];
 
     const potentialElements = flow.elements?.filter(
       (node) => node.subtype === "recordUpdates"
     ) as core.FlowNode[];
+
+    if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+      return new core.RuleResult(this, results);
+    }
 
     for (const node of potentialElements) {
       if (
@@ -49,10 +51,10 @@ export class SameRecordFieldUpdates extends RuleCommon implements core.IRuleDefi
         "inputReference" in node.element &&
         node.element.inputReference === "$Record"
       ) {
-        resultDetails.push(new core.ResultDetails(node));
+        results.push(new core.ResultDetails(node));
       }
     }
 
-    return new core.RuleResult(this, resultDetails);
+    return new core.RuleResult(this, results);
   }
 }
