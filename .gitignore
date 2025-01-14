@@ -11,3 +11,5 @@ out/
 .nyc_output/
 
 .DS_Store
+
+*.log

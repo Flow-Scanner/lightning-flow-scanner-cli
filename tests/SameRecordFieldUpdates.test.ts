@@ -135,7 +135,7 @@ describe("SameRecordFieldUpdates", () => {
     expect(ruleResult.occurs).to.be.false;
   });
 
-  it("should not trigger from default configuration on store", async () => {
+  it("should trigger from default configuration on store", async () => {
     let example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
     let flows = await parse([example_uri1]);
     const ruleConfig = {
@@ -145,9 +145,10 @@ describe("SameRecordFieldUpdates", () => {
     const results: ScanResult[] = scan(flows, ruleConfig);
     const scanResults = results.pop();
 
-    scanResults?.ruleResults.forEach((rule) => {
-      expect(rule.occurs).to.be.false;
+    const foundRule = scanResults?.ruleResults.find((rule) => {
+      return rule.ruleDefinition.name === "SameRecordFieldUpdates";
     });
+    expect(foundRule?.occurs).to.be.true;
   });
 
   it("should trigger when opt-in configuration", async () => {
