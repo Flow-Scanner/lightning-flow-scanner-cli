@@ -14,6 +14,7 @@ import { SOQLQueryInLoop } from "../rules/SOQLQueryInLoop";
 import { UnconnectedElement } from "../rules/UnconnectedElement";
 import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
+import { SameRecordFieldUpdates } from "../rules/SameRecordFieldUpdates";
 
 export const DefaultRuleStore: object = {
   APIVersion,
@@ -32,4 +33,5 @@ export const DefaultRuleStore: object = {
   UnusedVariable,
   InactiveFlow,
   UnsafeRunningContext,
+  SameRecordFieldUpdates,
 };

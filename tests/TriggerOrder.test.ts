@@ -23,9 +23,10 @@ describe("TriggerOrder", () => {
     const results: ScanResult[] = scan(flows, ruleConfig);
     const scanResults = results.pop();
 
-    scanResults?.ruleResults.forEach((rule) => {
-      expect(rule.occurs).to.be.false;
+    const ruleResults = scanResults?.ruleResults.find((rule) => {
+      return rule.ruleDefinition.name === "TriggerOrder";
     });
+    expect(ruleResults).to.not.be.ok;
   });
 
   it("should trigger when opt-in configuration", async () => {
