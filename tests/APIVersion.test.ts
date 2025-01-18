@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("APIVersion", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   const example_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version.flow-meta.xml");
@@ -21,9 +21,9 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have a result when below configured threshold", async () => {
@@ -38,9 +38,9 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have no result when version is meeting threshold", async () => {
@@ -54,8 +54,8 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 });

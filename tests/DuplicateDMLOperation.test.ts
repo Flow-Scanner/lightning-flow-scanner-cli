@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("DuplicateDMLOperation  ", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation.flow-meta.xml");
@@ -22,8 +22,8 @@ describe("DuplicateDMLOperation  ", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults[0].ruleName).to.equal("DuplicateDMLOperation");
+    expect(occurringResults.length).toBe(1);
+    expect(occurringResults[0].ruleName).toBe("DuplicateDMLOperation");
   });
 
   it("should have no results in the fixed example", async () => {
@@ -39,6 +39,6 @@ describe("DuplicateDMLOperation  ", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 });

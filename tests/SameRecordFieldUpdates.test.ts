@@ -8,7 +8,7 @@ import * as path from "path-browserify";
 describe("SameRecordFieldUpdates", () => {
   let expect;
   let rule;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
     rule = new SameRecordFieldUpdates();
   });
@@ -71,7 +71,7 @@ describe("SameRecordFieldUpdates", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.true;
+    expect(ruleResult.occurs).toBe(true);
   });
 
   it("should not flag same record updates on after context flows", async () => {
@@ -132,7 +132,7 @@ describe("SameRecordFieldUpdates", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.false;
+    expect(ruleResult.occurs).toBe(false);
   });
 
   it("should trigger from default configuration on store", async () => {
@@ -148,7 +148,7 @@ describe("SameRecordFieldUpdates", () => {
     const foundRule = scanResults?.ruleResults.find((rule) => {
       return rule.ruleDefinition.name === "SameRecordFieldUpdates";
     });
-    expect(foundRule?.occurs).to.be.true;
+    expect(foundRule?.occurs).toBe(true);
   });
 
   it("should trigger when opt-in configuration", async () => {
@@ -168,8 +168,8 @@ describe("SameRecordFieldUpdates", () => {
     const expectedRule = scanResults?.ruleResults.find(
       (rule) => rule.ruleName === "SameRecordFieldUpdates"
     );
-    expect(expectedRule).to.be.ok;
-    expect(expectedRule?.occurs).to.be.true;
+    expect(expectedRule).toBeTruthy();
+    expect(expectedRule?.occurs).toBe(true);
   });
 
   it("should not error when start element is not existing", async () => {
@@ -222,7 +222,7 @@ describe("SameRecordFieldUpdates", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.false;
+    expect(ruleResult.occurs).toBe(false);
   });
 
   it("should not error when elements are missing", async () => {
@@ -241,6 +241,6 @@ describe("SameRecordFieldUpdates", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.false;
+    expect(ruleResult.occurs).toBe(false);
   });
 });

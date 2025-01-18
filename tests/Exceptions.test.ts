@@ -4,7 +4,7 @@ import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 describe("Exceptions", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
 
@@ -219,7 +219,7 @@ describe("Exceptions", () => {
       ruleResults.filter((rule) => {
         return rule.occurs;
       }).length
-    ).to.equal(1);
+    ).toBe(1);
   });
 
   it("should show not show any exceptions on api version", async () => {
@@ -811,7 +811,7 @@ describe("Exceptions", () => {
         ruleResults.filter((result) => {
           return result.occurs;
         }).length
-      ).to.equal(0);
+      ).toBe(0);
     });
   });
 });

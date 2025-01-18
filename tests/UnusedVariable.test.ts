@@ -5,7 +5,7 @@ import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 describe("UnusedVariable Rule", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Unused_Variable.flow-meta.xml");
@@ -22,7 +22,7 @@ describe("UnusedVariable Rule", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
+    expect(occurringResults.length).toBe(1);
   });
 
   it("there should be no result for variables used in text elements", async () => {
@@ -37,7 +37,7 @@ describe("UnusedVariable Rule", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 
   it("should fix the unused variable error", async () => {
@@ -54,6 +54,6 @@ describe("UnusedVariable Rule", () => {
     const fixedFlow: ParsedFlow = new ParsedFlow(example_uri, fixedResults[0].flow);
     const newResults: core.ScanResult[] = core.scan([fixedFlow], ruleConfig);
     const fixedResultsOccurring = newResults[0].ruleResults.filter((rule) => rule.occurs);
-    expect(fixedResultsOccurring.length).to.equal(0);
+    expect(fixedResultsOccurring.length).toBe(0);
   });
 });

@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("MissingNullHandler ", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Missing_Null_Handler.flow-meta.xml");
@@ -20,8 +20,8 @@ describe("MissingNullHandler ", () => {
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults[0].ruleName).to.equal("MissingNullHandler");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults[0].ruleName).toBe("MissingNullHandler");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should return no result when null handlers are implemented", async () => {
@@ -34,7 +34,7 @@ describe("MissingNullHandler ", () => {
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults[0].ruleName).to.equal("MissingNullHandler");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults[0].ruleName).toBe("MissingNullHandler");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 });

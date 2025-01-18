@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("DMLStatementInLoop ", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/DML_Statement_In_A_Loop.flow-meta.xml");
@@ -14,14 +14,14 @@ describe("DMLStatementInLoop ", () => {
     let flows = await core.parse([example_uri]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults[0].ruleName).to.equal("DMLStatementInLoop");
+    expect(occurringResults.length).toBe(1);
+    expect(occurringResults[0].ruleName).toBe("DMLStatementInLoop");
   });
 
   it("there should be no result for the rule DMLStatementInLoop", async () => {
     let flows = await core.parse([fixed_uri]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 });

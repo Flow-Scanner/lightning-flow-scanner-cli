@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("FlowName", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/FlowNamingConvention.flow-meta.xml");
@@ -22,9 +22,9 @@ describe("FlowName", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("FlowName");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("FlowName");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have no result when defined as exception", async () => {
@@ -42,9 +42,9 @@ describe("FlowName", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("FlowName");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("FlowName");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 
   it("should not have a result when in line with conventions", async () => {
@@ -60,6 +60,6 @@ describe("FlowName", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 });

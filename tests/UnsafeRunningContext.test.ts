@@ -9,7 +9,7 @@ import { UnsafeRunningContext } from "../src/main/rules/UnsafeRunningContext";
 
 describe("UnsafeRunningContext", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   const unsafeRunningContext: UnsafeRunningContext = new UnsafeRunningContext();
@@ -21,9 +21,9 @@ describe("UnsafeRunningContext", () => {
     );
     const parsed: ParsedFlow = (await ParseFlows([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
-    expect(ruleResult.occurs).to.be.true;
-    expect(ruleResult.details).to.not.be.empty;
-    expect(ruleResult.ruleDefinition.severity).to.be.equal("warning");
+    expect(ruleResult.occurs).toBe(true);
+    expect(ruleResult.details).not.toHaveLength(0);
+    expect(ruleResult.ruleDefinition.severity).toBe("warning");
   });
 
   it("should not have a scan result for with sharing system mode", async () => {
@@ -33,8 +33,8 @@ describe("UnsafeRunningContext", () => {
     );
     const parsed: ParsedFlow = (await ParseFlows([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
-    expect(ruleResult.occurs).to.be.false;
-    expect(ruleResult.details).to.be.empty;
+    expect(ruleResult.occurs).toBe(false);
+    expect(ruleResult.details).toHaveLength(0);
   });
 
   it("should not have a scan result for default mode", async () => {
@@ -44,7 +44,7 @@ describe("UnsafeRunningContext", () => {
     );
     const parsed: ParsedFlow = (await ParseFlows([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
-    expect(ruleResult.occurs).to.be.false;
-    expect(ruleResult.details).to.be.empty;
+    expect(ruleResult.occurs).toBe(false);
+    expect(ruleResult.details).toHaveLength(0);
   });
 });

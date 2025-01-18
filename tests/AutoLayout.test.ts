@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("Autolayout", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
@@ -22,7 +22,7 @@ describe("Autolayout", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
+    expect(occurringResults.length).toBe(1);
     expect(occurringResults.find((res) => res.ruleName === "AutoLayout"));
   });
 
@@ -37,6 +37,6 @@ describe("Autolayout", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 });

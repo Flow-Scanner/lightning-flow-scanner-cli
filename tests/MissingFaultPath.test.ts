@@ -6,7 +6,7 @@ import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
 
 describe("MissingFaultPath", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Missing_Error_Handler.flow-meta.xml");
@@ -16,15 +16,15 @@ describe("MissingFaultPath", () => {
     let flows = await core.parse([example_uri]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults[0].ruleName).to.equal("MissingFaultPath");
+    expect(occurringResults.length).toBe(1);
+    expect(occurringResults[0].ruleName).toBe("MissingFaultPath");
   });
 
   it("Should have no result", async () => {
     let flows = await core.parse([fixed_uri]);
     const results: core.ScanResult[] = core.scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults.length).toBe(0);
   });
 
   it("should skip before save flows due to salesforce limitation", async () => {
@@ -38,6 +38,6 @@ describe("MissingFaultPath", () => {
     const missingFaultPathRule = new MissingFaultPath();
     const flow: core.Flow = parsedFile.pop()?.flow as core.Flow;
     const scanResults: core.RuleResult = missingFaultPathRule.execute(flow);
-    expect(scanResults.occurs).to.be.false;
+    expect(scanResults.occurs).toBe(false);
   });
 });

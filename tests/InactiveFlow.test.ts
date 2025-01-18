@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("InactiveFlow", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Utility_Copy_Files_Subflow.flow-meta.xml");
@@ -22,8 +22,8 @@ describe("InactiveFlow", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults[0].ruleName).to.equal("InactiveFlow");
+    expect(occurringResults.length).toBe(1);
+    expect(occurringResults[0].ruleName).toBe("InactiveFlow");
   });
 
   it("should have no result when flow is active", async () => {
@@ -38,8 +38,8 @@ describe("InactiveFlow", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
 
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("FlowDescription");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("FlowDescription");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 });

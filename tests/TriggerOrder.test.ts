@@ -8,7 +8,7 @@ import * as path from "path-browserify";
 describe("TriggerOrder", () => {
   let expect;
   let rule;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
     rule = new TriggerOrder();
   });
@@ -26,7 +26,7 @@ describe("TriggerOrder", () => {
     const ruleResults = scanResults?.ruleResults.find((rule) => {
       return rule.ruleDefinition.name === "TriggerOrder";
     });
-    expect(ruleResults).to.not.be.ok;
+    expect(ruleResults).toBeFalsy();
   });
 
   it("should trigger when opt-in configuration", async () => {
@@ -44,9 +44,9 @@ describe("TriggerOrder", () => {
     const scanResults = results.pop();
 
     const expectedRule = scanResults?.ruleResults.find((rule) => rule.ruleName === "TriggerOrder");
-    expect(expectedRule).to.be.ok;
-    expect(expectedRule?.occurs).to.be.true;
-    expect(expectedRule?.details[0].details).to.deep.eq({ expression: "10, 20, 30 ..." });
+    expect(expectedRule).toBeTruthy();
+    expect(expectedRule?.occurs).toBe(true);
+    expect(expectedRule?.details[0].details).toEqual({ expression: "10, 20, 30 ..." });
   });
 
   it("should flag trigger order when not present", async () => {
@@ -90,7 +90,7 @@ describe("TriggerOrder", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.true;
+    expect(ruleResult.occurs).toBe(true);
   });
 
   it("should not flag trigger order when present", async () => {
@@ -135,7 +135,7 @@ describe("TriggerOrder", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.true;
+    expect(ruleResult.occurs).toBe(true);
   });
 
   it("should not flag trigger order when autolaunched flow", async () => {
@@ -170,6 +170,6 @@ describe("TriggerOrder", () => {
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
-    expect(ruleResult.occurs).to.be.false;
+    expect(ruleResult.occurs).toBe(false);
   });
 });

@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("Rule Configurations ", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri1 = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
@@ -13,7 +13,7 @@ describe("Rule Configurations ", () => {
     let flows = await core.parse([example_uri1]);
     const results: core.ScanResult[] = core.scan(flows, undefined);
     const rules = core.getRules();
-    expect(results[0].ruleResults.length).to.equal(rules.length);
+    expect(results[0].ruleResults.length).toBe(rules.length);
   });
 
   it(" should use default when no rules are specified", async () => {
@@ -26,7 +26,7 @@ describe("Rule Configurations ", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const rules = core.getRules();
-    expect(results[0].ruleResults.length).to.equal(rules.length);
+    expect(results[0].ruleResults.length).toBe(rules.length);
   });
 
   it("incorrect rule severity configurations are defaulted", async () => {
@@ -39,7 +39,7 @@ describe("Rule Configurations ", () => {
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
+    expect(results[0].ruleResults.length).toBe(1);
   });
 
   it("incorrect rule configurations are skipped", async () => {
@@ -58,7 +58,7 @@ describe("Rule Configurations ", () => {
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
+    expect(results[0].ruleResults.length).toBe(1);
   });
 
   it("Multiple Expressions are individually checked", async () => {
@@ -106,6 +106,6 @@ describe("Rule Configurations ", () => {
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.find((r) => r.ruleName === "FlowName")?.occurs).to.equal(false);
+    expect(results[0].ruleResults.find((r) => r.ruleName === "FlowName")?.occurs).toBe(false);
   });
 });

@@ -4,7 +4,7 @@ import * as path from "path-browserify";
 
 describe("CopyAPIName ", () => {
   let expect;
-  before(async () => {
+  beforeAll(async () => {
     expect = (await import("chai")).expect;
   });
   let example_uri = path.join(__dirname, "./xmlfiles/Copy_API_Name.flow-meta.xml");
@@ -22,9 +22,9 @@ describe("CopyAPIName ", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
 
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("CopyAPIName");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("CopyAPIName");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("CopyAPIName should have no result", async () => {
@@ -39,8 +39,8 @@ describe("CopyAPIName ", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
 
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("CopyAPIName");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults.length).toBe(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("CopyAPIName");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 });
