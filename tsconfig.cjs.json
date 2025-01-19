@@ -18,12 +18,7 @@
     "out/**",
     ".idea/**",
     "src/data/CustomRuleExample.ts",
-    "tests/**/*.test.ts"
+    "tests/**/*.test.ts",
+    "jest.config.ts"
   ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "NodeNext",
-      "sourceMap": true
-    }
-  }
 }
