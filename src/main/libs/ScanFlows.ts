@@ -6,7 +6,7 @@ export function ScanFlows(flows: core.Flow[], ruleOptions?: core.IRulesConfig): 
 
   let selectedRules: core.IRuleDefinition[] = [];
   if (ruleOptions && ruleOptions.rules) {
-    const ruleMap = new Map<string, {}>();
+    const ruleMap = new Map<string, object>();
     for (const [ruleName, rule] of Object.entries(ruleOptions.rules)) {
       ruleMap.set(ruleName, rule);
     }
@@ -20,7 +20,7 @@ export function ScanFlows(flows: core.Flow[], ruleOptions?: core.IRulesConfig): 
     for (const rule of selectedRules) {
       try {
         if (rule.supportedTypes.includes(flow.type)) {
-          let config = undefined;
+          let config: unknown = undefined;
           if (ruleOptions && ruleOptions["rules"] && ruleOptions["rules"][rule.name]) {
             config = ruleOptions["rules"][rule.name];
           }
@@ -29,14 +29,15 @@ export function ScanFlows(flows: core.Flow[], ruleOptions?: core.IRulesConfig): 
               ? rule.execute(flow, config)
               : rule.execute(flow);
           if (result.severity !== rule.severity) {
-            result.severity = rule.severity;
+            result.severity = rule.severity as string;
           }
           ruleResults.push(result);
         } else {
           ruleResults.push(new core.RuleResult(rule, []));
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        let message =
+        const message =
           "Something went wrong while executing " + rule.name + " in the Flow: '" + flow.name;
         ruleResults.push(new core.RuleResult(rule, [], message));
       }

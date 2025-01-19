@@ -5,9 +5,11 @@ export class RuleLoader {
   static loadCustomRule(ruleName: string, filePath: string): IRuleDefinition | undefined {
     try {
       // Resolve the filePath to an absolute path relative to the current working directory
+
       const absolutePath = p.resolve(process.cwd(), filePath);
 
       // Synchronously load the module based on the absolute file path
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const module = require(absolutePath);
 
       // Check if the module exports the given rule

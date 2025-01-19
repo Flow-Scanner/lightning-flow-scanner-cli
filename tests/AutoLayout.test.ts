@@ -1,17 +1,14 @@
-import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("Autolayout", () => {
-  let expect;
-  before(async () => {
-    expect = (await import("chai")).expect;
-  });
-  let example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
-  let fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
+  const example_uri = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
+  const fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
 
   it("should have a result when CanvasMode is set to FREE_FORM_CANVAS", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: {
         AutoLayout: {
@@ -22,12 +19,12 @@ describe("Autolayout", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(1);
-    expect(occurringResults.find((res) => res.ruleName === "AutoLayout"));
+    expect(occurringResults).toHaveLength(1);
+    expect(occurringResults.find((res) => res.ruleName === "AutoLayout")).toBeTruthy();
   });
 
   it("should not have result when autolayout is configured", async () => {
-    let flows = await core.parse([fixed_uri]);
+    const flows = await core.parse([fixed_uri]);
     const ruleConfig = {
       rules: {
         AutoLayout: {
@@ -37,6 +34,6 @@ describe("Autolayout", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults).toHaveLength(0);
   });
 });

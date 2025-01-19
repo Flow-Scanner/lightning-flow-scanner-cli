@@ -1,17 +1,14 @@
-import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("FlowName", () => {
-  let expect;
-  before(async () => {
-    expect = (await import("chai")).expect;
-  });
-  let example_uri = path.join(__dirname, "./xmlfiles/FlowNamingConvention.flow-meta.xml");
-  let fixed_uri = path.join(__dirname, "./xmlfiles/Flow_Naming_Convention_Fixed.flow-meta.xml");
+  const example_uri = path.join(__dirname, "./xmlfiles/FlowNamingConvention.flow-meta.xml");
+  const fixed_uri = path.join(__dirname, "./xmlfiles/Flow_Naming_Convention_Fixed.flow-meta.xml");
 
   it("should have a result when not in line with conventions", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: {
         FlowName: {
@@ -22,13 +19,13 @@ describe("FlowName", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("FlowName");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("FlowName");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have no result when defined as exception", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: {
         FlowName: {
@@ -42,13 +39,13 @@ describe("FlowName", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("FlowName");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("FlowName");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 
   it("should not have a result when in line with conventions", async () => {
-    let flows = await core.parse([fixed_uri]);
+    const flows = await core.parse([fixed_uri]);
     const ruleConfig = {
       rules: {
         FlowName: {
@@ -60,6 +57,6 @@ describe("FlowName", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).to.equal(0);
+    expect(occurringResults).toHaveLength(0);
   });
 });

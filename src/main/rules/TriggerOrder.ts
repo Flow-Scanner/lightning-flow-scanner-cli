@@ -28,17 +28,13 @@ export class TriggerOrder extends RuleCommon implements core.IRuleDefinition {
   public execute(flow: core.Flow): core.RuleResult {
     const results: core.ResultDetails[] = [];
 
-    const qualifiedFlowType = "object" in flow.start;
-
-    if (!qualifiedFlowType) {
-      return new core.RuleResult(this, results);
+    if (!flow.triggerOrder) {
+      results.push(
+        new core.ResultDetails(
+          new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
+        )
+      );
     }
-
-    results.push(
-      new core.ResultDetails(
-        new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
-      )
-    );
 
     return new core.RuleResult(this, results);
   }

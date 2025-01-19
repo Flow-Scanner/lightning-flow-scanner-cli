@@ -18,7 +18,9 @@ export class RuleParser {
           ) as ts.MethodDeclaration[];
           const requiredMethods = ["execute"];
           const methodNames = methods.map((method) => method.name?.["escapedText"]);
+          // TODO: revisit this statement. doesn't make sense
           const implementsMethods = requiredMethods.every((methodName) =>
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             methods.some((method) => methodNames.includes(methodName))
           );
           const properties = node.members.filter((member) =>
@@ -34,6 +36,7 @@ export class RuleParser {
             "isConfigurable",
           ];
           const propertyNames = properties.map((property) => property.name?.["escapedText"]);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const implementsProperties = requiredProperties.every((propertyName) =>
             propertyNames.includes(propertyName)
           );
@@ -49,9 +52,10 @@ export class RuleParser {
     return ruleDefinition;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private static extractRuleDefinition(classDeclaration: ts.ClassDeclaration): IRuleDefinition {
     // Extract relevant information from the class declaration
     // and create an instance of IRuleDefinition
-    return null;
+    return {} as unknown as IRuleDefinition;
   }
 }

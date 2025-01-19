@@ -49,4 +49,5 @@
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
+    <triggerOrder>10</triggerOrder>
 </Flow>

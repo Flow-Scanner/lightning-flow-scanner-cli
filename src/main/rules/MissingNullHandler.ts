@@ -46,8 +46,8 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
-              let valueReference = condition.leftValueReference;
-              for (let ref of resultReferences) {
+              const valueReference = condition.leftValueReference;
+              for (const ref of resultReferences) {
                 referenceFound = ref.includes(valueReference);
                 if (referenceFound) {
                   break;
@@ -55,7 +55,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
               }
             }
             if (condition.operator && condition.operator.length > 0) {
-              let operator = condition.operator;
+              const operator = condition.operator;
               isNullOperator = operator === "IsNull";
             }
             if (
@@ -64,7 +64,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
               condition.rightValue.booleanValue &&
               condition.rightValue.booleanValue.length > 0
             ) {
-              let rightValue = condition.rightValue.booleanValue;
+              const rightValue = condition.rightValue.booleanValue;
               checksIfFalse = rightValue.toLowerCase() === "false";
             }
             if (referenceFound && isNullOperator && checksIfFalse) {
@@ -77,7 +77,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    let results = [];
+    const results = [];
     for (const det of getOperationsWithoutNullHandler) {
       results.push(new core.ResultDetails(det));
     }

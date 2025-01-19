@@ -1,17 +1,14 @@
-import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("APIVersion", () => {
-  let expect;
-  before(async () => {
-    expect = (await import("chai")).expect;
-  });
   const example_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version.flow-meta.xml");
   const fixed_uri = path.join(__dirname, "./xmlfiles/Outdated_API_Version_Fixed.flow-meta.xml");
 
   it("should have a result when attribute is missing", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: {
         APIVersion: {
@@ -21,13 +18,13 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have a result when below configured threshold", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
     const ruleConfig = {
       rules: {
         APIVersion: {
@@ -38,13 +35,13 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(true);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 
   it("should have no result when version is meeting threshold", async () => {
-    let flows = await core.parse([fixed_uri]);
+    const flows = await core.parse([fixed_uri]);
     const ruleConfig = {
       rules: {
         APIVersion: {
@@ -54,8 +51,8 @@ describe("APIVersion", () => {
     };
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    expect(results[0].ruleResults.length).to.equal(1);
-    expect(results[0].ruleResults[0].ruleName).to.equal("APIVersion");
-    expect(results[0].ruleResults[0].occurs).to.equal(false);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(false);
   });
 });

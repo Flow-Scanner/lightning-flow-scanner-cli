@@ -19,13 +19,14 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parse(selectedUris: any): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
 export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
-  let flows: Flow[] = [];
-  for (let flow of parsedFlows) {
+  const flows: Flow[] = [];
+  for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
       flows.push(flow.flow);
     }
@@ -60,10 +61,10 @@ export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): Sca
 }
 
 export function fix(results: ScanResult[]): ScanResult[] {
-  let newResults = [];
-  for (let result of results) {
+  const newResults = [];
+  for (const result of results) {
     if (result.ruleResults && result.ruleResults.length > 0) {
-      let fixables: RuleResult[] = result.ruleResults.filter(
+      const fixables: RuleResult[] = result.ruleResults.filter(
         (r) =>
           (r.ruleName === "UnusedVariable" && r.occurs) ||
           (r.ruleName === "UnconnectedElement" && r.occurs)

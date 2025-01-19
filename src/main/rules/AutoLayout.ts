@@ -15,6 +15,7 @@ export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
     if (flow.processMetadataValues) {
       const CanvasMode = flow.xmldata.processMetadataValues.find(
@@ -37,5 +38,6 @@ export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
           ])
         : new core.RuleResult(this, []);
     }
+    return new core.RuleResult(this, []);
   }
 }

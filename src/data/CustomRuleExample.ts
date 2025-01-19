@@ -15,6 +15,7 @@ export class CustomNamingConvention implements IRuleDefinition {
   supportedTypes: string[];
   isConfigurable: boolean;
   autoFixable: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   docRefs: any;
 
   constructor() {
@@ -27,12 +28,13 @@ export class CustomNamingConvention implements IRuleDefinition {
     this.autoFixable = false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public execute(flow: Flow, options?: { expression: string }): RuleResult {
     const conventionApplied = flow.name?.startsWith("AcmeCorp_]");
     return !conventionApplied
       ? new RuleResult(this, [
           new ResultDetails(
-            new FlowAttribute(flow.name, "name", "The Name needs to start with AcmeCorp_")
+            new FlowAttribute(flow.name as string, "name", "The Name needs to start with AcmeCorp_")
           ),
         ])
       : new RuleResult(this, []);

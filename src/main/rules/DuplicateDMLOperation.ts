@@ -83,7 +83,7 @@ export class DuplicateDMLOperation extends RuleCommon implements core.IRuleDefin
       flowElements.length
     );
 
-    let results = [];
+    const results = [];
     for (const det of DuplicateDMLOperations) {
       results.push(new core.ResultDetails(det));
     }

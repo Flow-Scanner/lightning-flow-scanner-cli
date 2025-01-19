@@ -12,5 +12,6 @@ export interface IRuleDefinition {
   uri?: string;
   severity?: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   execute(flow: Flow, ruleOptions?: {}): RuleResult;
 }
