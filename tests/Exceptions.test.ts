@@ -1,13 +1,9 @@
-import "mocha";
 import * as core from "../src";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
-describe("Exceptions", () => {
-  let expect;
-  beforeAll(async () => {
-    expect = (await import("chai")).expect;
-  });
+import { describe, it, expect } from "@jest/globals";
 
+describe("Exceptions", () => {
   it("should show exceptions on wrong configuration", async () => {
     const flows: ParsedFlow[] = [
       {
@@ -218,8 +214,8 @@ describe("Exceptions", () => {
     expect(
       ruleResults.filter((rule) => {
         return rule.occurs;
-      }).length
-    ).toBe(1);
+      })
+    ).toHaveLength(1);
   });
 
   it("should show not show any exceptions on api version", async () => {
@@ -810,8 +806,8 @@ describe("Exceptions", () => {
       expect(
         ruleResults.filter((result) => {
           return result.occurs;
-        }).length
-      ).toBe(0);
+        })
+      ).toHaveLength(0);
     });
   });
 });

@@ -26,7 +26,7 @@ export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
         copyOfElements.push(element);
       }
     }
-    let results = [];
+    const results = [];
     for (const det of copyOfElements) {
       results.push(new core.ResultDetails(det));
     }

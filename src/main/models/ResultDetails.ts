@@ -7,7 +7,7 @@ export class ResultDetails {
   public name: string;
   public type: string;
   public metaType: string;
-  public details: {};
+  public details: object;
 
   constructor(violation: FlowNode | FlowVariable | FlowAttribute) {
     this.violation = violation;
@@ -15,11 +15,11 @@ export class ResultDetails {
     this.metaType = violation.metaType;
     this.type = violation.subtype;
     if (violation.metaType === "variable") {
-      let element = violation as FlowVariable;
+      const element = violation as FlowVariable;
       this.details = { dataType: element.dataType };
     }
     if (violation.metaType === "node") {
-      let element = violation as FlowNode;
+      const element = violation as FlowNode;
       this.details = {
         locationX: element.locationX,
         locationY: element.locationY,
@@ -27,7 +27,7 @@ export class ResultDetails {
       };
     }
     if (violation.metaType === "attribute") {
-      let element = violation as FlowAttribute;
+      const element = violation as FlowAttribute;
       this.details = { expression: element.expression };
     }
   }

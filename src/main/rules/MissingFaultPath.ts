@@ -33,8 +33,8 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (
-      flow.elements.filter((node) => {
-        const proxyNode = node as {} as core.FlowNode;
+      flow.elements?.filter((node) => {
+        const proxyNode = node as unknown as core.FlowNode;
         const validSubtype = this.applicableElements.includes(proxyNode.subtype);
         return validSubtype;
       }) as core.FlowNode[]
@@ -64,7 +64,7 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
   }
 
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
-    const flowelements = flow.elements.filter(
+    const flowelements = flow.elements?.filter(
       (el) => el instanceof core.FlowNode
     ) as core.FlowNode[];
     for (const otherElement of flowelements) {

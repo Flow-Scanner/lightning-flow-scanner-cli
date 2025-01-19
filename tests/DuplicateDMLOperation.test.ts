@@ -1,17 +1,14 @@
-import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("DuplicateDMLOperation  ", () => {
-  let expect;
-  beforeAll(async () => {
-    expect = (await import("chai")).expect;
-  });
-  let example_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation.flow-meta.xml");
-  let fixed_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation_Fixed.flow-meta.xml");
+  const example_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation.flow-meta.xml");
+  const fixed_uri = path.join(__dirname, "./xmlfiles/Duplicate_DML_Operation_Fixed.flow-meta.xml");
 
   it("should have 1 result in a flow with a DML statement inbetween screens ", async () => {
-    let flows = await core.parse([example_uri]);
+    const flows = await core.parse([example_uri]);
 
     const ruleConfig = {
       rules: {
@@ -22,12 +19,12 @@ describe("DuplicateDMLOperation  ", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).toBe(1);
+    expect(occurringResults).toHaveLength(1);
     expect(occurringResults[0].ruleName).toBe("DuplicateDMLOperation");
   });
 
   it("should have no results in the fixed example", async () => {
-    let flows = await core.parse([fixed_uri]);
+    const flows = await core.parse([fixed_uri]);
 
     const ruleConfig = {
       rules: {
@@ -39,6 +36,6 @@ describe("DuplicateDMLOperation  ", () => {
 
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).toBe(0);
+    expect(occurringResults).toHaveLength(0);
   });
 });

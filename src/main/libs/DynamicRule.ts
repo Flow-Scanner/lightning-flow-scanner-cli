@@ -11,7 +11,7 @@ export class DynamicRule {
       if (customRule) {
         return customRule;
       }
-      throw new Error(`Rule \'${className}\' does not exist in the store.`);
+      throw new Error(`Rule '${className}' does not exist in the store.`);
     }
     return new DefaultRuleStore[className]();
   }

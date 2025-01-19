@@ -1,19 +1,24 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
+// import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
-
-const recommendedConfigs = [...tseslint.configs.recommended]
-  .filter((config) => config.name === "@typescript-eslint/no-unused-expressions")
-  .concat({
-    name: "@typescript-eslint/no-unused-expressions",
-    files: ["./tests/*.test.ts"],
-    rules: {
-      "no-unused-expressions": "off",
-    },
-  });
+import pluginJest from "eslint-plugin-jest";
 
 export default [
   { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  ...recommendedConfigs,
+  ...tseslint.configs.recommended,
+  // pluginJs.configs.recommended,
+  {
+    files: ["tests/*.test.ts"],
+    plugins: { jest: pluginJest },
+    languageOptions: {
+      globals: pluginJest.environments.globals.globals,
+    },
+    rules: {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+    },
+  },
 ];

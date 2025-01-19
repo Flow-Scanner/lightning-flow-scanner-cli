@@ -13,3 +13,5 @@ out/
 .DS_Store
 
 *.log
+
+coverage/

@@ -20,6 +20,7 @@ export class ProcessBuilder extends RuleCommon implements core.IRuleDefinition {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
     return new core.RuleResult(this, [
       new core.ResultDetails(new core.FlowAttribute("Workflow", "processType", "== Workflow")),

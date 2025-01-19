@@ -1,17 +1,12 @@
-import "mocha";
-
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { SameRecordFieldUpdates } from "../src/main/rules/SameRecordFieldUpdates";
 import { RuleResult, Flow, parse, scan, ScanResult } from "../src";
 import * as path from "path-browserify";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("SameRecordFieldUpdates", () => {
-  let expect;
-  let rule;
-  beforeAll(async () => {
-    expect = (await import("chai")).expect;
-    rule = new SameRecordFieldUpdates();
-  });
+  const rule = new SameRecordFieldUpdates();
 
   it("should flag same record updates on before context flows", async () => {
     const testData: ParsedFlow = {
@@ -67,7 +62,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as {} as ParsedFlow;
+    } as unknown as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -128,7 +123,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as {} as ParsedFlow;
+    } as unknown as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -136,8 +131,8 @@ describe("SameRecordFieldUpdates", () => {
   });
 
   it("should trigger from default configuration on store", async () => {
-    let example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
-    let flows = await parse([example_uri1]);
+    const example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
+    const flows = await parse([example_uri1]);
     const ruleConfig = {
       rules: {},
       exceptions: {},
@@ -152,8 +147,8 @@ describe("SameRecordFieldUpdates", () => {
   });
 
   it("should trigger when opt-in configuration", async () => {
-    let example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
-    let flows = await parse([example_uri1]);
+    const example_uri1 = path.join(__dirname, "./xmlfiles/Same_Record_Field_Updates.flow-meta.xml");
+    const flows = await parse([example_uri1]);
     const ruleConfig = {
       rules: {
         SameRecordFieldUpdates: {
@@ -218,7 +213,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as {} as ParsedFlow;
+    } as unknown as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -237,7 +232,7 @@ describe("SameRecordFieldUpdates", () => {
           triggerType: "RecordBeforeSave",
         },
       },
-    } as {} as ParsedFlow;
+    } as unknown as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 

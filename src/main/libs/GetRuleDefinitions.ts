@@ -3,14 +3,16 @@ import { DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 import { RuleLoader } from "./RuleLoader";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinition[] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedRules: any[] = [];
   if (ruleConfig && ruleConfig instanceof Map) {
     for (const ruleName of ruleConfig.keys()) {
       let severity = "error";
       try {
-        const configuredPath = ruleConfig.get(ruleName)["path"];
-        const configuredSeverity = ruleConfig.get(ruleName)["severity"];
+        const configuredPath = ruleConfig.get(ruleName)?.["path"];
+        const configuredSeverity = ruleConfig.get(ruleName)?.["severity"];
         if (
           configuredSeverity &&
           (configuredSeverity === "error" ||
@@ -20,7 +22,7 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
           severity = configuredSeverity;
         }
         if (configuredPath) {
-          let customRule = RuleLoader.loadCustomRule(ruleName, configuredPath);
+          const customRule = RuleLoader.loadCustomRule(ruleName, configuredPath);
           selectedRules["severity"] = severity;
           selectedRules.push(customRule);
         } else {

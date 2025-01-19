@@ -1,4 +1,3 @@
-import "mocha";
 import * as core from "../src";
 import * as path from "path-browserify";
 
@@ -7,11 +6,9 @@ import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 import { UnconnectedElement } from "../src/main/rules/UnconnectedElement";
 
+import { describe, it, expect } from "@jest/globals";
+
 describe("UnconnectedElement", () => {
-  let expect;
-  beforeAll(async () => {
-    expect = (await import("chai")).expect;
-  });
   const unconnectedElementRule: UnconnectedElement = new UnconnectedElement();
 
   it("there should be checks for unconnected element", async () => {
@@ -46,7 +43,7 @@ describe("UnconnectedElement", () => {
       __dirname,
       "./xmlfiles/Unconnected_Element.flow-meta.xml"
     );
-    let flows = await core.parse([connectedElementTestFile]);
+    const flows = await core.parse([connectedElementTestFile]);
     const ruleConfig = {
       rules: {
         UnconnectedElement: {
@@ -59,6 +56,6 @@ describe("UnconnectedElement", () => {
     const fixedFlow: ParsedFlow = new ParsedFlow(connectedElementTestFile, fixedResults[0].flow);
     const newResults: core.ScanResult[] = core.scan([fixedFlow], ruleConfig);
     const fixedResultsOccurring = newResults[0].ruleResults.filter((rule) => rule.occurs);
-    expect(fixedResultsOccurring.length).toBe(0);
+    expect(fixedResultsOccurring).toHaveLength(0);
   });
 });
