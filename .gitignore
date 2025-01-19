@@ -1,6 +1,5 @@
 node_modules/
 /out/
-.vscode/settings.json
 src/main/.DS_Store
 .yarn/**
 **.gz
