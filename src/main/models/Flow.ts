@@ -65,7 +65,7 @@ export class Flow {
     "waits",
   ];
 
-  constructor(path?: string);
+  constructor(path?: string, data?: unknown);
   constructor(path: string, data?: unknown) {
     if (path) {
       this.fsPath = p.resolve(path);
