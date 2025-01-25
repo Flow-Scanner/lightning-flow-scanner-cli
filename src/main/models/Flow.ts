@@ -5,6 +5,7 @@ import { FlowVariable } from "./FlowVariable";
 import * as p from "path-browserify";
 import { FlowResource } from "./FlowResource";
 import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
+import { create } from "xmlbuilder2";
 
 export class Flow {
   public label: string;
@@ -64,13 +65,16 @@ export class Flow {
     "waits",
   ];
 
+  constructor(path?: string);
   constructor(path: string, data?: unknown) {
-    this.fsPath = p.resolve(path);
-    let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
-    if (flowName.includes(".")) {
-      flowName = flowName.split(".")[0];
+    if (path) {
+      this.fsPath = p.resolve(path);
+      let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
+      if (flowName.includes(".")) {
+        flowName = flowName.split(".")[0];
+      }
+      this.name = flowName;
     }
-    this.name = flowName;
     if (data) {
       const hasFlowElement = !!data && typeof data === "object" && "Flow" in data;
       if (hasFlowElement) {
@@ -153,5 +157,27 @@ export class Flow {
       start = startElement.connectors[0]["reference"];
     }
     return start;
+  }
+
+  public toXMLString(): string {
+    try {
+      return this.generateDoc();
+    } catch (exception) {
+      console.warn(`Unable to write xml, caught an error ${exception.toString()}`);
+      return "";
+    }
+  }
+
+  private generateDoc(): string {
+    const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
+    const doc = create(
+      {
+        encoding: "UTF-8",
+      },
+      { Flow: this.xmldata }
+    )
+      .root()
+      .att("xmlns", flowXmlNamespace);
+    return doc.end({ prettyPrint: true });
   }
 }

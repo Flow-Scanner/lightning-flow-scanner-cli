@@ -6,7 +6,6 @@ import pluginJest from "eslint-plugin-jest";
 export default [
   { languageOptions: { globals: globals.browser } },
   ...tseslint.configs.recommended,
-  // pluginJs.configs.recommended,
   {
     files: ["tests/*.test.ts"],
     plugins: { jest: pluginJest },
@@ -20,5 +19,8 @@ export default [
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
     },
+  },
+  {
+    ignores: ["jest.config.ts"],
   },
 ];
