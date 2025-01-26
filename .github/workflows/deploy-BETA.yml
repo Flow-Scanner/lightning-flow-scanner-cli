@@ -47,6 +47,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
+          npm run prepack
       - name: Semantic Release Dependency
         run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release
       - name: Publish Beta
