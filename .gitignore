@@ -14,3 +14,5 @@ out/
 *.log
 
 coverage/
+
+types/

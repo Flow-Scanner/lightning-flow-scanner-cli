@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es6",
     "resolveJsonModule": true,
-    "outDir": "out",
+    "outDir": "types",
     "lib": ["es2020.string", "es6"],
     "experimentalDecorators": true,
     "sourceMap": false,
@@ -15,6 +15,7 @@
   },
   "exclude": [
     "node_modules",
+    "types/**",
     "out/**",
     ".idea/**",
     "src/data/CustomRuleExample.ts",
