@@ -15,7 +15,7 @@
     "prepare": "husky",
     "precommit": "lint-staged",
     "lint": "eslint {src,tests}",
-    "prepack": "npm run build && cp {readme.md,package.json,./src/index.d.ts} ./out/src && cp -R media ./out/src",
+    "prepack": "npm run build && cp {./readme.md,./package.json,./src/index.d.ts} ./out/src && cp -R ./media ./out/src",
     "rollup": "rollup --config",
     "uglify": "uglifyjs dist/index.js --compress -o dist/index.min.js",
     "dist": "npm run rollup && npm run uglify",
