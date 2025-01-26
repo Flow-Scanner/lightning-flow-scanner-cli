@@ -1,5 +1,5 @@
-import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { IRulesConfig } from "../interfaces/IRulesConfig";
+import type IRuleDefinition from "../interfaces/IRuleDefinition";
+import type IRulesConfig from "../interfaces/IRulesConfig";
 import { Compiler } from "../libs/Compiler";
 import { Flow } from "../models/Flow";
 import { FlowAttribute } from "../models/FlowAttribute";
@@ -24,6 +24,5 @@ export {
   ScanResult,
   RuleResult,
   ResultDetails,
-  IRuleDefinition,
-  IRulesConfig,
 };
+export type { IRuleDefinition, IRulesConfig };

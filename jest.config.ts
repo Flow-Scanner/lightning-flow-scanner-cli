@@ -170,16 +170,40 @@ const config: Config = {
   // testRunner: "jest-circus/runner",
 
   // A map from regular expressions to paths to transformers
-  // transform: { "^.+.tsx?$": ["ts-jest", { tsconfig: "tsconfig.cjs.json", isolatedModules: true }] },
   transform: {
-    "^.+\\.(t|j)sx?$": "@swc/jest",
+    "^.+\\.(t|j)sx?$": [
+      "@swc/jest",
+      {
+        $schema: "https://swc.rs/schema.json",
+        sourceMaps: "inline",
+        exclude: ["index.d.ts"],
+        module: {
+          type: "es6",
+          strictMode: true,
+          noInterop: false,
+        },
+        jsc: {
+          externalHelpers: false,
+          target: "es2015",
+          parser: {
+            syntax: "typescript",
+            tsx: true,
+            decorators: true,
+            dynamicImport: true,
+          },
+          transform: {
+            legacyDecorator: true,
+            decoratorMetadata: false,
+          },
+          keepClassNames: true,
+          baseUrl: ".",
+        },
+      },
+    ],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "/node_modules/",
-  //   "\\.pnp\\.[^\\/]+$"
-  // ],
+  transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\/]+$"],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

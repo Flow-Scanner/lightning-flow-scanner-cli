@@ -1,4 +1,4 @@
-import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import type IRuleDefinition from "../interfaces/IRuleDefinition";
 import { ResultDetails } from "./ResultDetails";
 
 export class RuleResult {
