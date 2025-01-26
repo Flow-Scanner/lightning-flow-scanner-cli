@@ -2,7 +2,6 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
-  pkgRoot: "out/src",
   branches: [
     {
       name: "master",
@@ -33,7 +32,7 @@ export default {
         changelogFile: "CHANGELOG.md",
       },
     ],
-    ["@semantic-release/npm", { pkgRoot: "out" }],
+    ["@semantic-release/npm", { pkgRoot: "out/src" }],
     [
       "@semantic-release/git",
       {
