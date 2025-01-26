@@ -39,15 +39,26 @@ jobs:
           scope: rubenhalman
       - name: Publish
         run: |
-          npm install
+          npm ci
           npm run build
-          cp package.json out
-          cp tsconfig.cjs.json out
+          cp package*.json out/src
           mkdir -p out/src
-          mkdir -p out/src/media
-          cp ./src/media/bannerslim.png out/src/media 
-          cp readme.md out
-          cd out
+          mkdir -p out/src/src
+          mkdir -p out/src/src/media
+          cp ./src/media/bannerslim.png out/src/src/media 
+          cp readme.md out/src
+          cd out/src
           npm publish
+        # run: |
+        #   npm install
+        #   npm run build
+        #   cp package.json out
+        #   cp tsconfig.cjs.json out
+        #   mkdir -p out/src
+        #   mkdir -p out/src/media
+        #   cp ./src/media/bannerslim.png out/src/media
+        #   cp readme.md out
+        #   cd out
+        #   npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
