@@ -4,6 +4,10 @@ import { XMLBuilder } from "xmlbuilder2/lib/interfaces";
 
 import { Flow } from "../../src/main/models/Flow";
 
+// import { readFileSync } from "node:fs";
+
+import { parse, ParsedFlow } from "../../src";
+
 describe("Flow Model", () => {
   beforeAll(() => {
     jest.spyOn(console, "warn").mockImplementation(() => jest.fn());
@@ -66,5 +70,13 @@ describe("Flow Model", () => {
     const errors = getError(sut["generateDoc"]);
     expect(errors).toBeTruthy();
     expect(errors).not.toBeInstanceOf(NoErrorThrownError);
+  });
+
+  it("should read a file from base and convert to flow e2e", async () => {
+    const filePath: string = "./tests/xmlfiles/Unused_Variable.flow-meta.xml";
+    const parsedFiles: ParsedFlow[] = await parse([filePath]);
+    expect(parsedFiles).toHaveLength(1);
+    expect(parsedFiles[0].flow).toBeTruthy();
+    expect(parsedFiles[0].errorMessage).toBeFalsy();
   });
 });
