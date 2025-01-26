@@ -12,9 +12,9 @@ import {
   FlowVariable,
 } from "./main/models";
 import { FixFlows, GetRuleDefinitions, ParseFlows, ScanFlows, Compiler } from "./main/libs";
-import * as interfaces from "./main/interfaces";
+import type { IRuleDefinition, IRulesConfig } from "./main/interfaces";
 
-function getRules(ruleNames?: string[]): interfaces.IRuleDefinition[] {
+function getRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
     const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, "error"]));
     return GetRuleDefinitions(ruleSeverityMap);
@@ -23,12 +23,11 @@ function getRules(ruleNames?: string[]): interfaces.IRuleDefinition[] {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parse(selectedUris: any): Promise<ParsedFlow[]> {
+function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
-function scan(parsedFlows: ParsedFlow[], ruleOptions?: interfaces.IRulesConfig): ScanResult[] {
+function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
   for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
@@ -84,7 +83,6 @@ function fix(results: ScanResult[]): ScanResult[] {
   return newResults;
 }
 
-export import IRuleDefinition = interfaces.IRuleDefinition;
 export {
   Flow,
   ParsedFlow,
@@ -103,3 +101,4 @@ export {
   scan,
   fix,
 };
+export type { IRuleDefinition };

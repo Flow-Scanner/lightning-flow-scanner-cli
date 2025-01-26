@@ -21,6 +21,6 @@ export default [
     },
   },
   {
-    ignores: ["jest.config.ts"],
+    ignores: ["jest.config.ts", "./src/index.d.ts"],
   },
 ];
