@@ -1,7 +1,6 @@
 {
   "$schema": "https://swc.rs/schema.json",
   "sourceMaps": "inline",
-  "exclude": ["index.d.ts"],
   "module": {
     "type": "es6",
     "strictMode": true,
