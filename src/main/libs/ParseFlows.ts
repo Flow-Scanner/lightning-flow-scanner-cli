@@ -1,4 +1,3 @@
-// import p from "path-browserify";
 import { Flow } from "../models/Flow";
 import { readFile } from "fs/promises";
 import { fileURLToPath } from "url";
@@ -11,11 +10,11 @@ export async function ParseFlows(selectedUris: string[]): Promise<ParsedFlow[]> 
   for (const uri of selectedUris) {
     try {
       const resolvePath = await realpath(uri);
-      const content = await readFile(fileURLToPath(`file:${resolvePath}`));
+      const absoluteFilePath = fileURLToPath(`file:${resolvePath}`);
+      const content = await readFile(absoluteFilePath);
       const xmlString = content.toString();
       const flowObj = convert(xmlString, { format: "object" });
-      console.log(`flowObj ${JSON.stringify(flowObj, null, 2)}`);
-      parseResults.push(new ParsedFlow(uri, new Flow(uri, flowObj)));
+      parseResults.push(new ParsedFlow(uri, new Flow(absoluteFilePath, flowObj)));
     } catch (e) {
       parseResults.push(new ParsedFlow(uri, undefined, e));
     }

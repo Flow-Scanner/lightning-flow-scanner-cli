@@ -1,4 +1,4 @@
-import p from "path-browserify";
+import * as p from "node:path";
 import type IRuleDefinition from "../interfaces/IRuleDefinition";
 
 export class RuleLoader {

@@ -77,6 +77,7 @@ describe("Flow Model", () => {
     const parsedFiles: ParsedFlow[] = await parse([filePath]);
     expect(parsedFiles).toHaveLength(1);
     expect(parsedFiles[0].flow).toBeTruthy();
+    expect(parsedFiles[0].flow?.xmldata).toBeTruthy();
     expect(parsedFiles[0].errorMessage).toBeFalsy();
   });
 });
