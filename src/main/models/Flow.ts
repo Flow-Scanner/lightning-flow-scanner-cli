@@ -4,8 +4,9 @@ import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
 import { FlowResource } from "./FlowResource";
 import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
+
 import { create } from "xmlbuilder2";
-import * as p from "node:path";
+import * as p from "path-browserify";
 
 export class Flow {
   public label: string;
@@ -68,9 +69,8 @@ export class Flow {
   constructor(path?: string, data?: unknown);
   constructor(path: string, data?: unknown) {
     if (path) {
-      const fsProp = p.parse(path);
-      this.fsPath = p.format(fsProp);
-      let flowName = p.basename(fsProp["name"]);
+      this.fsPath = p.resolve(path);
+      let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
       if (flowName.includes(".")) {
         flowName = flowName.split(".")[0];
       }

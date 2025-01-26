@@ -32,7 +32,7 @@ export default {
         changelogFile: "CHANGELOG.md",
       },
     ],
-    ["@semantic-release/npm", { pkgRoot: "out/src" }],
+    ["@semantic-release/npm", { pkgRoot: "out" }],
     [
       "@semantic-release/git",
       {

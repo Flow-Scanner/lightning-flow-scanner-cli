@@ -4,8 +4,6 @@ import { XMLBuilder } from "xmlbuilder2/lib/interfaces";
 
 import { Flow } from "../../src/main/models/Flow";
 
-// import { readFileSync } from "node:fs";
-
 import { parse, ParsedFlow } from "../../src";
 
 describe("Flow Model", () => {
