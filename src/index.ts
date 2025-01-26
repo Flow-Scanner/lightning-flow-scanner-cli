@@ -64,7 +64,7 @@ function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult
 }
 
 function fix(results: ScanResult[]): ScanResult[] {
-  const newResults = [];
+  const newResults: ScanResult[] = [];
   for (const result of results) {
     if (result.ruleResults && result.ruleResults.length > 0) {
       const fixables: RuleResult[] = result.ruleResults.filter(

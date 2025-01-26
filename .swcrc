@@ -22,6 +22,7 @@
       "decoratorMetadata": false
     },
     "keepClassNames": true,
-    "baseUrl": "./src"
-  }
+    "baseUrl": "."
+  },
+  "minify": true
 }
