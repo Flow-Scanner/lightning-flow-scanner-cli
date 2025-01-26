@@ -12,9 +12,9 @@ import {
   FlowVariable,
 } from "./main/models";
 import { FixFlows, GetRuleDefinitions, ParseFlows, ScanFlows, Compiler } from "./main/libs";
-import { IRulesConfig, IRuleDefinition } from "./main/interfaces";
+import * as interfaces from "./main/interfaces";
 
-function getRules(ruleNames?: string[]): IRuleDefinition[] {
+function getRules(ruleNames?: string[]): interfaces.IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
     const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, "error"]));
     return GetRuleDefinitions(ruleSeverityMap);
@@ -28,7 +28,7 @@ function parse(selectedUris: any): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
-function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
+function scan(parsedFlows: ParsedFlow[], ruleOptions?: interfaces.IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
   for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
@@ -84,6 +84,7 @@ function fix(results: ScanResult[]): ScanResult[] {
   return newResults;
 }
 
+export import IRuleDefinition = interfaces.IRuleDefinition;
 export {
   Flow,
   ParsedFlow,
@@ -101,5 +102,4 @@ export {
   parse,
   scan,
   fix,
-  IRuleDefinition,
 };
