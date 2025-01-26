@@ -2,6 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
+  cwd: "out",
   branches: [
     {
       name: "master",
