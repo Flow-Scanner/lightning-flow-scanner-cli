@@ -2,11 +2,10 @@ import { FlowNode } from "./FlowNode";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
+import * as p from "path-browserify";
 import { FlowResource } from "./FlowResource";
 import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
-
 import { create } from "xmlbuilder2";
-import * as p from "path-browserify";
 
 export class Flow {
   public label: string;

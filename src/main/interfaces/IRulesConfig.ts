@@ -1,5 +1,5 @@
-import type IExceptions from "./IExceptions";
-import type IRuleOptions from "./IRuleOptions";
+import { IExceptions } from "./IExceptions";
+import { IRuleOptions } from "./IRuleOptions";
 
 export interface IRulesConfig {
   rules?: IRuleOptions;

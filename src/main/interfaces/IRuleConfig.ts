@@ -1,4 +1,4 @@
-export default interface IRuleConfig {
+export interface IRuleConfig {
   severity?: string;
   path?: string;
 }

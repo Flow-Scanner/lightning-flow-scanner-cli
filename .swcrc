@@ -2,11 +2,9 @@
   "$schema": "https://swc.rs/schema.json",
   "sourceMaps": "inline",
   "module": {
-    "type": "es6",
+    "type": "commonjs",
     "strictMode": true,
-    "noInterop": false,
-    "resolveFully": true,
-    "importInterop": "babel"
+    "noInterop": false
   },
   "jsc": {
     "externalHelpers": false,
@@ -22,7 +20,6 @@
       "decoratorMetadata": false
     },
     "keepClassNames": true,
-    "baseUrl": "."
-  },
-  "minify": false
+    "baseUrl": "./"
+  }
 }

@@ -19,7 +19,8 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-export function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function parse(selectedUris: any): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
@@ -90,4 +91,4 @@ export { Compiler } from "./main/libs/Compiler";
 export { ScanResult } from "./main/models/ScanResult";
 export { RuleResult } from "./main/models/RuleResult";
 export { ResultDetails } from "./main/models/ResultDetails";
-export { IRuleDefinition };
+export { IRuleDefinition } from "./main/interfaces/IRuleDefinition";

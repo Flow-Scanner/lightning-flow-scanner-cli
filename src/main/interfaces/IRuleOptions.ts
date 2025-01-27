@@ -1,5 +1,5 @@
-import type IRuleConfig from "./IRuleConfig";
+import { IRuleConfig } from "./IRuleConfig";
 
-export default interface IRuleOptions {
+export interface IRuleOptions {
   [ruleName: string]: IRuleConfig;
 }

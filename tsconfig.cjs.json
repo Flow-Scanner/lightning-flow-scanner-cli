@@ -15,7 +15,6 @@
   },
   "exclude": [
     "node_modules",
-    "types/**",
     "out/**",
     ".idea/**",
     "src/data/CustomRuleExample.ts",
