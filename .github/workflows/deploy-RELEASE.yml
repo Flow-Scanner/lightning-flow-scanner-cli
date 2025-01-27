@@ -41,13 +41,9 @@ jobs:
         run: |
           npm install
           npm run build
-          cp package.json out
-          cp tsconfig.cjs.json out
-          mkdir -p out/src
-          mkdir -p out/src/media
-          cp ./src/media/bannerslim.png out/src/media 
-          cp readme.md out
-          cd out
+          npm run swc:cp:files
+          npm run swc:cp:types
+          cd out/src
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}
