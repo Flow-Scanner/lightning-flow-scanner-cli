@@ -1,6 +1,6 @@
 import { DefaultRuleStore } from "../store/DefaultRuleStore";
 import { RuleLoader } from "./RuleLoader";
-import * as p from "node:path";
+import * as p from "path-browserify";
 export class DynamicRule {
   constructor(className: string) {
     if (DefaultRuleStore[className] === undefined || DefaultRuleStore[className] === null) {
