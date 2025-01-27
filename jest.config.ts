@@ -176,11 +176,11 @@ const config: Config = {
       {
         $schema: "https://swc.rs/schema.json",
         sourceMaps: "inline",
-        exclude: ["index.d.ts"],
         module: {
-          type: "es6",
+          type: "commonjs",
           strictMode: true,
           noInterop: false,
+          resolveFully: false,
         },
         jsc: {
           externalHelpers: false,
