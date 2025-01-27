@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as fs from "fs";
-import type IRuleDefinition from "../interfaces/IRuleDefinition";
+import type { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
 export class RuleParser {
   static parseRuleFile(filePath: string): IRuleDefinition | undefined {

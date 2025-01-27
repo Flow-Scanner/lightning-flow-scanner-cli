@@ -1,7 +1,7 @@
 import type IExceptions from "./IExceptions";
 import type IRuleOptions from "./IRuleOptions";
 
-export default interface IRulesConfig {
+export interface IRulesConfig {
   rules?: IRuleOptions;
   exceptions?: IExceptions;
 }

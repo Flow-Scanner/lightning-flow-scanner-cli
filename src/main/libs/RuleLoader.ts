@@ -1,5 +1,5 @@
 import * as p from "path-browserify";
-import type IRuleDefinition from "../interfaces/IRuleDefinition";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
 export class RuleLoader {
   static loadCustomRule(ruleName: string, filePath: string): IRuleDefinition | undefined {

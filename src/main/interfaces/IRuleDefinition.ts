@@ -1,7 +1,7 @@
 import { Flow } from "../models/Flow";
 import { RuleResult } from "../models/RuleResult";
 
-export default interface IRuleDefinition {
+export interface IRuleDefinition {
   name: string;
   label: string;
   description: string;
