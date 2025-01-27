@@ -1,10 +1,11 @@
 {
   "$schema": "https://swc.rs/schema.json",
-  "sourceMaps": "inline",
+  "sourceMaps": false,
   "module": {
     "type": "commonjs",
     "strictMode": true,
-    "noInterop": false
+    "noInterop": false,
+    "resolveFully": true
   },
   "jsc": {
     "externalHelpers": false,
@@ -21,5 +22,6 @@
     },
     "keepClassNames": true,
     "baseUrl": "./"
-  }
+  },
+  "minify": true
 }
