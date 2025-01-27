@@ -1,17 +1,16 @@
-// import p from "path-browserify";
+import p from "path-browserify";
 import { Flow } from "../models/Flow";
-import { readFile } from "fs/promises";
-import { fileURLToPath } from "url";
+import fs from "fs";
 import { convert } from "xmlbuilder2";
-import { realpath } from "fs/promises";
 import { ParsedFlow } from "../models/ParsedFlow";
 
 export async function ParseFlows(selectedUris: string[]): Promise<ParsedFlow[]> {
   const parseResults: ParsedFlow[] = [];
   for (const uri of selectedUris) {
     try {
-      const resolvePath = await realpath(uri);
-      const content = await readFile(fileURLToPath(`file:${resolvePath}`));
+      console.log(`normalize uri ${uri}`);
+      const normalizedURI = p.normalize(uri);
+      const content = await fs.readFileSync(normalizedURI);
       const xmlString = content.toString();
       const flowObj = convert(xmlString, { format: "object" });
       console.log(`flowObj ${JSON.stringify(flowObj, null, 2)}`);
