@@ -2,7 +2,7 @@
   "name": "lightning-flow-scanner-core",
   "version": "4.13.0",
   "main": "index.js",
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "engines": {
     "node": "^20 || ^22 || ^23"
   },
