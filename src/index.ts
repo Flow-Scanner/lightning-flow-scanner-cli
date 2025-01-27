@@ -1,16 +1,20 @@
-import IRuleDefinition from "./main/interfaces/IRuleDefinition";
-import IRulesConfig from "./main/interfaces/IRulesConfig";
-import { FixFlows } from "./main/libs/FixFlows";
-import { GetRuleDefinitions } from "./main/libs/GetRuleDefinitions";
-import { ParseFlows } from "./main/libs/ParseFlows";
-import { ScanFlows } from "./main/libs/ScanFlows";
-import { Flow } from "./main/models/Flow";
-import { ParsedFlow } from "./main/models/ParsedFlow";
-import { ResultDetails } from "./main/models/ResultDetails";
-import { RuleResult } from "./main/models/RuleResult";
-import { ScanResult } from "./main/models/ScanResult";
+import {
+  Flow,
+  ParsedFlow,
+  ResultDetails,
+  RuleResult,
+  ScanResult,
+  FlowAttribute,
+  FlowElement,
+  FlowNode,
+  FlowResource,
+  FlowType,
+  FlowVariable,
+} from "./main/models/index";
+import { FixFlows, GetRuleDefinitions, ParseFlows, ScanFlows, Compiler } from "./main/libs";
+import type { IRuleDefinition, IRulesConfig } from "./main/interfaces";
 
-export function getRules(ruleNames?: string[]): IRuleDefinition[] {
+function getRules(ruleNames?: string[]): IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
     const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, "error"]));
     return GetRuleDefinitions(ruleSeverityMap);
@@ -19,11 +23,11 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-export function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
+function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
-export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
+function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
   for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
@@ -59,8 +63,8 @@ export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): Sca
   return scanResults;
 }
 
-export function fix(results: ScanResult[]): ScanResult[] {
-  const newResults = [];
+function fix(results: ScanResult[]): ScanResult[] {
+  const newResults: ScanResult[] = [];
   for (const result of results) {
     if (result.ruleResults && result.ruleResults.length > 0) {
       const fixables: RuleResult[] = result.ruleResults.filter(
@@ -79,15 +83,22 @@ export function fix(results: ScanResult[]): ScanResult[] {
   return newResults;
 }
 
-export { Flow } from "./main/models/Flow";
-export { FlowAttribute } from "./main/models/FlowAttribute";
-export { FlowElement } from "./main/models/FlowElement";
-export { FlowNode } from "./main/models/FlowNode";
-export { FlowResource } from "./main/models/FlowResource";
-export { FlowType } from "./main/models/FlowType";
-export { FlowVariable } from "./main/models/FlowVariable";
-export { Compiler } from "./main/libs/Compiler";
-export { ScanResult } from "./main/models/ScanResult";
-export { RuleResult } from "./main/models/RuleResult";
-export { ResultDetails } from "./main/models/ResultDetails";
-export { IRuleDefinition };
+export {
+  Flow,
+  ParsedFlow,
+  ResultDetails,
+  RuleResult,
+  ScanResult,
+  FlowAttribute,
+  FlowElement,
+  FlowNode,
+  FlowResource,
+  FlowType,
+  FlowVariable,
+  Compiler,
+  getRules,
+  parse,
+  scan,
+  fix,
+};
+export type { IRuleDefinition };
