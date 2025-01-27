@@ -49,6 +49,7 @@ jobs:
           npm ci
           npm run build
           npm run cp:files
+          npm run gen:types
           npm run cp:types
       - name: Semantic Release Dependency
         run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release

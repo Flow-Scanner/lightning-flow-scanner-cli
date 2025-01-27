@@ -42,6 +42,7 @@ jobs:
           npm ci
           npm run build
           npm run cp:files
+          npm run gen:types
           npm run cp:types
           cd out/src
           npm publish
