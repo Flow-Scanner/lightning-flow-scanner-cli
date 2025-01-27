@@ -1,5 +1,5 @@
-import { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
-import { IRulesConfig } from "./main/interfaces/IRulesConfig";
+import IRuleDefinition from "./main/interfaces/IRuleDefinition";
+import IRulesConfig from "./main/interfaces/IRulesConfig";
 import { FixFlows } from "./main/libs/FixFlows";
 import { GetRuleDefinitions } from "./main/libs/GetRuleDefinitions";
 import { ParseFlows } from "./main/libs/ParseFlows";
