@@ -1,12 +1,10 @@
 {
   "$schema": "https://swc.rs/schema.json",
-  "sourceMaps": false,
-  "exclude": ["index.d.ts"],
+  "sourceMaps": "inline",
   "module": {
     "type": "es6",
     "strictMode": true,
-    "noInterop": false,
-    "resolveFully": true
+    "noInterop": false
   },
   "jsc": {
     "externalHelpers": false,
@@ -22,7 +20,6 @@
       "decoratorMetadata": false
     },
     "keepClassNames": true,
-    "baseUrl": "."
-  },
-  "minify": true
+    "baseUrl": "./"
+  }
 }

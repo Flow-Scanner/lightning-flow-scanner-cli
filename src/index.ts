@@ -12,9 +12,9 @@ import {
   FlowVariable,
 } from "./main/models";
 import { FixFlows, GetRuleDefinitions, ParseFlows, ScanFlows, Compiler } from "./main/libs";
-import type { IRuleDefinition, IRulesConfig } from "./main/interfaces";
+import * as interfaces from "./main/interfaces";
 
-function getRules(ruleNames?: string[]): IRuleDefinition[] {
+function getRules(ruleNames?: string[]): interfaces.IRuleDefinition[] {
   if (ruleNames && ruleNames.length > 0) {
     const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, "error"]));
     return GetRuleDefinitions(ruleSeverityMap);
@@ -23,11 +23,12 @@ function getRules(ruleNames?: string[]): IRuleDefinition[] {
   }
 }
 
-function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parse(selectedUris: any): Promise<ParsedFlow[]> {
   return ParseFlows(selectedUris);
 }
 
-function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
+function scan(parsedFlows: ParsedFlow[], ruleOptions?: interfaces.IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
   for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
@@ -64,7 +65,7 @@ function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult
 }
 
 function fix(results: ScanResult[]): ScanResult[] {
-  const newResults: ScanResult[] = [];
+  const newResults = [];
   for (const result of results) {
     if (result.ruleResults && result.ruleResults.length > 0) {
       const fixables: RuleResult[] = result.ruleResults.filter(
@@ -83,6 +84,7 @@ function fix(results: ScanResult[]): ScanResult[] {
   return newResults;
 }
 
+export import IRuleDefinition = interfaces.IRuleDefinition;
 export {
   Flow,
   ParsedFlow,
@@ -101,4 +103,3 @@ export {
   scan,
   fix,
 };
-export type { IRuleDefinition };
