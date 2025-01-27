@@ -2,7 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
-  pkgRoot: "out/src",
+  cwd: "out",
   branches: [
     {
       name: "master",
