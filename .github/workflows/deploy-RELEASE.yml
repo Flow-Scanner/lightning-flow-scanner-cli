@@ -41,8 +41,9 @@ jobs:
         run: |
           npm ci
           npm run build
-          npm run tsc:cp:files
-          cd out
+          npm run cp:files
+          npm run cp:types
+          cd out/src
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKENX }}

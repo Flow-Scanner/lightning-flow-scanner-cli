@@ -5,8 +5,7 @@
     "type": "es6",
     "strictMode": true,
     "noInterop": false,
-    "resolveFully": true,
-    "importInterop": "babel"
+    "resolveFully": true
   },
   "jsc": {
     "externalHelpers": false,
