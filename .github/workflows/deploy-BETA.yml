@@ -47,9 +47,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm ci
-          npm run swc:build
-          npm run swc:cp:files
-          npm run swc:cp:types
+          npm run swc:sim:pack
       - name: Semantic Release Dependency
         run: npm install -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/npm conventional-changelog-conventionalcommits semantic-release
       - name: Publish Beta

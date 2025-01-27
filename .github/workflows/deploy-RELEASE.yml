@@ -40,9 +40,7 @@ jobs:
       - name: Publish
         run: |
           npm install
-          npm run build
-          npm run swc:cp:files
-          npm run swc:cp:types
+          npm run swc:sim:pack
           cd out/src
           npm publish
         env:
