@@ -14,7 +14,7 @@
     "build:link": "npm run prepack && npm run cp:files && npm link ./out/src",
     "gen:types": "tsc -p tsconfig.cjs.json --declaration --emitDeclarationOnly",
     "cp:types": "npm run gen:types && cp -R ./types/* ./out/src",
-    "cp:files": "cp ./readme.md ./package*.json ./out/src && cp -R ./media ./out/src",
+    "cp:files": "cp ./readme.md ./package*.json ./src/index.d.ts ./out/src && cp -R ./media ./out/src",
     "sim:pack": "npm run build && npm run cp:files && npm run gen:types && npm run cp:types",
     "prepare": "husky",
     "precommit": "lint-staged",
