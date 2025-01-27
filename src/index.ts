@@ -10,7 +10,7 @@ import {
   FlowResource,
   FlowType,
   FlowVariable,
-} from "./main/models/index";
+} from "./main/models";
 import { FixFlows, GetRuleDefinitions, ParseFlows, ScanFlows, Compiler } from "./main/libs";
 import type { IRuleDefinition, IRulesConfig } from "./main/interfaces";
 
