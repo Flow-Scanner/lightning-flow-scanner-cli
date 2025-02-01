@@ -44,3 +44,12 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
 
   return selectedRules;
 }
+
+export function getRules(ruleNames?: string[]): IRuleDefinition[] {
+  if (ruleNames && ruleNames.length > 0) {
+    const ruleSeverityMap = new Map<string, string>(ruleNames.map((name) => [name, "error"]));
+    return GetRuleDefinitions(ruleSeverityMap);
+  } else {
+    return GetRuleDefinitions();
+  }
+}

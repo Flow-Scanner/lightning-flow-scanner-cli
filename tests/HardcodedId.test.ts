@@ -1,5 +1,5 @@
 import * as core from "../src";
-import * as path from "path-browserify";
+import * as path from "path";
 
 import { describe, it, expect } from "@jest/globals";
 
