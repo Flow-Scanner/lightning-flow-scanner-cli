@@ -1,6 +1,26 @@
 import { BuildFlow } from "./BuildFlow";
 import * as core from "../internals/internals";
 
+export function fix(results: core.ScanResult[]): core.ScanResult[] {
+  const newResults: core.ScanResult[] = [];
+  for (const result of results) {
+    if (result.ruleResults && result.ruleResults.length > 0) {
+      const fixables: core.RuleResult[] = result.ruleResults.filter(
+        (r) =>
+          (r.ruleName === "UnusedVariable" && r.occurs) ||
+          (r.ruleName === "UnconnectedElement" && r.occurs)
+      );
+      if (fixables && fixables.length > 0) {
+        const newFlow: core.Flow = FixFlows(result.flow, fixables);
+        result.flow = newFlow;
+        newResults.push(result);
+      }
+    }
+  }
+
+  return newResults;
+}
+
 export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.Flow {
   const unusedVariableRes = ruleResults.find((r) => r.ruleName === "UnusedVariable");
   const unusedVariableReferences =

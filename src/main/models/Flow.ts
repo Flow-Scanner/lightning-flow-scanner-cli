@@ -2,7 +2,7 @@ import { FlowNode } from "./FlowNode";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
-import * as p from "path-browserify";
+import * as p from "path";
 import { FlowResource } from "./FlowResource";
 import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
 import { create } from "xmlbuilder2";

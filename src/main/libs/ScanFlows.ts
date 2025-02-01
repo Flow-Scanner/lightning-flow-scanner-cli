@@ -1,5 +1,47 @@
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
 import * as core from "../../main/internals/internals";
+import { ParsedFlow } from "../models/ParsedFlow";
+
+export function scan(
+  parsedFlows: ParsedFlow[],
+  ruleOptions?: core.IRulesConfig
+): core.ScanResult[] {
+  const flows: core.Flow[] = [];
+  for (const flow of parsedFlows) {
+    if (!flow.errorMessage && flow.flow) {
+      flows.push(flow.flow);
+    }
+  }
+  let scanResults: core.ScanResult[];
+  if (ruleOptions?.rules && Object.entries(ruleOptions.rules).length > 0) {
+    scanResults = ScanFlows(flows, ruleOptions);
+  } else {
+    scanResults = ScanFlows(flows);
+  }
+
+  if (ruleOptions?.exceptions) {
+    for (const [exceptionName, exceptionElements] of Object.entries(ruleOptions.exceptions)) {
+      for (const scanResult of scanResults) {
+        if (scanResult.flow.name === exceptionName) {
+          for (const ruleResult of scanResult.ruleResults as core.RuleResult[]) {
+            if (exceptionElements[ruleResult.ruleName]) {
+              const exceptions = exceptionElements[ruleResult.ruleName];
+              const filteredDetails = (ruleResult.details as core.ResultDetails[]).filter(
+                (detail) => {
+                  return !exceptions.includes(detail.name);
+                }
+              );
+              ruleResult.details = filteredDetails;
+              ruleResult.occurs = filteredDetails.length > 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return scanResults;
+}
 
 export function ScanFlows(flows: core.Flow[], ruleOptions?: core.IRulesConfig): core.ScanResult[] {
   const flowResults: core.ScanResult[] = [];

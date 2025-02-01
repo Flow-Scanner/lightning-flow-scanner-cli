@@ -1,5 +1,5 @@
 import * as core from "../src";
-import * as path from "path-browserify";
+import * as path from "path";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
 

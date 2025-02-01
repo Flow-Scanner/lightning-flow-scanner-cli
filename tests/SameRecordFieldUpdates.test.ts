@@ -1,7 +1,7 @@
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { SameRecordFieldUpdates } from "../src/main/rules/SameRecordFieldUpdates";
 import { RuleResult, Flow, parse, scan, ScanResult } from "../src";
-import * as path from "path-browserify";
+import * as path from "path";
 
 import { describe, it, expect } from "@jest/globals";
 

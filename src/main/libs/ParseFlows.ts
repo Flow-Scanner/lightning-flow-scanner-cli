@@ -1,4 +1,4 @@
-import p from "path-browserify";
+import * as p from "path";
 import { Flow } from "../models/Flow";
 import fs from "fs";
 import { convert } from "xmlbuilder2";
@@ -18,4 +18,8 @@ export async function ParseFlows(selectedUris: string[]): Promise<ParsedFlow[]> 
     }
   }
   return parseResults;
+}
+
+export function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
+  return ParseFlows(selectedUris);
 }
