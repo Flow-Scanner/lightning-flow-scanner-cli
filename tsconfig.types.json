@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "target": "es6",
     "resolveJsonModule": true,
     "outDir": "types",
