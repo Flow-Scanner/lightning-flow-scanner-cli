@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES6",
     "target": "es6",
-    "resolveJsonModule": true,
+    "moduleResolution": "node",
     "outDir": "types",
     "lib": ["es2020.string", "es6"],
     "experimentalDecorators": true,
