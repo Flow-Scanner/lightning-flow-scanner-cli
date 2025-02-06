@@ -1,17 +1,22 @@
-node_modules/
-/out/
+node_modules
+
+# Mac files
 **/.DS_Store
-.yarn/**
-**.gz
-
-dist/
-out/
-
-.nyc_output/
-
 .DS_Store
 
+.yarn/**
+**.gz
 *.log
 
-coverage/
-types/
+# generated directories
+types
+dist
+out
+
+# stryker temp files
+.stryker-tmp
+
+# generated reports
+reports
+coverage
+.nyc_output
