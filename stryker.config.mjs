@@ -7,9 +7,17 @@ const config = {
   reporters: ["html", "clear-text", "progress", "dashboard"],
   commandRunner: { command: "npm test" },
   testRunner: "jest",
+  jest: {
+    config: {
+      testEnvironment: "node",
+    },
+    enableFindRelatedTests: true,
+  },
+  testRunnerNodeArgs: ["--experimental-vm-modules"],
   testRunner_comment:
     "Take a look at https://stryker-mutator.io/docs/stryker-js/jest-runner for information about the jest plugin.",
   coverageAnalysis: "perTest",
   mutate: ["src/**/*.ts", "!tests/**/*.test.ts"],
+  ignoreStatic: true,
 };
 export default config;
