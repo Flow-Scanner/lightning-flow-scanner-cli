@@ -156,9 +156,7 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: ["/node_modules/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -177,7 +175,7 @@ const config: Config = {
         $schema: "https://swc.rs/schema.json",
         sourceMaps: "inline",
         module: {
-          type: "commonjs",
+          type: "es6",
           strictMode: true,
           noInterop: false,
           resolveFully: false,
