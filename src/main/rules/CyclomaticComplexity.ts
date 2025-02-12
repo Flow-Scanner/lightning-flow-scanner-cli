@@ -35,7 +35,9 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
         cyclomaticComplexity += 1;
       }
     }
-    cyclomaticComplexity += flow.loops.length;
+    if (flow.loops && flow.loops.length > 0) {
+      cyclomaticComplexity += flow.loops.length;
+    }
 
     const results: core.ResultDetails[] = [];
     if (cyclomaticComplexity > threshold) {

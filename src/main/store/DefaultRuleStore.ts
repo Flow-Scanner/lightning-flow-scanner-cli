@@ -1,6 +1,7 @@
 import { APIVersion } from "../rules/APIVersion";
 import { AutoLayout } from "../rules/AutoLayout";
 import { CopyAPIName } from "../rules/CopyAPIName";
+import { CyclomaticComplexity } from "../rules/CyclomaticComplexity";
 import { DMLStatementInLoop } from "../rules/DMLStatementInLoop";
 import { DuplicateDMLOperation } from "../rules/DuplicateDMLOperation";
 import { FlowDescription } from "../rules/FlowDescription";
@@ -20,6 +21,7 @@ export const DefaultRuleStore: object = {
   APIVersion,
   AutoLayout,
   CopyAPIName,
+  CyclomaticComplexity,
   DMLStatementInLoop,
   DuplicateDMLOperation,
   FlowDescription,

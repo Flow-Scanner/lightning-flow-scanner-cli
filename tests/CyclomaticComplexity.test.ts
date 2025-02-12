@@ -6,13 +6,20 @@ import { describe, it, expect } from "@jest/globals";
 describe("CyclomaticComplexity ", () => {
   const example_uri = path.join(__dirname, "./xmlfiles/Cyclomatic_Complexity.flow-meta.xml");
   const other_uri = path.join(__dirname, "./xmlfiles/SOQL_Query_In_A_Loop.flow-meta.xml");
+  const defaultConfig = {
+    rules: {
+      CyclomaticComplexity: {
+        severity: "error",
+      },
+    },
+  };
 
   it("should have a result when there are more than 25 decision options", async () => {
     const flows = await core.parse([example_uri]);
-    const results: core.ScanResult[] = core.scan(flows);
+    const results: core.ScanResult[] = core.scan(flows, defaultConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
-    expect(occurringResults.length).toBeGreaterThanOrEqual(1);
-    // expect(occurringResults[0].ruleName).toBe("CyclomaticComplexity");
+    expect(occurringResults).toHaveLength(1);
+    expect(occurringResults[0].ruleName).toBe("CyclomaticComplexity");
   });
 
   it("should have no result when value is below threshold", async () => {
@@ -44,5 +51,6 @@ describe("CyclomaticComplexity ", () => {
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(1);
+    expect(occurringResults[0].ruleName).toBe("CyclomaticComplexity");
   });
 });
