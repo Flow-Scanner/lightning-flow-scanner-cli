@@ -1,7 +1,6 @@
 import * as core from "../src";
 import * as path from "path";
 
-import { parse } from "../src/main/libs/ParseFlows";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 import { UnconnectedElement } from "../src/main/rules/UnconnectedElement";
@@ -16,7 +15,7 @@ describe("UnconnectedElement", () => {
       __dirname,
       "./xmlfiles/Unconnected_Element.flow-meta.xml"
     );
-    const parsed: ParsedFlow = (await parse([connectedElementTestFile])).pop() as ParsedFlow;
+    const parsed: ParsedFlow = (await core.parse([connectedElementTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unconnectedElementRule.execute(parsed.flow as core.Flow);
     expect(ruleResult.occurs).toBe(true);
     expect(ruleResult.details).not.toHaveLength(0);
@@ -30,7 +29,7 @@ describe("UnconnectedElement", () => {
       __dirname,
       "./xmlfiles/Unconnected_Element_Async.flow-meta.xml"
     );
-    const parsed: ParsedFlow = (await parse([connectedElementTestFile])).pop() as ParsedFlow;
+    const parsed: ParsedFlow = (await core.parse([connectedElementTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unconnectedElementRule.execute(parsed.flow as core.Flow);
     expect(ruleResult.occurs).toBe(true);
     ruleResult.details.forEach((ruleDetail) => {
