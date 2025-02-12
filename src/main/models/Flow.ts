@@ -2,15 +2,12 @@ import { FlowNode } from "./FlowNode";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
-import * as p from "path";
 import { FlowResource } from "./FlowResource";
-import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
-import { create } from "xmlbuilder2";
 
 export class Flow {
   public label: string;
   public xmldata;
-  public name?: string;
+  public name: string;
   public interviewLabel?: string;
   public processType?;
   public processMetadataValues?;
@@ -18,11 +15,13 @@ export class Flow {
   public start?;
   public startElementReference?;
   public status?;
-  public fsPath;
-  public root?;
   public elements?: FlowElement[];
   public startReference;
   public triggerOrder?: number;
+  public decisions;
+  public loops;
+  public description;
+  public apiVersion;
 
   private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
   private flowResources = ["textTemplates", "stages"];
@@ -65,20 +64,11 @@ export class Flow {
     "waits",
   ];
 
-  constructor(path?: string, data?: unknown);
-  constructor(path: string, data?: unknown) {
-    if (path) {
-      this.fsPath = p.resolve(path);
-      let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
-      if (flowName.includes(".")) {
-        flowName = flowName.split(".")[0];
-      }
-      this.name = flowName;
-    }
-    if (data) {
-      const hasFlowElement = !!data && typeof data === "object" && "Flow" in data;
-      if (hasFlowElement) {
-        this.xmldata = (data as XMLSerializedAsObject).Flow;
+  constructor(flowName: string, data?: any) {  
+    this.name = flowName;
+    if(data){
+      if (data.Flow) {
+        this.xmldata = data.Flow;
       } else this.xmldata = data;
       this.preProcessNodes();
     }
@@ -93,6 +83,8 @@ export class Flow {
     this.start = this.xmldata.start;
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
+    this.description = this.xmldata.description;
+    this.apiVersion = this.xmldata.apiVersion;
     this.triggerOrder = this.xmldata.triggerOrder;
     const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
@@ -136,6 +128,8 @@ export class Flow {
       }
     }
     this.elements = allNodes;
+    this.decisions = this.elements.filter((node) => node.subtype === "decisions");
+    this.loops = this.elements.filter(node => node.subtype === 'loops');
     this.startReference = this.findStart();
   }
 
@@ -151,7 +145,7 @@ export class Flow {
         return n.subtype === "start";
       })
     ) {
-      const startElement = flowElements.find((n) => {
+      let startElement = flowElements.find((n) => {
         return n.subtype === "start";
       });
       start = startElement.connectors[0]["reference"];

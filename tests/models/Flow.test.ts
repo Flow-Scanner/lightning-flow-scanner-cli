@@ -10,7 +10,7 @@ describe("Flow Model", () => {
   });
 
   it("should print as xml when correct parameters", () => {
-    const sut: Flow = new Flow();
+    const sut: Flow = new Flow('flow A');
     sut.xmldata = {
       "@xmlns": "http://soap.sforce.com/2006/04/metadata",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
@@ -34,7 +34,7 @@ describe("Flow Model", () => {
   });
 
   it("should never throw an exception for toXMLString", () => {
-    const sut: Flow = new Flow();
+    const sut: Flow = new Flow('flow B');
     sut.xmldata = { test: "test" };
     jest.spyOn(xmlbuilder, "create").mockReturnValue({
       root: () => ({
@@ -62,7 +62,7 @@ describe("Flow Model", () => {
   };
 
   it("should throw an exception for bad document", async () => {
-    const sut: Flow = new Flow();
+    const sut: Flow = new Flow('flow C');
     const errors = getError(sut["generateDoc"]);
     expect(errors).toBeTruthy();
     expect(errors).not.toBeInstanceOf(NoErrorThrownError);
