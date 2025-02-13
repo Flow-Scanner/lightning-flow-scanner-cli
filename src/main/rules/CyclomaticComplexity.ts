@@ -3,16 +3,26 @@ import * as core from "../internals/internals";
 
 export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefinition {
   constructor() {
-    super({
-      name: "CyclomaticComplexity",
-      label: "Cyclomatic Complexity",
-      description:
-        "The number of loops and decision rules, plus the number of decisions. Use subflows to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.",
-      supportedTypes: core.FlowType.backEndTypes,
-      docRefs: [],
-      isConfigurable: true,
-      autoFixable: false,
-    });
+    super(
+      {
+        name: "CyclomaticComplexity",
+        label: "Cyclomatic Complexity",
+        description: `The number of loops and decision rules, plus the number of decisions.
+          Use a combination of 1) subflows and 2) breakdown flows into multiple trigger ordered flows, 
+          to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,
+        supportedTypes: core.FlowType.backEndTypes,
+        docRefs: [
+          {
+            label: `Cyclomatic complexity is a software metric used to indicate the complexity of a program. 
+              It is a quantitative measure of the number of linearly independent paths through a program's source code.`,
+            path: "https://en.wikipedia.org/wiki/Cyclomatic_complexity",
+          },
+        ],
+        isConfigurable: true,
+        autoFixable: false,
+      },
+      { severity: "note" }
+    );
   }
 
   private defaultThreshold: number = 25;
@@ -21,7 +31,7 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
 
   public execute(flow: core.Flow, options?: { threshold: number }): core.RuleResult {
     // Set Threshold
-    const threshold = options?.threshold ?? this.defaultThreshold;
+    const threshold = options?.threshold || this.defaultThreshold;
 
     // Calculate Cyclomatic Complexity based on the number of decision rules and loops, adding the number of decisions plus 1.
     let cyclomaticComplexity = 1;
