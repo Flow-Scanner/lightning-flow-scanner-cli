@@ -1,7 +1,8 @@
-import * as core from "../src";
 import * as path from "path";
-
 import { describe, it, expect } from "@jest/globals";
+
+import * as core from "../src";
+import { CyclomaticComplexity } from "../src/main/rules/CyclomaticComplexity";
 
 describe("CyclomaticComplexity ", () => {
   const example_uri = path.join(__dirname, "./xmlfiles/Cyclomatic_Complexity.flow-meta.xml");
@@ -16,6 +17,7 @@ describe("CyclomaticComplexity ", () => {
 
   it("should have a result when there are more than 25 decision options", async () => {
     const flows = await core.parse([example_uri]);
+    debugger;
     const results: core.ScanResult[] = core.scan(flows, defaultConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(1);
@@ -24,15 +26,8 @@ describe("CyclomaticComplexity ", () => {
 
   it("should have no result when value is below threshold", async () => {
     const flows = await core.parse([other_uri]);
-    const ruleConfig = {
-      rules: {
-        CyclomaticComplexity: {
-          severity: "error",
-        },
-      },
-    };
 
-    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
+    const results: core.ScanResult[] = core.scan(flows, defaultConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(0);
   });
@@ -52,5 +47,77 @@ describe("CyclomaticComplexity ", () => {
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(1);
     expect(occurringResults[0].ruleName).toBe("CyclomaticComplexity");
+  });
+
+  it("should correctly count the number of decisions and underlying rules one level", () => {
+    const sut = new CyclomaticComplexity();
+    const raw = {
+      elements: [
+        {
+          subtype: "decisions",
+          element: {
+            rules: [{}, {}, {}],
+          },
+        },
+      ],
+    } as Partial<core.Flow>;
+    const given = raw as core.Flow;
+    sut.execute(given);
+    expect(sut["cyclomaticComplexityUnit"]).toBe(5);
+  });
+
+  it("should correctly count the number of decisions and underlying rules multi level", () => {
+    const sut = new CyclomaticComplexity();
+    const raw = {
+      elements: [
+        {
+          subtype: "decisions",
+          element: {
+            rules: [{}, {}, {}],
+          },
+        },
+        { subtype: "decisions", element: { rules: [{}] } },
+      ],
+    } as Partial<core.Flow>;
+    const given = raw as core.Flow;
+    sut.execute(given);
+    expect(sut["cyclomaticComplexityUnit"]).toBe(7);
+  });
+
+  it("should not throw an exception when theres no elements at all", () => {
+    const sut = new CyclomaticComplexity();
+    const raw = {
+      elements: [],
+    } as Partial<core.Flow>;
+    const given = raw as core.Flow;
+    expect(() => {
+      sut.execute(given);
+    }).not.toThrow();
+  });
+
+  it("should not throw an exception when element isn't present", () => {
+    const sut = new CyclomaticComplexity();
+    const raw = {} as Partial<core.Flow>;
+    const given = raw as core.Flow;
+    expect(() => {
+      sut.execute(given);
+    }).not.toThrow();
+  });
+
+  it("should correctly count the number of loops", () => {
+    const sut = new CyclomaticComplexity();
+    const raw = {
+      elements: [
+        {
+          subtype: "loops",
+        },
+        {
+          subtype: "loops",
+        },
+      ],
+    } as Partial<core.Flow>;
+    const given = raw as core.Flow;
+    sut.execute(given);
+    expect(sut["cyclomaticComplexityUnit"]).toBe(3);
   });
 });

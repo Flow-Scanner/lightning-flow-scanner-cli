@@ -172,30 +172,8 @@ const config: Config = {
     "^.+\\.(t|j)sx?$": [
       "@swc/jest",
       {
-        $schema: "https://swc.rs/schema.json",
         sourceMaps: "inline",
-        module: {
-          type: "es6",
-          strictMode: true,
-          noInterop: false,
-          resolveFully: false,
-        },
-        jsc: {
-          externalHelpers: false,
-          target: "es2015",
-          parser: {
-            syntax: "typescript",
-            tsx: true,
-            decorators: true,
-            dynamicImport: true,
-          },
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: false,
-          },
-          keepClassNames: true,
-          baseUrl: ".",
-        },
+        minify: false,
       },
     ],
   },

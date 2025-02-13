@@ -17,6 +17,8 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
 
   private defaultThreshold: number = 25;
 
+  private cyclomaticComplexityUnit: number = 0;
+
   public execute(flow: core.Flow, options?: { threshold: number }): core.RuleResult {
     // Set Threshold
     const threshold = options?.threshold ?? this.defaultThreshold;
@@ -29,7 +31,7 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
     ) as core.FlowElement[];
     const flowLoops = flow?.elements?.filter((node) => node.subtype === "loops");
 
-    for (const decision of flowDecisions) {
+    for (const decision of flowDecisions || []) {
       const rules = decision.element["rules"];
       if (Array.isArray(rules)) {
         cyclomaticComplexity += rules.length + 1;
@@ -37,9 +39,9 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
         cyclomaticComplexity += 1;
       }
     }
-    if (flowLoops && flowLoops.length > 0) {
-      cyclomaticComplexity += flowLoops.length;
-    }
+    cyclomaticComplexity += flowLoops?.length ?? 0;
+
+    this.cyclomaticComplexityUnit = cyclomaticComplexity; // for unit testing
 
     const results: core.ResultDetails[] = [];
     if (cyclomaticComplexity > threshold) {
