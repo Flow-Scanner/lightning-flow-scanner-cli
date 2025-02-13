@@ -1,6 +1,6 @@
-import p from "path";
+import * as p from "path";
 import { Flow } from "../models/Flow";
-import * as fs from "fs";
+import fs from "fs";
 import { convert } from "xmlbuilder2";
 import { ParsedFlow } from "../models/ParsedFlow";
 
