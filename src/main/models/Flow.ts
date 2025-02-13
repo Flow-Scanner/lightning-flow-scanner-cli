@@ -18,10 +18,6 @@ export class Flow {
   public elements?: FlowElement[];
   public startReference;
   public triggerOrder?: number;
-  public decisions;
-  public loops;
-  public description;
-  public apiVersion;
 
   private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
   private flowResources = ["textTemplates", "stages"];
@@ -64,9 +60,9 @@ export class Flow {
     "waits",
   ];
 
-  constructor(flowName: string, data?: any) {  
+  constructor(flowName: string, data?: { Flow: Flow }) {
     this.name = flowName;
-    if(data){
+    if (data) {
       if (data.Flow) {
         this.xmldata = data.Flow;
       } else this.xmldata = data;
@@ -83,8 +79,6 @@ export class Flow {
     this.start = this.xmldata.start;
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
-    this.description = this.xmldata.description;
-    this.apiVersion = this.xmldata.apiVersion;
     this.triggerOrder = this.xmldata.triggerOrder;
     const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
     for (const nodeType in this.xmldata) {
@@ -128,8 +122,6 @@ export class Flow {
       }
     }
     this.elements = allNodes;
-    this.decisions = this.elements.filter((node) => node.subtype === "decisions");
-    this.loops = this.elements.filter(node => node.subtype === 'loops');
     this.startReference = this.findStart();
   }
 
@@ -145,7 +137,7 @@ export class Flow {
         return n.subtype === "start";
       })
     ) {
-      let startElement = flowElements.find((n) => {
+      const startElement = flowElements.find((n) => {
         return n.subtype === "start";
       });
       start = startElement.connectors[0]["reference"];

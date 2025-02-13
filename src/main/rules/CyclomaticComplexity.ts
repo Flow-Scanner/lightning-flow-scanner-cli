@@ -27,7 +27,11 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
 
     // Calculate Cyclomatic Complexity based on the number of decision rules and loops, adding the number of decisions plus 1.
     let cyclomaticComplexity = 1;
-    for (const decision of flow.decisions) {
+
+    const flowDecisions = flow.elements.filter((node) => node.subtype === "decisions");
+    const flowLoops = flow.elements.filter((node) => node.subtype === "loops");
+
+    for (const decision of flowDecisions) {
       const rules = decision.element["rules"];
       if (Array.isArray(rules)) {
         cyclomaticComplexity += rules.length + 1;
@@ -35,8 +39,8 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
         cyclomaticComplexity += 1;
       }
     }
-    if (flow.loops && flow.loops.length > 0) {
-      cyclomaticComplexity += flow.loops.length;
+    if (flowLoops && flowLoops.length > 0) {
+      cyclomaticComplexity += flowLoops.length;
     }
 
     const results: core.ResultDetails[] = [];
