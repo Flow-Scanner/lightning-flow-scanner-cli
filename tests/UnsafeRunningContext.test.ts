@@ -1,6 +1,7 @@
 import * as core from "../src";
 import * as path from "path";
 
+import { parse } from "../src/main/libs/ParseFlows";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 import { describe, it, expect } from "@jest/globals";
@@ -14,7 +15,7 @@ describe("UnsafeRunningContext", () => {
       __dirname,
       "./xmlfiles/Unsafe_Running_Context.flow-meta.xml"
     );
-    const parsed: ParsedFlow = (await core.parse([unsafeContextTestFile])).pop() as ParsedFlow;
+    const parsed: ParsedFlow = (await parse([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
     expect(ruleResult.occurs).toBe(true);
     expect(ruleResult.details).not.toHaveLength(0);
@@ -26,7 +27,7 @@ describe("UnsafeRunningContext", () => {
       __dirname,
       "./xmlfiles/Unsafe_Running_Context_WithSharing.flow-meta.xml"
     );
-    const parsed: ParsedFlow = (await core.parse([unsafeContextTestFile])).pop() as ParsedFlow;
+    const parsed: ParsedFlow = (await parse([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
     expect(ruleResult.occurs).toBe(false);
     expect(ruleResult.details).toHaveLength(0);
@@ -37,7 +38,7 @@ describe("UnsafeRunningContext", () => {
       __dirname,
       "./xmlfiles/Unsafe_Running_Context_Default.flow-meta.xml"
     );
-    const parsed: ParsedFlow = (await core.parse([unsafeContextTestFile])).pop() as ParsedFlow;
+    const parsed: ParsedFlow = (await parse([unsafeContextTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unsafeRunningContext.execute(parsed.flow as core.Flow);
     expect(ruleResult.occurs).toBe(false);
     expect(ruleResult.details).toHaveLength(0);

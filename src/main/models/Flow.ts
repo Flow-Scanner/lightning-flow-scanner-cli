@@ -2,12 +2,15 @@ import { FlowNode } from "./FlowNode";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowElement } from "./FlowElement";
 import { FlowVariable } from "./FlowVariable";
+import * as p from "path";
 import { FlowResource } from "./FlowResource";
+import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
+import { create } from "xmlbuilder2";
 
 export class Flow {
   public label: string;
   public xmldata;
-  public name: string;
+  public name?: string;
   public interviewLabel?: string;
   public processType?;
   public processMetadataValues?;
@@ -15,6 +18,8 @@ export class Flow {
   public start?;
   public startElementReference?;
   public status?;
+  public fsPath;
+  public root?;
   public elements?: FlowElement[];
   public startReference;
   public triggerOrder?: number;
@@ -60,11 +65,20 @@ export class Flow {
     "waits",
   ];
 
-  constructor(flowName: string, data?: { Flow: Flow }) {
-    this.name = flowName;
+  constructor(path?: string, data?: unknown);
+  constructor(path: string, data?: unknown) {
+    if (path) {
+      this.fsPath = p.resolve(path);
+      let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
+      if (flowName.includes(".")) {
+        flowName = flowName.split(".")[0];
+      }
+      this.name = flowName;
+    }
     if (data) {
-      if (data.Flow) {
-        this.xmldata = data.Flow;
+      const hasFlowElement = !!data && typeof data === "object" && "Flow" in data;
+      if (hasFlowElement) {
+        this.xmldata = (data as XMLSerializedAsObject).Flow;
       } else this.xmldata = data;
       this.preProcessNodes();
     }

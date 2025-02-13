@@ -10,7 +10,7 @@ describe("Flow Model", () => {
   });
 
   it("should print as xml when correct parameters", () => {
-    const sut: Flow = new Flow("flow A");
+    const sut: Flow = new Flow();
     sut.xmldata = {
       "@xmlns": "http://soap.sforce.com/2006/04/metadata",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
@@ -27,15 +27,14 @@ describe("Flow Model", () => {
         picklistObject: "Task",
       },
     };
-    // todo fix test !
-    // const out = sut.toXMLString();
-    // expect(out).toBeTruthy();
-    // expect(out).toMatch('<displayField xsi:nil="true"/>');
-    // expect(out).toMatch('<object xsi:nil="true"/>');
+    const out = sut.toXMLString();
+    expect(out).toBeTruthy();
+    expect(out).toMatch('<displayField xsi:nil="true"/>');
+    expect(out).toMatch('<object xsi:nil="true"/>');
   });
 
   it("should never throw an exception for toXMLString", () => {
-    const sut: Flow = new Flow("flow B");
+    const sut: Flow = new Flow();
     sut.xmldata = { test: "test" };
     jest.spyOn(xmlbuilder, "create").mockReturnValue({
       root: () => ({
@@ -63,7 +62,7 @@ describe("Flow Model", () => {
   };
 
   it("should throw an exception for bad document", async () => {
-    const sut: Flow = new Flow("flow C");
+    const sut: Flow = new Flow();
     const errors = getError(sut["generateDoc"]);
     expect(errors).toBeTruthy();
     expect(errors).not.toBeInstanceOf(NoErrorThrownError);

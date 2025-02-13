@@ -15,21 +15,19 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
     });
   }
 
-  public execute(flow: core.Flow, options?: { threshold: string }): core.RuleResult {
-    // Set Threshold
-    let threshold = 0;
+  private defaultThreshold: number = 25;
 
-    if (options && options.threshold) {
-      threshold = +options.threshold;
-    } else {
-      threshold = 25;
-    }
+  public execute(flow: core.Flow, options?: { threshold: number }): core.RuleResult {
+    // Set Threshold
+    const threshold = options?.threshold ?? this.defaultThreshold;
 
     // Calculate Cyclomatic Complexity based on the number of decision rules and loops, adding the number of decisions plus 1.
     let cyclomaticComplexity = 1;
 
-    const flowDecisions = flow.elements.filter((node) => node.subtype === "decisions");
-    const flowLoops = flow.elements.filter((node) => node.subtype === "loops");
+    const flowDecisions = flow?.elements?.filter(
+      (node) => node.subtype === "decisions"
+    ) as core.FlowElement[];
+    const flowLoops = flow?.elements?.filter((node) => node.subtype === "loops");
 
     for (const decision of flowDecisions) {
       const rules = decision.element["rules"];
@@ -47,7 +45,7 @@ export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefini
     if (cyclomaticComplexity > threshold) {
       results.push(
         new core.ResultDetails(
-          new core.FlowAttribute("" + cyclomaticComplexity, "CyclomaticComplexity", ">" + threshold)
+          new core.FlowAttribute(`${cyclomaticComplexity}`, "CyclomaticComplexity", `>${threshold}`)
         )
       );
     }
