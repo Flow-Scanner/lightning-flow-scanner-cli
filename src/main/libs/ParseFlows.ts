@@ -4,7 +4,7 @@ import fs from "fs";
 import { convert } from "xmlbuilder2";
 import { ParsedFlow } from "../models/ParsedFlow";
 
-export async function ParseFlows(selectedUris: string[]): Promise<ParsedFlow[]> {
+export async function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
   const parseResults: ParsedFlow[] = [];
   for (const uri of selectedUris) {
     try {
@@ -18,8 +18,4 @@ export async function ParseFlows(selectedUris: string[]): Promise<ParsedFlow[]> 
     }
   }
   return parseResults;
-}
-
-export function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
-  return ParseFlows(selectedUris);
 }
