@@ -170,10 +170,10 @@ const config: Config = {
   // A map from regular expressions to paths to transformers
   transform: {
     "^.+\\.(t|j)sx?$": [
-      "@swc/jest",
+      "@swc-node/jest",
       {
-        sourceMaps: "inline",
-        minify: false,
+        module: "commonjs",
+        swc: { sourceMaps: "inline", minify: false },
       },
     ],
   },
