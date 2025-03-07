@@ -1,4 +1,3 @@
-import IdPrefixes from "../data/IdPrefixes";
 import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
 
@@ -26,31 +25,17 @@ export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
   }
 
   public execute(flow: core.Flow): core.RuleResult {
-    const prefixes = IdPrefixes.ids.map((prefix) => {
-      return prefix["Key Prefix"];
-    });
     const nodesWithHardcodedIds = [];
-    const customPrefixes = new Array(100);
-    for (let i = 0; i < customPrefixes.length; i++) {
-      const prefix = ("" + i).length === 1 ? "a0" + String(i) : "a" + String(i);
-      prefixes.push(prefix);
-    }
-    for (const prefix of prefixes) {
-      const match18charIds: RegExp = new RegExp("\\b" + prefix + "\\w{15}\\b");
-      const match15charIds: RegExp = new RegExp("\\b" + prefix + "\\w{12}\\b");
-      for (const node of flow.elements) {
-        const nodeString = JSON.stringify(node);
-        const hardcodedIdsL18 = nodeString.match(match18charIds);
-        const hardcodedIdsL15 = nodeString.match(match15charIds);
-        if (hardcodedIdsL15 || hardcodedIdsL18) {
-          nodesWithHardcodedIds.push(node);
-        }
+    const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;
+    
+    for (const node of flow.elements) {
+      const nodeString = JSON.stringify(node);
+      if (salesforceIdRegex.test(nodeString)) {
+        nodesWithHardcodedIds.push(node);
       }
     }
-    const results = [];
-    for (const det of nodesWithHardcodedIds) {
-      results.push(new core.ResultDetails(det));
-    }
+    
+    const results = nodesWithHardcodedIds.map((node) => new core.ResultDetails(node));
     return new core.RuleResult(this, results);
   }
 }
