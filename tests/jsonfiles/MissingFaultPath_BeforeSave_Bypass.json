@@ -161,7 +161,8 @@
         },
         { "element": "Draft", "subtype": "status", "metaType": "metadata" }
       ],
-      "startReference": "Update_triggering_records"
+      "startReference": "Update_triggering_records",
+      "triggerOrder": 10
     }
   }
 ]

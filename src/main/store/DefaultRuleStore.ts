@@ -16,6 +16,7 @@ import { UnconnectedElement } from "../rules/UnconnectedElement";
 import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
 import { SameRecordFieldUpdates } from "../rules/SameRecordFieldUpdates";
+import { TriggerOrder } from "../rules/TriggerOrder";
 
 export const DefaultRuleStore: object = {
   APIVersion,
@@ -33,6 +34,7 @@ export const DefaultRuleStore: object = {
   SOQLQueryInLoop,
   UnconnectedElement,
   UnusedVariable,
+  TriggerOrder,
   InactiveFlow,
   UnsafeRunningContext,
   SameRecordFieldUpdates,
