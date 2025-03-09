@@ -193,7 +193,7 @@ describe("Exceptions", () => {
             { element: "Draft", subtype: "status", metaType: "metadata" },
           ],
           startReference: "testtest",
-        } as unknown as core.Flow,
+        } as Partial<core.Flow> as core.Flow,
       },
     ];
     const ruleConfig = {
@@ -407,7 +407,7 @@ describe("Exceptions", () => {
             { element: "Draft", subtype: "status", metaType: "metadata" },
           ],
           startReference: "testtest",
-        } as unknown as core.Flow,
+        } as Partial<core.Flow> as core.Flow,
       },
       {
         uri: "something",
@@ -596,7 +596,7 @@ describe("Exceptions", () => {
             { element: "Draft", subtype: "status", metaType: "metadata" },
           ],
           startReference: "testtest",
-        } as unknown as core.Flow,
+        } as Partial<core.Flow> as core.Flow,
       },
       {
         uri: "something",
@@ -785,7 +785,7 @@ describe("Exceptions", () => {
             { element: "Draft", subtype: "status", metaType: "metadata" },
           ],
           startReference: "testtest",
-        } as unknown as core.Flow,
+        } as Partial<core.Flow> as core.Flow,
       },
     ];
     const ruleConfig = {

@@ -62,7 +62,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -123,7 +123,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -213,7 +213,7 @@ describe("SameRecordFieldUpdates", () => {
           },
         ],
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 
@@ -232,7 +232,7 @@ describe("SameRecordFieldUpdates", () => {
           triggerType: "RecordBeforeSave",
         },
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = rule.execute(testData.flow as Flow);
 

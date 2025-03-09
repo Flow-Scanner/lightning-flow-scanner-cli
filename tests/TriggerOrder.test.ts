@@ -11,7 +11,7 @@ describe("TriggerOrder", () => {
         flow: {
           type: "AutoLaunchedFlow",
         },
-      } as unknown as ParsedFlow,
+      } as Partial<ParsedFlow> as ParsedFlow,
     ];
     const results: ScanResult[] = scan(flows);
     const scanResults = results.pop();
@@ -38,7 +38,7 @@ describe("TriggerOrder", () => {
         flow: {
           type: "AutoLaunchedFlow",
         },
-      } as unknown as ParsedFlow,
+      } as Partial<ParsedFlow> as ParsedFlow,
     ];
     const results: ScanResult[] = scan(flows, ruleConfig);
     const scanResults = results.pop();
@@ -55,7 +55,7 @@ describe("TriggerOrder", () => {
         flow: {
           type: "AutoLaunchedFlow",
         },
-      } as unknown as ParsedFlow,
+      } as Partial<ParsedFlow> as ParsedFlow,
     ];
 
     const ruleConfig = {
@@ -80,7 +80,7 @@ describe("TriggerOrder", () => {
       flow: {
         type: "AutoLaunchedFlow",
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = new TriggerOrder().execute(testData.flow as Flow);
 
@@ -93,7 +93,7 @@ describe("TriggerOrder", () => {
         triggerOrder: 10,
         type: "AutoLaunchedFlow",
       },
-    } as unknown as ParsedFlow;
+    } as Partial<ParsedFlow> as ParsedFlow;
 
     const ruleResult: RuleResult = new TriggerOrder().execute(testData.flow as Flow);
 
