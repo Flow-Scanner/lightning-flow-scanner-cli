@@ -21,7 +21,7 @@ export class TriggerOrder extends RuleCommon implements core.IRuleDefinition {
         isConfigurable: false,
         autoFixable: false,
       },
-      { severity: "warning" }
+      { severity: "note" }
     );
   }
 
