@@ -5,6 +5,25 @@ import { TriggerOrder } from "../src/main/rules/TriggerOrder";
 import { describe, it, expect } from "@jest/globals";
 
 describe("TriggerOrder", () => {
+  it("should be included from default configuration on store", async () => {
+    const flows: ParsedFlow[] = [
+      {
+        flow: {
+          type: "AutoLaunchedFlow",
+        },
+      } as unknown as ParsedFlow,
+    ];
+    const results: ScanResult[] = scan(flows);
+    const scanResults = results.pop();
+
+    const ruleResults = scanResults?.ruleResults.find((rule) => {
+      return rule.ruleDefinition.name === "TriggerOrder";
+    }) as RuleResult;
+    expect(ruleResults).toBeTruthy();
+    expect(ruleResults.occurs).toBeTruthy();
+    expect(ruleResults.severity).toBe("note");
+  });
+
   it("should not trigger from default configuration on store", async () => {
     const ruleConfig = {
       rules: {
@@ -17,9 +36,7 @@ describe("TriggerOrder", () => {
     const flows: ParsedFlow[] = [
       {
         flow: {
-          xmldata: {
-            description: "",
-          },
+          type: "AutoLaunchedFlow",
         },
       } as unknown as ParsedFlow,
     ];
