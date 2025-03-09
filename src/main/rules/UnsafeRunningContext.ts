@@ -7,8 +7,9 @@ export class UnsafeRunningContext extends RuleCommon implements core.IRuleDefini
       {
         name: "UnsafeRunningContext",
         label: "Unsafe Running Context",
-        description:
-          "This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.",
+        description: `This flow is configured to run in System Mode without Sharing. 
+          This system context grants all running users the permission to view and edit all data in your org. 
+          Running a flow in System Mode without Sharing can lead to unsafe data access.`,
         supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
         docRefs: [
           {
