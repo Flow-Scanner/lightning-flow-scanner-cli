@@ -61,7 +61,7 @@ describe("TriggerOrder", () => {
     const ruleConfig = {
       rules: {
         TriggerOrder: {
-          severity: "note",
+          severity: "error",
         },
       },
       exceptions: {},
