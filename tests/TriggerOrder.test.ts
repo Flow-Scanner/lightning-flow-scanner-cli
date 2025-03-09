@@ -13,7 +13,7 @@ describe("TriggerOrder", () => {
         },
       } as unknown as ParsedFlow,
     ];
-    const results: ScanResult[] = scan(flows, {});
+    const results: ScanResult[] = scan(flows);
     const scanResults = results.pop();
 
     const ruleResults = scanResults?.ruleResults.find((rule) => {
