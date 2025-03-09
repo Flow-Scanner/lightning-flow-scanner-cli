@@ -16,32 +16,32 @@ export class APIVersion extends RuleCommon implements core.IRuleDefinition {
   }
 
   public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
-    let flowAPIVersionNumber: number;
+    let flowAPIVersionNumber: number | null = null;
     if (flow.xmldata.apiVersion) {
       const flowAPIVersion = flow.xmldata.apiVersion;
       flowAPIVersionNumber = +flowAPIVersion;
     }
-    if (flowAPIVersionNumber) {
-      if (options && options.expression) {
-        const expressionEvaluation = eval(flowAPIVersionNumber + options.expression);
-        return !expressionEvaluation
-          ? new core.RuleResult(this, [
-              new core.ResultDetails(
-                new core.FlowAttribute(
-                  !expressionEvaluation ? "" + flowAPIVersionNumber : undefined,
-                  "apiVersion",
-                  options.expression
-                )
-              ),
-            ])
-          : new core.RuleResult(this, []);
-      } else {
-        return new core.RuleResult(this, []);
-      }
-    } else {
-      return new core.RuleResult(this, [
-        new core.ResultDetails(new core.FlowAttribute("API Version <49", "apiVersion", "<49")),
-      ]);
+    const results: core.ResultDetails[] = [];
+    if (!flowAPIVersionNumber) {
+      results.push(
+        new core.ResultDetails(new core.FlowAttribute("API Version <49", "apiVersion", "<49"))
+      );
+
+      return new core.RuleResult(this, results);
     }
+    if (options && options.expression) {
+      const isApiNumberMoreThanConfiguredExpression = new Function(
+        `return ${flowAPIVersionNumber}${options.expression};`
+      );
+      if (!isApiNumberMoreThanConfiguredExpression()) {
+        results.push(
+          new core.ResultDetails(
+            new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
+          )
+        );
+      }
+    }
+
+    return new core.RuleResult(this, results);
   }
 }

@@ -46,6 +46,7 @@ describe("APIVersion", () => {
       rules: {
         APIVersion: {
           severity: "error",
+          expression: ">55",
         },
       },
     };
@@ -54,5 +55,22 @@ describe("APIVersion", () => {
     expect(results[0].ruleResults).toHaveLength(1);
     expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
     expect(results[0].ruleResults[0].occurs).toBe(false);
+  });
+
+  it("should have a result when configured is more than what the file has", async () => {
+    const flows = await core.parse([fixed_uri]);
+    const ruleConfig = {
+      rules: {
+        APIVersion: {
+          severity: "error",
+          expression: ">=60",
+        },
+      },
+    };
+
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
+    expect(results[0].ruleResults).toHaveLength(1);
+    expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
+    expect(results[0].ruleResults[0].occurs).toBe(true);
   });
 });

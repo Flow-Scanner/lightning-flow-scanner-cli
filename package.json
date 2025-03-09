@@ -25,7 +25,7 @@
     "postversion": "cp package.json ../.. && cp package-lock.json ../..",
     "clean": "rm -rf out dist types",
     "vite:dist": "npm run swc:build && vite build",
-    "stryker": "stryker run"
+    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run"
   },
   "keywords": [],
   "license": "MIT",
@@ -57,9 +57,5 @@
   },
   "dependencies": {
     "xmlbuilder2": "^3.1.1"
-  },
-  "optionalDependencies": {
-    "@stryker-mutator/core": "8.7.1",
-    "@stryker-mutator/jest-runner": "8.7.1"
   }
 }
