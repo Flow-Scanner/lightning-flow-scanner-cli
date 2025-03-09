@@ -8,15 +8,57 @@ describe("InactiveFlow", () => {
     const flows: ParsedFlow[] = [
       {
         flow: {
-          elements: [
-            {
-              subtype: "status",
-              element: "Draft",
-            },
-          ],
+          type: "AutoLaunchedFlow",
+          status: "Draft",
+        },
+      } as Partial<ParsedFlow> as ParsedFlow,
+    ];
+    const ruleConfig = {
+      rules: {
+        InactiveFlow: {
+          severity: "error",
+        },
+      },
+    };
+
+    const results: ScanResult[] = scan(flows, ruleConfig);
+    const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
+    expect(occurringResults).toHaveLength(1);
+    expect(occurringResults[0].ruleName).toBe("InactiveFlow");
+    expect(occurringResults[0].occurs).toBeTruthy();
+  });
+
+  it("should have no result when flow is active", async () => {
+    const flows: ParsedFlow[] = [
+      {
+        flow: {
+          status: "Active",
           type: "AutoLaunchedFlow",
         },
-      } as unknown as ParsedFlow,
+      } as Partial<ParsedFlow> as ParsedFlow,
+    ];
+    const ruleConfig = {
+      rules: {
+        InactiveFlow: {
+          severity: "error",
+        },
+      },
+    };
+
+    const [result] = scan(flows, ruleConfig);
+    expect(result.ruleResults).toHaveLength(1);
+    expect(result.ruleResults[0].ruleName).toEqual("InactiveFlow");
+    expect(result.ruleResults[0].occurs).toBeFalsy();
+  });
+
+  it("should return a result when flow is obsolete", async () => {
+    const flows: ParsedFlow[] = [
+      {
+        flow: {
+          type: "AutoLaunchedFlow",
+          status: "Obsolete",
+        },
+      } as Partial<ParsedFlow> as ParsedFlow,
     ];
     const ruleConfig = {
       rules: {
@@ -32,18 +74,14 @@ describe("InactiveFlow", () => {
     expect(occurringResults[0].ruleName).toBe("InactiveFlow");
   });
 
-  it("should have no result when flow is active", async () => {
+  it("should return a result when flow is InvalidDraft (draft)", async () => {
     const flows: ParsedFlow[] = [
       {
         flow: {
-          elements: [
-            {
-              subtype: "status",
-              element: "Active",
-            },
-          ],
+          type: "AutoLaunchedFlow",
+          status: "InvalidDraft",
         },
-      } as unknown as ParsedFlow,
+      } as Partial<ParsedFlow> as ParsedFlow,
     ];
     const ruleConfig = {
       rules: {
@@ -53,9 +91,9 @@ describe("InactiveFlow", () => {
       },
     };
 
-    const [result] = scan(flows, ruleConfig);
-    expect(result.ruleResults).toHaveLength(1);
-    expect(result.ruleResults[0].ruleName).toEqual("InactiveFlow");
-    expect(result.ruleResults[0].occurs).toBeFalsy();
+    const results: ScanResult[] = scan(flows, ruleConfig);
+    const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
+    expect(occurringResults).toHaveLength(1);
+    expect(occurringResults[0].ruleName).toBe("InactiveFlow");
   });
 });

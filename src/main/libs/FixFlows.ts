@@ -8,9 +8,9 @@ export function fix(results: core.ScanResult[]): core.ScanResult[] {
       const fixables: core.RuleResult[] = result.ruleResults.filter(
         (r) =>
           (r.ruleName === "UnusedVariable" && r.occurs) ||
-          (r.ruleName === "UnconnectedElement" && r.occurs)
+          (r.ruleName === "UnconnectedElement" && r.occurs) // TODO: this should be rule.occurs && rule.ruleDefinition.fixable
       );
-      if (fixables && fixables.length > 0) {
+      if (fixables?.length > 0) {
         const newFlow: core.Flow = FixFlows(result.flow, fixables);
         result.flow = newFlow;
         newResults.push(result);
@@ -22,6 +22,7 @@ export function fix(results: core.ScanResult[]): core.ScanResult[] {
 }
 
 export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.Flow {
+  // TODO: this should be defined on the rule
   const unusedVariableRes = ruleResults.find((r) => r.ruleName === "UnusedVariable");
   const unusedVariableReferences =
     unusedVariableRes && unusedVariableRes.details && unusedVariableRes.details.length > 0
