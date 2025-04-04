@@ -41,7 +41,7 @@
     "@swc/core": "1.11.13",
     "@swc/helpers": "0.5.15",
     "@types/jest": "29.5.14",
-    "@types/node": "22.13.14",
+    "@types/node": "22.13.17",
     "@types/semantic-release": "20.0.6",
     "eslint": "9.23.0",
     "eslint-plugin-jest": "28.11.0",
