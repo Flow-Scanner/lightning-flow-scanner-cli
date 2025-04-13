@@ -3,6 +3,7 @@
   "version": "4.26.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "module": "index.js",
   "type": "module",
   "engines": {
     "node": "^20 || ^22 || ^23"
