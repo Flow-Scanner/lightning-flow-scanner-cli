@@ -6,7 +6,7 @@ export class DynamicRule {
     if (DefaultRuleStore[className] === undefined || DefaultRuleStore[className] === null) {
       const customRule = RuleLoader.loadCustomRule(
         className,
-        p.join(__dirname, `../rules/${className}`)
+        p.join(new URL(".", import.meta.url).pathname, `../rules/${className}`)
       );
       if (customRule) {
         return customRule;

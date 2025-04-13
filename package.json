@@ -17,7 +17,8 @@
     "tsc:cp:files": "cp ./readme.md ./package*.json ./out/ && cp -R ./media ./out/",
     "tsc:postversion": "cp package.json .. && cp package-lock.json ..",
     "swc:build": "swc src --out-dir out",
-    "swc:build:link": "npm run swc:build && npm run swc:cp:types && npm run swc:cp:files && npm link ./out/src",
+    "swc:build:link": "npm run swc:build && npm run swc:cp:files && npm link ./out/src",
+    "swc:build:bak:link": "npm run swc:build && npm run swc:cp:types && npm run swc:cp:files && npm link ./out/src",
     "swc:gen:types": "tsc -p tsconfig.types.json --declaration --emitDeclarationOnly",
     "swc:cp:types": "npm run swc:gen:types && cp -R ./types/* ./out/src",
     "swc:cp:files": "cp ./readme.md ./package*.json ./out/src && cp -R ./media ./out/src",
@@ -56,6 +57,7 @@
     "vite-plugin-node-polyfills": "0.23.0"
   },
   "dependencies": {
+    "import-sync": "^2.2.3",
     "xmlbuilder2": "^3.1.1"
   }
 }
