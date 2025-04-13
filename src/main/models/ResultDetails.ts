@@ -23,7 +23,7 @@ export class ResultDetails {
       this.details = {
         locationX: element.locationX,
         locationY: element.locationY,
-        connectsTo: element.connectors.map((connector) => connector.reference),
+        connectsTo: element.connectors?.map((connector) => connector.reference),
       };
     }
     if (violation.metaType === "attribute") {

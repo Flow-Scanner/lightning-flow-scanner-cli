@@ -2,7 +2,11 @@ import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 
 export class SameRecordFieldUpdates extends RuleCommon implements core.IRuleDefinition {
-  protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>(["Create", "Update"]);
+  protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>([
+    "Create",
+    "Update",
+    "CreateAndUpdate",
+  ]);
 
   constructor() {
     super(
