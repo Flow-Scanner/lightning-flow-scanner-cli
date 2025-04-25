@@ -10,6 +10,9 @@ describe("TriggerOrder", () => {
       {
         flow: {
           type: "AutoLaunchedFlow",
+          start: {
+            object: "Account",
+          },
         },
       } as Partial<ParsedFlow> as ParsedFlow,
     ];
@@ -54,6 +57,9 @@ describe("TriggerOrder", () => {
       {
         flow: {
           type: "AutoLaunchedFlow",
+          start: {
+            object: "Account",
+          },
         },
       } as Partial<ParsedFlow> as ParsedFlow,
     ];
@@ -79,6 +85,9 @@ describe("TriggerOrder", () => {
     const testData: ParsedFlow = {
       flow: {
         type: "AutoLaunchedFlow",
+        start: {
+          object: "Account",
+        },
       },
     } as Partial<ParsedFlow> as ParsedFlow;
 
@@ -92,6 +101,9 @@ describe("TriggerOrder", () => {
       flow: {
         triggerOrder: 10,
         type: "AutoLaunchedFlow",
+        start: {
+          object: "Account",
+        },
       },
     } as Partial<ParsedFlow> as ParsedFlow;
 
