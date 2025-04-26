@@ -55,7 +55,7 @@ describe("RecursiveAfterUpdate", () => {
       const ruleConfig = {
         rules: {
           RecursiveAfterUpdate: {
-            severity: "warning",
+            severity: "error",
           },
         },
         exceptions: {},
