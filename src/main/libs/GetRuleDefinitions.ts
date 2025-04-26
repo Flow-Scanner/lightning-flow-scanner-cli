@@ -3,10 +3,9 @@ import { DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 import { RuleLoader } from "./RuleLoader";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinition[] {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selectedRules: any[] = [];
+// TODO: Refactor to include beta, opt-in rules.
+export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>): IRuleDefinition[] {
+  const selectedRules: IRuleDefinition[] = [];
   if (ruleConfig && ruleConfig instanceof Map) {
     for (const ruleName of ruleConfig.keys()) {
       let severity = "error";
@@ -22,12 +21,12 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
           severity = configuredSeverity;
         }
         if (configuredPath) {
-          const customRule = RuleLoader.loadCustomRule(ruleName, configuredPath);
-          selectedRules["severity"] = severity;
+          const customRule = RuleLoader.loadCustomRule(ruleName, configuredPath) as IRuleDefinition;
+          customRule.severity = severity;
           selectedRules.push(customRule);
         } else {
-          const matchedRule = new DynamicRule(ruleName);
-          matchedRule["severity"] = severity;
+          const matchedRule = new DynamicRule(ruleName) as IRuleDefinition;
+          matchedRule.severity = severity;
           selectedRules.push(matchedRule);
         }
       } catch (error) {
@@ -35,9 +34,8 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, {}>): IRuleDefinitio
       }
     }
   } else {
-    // tslint:disable-next-line:forin
     for (const rule in DefaultRuleStore) {
-      const matchedRule = new DynamicRule(rule);
+      const matchedRule = new DynamicRule(rule) as IRuleDefinition;
       selectedRules.push(matchedRule);
     }
   }

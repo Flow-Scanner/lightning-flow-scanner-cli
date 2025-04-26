@@ -18,8 +18,8 @@ function internalOptedInRule(ruleName: string): IRuleDefinition | never {
 export class DynamicRule {
   constructor(className: string) {
     if (DefaultRuleStore[className] === undefined || DefaultRuleStore[className] === null) {
-      return internalOptedInRule(className);
+      return internalOptedInRule(className) as IRuleDefinition;
     }
-    return new DefaultRuleStore[className]();
+    return new DefaultRuleStore[className]() as IRuleDefinition;
   }
 }
