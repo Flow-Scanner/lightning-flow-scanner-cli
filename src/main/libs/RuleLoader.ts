@@ -1,6 +1,5 @@
 import * as p from "path";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import importSync from "import-sync";
 
 export class RuleLoader {
   static loadCustomRule(ruleName: string, filePath: string): IRuleDefinition | undefined {
@@ -10,8 +9,8 @@ export class RuleLoader {
       const absolutePath = p.resolve(process.cwd(), filePath);
 
       // Synchronously load the module based on the absolute file path
-
-      const module = importSync(absolutePath);
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const module = require(absolutePath);
 
       // Check if the module exports the given rule
       if (module[ruleName] && typeof module[ruleName] === "function") {

@@ -2,7 +2,7 @@
   "$schema": "https://swc.rs/schema.json",
   "sourceMaps": false,
   "module": {
-    "type": "es6",
+    "type": "commonjs",
     "strictMode": true,
     "noInterop": false,
     "resolveFully": true
