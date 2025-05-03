@@ -34,6 +34,7 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 | **Trigger Order** ([`TriggerOrder`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/TriggerOrder.ts)) | Guarantee your flow execution order with the Trigger Order property introduced in Spring '22 |
 | **Cyclomatic Complexity** ([`CyclomaticComplexity`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/CyclomaticComplexity.ts)) | The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity. |
 | **Recursive After Update** ([`RecursiveAfterUpdate`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/RecursiveAfterUpdate.ts)) | After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates. |
+| **Get Record All Fields** ([`GetRecordAllFields`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/GetRecordAllFields.ts)) | Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary. |
 
 ## Core Functions
 
