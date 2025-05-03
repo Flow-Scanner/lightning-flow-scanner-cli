@@ -25,7 +25,7 @@ concurrency:
 jobs:
   deploy_to_npm:
     name: Deploy to NPM (release)
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions: read-all
     environment:
       name: release
