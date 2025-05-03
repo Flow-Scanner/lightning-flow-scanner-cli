@@ -26,7 +26,7 @@ jobs:
   # Deploy to NPM
   deploy_to_npm:
     name: Deploy to NPM (beta)
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
