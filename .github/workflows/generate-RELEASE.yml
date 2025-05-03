@@ -18,7 +18,7 @@ jobs:
   # Deploy to NPM
   deploy_to_npm:
     name: Generate a Release Version and Commit to Repo
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
