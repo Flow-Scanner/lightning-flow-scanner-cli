@@ -24,5 +24,7 @@ jobs:
         run: npm ci
       - name: Run test UMD compile
         run: npm run vite:dist
+      - name: Run test package compile
+        run: npm run swc:sim:pack
       - name: Run unit tests
         run: npm run test
