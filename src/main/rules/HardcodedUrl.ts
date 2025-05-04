@@ -38,7 +38,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
   public execute(flow: Flow): RuleResult {
     const results: ResultDetails[] = [];
 
-    if (!flow.elements) {
+    if (!flow.elements || flow.elements.length === 0) {
       return new RuleResult(this, results);
     }
 

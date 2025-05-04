@@ -67,6 +67,16 @@ describe("HardcodedUrl", () => {
       expect(result.occurs).toBe(false);
     });
 
+    it("should return empty results when flow has no element property", () => {
+      const flow = {
+        type: "AutoLaunchedFlow",
+      } as Partial<Flow> as Flow;
+
+      const result = rule.execute(flow);
+      expect(result).toBeDefined();
+      expect(result.occurs).toBe(false);
+    });
+
     it("should return empty results when url is generic", () => {
       const flow = {
         type: "AutoLaunchedFlow",
