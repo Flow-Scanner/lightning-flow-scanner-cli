@@ -1,6 +1,5 @@
 import type { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import type { IRulesConfig } from "../interfaces/IRulesConfig";
-import type { AutoFixable } from "../interfaces/Autofixable";
 import { Compiler } from "../libs/Compiler";
 import { Flow } from "../models/Flow";
 import { FlowAttribute } from "../models/FlowAttribute";
@@ -30,4 +29,4 @@ export {
   RuleCommon,
   ParsedFlow,
 };
-export type { IRuleDefinition, IRulesConfig, AutoFixable };
+export type { IRuleDefinition, IRulesConfig };

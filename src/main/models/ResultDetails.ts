@@ -1,16 +1,16 @@
+import { FlowElement } from "../internals/internals";
 import { FlowAttribute } from "./FlowAttribute";
-import { FlowElement } from "./FlowElement";
 import { FlowNode } from "./FlowNode";
 import { FlowVariable } from "./FlowVariable";
 
 export class ResultDetails {
-  public violation: FlowElement;
+  public violation: FlowAttribute | FlowElement;
   public name: string;
   public type: string;
   public metaType: string;
   public details: object;
 
-  constructor(violation: FlowElement) {
+  constructor(violation: FlowAttribute | FlowElement) {
     this.violation = violation;
     this.name = violation.name as string;
     this.metaType = violation.metaType;
