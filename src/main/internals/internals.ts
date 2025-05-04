@@ -1,5 +1,6 @@
 import type { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import type { IRulesConfig } from "../interfaces/IRulesConfig";
+import type { AutoFixable } from "../interfaces/Autofixable";
 import { Compiler } from "../libs/Compiler";
 import { Flow } from "../models/Flow";
 import { FlowAttribute } from "../models/FlowAttribute";
@@ -11,6 +12,8 @@ import { FlowVariable } from "../models/FlowVariable";
 import { ResultDetails } from "../models/ResultDetails";
 import { RuleResult } from "../models/RuleResult";
 import { ScanResult } from "../models/ScanResult";
+import { RuleCommon } from "../models/RuleCommon";
+import { ParsedFlow } from "../models/ParsedFlow";
 
 export {
   FlowAttribute,
@@ -24,5 +27,7 @@ export {
   ScanResult,
   RuleResult,
   ResultDetails,
+  RuleCommon,
+  ParsedFlow,
 };
-export type { IRuleDefinition, IRulesConfig };
+export type { IRuleDefinition, IRulesConfig, AutoFixable };

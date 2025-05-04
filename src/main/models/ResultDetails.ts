@@ -1,17 +1,18 @@
 import { FlowAttribute } from "./FlowAttribute";
+import { FlowElement } from "./FlowElement";
 import { FlowNode } from "./FlowNode";
 import { FlowVariable } from "./FlowVariable";
 
 export class ResultDetails {
-  public violation: FlowNode | FlowVariable | FlowAttribute;
+  public violation: FlowElement;
   public name: string;
   public type: string;
   public metaType: string;
   public details: object;
 
-  constructor(violation: FlowNode | FlowVariable | FlowAttribute) {
+  constructor(violation: FlowElement) {
     this.violation = violation;
-    this.name = violation.name;
+    this.name = violation.name as string;
     this.metaType = violation.metaType;
     this.type = violation.subtype;
     if (violation.metaType === "variable") {
