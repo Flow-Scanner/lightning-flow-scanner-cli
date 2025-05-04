@@ -27,7 +27,8 @@
     "postversion": "cp package.json ../.. && cp package-lock.json ../..",
     "clean": "rm -rf out dist types",
     "vite:dist": "npm run swc:build && vite build",
-    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run"
+    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run",
+    "prepush": "npm run clean && npm run swc:sim:pack && npm run test"
   },
   "keywords": [],
   "license": "MIT",
