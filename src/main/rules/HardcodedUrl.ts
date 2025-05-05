@@ -12,7 +12,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     super(
       {
         name: "HardcodedUrl",
-        label: "**Beta** Hardcoded Url",
+        label: "Hardcoded Url",
         description:
           "Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",
         supportedTypes: FlowType.allTypes(),
