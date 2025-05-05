@@ -15,8 +15,7 @@ export class CustomNamingConvention implements IRuleDefinition {
   supportedTypes: string[];
   isConfigurable: boolean;
   autoFixable: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  docRefs: any;
+  docRefs: { label: string; path: string }[];
 
   constructor() {
     this.name = "CustomNamingConvention";
