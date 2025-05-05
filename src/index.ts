@@ -12,7 +12,7 @@ import { ParsedFlow } from "./main/models/ParsedFlow";
 
 import { Compiler } from "./main/libs/Compiler";
 import { fix } from "./main/libs/FixFlows";
-import { getRules } from "./main/libs/GetRuleDefinitions";
+import { getRules, getBetaRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
 import { scan } from "./main/libs/ScanFlows";
 
@@ -33,6 +33,7 @@ export {
   Compiler,
   ParsedFlow,
   getRules,
+  getBetaRules,
   parse,
   scan,
   fix,

@@ -1,9 +1,8 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { DefaultRuleStore } from "../store/DefaultRuleStore";
+import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 import { RuleLoader } from "./RuleLoader";
 
-// TODO: Refactor to include beta, opt-in rules.
 export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>): IRuleDefinition[] {
   const selectedRules: IRuleDefinition[] = [];
   if (ruleConfig && ruleConfig instanceof Map) {
@@ -22,11 +21,15 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>): IRuleDefi
         }
         if (configuredPath) {
           const customRule = RuleLoader.loadCustomRule(ruleName, configuredPath) as IRuleDefinition;
-          customRule.severity = severity;
+          if (configuredSeverity) {
+            customRule.severity = severity;
+          }
           selectedRules.push(customRule);
         } else {
           const matchedRule = new DynamicRule(ruleName) as IRuleDefinition;
-          matchedRule.severity = severity;
+          if (configuredSeverity) {
+            matchedRule.severity = severity;
+          }
           selectedRules.push(matchedRule);
         }
       } catch (error) {
@@ -50,4 +53,10 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   } else {
     return GetRuleDefinitions();
   }
+}
+
+export function getBetaRules(): IRuleDefinition[] {
+  return GetRuleDefinitions(
+    new Map<string, string>(Object.keys(BetaRuleStore).map((name) => [name, ""]))
+  );
 }

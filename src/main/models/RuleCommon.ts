@@ -21,13 +21,10 @@ export class RuleCommon {
     this.supportedTypes = info.supportedTypes;
     this.label = info.label;
     this.description = info.description;
-    this.uri =
-      "https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/" +
-      info.name +
-      ".ts";
+    this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/${info.name}.ts`;
     this.docRefs = info.docRefs;
     this.isConfigurable = info.isConfigurable;
     this.autoFixable = info.autoFixable;
-    this.severity = optional && optional.severity ? optional.severity : "error";
+    this.severity = optional?.severity ?? "error";
   }
 }
