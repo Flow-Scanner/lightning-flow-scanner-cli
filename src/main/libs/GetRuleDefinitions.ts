@@ -57,6 +57,6 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
 
 export function getBetaRules(): IRuleDefinition[] {
   return GetRuleDefinitions(
-    new Map<string, string>(Object.keys(BetaRuleStore).map((name) => [name, ""]))
+    new Map<string, unknown>(Object.keys(BetaRuleStore).map((name) => [name, {}]))
   );
 }
