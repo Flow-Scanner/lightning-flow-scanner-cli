@@ -67,4 +67,61 @@ describe("Flow Model", () => {
     expect(errors).toBeTruthy();
     expect(errors).not.toBeInstanceOf(NoErrorThrownError);
   });
+
+  it("should identify transformElement as a FlowNode", () => {
+    const sut: Flow = new Flow();
+    sut.xmldata = {
+      transforms: [
+        {
+          name: "OCR_Mapping",
+          description: "OCR Mapping",
+          label: "OCR Mapping",
+          locationX: "176",
+          locationY: "323",
+          connector: {
+            targetReference: "OCR",
+          },
+          dataType: "SObject",
+          isCollection: "false",
+          objectType: "OpportunityContactRole",
+          scale: "0",
+          transformValues: {
+            transformValueActions: [
+              {
+                outputFieldApiName: "OpportunityId",
+                transformType: "Map",
+                value: {
+                  elementReference: "$Record.Id",
+                },
+              },
+              {
+                outputFieldApiName: "ContactId",
+                transformType: "Map",
+                value: {
+                  elementReference: "$Record.ContactId",
+                },
+              },
+              {
+                outputFieldApiName: "Role",
+                transformType: "Map",
+                value: {
+                  stringValue: "Decision Maker",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    sut["preProcessNodes"]();
+
+    expect(sut.elements).toBeDefined();
+    expect(sut.elements).toHaveLength(1);
+    const element = sut.elements?.pop();
+    expect(element).toBeDefined();
+    expect(element).toHaveProperty("name", "OCR_Mapping");
+    expect(element?.metaType).toBe("node");
+    expect(element?.subtype).toBe("transforms");
+  });
 });

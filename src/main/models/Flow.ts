@@ -63,6 +63,7 @@ export class Flow {
     "steps",
     "subflows",
     "waits",
+    "transforms",
   ];
 
   constructor(path?: string, data?: unknown);

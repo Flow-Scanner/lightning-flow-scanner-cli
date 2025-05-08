@@ -73,7 +73,7 @@ export class FlowNode extends FlowElement {
         }
       }
       return connectors;
-    } else if (subtype === "assignments") {
+    } else if (subtype === "assignments" || subtype === "transforms") {
       return element.connector
         ? [new FlowElementConnector("connector", element.connector, {})]
         : [];
