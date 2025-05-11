@@ -31,20 +31,20 @@ export const DefaultRuleStore: object = {
   FlowDescription,
   FlowName,
   HardcodedId,
+  InactiveFlow,
   MissingFaultPath,
   MissingNullHandler,
   ProcessBuilder,
-  SOQLQueryInLoop,
-  UnconnectedElement,
-  UnusedVariable,
-  TriggerOrder,
-  InactiveFlow,
-  UnsafeRunningContext,
+  RecursiveAfterUpdate,
   SameRecordFieldUpdates,
+  SOQLQueryInLoop,
+  TriggerOrder,
+  UnconnectedElement,
+  UnsafeRunningContext,
+  UnusedVariable,
 };
 
 export const BetaRuleStore: object = {
   GetRecordAllFields,
   HardcodedUrl,
-  RecursiveAfterUpdate,
 };

@@ -12,7 +12,7 @@ export class RecursiveAfterUpdate extends RuleCommon implements core.IRuleDefini
     super(
       {
         name: "RecursiveAfterUpdate",
-        label: "**Beta** Recursive After Update",
+        label: "Recursive After Update",
         description:
           "After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",
         supportedTypes: [...core.FlowType.backEndTypes],
