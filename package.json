@@ -40,7 +40,7 @@
   "devDependencies": {
     "@jest/types": "29.6.3",
     "@swc-node/jest": "1.8.13",
-    "@swc/cli": "0.7.5",
+    "@swc/cli": "0.7.7",
     "@swc/core": "1.11.24",
     "@swc/helpers": "0.5.17",
     "@types/jest": "29.5.14",
@@ -54,7 +54,7 @@
     "prettier": "3.5.3",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.32.0",
+    "typescript-eslint": "8.32.1",
     "vite": "6.3.5",
     "vite-plugin-node-polyfills": "0.23.0"
   },
