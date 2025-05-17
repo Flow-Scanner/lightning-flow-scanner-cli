@@ -15,7 +15,7 @@ export class ActionCallsInLoop extends RuleCommon implements core.IRuleDefinitio
           },
         ],
         isConfigurable: false,
-        label: "Action Calls In Loop",
+        label: "**Beta** Action Calls In Loop",
         name: "ActionCallsInLoop",
         supportedTypes: core.FlowType.backEndTypes,
       },

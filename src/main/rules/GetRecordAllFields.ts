@@ -5,11 +5,9 @@ export class GetRecordAllFields extends RuleCommon implements core.IRuleDefiniti
   constructor() {
     super(
       {
-        name: "GetRecordAllFields",
-        label: "**Beta** Get Record All Fields",
+        autoFixable: false,
         description:
           "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
-        supportedTypes: core.FlowType.allTypes(),
         docRefs: [
           {
             label: "SOQL and SOSL | Best Practices for Deployments with Large Data Volumes",
@@ -21,7 +19,9 @@ export class GetRecordAllFields extends RuleCommon implements core.IRuleDefiniti
           },
         ],
         isConfigurable: false,
-        autoFixable: false,
+        label: "Get Record All Fields",
+        name: "GetRecordAllFields",
+        supportedTypes: core.FlowType.allTypes(),
       },
       { severity: "warning" }
     );
@@ -51,11 +51,7 @@ export class GetRecordAllFields extends RuleCommon implements core.IRuleDefiniti
           "queriedFields" in concreteChildElement &&
           (concreteChildElement["queriedFields"] as string[]).length > 0;
 
-        if (storeAllFields && !hasQueriedFields) {
-          return true;
-        }
-
-        return false;
+        return storeAllFields && !hasQueriedFields;
       })
       .map((element) => {
         const getRecordElement = element as core.FlowNode;

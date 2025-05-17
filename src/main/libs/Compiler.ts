@@ -58,10 +58,10 @@ export class Compiler {
         connector?.connectorTargetReference?.targetReference ?? connector.reference;
       // Check if the reference exists in the flow elements
       const nextElement = flow.elements?.find(
-        (element) => element instanceof FlowNode && element.name === targetReference
+        (element) => element.metaType === "node" && element.name === targetReference
       );
-      if (nextElement instanceof FlowNode && nextElement.name !== endElementName) {
-        nextElements.push(nextElement.name);
+      if (nextElement && nextElement.metaType === "node" && nextElement.name !== endElementName) {
+        nextElements.push(nextElement!.name as string);
       }
     }
     return nextElements;

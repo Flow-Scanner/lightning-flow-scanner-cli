@@ -1,21 +1,19 @@
 import {
-  IRuleDefinition,
-  RuleCommon,
-  RuleResult,
   Flow,
   FlowType,
+  IRuleDefinition,
   ResultDetails,
+  RuleCommon,
+  RuleResult,
 } from "../internals/internals";
 
 export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
-        name: "HardcodedUrl",
-        label: "**Beta** Hardcoded Url",
+        autoFixable: false,
         description:
           "Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",
-        supportedTypes: FlowType.allTypes(),
         docRefs: [
           {
             label: "The Ultimate Guide to Salesforce Flow Best Practices",
@@ -27,7 +25,9 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
           },
         ],
         isConfigurable: false,
-        autoFixable: false,
+        label: "Hardcoded Url",
+        name: "HardcodedUrl",
+        supportedTypes: FlowType.allTypes(),
       },
       {
         severity: "warning",
