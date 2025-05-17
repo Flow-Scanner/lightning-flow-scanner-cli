@@ -49,6 +49,8 @@ export class ActionCallsInLoop extends RuleCommon implements core.IRuleDefinitio
       } else {
         loopEnd = element.name;
       }
+      // decide if we should count fault connectors as a violation
+      // if (typeof element.element === "object" && "faultConnector" in (element.element as object)) {}
       new core.Compiler().traverseFlow(flow, element.name, findActionCall, loopEnd);
     }
 
