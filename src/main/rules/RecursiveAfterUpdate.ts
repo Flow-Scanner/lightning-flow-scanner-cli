@@ -4,18 +4,16 @@ import { RuleCommon } from "../models/RuleCommon";
 export class RecursiveAfterUpdate extends RuleCommon implements core.IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>([
     "Create",
-    "Update",
     "CreateAndUpdate",
+    "Update",
   ]);
 
   constructor() {
     super(
       {
-        name: "RecursiveAfterUpdate",
-        label: "Recursive After Update",
+        autoFixable: false,
         description:
           "After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",
-        supportedTypes: [...core.FlowType.backEndTypes],
         docRefs: [
           {
             label: "Learn about same record field updates",
@@ -23,7 +21,9 @@ export class RecursiveAfterUpdate extends RuleCommon implements core.IRuleDefini
           },
         ],
         isConfigurable: false,
-        autoFixable: false,
+        label: "Recursive After Update",
+        name: "RecursiveAfterUpdate",
+        supportedTypes: [...core.FlowType.backEndTypes],
       },
       { severity: "warning" }
     );

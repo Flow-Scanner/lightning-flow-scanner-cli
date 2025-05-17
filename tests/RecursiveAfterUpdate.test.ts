@@ -1,7 +1,7 @@
-import { ParsedFlow } from "../src/main/models/ParsedFlow";
-import { RuleResult, Flow, scan } from "../src";
+import { describe, expect, it } from "@jest/globals";
 
-import { describe, it, expect } from "@jest/globals";
+import { Flow, RuleResult, scan } from "../src";
+import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { RecursiveAfterUpdate } from "../src/main/rules/RecursiveAfterUpdate";
 
 describe("RecursiveAfterUpdate", () => {
@@ -11,63 +11,69 @@ describe("RecursiveAfterUpdate", () => {
     it("should trigger from default configuration on store", () => {
       const testData: ParsedFlow = {
         flow: {
-          start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           elements: [
             {
-              subtype: "recordUpdates",
-              metaType: "node",
               element: {
                 inputReference: "$Record",
               },
+              metaType: "node",
+              subtype: "recordUpdates",
             },
           ],
+          start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           type: "AutoLaunchedFlow",
         },
       } as Partial<ParsedFlow> as ParsedFlow;
       const ruleConfig = {
-        rules: {},
         exceptions: {},
+        rules: {},
       };
       const results = scan([testData], ruleConfig);
       const scanResults = results.pop();
 
       expect(
-        scanResults?.ruleResults.some((rule) => rule.ruleName === "RecursiveAfterUpdate")
+        scanResults?.ruleResults.some(
+          (ruleResult) => ruleResult.ruleName === "RecursiveAfterUpdate"
+        )
       ).toBeTruthy();
     });
 
     it("should trigger from when opt-in", () => {
       const testData: ParsedFlow = {
         flow: {
-          start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           elements: [
             {
-              subtype: "recordUpdates",
-              metaType: "node",
               element: {
                 inputReference: "$Record",
               },
+              metaType: "node",
+              subtype: "recordUpdates",
             },
           ],
+          start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           type: "AutoLaunchedFlow",
         },
       } as Partial<ParsedFlow> as ParsedFlow;
       const ruleConfig = {
+        exceptions: {},
         rules: {
           RecursiveAfterUpdate: {
             severity: "error",
           },
         },
-        exceptions: {},
       };
       const results = scan([testData], ruleConfig);
       const scanResults = results.pop();
 
       expect(
-        scanResults?.ruleResults.some((rule) => rule.ruleName === "RecursiveAfterUpdate")
+        scanResults?.ruleResults.some(
+          (ruleResult) => ruleResult.ruleName === "RecursiveAfterUpdate"
+        )
       ).toBeTruthy();
       expect(
-        scanResults?.ruleResults?.find((rule) => rule.ruleName === "RecursiveAfterUpdate")?.occurs
+        scanResults?.ruleResults?.find(
+          (ruleResult) => ruleResult.ruleName === "RecursiveAfterUpdate"
+        )?.occurs
       ).toBeTruthy();
     });
   });
@@ -77,16 +83,16 @@ describe("RecursiveAfterUpdate", () => {
       it("should trigger when matching record input reference", () => {
         const testData: ParsedFlow = {
           flow: {
-            start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
             elements: [
               {
-                subtype: "recordUpdates",
-                metaType: "node",
                 element: {
                   inputReference: "$Record",
                 },
+                metaType: "node",
+                subtype: "recordUpdates",
               },
             ],
+            start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           },
         } as Partial<ParsedFlow> as ParsedFlow;
 
@@ -97,16 +103,16 @@ describe("RecursiveAfterUpdate", () => {
       it("should not trigger when not matching record input reference", () => {
         const testData: ParsedFlow = {
           flow: {
-            start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
             elements: [
               {
-                subtype: "recordUpdates",
-                metaType: "node",
                 element: {
                   inputReference: "SomethingElse",
                 },
+                metaType: "node",
+                subtype: "recordUpdates",
               },
             ],
+            start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
           },
         } as Partial<ParsedFlow> as ParsedFlow;
 
@@ -119,28 +125,28 @@ describe("RecursiveAfterUpdate", () => {
       it("should trigger when inferred type matches inputReference", () => {
         const testData: ParsedFlow = {
           flow: {
-            start: {
-              recordTriggerType: "CreateAndUpdate",
-              triggerType: "RecordAfterSave",
-              object: "Case",
-            },
             elements: [
               {
-                subtype: "recordLookups",
-                metaType: "node",
                 element: {
                   object: "Case",
                 },
+                metaType: "node",
                 name: "lookupElement",
+                subtype: "recordLookups",
               },
               {
-                subtype: "recordUpdates",
-                metaType: "node",
                 element: {
                   inputReference: "lookupElement",
                 },
+                metaType: "node",
+                subtype: "recordUpdates",
               },
             ],
+            start: {
+              object: "Case",
+              recordTriggerType: "CreateAndUpdate",
+              triggerType: "RecordAfterSave",
+            },
           },
         } as Partial<ParsedFlow> as ParsedFlow;
 
@@ -151,28 +157,28 @@ describe("RecursiveAfterUpdate", () => {
       it("should not trigger when no matching inferred reference", () => {
         const testData: ParsedFlow = {
           flow: {
-            start: {
-              recordTriggerType: "CreateAndUpdate",
-              triggerType: "RecordAfterSave",
-              object: "Case",
-            },
             elements: [
               {
-                subtype: "recordLookups",
-                metaType: "node",
                 element: {
                   object: "Case",
                 },
+                metaType: "node",
                 name: "lookupElement",
+                subtype: "recordLookups",
               },
               {
-                subtype: "recordUpdates",
-                metaType: "node",
                 element: {
                   inputReference: "SomethingElse",
                 },
+                metaType: "node",
+                subtype: "recordUpdates",
               },
             ],
+            start: {
+              object: "Case",
+              recordTriggerType: "CreateAndUpdate",
+              triggerType: "RecordAfterSave",
+            },
           },
         } as Partial<ParsedFlow> as ParsedFlow;
 
