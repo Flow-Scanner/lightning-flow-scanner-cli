@@ -1,17 +1,20 @@
-import globals from "globals";
-// import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
+import deMorgan from "eslint-plugin-de-morgan";
+import github from "eslint-plugin-github";
 import pluginJest from "eslint-plugin-jest";
+import perfectionist from "eslint-plugin-perfectionist";
+import sonarjs from "eslint-plugin-sonarjs";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default [
   { languageOptions: { globals: globals.browser } },
   ...tseslint.configs.recommended,
   {
     files: ["tests/*.test.ts"],
-    plugins: { jest: pluginJest },
     languageOptions: {
       globals: pluginJest.environments.globals.globals,
     },
+    plugins: { jest: pluginJest },
     rules: {
       "jest/no-disabled-tests": "warn",
       "jest/no-focused-tests": "error",
@@ -23,4 +26,10 @@ export default [
   {
     ignores: ["jest.config.ts"],
   },
+  perfectionist.configs["recommended-alphabetical"],
+  perfectionist.configs["recommended-line-length"],
+  perfectionist.configs["recommended-natural"],
+  sonarjs.configs.recommended,
+  deMorgan.configs.recommended,
+  ...github.getFlatConfigs().typescript,
 ];

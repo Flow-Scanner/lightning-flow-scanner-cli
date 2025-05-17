@@ -1,3 +1,4 @@
+import { ActionCallsInLoop } from "../rules/ActionCallsInLoop";
 import { APIVersion } from "../rules/APIVersion";
 import { AutoLayout } from "../rules/AutoLayout";
 import { CopyAPIName } from "../rules/CopyAPIName";
@@ -6,20 +7,20 @@ import { DMLStatementInLoop } from "../rules/DMLStatementInLoop";
 import { DuplicateDMLOperation } from "../rules/DuplicateDMLOperation";
 import { FlowDescription } from "../rules/FlowDescription";
 import { FlowName } from "../rules/FlowName";
+import { GetRecordAllFields } from "../rules/GetRecordAllFields";
 import { HardcodedId } from "../rules/HardcodedId";
+import { HardcodedUrl } from "../rules/HardcodedUrl";
 import { InactiveFlow } from "../rules/InactiveFlow";
 import { MissingFaultPath } from "../rules/MissingFaultPath";
 import { MissingNullHandler } from "../rules/MissingNullHandler";
 import { ProcessBuilder } from "../rules/ProcessBuilder";
+import { RecursiveAfterUpdate } from "../rules/RecursiveAfterUpdate";
+import { SameRecordFieldUpdates } from "../rules/SameRecordFieldUpdates";
 import { SOQLQueryInLoop } from "../rules/SOQLQueryInLoop";
+import { TriggerOrder } from "../rules/TriggerOrder";
 import { UnconnectedElement } from "../rules/UnconnectedElement";
 import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
-import { SameRecordFieldUpdates } from "../rules/SameRecordFieldUpdates";
-import { TriggerOrder } from "../rules/TriggerOrder";
-import { GetRecordAllFields } from "../rules/GetRecordAllFields";
-import { HardcodedUrl } from "../rules/HardcodedUrl";
-import { RecursiveAfterUpdate } from "../rules/RecursiveAfterUpdate";
 
 export const DefaultRuleStore: object = {
   APIVersion,
@@ -30,7 +31,9 @@ export const DefaultRuleStore: object = {
   DuplicateDMLOperation,
   FlowDescription,
   FlowName,
+  GetRecordAllFields,
   HardcodedId,
+  HardcodedUrl,
   InactiveFlow,
   MissingFaultPath,
   MissingNullHandler,
@@ -45,6 +48,5 @@ export const DefaultRuleStore: object = {
 };
 
 export const BetaRuleStore: object = {
-  GetRecordAllFields,
-  HardcodedUrl,
+  ActionCallsInLoop,
 };
