@@ -10,8 +10,8 @@ export class ActionCallsInLoop extends RuleCommon implements core.IRuleDefinitio
           "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",
         docRefs: [
           {
-            label: "Flow Best Practices",
-            path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5",
+            label: "Invocable Method Considerations",
+            path: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_InvocableMethod.htm",
           },
         ],
         isConfigurable: false,

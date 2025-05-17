@@ -36,6 +36,7 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 | **Recursive After Update** ([`RecursiveAfterUpdate`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/RecursiveAfterUpdate.ts)) | After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates. |
 | **Get Record All Fields** ([`GetRecordAllFields`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/GetRecordAllFields.ts)) | Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary. |
 | **Hardcoded Url** ([`HardcodedUrl`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/HardcodedUrl.ts)) | Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings. |
+| **Action Calls In Loop** ([`ActionCallsInLoop`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/ActionCallsInLoop.ts)) | To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop. |
 
 ## Core Functions
 
