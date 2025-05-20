@@ -1,14 +1,12 @@
-import { RuleCommon } from "../models/RuleCommon";
-import * as core from "../internals/internals";
+import { FlowType, IRuleDefinition } from "../internals/internals";
+import { LoopRuleCommon } from "../models/LoopRuleCommon";
 
-export class SOQLQueryInLoop extends RuleCommon implements core.IRuleDefinition {
+export class SOQLQueryInLoop extends LoopRuleCommon implements IRuleDefinition {
   constructor() {
     super({
-      name: "SOQLQueryInLoop",
-      label: "SOQL Query In A Loop",
+      autoFixable: false,
       description:
         "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
-      supportedTypes: core.FlowType.backEndTypes,
       docRefs: [
         {
           label: "Flow Best Practices",
@@ -16,37 +14,13 @@ export class SOQLQueryInLoop extends RuleCommon implements core.IRuleDefinition 
         },
       ],
       isConfigurable: false,
-      autoFixable: false,
+      label: "SOQL Query In A Loop",
+      name: "SOQLQueryInLoop",
+      supportedTypes: FlowType.backEndTypes,
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
-    const dmlStatementTypes = ["recordLookups"];
-    const loopElements: core.FlowNode[] = flow.elements.filter(
-      (node) => node.subtype === "loops"
-    ) as core.FlowNode[];
-    const soqlStatementsInLoops: core.FlowNode[] = [];
-
-    const findDML = (element: core.FlowNode) => {
-      if (dmlStatementTypes.includes(element.subtype)) {
-        soqlStatementsInLoops.push(element);
-      }
-    };
-
-    for (const element of loopElements) {
-      let loopEnd: string | undefined;
-      // Check if 'noMoreValuesConnector' attribute exists
-      if (element.element["noMoreValuesConnector"] && element.element["noMoreValuesConnector"]) {
-        loopEnd = element.element["noMoreValuesConnector"].targetReference;
-      } else {
-        loopEnd = element.name;
-      }
-      new core.Compiler().traverseFlow(flow, element.name, findDML, loopEnd);
-    }
-
-    // Create result details
-    const results = soqlStatementsInLoops.map((det) => new core.ResultDetails(det));
-
-    return new core.RuleResult(this, results);
+  protected getStatementTypes(): string[] {
+    return ["recordLookups"];
   }
 }

@@ -1,7 +1,7 @@
-import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { FlowType, IRuleDefinition } from "../internals/internals";
+import { LoopRuleCommon } from "../models/LoopRuleCommon";
 
-export class ActionCallsInLoop extends RuleCommon implements core.IRuleDefinition {
+export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
@@ -17,45 +17,13 @@ export class ActionCallsInLoop extends RuleCommon implements core.IRuleDefinitio
         isConfigurable: false,
         label: "**Beta** Action Calls In Loop",
         name: "ActionCallsInLoop",
-        supportedTypes: core.FlowType.backEndTypes,
+        supportedTypes: FlowType.backEndTypes,
       },
       { severity: "warning" }
     );
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
-    const actionCallTypes = ["actionCalls", "apexPluginCalls"];
-    const loopElements: core.FlowNode[] = flow.elements?.filter(
-      (node) => node.subtype === "loops"
-    ) as core.FlowNode[];
-
-    if (!loopElements || loopElements.length === 0) {
-      return new core.RuleResult(this, []);
-    }
-
-    const actionCallInLoops: core.FlowNode[] = [];
-
-    const findActionCall = (element: core.FlowNode) => {
-      if (actionCallTypes.includes(element.subtype)) {
-        actionCallInLoops.push(element);
-      }
-    };
-
-    for (const element of loopElements) {
-      let loopEnd: string | undefined;
-      // Check if 'noMoreValuesConnector' attribute exists
-      if (element.element["noMoreValuesConnector"]?.targetReference) {
-        loopEnd = element.element["noMoreValuesConnector"].targetReference;
-      } else {
-        loopEnd = element.name;
-      }
-      // decide if we should count fault connectors as a violation
-      // if (typeof element.element === "object" && "faultConnector" in (element.element as object)) {}
-      new core.Compiler().traverseFlow(flow, element.name, findActionCall, loopEnd);
-    }
-
-    const results = actionCallInLoops.map((det) => new core.ResultDetails(det));
-
-    return new core.RuleResult(this, results);
+  protected getStatementTypes(): string[] {
+    return ["actionCalls", "apexPluginCalls"];
   }
 }
