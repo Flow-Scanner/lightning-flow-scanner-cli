@@ -1,11 +1,11 @@
-import { FlowElementConnector } from "./FlowElementConnector";
 import { FlowElement } from "./FlowElement";
+import { FlowElementConnector } from "./FlowElementConnector";
 
 export class FlowNode extends FlowElement {
   public connectors: FlowElementConnector[] = [];
-  public name: string;
   public locationX: string;
   public locationY: string;
+  public name: string;
 
   constructor(provName: string, subtype: string, element: object) {
     super("node", subtype, element);
@@ -73,7 +73,11 @@ export class FlowNode extends FlowElement {
         }
       }
       return connectors;
-    } else if (subtype === "assignments" || subtype === "transforms") {
+    } else if (
+      subtype === "assignments" ||
+      subtype === "transforms" ||
+      subtype === "customErrors"
+    ) {
       return element.connector
         ? [new FlowElementConnector("connector", element.connector, {})]
         : [];

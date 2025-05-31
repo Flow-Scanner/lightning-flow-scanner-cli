@@ -1,17 +1,17 @@
-import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
 
 export class UnconnectedElement extends RuleCommon implements core.IRuleDefinition {
   constructor() {
     super({
-      name: "UnconnectedElement",
-      label: "Unconnected Element",
+      autoFixable: true,
       description:
         "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
-      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false,
-      autoFixable: true,
+      label: "Unconnected Element",
+      name: "UnconnectedElement",
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
     });
   }
 
@@ -24,7 +24,7 @@ export class UnconnectedElement extends RuleCommon implements core.IRuleDefiniti
     };
 
     // Get Traversable Nodes
-    const flowElements: core.FlowNode[] = flow.elements.filter(
+    const flowElements: core.FlowNode[] = flow.elements!.filter(
       (node) => node instanceof core.FlowNode
     ) as core.FlowNode[];
 

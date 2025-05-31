@@ -1,31 +1,30 @@
-import { FlowNode } from "./FlowNode";
-import { FlowMetadata } from "./FlowMetadata";
-import { FlowElement } from "./FlowElement";
-import { FlowVariable } from "./FlowVariable";
 import * as p from "path";
-import { FlowResource } from "./FlowResource";
-import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
 import { create } from "xmlbuilder2";
+import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
+
+import { FlowElement } from "./FlowElement";
+import { FlowMetadata } from "./FlowMetadata";
+import { FlowNode } from "./FlowNode";
+import { FlowResource } from "./FlowResource";
+import { FlowVariable } from "./FlowVariable";
 
 export class Flow {
-  public label: string;
-  public xmldata;
-  public name?: string;
+  public elements?: FlowElement[];
+  public fsPath;
   public interviewLabel?: string;
-  public processType?;
+  public label: string;
+  public name?: string;
   public processMetadataValues?;
-  public type?;
+  public processType?;
+  public root?;
   public start?;
   public startElementReference?;
-  public status?;
-  public fsPath;
-  public root?;
-  public elements?: FlowElement[];
   public startReference;
+  public status?;
   public triggerOrder?: number;
+  public type?;
+  public xmldata;
 
-  private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
-  private flowResources = ["textTemplates", "stages"];
   private flowMetadata = [
     "description",
     "apiVersion",
@@ -64,7 +63,10 @@ export class Flow {
     "subflows",
     "waits",
     "transforms",
+    "customErrors",
   ];
+  private flowResources = ["textTemplates", "stages"];
+  private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
 
   constructor(path?: string, data?: unknown);
   constructor(path: string, data?: unknown) {
@@ -77,7 +79,7 @@ export class Flow {
       this.name = flowName;
     }
     if (data) {
-      const hasFlowElement = !!data && typeof data === "object" && "Flow" in data;
+      const hasFlowElement = typeof data === "object" && "Flow" in data;
       if (hasFlowElement) {
         this.xmldata = (data as XMLSerializedAsObject).Flow;
       } else this.xmldata = data;
@@ -95,7 +97,7 @@ export class Flow {
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
     this.triggerOrder = this.xmldata.triggerOrder;
-    const allNodes: (FlowVariable | FlowNode | FlowMetadata)[] = [];
+    const allNodes: Array<FlowMetadata | FlowNode | FlowVariable> = [];
     for (const nodeType in this.xmldata) {
       // skip xmlns url
       // if (nodeType == "@xmlns") {
@@ -140,9 +142,18 @@ export class Flow {
     this.startReference = this.findStart();
   }
 
+  public toXMLString(): string {
+    try {
+      return this.generateDoc();
+    } catch (exception) {
+      console.warn(`Unable to write xml, caught an error ${exception.toString()}`);
+      return "";
+    }
+  }
+
   private findStart() {
     let start = "";
-    const flowElements: FlowNode[] = this.elements.filter(
+    const flowElements: FlowNode[] = this.elements!.filter(
       (node) => node instanceof FlowNode
     ) as FlowNode[];
     if (this.startElementReference) {
@@ -155,21 +166,13 @@ export class Flow {
       const startElement = flowElements.find((n) => {
         return n.subtype === "start";
       });
-      start = startElement.connectors[0]["reference"];
+      start = startElement!.connectors[0]["reference"];
     }
     return start;
   }
 
-  public toXMLString(): string {
-    try {
-      return this.generateDoc();
-    } catch (exception) {
-      console.warn(`Unable to write xml, caught an error ${exception.toString()}`);
-      return "";
-    }
-  }
-
   private generateDoc(): string {
+    // eslint-disable-next-line sonarjs/no-clear-text-protocols
     const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
     const doc = create(
       {
