@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
-      formats: ["umd"],
+      formats: ["umd", "cjs"],
       name: "lightningflowscanner",
     },
     minify: true,
@@ -14,12 +14,15 @@ export default defineConfig({
       external: ["xmlbuilder2"],
       output: {
         globals: {
+          fs: "fs",
+          path: "path",
           xmlbuilder2: "xmlbuilder2",
         },
       },
     },
+    ssr: false,
   },
-  plugins: [nodePolyfills()],
+  plugins: [nodePolyfills({ include: ["path", "fs"], protocolImports: true })],
 
   resolve: { alias: { src: resolve("src/") } },
 });
