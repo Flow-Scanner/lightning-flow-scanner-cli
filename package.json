@@ -59,10 +59,10 @@
     "prettier": "3.5.3",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.33.0",
+    "typescript-eslint": "8.33.1",
     "vite": "6.3.5",
     "vite-plugin-node-polyfills": "0.23.0",
-    "vitest": "3.1.4"
+    "vitest": "3.2.0"
   },
   "dependencies": {
     "xmlbuilder2": "^3.1.1"
