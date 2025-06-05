@@ -1,5 +1,5 @@
-import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
 
 export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition {
   protected applicableElements: string[] = [
@@ -13,11 +13,9 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
 
   constructor() {
     super({
-      name: "MissingFaultPath",
-      label: "Missing Fault Path",
+      autoFixable: false,
       description:
         "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
-      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [
         {
           label: "Flow Best Practices",
@@ -25,7 +23,9 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
         },
       ],
       isConfigurable: false,
-      autoFixable: false,
+      label: "Missing Fault Path",
+      name: "MissingFaultPath",
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
     });
   }
 
