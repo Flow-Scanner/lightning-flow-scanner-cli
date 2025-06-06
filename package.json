@@ -42,10 +42,10 @@
     "@jest/types": "29.6.3",
     "@swc-node/jest": "1.8.13",
     "@swc/cli": "0.7.7",
-    "@swc/core": "1.11.29",
+    "@swc/core": "1.11.31",
     "@swc/helpers": "0.5.17",
     "@types/jest": "29.5.14",
-    "@types/node": "22.15.29",
+    "@types/node": "22.15.30",
     "@types/semantic-release": "20.0.6",
     "eslint": "9.28.0",
     "eslint-plugin-de-morgan": "1.2.1",
@@ -62,7 +62,7 @@
     "typescript-eslint": "8.33.1",
     "vite": "6.3.5",
     "vite-plugin-node-polyfills": "0.23.0",
-    "vitest": "3.2.1"
+    "vitest": "3.2.2"
   },
   "dependencies": {
     "xmlbuilder2": "^3.1.1"
