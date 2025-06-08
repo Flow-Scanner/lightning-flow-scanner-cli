@@ -1,7 +1,12 @@
+import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
+import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 
-export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition {
+export class MissingFaultPath
+  extends RuleCommon
+  implements AdvancedSuppression, core.IRuleDefinition
+{
   protected applicableElements: string[] = [
     "recordLookups",
     "recordDeletes",
@@ -28,7 +33,6 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
     });
   }
-
   public execute(flow: core.Flow): core.RuleResult {
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
@@ -61,6 +65,20 @@ export class MissingFaultPath extends RuleCommon implements core.IRuleDefinition
     compiler.traverseFlow(flow, flow.startReference, visitCallback);
 
     return new core.RuleResult(this, results);
+  }
+
+  public suppress(
+    scanResult: core.RuleResult,
+    ruleConfiguration?: AdvancedConfig
+  ): core.RuleResult {
+    const suppressedResults: core.ResultDetails[] = [];
+    for (const resultDetails of scanResult.details) {
+      if (ruleConfiguration?.suppressions?.includes(resultDetails.name)) {
+        continue;
+      }
+      suppressedResults.push(resultDetails);
+    }
+    return new core.RuleResult(this, suppressedResults);
   }
 
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {

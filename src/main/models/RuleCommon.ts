@@ -1,15 +1,15 @@
 import { RuleInfo } from "./RuleInfo";
 
 export class RuleCommon {
+  public autoFixable: boolean;
+  public description: string;
+  public docRefs: Array<{ label: string; path: string }> = [];
+  public isConfigurable: boolean;
   public label;
   public name;
   public severity?;
-  public uri;
-  public docRefs: { label: string; path: string }[] = [];
-  public description: string;
   public supportedTypes: string[];
-  public isConfigurable: boolean;
-  public autoFixable: boolean;
+  public uri;
 
   constructor(
     info: RuleInfo,
