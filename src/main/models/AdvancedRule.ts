@@ -17,7 +17,7 @@ export abstract class AdvancedRule extends RuleCommon {
     super(info, optional);
   }
 
-  public executeRule(flow: Flow, ruleConfiguration?: AdvancedRuleConfig): RuleResult {
+  public execute(flow: Flow, ruleConfiguration?: AdvancedRuleConfig): RuleResult {
     if (!hasAdvancedRuleDefinition(this)) {
       return new RuleResult(this as unknown as IRuleDefinition, []);
     }

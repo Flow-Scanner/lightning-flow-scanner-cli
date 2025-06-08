@@ -8,13 +8,14 @@ import {
   ScanResult,
 } from "../../main/internals/internals";
 import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
-import { AdvancedRule } from "../models/AdvancedRule";
 import { ParsedFlow } from "../models/ParsedFlow";
 import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
 
 const { IS_NEW_SCAN_ENABLED: isNewScanEnabled } = process.env;
 
+// Will be replaced by scanInternal in the future
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   if (isNewScanEnabled === "true") {
     return scanInternal(parsedFlows, ruleOptions);
@@ -54,6 +55,8 @@ export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): Sca
   return scanResults;
 }
 
+// Will be removed once scanInternal is fully enabled
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flowResults: ScanResult[] = [];
 
@@ -88,7 +91,6 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
         } else {
           ruleResults.push(new RuleResult(rule, []));
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         const message = `Something went wrong while executing ${rule.name} in the Flow: ${flow.name} with error ${error}`;
         ruleResults.push(new RuleResult(rule, [], message));
@@ -113,12 +115,12 @@ export function scanInternal(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConf
 
 function scanFlowWithConfig(
   flow: Flow,
-  allRules: Record<string, AdvancedRule>,
+  allRules: Record<string, IRuleDefinition>,
   ruleConfiguration: Record<string, AdvancedRuleConfig>
 ): ScanResult {
   const ruleResults: RuleResult[] = [];
   for (const [ruleName, ruleAction] of Object.entries(allRules)) {
-    ruleResults.push(ruleAction.executeRule(flow, ruleConfiguration[ruleName] ?? {}));
+    ruleResults.push(ruleAction.execute(flow, ruleConfiguration[ruleName] ?? {}));
   }
   return new ScanResult(flow, ruleResults);
 }
