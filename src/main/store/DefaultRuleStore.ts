@@ -50,9 +50,3 @@ export const DefaultRuleStore: object = {
 export const BetaRuleStore: object = {
   ActionCallsInLoop,
 };
-
-export type AllRules = KeysOfIntersection<DefinedRules>;
-
-type DefinedRules = typeof BetaRuleStore & typeof DefaultRuleStore;
-
-type KeysOfIntersection<T> = T extends T ? keyof T : never;
