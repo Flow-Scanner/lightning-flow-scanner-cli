@@ -1,4 +1,4 @@
-import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
+import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedRuleDefinition } from "../interfaces/AdvancedRuleDefintion";
 import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
 import { IRuleDefinition, ResultDetails } from "../internals/internals";
@@ -19,7 +19,7 @@ export abstract class AdvancedRule extends RuleCommon implements AdvancedRuleDef
 
   public execute(
     flow: Flow,
-    ruleConfiguration?: AdvancedRuleConfig,
+    ruleConfiguration?: AdvancedConfig,
     userFlowSuppressions?: string[]
   ): RuleResult {
     if (!hasAdvancedRuleDefinition(this)) {
