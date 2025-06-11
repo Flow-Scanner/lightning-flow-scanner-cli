@@ -1,6 +1,5 @@
 import { RuleResult } from "../internals/internals";
-import { AdvancedRuleConfig } from "./AdvancedRuleConfig";
-
+import { AdvancedConfig } from "./AdvancedRuleConfig";
 export interface AdvancedSuppression {
-  suppress(scanResult: RuleResult, ruleConfiguration?: AdvancedRuleConfig): RuleResult;
+  suppress(scanResult: RuleResult, ruleConfiguration?: AdvancedConfig): RuleResult;
 }

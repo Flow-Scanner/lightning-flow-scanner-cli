@@ -1,11 +1,10 @@
-import type { AdvancedRuleConfig } from "./AdvancedRuleConfig";
-
 import { Flow, RuleResult } from "../internals/internals";
+import { AdvancedConfig } from "./AdvancedRuleConfig";
 
 export interface AdvancedRuleDefinition {
   execute(
     flow: Flow,
-    ruleConfiguration?: AdvancedRuleConfig,
+    ruleConfiguration?: AdvancedConfig,
     userFlowSuppressions?: string[]
   ): RuleResult;
 }
