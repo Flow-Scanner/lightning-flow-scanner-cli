@@ -26,7 +26,7 @@ export abstract class AdvancedRule extends RuleCommon implements AdvancedRuleDef
       return new RuleResult(this as unknown as IRuleDefinition, []);
     }
 
-    let ruleResult = (this as AdvancedRuleDefinition).execute(flow, ruleConfiguration);
+    let ruleResult = (this as IRuleDefinition).execute(flow, ruleConfiguration);
 
     if (hasAdvancedSuppression(this)) {
       ruleResult = this.suppress(ruleResult, ruleConfiguration);
