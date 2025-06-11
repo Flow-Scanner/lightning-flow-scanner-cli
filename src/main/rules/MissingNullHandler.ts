@@ -34,9 +34,14 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
       } else if (getElement.element["outputReference"]) {
         resultReferences = getElement.element["outputReference"];
       } else if (getElement.element["outputAssignments"]) {
-        const outputAssignments = getElement.element["outputAssignments"];
-        for (const assignment of outputAssignments) {
-          resultReferences.push(assignment.assignToReference);
+        let outputAssignments = getElement.element["outputAssignments"];
+        if (typeof outputAssignments !== "string") {
+          if (typeof outputAssignments === "object") {
+            outputAssignments = [outputAssignments];
+          }
+          for (const assignment of outputAssignments) {
+            resultReferences.push(assignment.assignToReference);
+          }
         }
       }
       for (const el of decisionElements) {
