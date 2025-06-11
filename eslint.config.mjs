@@ -16,6 +16,7 @@ export default [
     },
     plugins: { jest: pluginJest },
     rules: {
+      "jest/no-alias-methods": "error",
       "jest/no-disabled-tests": "warn",
       "jest/no-focused-tests": "error",
       "jest/no-identical-title": "error",
