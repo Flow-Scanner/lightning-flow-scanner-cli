@@ -1,3 +1,4 @@
+import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 
