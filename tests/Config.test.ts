@@ -1,6 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
-import { inspect } from "util";
 
 import * as core from "../src";
 
@@ -10,8 +9,10 @@ describe("Rule Configurations ", () => {
   it("should use default when no configuration is provided", async () => {
     const flows = await core.parse([example_uri1]);
     const results: core.ScanResult[] = core.scan(flows, undefined);
-    const rules = [...core.getRules(), ...core.getBetaRules()];
-    console.log(inspect(process.env));
+    const rules = [...core.getRules()];
+    const allRuleNames = rules.map((r) => r.name);
+    const allRuleResults = results[0].ruleResults.map((r) => r.ruleName);
+    expect(allRuleNames).toEqual(allRuleResults);
     expect(results[0].ruleResults).toHaveLength(rules.length);
   });
 
@@ -24,7 +25,10 @@ describe("Rule Configurations ", () => {
       rules: {},
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    const rules = [...core.getRules(), ...core.getBetaRules()];
+    const rules = [...core.getRules()];
+    const allRuleNames = rules.map((r) => r.name);
+    const allRuleResults = results[0].ruleResults.map((r) => r.ruleName);
+    expect(allRuleNames).toEqual(allRuleResults);
     expect(results[0].ruleResults).toHaveLength(rules.length);
   });
 
