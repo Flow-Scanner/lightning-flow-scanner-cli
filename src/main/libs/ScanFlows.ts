@@ -8,11 +8,13 @@ import {
   ScanResult,
 } from "../../main/internals/internals";
 import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
+import { AdvancedRule } from "../models/AdvancedRule";
 import { ParsedFlow } from "../models/ParsedFlow";
 import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
+import { DynamicRule } from "./DynamicRule";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
 
-const { IS_NEW_SCAN_ENABLED: isNewScanEnabled } = process.env;
+const { IS_NEW_SCAN_ENABLED: isNewScanEnabled, OVERRIDE_CONFIG: overrideConfig } = process.env;
 
 // Will be replaced by scanInternal in the future
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -104,23 +106,41 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
 
 export function scanInternal(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flows: Flow[] = parsedFlows.map((parsedFlow) => parsedFlow.flow as Flow);
-  const ruleConfiguration = unifiedRuleConfig(ruleOptions);
-  const allRules = { ...DefaultRuleStore, ...BetaRuleStore };
   const scanResults: ScanResult[] = [];
   for (const flow of flows) {
-    scanResults.push(scanFlowWithConfig(flow, allRules, ruleConfiguration));
+    scanResults.push(scanFlowWithConfig(flow, ruleOptions));
   }
   return scanResults;
 }
 
-function scanFlowWithConfig(
-  flow: Flow,
-  allRules: Record<string, IRuleDefinition>,
-  ruleConfiguration: Record<string, AdvancedRuleConfig>
-): ScanResult {
+function ruleAndConfig(
+  ruleOptions?: IRulesConfig
+): [Record<string, AdvancedRule>, Record<string, AdvancedRuleConfig>] {
+  // for unit tests, use a small set of rules
+  const ruleConfiguration = unifiedRuleConfig(ruleOptions);
+  let allRules: Record<string, AdvancedRule> = { ...DefaultRuleStore, ...BetaRuleStore };
+  if (overrideConfig === "true" && ruleOptions?.rules) {
+    allRules = Object.entries(allRules).reduce<Record<string, AdvancedRule>>(
+      (accumulator, [ruleName, rule]) => {
+        if (ruleOptions?.rules?.[ruleName]) {
+          accumulator[ruleName] = rule;
+        }
+        return accumulator;
+      },
+      {}
+    );
+  }
+  return [allRules, ruleConfiguration];
+}
+
+function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult {
+  const [allRules, ruleConfiguration] = ruleAndConfig(ruleOptions);
   const ruleResults: RuleResult[] = [];
-  for (const [ruleName, ruleAction] of Object.entries(allRules)) {
-    ruleResults.push(ruleAction.execute(flow, ruleConfiguration[ruleName] ?? {}));
+  for (const [ruleName] of Object.entries(allRules)) {
+    const advancedRule = new DynamicRule<AdvancedRule>(ruleName);
+    ruleResults.push(
+      (advancedRule as AdvancedRule).execute(flow, ruleConfiguration[ruleName] ?? {})
+    );
   }
   return new ScanResult(flow, ruleResults);
 }

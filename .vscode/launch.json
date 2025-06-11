@@ -9,6 +9,30 @@
       "name": "Run npm test",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests.v2.lightning-flow-scanner-core",
+      "request": "launch",
+      "args": [
+        "test",
+        "--",
+        "--runInBand",
+        "--watchAll=false",
+        "--testNamePattern",
+        "${jest.testNamePattern}",
+        "--runTestsByPath",
+        "${jest.testFile}"
+      ],
+      "cwd": "/Users/jun/Development/github/lightning-flow-scanner-core",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "runtimeExecutable": "npm",
+      "env": {
+        "OVERRIDE_CONFIG": "true",
+        "IS_NEW_SCAN_ENABLED": "true"
+      }
     }
   ]
 }
