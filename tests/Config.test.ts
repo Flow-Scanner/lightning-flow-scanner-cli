@@ -1,28 +1,30 @@
-import * as core from "../src";
+import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
+import { inspect } from "util";
 
-import { describe, it, expect } from "@jest/globals";
+import * as core from "../src";
 
 describe("Rule Configurations ", () => {
   const example_uri1 = path.join(__dirname, "./xmlfiles/Unconnected_Element.flow-meta.xml");
 
-  it(" should use default when no configuration is provided", async () => {
+  it("should use default when no configuration is provided", async () => {
     const flows = await core.parse([example_uri1]);
     const results: core.ScanResult[] = core.scan(flows, undefined);
-    const rules = core.getRules();
+    const rules = [...core.getRules(), ...core.getBetaRules()];
+    console.log(inspect(process.env));
     expect(results[0].ruleResults).toHaveLength(rules.length);
   });
 
   it(" should use default when no rules are specified", async () => {
     const flows = await core.parse([example_uri1]);
     const ruleConfig = {
-      rules: {},
       exceptions: {
         CreateANewAccountWithChild: { DuplicateDMLOperation: ["ViewAccountId"] },
       },
+      rules: {},
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
-    const rules = core.getRules();
+    const rules = [...core.getRules(), ...core.getBetaRules()];
     expect(results[0].ruleResults).toHaveLength(rules.length);
   });
 
@@ -45,6 +47,9 @@ describe("Rule Configurations ", () => {
     jest.spyOn(global.console, "log").mockImplementation(() => {});
 
     const ruleConfig = {
+      exceptions: {
+        CreateANewAccountWithChild: { DuplicateDMLOperation: ["ViewAccountId"] },
+      },
       rules: {
         MissingNullHandler: {
           severity: "error",
@@ -52,9 +57,6 @@ describe("Rule Configurations ", () => {
         MissingNullHandler2: {
           severity: "error",
         },
-      },
-      exceptions: {
-        CreateANewAccountWithChild: { DuplicateDMLOperation: ["ViewAccountId"] },
       },
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
@@ -66,8 +68,8 @@ describe("Rule Configurations ", () => {
     const ruleConfig = {
       rules: {
         APIVersion: {
-          severity: "error",
           expression: ">50",
+          severity: "error",
         },
         CopyAPIName: {
           severity: "error",
@@ -82,8 +84,8 @@ describe("Rule Configurations ", () => {
           severity: "error",
         },
         FlowName: {
-          severity: "error",
           expression: "[A-Za-z0-9]+_[A-Za-z0-9]+",
+          severity: "error",
         },
         HardcodedId: {
           severity: "error",

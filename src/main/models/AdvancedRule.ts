@@ -1,13 +1,13 @@
 import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedRuleDefinition } from "../interfaces/AdvancedRuleDefintion";
 import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
-import { IRuleDefinition } from "../internals/internals";
+import { IRuleDefinition, ResultDetails } from "../internals/internals";
 import { Flow } from "./Flow";
 import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 import { RuleResult } from "./RuleResult";
 
-export abstract class AdvancedRule extends RuleCommon {
+export abstract class AdvancedRule extends RuleCommon implements AdvancedRuleDefinition {
   constructor(
     info: RuleInfo,
     optional?: {
@@ -17,7 +17,11 @@ export abstract class AdvancedRule extends RuleCommon {
     super(info, optional);
   }
 
-  public execute(flow: Flow, ruleConfiguration?: AdvancedRuleConfig): RuleResult {
+  public execute(
+    flow: Flow,
+    ruleConfiguration?: AdvancedRuleConfig,
+    userFlowSuppressions?: string[]
+  ): RuleResult {
     if (!hasAdvancedRuleDefinition(this)) {
       return new RuleResult(this as unknown as IRuleDefinition, []);
     }
@@ -28,8 +32,25 @@ export abstract class AdvancedRule extends RuleCommon {
       ruleResult = this.suppress(ruleResult, ruleConfiguration);
     }
 
+    ruleResult = generalSuppressions(ruleResult, userFlowSuppressions);
+
     return ruleResult;
   }
+}
+
+function generalSuppressions(
+  ruleResult: RuleResult,
+  userFlowRuleSuppressions?: string[]
+): RuleResult {
+  if (!userFlowRuleSuppressions || userFlowRuleSuppressions.length === 0) {
+    return ruleResult;
+  }
+  const filteredDetails = (ruleResult.details as ResultDetails[]).filter(
+    (detail) => !userFlowRuleSuppressions.includes(detail.name)
+  );
+  ruleResult.details = filteredDetails;
+  ruleResult.occurs = filteredDetails.length > 0;
+  return ruleResult;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

@@ -1,7 +1,7 @@
 import { Compiler, Flow, FlowNode, ResultDetails, RuleResult } from "../internals/internals";
-import { RuleCommon } from "./RuleCommon";
+import { AdvancedRule } from "./AdvancedRule";
 
-export abstract class LoopRuleCommon extends RuleCommon {
+export abstract class LoopRuleCommon extends AdvancedRule {
   public execute(flow: Flow): RuleResult {
     const loopElements = this.findLoopElements(flow);
     if (!loopElements.length) {

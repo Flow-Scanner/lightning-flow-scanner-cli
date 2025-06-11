@@ -1,14 +1,12 @@
-import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
 
 export class FlowName extends RuleCommon implements core.IRuleDefinition {
   constructor() {
     super({
-      name: "FlowName",
-      label: "Flow Naming Convention",
+      autoFixable: false,
       description:
         "The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",
-      supportedTypes: core.FlowType.allTypes(),
       docRefs: [
         {
           label: "Naming your Flows is more critical than ever. By Stephen Church",
@@ -16,11 +14,16 @@ export class FlowName extends RuleCommon implements core.IRuleDefinition {
         },
       ],
       isConfigurable: true,
-      autoFixable: false,
+      label: "Flow Naming Convention",
+      name: "FlowName",
+      supportedTypes: core.FlowType.allTypes(),
     });
   }
 
-  public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: Pick<AdvancedRuleConfig, "expression">
+  ): core.RuleResult {
     const regexExp =
       options && options.expression ? options.expression : "[A-Za-z0-9]+_[A-Za-z0-9]+";
     const conventionApplied = new RegExp(regexExp).test(flow.name);

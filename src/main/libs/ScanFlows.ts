@@ -17,7 +17,7 @@ import { GetRuleDefinitions } from "./GetRuleDefinitions";
 const { IS_NEW_SCAN_ENABLED: isNewScanEnabled, OVERRIDE_CONFIG: overrideConfig } = process.env;
 
 // Will be replaced by scanInternal in the future
-// eslint-disable-next-line sonarjs/cognitive-complexity
+
 export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   if (isNewScanEnabled === "true") {
     return scanInternal(parsedFlows, ruleOptions);
@@ -35,24 +35,7 @@ export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): Sca
     scanResults = ScanFlows(flows);
   }
 
-  if (ruleOptions?.exceptions) {
-    for (const [exceptionName, exceptionElements] of Object.entries(ruleOptions.exceptions)) {
-      for (const scanResult of scanResults) {
-        if (scanResult.flow.name === exceptionName) {
-          for (const ruleResult of scanResult.ruleResults as RuleResult[]) {
-            if (exceptionElements[ruleResult.ruleName]) {
-              const exceptions = exceptionElements[ruleResult.ruleName];
-              const filteredDetails = (ruleResult.details as ResultDetails[]).filter((detail) => {
-                return !exceptions.includes(detail.name);
-              });
-              ruleResult.details = filteredDetails;
-              ruleResult.occurs = filteredDetails.length > 0;
-            }
-          }
-        }
-      }
-    }
-  }
+  generalSuppressions(scanResults, ruleOptions);
 
   return scanResults;
 }
@@ -113,13 +96,46 @@ export function scanInternal(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConf
   return scanResults;
 }
 
+function generalSuppressions(scanResults: ScanResult[], ruleOptions?: IRulesConfig) {
+  if (!ruleOptions?.exceptions) {
+    return;
+  }
+  const applyExceptionToResults = (ruleResult: RuleResult, exceptions: string[]) => {
+    const filteredDetails = (ruleResult.details as ResultDetails[]).filter(
+      (detail) => !exceptions.includes(detail.name)
+    );
+    ruleResult.details = filteredDetails;
+    ruleResult.occurs = filteredDetails.length > 0;
+  };
+
+  for (const [flowName, exceptionElements] of Object.entries(ruleOptions.exceptions)) {
+    const matchingScanResult = scanResults.find((result) => result.flow.name === flowName);
+    if (!matchingScanResult) {
+      continue;
+    }
+
+    for (const ruleResult of matchingScanResult.ruleResults as RuleResult[]) {
+      const exceptions = exceptionElements[ruleResult.ruleName];
+      if (!exceptions) {
+        continue;
+      }
+
+      applyExceptionToResults(ruleResult, exceptions);
+    }
+  }
+}
+
 function ruleAndConfig(
   ruleOptions?: IRulesConfig
 ): [Record<string, AdvancedRule>, Record<string, AdvancedRuleConfig>] {
   // for unit tests, use a small set of rules
   const ruleConfiguration = unifiedRuleConfig(ruleOptions);
   let allRules: Record<string, AdvancedRule> = { ...DefaultRuleStore, ...BetaRuleStore };
-  if (overrideConfig === "true" && ruleOptions?.rules) {
+  if (
+    overrideConfig === "true" &&
+    ruleOptions?.rules &&
+    Object.keys(ruleOptions.rules).length > 0
+  ) {
     allRules = Object.entries(allRules).reduce<Record<string, AdvancedRule>>(
       (accumulator, [ruleName, rule]) => {
         if (ruleOptions?.rules?.[ruleName]) {
@@ -137,9 +153,18 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
   const [allRules, ruleConfiguration] = ruleAndConfig(ruleOptions);
   const ruleResults: RuleResult[] = [];
   for (const [ruleName] of Object.entries(allRules)) {
-    const advancedRule = new DynamicRule<AdvancedRule>(ruleName);
+    const rule = new DynamicRule<AdvancedRule>(ruleName) as AdvancedRule;
+    if (!rule.supportedTypes.includes(flow.type)) {
+      ruleResults.push(new RuleResult(AdvancedRule as unknown as IRuleDefinition, []));
+      continue;
+    }
+
+    const flowName = flow.name as string;
+    const userRuleConfiguration = ruleConfiguration[ruleName] ?? {};
+    const userFlowSuppressions: string[] = ruleOptions?.exceptions?.[flowName]?.[ruleName] ?? [];
+
     ruleResults.push(
-      (advancedRule as AdvancedRule).execute(flow, ruleConfiguration[ruleName] ?? {})
+      (rule as AdvancedRule).execute(flow, userRuleConfiguration, userFlowSuppressions)
     );
   }
   return new ScanResult(flow, ruleResults);

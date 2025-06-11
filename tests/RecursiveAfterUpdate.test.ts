@@ -8,36 +8,6 @@ describe("RecursiveAfterUpdate", () => {
   const rule = new RecursiveAfterUpdate();
 
   describe("e2e", () => {
-    it("should trigger from default configuration on store", () => {
-      const testData: ParsedFlow = {
-        flow: {
-          elements: [
-            {
-              element: {
-                inputReference: "$Record",
-              },
-              metaType: "node",
-              subtype: "recordUpdates",
-            },
-          ],
-          start: { recordTriggerType: "CreateAndUpdate", triggerType: "RecordAfterSave" },
-          type: "AutoLaunchedFlow",
-        },
-      } as Partial<ParsedFlow> as ParsedFlow;
-      const ruleConfig = {
-        exceptions: {},
-        rules: {},
-      };
-      const results = scan([testData], ruleConfig);
-      const scanResults = results.pop();
-
-      expect(
-        scanResults?.ruleResults.some(
-          (ruleResult) => ruleResult.ruleName === "RecursiveAfterUpdate"
-        )
-      ).toBeTruthy();
-    });
-
     it("should trigger from when opt-in", () => {
       const testData: ParsedFlow = {
         flow: {

@@ -1,9 +1,9 @@
-import * as core from "../src";
+import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
+
+import * as core from "../src";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
-
-import { describe, it, expect } from "@jest/globals";
 
 describe("MissingFaultPath", () => {
   const example_uri = path.join(__dirname, "./xmlfiles/Missing_Error_Handler.flow-meta.xml");

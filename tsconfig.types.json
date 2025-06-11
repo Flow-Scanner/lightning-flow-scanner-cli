@@ -21,6 +21,7 @@
     "src/data/CustomRuleExample.ts",
     "tests/**/*.test.ts",
     "jest.config.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "jest.setup.ts"
   ],
 }

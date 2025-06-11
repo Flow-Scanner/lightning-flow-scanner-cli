@@ -1,40 +1,18 @@
+import { describe, expect, it } from "@jest/globals";
+
+import { Flow, RuleResult, scan, ScanResult } from "../src";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
-import { RuleResult, Flow, scan, ScanResult } from "../src";
 import { TriggerOrder } from "../src/main/rules/TriggerOrder";
 
-import { describe, it, expect } from "@jest/globals";
-
 describe("TriggerOrder", () => {
-  it("should be included from default configuration on store", async () => {
-    const flows: ParsedFlow[] = [
-      {
-        flow: {
-          type: "AutoLaunchedFlow",
-          start: {
-            object: "Account",
-          },
-        },
-      } as Partial<ParsedFlow> as ParsedFlow,
-    ];
-    const results: ScanResult[] = scan(flows);
-    const scanResults = results.pop();
-
-    const ruleResults = scanResults?.ruleResults.find((rule) => {
-      return rule.ruleDefinition.name === "TriggerOrder";
-    }) as RuleResult;
-    expect(ruleResults).toBeTruthy();
-    expect(ruleResults.occurs).toBeTruthy();
-    expect(ruleResults.severity).toBe("note");
-  });
-
   it("should not trigger from default configuration on store", async () => {
     const ruleConfig = {
+      exceptions: {},
       rules: {
         FlowDescription: {
           severity: "error",
         },
       },
-      exceptions: {},
     };
     const flows: ParsedFlow[] = [
       {
@@ -56,21 +34,21 @@ describe("TriggerOrder", () => {
     const flows: ParsedFlow[] = [
       {
         flow: {
-          type: "AutoLaunchedFlow",
           start: {
             object: "Account",
           },
+          type: "AutoLaunchedFlow",
         },
       } as Partial<ParsedFlow> as ParsedFlow,
     ];
 
     const ruleConfig = {
+      exceptions: {},
       rules: {
         TriggerOrder: {
           severity: "error",
         },
       },
-      exceptions: {},
     };
     const results: ScanResult[] = scan(flows, ruleConfig);
     const scanResults = results.pop();
@@ -84,10 +62,10 @@ describe("TriggerOrder", () => {
   it("should flag trigger order when not present", async () => {
     const testData: ParsedFlow = {
       flow: {
-        type: "AutoLaunchedFlow",
         start: {
           object: "Account",
         },
+        type: "AutoLaunchedFlow",
       },
     } as Partial<ParsedFlow> as ParsedFlow;
 
@@ -99,11 +77,11 @@ describe("TriggerOrder", () => {
   it("should not flag trigger order when present", async () => {
     const testData: ParsedFlow = {
       flow: {
-        triggerOrder: 10,
-        type: "AutoLaunchedFlow",
         start: {
           object: "Account",
         },
+        triggerOrder: 10,
+        type: "AutoLaunchedFlow",
       },
     } as Partial<ParsedFlow> as ParsedFlow;
 

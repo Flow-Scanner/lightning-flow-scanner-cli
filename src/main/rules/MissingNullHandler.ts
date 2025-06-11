@@ -1,20 +1,21 @@
-import { RuleCommon } from "../models/RuleCommon";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
 
 export class MissingNullHandler extends RuleCommon implements core.IRuleDefinition {
   constructor() {
     super({
-      name: "MissingNullHandler",
-      label: "Missing Null Handler",
+      autoFixable: false,
       description:
         "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
-      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
       isConfigurable: false,
-      autoFixable: false,
+      label: "Missing Null Handler",
+      name: "MissingNullHandler",
+      supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
     });
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public execute(flow: core.Flow): core.RuleResult {
     const getOperations = ["recordLookups"];
     const getOperationElements: core.FlowNode[] = flow.elements.filter(
@@ -23,11 +24,11 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
     const decisionElements: core.FlowNode[] = flow.elements.filter(
       (node) => node.metaType === "node" && node.subtype === "decisions"
     ) as core.FlowNode[];
-    const getOperationsWithoutNullHandler = [];
+    const getOperationsWithoutNullHandler: core.FlowNode[] = [];
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;
       let nullCheckFound = false;
-      let resultReferences = [];
+      let resultReferences: string[] = [];
       if (getElement.element["storeOutputAutomatically"]) {
         resultReferences = [elementName];
       } else if (getElement.element["outputReference"]) {
@@ -39,13 +40,30 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
         }
       }
       for (const el of decisionElements) {
-        const rules = el.element["rules"];
-        for (const rule of rules) {
-          for (const condition of rule.conditions) {
+        let rules = el.element["rules"];
+        if (typeof rules === "string") {
+          continue;
+        }
+        if (typeof rules === "object") {
+          rules = [rules];
+        }
+        for (const rule of rules as object[]) {
+          if (!("conditions" in rule)) {
+            continue;
+          }
+          let maybeArray = rule.conditions;
+          if (typeof rule.conditions === "object") {
+            maybeArray = [rule.conditions];
+          }
+          for (const condition of maybeArray as object[]) {
             let referenceFound: boolean = false;
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
-            if (condition.leftValueReference && condition.leftValueReference.length > 0) {
+            if (
+              "leftValueReference" in condition &&
+              typeof condition.leftValueReference === "string" &&
+              condition.leftValueReference.length > 0
+            ) {
               const valueReference = condition.leftValueReference;
               for (const ref of resultReferences) {
                 referenceFound = ref.includes(valueReference);
@@ -54,15 +72,20 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
                 }
               }
             }
-            if (condition.operator && condition.operator.length > 0) {
+            if (
+              "operator" in condition &&
+              typeof condition.operator === "string" &&
+              condition.operator.length > 0
+            ) {
               const operator = condition.operator;
               isNullOperator = operator === "IsNull";
             }
             if (
+              "rightValue" in condition &&
+              typeof condition.rightValue === "object" &&
               condition.rightValue &&
-              condition.rightValue.length > 0 &&
-              condition.rightValue.booleanValue &&
-              condition.rightValue.booleanValue.length > 0
+              "booleanValue" in condition.rightValue &&
+              typeof condition.rightValue.booleanValue === "string"
             ) {
               const rightValue = condition.rightValue.booleanValue;
               checksIfFalse = rightValue.toLowerCase() === "false";
@@ -77,7 +100,7 @@ export class MissingNullHandler extends RuleCommon implements core.IRuleDefiniti
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
-    const results = [];
+    const results: core.ResultDetails[] = [];
     for (const det of getOperationsWithoutNullHandler) {
       results.push(new core.ResultDetails(det));
     }
