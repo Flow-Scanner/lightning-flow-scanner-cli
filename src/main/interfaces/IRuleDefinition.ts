@@ -2,16 +2,17 @@ import { Flow } from "../models/Flow";
 import { RuleResult } from "../models/RuleResult";
 
 export interface IRuleDefinition {
-  name: string;
-  label: string;
-  description: string;
-  supportedTypes: string[];
-  docRefs: { label: string; path: string }[];
-  isConfigurable: boolean;
   autoFixable: boolean;
-  uri?: string;
-  severity?: string;
-
+  description: string;
+  docRefs: Array<{ label: string; path: string }>;
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   execute(flow: Flow, ruleOptions?: {}): RuleResult;
+  isConfigurable: boolean;
+  label: string;
+  name: string;
+  severity?: string;
+  supportedTypes: string[];
+  suppressionElement?: string;
+
+  uri?: string;
 }
