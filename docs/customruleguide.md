@@ -70,7 +70,7 @@ The Compiler class consists of methods designed to traverse flow elements effect
 
 ### Example Rule Using the Compiler:
 ```typescript
-c // Import the Compiler class
+// Import the Compiler class
 import Compiler from 'path/to/your/local/core/module';
 
 // Assume we have a custom rule that checks for the presence of certain elements in the flow
@@ -102,7 +102,7 @@ export class CustomRuleExample implements IRuleDefinition {
 
     // Return the result of the rule execution
     return new RuleResult(this, []); // Assume no violations found for simplicity
-  }s
+  }
 }
 ```
 
