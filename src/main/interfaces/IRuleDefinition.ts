@@ -12,7 +12,6 @@ export interface IRuleDefinition {
   name: string;
   severity?: string;
   supportedTypes: string[];
-  suppressionElement?: string;
 
   uri?: string;
 }

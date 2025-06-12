@@ -27,5 +27,6 @@ export class RuleCommon {
     this.isConfigurable = info.isConfigurable;
     this.autoFixable = info.autoFixable;
     this.severity = optional?.severity ?? "error";
+    this.suppressionElement = info.suppressionElement;
   }
 }
