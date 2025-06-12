@@ -4,7 +4,6 @@ import {
   Flow,
   IRulesConfig,
   ResultDetails,
-  RuleCommon,
   RuleResult,
   ScanResult,
 } from "../../main/internals/internals";
@@ -166,7 +165,7 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
   for (const [ruleName] of Object.entries(allRules)) {
     const rule = new DynamicRule<AdvancedRule>(ruleName) as AdvancedRule;
     if (!rule.supportedTypes.includes(flow.type) || ruleConfiguration[rule.name]?.disabled) {
-      ruleResults.push(new RuleResult(rule as RuleCommon as IRuleDefinition, []));
+      ruleResults.push(new RuleResult(rule as IRuleDefinition, []));
       continue;
     }
 
