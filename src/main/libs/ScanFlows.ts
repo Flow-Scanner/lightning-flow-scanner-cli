@@ -14,6 +14,7 @@ import { ParsedFlow } from "../models/ParsedFlow";
 import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
+import { RuleLoader } from "./RuleLoader";
 
 const { IS_NEW_SCAN_ENABLED: isNewScanEnabled, OVERRIDE_CONFIG: overrideConfig } = process.env;
 
@@ -131,6 +132,15 @@ function ruleAndConfig(
   // for unit tests, use a small set of rules
   const ruleConfiguration = unifiedRuleConfig(ruleOptions);
   let allRules: Record<string, AdvancedRule> = { ...DefaultRuleStore, ...BetaRuleStore };
+  for (const [ruleName, ruleConfig] of Object.entries(ruleConfiguration)) {
+    if ("path" in ruleConfig && ruleConfig.path) {
+      const customRule = RuleLoader.loadCustomRule(
+        ruleName,
+        ruleConfig.path as string
+      ) as AdvancedRule;
+      allRules[ruleName] = customRule;
+    }
+  }
   if (
     overrideConfig === "true" &&
     ruleOptions?.rules &&
@@ -146,6 +156,18 @@ function ruleAndConfig(
       {}
     );
   }
+
+  const disabledRule = new Set(
+    Object.entries(ruleConfiguration)
+      .filter(([, rule]) => rule.disabled)
+      .map(([key]) => key)
+  );
+  allRules = Object.keys(allRules)
+    .filter((ruleName) => !disabledRule.has(ruleName))
+    .reduce<Record<string, AdvancedRule>>((acc, ruleName) => {
+      acc[ruleName] = allRules[ruleName];
+      return acc;
+    }, {});
   return [allRules, ruleConfiguration];
 }
 
@@ -173,17 +195,12 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
 
 function unifiedRuleConfig(ruleOptions: IRulesConfig | undefined): AdvancedRuleConfig {
   const configuredRules: AdvancedRuleConfig = ruleOptions?.rules ?? {};
-  const activeConfiguredRules: AdvancedRuleConfig = Object.entries(configuredRules)
-    .filter(([, configuration]) => {
-      if (!("disabled" in configuration)) {
-        return true;
-      }
-
-      return configuration.disabled !== true;
-    })
-    .reduce<AdvancedRuleConfig>((accumulator, [ruleName, config]) => {
-      return { ...accumulator, [ruleName]: config };
-    }, {});
+  const activeConfiguredRules: AdvancedRuleConfig = Object.entries(
+    configuredRules
+  ).reduce<AdvancedRuleConfig>((accumulator, [ruleName, config]) => {
+    config.disabled = "disabled" in config;
+    return { ...accumulator, [ruleName]: config };
+  }, {});
 
   return activeConfiguredRules;
 }

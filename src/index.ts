@@ -19,6 +19,7 @@ import { RuleResult } from "./main/models/RuleResult";
 import { ScanResult } from "./main/models/ScanResult";
 
 export {
+  AdvancedRule,
   Compiler,
   fix,
   Flow,
