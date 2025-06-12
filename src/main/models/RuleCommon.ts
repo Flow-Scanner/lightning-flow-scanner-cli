@@ -9,6 +9,7 @@ export class RuleCommon {
   public name;
   public severity?;
   public supportedTypes: string[];
+  public suppressionElement?: string;
   public uri;
 
   constructor(

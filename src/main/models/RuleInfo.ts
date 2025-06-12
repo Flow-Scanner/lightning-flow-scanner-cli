@@ -1,9 +1,10 @@
 export class RuleInfo {
-  public name: string;
-  public label: string;
-  public description: string;
-  public supportedTypes: string[];
-  public docRefs: { label: string; path: string }[];
-  public isConfigurable: boolean;
   public autoFixable: boolean;
+  public description: string;
+  public docRefs: Array<{ label: string; path: string }>;
+  public isConfigurable: boolean;
+  public label: string;
+  public name: string;
+  public supportedTypes: string[];
+  public suppressionElement?: string;
 }

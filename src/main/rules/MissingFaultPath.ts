@@ -31,6 +31,7 @@ export class MissingFaultPath
       label: "Missing Fault Path",
       name: "MissingFaultPath",
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
+      suppressionElement: "actionName",
     });
   }
   public execute(flow: core.Flow): core.RuleResult {
@@ -72,15 +73,18 @@ export class MissingFaultPath
     ruleConfiguration?: AdvancedConfig
   ): core.RuleResult {
     const suppressedResults: core.ResultDetails[] = [];
+    const suppressionElementKey = this.suppressionElement as string;
     for (const resultDetails of scanResult.details) {
       if (
         "violation" in resultDetails &&
         "element" in resultDetails.violation &&
         typeof resultDetails.violation.element === "object" &&
         !Array.isArray(resultDetails.violation.element) &&
-        "actionName" in resultDetails.violation.element &&
+        suppressionElementKey in resultDetails.violation.element &&
         ruleConfiguration?.suppressions?.includes(
-          (resultDetails.violation.element as { actionName: string }).actionName as string
+          (resultDetails.violation.element as { actionName: string })[
+            suppressionElementKey
+          ] as string
         )
       ) {
         continue;

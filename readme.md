@@ -76,6 +76,37 @@ Using the  rules section of your configurations, you can specify the list of rul
 }
 ```
 
+### \*\*Beta\*\* Advanced Rule Configuration
+
+Advanced rules provide granular control by allowing rules to be intentionally disabled at the rule level, ensuring consistent application across all flows. Additionally, the concept of suppressions is introduced, enabling users to "whitelist" specific components. This mechanism allows for exceptions to be defined, offering flexibility in rule enforcement while maintaining overall governance and compliance.
+
+JSON
+```json
+{
+  "rules": {
+    "<RuleName>": {
+      "path": "local_path_of_your_js_file", // optional: when defined, this configuration will be used for the engine to recognize your custom rule
+      "severity": "<User Configured Severity>",
+      "expression": "<User Configured Expression which only applies to rules that take in `options`>",
+      "disabled": "true", // optional: when true, rule will not be applied to all flows being scanned
+      "suppressions": ["<User Configured Suppressions>"] // optional: when defined, takes an array of suppressed elements (not based on name but on specific type)
+    }
+  }
+}
+```
+
+YAML
+```yaml
+rules:
+  MissingFaultPath: # User Defined Rule configuration
+    path: "local_path_of_your_js_file" # Optional: when defined, this configuration will be used for the engine to recognize your rule
+    severity: error # Optional: User Defined severity, can be `info`, `warn`, `error`
+    expression: ">=58" # Optional: User defined expression, only applies if rule is Configurable=true
+    disabled: "true" # Optional: when true, rule will not be applied to all flows being scanned
+    suppressions: # Optional: when defined, takes an array of elements to be suppressed, keys can be found on suppressionElements on the rule definition
+      - LogACall # Optional: when defined, rule engine will look at suppressionElement defined on the rule to match against this list
+```
+
 - **Severity:**
   - Optional values for severity are "error", "warning", and "note".
   - If severity is provided, it overwrites the default severity, which is "error".
