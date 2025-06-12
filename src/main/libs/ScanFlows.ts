@@ -189,7 +189,6 @@ function unifiedRuleConfig(ruleOptions: IRulesConfig | undefined): AdvancedRuleC
   const activeConfiguredRules: AdvancedRuleConfig = Object.entries(
     configuredRules
   ).reduce<AdvancedRuleConfig>((accumulator, [ruleName, config]) => {
-    config.disabled = !("disabled" in config) && config.disabled === true;
     return { ...accumulator, [ruleName]: config };
   }, {});
 
