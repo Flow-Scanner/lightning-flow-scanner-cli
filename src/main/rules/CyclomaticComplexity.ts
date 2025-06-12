@@ -1,7 +1,7 @@
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 import * as core from "../internals/internals";
 
-export class CyclomaticComplexity extends RuleCommon implements core.IRuleDefinition {
+export class CyclomaticComplexity extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super(
       {

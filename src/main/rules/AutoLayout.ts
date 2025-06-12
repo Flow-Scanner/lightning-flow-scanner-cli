@@ -1,7 +1,7 @@
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
+export class AutoLayout extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super({
       name: "AutoLayout",
@@ -21,12 +21,12 @@ export class AutoLayout extends RuleCommon implements core.IRuleDefinition {
       const CanvasMode = flow.xmldata.processMetadataValues.find(
         (mdv) => mdv.name === "CanvasMode"
       );
-      const AutoLayout =
+      const autoLayout =
         CanvasMode.value &&
         typeof CanvasMode.value === "object" &&
         CanvasMode.value.stringValue &&
         CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
-      return !AutoLayout
+      return !autoLayout
         ? new core.RuleResult(this, [
             new core.ResultDetails(
               new core.FlowAttribute(

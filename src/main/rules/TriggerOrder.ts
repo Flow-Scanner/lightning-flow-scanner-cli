@@ -1,7 +1,7 @@
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class TriggerOrder extends RuleCommon implements core.IRuleDefinition {
+export class TriggerOrder extends AdvancedRule implements core.IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>(["Create", "Update"]);
 
   constructor() {

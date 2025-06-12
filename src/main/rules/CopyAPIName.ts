@@ -1,7 +1,7 @@
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
+export class CopyAPIName extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super({
       name: "CopyAPIName",
@@ -21,6 +21,7 @@ export class CopyAPIName extends RuleCommon implements core.IRuleDefinition {
     ) as core.FlowNode[];
     const copyOfElements = [];
     for (const element of flowElements) {
+      // eslint-disable-next-line sonarjs/concise-regex
       const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
       if (copyOf) {
         copyOfElements.push(element);

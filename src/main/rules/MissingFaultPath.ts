@@ -1,10 +1,10 @@
 import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
 export class MissingFaultPath
-  extends RuleCommon
+  extends AdvancedRule
   implements AdvancedSuppression, core.IRuleDefinition
 {
   protected applicableElements: string[] = [
@@ -73,7 +73,16 @@ export class MissingFaultPath
   ): core.RuleResult {
     const suppressedResults: core.ResultDetails[] = [];
     for (const resultDetails of scanResult.details) {
-      if (ruleConfiguration?.suppressions?.includes(resultDetails.name)) {
+      if (
+        "violation" in resultDetails &&
+        "element" in resultDetails.violation &&
+        typeof resultDetails.violation.element === "object" &&
+        !Array.isArray(resultDetails.violation.element) &&
+        "actionName" in resultDetails.violation.element &&
+        ruleConfiguration?.suppressions?.includes(
+          (resultDetails.violation.element as { actionName: string }).actionName as string
+        )
+      ) {
         continue;
       }
       suppressedResults.push(resultDetails);

@@ -1,7 +1,7 @@
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 import * as core from "../internals/internals";
 
-export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
+export class HardcodedId extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super({
       name: "HardcodedId",
@@ -27,14 +27,14 @@ export class HardcodedId extends RuleCommon implements core.IRuleDefinition {
   public execute(flow: core.Flow): core.RuleResult {
     const nodesWithHardcodedIds = [];
     const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;
-    
+
     for (const node of flow.elements) {
       const nodeString = JSON.stringify(node);
       if (salesforceIdRegex.test(nodeString)) {
         nodesWithHardcodedIds.push(node);
       }
     }
-    
+
     const results = nodesWithHardcodedIds.map((node) => new core.ResultDetails(node));
     return new core.RuleResult(this, results);
   }

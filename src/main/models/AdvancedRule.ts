@@ -7,7 +7,10 @@ import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 import { RuleResult } from "./RuleResult";
 
-export abstract class AdvancedRule extends RuleCommon implements AdvancedRuleDefinition {
+export abstract class AdvancedRule
+  extends RuleCommon
+  implements AdvancedRuleDefinition, IRuleDefinition
+{
   constructor(
     info: RuleInfo,
     optional?: {
@@ -17,12 +20,13 @@ export abstract class AdvancedRule extends RuleCommon implements AdvancedRuleDef
     super(info, optional);
   }
 
-  public execute(
+  abstract execute(flow: Flow, ruleOptions?: object);
+  public execute2(
     flow: Flow,
     ruleConfiguration?: AdvancedConfig,
     userFlowSuppressions?: string[]
   ): RuleResult {
-    if (!hasAdvancedRuleDefinition(this)) {
+    if (!hasClassicRuleDefinition(this)) {
       return new RuleResult(this as unknown as IRuleDefinition, []);
     }
 
@@ -56,10 +60,10 @@ function generalSuppressions(
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const isFunction = (val: unknown): val is Function => typeof val === "function";
 
-function hasAdvancedRuleDefinition(instance: unknown): instance is AdvancedRuleDefinition {
-  return isFunction((instance as AdvancedRuleDefinition).execute);
-}
-
 function hasAdvancedSuppression(instance: unknown): instance is AdvancedSuppression {
   return isFunction((instance as AdvancedSuppression).suppress);
+}
+
+function hasClassicRuleDefinition(instance: unknown): instance is IRuleDefinition {
+  return isFunction((instance as IRuleDefinition).execute);
 }

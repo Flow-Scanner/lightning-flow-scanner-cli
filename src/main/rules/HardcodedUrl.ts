@@ -1,13 +1,7 @@
-import {
-  Flow,
-  FlowType,
-  IRuleDefinition,
-  ResultDetails,
-  RuleCommon,
-  RuleResult,
-} from "../internals/internals";
+import { Flow, FlowType, IRuleDefinition, ResultDetails, RuleResult } from "../internals/internals";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
+export class HardcodedUrl extends AdvancedRule implements IRuleDefinition {
   constructor() {
     super(
       {

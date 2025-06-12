@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
 
-import * as core from "../src";
+import { Flow, parse, RuleResult, scan, ScanResult } from "../src";
 import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
 
@@ -10,16 +10,23 @@ describe("MissingFaultPath", () => {
   const fixed_uri = path.join(__dirname, "./xmlfiles/Missing_Error_Handler_Fixed.flow-meta.xml");
 
   it("there should be one result for the rule MissingFaultPath", async () => {
-    const flows = await core.parse([example_uri]);
-    const results: core.ScanResult[] = core.scan(flows);
+    const flows = await parse([example_uri]);
+    const config = {
+      rules: {
+        MissingFaultPath: {
+          severity: "error",
+        },
+      },
+    };
+    const results: ScanResult[] = scan(flows, config);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(1);
     expect(occurringResults[0].ruleName).toBe("MissingFaultPath");
   });
 
   it("Should have no result", async () => {
-    const flows = await core.parse([fixed_uri]);
-    const results: core.ScanResult[] = core.scan(flows);
+    const flows = await parse([fixed_uri]);
+    const results: ScanResult[] = scan(flows);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(0);
   });
@@ -30,8 +37,25 @@ describe("MissingFaultPath", () => {
     );
     const parsedFile: ParsedFlow[] = rawFile as unknown as ParsedFlow[];
     const missingFaultPathRule = new MissingFaultPath();
-    const flow: core.Flow = parsedFile.pop()?.flow as core.Flow;
-    const scanResults: core.RuleResult = missingFaultPathRule.execute(flow);
+    const flow: Flow = parsedFile.pop()?.flow as Flow;
+    const scanResults: RuleResult = missingFaultPathRule.execute(flow);
     expect(scanResults.occurs).toBe(false);
+  });
+
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip("should not occur when actionName is suppressed", async () => {
+    process.env.IS_NEW_SCAN_ENABLED = "true";
+    const flows = await parse([example_uri]);
+    const config = {
+      rules: {
+        MissingFaultPath: {
+          severity: "error",
+          suppressions: ["LogACall"],
+        },
+      },
+    };
+    const results: ScanResult[] = scan(flows, config);
+    const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
+    expect(occurringResults).toHaveLength(0);
   });
 });

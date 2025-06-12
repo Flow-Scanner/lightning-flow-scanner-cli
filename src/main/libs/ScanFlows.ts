@@ -166,7 +166,7 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
     const userRuleConfiguration = ruleConfiguration[ruleName] ?? {};
     const userFlowSuppressions: string[] = ruleOptions?.exceptions?.[flowName]?.[ruleName] ?? [];
 
-    ruleResults.push(rule.execute(flow, userRuleConfiguration, userFlowSuppressions));
+    ruleResults.push(rule.execute2(flow, userRuleConfiguration, userFlowSuppressions));
   }
   return new ScanResult(flow, ruleResults);
 }

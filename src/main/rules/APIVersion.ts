@@ -1,7 +1,7 @@
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class APIVersion extends RuleCommon implements core.IRuleDefinition {
+export class APIVersion extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super({
       name: "APIVersion",
@@ -30,6 +30,7 @@ export class APIVersion extends RuleCommon implements core.IRuleDefinition {
       return new core.RuleResult(this, results);
     }
     if (options && options.expression) {
+      // eslint-disable-next-line sonarjs/code-eval
       const isApiNumberMoreThanConfiguredExpression = new Function(
         `return ${flowAPIVersionNumber}${options.expression};`
       );

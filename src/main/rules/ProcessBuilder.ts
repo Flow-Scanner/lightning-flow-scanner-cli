@@ -1,7 +1,7 @@
 import * as core from "../internals/internals";
-import { RuleCommon } from "../models/RuleCommon";
+import { AdvancedRule } from "../models/AdvancedRule";
 
-export class ProcessBuilder extends RuleCommon implements core.IRuleDefinition {
+export class ProcessBuilder extends AdvancedRule implements core.IRuleDefinition {
   constructor() {
     super({
       name: "ProcessBuilder",
