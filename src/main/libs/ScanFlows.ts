@@ -157,17 +157,6 @@ function ruleAndConfig(
     );
   }
 
-  const disabledRule = new Set(
-    Object.entries(ruleConfiguration)
-      .filter(([, rule]) => rule.disabled)
-      .map(([key]) => key)
-  );
-  allRules = Object.keys(allRules)
-    .filter((ruleName) => !disabledRule.has(ruleName))
-    .reduce<Record<string, AdvancedRule>>((acc, ruleName) => {
-      acc[ruleName] = allRules[ruleName];
-      return acc;
-    }, {});
   return [allRules, ruleConfiguration];
 }
 
@@ -176,7 +165,7 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
   const ruleResults: RuleResult[] = [];
   for (const [ruleName] of Object.entries(allRules)) {
     const rule = new DynamicRule<AdvancedRule>(ruleName) as AdvancedRule;
-    if (!rule.supportedTypes.includes(flow.type)) {
+    if (!rule.supportedTypes.includes(flow.type) || ruleConfiguration[rule.name]?.disabled) {
       ruleResults.push(new RuleResult(rule as RuleCommon as IRuleDefinition, []));
       continue;
     }
