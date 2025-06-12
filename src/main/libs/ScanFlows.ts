@@ -164,7 +164,10 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
   const ruleResults: RuleResult[] = [];
   for (const [ruleName] of Object.entries(allRules)) {
     const rule = new DynamicRule<AdvancedRule>(ruleName) as AdvancedRule;
-    if (!rule.supportedTypes.includes(flow.type)) {
+    if (
+      !rule.supportedTypes.includes(flow.type) ||
+      ruleConfiguration?.[ruleName]?.disabled === true
+    ) {
       ruleResults.push(new RuleResult(rule as IRuleDefinition, []));
       continue;
     }
@@ -186,7 +189,7 @@ function unifiedRuleConfig(ruleOptions: IRulesConfig | undefined): AdvancedRuleC
   const activeConfiguredRules: AdvancedRuleConfig = Object.entries(
     configuredRules
   ).reduce<AdvancedRuleConfig>((accumulator, [ruleName, config]) => {
-    config.disabled = "disabled" in config;
+    config.disabled = !("disabled" in config) && config.disabled === true;
     return { ...accumulator, [ruleName]: config };
   }, {});
 
