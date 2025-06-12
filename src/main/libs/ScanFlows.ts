@@ -164,10 +164,7 @@ function scanFlowWithConfig(flow: Flow, ruleOptions?: IRulesConfig): ScanResult 
   const ruleResults: RuleResult[] = [];
   for (const [ruleName] of Object.entries(allRules)) {
     const rule = new DynamicRule<AdvancedRule>(ruleName) as AdvancedRule;
-    if (
-      !rule.supportedTypes.includes(flow.type) ||
-      ruleConfiguration[rule.name]?.disabled === true
-    ) {
+    if (!rule.supportedTypes.includes(flow.type)) {
       ruleResults.push(new RuleResult(rule as IRuleDefinition, []));
       continue;
     }
