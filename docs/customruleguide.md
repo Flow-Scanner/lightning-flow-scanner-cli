@@ -9,6 +9,14 @@ The Lightning Flow Scanner (LFS) core provides two primary capabilities: `parse`
 
 Rules in LFS are implemented as classes that conform to the `IRuleDefinition` interface, ensuring each rule exposes the required properties and methods for the scanner to recognize and execute them.
 
+> **Important:** Custom rules are recognized by the Lightning Flow Scanner only if your rule configuration in the flow-scanner config file specifies a valid `path` to the rule implementation. Ensure that each custom rule entry includes the `path` property pointing to the JavaScript file that exports your rule class.
+```yml
+rules:
+  MyCustomRuleToBeScanned:
+    path: # Relative or absolute path to js file
+    severity: error
+```
+
 > **Note:** The `IRuleDefinition` interface is being replaced by the `AdvancedRule` base class. This transition allows backward compatibility, simplifies rule development and enables exception handling at the flow scan process level. Additionally, the introduction of `AdvancedSuppression` allows individual rules to define custom suppression logic, providing more granular control over rule enforcement.
 
 ## Rule Structure 
