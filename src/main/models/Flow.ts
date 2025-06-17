@@ -9,6 +9,9 @@ import { FlowResource } from "./FlowResource";
 import { FlowVariable } from "./FlowVariable";
 
 export class Flow {
+  /**
+   * Categorized flow contents that should be used in the rule implementation
+   */
   public elements?: FlowElement[];
   public fsPath;
   public interviewLabel?: string;
@@ -23,6 +26,9 @@ export class Flow {
   public status?;
   public triggerOrder?: number;
   public type?;
+  /**
+   * XML to JSON conversion in raw format
+   */
   public xmldata;
 
   private flowMetadata = [

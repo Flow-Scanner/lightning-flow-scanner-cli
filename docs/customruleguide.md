@@ -1,13 +1,24 @@
 # Writing Custom Rules
 
+![High Level Class Diagram](../media/lfs-high-level-diagram.png)
+
+The Lightning Flow Scanner (LFS) core provides two primary capabilities: `parse` and `scan`.
+
+- **Parse**: Accepts a URI, file path, or location, and processes the flow definition. Parsing goes beyond simple XML-to-JSON translation by classifying and structuring the flow data into meaningful objects for further analysis.
+- **Scan**: Takes a parsed flow and applies a set of defined rules. Each rule is instantiated and executed according to the provided configuration.
+
+Rules in LFS are implemented as classes that conform to the `IRuleDefinition` interface, ensuring each rule exposes the required properties and methods for the scanner to recognize and execute them.
+
+> **Note:** The `IRuleDefinition` interface is being replaced by the `AdvancedRule` base class. This transition allows backward compatibility, simplifies rule development and enables exception handling at the flow scan process level. Additionally, the introduction of `AdvancedSuppression` allows individual rules to define custom suppression logic, providing more granular control over rule enforcement.
+
 ## Rule Structure 
 A custom rule class typically follows this structure:
 
 ```typescript
 // Import necessary types and classes from a local core module
-import { Flow, FlowAttribute, FlowType, AdvancedRule, ResultDetails, RuleResult } from './lightning-flow-scanner-core/src/index';
+import { Flow, FlowAttribute, FlowType, AdvancedRule, ResultDetails, RuleResult } from 'lightning-flow-scanner-core';
 
-export class CustomNamingConvention extends AdvancedRule{
+export class CustomNamingConvention extends AdvancedRule {
 
   constructor(){
     super({
