@@ -49,7 +49,7 @@ export class MissingFaultPath
 
     const visitCallback = (element: core.FlowNode) => {
       if (
-        !element.connectors.find((connector) => connector.type === "faultConnector") &&
+        !element?.connectors?.find((connector) => connector.type === "faultConnector") &&
         elementsWhereFaultPathIsApplicable.includes(element.name)
       ) {
         if (isRecordBeforeSave && element.subtype === "recordUpdates") {
@@ -102,7 +102,7 @@ export class MissingFaultPath
       if (otherElement !== element) {
         // Check if the otherElement has a faultConnector pointing to element
         if (
-          otherElement.connectors.find(
+          otherElement.connectors?.find(
             (connector) =>
               connector.type === "faultConnector" && connector.reference === element.name
           )
