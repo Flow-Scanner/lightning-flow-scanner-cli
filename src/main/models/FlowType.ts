@@ -1,7 +1,21 @@
+/**
+ * Represents the different types of Salesforce Flows and provides utility methods
+ * to categorize and retrieve them.
+ *
+ * @remarks
+ * This class defines static properties for various flow types, including backend,
+ * process builder, survey, visual, and unsupported types. It also provides a method
+ * to retrieve all supported flow types.
+ *
+ * @example
+ * ```typescript
+ * const allFlowTypes = FlowType.allTypes();
+ * ```
+ */
 export class FlowType {
-  public static autolaunchedType = "AutoLaunchedFlow";
+  public static readonly autolaunchedType = "AutoLaunchedFlow";
 
-  public static backEndTypes = [
+  public static readonly backEndTypes = [
     this.autolaunchedType,
     "CustomEvent",
     "InvocableProcess",
@@ -9,9 +23,15 @@ export class FlowType {
     "EvaluationFlow",
     "ActionCadenceAutolaunchedFlow",
   ];
-  public static processBuilder = ["Workflow"];
-  public static surveyTypes = ["Survey"];
-  public static visualTypes = [
+  public static readonly processBuilder = ["Workflow"];
+  public static readonly surveyTypes = ["Survey"];
+  public static readonly unsupportedTypes = [
+    "CheckoutFlow",
+    "FSCLending",
+    "FSCLending",
+    "LoyaltyManagementFlow",
+  ];
+  public static readonly visualTypes = [
     "Flow",
     "IndividualObjectLinkingFlow",
     "LoginFlow",
@@ -25,14 +45,8 @@ export class FlowType {
     "FieldServiceWeb",
     "SurveyEnrich",
   ];
-  public static unsupportedTypes = [
-    "CheckoutFlow",
-    "FSCLending",
-    "FSCLending",
-    "LoyaltyManagementFlow",
-  ];
 
-  public static allTypes = function () {
+  public static readonly allTypes = function () {
     return [...this.backEndTypes, ...this.visualTypes, ...this.surveyTypes];
   };
 }
