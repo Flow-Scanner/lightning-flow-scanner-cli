@@ -28,8 +28,8 @@
     "postversion": "cp package.json ../.. && cp package-lock.json ../..",
     "clean": "rm -rf out dist types",
     "vite:dist": "npm run swc:build && vite build",
-    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run",
-    "prepush": "npm run clean && npm run swc:sim:pack && npm run test"
+    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runn",
+    "deploy:testflows": "node scripts/deploy-test-flows.js"
   },
   "keywords": [],
   "license": "MIT",
@@ -65,6 +65,7 @@
     "vitest": "3.2.3"
   },
   "dependencies": {
+    "archiver": "^7.0.1",
     "xmlbuilder2": "^3.1.1"
   }
 }

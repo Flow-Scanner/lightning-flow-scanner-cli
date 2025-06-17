@@ -20,3 +20,5 @@ out
 reports
 coverage
 .nyc_output
+tests/xmlfiles/package.xml
+deploy.zip
