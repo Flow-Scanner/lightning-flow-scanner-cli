@@ -80,4 +80,5 @@
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
     </variables>
+    <triggerOrder>10</triggerOrder>
 </Flow>

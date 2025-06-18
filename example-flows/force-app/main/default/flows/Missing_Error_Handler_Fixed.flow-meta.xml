@@ -32,7 +32,8 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
-    <description>This flow demonstrates how to resolve a violation of the rule &quot;Missing Error Handler&quot;.</description>
+    <description>This flow demonstrates how to resolve a violation of the rule &quot;Missing Error
+        Handler&quot;.</description>
     <environments>Default</environments>
     <interviewLabel>Fix: Missing Error Handler {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Fix: Missing Error Handler</label>
@@ -63,4 +64,5 @@
         </connector>
     </start>
     <status>Active</status>
+    <triggerOrder>10</triggerOrder>
 </Flow>

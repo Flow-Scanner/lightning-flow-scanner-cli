@@ -28,7 +28,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>

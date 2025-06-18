@@ -102,4 +102,5 @@
         <isOutput>false</isOutput>
         <objectType>Task</objectType>
     </variables>
+    <triggerOrder>10</triggerOrder>
 </Flow>
