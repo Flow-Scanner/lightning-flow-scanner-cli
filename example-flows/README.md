@@ -67,11 +67,7 @@ No more maintaining a separate flows repo! 🎉
 
 ## 🧩 Recommended VS Code Extensions
 
-- [Salesforce Extension Pack](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode)
 - [Lightning Flow Scanner Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner)
-- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
----
 
 ## 📖 Resources
 
