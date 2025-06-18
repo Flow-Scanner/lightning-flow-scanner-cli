@@ -29,8 +29,8 @@
     "clean": "rm -rf out dist types",
     "vite:dist": "npm run swc:build && vite build",
     "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runn",
-    "deploy:testflows": "node scripts/deploy-test-flows.js"
-  },
+    "deploy:flows": "node scripts/deployFlows.js"
+    },
   "keywords": [],
   "license": "MIT",
   "description": "A rule engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows.",
@@ -65,7 +65,6 @@
     "vitest": "3.2.3"
   },
   "dependencies": {
-    "archiver": "^7.0.1",
     "xmlbuilder2": "^3.1.1"
   }
 }
