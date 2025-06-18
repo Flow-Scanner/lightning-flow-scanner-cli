@@ -1,18 +1,84 @@
-# Salesforce DX Project: Next Steps
+# ⚡️ Lightning Flow Scanner Demo Flows
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Welcome to the **Lightning Flow Scanner Demo Flows**! This project includes a curated set of Salesforce Flow metadata files (`.flow-meta.xml`) intended for:
 
-## How Do You Plan to Deploy Your Changes?
+- ✅ Demonstrating best practices and violations detectable by [Lightning Flow Scanner](https://github.com/Lightning-Flow-Scanner)
+- 🧪 Serving as a reliable input set for automated testing in the main scanner repository
+- 🚀 Easy deployment to any org using the Salesforce CLI
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+These flows are designed to support testing, demoing, and local development without maintaining a separate demo repository.
 
-## Configure Your Salesforce DX Project
+---
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+## 🔧 Usage
 
-## Read All About It
+You can deploy the demo flows using:
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+```bash
+npm run deploy:testflows -- --target-org my-sandbox
+```
+
+Or with an environment variable:
+
+```bash
+SF_TARGET_ORG=my-sandbox npm run deploy:testflows
+```
+
+---
+
+## 📁 Project Structure
+
+This is a standard Salesforce DX project structure:
+
+```
+example-flows/
+└── force-app/
+    └── main/
+        └── default/
+            └── flows/
+                ├── Copy_API_Name.flow-meta.xml
+                ├── Hardcoded_Id.flow-meta.xml
+                ├── ...
+```
+
+---
+
+## 🧪 Connected to Unit Tests
+
+These flows are directly referenced by unit tests in the main [`lightning-flow-scanner-core`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core) repository. Tests point to:
+
+```
+../example-flows/force-app/main/default/flows/
+```
+
+No more maintaining a separate flows repo! 🎉
+
+---
+
+## 💡 Want to Explore in VS Code?
+
+1. **Clone this repo**
+   - `git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git`
+2. **Open `example-flows/` in VS Code**
+3. **Install recommended extensions when prompted**
+4. Use Salesforce CLI or the Lightning Flow Scanner VS Code extension to scan and analyze the flows.
+
+---
+
+## 🧩 Recommended VS Code Extensions
+
+- [Salesforce Extension Pack](https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode)
+- [Lightning Flow Scanner Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+---
+
+## 📖 Resources
+
+- [Lightning Flow Scanner Core](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core)
+- [Lightning Flow Scanner VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner)
+- [Salesforce DX Documentation](https://developer.salesforce.com/tools/sfdxcli)
+
+---
+
+Happy Flow Scanning! 🚦✨
