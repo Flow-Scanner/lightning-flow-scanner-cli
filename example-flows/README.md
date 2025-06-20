@@ -1,80 +1,27 @@
-# ⚡️ Lightning Flow Scanner Demo Flows
+# Lightning Flow Scanner Demo Repository
 
-Welcome to the **Lightning Flow Scanner Demo Flows**! This project includes a curated set of Salesforce Flow metadata files (`.flow-meta.xml`) intended for:
+Welcome to the Lightning Flow Scanner Demo Repository! Get up and running and try the Lightning Flow Scanner now using our Demo Flows. We've prepared a set of example flows that showcase various types of violations, as well as flows that demonstrate how to resolve them. This repository is designed to provide you with practical examples of best practices, ensuring you have valuable resources at your fingertips to improve your code scanning and development process. Explore, learn, and enhance your Salesforce Flow scanning capabilities with our curated test data and sample flows. Happy flow building! 🚀🌟
 
-- ✅ Demonstrating best practices and violations detectable by [Lightning Flow Scanner](https://github.com/Lightning-Flow-Scanner)
-- 🧪 Serving as a reliable input set for automated testing in the main scanner repository
-- 🚀 Easy deployment to any org using the Salesforce CLI
+## Getting Started
 
-These flows are designed to support testing, demoing, and local development without maintaining a separate demo repository.
+Follow these steps to get up and running with the Lightning Flow Scanner Demo Repository and try out our demo flows:
 
----
+### Step 1: Clone the Repository
+To clone the repository, press Ctrl+Shift+P on Windows or Shift+⌘+P on macOS to open the command palette and use the Git Clone command. Alternatively, you can click the link below to clone the repository:
 
-## 🔧 Usage
+![Clone this repo](https://raw.githubusercontent.com/Force-Config-Control/Force-Flow-Control-Examples/master/docs/CloneRepository.png)
 
-You can deploy the demo flows using:
+### Step 2: Open in Editor
+When prompted, select to open the repository. This will open the cloned repository in your preferred code editor. You can also click the link below for direct access:
 
-```bash
-npm run deploy:testflows -- --target-org my-sandbox
-```
+![Open in Editor](https://raw.githubusercontent.com/Force-Config-Control/Force-Flow-Control-Examples/master/docs/OpenDirectory.png)
 
-Or with an environment variable:
+### Step 3: Install Recommended Extensions
+Upon opening the repository, you may be prompted to install recommended extensions. It's essential to do this to ensure a smooth experience when working with the Lightning Flow Scanner. Click the link below for reference:
 
-```bash
-SF_TARGET_ORG=my-sandbox npm run deploy:testflows
-```
+![Install Recommended Extensions](https://raw.githubusercontent.com/Force-Config-Control/Force-Flow-Control-Examples/master/docs/InstallRecommendedExtensions.png)
 
----
+### Step 4: Run Flow Commands
+Press Ctrl+Shift+P on Windows or Shift+⌘+P on macOS to open the command palette and type `Flow` to see the available commands from Lightning Flow Scanner. Examples of how the commands run can be found in the [Readme of the Extension repository](https://github.com/Force-Config-Control/lightning-flow-scanner-vsce).
 
-## 📁 Project Structure
-
-This is a standard Salesforce DX project structure:
-
-```
-example-flows/
-└── force-app/
-    └── main/
-        └── default/
-            └── flows/
-                ├── Copy_API_Name.flow-meta.xml
-                ├── Hardcoded_Id.flow-meta.xml
-                ├── ...
-```
-
----
-
-## 🧪 Connected to Unit Tests
-
-These flows are directly referenced by unit tests in the main [`lightning-flow-scanner-core`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core) repository. Tests point to:
-
-```
-../example-flows/force-app/main/default/flows/
-```
-
-No more maintaining a separate flows repo! 🎉
-
----
-
-## 💡 Want to Explore in VS Code?
-
-1. **Clone this repo**
-   - `git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git`
-2. **Open `example-flows/` in VS Code**
-3. **Install recommended extensions when prompted**
-4. Use Salesforce CLI or the Lightning Flow Scanner VS Code extension to scan and analyze the flows.
-
----
-
-## 🧩 Recommended VS Code Extensions
-
-- [Lightning Flow Scanner Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner)
-
-## 📖 Resources
-
-- [Lightning Flow Scanner Core](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core)
-- [Lightning Flow Scanner VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner)
-- [Salesforce DX Documentation](https://developer.salesforce.com/tools/sfdxcli)
-
----
-
-Happy Flow Scanning! 🚦✨
+![Flow Commands](https://raw.githubusercontent.com/Force-Config-Control/Force-Flow-Control-Examples/master/docs/FlowCommands.png)
