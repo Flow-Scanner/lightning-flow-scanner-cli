@@ -28,9 +28,10 @@
     "postversion": "cp package.json ../.. && cp package-lock.json ../..",
     "clean": "rm -rf out dist types",
     "vite:dist": "npm run swc:build && vite build",
-    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runn",
+    "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run",
+    "prepush": "npm run clean && npm run swc:sim:pack && npm run test",
     "deploy:flows": "node scripts/deployFlows.js"
-    },
+  },
   "keywords": [],
   "license": "MIT",
   "description": "A rule engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows.",
