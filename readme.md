@@ -162,26 +162,26 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 Follow these steps to set up your development environment:
 
-0. **Deploy Flows(Optional):** test the rules against real flow metadata with a set of [example flows](./example-flows/force-app/main/default/flows) for demonstration purposes.
+1. **Clone Repository:** Begin by cloning the Lightning Flow Scanner Core repository to your local machine:
 
-   ```bash
-   npm run deploy:flows -- -o <your-org-alias>
-   ```
+```bash
+git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git
+```
 
-1. **Clone Repository**: Begin by cloning the Lightning Flow Scanner Core repository to your local machine:
+*(*Optional) Deploy Flows: test the rules against real flow metadata with a set of [example flows](./example-flows/force-app/main/default/flows) for demonstration purposes:\*
 
-   ```bash
-   git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git
-   ```
+```
+npm run deploy:flows -- -o
+```
 
 2. **Install Dependencies**: Navigate into the cloned repository directory and install the necessary dependencies using Yarn:
 
-   ```bash
-   cd lightning-flow-scanner-core
-   npm install
-   ```
+```bash
+cd lightning-flow-scanner-core
+npm install
+```
 
-3. **Build**: Compile the TypeScript source files into JavaScript using the TypeScript compiler:
+4. **Build**: Compile the TypeScript source files into JavaScript using the TypeScript compiler:
 
    ```bash
    npm run build
@@ -189,7 +189,7 @@ Follow these steps to set up your development environment:
 
    This command generates the compiled JavaScript files in the `out` directory.
 
-4. **Run Tests**: Ensure the module functions correctly by running the test suites:
+5. **Run Tests**: Ensure the module functions correctly by running the test suites:
 
    ```bash
    npm run test
@@ -197,4 +197,4 @@ Follow these steps to set up your development environment:
 
    This command uses Mocha to run tests located in the `tests` directory and provides feedback on the module's functionality.
 
-5. **Debugging in IDE**: If needed, set up your integrated development environment (IDE) for debugging TypeScript code. Configure breakpoints, inspect variables, and step through the code to identify and resolve issues efficiently.
+6. ~~**Debugging in IDE**: If needed, set up your integrated development environment (IDE) for debugging TypeScript code. Configure breakpoints, inspect variables, and step through the code to identify and resolve issues efficiently.~~
