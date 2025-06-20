@@ -1,4 +1,4 @@
- [![Lightning Flow Scanner Banner](./media/bannerslim.png)](https://github.com/Lightning-Flow-Scanner)
+[![Lightning Flow Scanner Banner](./media/bannerslim.png)](https://github.com/Lightning-Flow-Scanner)
 
 _An Extensible Rule Engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows. Used by the Lightning Flow Scanner [Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner) and [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightningflowscanner&ssr=false#review-details)._
 
@@ -12,8 +12,8 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 
 ## Default Rules
 
-| Rule (Configuration ID)                                                                                                                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Rule (Configuration ID)                                                                                                                                                                | Description                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Auto Layout** ([`AutoLayout`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/AutoLayout.ts))                                       | With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.                                                                                                                                                                                                                                               |
 | **Outdated API Version** ([`APIVersion`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/APIVersion.ts))                              | Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them. |
 | **Copy API Name** ([`CopyAPIName`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/CopyAPIName.ts))                                   | Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.                                                                                                                                                    |
@@ -30,7 +30,7 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 | **Unconnected Element** ([`UnconnectedElement`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnconnectedElement.ts))               | Unconnected elements which are not being used by the Flow should be avoided to keep Flows efficient and maintainable.                                                                                                                                                                                                                                                                                  |
 | **Unused Variable** ([`UnusedVariable`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnusedVariable.ts))                           | To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use.                                                                                                                                                                                                                                                                |
 | **Unsafe Running Context** ([`UnsafeRunningContext`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/UnsafeRunningContext.ts))        | This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.                                                                                                                                                        |
-| **Same Record Field Updates** ([`SameRecordFieldUpdates`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/SameRecordFieldUpdates.ts)) | Much like triggers, before contexts can update the same record by accessing the trigger variables `$Record` without needing to invoke a DML.                                                                                                                                                                                                                                                         |
+| **Same Record Field Updates** ([`SameRecordFieldUpdates`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/SameRecordFieldUpdates.ts)) | Much like triggers, before contexts can update the same record by accessing the trigger variables `$Record` without needing to invoke a DML.                                                                                                                                                                                                                                                           |
 | **Trigger Order** ([`TriggerOrder`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/TriggerOrder.ts))                                 | Guarantee your flow execution order with the Trigger Order property introduced in Spring '22                                                                                                                                                                                                                                                                                                           |
 | **Cyclomatic Complexity** ([`CyclomaticComplexity`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/CyclomaticComplexity.ts))         | The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.                                                                                                                           |
 | **Recursive After Update** ([`RecursiveAfterUpdate`](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/src/main/rules/RecursiveAfterUpdate.ts))        | After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.                                                                                                                                      |
@@ -62,17 +62,17 @@ The `fix` function attempts to automatically fix certain issues identified durin
 
 ### Rule Configuration
 
-Using the  rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
+Using the rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
 
 ```json
 {
-    "rules": {
-        "<RuleName>": {
-            "severity": "<Severity>",
-            "expression": "<Expression>",
-            "path": "<Path>"
-        }
+  "rules": {
+    "<RuleName>": {
+      "severity": "<Severity>",
+      "expression": "<Expression>",
+      "path": "<Path>"
     }
+  }
 }
 ```
 
@@ -113,13 +113,15 @@ rules:
 
   - Optional values for severity are "error", "warning", and "note".
   - If severity is provided, it overwrites the default severity, which is "error".
+
 - **Expression:**
 
   - Expression is used to overwrite standard values in configurable rules.
+
 - **Path:**
 
   - If a path is provided, it can either replace an existing rule with a new rule definition or load a custom rule.
-  - Ensure that the rule name used in the path matches the  exported class name of the rule.
+  - Ensure that the rule name used in the path matches the exported class name of the rule.
 
 ### Custom Rule Interface
 
@@ -147,9 +149,11 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 - **FlowName:**
 
   - The name of the flow where exceptions apply.
+
 - **RuleName:**
 
   - The name of the rule for which exceptions are defined.
+
 - **ResultName:**
 
   - The specific result or condition within the rule for which exceptions are specified.
@@ -158,32 +162,39 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 Follow these steps to set up your development environment:
 
-0. **Demo Flows:** test the rules against real flow metadata with a set of [example flows](./example-flows/force-app/main/default/flows) for demonstration purposes.
+0. **Deploy Flows(Optional):** test the rules against real flow metadata with a set of [example flows](./example-flows/force-app/main/default/flows) for demonstration purposes.
 
    ```bash
    npm run deploy:flows -- -o <your-org-alias>
    ```
+
 1. **Clone Repository**: Begin by cloning the Lightning Flow Scanner Core repository to your local machine:
 
    ```bash
    git clone https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git
    ```
+
 2. **Install Dependencies**: Navigate into the cloned repository directory and install the necessary dependencies using Yarn:
 
    ```bash
    cd lightning-flow-scanner-core
    npm install
    ```
+
 3. **Build**: Compile the TypeScript source files into JavaScript using the TypeScript compiler:
 
    ```bash
    npm run build
    ```
+
    This command generates the compiled JavaScript files in the `out` directory.
+
 4. **Run Tests**: Ensure the module functions correctly by running the test suites:
 
    ```bash
    npm run test
    ```
+
    This command uses Mocha to run tests located in the `tests` directory and provides feedback on the module's functionality.
+
 5. **Debugging in IDE**: If needed, set up your integrated development environment (IDE) for debugging TypeScript code. Configure breakpoints, inspect variables, and step through the code to identify and resolve issues efficiently.
