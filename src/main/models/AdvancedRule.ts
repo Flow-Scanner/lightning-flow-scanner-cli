@@ -1,3 +1,4 @@
+import { inspect } from "util";
 import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedRuleDefinition } from "../interfaces/AdvancedRuleDefintion";
 import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
@@ -61,7 +62,12 @@ export abstract class AdvancedRule
       return new RuleResult(this as unknown as IRuleDefinition, []);
     }
 
-    let ruleResult = (this as IRuleDefinition).execute(flow, ruleConfiguration);
+    let ruleResult;
+    try {
+      ruleResult = (this as IRuleDefinition).execute(flow, ruleConfiguration);
+    } catch (error) {
+      return new RuleResult(this as unknown as IRuleDefinition, [], inspect(error));
+    }
 
     if (hasAdvancedSuppression(this)) {
       ruleResult = this.suppress(ruleResult, ruleConfiguration);
