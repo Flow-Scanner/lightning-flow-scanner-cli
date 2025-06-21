@@ -40,7 +40,7 @@
     "url": "git+https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git"
   },
   "devDependencies": {
-    "@jest/types": "30.0.0",
+    "@jest/types": "30.0.1",
     "@swc-node/jest": "1.8.13",
     "@swc/cli": "0.7.7",
     "@swc/core": "1.12.5",
@@ -55,7 +55,7 @@
     "eslint-plugin-perfectionist": "4.15.0",
     "eslint-plugin-sonarjs": "3.0.3",
     "husky": "9.1.7",
-    "jest": "30.0.0",
+    "jest": "30.0.2",
     "lint-staged": "16.1.2",
     "prettier": "3.5.3",
     "ts-node": "10.9.2",
