@@ -1,11 +1,17 @@
-import * as core from "../src";
+import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
 
-import { describe, it, expect } from "@jest/globals";
+import * as core from "../src";
 
 describe("MissingNullHandler ", () => {
-  const example_uri = path.join(__dirname, "../example-flows/force-app/main/default/flows/Missing_Null_Handler.flow-meta.xml");
-  const fixed_uri = path.join(__dirname, "../example-flows/force-app/main/default/flows/Missing_Null_Handler_Fixed.flow-meta.xml");
+  const example_uri = path.join(
+    __dirname,
+    "../example-flows/force-app/main/default/flows/Missing_Null_Handler.flow-meta.xml"
+  );
+  const fixed_uri = path.join(
+    __dirname,
+    "../example-flows/force-app/main/default/flows/Missing_Null_Handler_Fixed.flow-meta.xml"
+  );
 
   it("should return a result when no fault path is implemented", async () => {
     const flows = await core.parse([example_uri]);

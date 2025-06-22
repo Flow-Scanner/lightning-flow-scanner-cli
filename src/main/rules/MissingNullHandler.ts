@@ -27,7 +27,7 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;
       let nullCheckFound = false;
-      let resultReferences = [];
+      let resultReferences: string[] = [];
       if (getElement.element["storeOutputAutomatically"]) {
         resultReferences = [elementName];
       } else if (getElement.element["outputReference"]) {
@@ -39,9 +39,18 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
         }
       }
       for (const el of decisionElements) {
-        const rules = el.element["rules"];
+        let rules = el.element["rules"];
+        const isRuleAnArray = Array.isArray(rules);
+        if (!isRuleAnArray) {
+          rules = [rules];
+        }
         for (const rule of rules) {
-          for (const condition of rule.conditions) {
+          let conditions = rule.conditions;
+          const isConditionsAnArray = Array.isArray(conditions);
+          if (!isConditionsAnArray) {
+            conditions = [conditions];
+          }
+          for (const condition of conditions) {
             let referenceFound: boolean = false;
             let isNullOperator: boolean = false;
             let checksIfFalse: boolean = false;
@@ -54,15 +63,19 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
                 }
               }
             }
-            if (condition.operator && condition.operator.length > 0) {
+            if (
+              condition.operator &&
+              (!Array.isArray(condition.operator) || condition.operator.length > 0)
+            ) {
               const operator = condition.operator;
               isNullOperator = operator === "IsNull";
             }
             if (
               condition.rightValue &&
-              condition.rightValue.length > 0 &&
+              (!Array.isArray(condition.rightValue) || condition.rightValue.length > 0) &&
               condition.rightValue.booleanValue &&
-              condition.rightValue.booleanValue.length > 0
+              (!Array.isArray(condition.rightValue.booleanValue) ||
+                condition.rightValue.booleanValue.length > 0)
             ) {
               const rightValue = condition.rightValue.booleanValue;
               checksIfFalse = rightValue.toLowerCase() === "false";
