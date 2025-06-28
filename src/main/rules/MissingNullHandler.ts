@@ -24,10 +24,12 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
       (node) => node.metaType === "node" && node.subtype === "decisions"
     ) as core.FlowNode[];
     const getOperationsWithoutNullHandler = [];
+
     for (const getElement of getOperationElements) {
       const elementName = getElement.name;
       let nullCheckFound = false;
       let resultReferences: string[] = [];
+
       if (getElement.element["storeOutputAutomatically"]) {
         resultReferences = [elementName];
       } else if (getElement.element["outputReference"]) {
@@ -38,6 +40,17 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
           resultReferences.push(assignment.assignToReference);
         }
       }
+
+      // ✅ Skip check if result is never used inside the flow
+      const resultIsUsed = flow.elements.some((el) => {
+        if (el.name === getElement.name) return false;
+        const json = JSON.stringify(el.element);
+        return resultReferences.some((ref) =>
+          json.includes(`"${ref}"`) || json.includes(`"${ref}.`)
+        );
+      });
+      if (!resultIsUsed) continue;
+
       for (const el of decisionElements) {
         let rules = el.element["rules"];
         const isRuleAnArray = Array.isArray(rules);
@@ -57,7 +70,7 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
             if (condition.leftValueReference && condition.leftValueReference.length > 0) {
               const valueReference = condition.leftValueReference;
               for (const ref of resultReferences) {
-                referenceFound = ref.includes(valueReference);
+                referenceFound = valueReference.startsWith(ref);
                 if (referenceFound) {
                   break;
                 }
@@ -86,10 +99,12 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
           }
         }
       }
+
       if (!nullCheckFound) {
         getOperationsWithoutNullHandler.push(getElement);
       }
     }
+
     const results = [];
     for (const det of getOperationsWithoutNullHandler) {
       results.push(new core.ResultDetails(det));
