@@ -14,7 +14,7 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 
 ## Default Rules
 
-📌 **Tip:** To link directly to a specific rule (e.g., from LinkedIn), use the full GitHub anchor link format:
+📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
 `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#<rule-label`
 
 Example:
