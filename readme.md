@@ -17,7 +17,8 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 📌 **Tip:** To link directly to a specific rule (e.g., from LinkedIn), use the full GitHub anchor link format:
 `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#<rule-label`
 
-_Example: https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#auto-layout_
+Example:
+_https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#unsafe-running-context_
 
 ---
 
