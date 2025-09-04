@@ -11,6 +11,8 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 
 ---
 
+## [🚨 Deprecation Notice — August, 2025](https://github.com/Lightning-Flow-Scanner)
+
 ## Default Rules
 
 📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
