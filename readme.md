@@ -6,7 +6,6 @@ _An Extensible Rule Engine capable of conducting static analysis on the metadata
 - [Core Functions](#core-functions)
 - [Configurations](#configurations)
   - [Rule Configuration](#rule-configuration)
-  - [Custom Rule Interface](#custom-rule-interface)
   - [Exception Configuration](#exception-configuration)
 - [Development Setup](#development-setup)
 
@@ -147,65 +146,13 @@ Using the rules section of your configurations, you can specify the list of rule
   "rules": {
     "<RuleName>": {
       "severity": "<Severity>",
-      "expression": "<Expression>",
-      "path": "<Path>"
+      "expression": "<Expression>"
     }
   }
 }
 ```
 
-### \*\*Beta\*\* Advanced Rule Configuration
-
-Advanced rules provide granular control by allowing rules to be intentionally disabled at the rule level, ensuring consistent application across all flows. Additionally, the concept of suppressions is introduced, enabling users to "whitelist" specific components. This mechanism allows for exceptions to be defined, offering flexibility in rule enforcement while maintaining overall governance and compliance.
-
-JSON
-
-```json
-{
-  "rules": {
-    "<RuleName>": {
-      "path": "local_path_of_your_js_file", // optional: when defined, this configuration will be used for the engine to recognize your custom rule
-      "severity": "<User Configured Severity>",
-      "expression": "<User Configured Expression which only applies to rules that take in `options`>",
-      "disabled": "true", // optional: when true, rule will not be applied to all flows being scanned
-      "suppressions": ["<User Configured Suppressions>"] // optional: when defined, takes an array of suppressed elements (not based on name but on specific type)
-    }
-  }
-}
-```
-
-YAML
-
-```yaml
-rules:
-  MissingFaultPath: # User Defined Rule configuration
-    path: "local_path_of_your_js_file" # Optional: when defined, this configuration will be used for the engine to recognize your rule
-    severity: error # Optional: User Defined severity, can be `info`, `warn`, `error`
-    expression: ">=58" # Optional: User defined expression, only applies if rule is Configurable=true
-    disabled: "true" # Optional: when true, rule will not be applied to all flows being scanned
-    suppressions: # Optional: when defined, takes an array of elements to be suppressed, keys can be found on suppressionElements on the rule definition
-      - LogACall # Optional: when defined, rule engine will look at suppressionElement defined on the rule to match against this list
-```
-
-- **Severity:**
-
-  - Optional values for severity are "error", "warning", and "note".
-  - If severity is provided, it overwrites the default severity, which is "error".
-
-- **Expression:**
-
-  - Expression is used to overwrite standard values in configurable rules.
-
-- **Path:**
-
-  - If a path is provided, it can either replace an existing rule with a new rule definition or load a custom rule.
-  - Ensure that the rule name used in the path matches the exported class name of the rule.
-
-### Custom Rule Interface
-
-To create custom rules that can be loaded using the path attribute of the rule configurations, they need to adhere to the IRuleInterface. Please refer to the _[Custom Rule Creation Guide](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/docs/customruleguide.md)_ for detailed instructions.
-
-### Exception Configuration
+### \*\Exception Configuration
 
 Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
@@ -225,15 +172,12 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 ```
 
 - **FlowName:**
-
   - The name of the flow where exceptions apply.
 
 - **RuleName:**
-
   - The name of the rule for which exceptions are defined.
 
 - **ResultName:**
-
   - The specific result or condition within the rule for which exceptions are specified.
 
 ## Development Setup
