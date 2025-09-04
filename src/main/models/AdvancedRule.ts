@@ -1,4 +1,5 @@
 import { inspect } from "util";
+
 import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedRuleDefinition } from "../interfaces/AdvancedRuleDefintion";
 import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
