@@ -3,7 +3,7 @@ import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
 
 import { Compiler } from "./main/libs/Compiler";
 import { fix } from "./main/libs/FixFlows";
-import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
+import { getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
 import { scan } from "./main/libs/ScanFlows";
 import { AdvancedRule } from "./main/models/AdvancedRule";
@@ -30,7 +30,6 @@ export {
   FlowResource,
   FlowType,
   FlowVariable,
-  getBetaRules,
   getRules,
   parse,
   ParsedFlow,
