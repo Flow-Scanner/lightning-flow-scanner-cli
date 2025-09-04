@@ -5,6 +5,8 @@ __*Pinpoint deviations from Industry Best Practices in Salesforce Flows, ensurin
 
 **Also available as [VS Code Extension](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-vsce)*
 
+## [🚨 Deprecation Notice — August, 2025](https://github.com/Lightning-Flow-Scanner)
+
 ## Table of contents
 
 - [Installation](#installation)
@@ -57,9 +59,10 @@ sfdx flow:scan [options]
 
   --loglevel=(trace|debug|info|warn|error|fatal)                    [default: warn] logging level.
 ```
+
 ### Examples
 
-You can test the scanner by simply opening an existing project that contains flows and running the scan without any configurations or parameters. This way all the default rules are autmatically included in the scan. 
+You can test the scanner by simply opening an existing project that contains flows and running the scan without any configurations or parameters. This way all the default rules are autmatically included in the scan.
 
 ```sh-sessions
 sfdx flow:scan
@@ -76,10 +79,11 @@ sfdx flow:scan --config path/to/.flow-scanner.json
 ## Configuration
 
 Create a .flow-scanner.json file in order to configure:
- - The ruleset to be executed.
- - The severity of violating any specific rule.
- - Custom expressions or rule implementations.
- - Any known exceptions that should be ignored during scanning.
+
+- The ruleset to be executed.
+- The severity of violating any specific rule.
+- Custom expressions or rule implementations.
+- Any known exceptions that should be ignored during scanning.
 
 ```json
 {
@@ -96,7 +100,7 @@ _Note: if you prefer YAML format, you can create a `.flow-scanner.yml` file usin
 
 ### Defining the severity per rule
 
-When the severity is not provided it will be `error` by default. Other available values for severity are `warning` and `note`. Define the severity per rule as shown in the following example. 
+When the severity is not provided it will be `error` by default. Other available values for severity are `warning` and `note`. Define the severity per rule as shown in the following example.
 
 ```json
 {
@@ -110,6 +114,7 @@ When the severity is not provided it will be `error` by default. Other available
   }
 }
 ```
+
 ### Specifying an exception
 
 Specifying exceptions can be done by flow, rule and result(s), as shown in the following example.
@@ -130,6 +135,7 @@ Specifying exceptions can be done by flow, rule and result(s), as shown in the f
   }
 }
 ```
+
 ### Configuring an expression
 
 Some rules have additional attributes to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
@@ -153,7 +159,7 @@ Some rules have additional attributes to configure, such as the expression, that
 
 ### Loading Custom Rules
 
-To load custom rules using the Lightning Flow Scanner Core, you can utilize the `path` attribute within the rules section of your configurations. This attribute allows you to specify the path to your custom rule class, enabling seamless integration of organization-specific rule definitions into the scanner's ruleset. 
+To load custom rules using the Lightning Flow Scanner Core, you can utilize the `path` attribute within the rules section of your configurations. This attribute allows you to specify the path to your custom rule class, enabling seamless integration of organization-specific rule definitions into the scanner's ruleset.
 
 ```json
 {
@@ -164,6 +170,7 @@ To load custom rules using the Lightning Flow Scanner Core, you can utilize the 
     }
 }
 ```
+
 Custom Rules can either leverage our Flow compiler or be completely customized typescript functions.
 For more details and examples on custom rules, refer to our [Custom Rule Creation Guide](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/master/docs/customruleguide.md)
 
