@@ -83,127 +83,127 @@ export default class Scan extends SfCommand<Output> {
     }),
   };
 
-  public async run(): Promise<Output> {
-    const { flags } = await this.parse(Scan);
-    this.failOn = flags.failon || "error";
-    this.spinner.start("Loading Lightning Flow Scanner");
-    this.userConfig = await loadScannerOptions(flags.config);
-    if (flags.targetusername) {
-      await this.retrieveFlowsFromOrg(flags.targetusername);
-    }
+public async run(): Promise<Output> {
+  // 🚨 Step 0: Block risky APIs before anything else
+  this.enforceSecurityGuards();
 
-    const targets: string[] = flags.files;
+  // Step 1: Parse CLI flags
+  const { flags } = await this.parse(Scan);
+  this.failOn = flags.failon || "error";
+  
+  this.spinner.start("Loading Lightning Flow Scanner");
+  this.userConfig = await loadScannerOptions(flags.config);
 
-    const flowFiles = this.findFlows(flags.directory, targets);
-    this.spinner.start(`Identified ${flowFiles.length} flows to scan`);
-    // to
-    // core.Flow
-    const parsedFlows: ParsedFlow[] = await parseFlows(flowFiles);
-    this.debug(`parsed flows ${parsedFlows.length}`, ...parsedFlows);
-
-    const tryScan = (): [ScanResult[], error: Error] => {
-      try {
-        const scanResult =
-          this.userConfig && Object.keys(this.userConfig).length > 0
-            ? scanFlows(parsedFlows, this.userConfig)
-            : scanFlows(parsedFlows);
-        return [scanResult, null];
-      } catch (error) {
-        return [null, error];
-      }
-    };
-
-    const [scanResults, error] = tryScan();
-    this.debug(`use new scan? ${process.env.IS_NEW_SCAN_ENABLED}`);
-    this.debug(`error:`, inspect(error));
-    this.debug(`scan results: ${scanResults.length}`, ...scanResults);
-    this.spinner.stop(`Scan complete`);
-
-    // Build results
-    const results = this.buildResults(scanResults);
-
-    if (results.length > 0) {
-      const resultsByFlow = {};
-      for (const result of results) {
-        resultsByFlow[result.flowName] = resultsByFlow[result.flowName] || [];
-        resultsByFlow[result.flowName].push(result);
-      }
-      for (const resultKey in resultsByFlow) {
-        const matchingScanResult = scanResults.find((res) => {
-          return res.flow.label === resultKey;
-        });
-        this.styledHeader(
-          "Flow: " +
-            chalk.yellow(resultKey) +
-            " " +
-            chalk.bgYellow(`(${matchingScanResult.flow.name}.flow-meta.xml)`) +
-            " " +
-            chalk.red("(" + resultsByFlow[resultKey].length + " results)"),
-        );
-        this.log(chalk.italic("Type: " + matchingScanResult.flow.type));
-        this.log("");
-        // todo flow uri
-        //this.table(resultsByFlow[resultKey], ['rule', 'type', 'name', 'severity']);
-        this.table({
-          data: resultsByFlow[resultKey],
-          columns: ["rule", "type", "name", "severity"],
-        });
-        this.debug(`Results By Flow: 
-          ${inspect(resultsByFlow[resultKey])}`);
-        this.log("");
-      }
-    }
-    this.styledHeader(
-      "Total: " +
-        chalk.red(results.length + " Results") +
-        " in " +
-        chalk.yellow(scanResults.length + " Flows") +
-        ".",
-    );
-
-    // Display number of errors by severity
-    for (const severity of ["error", "warning", "note"]) {
-      const severityCounter = this.errorCounters[severity] || 0;
-      this.log(`- ${severity}: ${severityCounter}`);
-    }
-
-    // TODO CALL TO ACTION
-    this.log("");
-    this.log(
-      chalk.bold(
-        chalk.italic(
-          chalk.yellowBright(
-            "Be a part of our mission to champion Flow Best Practices by starring ⭐ us on GitHub:",
-          ),
-        ),
-      ),
-    );
-    this.log(
-      chalk.italic(
-        chalk.blueBright(
-          chalk.underline("https://github.com/Lightning-Flow-Scanner"),
-        ),
-      ),
-    );
-
-    const status = this.getStatus();
-    // Set status code = 1 if there are errors, that will make cli exit with code 1 when not in --json mode
-    if (status > 0) {
-      process.exitCode = status;
-    }
-    const summary = {
-      flowsNumber: scanResults.length,
-      results: results.length,
-      message:
-        "A total of " +
-        results.length +
-        " results have been found in " +
-        scanResults.length +
-        " flows.",
-      errorLevelsDetails: {},
-    };
-    return { summary, status: status, results };
+  if (flags.targetusername) {
+    await this.retrieveFlowsFromOrg(flags.targetusername);
   }
+
+  const targets: string[] = flags.files;
+
+  // Step 2: Find flows to scan
+  const flowFiles = this.findFlows(flags.directory, targets);
+  this.spinner.start(`Identified ${flowFiles.length} flows to scan`);
+
+  // Step 3: Parse flows
+  const parsedFlows: ParsedFlow[] = await parseFlows(flowFiles);
+  this.debug(`parsed flows ${parsedFlows.length}`, ...parsedFlows);
+
+  // Step 4: Run scan safely
+  const tryScan = (): [ScanResult[], error: Error] => {
+    try {
+      const scanResult =
+        this.userConfig && Object.keys(this.userConfig).length > 0
+          ? scanFlows(parsedFlows, this.userConfig)
+          : scanFlows(parsedFlows);
+      return [scanResult, null];
+    } catch (error) {
+      return [null, error];
+    }
+  };
+
+  const [scanResults, error] = tryScan();
+  this.debug(`use new scan? ${process.env.IS_NEW_SCAN_ENABLED}`);
+  this.debug(`error:`, inspect(error));
+  this.debug(`scan results: ${scanResults.length}`, ...scanResults);
+  this.spinner.stop(`Scan complete`);
+
+  // Step 5: Build and display results
+  const results = this.buildResults(scanResults);
+  if (results.length > 0) {
+    const resultsByFlow = {};
+    for (const result of results) {
+      resultsByFlow[result.flowName] = resultsByFlow[result.flowName] || [];
+      resultsByFlow[result.flowName].push(result);
+    }
+    for (const resultKey in resultsByFlow) {
+      const matchingScanResult = scanResults.find(
+        (res) => res.flow.label === resultKey
+      );
+      this.styledHeader(
+        `Flow: ${chalk.yellow(resultKey)} ${chalk.bgYellow(
+          `(${matchingScanResult.flow.name}.flow-meta.xml)`
+        )} ${chalk.red(
+          `(${resultsByFlow[resultKey].length} results)`
+        )}`
+      );
+      this.log(chalk.italic("Type: " + matchingScanResult.flow.type));
+      this.log("");
+      this.table({
+        data: resultsByFlow[resultKey],
+        columns: ["rule", "type", "name", "severity"],
+      });
+      this.debug(`Results By Flow: ${inspect(resultsByFlow[resultKey])}`);
+      this.log("");
+    }
+  }
+
+  this.styledHeader(
+    `Total: ${chalk.red(results.length + " Results")} in ${chalk.yellow(
+      scanResults.length + " Flows"
+    )}.`
+  );
+
+  // Step 6: Display summary
+  for (const severity of ["error", "warning", "note"]) {
+    const severityCounter = this.errorCounters[severity] || 0;
+    this.log(`- ${severity}: ${severityCounter}`);
+  }
+
+  this.log("");
+  this.log(
+    chalk.bold(
+      chalk.italic(
+        chalk.yellowBright(
+          "Be a part of our mission to champion Flow Best Practices by starring ⭐ us on GitHub:"
+        )
+      )
+    )
+  );
+  this.log(
+    chalk.italic(
+      chalk.blueBright(
+        chalk.underline(
+          "https://github.com/Lightning-Flow-Scanner"
+        )
+      )
+    )
+  );
+
+  // Step 7: Return status and summary
+  const status = this.getStatus();
+  if (status > 0) {
+    process.exitCode = status;
+  }
+
+  const summary = {
+    flowsNumber: scanResults.length,
+    results: results.length,
+    message: `A total of ${results.length} results have been found in ${scanResults.length} flows.`,
+    errorLevelsDetails: {},
+  };
+
+  return { summary, status: status, results };
+}
 
   private findFlows(directory: string, sourcepath: string[]) {
     // List flows that will be scanned
@@ -277,6 +277,29 @@ export default class Scan extends SfCommand<Output> {
     }
     return errors;
   }
+
+  private enforceSecurityGuards(): void {
+    // 🔒 Monkey-patch eval
+    (global as any).eval = function (): never {
+      throw new Error("Blocked use of eval() in lightning-flow-scanner-core");
+    };
+
+    // 🔒 Monkey-patch Function constructor
+    (global as any).Function = function (): never {
+      throw new Error("Blocked use of Function constructor in lightning-flow-scanner-core");
+    };
+
+    // 🔒 Intercept dynamic import() calls
+    const dynamicImport = (globalThis as any).import;
+    (globalThis as any).import = async (...args: any[]): Promise<any> => {
+      const specifier = args[0];
+      if (typeof specifier === "string" && specifier.startsWith("http")) {
+        throw new Error(`Blocked remote import: ${specifier}`);
+      }
+      return dynamicImport(...args);
+    };
+  }
+
 
   private async retrieveFlowsFromOrg(targetusername: string) {
     let errored = false;
