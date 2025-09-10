@@ -1,9 +1,6 @@
 [![Lightning Flow Scanner Banner](docs/images/banner.png)](https://github.com/Lightning-Flow-Scanner)
-__*Pinpoint deviations from Industry Best Practices in Salesforce Flows, ensuring standards of business automation excellence*__
 
 ![FlowScan example](docs/images/sfdxgif.gif)
-
-**Also available as [VS Code Extension](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-vsce)*
 
 ## [🚨 Deprecation Notice — August, 2025](https://github.com/Lightning-Flow-Scanner)
 
