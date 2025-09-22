@@ -1,8 +1,6 @@
-[![Lightning Flow Scanner Banner](docs/images/banner.png)](https://github.com/Lightning-Flow-Scanner)
+[![Lightning Flow Scanner Banner](docs/images/banner.png)](https://github.com/SF-Flow-Scanner)
 
 ![FlowScan example](docs/images/sfdxgif.gif)
-
-## [🚨 Deprecation Notice — August, 2025](https://github.com/Lightning-Flow-Scanner)
 
 ## Table of contents
 
@@ -22,13 +20,13 @@
 Install with SFDX:
 
 ```sh-session
-sfdx plugins:install lightning-flow-scanner
+sfdx plugins:install lightning-flow-scanner-cli
 ```
 
 Install with NPM:
 
 ```sh-session
-npm install -g lightning-flow-scanner
+npm install -g lightning-flow-scanner-cli
 ```
 
 ## Usage
@@ -175,13 +173,13 @@ npm link
 Then, navigate to the sfdx plugin directory and run:
 
 ```bash
-npm link lightning-flow-scanner-core
+npm link lightning-flow-scanner-ce
 ```
 
 1. **Run Plugin**: In the terminal of your example flow project (or any other project intended for scanning), run the following command to start the plugin with debugging enabled:
 
 ```bash
-NODE_OPTIONS=--inspect-brk /path/to/lightning-flow-scanner-sfdx/bin/run flow:scan
+NODE_OPTIONS=--inspect-brk /path/to/lightning-flow-scanner-cli/bin/run flow:scan
 ```
 
 2. **Attach Debugger**: Open your local Salesforce DX project in Visual Studio Code, set desired breakpoints, and attach the debugger to the remote session.
