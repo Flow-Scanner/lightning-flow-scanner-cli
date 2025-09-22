@@ -3,7 +3,6 @@ export type AdvancedConfig = {
   expression?: {
     [key: string]: number | string;
   };
-  path?: string;
   severity?: string;
   suppressions?: string[];
 };

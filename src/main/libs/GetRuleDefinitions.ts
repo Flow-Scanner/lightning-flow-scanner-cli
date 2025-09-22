@@ -1,5 +1,5 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { DefaultRuleStore } from "../store/DefaultRuleStore";
+import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 
 export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>): IRuleDefinition[] {
@@ -44,5 +44,13 @@ export function getRules(ruleNames?: string[]): IRuleDefinition[] {
   } else {
     return GetRuleDefinitions();
   }
+}
+
+export function getBetaRules(): IRuleDefinition[] {
+  return getBetaDefinition();
+}
+
+function getBetaDefinition(): IRuleDefinition[] {
+  return Object.values(BetaRuleStore).map((rule) => new rule() as IRuleDefinition);
 }
 
