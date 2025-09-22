@@ -1,6 +1,6 @@
 {
   "name": "@rubenhalman/lightning-flow-scanner-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "bugs": "https://github.com/Flow-Scanner/lightning-flow-scanner-cli/issues",
   "dependencies": {
     "@oclif/core": "^4.5.4",
