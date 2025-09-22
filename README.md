@@ -156,8 +156,8 @@ Some rules have additional attributes to configure, such as the expression, that
 
 ### Preparing for Changes
 
-1. **Clone Project**: Clone the Lightning Flow Scanner SFDX plugin project from the repository.
-2. **Install Dependencies**: Open the directory and run `npm install` or `yarn install` in the terminal to install the necessary dependencies.
+1. **Clone Project**: Clone the Lightning Flow Scanner Salesforce CLI repository.
+2. **Install Dependencies**: Open the directory and run `npm install` in the terminal to install the dependencies.
 3. **Optional: Make changes**: For example, if you want to upgrade the core module using npm, you can use the  command: `npm update lightning-flow-scanner-core`
 4. **Prepack**: Execute `npm run prepack` to build the plugin locally and prepare for packaging.
 5. **Link Plugin**: Link the plugin to your Salesforce DX environment using `sfdx plugins link .`.

@@ -168,26 +168,7 @@ public async run(): Promise<Output> {
     const severityCounter = this.errorCounters[severity] || 0;
     this.log(`- ${severity}: ${severityCounter}`);
   }
-
   this.log("");
-  this.log(
-    chalk.bold(
-      chalk.italic(
-        chalk.yellowBright(
-          "Be a part of our mission to champion Flow Best Practices by starring ⭐ us on GitHub:"
-        )
-      )
-    )
-  );
-  this.log(
-    chalk.italic(
-      chalk.blueBright(
-        chalk.underline(
-          "https://github.com/Lightning-Flow-Scanner"
-        )
-      )
-    )
-  );
 
   // Step 7: Return status and summary
   const status = this.getStatus();
