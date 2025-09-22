@@ -37,7 +37,7 @@
   "description": "A rule engine capable of conducting static analysis on the metadata associated with Salesforce Lightning Flows, Process Builders, and Workflows.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core.git"
+    "url": "git+https://github.com/Flow-Scanner/lightning-flow-scanner-core.git"
   },
   "devDependencies": {
     "@jest/types": "30.0.1",
