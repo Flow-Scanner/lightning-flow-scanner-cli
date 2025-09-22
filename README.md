@@ -173,7 +173,7 @@ npm link
 Then, navigate to the sfdx plugin directory and run:
 
 ```bash
-npm link lightning-flow-scanner-ce
+npm link lightning-flow-scanner-core
 ```
 
 1. **Run Plugin**: In the terminal of your example flow project (or any other project intended for scanning), run the following command to start the plugin with debugging enabled:
