@@ -1,4 +1,4 @@
-[![Lightning Flow Scanner Banner](docs/images/banner.png)](https://github.com/SF-Flow-Scanner)
+[![Lightning Flow Scanner Banner](https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-ce/master/media/bannerslim.png)](https://github.com/Flow-Scanner)
 
 ![FlowScan example](docs/images/sfdxgif.gif)
 

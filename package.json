@@ -1,7 +1,7 @@
 {
   "name": "@flow-scanner/lightning-flow-scanner-cli",
   "version": "1.0.0",
-  "bugs": "https://github.com/sf-Flow-Scanner/lightning-flow-scanner-cli/issues",
+  "bugs": "https://github.com/Flow-Scanner/lightning-flow-scanner-cli/issues",
   "dependencies": {
     "@oclif/core": "^4.5.2",
     "@salesforce/core": "^8.18.7",
@@ -47,7 +47,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/SF-Flow-Scanner/lightning-flow-scanner-cli/",
+  "homepage": "https://github.com/Flow-Scanner/lightning-flow-scanner-cli/",
   "keywords": [
     "sfdx-plugin"
   ],
@@ -64,7 +64,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "https://github.com/SF-Flow-Scanner/lightning-flow-scanner-cli.git",
+  "repository": "https://github.com/Flow-Scanner/lightning-flow-scanner-cli.git",
   "scripts": {
     "prestart": "npm run prepack",
     "start": "ts-node bin/run",
