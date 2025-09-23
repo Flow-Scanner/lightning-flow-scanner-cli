@@ -1,4 +1,4 @@
-import type { IRulesConfig } from "lightning-flow-scanner-core";
+import type { IRulesConfig } from "lightning-flow-scanner-core/main/internals/internals.js";
 import { writeFileSync } from "node:fs";
 
 import { FindFlows } from "./FindFlows.js";

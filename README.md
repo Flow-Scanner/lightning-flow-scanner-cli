@@ -1,4 +1,4 @@
-[![Lightning Flow Scanner Banner](https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-ce/master/media/bannerslim.png)](https://github.com/Flow-Scanner)
+[![Lightning Flow Scanner Banner](https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-core/main/media/bannerslim.png)](https://github.com/Flow-Scanner)
 
 ![FlowScan example](docs/images/sfdxgif.gif)
 
@@ -35,7 +35,7 @@ npm install -g @rubenhalman/lightning-flow-scanner-cli
 sfdx flow:scan [options]
 ```
 
-***To learn more about the default rules and options, see the [core documentation](https://lightning-flow-scanner.github.io/lightning-flow-scanner-core/).***
+***To learn more about the default rules and options, see the [core documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/).***
 
 ### Options
 
