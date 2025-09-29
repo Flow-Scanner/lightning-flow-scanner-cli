@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-ga",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A GitHub Action designed to proactively enforce secure and maintainable Salesforce Flows. It detects unsafe running contexts, hardcoded IDs, unhandled nulls, inefficient database operations and more, helping teams ensure their automations are safe and reliable.",
   "main": "dist/index.js",
   "scripts": {
