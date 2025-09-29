@@ -1,0 +1,14 @@
+name: Run Flow Scanner
+description: A GitHub Action to scan Salesfoce Flows(.flow files).
+inputs:
+  GITHUB_TOKEN:
+    description: "GitHub access token"
+    required: true
+    default: ${{ github.token }}
+runs:
+  using: node16
+  main: "dist/index.js"
+branding:
+  icon: 'cloud-lightning'
+  color: 'blue'
+author: Ruben Halman

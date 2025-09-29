@@ -1,0 +1,14 @@
+name: lightning-flow-scanner
+on:
+  workflow_dispatch:
+  pull_request:
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest Version
+        uses: actions/checkout@v4
+      - name: Run Flow Scanner
+        uses: ./
+        with:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

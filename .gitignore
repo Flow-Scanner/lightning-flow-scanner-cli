@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+package-lock.json
+.github/actions/lightning-flow-scanner/dist/
+.github/actions/lightning-flow-scanner/node_modules/
+.secrets
