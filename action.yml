@@ -5,6 +5,11 @@ inputs:
     description: "GitHub access token"
     required: true
     default: ${{ github.token }}
+  severityThreshold:
+    required: false
+    default: "warning"
+    description: "Minimum severity that should fail the workflow (note|warning|error)"
+
 runs:
   using: node16
   main: "dist/index.js"

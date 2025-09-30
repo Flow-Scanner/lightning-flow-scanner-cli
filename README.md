@@ -25,15 +25,18 @@ jobs:
       - name: Get Latest Version
         uses: actions/checkout@v4
       - name: Run Flow Scanner
-        uses: RubenHalman/lightning-flow-scanner-ga@1.1.0
+        uses: RubenHalman/lightning-flow-scanner-ga@1.2.0
         with:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+	    severityThreshold: error
 ```
 
 Also ensure the following:
 
-- Workflows have read and write permissions in the repository for all scopes.
-- Allow GitHub Actions to create and approve pull requests
+- Create a .secrets file in the root of your repository with the following content:
+  - `GITHUB_TOKEN=<your-personal-access-token(PAT)>`
+- Workflows have read and write permissions in the repository.
+- Allow GitHub Actions to create and approve pull requests.
 
 ### Automatically Runs On Pull Requests:
 
@@ -46,14 +49,39 @@ Also ensure the following:
     2. Click on "Run Flow Scanner" in the list of available workflows.
     3. Press the "Run workflow" button to trigger the action.
 
+---
+
+## Configuration
+
+Flow Scanner can be configured and the action will look for a .flow-scanner file in your repository root, such as:
+
+- `.flow-scanner.yaml`
+- `.flow-scanner.yml`
+- `.flow-scanner.json`
+
+### Example configuration
+
+```
+rules:
+  FlowName:
+    severity: warning
+  HardcodedId:
+    severity: error
+```
+
+For example:
+
+- With `severityThreshold`: `error`, only `HardcodedId` will fail.
+- With `severityThreshold`: `warning`, both `HardcodedId `and `FlowName` will fail the workflow.
+
+If no configurations are found, the scanner falls back to the default rules/threshold.
+
 ## Development Setup
 
 To debug the action locally you need to ensure you have `npm` and `act` installed and follow these steps:
 
-1. Create a local secrets file: Create a .secrets file in the root of your repository with the following content:
-   `GITHUB_TOKEN=<your-personal-access-token(PAT)>`
-2. Run `npm run build` to compile a new version
-3. Run act: Use the act command to run the workflow:
+1. Run `npm run build` to compile a new version
+2. Run act: Use the act command to run the workflow:
    `act workflow_dispatch --secret-file .secrets`
 
 Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md) to get started.
