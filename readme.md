@@ -20,7 +20,7 @@
 `https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label>`
 
 Example:
-_https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#unsafe-running-context_
+_https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context_
 
 ---
 
