@@ -17,7 +17,7 @@
 ## Default Rules
 
 📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
-`https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label`
+`https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label>`
 
 Example:
 _https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#unsafe-running-context_
@@ -209,8 +209,3 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
    npm run test
    ```
 
-5. (Optional) Deploy sample flows:
-
-   ```bash
-   npm run deploy:flows -- -o
-   ```
