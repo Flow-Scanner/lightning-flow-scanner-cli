@@ -1,4 +1,9 @@
-[![Lightning Flow Scanner Banner](https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-core/main/media/bannerslim.png)](https://github.com/Flow-Scanner)
+<p align="center">
+  <a href="https://github.com/Flow-Scanner">
+    <img src="media/bannerslim.png" style="width: 55%;" />
+  </a>
+</p>
+<p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
 - [Default Rules](#default-rules)
 - [Core Functions](#core-functions)
