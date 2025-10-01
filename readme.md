@@ -17,7 +17,7 @@
 ## Default Rules
 
 📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
-`https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#<rule-label`
+`https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label`
 
 Example:
 _https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#unsafe-running-context_
