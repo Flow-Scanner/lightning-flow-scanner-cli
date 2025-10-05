@@ -27,8 +27,8 @@ jobs:
       - name: Run Flow Scanner
         uses: RubenHalman/lightning-flow-scanner-ga@1.2.0
         with:
+            severityThreshold: error
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-	    severityThreshold: error
 ```
 
 Also ensure the following:
@@ -40,11 +40,11 @@ Also ensure the following:
 
 ### Automatically Runs On Pull Requests:
 
-`on:pull_request` will trigger Flow Scanner every time a pull request is opened, or updated.
+`on:pull_request` will trigger Flow Scanner to scan changed flow files every time a pull request is opened.
 
 ### Or Run It Manually:
 
-`on:workflow_dispatch` allows you to run the action manually, by following these steps:
+`on:workflow_dispatch` allows you to run the action on all Flows manually, by following these steps:
     1. Navigate to the "Actions" tab of your GitHub repository.
     2. Click on "Run Flow Scanner" in the list of available workflows.
     3. Press the "Run workflow" button to trigger the action.
@@ -84,4 +84,4 @@ To debug the action locally you need to ensure you have `npm` and `act` installe
 2. Run act: Use the act command to run the workflow:
    `act workflow_dispatch --secret-file .secrets`
 
-Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md) to get started.
+Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/main/CONTRIBUTING.md) to get started.
