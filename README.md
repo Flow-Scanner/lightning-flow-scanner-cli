@@ -84,4 +84,4 @@ To debug the action locally you need to ensure you have `npm` and `act` installe
 2. Run act: Use the act command to run the workflow:
    `act workflow_dispatch --secret-file .secrets`
 
-Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/main/CONTRIBUTING.md) to get started.
+Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md) to get started.

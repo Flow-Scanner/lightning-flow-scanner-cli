@@ -1,7 +1,7 @@
 {
   "name": "lightning-flow-scanner-ga",
   "version": "1.3.0",
-  "description": "A GitHub Action designed to proactively enforce secure and maintainable Salesforce Flows. It detects unsafe running contexts, hardcoded IDs, unhandled nulls, inefficient database operations and more, helping teams ensure their automations are safe and reliable.",
+  "description": "A GitHub Action for automated static analysis and optimization of Flows in Pull Requests. Scans metadata for 20+ issues such as hardcoded IDs, unsafe contexts, inefficient SOQL/DML operations, recursion risks, and missing fault handling. ",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/action.js -o dist --source-map",
