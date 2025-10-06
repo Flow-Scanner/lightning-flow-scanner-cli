@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
-    <img src="media/bannerslim.png" style="width: 55%;" />
+    <img src="media/bannerslim.png" style="width: 44%;" />
   </a>
 </p>
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
@@ -18,9 +18,7 @@
 
 📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
 `https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label>`
-
-Example:
-_https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context_
+Ex: _https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context_
 
 ---
 
@@ -209,3 +207,4 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
    npm run test
    ```
 
+If you'd like to help us enhance Flow Scanner, please consider having a look at the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).

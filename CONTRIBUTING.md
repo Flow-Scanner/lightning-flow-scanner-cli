@@ -1,123 +1,32 @@
-# Contributing to CONTRIBUTING.md
+## Contributing Guidelines
 
-First off, thanks for taking the time to contribute! ❤️
+### Our Journey: Shaping Flow Quality Since 2021
 
-All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
+Since 2021, the _Lightning Flow Scanner_ has been empowering Salesforce Flow excellence across six open-source, free platforms—from CLI tools to native Salesforce apps. Our passionate community drives the standard for high-quality Flows, ensuring reliability and efficiency. Your support can amplify our impact. Here’s how you can contribute:
 
-> And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
-> - Star the project
-> - Tweet about it
-> - Refer this project in your project's readme
-> - Mention the project at local meetups and tell your friends/colleagues
-> - Share the project on linkedin
+- ⭐ Starring the project to show your support
+- 📢 Sharing our work with your network
+- 💬 Sharing feedback to help us improve
+- 💻 Contributing code to drive innovation
 
+### I have a Question or Feedback
 
-## Table of Contents
+We handle those through [GitHub Issues](https://github.com/features/issues). Before opening a new one, please take a moment to search the existing [Issues](/issues) — your question might already be answered or discussed there. If you find something relevant, adding an upvote helps us understand demand and prioritize better. We've prepared a few templates to guide you through the process of issue reporting. Thank you for your support!
 
-- [Code of Conduct](#code-of-conduct)
-- [I Have a Question](#i-have-a-question)
-- [I Want To Contribute](#i-want-to-contribute)
-- [Reporting Bugs](#reporting-bugs)
-- [Suggesting Enhancements](#suggesting-enhancements)
-- [Your First Code Contribution](#your-first-code-contribution)
-- [Improving The Documentation](#improving-the-documentation)
-- [Commit Messages](#commit-messages)
-- [Join The Project Team](#join-the-project-team)
+###### Core Engine - For issues or requests related to the core functionality of the scanner, use the following links to submit your request:
 
+- [Rule Request](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=rule-request.md): Submit a request for a new rule.
+- [Bug Report](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=bug_report.md): Report a bug or issue.
+- [Features/Other](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new): Suggest a new feature.
 
-## I Have a Question
+###### Platforms - For issues or requests related to specific platforms, use the appropriate link below:
 
-> If you want to ask a question, we assume that you have read the available [Documentation](https://lightning-flow-scanner.github.io/lightning-flow-scanner-core/).
+- [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-cli/issues/new)
+- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues/new)
+- [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner-action/issues/new)
+- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new)
+- [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx/issues/new)
 
-Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+### Code of Conduct
 
-If you then still feel the need to ask a question and need clarification, we recommend the following:
-
-- Open an [Issue](/issues/new).
-- Provide as much context as you can about what you're running into.
-- Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
-
-We will then take care of the issue as soon as possible.
-
-
-
-## I Want To Contribute
-
-All types of contributions are encouraged and valued. 
-
-### Reporting Bugs
-
-
-#### Before Submitting a Bug Report
-
-A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
-
-- Make sure that you are using the latest version.
-- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](https://lightning-flow-scanner.github.io/lightning-flow-scanner-core/). If you are looking for support, you might want to check [this section](#i-have-a-question)).
-- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](issues?q=label%3Abug).
-- Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
-- Collect information about the bug:
-- Stack trace (Traceback)
-- OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
-- Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
-- Possibly your input and the output
-- Can you reliably reproduce the issue? And can you also reproduce it with older versions?
-
-
-#### How Do I Submit a Good Bug Report?
-
-
-We use GitHub issues to track bugs and errors. If you run into an issue with the project:
-
-- Open an [Issue](/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
-- Explain the behavior you would expect and the actual behavior.
-- Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
-- Provide the information you collected in the previous section.
-
-
-### Suggesting Enhancements
-
-This section guides you through submitting an enhancement suggestion for CONTRIBUTING.md, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
-
-
-#### Before Submitting an Enhancement
-
-- Make sure that you are using the latest version.
-- Read the [documentation](https://lightning-flow-scanner.github.io/lightning-flow-scanner-core/) carefully and find out if the functionality is already covered, maybe by an individual configuration.
-- Perform a [search](/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
-- Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
-
-
-#### How Do I Submit a Good Enhancement Suggestion?
-
-Enhancement suggestions are tracked as [GitHub issues](/issues).
-
-- Use a **clear and descriptive title** for the issue to identify the suggestion.
-- Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
-- **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
-- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. 
-- **Explain why this enhancement would be useful** to most CONTRIBUTING.md users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
-
-
-
-### Your First Code Contribution
-#### Local Development Setup
-
-- Install package dependencies
-
-```bash
-npm install
-```
-
-- Running unit tests
-
-```bash
-npm test
-```
-
-- e2e package testing. 
-> This module is depended on by 2 packages on the organization [lightning-flow-scanner-vsce](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-vsce) and [lightning-flow-scanner-sfdx](https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-sfdx) colloquially called as vsce and sfdx. Follow the official documentation on [linking core module](docs/linkingcore.md)
-
-### Improving The Documentation
-
-All types of contributions are encouraged and valued!
+If you want to contribute regularly or write code for our project, please review our [Code of Conduct](https://github.com/Xe/creators-code/blob/master/CODE_OF_CONDUCT.md).
