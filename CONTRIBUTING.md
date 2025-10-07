@@ -27,6 +27,4 @@ We handle those through [GitHub Issues](https://github.com/features/issues). Bef
 - [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new)
 - [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx/issues/new)
 
-### Code of Conduct
-
-If you want to contribute regularly or write code for our project, please review our [Code of Conduct](https://github.com/Xe/creators-code/blob/master/CODE_OF_CONDUCT.md).
+Thank you!
