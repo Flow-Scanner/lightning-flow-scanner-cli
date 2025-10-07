@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-action",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A GitHub Action for automated static analysis and optimization of Flows in Pull Requests. Scans metadata for 20+ issues such as hardcoded IDs, unsafe contexts, inefficient SOQL/DML operations, recursion risks, and missing fault handling. ",
   "main": "dist/index.js",
   "scripts": {
