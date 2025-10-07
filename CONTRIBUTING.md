@@ -11,7 +11,7 @@ Since 2021, the _Lightning Flow Scanner_ has been empowering Salesforce Flow exc
 
 ### I have a Question or Feedback
 
-We handle those through [GitHub Issues](https://github.com/features/issues). Before opening a new one, please take a moment to search the existing [Issues](/issues) — your question might already be answered or discussed there. If you find something relevant, adding an upvote helps us understand demand and prioritize better. We've prepared a few templates to guide you through the process of issue reporting. Thank you for your support!
+We handle those through [GitHub Issues](https://github.com/features/issues). Before opening a new one, please take a moment to search the existing [Issues](/issues) — your question might already be answered or discussed there. If you find something relevant, adding an upvote helps us understand demand and prioritize better. We've prepared a few templates to guide you through the process of issue reporting:
 
 ###### Core Engine - For issues or requests related to the core functionality of the scanner, use the following links to submit your request:
 
