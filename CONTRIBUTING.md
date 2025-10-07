@@ -27,4 +27,4 @@ We handle those through [GitHub Issues](https://github.com/features/issues). Bef
 - [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new)
 - [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx/issues/new)
 
-Thank you!
+##### Thank you for your consideration!
