@@ -58,4 +58,31 @@ describe("MissingFaultPath", () => {
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(0);
   });
+
+  it("should not flag WaitDuration elements as missing fault path", async () => {
+    const { default: rawFile } = await import("./jsonfiles/MissingFaultPath_WaitDuration.json");
+    const parsedFile: ParsedFlow[] = rawFile as unknown as ParsedFlow[];
+    const missingFaultPathRule = new MissingFaultPath();
+    const flow: Flow = parsedFile.pop()?.flow as Flow;
+    const scanResults: RuleResult = missingFaultPathRule.execute(flow);
+    expect(scanResults.occurs).toBe(false);
+  });
+
+  it("should not flag WaitDate elements as missing fault path", async () => {
+    const { default: rawFile } = await import("./jsonfiles/MissingFaultPath_WaitDate.json");
+    const parsedFile: ParsedFlow[] = rawFile as unknown as ParsedFlow[];
+    const missingFaultPathRule = new MissingFaultPath();
+    const flow: Flow = parsedFile.pop()?.flow as Flow;
+    const scanResults: RuleResult = missingFaultPathRule.execute(flow);
+    expect(scanResults.occurs).toBe(false);
+  });
+
+  it("should flag Wait For Conditions elements as missing fault path", async () => {
+    const { default: rawFile } = await import("./jsonfiles/MissingFaultPath_WaitConditions.json");
+    const parsedFile: ParsedFlow[] = rawFile as unknown as ParsedFlow[];
+    const missingFaultPathRule = new MissingFaultPath();
+    const flow: Flow = parsedFile.pop()?.flow as Flow;
+    const scanResults: RuleResult = missingFaultPathRule.execute(flow);
+    expect(scanResults.occurs).toBe(true);
+  });
 });

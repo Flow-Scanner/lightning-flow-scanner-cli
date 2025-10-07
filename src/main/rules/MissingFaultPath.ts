@@ -34,14 +34,28 @@ export class MissingFaultPath
       suppressionElement: "actionName",
     });
   }
+
+  private isValidSubtype(proxyNode: core.FlowNode): boolean {
+    if (!this.applicableElements.includes(proxyNode.subtype)) {
+      return false;
+    }
+
+    if (proxyNode.subtype === "waits") {
+      const elementSubtype: string = (proxyNode.element as Record<string, unknown>)?.["elementSubtype"] as string;
+      const excludedSubtypes: string[] = ["WaitDuration", "WaitDate"];
+      return !excludedSubtypes.includes(elementSubtype);
+    }
+
+    return true;
+  }
+
   public execute(flow: core.Flow): core.RuleResult {
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (
       flow.elements?.filter((node) => {
         const proxyNode = node as unknown as core.FlowNode;
-        const validSubtype = this.applicableElements.includes(proxyNode.subtype);
-        return validSubtype;
+        return this.isValidSubtype(proxyNode);
       }) as core.FlowNode[]
     ).map((e) => e.name);
 
