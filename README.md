@@ -1,13 +1,13 @@
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
-    <img src="https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-core/main/media/bannerslim.png" style="width: 55%;" />
+    <img src="https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-core/main/media/bannerslim.png" style="width: 41%;" />
   </a>
 </p>
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
 ![Demo GIF](media/lfsaction.gif)
 
-_Additional information on the default rules can be found in the [Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/)._
+_[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner) - For more information on the default rules and configurations available, please review the [Flow Scanner Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/)._
 
 ## Usage
 
@@ -84,4 +84,4 @@ To debug the action locally you need to ensure you have `npm` and `act` installe
 2. Run act: Use the act command to run the workflow:
    `act workflow_dispatch --secret-file .secrets`
 
-Want to help improve this project? See the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md) to get started.
+If you'd like to help us enhance Flow Scanner, please consider having a look at the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
