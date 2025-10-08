@@ -14,7 +14,7 @@ describe("UnconnectedElement", () => {
   it("there should be checks for unconnected element", async () => {
     const connectedElementTestFile = path.join(
       __dirname,
-      "../example-flows/force-app/main/default/flows/Unconnected_Element.flow-meta.xml"
+      "../files/example-flows/force-app/main/default/flows/Unconnected_Element.flow-meta.xml"
     );
     const parsed: ParsedFlow = (await parse([connectedElementTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unconnectedElementRule.execute(parsed.flow as core.Flow);
@@ -28,7 +28,7 @@ describe("UnconnectedElement", () => {
   it("async path there should be checks for unconnected element", async () => {
     const connectedElementTestFile = path.join(
       __dirname,
-      "../example-flows/force-app/main/default/flows/Unconnected_Element_Async.flow-meta.xml"
+      "../files/example-flows/force-app/main/default/flows/Unconnected_Element_Async.flow-meta.xml"
     );
     const parsed: ParsedFlow = (await parse([connectedElementTestFile])).pop() as ParsedFlow;
     const ruleResult: core.RuleResult = unconnectedElementRule.execute(parsed.flow as core.Flow);
@@ -41,7 +41,7 @@ describe("UnconnectedElement", () => {
   it("should fix the unconnected element error", async () => {
     const connectedElementTestFile = path.join(
       __dirname,
-      "../example-flows/force-app/main/default/flows/Unconnected_Element.flow-meta.xml"
+      "../files/example-flows/force-app/main/default/flows/Unconnected_Element.flow-meta.xml"
     );
     const flows = await core.parse([connectedElementTestFile]);
     const ruleConfig = {

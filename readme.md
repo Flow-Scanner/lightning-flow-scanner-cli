@@ -207,4 +207,4 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
    npm run test
    ```
 
-If you'd like to help us enhance Flow Scanner, please consider having a look at the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
+Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).

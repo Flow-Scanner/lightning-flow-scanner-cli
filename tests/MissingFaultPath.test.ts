@@ -6,8 +6,8 @@ import { ParsedFlow } from "../src/main/models/ParsedFlow";
 import { MissingFaultPath } from "../src/main/rules/MissingFaultPath";
 
 describe("MissingFaultPath", () => {
-  const example_uri = path.join(__dirname, "../example-flows/force-app/main/default/flows/Missing_Error_Handler.flow-meta.xml");
-  const fixed_uri = path.join(__dirname, "../example-flows/force-app/main/default/flows/Missing_Error_Handler_Fixed.flow-meta.xml");
+  const example_uri = path.join(__dirname, "../files/example-flows/force-app/main/default/flows/Missing_Error_Handler.flow-meta.xml");
+  const fixed_uri = path.join(__dirname, "../files/example-flows/force-app/main/default/flows/Missing_Error_Handler_Fixed.flow-meta.xml");
 
   it("there should be one result for the rule MissingFaultPath", async () => {
     const flows = await parse([example_uri]);
