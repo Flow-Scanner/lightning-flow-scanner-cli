@@ -1,13 +1,13 @@
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
-    <img src="https://raw.githubusercontent.com/Flow-Scanner/lightning-flow-scanner-core/main/media/bannerslim.png" style="width: 41%;" />
+    <img src="media/bannerslim.png" style="width: 41%;" />
   </a>
 </p>
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
 ![Demo GIF](media/lfsaction.gif)
 
-_[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner) - For more information on the default rules and configurations available, please review the [Flow Scanner Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/)._
+_[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner) - For more info on the rules and configurations, please review the [Scanner Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/)._
 
 ## Usage
 
@@ -38,18 +38,16 @@ Also ensure the following:
 - Workflows have read and write permissions in the repository.
 - Allow GitHub Actions to create and approve pull requests.
 
-### Automatically Runs On Pull Requests:
+### A) Automatically Runs On Pull Requests:
 
 `on:pull_request` will trigger Flow Scanner to scan changed flow files every time a pull request is opened.
 
-### Or Run It Manually:
+### B) Or Run It Manually:
 
 `on:workflow_dispatch` allows you to run the action on all Flows manually, by following these steps:
     1. Navigate to the "Actions" tab of your GitHub repository.
     2. Click on "Run Flow Scanner" in the list of available workflows.
     3. Press the "Run workflow" button to trigger the action.
-
----
 
 ## Configuration
 
@@ -76,7 +74,7 @@ For example:
 
 If no configurations are found, the scanner falls back to the default rules/threshold.
 
-## Development Setup
+## Development
 
 To debug the action locally you need to ensure you have `npm` and `act` installed and follow these steps:
 
@@ -84,4 +82,4 @@ To debug the action locally you need to ensure you have `npm` and `act` installe
 2. Run act: Use the act command to run the workflow:
    `act workflow_dispatch --secret-file .secrets`
 
-If you'd like to help us enhance Flow Scanner, please consider having a look at the [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
+Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
