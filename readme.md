@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
-    <img src="media/bannerslim.png" style="width: 44%;" />
+    <img src="files/media/bannerslim.png" style="width: 43%;" />
   </a>
 </p>
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
