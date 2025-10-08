@@ -183,6 +183,14 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 ## Development Setup
 
+> This project optionally uses [Volta](https://volta.sh) to manage Node.js versions. Install Volta with:
+>
+> ```sh
+> curl https://get.volta.sh | bash
+> ```
+>
+> Once installed, Volta will automatically use the Node.js version defined in `package.json`.
+
 1. Clone the repo:
 
    ```bash
