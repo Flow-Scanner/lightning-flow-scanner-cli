@@ -27,7 +27,7 @@
     "stryker": "npm i -g @stryker-mutator/core @stryker-mutator/jest-runner && stryker run"
   },
   "license": "MIT",
-  "description": "A specialized engine designed for conducting static analysis on Salesforce automation tools, with capabilities to scan and evaluate Flows, Process Builders, and Workflows.",
+  "description": "A purpose-built engine to assess and enhance Salesforce Flow automations.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Flow-Scanner/lightning-flow-scanner-core.git"
@@ -68,5 +68,19 @@
   },
   "volta": {
     "node": "20.13.1"
-  }
+  },
+  "keywords": [
+    "salesforce",
+    "flow",
+    "linter",
+    "static-analysis",
+    "static-code-analysis",
+    "flow-scanner",
+    "flow-analysis",
+    "flow-linter",
+    "metadata-scanner",
+    "security-scanner",
+    "best-practices",
+    "salesforce-flow"
+  ]
 }

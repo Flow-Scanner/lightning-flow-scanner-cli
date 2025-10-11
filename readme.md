@@ -189,7 +189,7 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 > curl https://get.volta.sh | bash
 > ```
 >
-> Once installed, Volta will automatically use the Node.js version defined in `package.json`.
+> Volta will automatically use the Node.js version defined in `package.json`.
 
 1. Clone the repo:
 
@@ -214,5 +214,20 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
    ```bash
    npm run test
    ```
+
+5. Test as local dependency:
+   To test changes to the core module in the VS Code extension or SF CLI plugin locally, run:
+
+   ```bash
+   npm link
+   ```
+
+   b) Go to the dependent project (VSX or SF CLI) and use:
+
+   ```bash
+   npm link lightning-flow-scanner-core
+   ```
+
+   Your local core will now replace the installed dependency and update automatically on rebuild.
 
 Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
