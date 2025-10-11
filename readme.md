@@ -6,10 +6,10 @@
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
 - [Default Rules](#default-rules)
-- [Core Functions](#core-functions)
 - [Configurations](#configurations)
   - [Rule Configuration](#rule-configuration)
   - [Exception Configuration](#exception-configuration)
+- [Core Functions](#core-functions)
 - [Development Setup](#development-setup)
 
 ---
@@ -116,26 +116,6 @@ _[UnusedVariable](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tr
 
 ---
 
-## Core Functions
-
-### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
-
-_Retrieves rule definitions used in the scanner._
-
-### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
-
-_Parses metadata from selected Flow files._
-
-### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
-
-_Runs rules against parsed flows and returns scan results._
-
-### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
-
-_Attempts to apply automatic fixes where available._
-
----
-
 ## Configurations
 
 ### Rule Configuration
@@ -180,6 +160,28 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 - **ResultName:**
   - The specific result or condition within the rule for which exceptions are specified.
+
+---
+
+## Core Functions
+
+### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
+
+_Retrieves rule definitions used in the scanner._
+
+### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
+
+_Parses metadata from selected Flow files._
+
+### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
+
+_Runs rules against parsed flows and returns scan results._
+
+### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
+
+_Attempts to apply automatic fixes where available._
+
+---
 
 ## Development Setup
 
