@@ -230,6 +230,6 @@ _Attempts to apply automatic fixes where available._
    npm link lightning-flow-scanner-core
    ```
 
-   Your local core will now replace the installed dependency and update automatically on rebuild.
+   Your local core module will now replace the installed dependency and update automatically on rebuild.
 
 Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
