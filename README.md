@@ -5,9 +5,17 @@
 </p>
 <p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
-![Demo GIF](media/lfsaction.gif)
+<p align="center">
+ <img src="media/lfsaction.gif" alt="Lightning Flow Scanner Demo" width="70%" />
+</p>
 
-_[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner) - For more info on the rules and configurations, please review the [Scanner Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/)._
+[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner)
+
+- [Usage](#usage)[Rule Configuration](#rule-configuration)
+  - [Run On Pull Requests](#run-on-pull-requests)
+  - [Manual Action](manual-action)
+- [Configuration](#configuration)
+- [Development](#development)
 
 ## Usage
 
@@ -25,7 +33,7 @@ jobs:
       - name: Get Latest Version
         uses: actions/checkout@v4
       - name: Run Flow Scanner
-        uses: RubenHalman/lightning-flow-scanner-ga@1.2.0
+        uses: RubenHalman/lightning-flow-scanner-action@1.4.0
         with:
             severityThreshold: error
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,11 +46,11 @@ Also ensure the following:
 - Workflows have read and write permissions in the repository.
 - Allow GitHub Actions to create and approve pull requests.
 
-### A) Automatically Runs On Pull Requests:
+### Run On Pull Requests
 
 `on:pull_request` will trigger Flow Scanner to scan changed flow files every time a pull request is opened.
 
-### B) Or Run It Manually:
+### Manual Action
 
 `on:workflow_dispatch` allows you to run the action on all Flows manually, by following these steps:
     1. Navigate to the "Actions" tab of your GitHub repository.
@@ -57,7 +65,7 @@ Flow Scanner can be configured and the action will look for a .flow-scanner file
 - `.flow-scanner.yml`
 - `.flow-scanner.json`
 
-### Example configuration
+*Configuration example(snippet):*
 
 ```
 rules:
@@ -67,12 +75,10 @@ rules:
     severity: error
 ```
 
-For example:
-
 - With `severityThreshold`: `error`, only `HardcodedId` will fail.
 - With `severityThreshold`: `warning`, both `HardcodedId `and `FlowName` will fail the workflow.
 
-If no configurations are found, the scanner falls back to the default rules/threshold.
+For more information about available rules and configurations, please review the [Core Module Documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/).
 
 ## Development
 
