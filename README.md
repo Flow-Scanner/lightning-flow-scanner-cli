@@ -11,7 +11,8 @@
 
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner)
 
-- [Usage](#usage)[Rule Configuration](#rule-configuration)
+- [Usage](#usage)
+- [Rule Configuration](#rule-configuration)
   - [Run On Pull Requests](#run-on-pull-requests)
   - [Manual Action](manual-action)
 - [Configuration](#configuration)
