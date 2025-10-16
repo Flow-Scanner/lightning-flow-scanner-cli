@@ -34,7 +34,7 @@ jobs:
       - name: Get Latest Version
         uses: actions/checkout@v4
       - name: Run Flow Scanner
-        uses: RubenHalman/lightning-flow-scanner-action@1.4.0
+        uses: Flow-Scanner/lightning-flow-scanner-action@v1.4.3
         with:
             severityThreshold: error
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
