@@ -1,4 +1,3 @@
-/** @type {import('jest').Config} */
 module.exports = {
   automock: false,
   clearMocks: true,
@@ -7,7 +6,7 @@ module.exports = {
   coverageProvider: "v8",
   coverageReporters: ["json", "text", "lcov"],
   modulePathIgnorePatterns: ["./jest.config.cjs", "./out/"],
-  setupFilesAfterEnv: ["./jest.setup.ts"],
+  setupFiles: ["<rootDir>/jest.env-setup.js"],
   testEnvironment: "node",
   testPathIgnorePatterns: ["/node_modules/"],
   transform: {

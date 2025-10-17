@@ -1,7 +1,6 @@
 import micromatch from "micromatch";
 
-const isNotExampleFlows = (files) =>
-  micromatch.not(files, ["files/example-flows/**"]);
+const isNotExampleFlows = (files) => micromatch.not(files, ["assets/example-flows/**"]);
 
 export default {
   "**/*.{js,json,md,xml,yaml,yml}": (files) =>

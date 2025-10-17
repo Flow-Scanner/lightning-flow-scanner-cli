@@ -25,7 +25,7 @@ export default [
     },
   },
   {
-    ignores: ["jest.config.ts", "files/example-flows/**"],
+    ignores: ["jest.config.ts", "assets/example-flows/**"],
   },
   perfectionist.configs["recommended-alphabetical"],
   perfectionist.configs["recommended-line-length"],

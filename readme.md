@@ -1,16 +1,15 @@
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
-    <img src="files/media/bannerslim.png" style="width: 43%;" />
+    <img src="assets/media/bannerslim.png" style="width: 43%;" />
   </a>
 </p>
-<p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
 
 - [Default Rules](#default-rules)
 - [Configurations](#configurations)
   - [Rule Configuration](#rule-configuration)
   - [Exception Configuration](#exception-configuration)
 - [Core Functions](#core-functions)
-- [Development Setup](#development-setup)
+- [Development](#development)
 
 ---
 
@@ -19,8 +18,6 @@
 📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
 `https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label>`
 Ex: _https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context_
-
----
 
 ### Action Calls In Loop
 
@@ -154,10 +151,8 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 - **FlowName:**
   - The name of the flow where exceptions apply.
-
 - **RuleName:**
   - The name of the rule for which exceptions are defined.
-
 - **ResultName:**
   - The specific result or condition within the rule for which exceptions are specified.
 
@@ -183,7 +178,7 @@ _Attempts to apply automatic fixes where available._
 
 ---
 
-## Development Setup
+## Development
 
 > This project optionally uses [Volta](https://volta.sh) to manage Node.js versions. Install Volta with:
 >
@@ -221,7 +216,7 @@ _Attempts to apply automatic fixes where available._
    To test changes to the core module in the VS Code extension or SF CLI plugin locally, run:
 
    ```bash
-   npm link
+   npm run link
    ```
 
    b) Go to the dependent project (VSX or SF CLI) and use:

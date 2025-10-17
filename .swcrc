@@ -20,8 +20,7 @@
       "legacyDecorator": true,
       "decoratorMetadata": false
     },
-    "keepClassNames": true,
-    "baseUrl": "./"
+    "keepClassNames": true
   },
-  "minify": true
+  "minify": false  // Disable for now; re-enable post-debug if needed for smaller JS
 }
