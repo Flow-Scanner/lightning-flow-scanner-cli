@@ -14,7 +14,17 @@ module.exports = {
       "@swc-node/jest",
       {
         module: "commonjs",
-        swc: { minify: false, sourceMaps: "inline" },
+        swc: {
+          jsc: {
+            target: "es2020",
+            parser: {
+              syntax: "typescript",
+              tsx: false,
+            },
+          },
+          sourceMaps: "inline",
+          minify: false,
+        },
       },
     ],
   },
