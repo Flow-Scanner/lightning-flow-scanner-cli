@@ -8,12 +8,12 @@
     "node": "^18 || ^20 || ^22 || ^23"
   },
   "scripts": {
-    "clean": "rm -rf out types",
+    "clean": "rm -rf out",
     "build:js": "swc src --out-dir out --copy-files --strip-leading-paths --config-file .swcrc",
     "build:types": "tsc -p tsconfig.types.json --declaration --emitDeclarationOnly --outDir out",
     "copy:index": "cp out/main/index.js out/index.js || true",
     "copy:media": "mkdir -p out/assets/media && cp -r assets/media/* out/assets/media/ || true",
-    "copy:root-files:out": "cp README.md LICENSE.md CONTRIBUTING.md package.json out/ || true",
+    "copy:root-files:out": "cp README.md LICENSE.md SECURITY.md CONTRIBUTING.md package.json out/ || true",
     "copy:root-files:dist": "cp LICENSE.md dist/ || true",
     "____main____": "__DEVELOPER COMMANDS__",
     "build": "npm run clean && npm run build:js && npm run build:types && npm run copy:index && npm run copy:media && npm run copy:root-files:out",
