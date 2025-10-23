@@ -1,7 +1,7 @@
 {
   "name": "lightning-flow-scanner-core",
   "description": "A purpose-built engine to assess and enhance Salesforce Flow automations for best practices, security, governor limits, and performance issues.",
-  "version": "5.9.6",
+  "version": "5.9.7",
   "main": "index.js",
   "types": "index.d.ts",
   "engines": {
@@ -39,9 +39,9 @@
   },
   "devDependencies": {
     "@jest/types": "30.0.1",
-    "@swc-node/jest": "1.8.13",
+    "@swc-node/jest": "1.9.1",
     "@swc/cli": "0.7.7",
-    "@swc/core": "1.12.7",
+    "@swc/core": "1.13.5",
     "@swc/helpers": "0.5.17",
     "@types/jest": "29.5.14",
     "@types/node": "22.15.30",
@@ -54,12 +54,12 @@
     "eslint-plugin-sonarjs": "3.0.4",
     "husky": "9.1.7",
     "jest": "30.0.3",
-    "lint-staged": "16.1.2",
+    "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
     "typescript-eslint": "8.35.0",
-    "vite": "6.3.5",
+    "vite": "6.4.1",
     "vite-plugin-node-polyfills": "0.23.0",
     "vitest": "3.2.4"
   },

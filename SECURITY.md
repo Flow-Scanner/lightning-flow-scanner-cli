@@ -18,8 +18,6 @@ This project collects zero user data. No credentials, PII, payment info, or heal
 
 We actively track and maintain an up-to-date inventory of all third-party dependencies to ensure security and compatibility. Our dependencies include:
 
-| Package | License | Purpose |
-
+| Package       | License                                                                | Purpose                 |
 | ------------- | ---------------------------------------------------------------------- | ----------------------- |
-
 | `xmlbuilder2` | [MIT](https://github.com/oozcitak/xmlbuilder2/blob/master/LICENSE.txt) | XML builder for Node.js |

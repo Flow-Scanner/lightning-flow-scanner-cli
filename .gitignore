@@ -4,9 +4,6 @@ node_modules
 **/.DS_Store
 .DS_Store
 
-# IDE files
-.vscode/**
-
 .yarn/**
 **.gz
 *.log

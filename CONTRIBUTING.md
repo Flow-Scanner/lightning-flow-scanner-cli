@@ -17,7 +17,7 @@ If it's more specific like a bug or a new feature—use [GitHub Issues](https://
 
 ###### Core Engine - For issues or requests related to the core functionality of the scanner, use the following links to submit your request:
 
-- [Bug Report](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=bug_report.md): Report a bug or issue
+- [Report Issue](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=bug_report.md): Report a bug or issue.
 - [Rule Request](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=rule-request.md): Submit a request for a new rule.
 - [Features/Other](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new): Suggest a new feature.
 
