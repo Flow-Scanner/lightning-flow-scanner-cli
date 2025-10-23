@@ -23059,7 +23059,7 @@ var HowToCompare;
 
 /***/ }),
 
-/***/ 8752:
+/***/ 6371:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -36396,6 +36396,4395 @@ module.exports = new Type('tag:yaml.org,2002:timestamp', {
   instanceOf: Date,
   represent: representYamlTimestamp
 });
+
+
+/***/ }),
+
+/***/ 1650:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get AdvancedRule () {
+        return _AdvancedRule.AdvancedRule;
+    },
+    get Compiler () {
+        return _Compiler.Compiler;
+    },
+    get Flow () {
+        return _Flow.Flow;
+    },
+    get FlowAttribute () {
+        return _FlowAttribute.FlowAttribute;
+    },
+    get FlowElement () {
+        return _FlowElement.FlowElement;
+    },
+    get FlowNode () {
+        return _FlowNode.FlowNode;
+    },
+    get FlowResource () {
+        return _FlowResource.FlowResource;
+    },
+    get FlowType () {
+        return _FlowType.FlowType;
+    },
+    get FlowVariable () {
+        return _FlowVariable.FlowVariable;
+    },
+    get ParsedFlow () {
+        return _ParsedFlow.ParsedFlow;
+    },
+    get ResultDetails () {
+        return _ResultDetails.ResultDetails;
+    },
+    get RuleResult () {
+        return _RuleResult.RuleResult;
+    },
+    get ScanResult () {
+        return _ScanResult.ScanResult;
+    },
+    get fix () {
+        return _FixFlows.fix;
+    },
+    get getBetaRules () {
+        return _GetRuleDefinitions.getBetaRules;
+    },
+    get getRules () {
+        return _GetRuleDefinitions.getRules;
+    },
+    get parse () {
+        return _ParseFlows.parse;
+    },
+    get scan () {
+        return _ScanFlows.scan;
+    }
+});
+const _Compiler = __nccwpck_require__(9206);
+const _FixFlows = __nccwpck_require__(3995);
+const _GetRuleDefinitions = __nccwpck_require__(1575);
+const _ParseFlows = __nccwpck_require__(3135);
+const _ScanFlows = __nccwpck_require__(9363);
+const _AdvancedRule = __nccwpck_require__(8813);
+const _Flow = __nccwpck_require__(133);
+const _FlowAttribute = __nccwpck_require__(1625);
+const _FlowElement = __nccwpck_require__(1405);
+const _FlowNode = __nccwpck_require__(6217);
+const _FlowResource = __nccwpck_require__(3501);
+const _FlowType = __nccwpck_require__(5173);
+const _FlowVariable = __nccwpck_require__(4601);
+const _ParsedFlow = __nccwpck_require__(3736);
+const _ResultDetails = __nccwpck_require__(7260);
+const _RuleResult = __nccwpck_require__(3370);
+const _ScanResult = __nccwpck_require__(9925);
+
+
+/***/ }),
+
+/***/ 6073:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get Compiler () {
+        return _Compiler.Compiler;
+    },
+    get Flow () {
+        return _Flow.Flow;
+    },
+    get FlowAttribute () {
+        return _FlowAttribute.FlowAttribute;
+    },
+    get FlowElement () {
+        return _FlowElement.FlowElement;
+    },
+    get FlowNode () {
+        return _FlowNode.FlowNode;
+    },
+    get FlowResource () {
+        return _FlowResource.FlowResource;
+    },
+    get FlowType () {
+        return _FlowType.FlowType;
+    },
+    get FlowVariable () {
+        return _FlowVariable.FlowVariable;
+    },
+    get ParsedFlow () {
+        return _ParsedFlow.ParsedFlow;
+    },
+    get ResultDetails () {
+        return _ResultDetails.ResultDetails;
+    },
+    get RuleCommon () {
+        return _RuleCommon.RuleCommon;
+    },
+    get RuleResult () {
+        return _RuleResult.RuleResult;
+    },
+    get ScanResult () {
+        return _ScanResult.ScanResult;
+    }
+});
+const _Compiler = __nccwpck_require__(9206);
+const _Flow = __nccwpck_require__(133);
+const _FlowAttribute = __nccwpck_require__(1625);
+const _FlowElement = __nccwpck_require__(1405);
+const _FlowType = __nccwpck_require__(5173);
+const _FlowNode = __nccwpck_require__(6217);
+const _FlowResource = __nccwpck_require__(3501);
+const _FlowVariable = __nccwpck_require__(4601);
+const _ResultDetails = __nccwpck_require__(7260);
+const _RuleResult = __nccwpck_require__(3370);
+const _ScanResult = __nccwpck_require__(9925);
+const _RuleCommon = __nccwpck_require__(4594);
+const _ParsedFlow = __nccwpck_require__(3736);
+
+
+/***/ }),
+
+/***/ 3047:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "BuildFlow", ({
+    enumerable: true,
+    get: function() {
+        return BuildFlow;
+    }
+}));
+const _ConvertFlowNodes = __nccwpck_require__(127);
+function BuildFlow(nodesToMerge) {
+    let res = {};
+    for (const nodeToMerge of nodesToMerge){
+        const subtype = nodeToMerge.subtype;
+        const nodesOfType = nodesToMerge.filter((node)=>subtype === node.subtype);
+        res = (0, _ConvertFlowNodes.convertFlowNodes)(res, nodesOfType, subtype);
+    }
+    return res;
+}
+
+
+/***/ }),
+
+/***/ 9206:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "Compiler", ({
+    enumerable: true,
+    get: function() {
+        return Compiler;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let Compiler = class Compiler {
+    traverseFlow(flow, startElementName, visitCallback, endElementName) {
+        // Iterative Deepening Depth-First Search (IDDFS)
+        let elementsToVisit = [
+            startElementName
+        ];
+        while(elementsToVisit.length > 0){
+            const nextElements = [];
+            for (const elementName of elementsToVisit){
+                if (!this.visitedElements.has(elementName)) {
+                    var _flow_elements;
+                    const currentElement = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.find((element)=>element.name === elementName);
+                    if (currentElement) {
+                        visitCallback(currentElement);
+                        this.visitedElements.add(elementName);
+                        nextElements.push(...this.findNextElements(flow, currentElement, endElementName));
+                    }
+                }
+            }
+            if (nextElements.length === 0) {
+                break; // Terminate the traversal
+            }
+            elementsToVisit = nextElements;
+        }
+    }
+    findNextElements(flow, currentElement, endElementName) {
+        const nextElements = [];
+        if (!currentElement.connectors || currentElement.connectors.length === 0) {
+            return nextElements;
+        }
+        for (const connector of currentElement.connectors){
+            var _connector_connectorTargetReference, _flow_elements;
+            var _connector_connectorTargetReference_targetReference;
+            const targetReference = (_connector_connectorTargetReference_targetReference = connector === null || connector === void 0 ? void 0 : (_connector_connectorTargetReference = connector.connectorTargetReference) === null || _connector_connectorTargetReference === void 0 ? void 0 : _connector_connectorTargetReference.targetReference) !== null && _connector_connectorTargetReference_targetReference !== void 0 ? _connector_connectorTargetReference_targetReference : connector.reference;
+            // Check if the reference exists in the flow elements
+            const nextElement = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.find((element)=>element.metaType === "node" && element.name === targetReference);
+            if (nextElement && nextElement.metaType === "node" && nextElement.name !== endElementName) {
+                nextElements.push(nextElement.name);
+            }
+        }
+        return nextElements;
+    }
+    constructor(){
+        _define_property(this, "visitedElements", void 0);
+        this.visitedElements = new Set();
+    }
+};
+
+
+/***/ }),
+
+/***/ 127:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "convertFlowNodes", ({
+    enumerable: true,
+    get: function() {
+        return convertFlowNodes;
+    }
+}));
+function convertFlowNodes(obj, nodes, key) {
+    obj[key] = nodes.map((node)=>node.element);
+    return obj;
+}
+
+
+/***/ }),
+
+/***/ 9436:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "DynamicRule", ({
+    enumerable: true,
+    get: function() {
+        return DynamicRule;
+    }
+}));
+const _DefaultRuleStore = __nccwpck_require__(6618);
+let DynamicRule = class DynamicRule {
+    constructor(className){
+        if (!_DefaultRuleStore.DefaultRuleStore.hasOwnProperty(className) && _DefaultRuleStore.BetaRuleStore.hasOwnProperty(className)) {
+            return new _DefaultRuleStore.BetaRuleStore[className]();
+        }
+        return new _DefaultRuleStore.DefaultRuleStore[className]();
+    }
+};
+
+
+/***/ }),
+
+/***/ 3995:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get FixFlows () {
+        return FixFlows;
+    },
+    get fix () {
+        return fix;
+    }
+});
+const _BuildFlow = __nccwpck_require__(3047);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+function fix(results) {
+    const newResults = [];
+    for (const result of results){
+        if (result.ruleResults && result.ruleResults.length > 0) {
+            const fixables = result.ruleResults.filter((r)=>r.ruleName === "UnusedVariable" && r.occurs || r.ruleName === "UnconnectedElement" && r.occurs // TODO: this should be rule.occurs && rule.ruleDefinition.fixable
+            );
+            if ((fixables === null || fixables === void 0 ? void 0 : fixables.length) > 0) {
+                const newFlow = FixFlows(result.flow, fixables);
+                result.flow = newFlow;
+                newResults.push(result);
+            }
+        }
+    }
+    return newResults;
+}
+function FixFlows(flow, ruleResults) {
+    var _flow_elements;
+    // TODO: this should be defined on the rule
+    const unusedVariableRes = ruleResults.find((r)=>r.ruleName === "UnusedVariable");
+    const unusedVariableReferences = unusedVariableRes && unusedVariableRes.details && unusedVariableRes.details.length > 0 ? unusedVariableRes.details.map((d)=>d.name) : [];
+    const unconnectedElementsRes = ruleResults.find((r)=>r.ruleName === "UnconnectedElement");
+    const unconnectedElementsReferences = unconnectedElementsRes && unconnectedElementsRes.details && unconnectedElementsRes.details.length > 0 ? unconnectedElementsRes.details.map((d)=>d.name) : [];
+    const nodesToBuild = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>{
+        switch(node.metaType){
+            case "variable":
+                {
+                    const nodeVar = node;
+                    if (!unusedVariableReferences.includes(nodeVar.name)) {
+                        return node;
+                    }
+                    break;
+                }
+            case "node":
+                {
+                    const nodeElement = node;
+                    if (!unconnectedElementsReferences.includes(nodeElement.name)) {
+                        return node;
+                    }
+                    break;
+                }
+            case "metadata":
+            case "resource":
+                return node;
+        }
+    });
+    const xmldata = (0, _BuildFlow.BuildFlow)(nodesToBuild);
+    const newFlow = new _internals.Flow(flow.fsPath, xmldata);
+    return newFlow;
+}
+
+
+/***/ }),
+
+/***/ 1575:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get GetRuleDefinitions () {
+        return GetRuleDefinitions;
+    },
+    get getBetaRules () {
+        return getBetaRules;
+    },
+    get getRules () {
+        return getRules;
+    }
+});
+const _DefaultRuleStore = __nccwpck_require__(6618);
+const _DynamicRule = __nccwpck_require__(9436);
+function GetRuleDefinitions(ruleConfig) {
+    const selectedRules = [];
+    if (ruleConfig && ruleConfig instanceof Map) {
+        for (const ruleName of ruleConfig.keys()){
+            let severity = "error";
+            try {
+                var _ruleConfig_get;
+                const configuredSeverity = (_ruleConfig_get = ruleConfig.get(ruleName)) === null || _ruleConfig_get === void 0 ? void 0 : _ruleConfig_get["severity"];
+                if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
+                    severity = configuredSeverity;
+                }
+                const matchedRule = new _DynamicRule.DynamicRule(ruleName);
+                if (configuredSeverity) {
+                    matchedRule.severity = severity;
+                }
+                selectedRules.push(matchedRule);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+    } else {
+        for(const rule in _DefaultRuleStore.DefaultRuleStore){
+            const matchedRule = new _DynamicRule.DynamicRule(rule);
+            selectedRules.push(matchedRule);
+        }
+    }
+    return selectedRules;
+}
+function getRules(ruleNames) {
+    if (ruleNames && ruleNames.length > 0) {
+        const ruleSeverityMap = new Map(ruleNames.map((name)=>[
+                name,
+                "error"
+            ]));
+        return GetRuleDefinitions(ruleSeverityMap);
+    } else {
+        return GetRuleDefinitions();
+    }
+}
+function getBetaRules() {
+    return getBetaDefinition();
+}
+function getBetaDefinition() {
+    return Object.values(_DefaultRuleStore.BetaRuleStore).map((rule)=>new rule());
+}
+
+
+/***/ }),
+
+/***/ 3135:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "parse", ({
+    enumerable: true,
+    get: function() {
+        return parse;
+    }
+}));
+const _fs = __nccwpck_require__(9896);
+const _path = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6928));
+const _xmlbuilder2 = __nccwpck_require__(2998);
+const _Flow = __nccwpck_require__(133);
+const _ParsedFlow = __nccwpck_require__(3736);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+    try {
+        var info = gen[key](arg);
+        var value = info.value;
+    } catch (error) {
+        reject(error);
+        return;
+    }
+    if (info.done) {
+        resolve(value);
+    } else {
+        Promise.resolve(value).then(_next, _throw);
+    }
+}
+function _async_to_generator(fn) {
+    return function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+        });
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+function parse(selectedUris) {
+    return _async_to_generator(function*() {
+        const parseResults = [];
+        for (const uri of selectedUris){
+            try {
+                const normalizedURI = _path.normalize(uri);
+                const content = yield _fs.promises.readFile(normalizedURI, "utf8");
+                const flowObj = (0, _xmlbuilder2.convert)(content, {
+                    format: "object"
+                });
+                parseResults.push(new _ParsedFlow.ParsedFlow(uri, new _Flow.Flow(uri, flowObj)));
+            } catch (e) {
+                var _e_message;
+                parseResults.push(new _ParsedFlow.ParsedFlow(uri, undefined, (_e_message = e.message) !== null && _e_message !== void 0 ? _e_message : e.toString()));
+            }
+        }
+        return parseResults;
+    })();
+}
+
+
+/***/ }),
+
+/***/ 8090:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "scan2", ({
+    enumerable: true,
+    get: function() {
+        return scan2;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _DefaultRuleStore = __nccwpck_require__(6618);
+const _DynamicRule = __nccwpck_require__(9436);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+function scan2(parsedFlows, ruleOptions) {
+    const flows = parsedFlows.map((parsedFlow)=>parsedFlow.flow);
+    const scanResults = [];
+    for (const flow of flows){
+        scanResults.push(scanFlowWithConfig(flow, ruleOptions));
+    }
+    return scanResults;
+}
+function ruleAndConfig(ruleOptions) {
+    // for unit tests, use a small set of rules
+    const ruleConfiguration = unifiedRuleConfig(ruleOptions);
+    let allRules = _object_spread({}, _DefaultRuleStore.DefaultRuleStore, _DefaultRuleStore.BetaRuleStore);
+    if (// overrideConfig === "true" &&
+    (ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules) && Object.keys(ruleOptions.rules).length > 0) {
+        allRules = Object.entries(allRules).reduce((accumulator, [ruleName, rule])=>{
+            var _ruleOptions_rules;
+            if (ruleOptions === null || ruleOptions === void 0 ? void 0 : (_ruleOptions_rules = ruleOptions.rules) === null || _ruleOptions_rules === void 0 ? void 0 : _ruleOptions_rules[ruleName]) {
+                accumulator[ruleName] = rule;
+            }
+            return accumulator;
+        }, {});
+    }
+    return [
+        allRules,
+        ruleConfiguration
+    ];
+}
+function scanFlowWithConfig(flow, ruleOptions) {
+    const [allRules, ruleConfiguration] = ruleAndConfig(ruleOptions);
+    const ruleResults = [];
+    for (const [ruleName] of Object.entries(allRules)){
+        var _ruleConfiguration_ruleName, _ruleConfiguration_ruleName1, _ruleOptions_exceptions_flowName, _ruleOptions_exceptions;
+        const rule = new _DynamicRule.DynamicRule(ruleName);
+        if (!rule.supportedTypes.includes(flow.type) || (ruleConfiguration === null || ruleConfiguration === void 0 ? void 0 : (_ruleConfiguration_ruleName = ruleConfiguration[ruleName]) === null || _ruleConfiguration_ruleName === void 0 ? void 0 : _ruleConfiguration_ruleName.disabled) === true) {
+            ruleResults.push(new _internals.RuleResult(rule, []));
+            continue;
+        }
+        if (ruleConfiguration === null || ruleConfiguration === void 0 ? void 0 : (_ruleConfiguration_ruleName1 = ruleConfiguration[ruleName]) === null || _ruleConfiguration_ruleName1 === void 0 ? void 0 : _ruleConfiguration_ruleName1.severity) {
+            rule.severity = ruleConfiguration[ruleName].severity;
+        }
+        const flowName = flow.name;
+        var _ruleConfiguration_ruleName2;
+        const userRuleConfiguration = (_ruleConfiguration_ruleName2 = ruleConfiguration[ruleName]) !== null && _ruleConfiguration_ruleName2 !== void 0 ? _ruleConfiguration_ruleName2 : {};
+        var _ruleOptions_exceptions_flowName_ruleName;
+        const userFlowSuppressions = (_ruleOptions_exceptions_flowName_ruleName = ruleOptions === null || ruleOptions === void 0 ? void 0 : (_ruleOptions_exceptions = ruleOptions.exceptions) === null || _ruleOptions_exceptions === void 0 ? void 0 : (_ruleOptions_exceptions_flowName = _ruleOptions_exceptions[flowName]) === null || _ruleOptions_exceptions_flowName === void 0 ? void 0 : _ruleOptions_exceptions_flowName[ruleName]) !== null && _ruleOptions_exceptions_flowName_ruleName !== void 0 ? _ruleOptions_exceptions_flowName_ruleName : [];
+        ruleResults.push(rule.execute2(flow, userRuleConfiguration, userFlowSuppressions));
+    }
+    return new _internals.ScanResult(flow, ruleResults);
+}
+function unifiedRuleConfig(ruleOptions) {
+    var _ruleOptions_rules;
+    const configuredRules = (_ruleOptions_rules = ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules) !== null && _ruleOptions_rules !== void 0 ? _ruleOptions_rules : {};
+    const activeConfiguredRules = Object.entries(configuredRules).reduce((accumulator, [ruleName, config])=>{
+        return _object_spread_props(_object_spread({}, accumulator), {
+            [ruleName]: config
+        });
+    }, {});
+    return activeConfiguredRules;
+}
+
+
+/***/ }),
+
+/***/ 9363:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get ScanFlows () {
+        return ScanFlows;
+    },
+    get scan () {
+        return scan;
+    }
+});
+const _internals = __nccwpck_require__(6073);
+const _GetRuleDefinitions = __nccwpck_require__(1575);
+const _Scan = __nccwpck_require__(8090);
+const { IS_NEW_SCAN_ENABLED: isNewScanEnabled, OVERRIDE_CONFIG: overrideConfig } = process.env;
+function scan(parsedFlows, ruleOptions) {
+    // TD see jest.env-setup.ts for testing scan2
+    if (isNewScanEnabled === "true" && overrideConfig !== null && overrideConfig !== undefined) {
+        return (0, _Scan.scan2)(parsedFlows, ruleOptions);
+    }
+    const flows = [];
+    for (const flow of parsedFlows){
+        if (!flow.errorMessage && flow.flow) {
+            flows.push(flow.flow);
+        }
+    }
+    let scanResults;
+    if ((ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules) && Object.entries(ruleOptions.rules).length > 0) {
+        scanResults = ScanFlows(flows, ruleOptions);
+    } else {
+        scanResults = ScanFlows(flows);
+    }
+    generalSuppressions(scanResults, ruleOptions);
+    return scanResults;
+}
+function ScanFlows(flows, ruleOptions) {
+    const flowResults = [];
+    let selectedRules = [];
+    if (ruleOptions && ruleOptions.rules) {
+        const ruleMap = new Map();
+        for (const [ruleName, rule] of Object.entries(ruleOptions.rules)){
+            ruleMap.set(ruleName, rule);
+        }
+        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(ruleMap);
+    } else {
+        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)();
+    }
+    for (const flow of flows){
+        const ruleResults = [];
+        for (const rule of selectedRules){
+            try {
+                if (rule.supportedTypes.includes(flow.type)) {
+                    let config = undefined;
+                    if (ruleOptions && ruleOptions["rules"] && ruleOptions["rules"][rule.name]) {
+                        config = ruleOptions["rules"][rule.name];
+                    }
+                    const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config) : rule.execute(flow);
+                    if (result.severity !== rule.severity) {
+                        result.severity = rule.severity;
+                    }
+                    ruleResults.push(result);
+                } else {
+                    ruleResults.push(new _internals.RuleResult(rule, []));
+                }
+            } catch (error) {
+                const message = `Something went wrong while executing ${rule.name} in the Flow: ${flow.name} with error ${error}`;
+                ruleResults.push(new _internals.RuleResult(rule, [], message));
+            }
+        }
+        flowResults.push(new _internals.ScanResult(flow, ruleResults));
+    }
+    return flowResults;
+}
+function generalSuppressions(scanResults, ruleOptions) {
+    if (!(ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.exceptions)) {
+        return;
+    }
+    const applyExceptionToResults = (ruleResult, exceptions)=>{
+        const filteredDetails = ruleResult.details.filter((detail)=>!exceptions.includes(detail.name));
+        ruleResult.details = filteredDetails;
+        ruleResult.occurs = filteredDetails.length > 0;
+    };
+    for (const [flowName, exceptionElements] of Object.entries(ruleOptions.exceptions)){
+        const matchingScanResult = scanResults.find((result)=>result.flow.name === flowName);
+        if (!matchingScanResult) {
+            continue;
+        }
+        for (const ruleResult of matchingScanResult.ruleResults){
+            const exceptions = exceptionElements[ruleResult.ruleName];
+            if (!exceptions) {
+                continue;
+            }
+            applyExceptionToResults(ruleResult, exceptions);
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ 8813:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "AdvancedRule", ({
+    enumerable: true,
+    get: function() {
+        return AdvancedRule;
+    }
+}));
+const _util = __nccwpck_require__(9023);
+const _RuleCommon = __nccwpck_require__(4594);
+const _RuleResult = __nccwpck_require__(3370);
+let AdvancedRule = class AdvancedRule extends _RuleCommon.RuleCommon {
+    /**
+   * Executes the rule with advanced configuration and applies suppressions.
+   *
+   * @param flow - The flow to analyze.
+   * @param ruleConfiguration - Optional advanced rule configuration.
+   * @param userFlowSuppressions - Optional list of user-defined suppressions.
+   * @returns The result of rule execution after applying suppressions.
+   */ execute2(flow, ruleConfiguration, userFlowSuppressions) {
+        if (!hasClassicRuleDefinition(this)) {
+            return new _RuleResult.RuleResult(this, []);
+        }
+        let ruleResult;
+        try {
+            ruleResult = this.execute(flow, ruleConfiguration);
+        } catch (error) {
+            return new _RuleResult.RuleResult(this, [], (0, _util.inspect)(error));
+        }
+        if (hasAdvancedSuppression(this)) {
+            ruleResult = this.suppress(ruleResult, ruleConfiguration);
+        }
+        ruleResult = generalSuppressions(ruleResult, userFlowSuppressions);
+        return ruleResult;
+    }
+    /**
+   * Constructs an instance of {@link AdvancedRule}.
+   *
+   * @param info - The rule metadata information.
+   * @param optional - Optional configuration, such as severity.
+   */ constructor(info, optional){
+        super(info, optional);
+    }
+};
+/**
+ * Applies user-defined suppressions to the rule result.
+ *
+ * @param ruleResult - The result of rule execution.
+ * @param userFlowRuleSuppressions - Optional list of suppression names to filter out.
+ * @returns The filtered rule result.
+ */ function generalSuppressions(ruleResult, userFlowRuleSuppressions) {
+    if (!userFlowRuleSuppressions || userFlowRuleSuppressions.length === 0) {
+        return ruleResult;
+    }
+    const filteredDetails = ruleResult.details.filter((detail)=>!userFlowRuleSuppressions.includes(detail.name));
+    ruleResult.details = filteredDetails;
+    ruleResult.occurs = filteredDetails.length > 0;
+    return ruleResult;
+}
+/**
+ * Type guard to check if a value is a function.
+ *
+ * @param val - The value to check.
+ * @returns True if the value is a function, false otherwise.
+ */ // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+const isFunction = (val)=>typeof val === "function";
+/**
+ * Type guard to check if an instance implements {@link AdvancedSuppression}.
+ *
+ * @param instance - The instance to check.
+ * @returns True if the instance has a suppress method, false otherwise.
+ */ function hasAdvancedSuppression(instance) {
+    return isFunction(instance.suppress);
+}
+/**
+ * Type guard to check if an instance implements {@link IRuleDefinition}.
+ *
+ * @param instance - The instance to check.
+ * @returns True if the instance has an execute method, false otherwise.
+ */ function hasClassicRuleDefinition(instance) {
+    return isFunction(instance.execute);
+}
+
+
+/***/ }),
+
+/***/ 133:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "Flow", ({
+    enumerable: true,
+    get: function() {
+        return Flow;
+    }
+}));
+const _path = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6928));
+const _xmlbuilder2 = __nccwpck_require__(2998);
+const _FlowMetadata = __nccwpck_require__(8044);
+const _FlowNode = __nccwpck_require__(6217);
+const _FlowResource = __nccwpck_require__(3501);
+const _FlowVariable = __nccwpck_require__(4601);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let Flow = class Flow {
+    preProcessNodes() {
+        this.label = this.xmldata.label;
+        this.interviewLabel = this.xmldata.interviewLabel;
+        this.processType = this.xmldata.processType;
+        this.processMetadataValues = this.xmldata.processMetadataValues;
+        this.startElementReference = this.xmldata.startElementReference;
+        this.start = this.xmldata.start;
+        this.status = this.xmldata.status;
+        this.type = this.xmldata.processType;
+        this.triggerOrder = this.xmldata.triggerOrder;
+        const allNodes = [];
+        for(const nodeType in this.xmldata){
+            // skip xmlns url
+            // if (nodeType == "@xmlns") {
+            //   continue;
+            // }
+            const data = this.xmldata[nodeType];
+            if (this.flowMetadata.includes(nodeType)) {
+                if (Array.isArray(data)) {
+                    for (const node of data){
+                        allNodes.push(new _FlowMetadata.FlowMetadata(nodeType, node));
+                    }
+                } else {
+                    allNodes.push(new _FlowMetadata.FlowMetadata(nodeType, data));
+                }
+            } else if (this.flowVariables.includes(nodeType)) {
+                if (Array.isArray(data)) {
+                    for (const node of data){
+                        allNodes.push(new _FlowVariable.FlowVariable(node.name, nodeType, node));
+                    }
+                } else {
+                    allNodes.push(new _FlowVariable.FlowVariable(data.name, nodeType, data));
+                }
+            } else if (this.flowNodes.includes(nodeType)) {
+                if (Array.isArray(data)) {
+                    for (const node of data){
+                        allNodes.push(new _FlowNode.FlowNode(node.name, nodeType, node));
+                    }
+                } else {
+                    allNodes.push(new _FlowNode.FlowNode(data.name, nodeType, data));
+                }
+            } else if (this.flowResources.includes(nodeType)) {
+                if (Array.isArray(data)) {
+                    for (const node of data){
+                        allNodes.push(new _FlowResource.FlowResource(node.name, nodeType, node));
+                    }
+                } else {
+                    allNodes.push(new _FlowResource.FlowResource(data.name, nodeType, data));
+                }
+            }
+        }
+        this.elements = allNodes;
+        this.startReference = this.findStart();
+    }
+    toXMLString() {
+        try {
+            return this.generateDoc();
+        } catch (exception) {
+            console.warn(`Unable to write xml, caught an error ${exception.toString()}`);
+            return "";
+        }
+    }
+    findStart() {
+        let start = "";
+        const flowElements = this.elements.filter((node)=>node instanceof _FlowNode.FlowNode);
+        if (this.startElementReference) {
+            start = this.startElementReference;
+        } else if (flowElements.find((n)=>{
+            return n.subtype === "start";
+        })) {
+            const startElement = flowElements.find((n)=>{
+                return n.subtype === "start";
+            });
+            start = startElement.connectors[0]["reference"];
+        }
+        return start;
+    }
+    generateDoc() {
+        // eslint-disable-next-line sonarjs/no-clear-text-protocols
+        const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
+        const doc = (0, _xmlbuilder2.create)({
+            encoding: "UTF-8"
+        }, {
+            Flow: this.xmldata
+        }).root().att("xmlns", flowXmlNamespace);
+        return doc.end({
+            prettyPrint: true
+        });
+    }
+    constructor(path, data){
+        /**
+   * Categorized flow contents that should be used in the rule implementation
+   */ _define_property(this, "elements", void 0);
+        _define_property(this, "fsPath", void 0);
+        _define_property(this, "interviewLabel", void 0);
+        _define_property(this, "label", void 0);
+        _define_property(this, "name", void 0);
+        _define_property(this, "processMetadataValues", void 0);
+        _define_property(this, "processType", void 0);
+        _define_property(this, "root", void 0);
+        _define_property(this, "start", void 0);
+        _define_property(this, "startElementReference", void 0);
+        _define_property(this, "startReference", void 0);
+        _define_property(this, "status", void 0);
+        _define_property(this, "triggerOrder", void 0);
+        _define_property(this, "type", void 0);
+        /**
+   * XML to JSON conversion in raw format
+   */ _define_property(this, "xmldata", void 0);
+        _define_property(this, "flowMetadata", [
+            "description",
+            "apiVersion",
+            "processMetadataValues",
+            "processType",
+            "interviewLabel",
+            "label",
+            "status",
+            "runInMode",
+            "startElementReference",
+            "isTemplate",
+            "fullName",
+            "timeZoneSidKey",
+            "isAdditionalPermissionRequiredToRun",
+            "migratedFromWorkflowRuleName",
+            "triggerOrder",
+            "environments",
+            "segment"
+        ]);
+        _define_property(this, "flowNodes", [
+            "actionCalls",
+            "apexPluginCalls",
+            "assignments",
+            "collectionProcessors",
+            "decisions",
+            "loops",
+            "orchestratedStages",
+            "recordCreates",
+            "recordDeletes",
+            "recordLookups",
+            "recordUpdates",
+            "recordRollbacks",
+            "screens",
+            "start",
+            "steps",
+            "subflows",
+            "waits",
+            "transforms",
+            "customErrors"
+        ]);
+        _define_property(this, "flowResources", [
+            "textTemplates",
+            "stages"
+        ]);
+        _define_property(this, "flowVariables", [
+            "choices",
+            "constants",
+            "dynamicChoiceSets",
+            "formulas",
+            "variables"
+        ]);
+        if (path) {
+            this.fsPath = _path.resolve(path);
+            let flowName = _path.basename(_path.basename(this.fsPath), _path.extname(this.fsPath));
+            if (flowName.includes(".")) {
+                flowName = flowName.split(".")[0];
+            }
+            this.name = flowName;
+        }
+        if (data) {
+            const hasFlowElement = typeof data === "object" && "Flow" in data;
+            if (hasFlowElement) {
+                this.xmldata = data.Flow;
+            } else this.xmldata = data;
+            this.preProcessNodes();
+        }
+    }
+};
+
+
+/***/ }),
+
+/***/ 1625:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowAttribute", ({
+    enumerable: true,
+    get: function() {
+        return FlowAttribute;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowAttribute = class FlowAttribute {
+    constructor(name, subtype, expression){
+        _define_property(this, "name", void 0);
+        _define_property(this, "subtype", void 0);
+        _define_property(this, "expression", void 0);
+        _define_property(this, "metaType", "attribute");
+        this.name = name;
+        this.subtype = subtype;
+        this.expression = expression;
+    }
+};
+
+
+/***/ }),
+
+/***/ 1405:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowElement", ({
+    enumerable: true,
+    get: function() {
+        return FlowElement;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowElement = class FlowElement {
+    constructor(metaType, subtype, element){
+        _define_property(this, "subtype", void 0);
+        _define_property(this, "metaType", void 0);
+        _define_property(this, "element", {});
+        _define_property(this, "connectors", void 0);
+        _define_property(this, "name", void 0);
+        _define_property(this, "locationX", void 0);
+        _define_property(this, "locationY", void 0);
+        this.element = element;
+        this.subtype = subtype;
+        this.metaType = metaType;
+    }
+};
+
+
+/***/ }),
+
+/***/ 8766:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowElementConnector", ({
+    enumerable: true,
+    get: function() {
+        return FlowElementConnector;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowElementConnector = class FlowElementConnector {
+    constructor(type, element, args){
+        _define_property(this, "type", void 0);
+        _define_property(this, "element", {});
+        _define_property(this, "processed", false);
+        _define_property(this, "alias", void 0);
+        _define_property(this, "reference", void 0);
+        _define_property(this, "childName", void 0);
+        _define_property(this, "childOf", void 0);
+        _define_property(this, "connectorTargetReference", void 0);
+        this.type = type;
+        this.element = element;
+        this.childName = args.childName ? args.childName : undefined;
+        this.childOf = args.childOf ? args.childOf : undefined;
+        if (element && "targetReference" in element) {
+            this.reference = element.targetReference;
+        }
+        if (element && "connector" in element) {
+            this.connectorTargetReference = element.connector;
+        }
+    }
+};
+let FlowElementConnectorReference = class FlowElementConnectorReference {
+    constructor(){
+        _define_property(this, "targetReference", void 0);
+    }
+};
+
+
+/***/ }),
+
+/***/ 8044:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowMetadata", ({
+    enumerable: true,
+    get: function() {
+        return FlowMetadata;
+    }
+}));
+const _FlowElement = __nccwpck_require__(1405);
+let FlowMetadata = class FlowMetadata extends _FlowElement.FlowElement {
+    constructor(subtype, element){
+        super("metadata", subtype, element);
+    }
+};
+
+
+/***/ }),
+
+/***/ 6217:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowNode", ({
+    enumerable: true,
+    get: function() {
+        return FlowNode;
+    }
+}));
+const _FlowElement = __nccwpck_require__(1405);
+const _FlowElementConnector = __nccwpck_require__(8766);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowNode = class FlowNode extends _FlowElement.FlowElement {
+    getConnectors(subtype, element) {
+        const connectors = [];
+        if (subtype === "start") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (Array.isArray(element.scheduledPaths)) {
+                for (const asyncElement of (element === null || element === void 0 ? void 0 : element.scheduledPaths) || []){
+                    if (asyncElement.connector) {
+                        var _asyncElement_name;
+                        connectors.push(new _FlowElementConnector.FlowElementConnector("connector", asyncElement.connector, {
+                            childName: (_asyncElement_name = asyncElement === null || asyncElement === void 0 ? void 0 : asyncElement.name) !== null && _asyncElement_name !== void 0 ? _asyncElement_name : "AsyncAfterCommit",
+                            childOf: "scheduledPaths"
+                        }));
+                    }
+                }
+            } else {
+                if (element.scheduledPaths) {
+                    connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.scheduledPaths, {
+                        childName: element.scheduledPaths.name,
+                        childOf: "scheduledPaths"
+                    }));
+                }
+            }
+            return connectors;
+        } else if (subtype === "decisions") {
+            if (element.defaultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("defaultConnector", element.defaultConnector, {}));
+            }
+            if (element.rules) {
+                if (Array.isArray(element.rules)) {
+                    for (const rule of element.rules){
+                        if (rule.connector) {
+                            connectors.push(new _FlowElementConnector.FlowElementConnector("connector", rule.connector, {
+                                childName: rule.name,
+                                childOf: "rules"
+                            }));
+                        }
+                    }
+                } else {
+                    if (element.rules.connector) {
+                        connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.rules.connector, {
+                            childName: element.rules.name,
+                            childOf: "rules"
+                        }));
+                    }
+                }
+            }
+            return connectors;
+        } else if (subtype === "assignments" || subtype === "transforms" || subtype === "customErrors") {
+            return element.connector ? [
+                new _FlowElementConnector.FlowElementConnector("connector", element.connector, {})
+            ] : [];
+        } else if (subtype === "loops") {
+            if (element.nextValueConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("nextValueConnector", element.nextValueConnector, {}));
+            }
+            if (element.noMoreValuesConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("noMoreValuesConnector", element.noMoreValuesConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "actionCalls") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "waits") {
+            if (element.defaultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("defaultConnector", element.defaultConnector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            if (Array.isArray(element.waitEvents)) {
+                for (const waitEvent of element.waitEvents){
+                    if (waitEvent.connector) {
+                        connectors.push(new _FlowElementConnector.FlowElementConnector("connector", waitEvent.connector, {
+                            childName: waitEvent.name,
+                            childOf: "waitEvents"
+                        }));
+                    }
+                }
+            }
+            return connectors;
+        } else if (subtype === "recordCreates") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "recordDeletes") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "recordLookups") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "recordUpdates") {
+            if (element.connector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("connector", element.connector, {}));
+            }
+            if (element.faultConnector) {
+                connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector", element.faultConnector, {}));
+            }
+            return connectors;
+        } else if (subtype === "subflows") {
+            return element.connector ? [
+                new _FlowElementConnector.FlowElementConnector("connector", element.connector, {})
+            ] : [];
+        } else if (subtype === "screens") {
+            return element.connector ? [
+                new _FlowElementConnector.FlowElementConnector("connector", element.connector, {})
+            ] : [];
+        } else {
+            return element.connector ? [
+                new _FlowElementConnector.FlowElementConnector("connector", element.connector, {})
+            ] : [];
+        }
+    }
+    constructor(provName, subtype, element){
+        super("node", subtype, element), _define_property(this, "connectors", []), _define_property(this, "locationX", void 0), _define_property(this, "locationY", void 0), _define_property(this, "name", void 0);
+        const nodeName = subtype === "start" ? "flowstart" : provName;
+        this.name = nodeName;
+        const connectors = this.getConnectors(subtype, element);
+        this.connectors = connectors;
+        this.locationX = element["locationX"];
+        this.locationY = element["locationY"];
+    }
+};
+
+
+/***/ }),
+
+/***/ 3501:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowResource", ({
+    enumerable: true,
+    get: function() {
+        return FlowResource;
+    }
+}));
+const _FlowElement = __nccwpck_require__(1405);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowResource = class FlowResource extends _FlowElement.FlowElement {
+    constructor(name, subtype, element){
+        super("resource", subtype, element), _define_property(this, "name", void 0);
+        this.name = name;
+    }
+};
+
+
+/***/ }),
+
+/***/ 5173:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Represents the different types of Salesforce Flows and provides utility methods
+ * to categorize and retrieve them.
+ *
+ * @remarks
+ * This class defines static properties for various flow types, including backend,
+ * process builder, survey, visual, and unsupported types. It also provides a method
+ * to retrieve all supported flow types.
+ *
+ * @example
+ * ```typescript
+ * const allFlowTypes = FlowType.allTypes();
+ * ```
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowType", ({
+    enumerable: true,
+    get: function() {
+        return FlowType;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowType = class FlowType {
+};
+_define_property(FlowType, "autolaunchedType", "AutoLaunchedFlow");
+_define_property(FlowType, "backEndTypes", [
+    FlowType.autolaunchedType,
+    "CustomEvent",
+    "InvocableProcess",
+    "Orchestrator",
+    "EvaluationFlow",
+    "ActionCadenceAutolaunchedFlow"
+]);
+_define_property(FlowType, "processBuilder", [
+    "Workflow"
+]);
+_define_property(FlowType, "surveyTypes", [
+    "Survey"
+]);
+_define_property(FlowType, "unsupportedTypes", [
+    "CheckoutFlow",
+    "FSCLending",
+    "FSCLending",
+    "LoyaltyManagementFlow"
+]);
+_define_property(FlowType, "visualTypes", [
+    "Flow",
+    "IndividualObjectLinkingFlow",
+    "LoginFlow",
+    "RoutingFlow",
+    "Appointments",
+    "ActionCadenceStepFlow",
+    "ContactRequestFlow",
+    "ContactRequestFlow",
+    "CustomerLifecycle",
+    "FieldServiceMobile",
+    "FieldServiceWeb",
+    "SurveyEnrich"
+]);
+_define_property(FlowType, "allTypes", function() {
+    return [
+        ...this.backEndTypes,
+        ...this.visualTypes,
+        ...this.surveyTypes
+    ];
+});
+
+
+/***/ }),
+
+/***/ 4601:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowVariable", ({
+    enumerable: true,
+    get: function() {
+        return FlowVariable;
+    }
+}));
+const _FlowElement = __nccwpck_require__(1405);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowVariable = class FlowVariable extends _FlowElement.FlowElement {
+    constructor(name, subtype, element){
+        super("variable", subtype, element), _define_property(this, "name", void 0), _define_property(this, "dataType", void 0);
+        this.name = name;
+        this.dataType = element["dataType"];
+    }
+};
+
+
+/***/ }),
+
+/***/ 6376:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "LoopRuleCommon", ({
+    enumerable: true,
+    get: function() {
+        return LoopRuleCommon;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _AdvancedRule = __nccwpck_require__(8813);
+let LoopRuleCommon = class LoopRuleCommon extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const loopElements = this.findLoopElements(flow);
+        if (!loopElements.length) {
+            return new _internals.RuleResult(this, []);
+        }
+        const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
+        const results = statementsInLoops.map((det)=>new _internals.ResultDetails(det));
+        return new _internals.RuleResult(this, results);
+    }
+    findLoopElements(flow) {
+        var _flow_elements;
+        return ((_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "loops")) || [];
+    }
+    findLoopEnd(element) {
+        var _element_element_noMoreValuesConnector;
+        var _element_element_noMoreValuesConnector_targetReference;
+        return (_element_element_noMoreValuesConnector_targetReference = (_element_element_noMoreValuesConnector = element.element["noMoreValuesConnector"]) === null || _element_element_noMoreValuesConnector === void 0 ? void 0 : _element_element_noMoreValuesConnector.targetReference) !== null && _element_element_noMoreValuesConnector_targetReference !== void 0 ? _element_element_noMoreValuesConnector_targetReference : element.name;
+    }
+    findStatementsInLoops(flow, loopElements) {
+        const statementsInLoops = [];
+        const statementTypes = this.getStatementTypes();
+        const findStatement = (element)=>{
+            if (statementTypes.includes(element.subtype)) {
+                statementsInLoops.push(element);
+            }
+        };
+        for (const element of loopElements){
+            const loopEnd = this.findLoopEnd(element);
+            // decide if we should count fault connectors as a violation
+            // if (typeof element.element === "object" && "faultConnector" in (element.element as object)) {}
+            new _internals.Compiler().traverseFlow(flow, element.name, findStatement, loopEnd);
+        }
+        return statementsInLoops;
+    }
+};
+
+
+/***/ }),
+
+/***/ 3736:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ParsedFlow", ({
+    enumerable: true,
+    get: function() {
+        return ParsedFlow;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let ParsedFlow = class ParsedFlow {
+    constructor(uri, flow, errorMessage){
+        _define_property(this, "uri", void 0);
+        _define_property(this, "flow", void 0);
+        _define_property(this, "errorMessage", void 0);
+        this.uri = uri;
+        this.flow = flow;
+        if (errorMessage) {
+            this.errorMessage = errorMessage;
+        }
+    }
+};
+
+
+/***/ }),
+
+/***/ 7260:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ResultDetails", ({
+    enumerable: true,
+    get: function() {
+        return ResultDetails;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let ResultDetails = class ResultDetails {
+    constructor(violation){
+        _define_property(this, "violation", void 0);
+        _define_property(this, "name", void 0);
+        _define_property(this, "type", void 0);
+        _define_property(this, "metaType", void 0);
+        _define_property(this, "details", void 0);
+        this.violation = violation;
+        this.name = violation.name;
+        this.metaType = violation.metaType;
+        this.type = violation.subtype;
+        if (violation.metaType === "variable") {
+            const element = violation;
+            this.details = {
+                dataType: element.dataType
+            };
+        }
+        if (violation.metaType === "node") {
+            var _element_connectors;
+            const element = violation;
+            this.details = {
+                locationX: element.locationX,
+                locationY: element.locationY,
+                connectsTo: (_element_connectors = element.connectors) === null || _element_connectors === void 0 ? void 0 : _element_connectors.map((connector)=>connector.reference)
+            };
+        }
+        if (violation.metaType === "attribute") {
+            const element = violation;
+            this.details = {
+                expression: element.expression
+            };
+        }
+    }
+};
+
+
+/***/ }),
+
+/***/ 4594:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "RuleCommon", ({
+    enumerable: true,
+    get: function() {
+        return RuleCommon;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let RuleCommon = class RuleCommon {
+    constructor(info, optional){
+        _define_property(this, "autoFixable", void 0);
+        _define_property(this, "description", void 0);
+        _define_property(this, "docRefs", []);
+        _define_property(this, "isConfigurable", void 0);
+        _define_property(this, "label", void 0);
+        _define_property(this, "name", void 0);
+        _define_property(this, "severity", void 0);
+        _define_property(this, "supportedTypes", void 0);
+        _define_property(this, "suppressionElement", void 0);
+        _define_property(this, "uri", void 0);
+        this.name = info.name;
+        this.supportedTypes = info.supportedTypes;
+        this.label = info.label;
+        this.description = info.description;
+        this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/${info.name}.ts`;
+        this.docRefs = info.docRefs;
+        this.isConfigurable = info.isConfigurable;
+        this.autoFixable = info.autoFixable;
+        var _optional_severity;
+        this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "error";
+        this.suppressionElement = info.suppressionElement;
+    }
+};
+
+
+/***/ }),
+
+/***/ 3370:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "RuleResult", ({
+    enumerable: true,
+    get: function() {
+        return RuleResult;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let RuleResult = class RuleResult {
+    constructor(info, details, errorMessage){
+        _define_property(this, "occurs", void 0);
+        _define_property(this, "ruleName", void 0);
+        _define_property(this, "ruleDefinition", void 0);
+        _define_property(this, "severity", void 0);
+        _define_property(this, "details", []);
+        _define_property(this, "errorMessage", void 0);
+        this.ruleDefinition = info;
+        this.ruleName = info.name;
+        this.severity = info.severity ? info.severity : "error";
+        this.occurs = false;
+        this.details = details;
+        if (details.length > 0) {
+            this.occurs = true;
+        }
+        if (errorMessage) {
+            this.errorMessage = errorMessage;
+        }
+    }
+};
+
+
+/***/ }),
+
+/***/ 9925:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ScanResult", ({
+    enumerable: true,
+    get: function() {
+        return ScanResult;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let ScanResult = class ScanResult {
+    constructor(flow, ruleResults){
+        _define_property(this, "flow", void 0);
+        _define_property(this, "ruleResults", void 0);
+        this.flow = flow;
+        this.ruleResults = ruleResults;
+    }
+};
+
+
+/***/ }),
+
+/***/ 2800:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "APIVersion", ({
+    enumerable: true,
+    get: function() {
+        return APIVersion;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let APIVersion = class APIVersion extends _AdvancedRule.AdvancedRule {
+    execute(flow, options) {
+        let flowAPIVersionNumber = null;
+        if (flow.xmldata.apiVersion) {
+            const flowAPIVersion = flow.xmldata.apiVersion;
+            flowAPIVersionNumber = +flowAPIVersion;
+        }
+        const results = [];
+        if (!flowAPIVersionNumber) {
+            results.push(new _internals.ResultDetails(new _internals.FlowAttribute("API Version <49", "apiVersion", "<49")));
+            return new _internals.RuleResult(this, results);
+        }
+        if (options && options.expression) {
+            // eslint-disable-next-line sonarjs/code-eval
+            const isApiNumberMoreThanConfiguredExpression = new Function(`return ${flowAPIVersionNumber}${options.expression};`);
+            if (!isApiNumberMoreThanConfiguredExpression()) {
+                results.push(new _internals.ResultDetails(new _internals.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)));
+            }
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "APIVersion",
+            label: "Outdated API Version",
+            description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [],
+            isConfigurable: true,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 443:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ActionCallsInLoop", ({
+    enumerable: true,
+    get: function() {
+        return ActionCallsInLoop;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _LoopRuleCommon = __nccwpck_require__(6376);
+let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRuleCommon {
+    getStatementTypes() {
+        return [
+            "actionCalls",
+            "apexPluginCalls"
+        ];
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",
+            docRefs: [
+                {
+                    label: "Invocable Method Considerations",
+                    path: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_InvocableMethod.htm"
+                }
+            ],
+            isConfigurable: false,
+            label: "**Beta** Action Calls In Loop",
+            name: "ActionCallsInLoop",
+            supportedTypes: _internals.FlowType.backEndTypes
+        }, {
+            severity: "warning"
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 1073:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "AutoLayout", ({
+    enumerable: true,
+    get: function() {
+        return AutoLayout;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let AutoLayout = class AutoLayout extends _AdvancedRule.AdvancedRule {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    execute(flow, options) {
+        if (flow.processMetadataValues) {
+            var _CanvasMode_value;
+            const CanvasMode = flow.xmldata.processMetadataValues.find((mdv)=>mdv.name === "CanvasMode");
+            const autoLayout = CanvasMode.value && typeof CanvasMode.value === "object" && CanvasMode.value.stringValue && CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
+            return !autoLayout ? new _internals.RuleResult(this, [
+                new _internals.ResultDetails(new _internals.FlowAttribute((_CanvasMode_value = CanvasMode.value) === null || _CanvasMode_value === void 0 ? void 0 : _CanvasMode_value.stringValue, "CanvasMode", "!== AUTO_LAYOUT_CANVAS"))
+            ]) : new _internals.RuleResult(this, []);
+        }
+        return new _internals.RuleResult(this, []);
+    }
+    constructor(){
+        super({
+            name: "AutoLayout",
+            label: "Auto-Layout Mode",
+            description: "With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [],
+            isConfigurable: true,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 8486:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "CopyAPIName", ({
+    enumerable: true,
+    get: function() {
+        return CopyAPIName;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let CopyAPIName = class CopyAPIName extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
+        const copyOfElements = [];
+        for (const element of flowElements){
+            // eslint-disable-next-line sonarjs/concise-regex
+            const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
+            if (copyOf) {
+                copyOfElements.push(element);
+            }
+        }
+        const results = [];
+        for (const det of copyOfElements){
+            results.push(new _internals.ResultDetails(det));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "CopyAPIName",
+            label: "Copy API Name",
+            description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [],
+            isConfigurable: false,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 1614:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "CyclomaticComplexity", ({
+    enumerable: true,
+    get: function() {
+        return CyclomaticComplexity;
+    }
+}));
+const _AdvancedRule = __nccwpck_require__(8813);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let CyclomaticComplexity = class CyclomaticComplexity extends _AdvancedRule.AdvancedRule {
+    execute(flow, options) {
+        var _flow_elements, _flow_elements1;
+        // Set Threshold
+        const threshold = (options === null || options === void 0 ? void 0 : options.threshold) || this.defaultThreshold;
+        // Calculate Cyclomatic Complexity based on the number of decision rules and loops, adding the number of decisions plus 1.
+        let cyclomaticComplexity = 1;
+        const flowDecisions = flow === null || flow === void 0 ? void 0 : (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "decisions");
+        const flowLoops = flow === null || flow === void 0 ? void 0 : (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : _flow_elements1.filter((node)=>node.subtype === "loops");
+        for (const decision of flowDecisions || []){
+            const rules = decision.element["rules"];
+            if (Array.isArray(rules)) {
+                cyclomaticComplexity += rules.length + 1;
+            } else {
+                cyclomaticComplexity += 1;
+            }
+        }
+        var _flowLoops_length;
+        cyclomaticComplexity += (_flowLoops_length = flowLoops === null || flowLoops === void 0 ? void 0 : flowLoops.length) !== null && _flowLoops_length !== void 0 ? _flowLoops_length : 0;
+        this.cyclomaticComplexityUnit = cyclomaticComplexity; // for unit testing
+        const results = [];
+        if (cyclomaticComplexity > threshold) {
+            results.push(new _internals.ResultDetails(new _internals.FlowAttribute(`${cyclomaticComplexity}`, "CyclomaticComplexity", `>${threshold}`)));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "CyclomaticComplexity",
+            label: "Cyclomatic Complexity",
+            description: `The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,
+            supportedTypes: _internals.FlowType.backEndTypes,
+            docRefs: [
+                {
+                    label: `Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code.`,
+                    path: "https://en.wikipedia.org/wiki/Cyclomatic_complexity"
+                }
+            ],
+            isConfigurable: true,
+            autoFixable: false
+        }, {
+            severity: "note"
+        }), _define_property(this, "defaultThreshold", 25), _define_property(this, "cyclomaticComplexityUnit", 0);
+    }
+};
+
+
+/***/ }),
+
+/***/ 9863:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "DMLStatementInLoop", ({
+    enumerable: true,
+    get: function() {
+        return DMLStatementInLoop;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _LoopRuleCommon = __nccwpck_require__(6376);
+let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRuleCommon {
+    getStatementTypes() {
+        return [
+            "recordDeletes",
+            "recordUpdates",
+            "recordCreates"
+        ];
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
+            docRefs: [
+                {
+                    label: "Flow Best Practices",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
+                }
+            ],
+            isConfigurable: false,
+            label: "DML Statement In A Loop",
+            name: "DMLStatementInLoop",
+            supportedTypes: _internals.FlowType.backEndTypes
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 2181:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "DuplicateDMLOperation", ({
+    enumerable: true,
+    get: function() {
+        return DuplicateDMLOperation;
+    }
+}));
+const _AdvancedRule = __nccwpck_require__(8813);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let DuplicateDMLOperation = class DuplicateDMLOperation extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
+        const processedElementIndexes = [];
+        const unconnectedElementIndexes = [];
+        const DuplicateDMLOperations = [];
+        const startingNode = this.findStart(flow);
+        if (!startingNode || startingNode === -1) {
+            throw "Can not find starting element";
+        }
+        let dmlFlag = false;
+        let indexesToProcess = [
+            startingNode
+        ];
+        do {
+            indexesToProcess = indexesToProcess.filter((index)=>!processedElementIndexes.includes(index));
+            if (indexesToProcess.length > 0) {
+                for (const [index, element] of flowElements.entries()){
+                    if (indexesToProcess.includes(index)) {
+                        const references = [];
+                        if (element.connectors && element.connectors.length > 0) {
+                            for (const connector of element.connectors){
+                                if (connector.reference) {
+                                    references.push(connector.reference);
+                                }
+                            }
+                        }
+                        dmlFlag = this.flagDML(element, dmlFlag);
+                        if (references.length > 0) {
+                            const elementsByReferences = flowElements.filter((element)=>references.includes(element.name));
+                            for (const nextElement of elementsByReferences){
+                                const nextIndex = flowElements.findIndex((element)=>nextElement.name === element.name);
+                                if ("screens" === nextElement.subtype) {
+                                    if (dmlFlag && nextElement.element["allowBack"] && nextElement.element["allowBack"] == "true" && nextElement.element["showFooter"] == "true") {
+                                        DuplicateDMLOperations.push(nextElement);
+                                    }
+                                }
+                                if (!processedElementIndexes.includes(nextIndex)) {
+                                    indexesToProcess.push(nextIndex);
+                                }
+                            }
+                        }
+                        processedElementIndexes.push(index);
+                    }
+                }
+            } else {
+                // skip unconnected elements
+                for (const index of flowElements.keys()){
+                    if (!processedElementIndexes.includes(index)) {
+                        unconnectedElementIndexes.push(index);
+                    }
+                }
+            }
+        }while (processedElementIndexes.length + unconnectedElementIndexes.length < flowElements.length)
+        const results = [];
+        for (const det of DuplicateDMLOperations){
+            results.push(new _internals.ResultDetails(det));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    flagDML(element, dmlFlag) {
+        const dmlStatementTypes = [
+            "recordDeletes",
+            "recordUpdates",
+            "recordCreates"
+        ];
+        if (dmlStatementTypes.includes(element.subtype)) {
+            return true;
+        } else if (dmlFlag === true && element.subtype === "screens" && element.element["allowBack"] && element.element["allowBack"] == "true") {
+            return false;
+        } else {
+            return dmlFlag;
+        }
+    }
+    findStart(flow) {
+        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
+        let start;
+        if (flow.startElementReference) {
+            start = flowElements.findIndex((n)=>{
+                return n.name == flow.startElementReference;
+            });
+        } else {
+            start = flowElements.findIndex((n)=>{
+                return n.subtype === "start";
+            });
+        }
+        return start;
+    }
+    constructor(){
+        super({
+            name: "DuplicateDMLOperation",
+            label: "Duplicate DML Operation",
+            description: "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
+            supportedTypes: _internals.FlowType.visualTypes,
+            docRefs: [],
+            isConfigurable: false,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 5032:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowDescription", ({
+    enumerable: true,
+    get: function() {
+        return FlowDescription;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let FlowDescription = class FlowDescription extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        var _flow_xmldata;
+        const missingFlowDescription = !((_flow_xmldata = flow.xmldata) === null || _flow_xmldata === void 0 ? void 0 : _flow_xmldata.description);
+        return missingFlowDescription ? new _internals.RuleResult(this, [
+            new _internals.ResultDetails(new _internals.FlowAttribute("undefined", "description", "!==null"))
+        ]) : new _internals.RuleResult(this, []);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
+            docRefs: [],
+            isConfigurable: false,
+            label: "Missing Flow Description",
+            name: "FlowDescription",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ]
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 7787:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowName", ({
+    enumerable: true,
+    get: function() {
+        return FlowName;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let FlowName = class FlowName extends _AdvancedRule.AdvancedRule {
+    execute(flow, advancedConfig) {
+        const rawRegexp = advancedConfig && advancedConfig.expression ? advancedConfig.expression : "[A-Za-z0-9]+_[A-Za-z0-9]+";
+        const regexExp = rawRegexp;
+        const flowName = flow.name;
+        const conventionApplied = new RegExp(regexExp).test(flowName);
+        return !conventionApplied ? new _internals.RuleResult(this, [
+            new _internals.ResultDetails(new _internals.FlowAttribute(flowName, "name", regexExp))
+        ]) : new _internals.RuleResult(this, []);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",
+            docRefs: [
+                {
+                    label: "Naming your Flows is more critical than ever. By Stephen Church",
+                    path: "https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx?utm_source=share&utm_medium=member_desktop"
+                }
+            ],
+            isConfigurable: true,
+            label: "Flow Naming Convention",
+            name: "FlowName",
+            supportedTypes: _internals.FlowType.allTypes()
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 6625:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "GetRecordAllFields", ({
+    enumerable: true,
+    get: function() {
+        return GetRecordAllFields;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let GetRecordAllFields = class GetRecordAllFields extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        var _flow_elements;
+        const results = [];
+        const getElementNodes = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((element)=>element.subtype === "recordLookups");
+        if (getElementNodes == null || getElementNodes.length === 0) {
+            return new _internals.RuleResult(this, results);
+        }
+        const errorNodes = getElementNodes.filter((element)=>{
+            const getRecordElement = element;
+            const hasQualifiedElementDefinition = typeof getRecordElement.element === "object";
+            if (!hasQualifiedElementDefinition) {
+                return false;
+            }
+            const concreteChildElement = getRecordElement.element;
+            const storeAllFields = "storeOutputAutomatically" in concreteChildElement && concreteChildElement["storeOutputAutomatically"];
+            const hasQueriedFields = "queriedFields" in concreteChildElement && concreteChildElement["queriedFields"].length > 0;
+            return storeAllFields && !hasQueriedFields;
+        }).map((element)=>{
+            const getRecordElement = element;
+            return new _internals.ResultDetails(getRecordElement);
+        });
+        results.push(...errorNodes);
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
+            docRefs: [
+                {
+                    label: "SOQL and SOSL | Best Practices for Deployments with Large Data Volumes",
+                    path: "https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_best_practices_soql_and_sosl.htm"
+                },
+                {
+                    label: "Indexes | Best Practices",
+                    path: "https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_infrastructure_indexes.htm"
+                }
+            ],
+            isConfigurable: false,
+            label: "Get Record All Fields",
+            name: "GetRecordAllFields",
+            supportedTypes: _internals.FlowType.allTypes()
+        }, {
+            severity: "warning"
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 7407:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedId", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedId;
+    }
+}));
+const _AdvancedRule = __nccwpck_require__(8813);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let HardcodedId = class HardcodedId extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const nodesWithHardcodedIds = [];
+        const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;
+        for (const node of flow.elements){
+            const nodeString = JSON.stringify(node);
+            if (salesforceIdRegex.test(nodeString)) {
+                nodesWithHardcodedIds.push(node);
+            }
+        }
+        const results = nodesWithHardcodedIds.map((node)=>new _internals.ResultDetails(node));
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "HardcodedId",
+            label: "Hardcoded Id",
+            description: "Avoid hard-coding IDs as they are org-specific. Instead, pass them into variables at the start of the flow. You can achieve this by utilizing merge fields in URL parameters or employing a Get Records element.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [
+                {
+                    label: "Flow Best Practices",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
+                },
+                {
+                    label: "Don't hard code Record Type IDs in Flow. By Stephen Church.",
+                    path: "https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6947530300012826624%29"
+                }
+            ],
+            isConfigurable: false,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 7033:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedUrl", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedUrl;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _AdvancedRule = __nccwpck_require__(8813);
+let HardcodedUrl = class HardcodedUrl extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const results = [];
+        if (!flow.elements || flow.elements.length === 0) {
+            return new _internals.RuleResult(this, results);
+        }
+        const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
+        for (const element of flow.elements){
+            const nodeString = JSON.stringify(element);
+            if (urlRegex.test(nodeString)) {
+                results.push(new _internals.ResultDetails(element));
+            }
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",
+            docRefs: [
+                {
+                    label: "The Ultimate Guide to Salesforce Flow Best Practices",
+                    path: "https://admin.salesforce.com/blog/2021/the-ultimate-guide-to-flow-best-practices-and-standards"
+                },
+                {
+                    label: "Why You Should Avoid Hard Coding and Three Alternative Solutions",
+                    path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"
+                }
+            ],
+            isConfigurable: false,
+            label: "Hardcoded Url",
+            name: "HardcodedUrl",
+            supportedTypes: _internals.FlowType.allTypes()
+        }, {
+            severity: "warning"
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 6513:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "InactiveFlow", ({
+    enumerable: true,
+    get: function() {
+        return InactiveFlow;
+    }
+}));
+const _AdvancedRule = __nccwpck_require__(8813);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let InactiveFlow = class InactiveFlow extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const results = [];
+        if (flow.status !== "Active") {
+            results.push(new _internals.ResultDetails(new _internals.FlowAttribute(flow.status, "status", "!= Active")));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "InactiveFlow",
+            label: "Inactive Flow",
+            description: "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [],
+            isConfigurable: false,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 9931:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingFaultPath", ({
+    enumerable: true,
+    get: function() {
+        return MissingFaultPath;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingFaultPath = class MissingFaultPath extends _AdvancedRule.AdvancedRule {
+    isValidSubtype(proxyNode) {
+        if (!this.applicableElements.includes(proxyNode.subtype)) {
+            return false;
+        }
+        if (proxyNode.subtype === "waits") {
+            var _proxyNode_element;
+            const elementSubtype = (_proxyNode_element = proxyNode.element) === null || _proxyNode_element === void 0 ? void 0 : _proxyNode_element["elementSubtype"];
+            const excludedSubtypes = [
+                "WaitDuration",
+                "WaitDate"
+            ];
+            return !excludedSubtypes.includes(elementSubtype);
+        }
+        return true;
+    }
+    execute(flow) {
+        var _flow_elements;
+        const compiler = new _internals.Compiler();
+        const results = [];
+        const elementsWhereFaultPathIsApplicable = ((_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>{
+            const proxyNode = node;
+            return this.isValidSubtype(proxyNode);
+        })).map((e)=>e.name);
+        const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+        const visitCallback = (element)=>{
+            var _element_connectors;
+            if (!(element === null || element === void 0 ? void 0 : (_element_connectors = element.connectors) === null || _element_connectors === void 0 ? void 0 : _element_connectors.find((connector)=>connector.type === "faultConnector")) && elementsWhereFaultPathIsApplicable.includes(element.name)) {
+                if (isRecordBeforeSave && element.subtype === "recordUpdates") {
+                    return;
+                }
+                // Check if the element is part of another fault path
+                if (!this.isPartOfFaultHandlingFlow(element, flow)) {
+                    results.push(new _internals.ResultDetails(element));
+                }
+            }
+        };
+        // Use the core.Compiler for traversal
+        compiler.traverseFlow(flow, flow.startReference, visitCallback);
+        return new _internals.RuleResult(this, results);
+    }
+    suppress(scanResult, ruleConfiguration) {
+        const suppressedResults = [];
+        const suppressionElementKey = this.suppressionElement;
+        for (const resultDetails of scanResult.details){
+            var _ruleConfiguration_suppressions;
+            if ("violation" in resultDetails && "element" in resultDetails.violation && typeof resultDetails.violation.element === "object" && !Array.isArray(resultDetails.violation.element) && suppressionElementKey in resultDetails.violation.element && (ruleConfiguration === null || ruleConfiguration === void 0 ? void 0 : (_ruleConfiguration_suppressions = ruleConfiguration.suppressions) === null || _ruleConfiguration_suppressions === void 0 ? void 0 : _ruleConfiguration_suppressions.includes(resultDetails.violation.element[suppressionElementKey]))) {
+                continue;
+            }
+            suppressedResults.push(resultDetails);
+        }
+        return new _internals.RuleResult(this, suppressedResults);
+    }
+    isPartOfFaultHandlingFlow(element, flow) {
+        var _flow_elements;
+        const flowelements = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((el)=>el instanceof _internals.FlowNode);
+        for (const otherElement of flowelements){
+            if (otherElement !== element) {
+                var _otherElement_connectors;
+                // Check if the otherElement has a faultConnector pointing to element
+                if ((_otherElement_connectors = otherElement.connectors) === null || _otherElement_connectors === void 0 ? void 0 : _otherElement_connectors.find((connector)=>connector.type === "faultConnector" && connector.reference === element.name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
+            docRefs: [
+                {
+                    label: "Flow Best Practices",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
+                }
+            ],
+            isConfigurable: false,
+            label: "Missing Fault Path",
+            name: "MissingFaultPath",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ],
+            suppressionElement: "actionName"
+        }), _define_property(this, "applicableElements", [
+            "recordLookups",
+            "recordDeletes",
+            "recordUpdates",
+            "recordCreates",
+            "waits",
+            "actionCalls"
+        ]);
+    }
+};
+
+
+/***/ }),
+
+/***/ 6907:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingNullHandler", ({
+    enumerable: true,
+    get: function() {
+        return MissingNullHandler;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingNullHandler = class MissingNullHandler extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const getOperations = [
+            "recordLookups"
+        ];
+        const getOperationElements = flow.elements.filter((node)=>node.metaType === "node" && getOperations.includes(node.subtype));
+        const decisionElements = flow.elements.filter((node)=>node.metaType === "node" && node.subtype === "decisions");
+        const getOperationsWithoutNullHandler = [];
+        for (const getElement of getOperationElements){
+            const elementName = getElement.name;
+            let nullCheckFound = false;
+            let resultReferences = [];
+            if (getElement.element["storeOutputAutomatically"]) {
+                resultReferences = [
+                    elementName
+                ];
+            } else if (getElement.element["outputReference"]) {
+                resultReferences = getElement.element["outputReference"];
+            } else if (getElement.element["outputAssignments"]) {
+                const outputAssignments = getElement.element["outputAssignments"];
+                for (const assignment of outputAssignments){
+                    resultReferences.push(assignment.assignToReference);
+                }
+            }
+            // ✅ Skip check if result is never used inside the flow
+            const resultIsUsed = flow.elements.some((el)=>{
+                if (el.name === getElement.name) return false;
+                const json = JSON.stringify(el.element);
+                return resultReferences.some((ref)=>json.includes(`"${ref}"`) || json.includes(`"${ref}.`));
+            });
+            if (!resultIsUsed) continue;
+            for (const el of decisionElements){
+                let rules = el.element["rules"];
+                const isRuleAnArray = Array.isArray(rules);
+                if (!isRuleAnArray) {
+                    rules = [
+                        rules
+                    ];
+                }
+                for (const rule of rules){
+                    let conditions = rule.conditions;
+                    const isConditionsAnArray = Array.isArray(conditions);
+                    if (!isConditionsAnArray) {
+                        conditions = [
+                            conditions
+                        ];
+                    }
+                    for (const condition of conditions){
+                        let referenceFound = false;
+                        let isNullOperator = false;
+                        let checksIfFalse = false;
+                        if (condition.leftValueReference && condition.leftValueReference.length > 0) {
+                            const valueReference = condition.leftValueReference;
+                            for (const ref of resultReferences){
+                                referenceFound = valueReference.startsWith(ref);
+                                if (referenceFound) {
+                                    break;
+                                }
+                            }
+                        }
+                        if (condition.operator && (!Array.isArray(condition.operator) || condition.operator.length > 0)) {
+                            const operator = condition.operator;
+                            isNullOperator = operator === "IsNull";
+                        }
+                        if (condition.rightValue && (!Array.isArray(condition.rightValue) || condition.rightValue.length > 0) && condition.rightValue.booleanValue && (!Array.isArray(condition.rightValue.booleanValue) || condition.rightValue.booleanValue.length > 0)) {
+                            const rightValue = condition.rightValue.booleanValue;
+                            checksIfFalse = rightValue.toLowerCase() === "false";
+                        }
+                        if (referenceFound && isNullOperator && checksIfFalse) {
+                            nullCheckFound = true;
+                        }
+                    }
+                }
+            }
+            if (!nullCheckFound) {
+                getOperationsWithoutNullHandler.push(getElement);
+            }
+        }
+        const results = [];
+        for (const det of getOperationsWithoutNullHandler){
+            results.push(new _internals.ResultDetails(det));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
+            docRefs: [],
+            isConfigurable: false,
+            label: "Missing Null Handler",
+            name: "MissingNullHandler",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ]
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 2604:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ProcessBuilder", ({
+    enumerable: true,
+    get: function() {
+        return ProcessBuilder;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let ProcessBuilder = class ProcessBuilder extends _AdvancedRule.AdvancedRule {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    execute(flow, options) {
+        return new _internals.RuleResult(this, [
+            new _internals.ResultDetails(new _internals.FlowAttribute("Workflow", "processType", "== Workflow"))
+        ]);
+    }
+    constructor(){
+        super({
+            name: "ProcessBuilder",
+            label: "No Process Builder",
+            description: "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Ensure you're prepared for this transition by migrating your organization's automation to Flow. Refer to official documentation for more information on the transition process and tools available.",
+            supportedTypes: _internals.FlowType.processBuilder,
+            docRefs: [
+                {
+                    label: "Process Builder Retirement",
+                    path: "https://help.salesforce.com/s/articleView?id=000389396&type=1"
+                }
+            ],
+            isConfigurable: true,
+            autoFixable: false
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 1951:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "RecursiveAfterUpdate", ({
+    enumerable: true,
+    get: function() {
+        return RecursiveAfterUpdate;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        var _flow_start, _flow_start1, _flow_elements, _flow_elements_filter, _flow_elements1;
+        const results = [];
+        const isAfterSave = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordAfterSave";
+        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.recordTriggerType);
+        if (!isAfterSave || !isQualifiedTriggerTypes) {
+            return new _internals.RuleResult(this, results);
+        }
+        const potentialElements = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "recordUpdates");
+        if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+            return new _internals.RuleResult(this, results);
+        }
+        for (const node of potentialElements){
+            if (typeof node.element === "object" && "inputReference" in node.element && node.element.inputReference === "$Record") {
+                results.push(new _internals.ResultDetails(node));
+            }
+        }
+        // do another search for record updates from lookups with the same object type
+        // and check whether there is references on record updates
+        const lookupElementsWithTheSameObjectType = (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : (_flow_elements_filter = _flow_elements1.filter((node)=>node.subtype === "recordLookups" && typeof node.element === "object" && "object" in node.element && flow.start.object === node.element["object"])) === null || _flow_elements_filter === void 0 ? void 0 : _flow_elements_filter.map((node)=>{
+            return node.name;
+        });
+        if (lookupElementsWithTheSameObjectType == null || typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function") {
+            return new _internals.RuleResult(this, results);
+        }
+        for (const node of potentialElements){
+            if (typeof node.element === "object" && "inputReference" in node.element && lookupElementsWithTheSameObjectType.includes(node.element.inputReference)) {
+                results.push(new _internals.ResultDetails(node));
+            }
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",
+            docRefs: [
+                {
+                    label: "Learn about same record field updates",
+                    path: "https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"
+                }
+            ],
+            isConfigurable: false,
+            label: "Recursive After Update",
+            name: "RecursiveAfterUpdate",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes
+            ]
+        }, {
+            severity: "warning"
+        }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
+            "Create",
+            "CreateAndUpdate",
+            "Update"
+        ]));
+    }
+};
+
+
+/***/ }),
+
+/***/ 8834:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "SOQLQueryInLoop", ({
+    enumerable: true,
+    get: function() {
+        return SOQLQueryInLoop;
+    }
+}));
+const _internals = __nccwpck_require__(6073);
+const _LoopRuleCommon = __nccwpck_require__(6376);
+let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleCommon {
+    getStatementTypes() {
+        return [
+            "recordLookups"
+        ];
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
+            docRefs: [
+                {
+                    label: "Flow Best Practices",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
+                }
+            ],
+            isConfigurable: false,
+            label: "SOQL Query In A Loop",
+            name: "SOQLQueryInLoop",
+            supportedTypes: _internals.FlowType.backEndTypes
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 1889:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "SameRecordFieldUpdates", ({
+    enumerable: true,
+    get: function() {
+        return SameRecordFieldUpdates;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        var _flow_start, _flow_start1, _flow_elements;
+        const results = [];
+        const isBeforeSaveType = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordBeforeSave";
+        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.recordTriggerType);
+        if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
+            return new _internals.RuleResult(this, results);
+        }
+        const potentialElements = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "recordUpdates");
+        if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+            return new _internals.RuleResult(this, results);
+        }
+        for (const node of potentialElements){
+            if (typeof node.element === "object" && "inputReference" in node.element && node.element.inputReference === "$Record") {
+                results.push(new _internals.ResultDetails(node));
+            }
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "SameRecordFieldUpdates",
+            label: "Same Record Field Updates",
+            description: "Before-save same-record field updates allows you to update the record using variable assignments to `$Record`. This is significantly faster than doing another DML on the same-record that triggered the flow",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes
+            ],
+            docRefs: [
+                {
+                    label: "Learn about same record field updates",
+                    path: "https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"
+                }
+            ],
+            isConfigurable: false,
+            autoFixable: false
+        }, {
+            severity: "warning"
+        }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
+            "Create",
+            "Update",
+            "CreateAndUpdate"
+        ]));
+    }
+};
+
+
+/***/ }),
+
+/***/ 4564:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "TriggerOrder", ({
+    enumerable: true,
+    get: function() {
+        return TriggerOrder;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let TriggerOrder = class TriggerOrder extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const results = [];
+        if (!("object" in flow.start)) {
+            return new _internals.RuleResult(this, results);
+        }
+        if (!flow.triggerOrder) {
+            results.push(new _internals.ResultDetails(new _internals.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "TriggerOrder",
+            label: "Trigger Order",
+            description: "With flow trigger ordering, introduced in Spring '22, admins can now assign a priority value to their flows and guarantee their execution order. This priority value is not an absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",
+            supportedTypes: [
+                _internals.FlowType.autolaunchedType
+            ],
+            docRefs: [
+                {
+                    label: "Learn more about flow ordering orchestration",
+                    path: "https://architect.salesforce.com/decision-guides/trigger-automation#Ordering___Orchestration"
+                }
+            ],
+            isConfigurable: false,
+            autoFixable: false
+        }, {
+            severity: "note"
+        }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
+            "Create",
+            "Update"
+        ]));
+    }
+};
+
+
+/***/ }),
+
+/***/ 4945:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "UnconnectedElement", ({
+    enumerable: true,
+    get: function() {
+        return UnconnectedElement;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let UnconnectedElement = class UnconnectedElement extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const connectedElements = new Set();
+        // Callback function to log connected elements
+        const logConnected = (element)=>{
+            connectedElements.add(element.name);
+        };
+        // Get Traversable Nodes
+        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
+        // Find start of Flow
+        const startIndex = this.findStart(flowElements);
+        // Start traversal from the start node
+        if (startIndex !== -1) {
+            new _internals.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
+        }
+        const unconnectedElements = flowElements.filter((element)=>!connectedElements.has(element.name));
+        // Create result details
+        const results = unconnectedElements.map((det)=>new _internals.ResultDetails(det));
+        return new _internals.RuleResult(this, results);
+    }
+    findStart(nodes) {
+        return nodes.findIndex((n)=>{
+            return n.subtype === "start";
+        });
+    }
+    constructor(){
+        super({
+            autoFixable: true,
+            description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
+            docRefs: [],
+            isConfigurable: false,
+            label: "Unconnected Element",
+            name: "UnconnectedElement",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ]
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 3088:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "UnsafeRunningContext", ({
+    enumerable: true,
+    get: function() {
+        return UnsafeRunningContext;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+const _AdvancedRule = __nccwpck_require__(8813);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let UnsafeRunningContext = class UnsafeRunningContext extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const hasRunInMode = "runInMode" in flow.xmldata;
+        const runInMode = hasRunInMode ? flow.xmldata.runInMode : undefined;
+        const riskyMode = "SystemModeWithoutSharing";
+        const results = [];
+        if (hasRunInMode && runInMode === riskyMode) {
+            results.push(new _internals.ResultDetails(new _internals.FlowAttribute(runInMode, "runInMode", `== ${riskyMode}`)));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "UnsafeRunningContext",
+            label: "Unsafe Running Context",
+            description: `This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.`,
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ],
+            docRefs: [
+                {
+                    label: "Learn about data safety when running flows in system context in Salesforce Help",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_distribute_context_data_safety_system_context.htm&type=5"
+                }
+            ],
+            isConfigurable: false,
+            autoFixable: false
+        }, {
+            severity: "warning"
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 5778:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "UnusedVariable", ({
+    enumerable: true,
+    get: function() {
+        return UnusedVariable;
+    }
+}));
+const _AdvancedRule = __nccwpck_require__(8813);
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(6073));
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let UnusedVariable = class UnusedVariable extends _AdvancedRule.AdvancedRule {
+    execute(flow) {
+        const unusedVariables = [];
+        for (const variable of flow.elements.filter((node)=>node instanceof _internals.FlowVariable)){
+            const variableName = variable.name;
+            if ([
+                ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowNode)).matchAll(new RegExp(variableName, "gi"))
+            ].map((a)=>a.index).length === 0) {
+                // if not found in any inside of flow elements
+                if ([
+                    ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowResource)).matchAll(new RegExp(variableName, "gi"))
+                ].map((a)=>a.index).length === 0) {
+                    const insideCounter = [
+                        ...JSON.stringify(variable).matchAll(new RegExp(variable.name, "gi"))
+                    ].map((a)=>a.index);
+                    const variableUsage = [
+                        ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowVariable)).matchAll(new RegExp(variableName, "gi"))
+                    ].map((a)=>a.index);
+                    // finally also checks indexes where name occurs in the variable itself and where name occurs in all variables
+                    // when this is the same, variable must be unused.
+                    if (variableUsage.length === insideCounter.length) {
+                        unusedVariables.push(variable);
+                    }
+                }
+            }
+        }
+        const results = [];
+        for (const det of unusedVariables){
+            results.push(new _internals.ResultDetails(det));
+        }
+        return new _internals.RuleResult(this, results);
+    }
+    constructor(){
+        super({
+            name: "UnusedVariable",
+            label: "Unused Variable",
+            description: "To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use.",
+            supportedTypes: [
+                ..._internals.FlowType.backEndTypes,
+                ..._internals.FlowType.visualTypes
+            ],
+            docRefs: [],
+            isConfigurable: false,
+            autoFixable: true
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 6618:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get BetaRuleStore () {
+        return BetaRuleStore;
+    },
+    get DefaultRuleStore () {
+        return DefaultRuleStore;
+    }
+});
+const _ActionCallsInLoop = __nccwpck_require__(443);
+const _APIVersion = __nccwpck_require__(2800);
+const _AutoLayout = __nccwpck_require__(1073);
+const _CopyAPIName = __nccwpck_require__(8486);
+const _CyclomaticComplexity = __nccwpck_require__(1614);
+const _DMLStatementInLoop = __nccwpck_require__(9863);
+const _DuplicateDMLOperation = __nccwpck_require__(2181);
+const _FlowDescription = __nccwpck_require__(5032);
+const _FlowName = __nccwpck_require__(7787);
+const _GetRecordAllFields = __nccwpck_require__(6625);
+const _HardcodedId = __nccwpck_require__(7407);
+const _HardcodedUrl = __nccwpck_require__(7033);
+const _InactiveFlow = __nccwpck_require__(6513);
+const _MissingFaultPath = __nccwpck_require__(9931);
+const _MissingNullHandler = __nccwpck_require__(6907);
+const _ProcessBuilder = __nccwpck_require__(2604);
+const _RecursiveAfterUpdate = __nccwpck_require__(1951);
+const _SameRecordFieldUpdates = __nccwpck_require__(1889);
+const _SOQLQueryInLoop = __nccwpck_require__(8834);
+const _TriggerOrder = __nccwpck_require__(4564);
+const _UnconnectedElement = __nccwpck_require__(4945);
+const _UnsafeRunningContext = __nccwpck_require__(3088);
+const _UnusedVariable = __nccwpck_require__(5778);
+const DefaultRuleStore = {
+    APIVersion: _APIVersion.APIVersion,
+    AutoLayout: _AutoLayout.AutoLayout,
+    CopyAPIName: _CopyAPIName.CopyAPIName,
+    CyclomaticComplexity: _CyclomaticComplexity.CyclomaticComplexity,
+    DMLStatementInLoop: _DMLStatementInLoop.DMLStatementInLoop,
+    DuplicateDMLOperation: _DuplicateDMLOperation.DuplicateDMLOperation,
+    FlowDescription: _FlowDescription.FlowDescription,
+    FlowName: _FlowName.FlowName,
+    GetRecordAllFields: _GetRecordAllFields.GetRecordAllFields,
+    HardcodedId: _HardcodedId.HardcodedId,
+    HardcodedUrl: _HardcodedUrl.HardcodedUrl,
+    InactiveFlow: _InactiveFlow.InactiveFlow,
+    MissingFaultPath: _MissingFaultPath.MissingFaultPath,
+    MissingNullHandler: _MissingNullHandler.MissingNullHandler,
+    ProcessBuilder: _ProcessBuilder.ProcessBuilder,
+    RecursiveAfterUpdate: _RecursiveAfterUpdate.RecursiveAfterUpdate,
+    SameRecordFieldUpdates: _SameRecordFieldUpdates.SameRecordFieldUpdates,
+    SOQLQueryInLoop: _SOQLQueryInLoop.SOQLQueryInLoop,
+    TriggerOrder: _TriggerOrder.TriggerOrder,
+    UnconnectedElement: _UnconnectedElement.UnconnectedElement,
+    UnsafeRunningContext: _UnsafeRunningContext.UnsafeRunningContext,
+    UnusedVariable: _UnusedVariable.UnusedVariable
+};
+const BetaRuleStore = {
+    ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop
+};
 
 
 /***/ }),
@@ -60754,7 +65143,7 @@ exports.XMLBuilderImpl = XMLBuilderImpl;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-var dom_1 = __nccwpck_require__(8752);
+var dom_1 = __nccwpck_require__(6371);
 var dom_2 = __nccwpck_require__(4204);
 var util_1 = __nccwpck_require__(7061);
 dom_2.dom.setFeatures(false);
@@ -66927,406 +71316,6 @@ function parseParams (str) {
 module.exports = parseParams
 
 
-/***/ }),
-
-/***/ 2689:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get AdvancedRule(){return _AdvancedRule.AdvancedRule},get Compiler(){return _Compiler.Compiler},get Flow(){return _Flow.Flow},get FlowAttribute(){return _FlowAttribute.FlowAttribute},get FlowElement(){return _FlowElement.FlowElement},get FlowNode(){return _FlowNode.FlowNode},get FlowResource(){return _FlowResource.FlowResource},get FlowType(){return _FlowType.FlowType},get FlowVariable(){return _FlowVariable.FlowVariable},get ParsedFlow(){return _ParsedFlow.ParsedFlow},get ResultDetails(){return _ResultDetails.ResultDetails},get RuleResult(){return _RuleResult.RuleResult},get ScanResult(){return _ScanResult.ScanResult},get fix(){return _FixFlows.fix},get getBetaRules(){return _GetRuleDefinitions.getBetaRules},get getRules(){return _GetRuleDefinitions.getRules},get parse(){return _ParseFlows.parse},get scan(){return _ScanFlows.scan}});const _Compiler=__nccwpck_require__(6371);const _FixFlows=__nccwpck_require__(8962);const _GetRuleDefinitions=__nccwpck_require__(8414);const _ParseFlows=__nccwpck_require__(1734);const _ScanFlows=__nccwpck_require__(186);const _AdvancedRule=__nccwpck_require__(104);const _Flow=__nccwpck_require__(4020);const _FlowAttribute=__nccwpck_require__(1486);const _FlowElement=__nccwpck_require__(4642);const _FlowNode=__nccwpck_require__(1812);const _FlowResource=__nccwpck_require__(3768);const _FlowType=__nccwpck_require__(4540);const _FlowVariable=__nccwpck_require__(4056);const _ParsedFlow=__nccwpck_require__(8109);const _ResultDetails=__nccwpck_require__(2727);const _RuleResult=__nccwpck_require__(9235);const _ScanResult=__nccwpck_require__(9600);
-
-/***/ }),
-
-/***/ 9684:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get Compiler(){return _Compiler.Compiler},get Flow(){return _Flow.Flow},get FlowAttribute(){return _FlowAttribute.FlowAttribute},get FlowElement(){return _FlowElement.FlowElement},get FlowNode(){return _FlowNode.FlowNode},get FlowResource(){return _FlowResource.FlowResource},get FlowType(){return _FlowType.FlowType},get FlowVariable(){return _FlowVariable.FlowVariable},get ParsedFlow(){return _ParsedFlow.ParsedFlow},get ResultDetails(){return _ResultDetails.ResultDetails},get RuleCommon(){return _RuleCommon.RuleCommon},get RuleResult(){return _RuleResult.RuleResult},get ScanResult(){return _ScanResult.ScanResult}});const _Compiler=__nccwpck_require__(6371);const _Flow=__nccwpck_require__(4020);const _FlowAttribute=__nccwpck_require__(1486);const _FlowElement=__nccwpck_require__(4642);const _FlowType=__nccwpck_require__(4540);const _FlowNode=__nccwpck_require__(1812);const _FlowResource=__nccwpck_require__(3768);const _FlowVariable=__nccwpck_require__(4056);const _ResultDetails=__nccwpck_require__(2727);const _RuleResult=__nccwpck_require__(9235);const _ScanResult=__nccwpck_require__(9600);const _RuleCommon=__nccwpck_require__(5419);const _ParsedFlow=__nccwpck_require__(8109);
-
-/***/ }),
-
-/***/ 7940:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "BuildFlow", ({enumerable:true,get:function(){return BuildFlow}}));const _ConvertFlowNodes=__nccwpck_require__(8446);function BuildFlow(nodesToMerge){let res={};for(const nodeToMerge of nodesToMerge){const subtype=nodeToMerge.subtype;const nodesOfType=nodesToMerge.filter(node=>subtype===node.subtype);res=(0,_ConvertFlowNodes.convertFlowNodes)(res,nodesOfType,subtype)}return res}
-
-/***/ }),
-
-/***/ 6371:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "Compiler", ({enumerable:true,get:function(){return Compiler}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let Compiler=class Compiler{traverseFlow(flow,startElementName,visitCallback,endElementName){let elementsToVisit=[startElementName];while(elementsToVisit.length>0){const nextElements=[];for(const elementName of elementsToVisit){if(!this.visitedElements.has(elementName)){var _flow_elements;const currentElement=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.find(element=>element.name===elementName);if(currentElement){visitCallback(currentElement);this.visitedElements.add(elementName);nextElements.push(...this.findNextElements(flow,currentElement,endElementName))}}}if(nextElements.length===0){break}elementsToVisit=nextElements}}findNextElements(flow,currentElement,endElementName){const nextElements=[];if(!currentElement.connectors||currentElement.connectors.length===0){return nextElements}for(const connector of currentElement.connectors){var _connector_connectorTargetReference,_flow_elements;var _connector_connectorTargetReference_targetReference;const targetReference=(_connector_connectorTargetReference_targetReference=connector===null||connector===void 0?void 0:(_connector_connectorTargetReference=connector.connectorTargetReference)===null||_connector_connectorTargetReference===void 0?void 0:_connector_connectorTargetReference.targetReference)!==null&&_connector_connectorTargetReference_targetReference!==void 0?_connector_connectorTargetReference_targetReference:connector.reference;const nextElement=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.find(element=>element.metaType==="node"&&element.name===targetReference);if(nextElement&&nextElement.metaType==="node"&&nextElement.name!==endElementName){nextElements.push(nextElement.name)}}return nextElements}constructor(){_define_property(this,"visitedElements",void 0);this.visitedElements=new Set}};
-
-/***/ }),
-
-/***/ 8446:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "convertFlowNodes", ({enumerable:true,get:function(){return convertFlowNodes}}));function convertFlowNodes(obj,nodes,key){obj[key]=nodes.map(node=>node.element);return obj}
-
-/***/ }),
-
-/***/ 9975:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "DynamicRule", ({enumerable:true,get:function(){return DynamicRule}}));const _DefaultRuleStore=__nccwpck_require__(3833);let DynamicRule=class DynamicRule{constructor(className){if(!_DefaultRuleStore.DefaultRuleStore.hasOwnProperty(className)&&_DefaultRuleStore.BetaRuleStore.hasOwnProperty(className)){return new _DefaultRuleStore.BetaRuleStore[className]}return new _DefaultRuleStore.DefaultRuleStore[className]}};
-
-/***/ }),
-
-/***/ 8962:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get FixFlows(){return FixFlows},get fix(){return fix}});const _BuildFlow=__nccwpck_require__(7940);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}function fix(results){const newResults=[];for(const result of results){if(result.ruleResults&&result.ruleResults.length>0){const fixables=result.ruleResults.filter(r=>r.ruleName==="UnusedVariable"&&r.occurs||r.ruleName==="UnconnectedElement"&&r.occurs);if((fixables===null||fixables===void 0?void 0:fixables.length)>0){const newFlow=FixFlows(result.flow,fixables);result.flow=newFlow;newResults.push(result)}}}return newResults}function FixFlows(flow,ruleResults){var _flow_elements;const unusedVariableRes=ruleResults.find(r=>r.ruleName==="UnusedVariable");const unusedVariableReferences=unusedVariableRes&&unusedVariableRes.details&&unusedVariableRes.details.length>0?unusedVariableRes.details.map(d=>d.name):[];const unconnectedElementsRes=ruleResults.find(r=>r.ruleName==="UnconnectedElement");const unconnectedElementsReferences=unconnectedElementsRes&&unconnectedElementsRes.details&&unconnectedElementsRes.details.length>0?unconnectedElementsRes.details.map(d=>d.name):[];const nodesToBuild=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>{switch(node.metaType){case"variable":{const nodeVar=node;if(!unusedVariableReferences.includes(nodeVar.name)){return node}break}case"node":{const nodeElement=node;if(!unconnectedElementsReferences.includes(nodeElement.name)){return node}break}case"metadata":case"resource":return node}});const xmldata=(0,_BuildFlow.BuildFlow)(nodesToBuild);const newFlow=new _internals.Flow(flow.fsPath,xmldata);return newFlow}
-
-/***/ }),
-
-/***/ 8414:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get GetRuleDefinitions(){return GetRuleDefinitions},get getBetaRules(){return getBetaRules},get getRules(){return getRules}});const _DefaultRuleStore=__nccwpck_require__(3833);const _DynamicRule=__nccwpck_require__(9975);function GetRuleDefinitions(ruleConfig){const selectedRules=[];if(ruleConfig&&ruleConfig instanceof Map){for(const ruleName of ruleConfig.keys()){let severity="error";try{var _ruleConfig_get;const configuredSeverity=(_ruleConfig_get=ruleConfig.get(ruleName))===null||_ruleConfig_get===void 0?void 0:_ruleConfig_get["severity"];if(configuredSeverity&&(configuredSeverity==="error"||configuredSeverity==="warning"||configuredSeverity==="note")){severity=configuredSeverity}const matchedRule=new _DynamicRule.DynamicRule(ruleName);if(configuredSeverity){matchedRule.severity=severity}selectedRules.push(matchedRule)}catch(error){console.log(error.message)}}}else{for(const rule in _DefaultRuleStore.DefaultRuleStore){const matchedRule=new _DynamicRule.DynamicRule(rule);selectedRules.push(matchedRule)}}return selectedRules}function getRules(ruleNames){if(ruleNames&&ruleNames.length>0){const ruleSeverityMap=new Map(ruleNames.map(name=>[name,"error"]));return GetRuleDefinitions(ruleSeverityMap)}else{return GetRuleDefinitions()}}function getBetaRules(){return getBetaDefinition()}function getBetaDefinition(){return Object.values(_DefaultRuleStore.BetaRuleStore).map(rule=>new rule)}
-
-/***/ }),
-
-/***/ 1734:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "parse", ({enumerable:true,get:function(){return parse}}));const _path=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(6928));const _Flow=__nccwpck_require__(4020);const _fs=/*#__PURE__*/_interop_require_default(__nccwpck_require__(9896));const _xmlbuilder2=__nccwpck_require__(2998);const _ParsedFlow=__nccwpck_require__(8109);function asyncGeneratorStep(gen,resolve,reject,_next,_throw,key,arg){try{var info=gen[key](arg);var value=info.value}catch(error){reject(error);return}if(info.done){resolve(value)}else{Promise.resolve(value).then(_next,_throw)}}function _async_to_generator(fn){return function(){var self=this,args=arguments;return new Promise(function(resolve,reject){var gen=fn.apply(self,args);function _next(value){asyncGeneratorStep(gen,resolve,reject,_next,_throw,"next",value)}function _throw(err){asyncGeneratorStep(gen,resolve,reject,_next,_throw,"throw",err)}_next(undefined)})}}function _interop_require_default(obj){return obj&&obj.__esModule?obj:{default:obj}}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}function parse(selectedUris){return _async_to_generator(function*(){const parseResults=[];for(const uri of selectedUris){try{const normalizedURI=_path.normalize(uri);const content=yield _fs.default.readFileSync(normalizedURI);const xmlString=content.toString();const flowObj=(0,_xmlbuilder2.convert)(xmlString,{format:"object"});parseResults.push(new _ParsedFlow.ParsedFlow(uri,new _Flow.Flow(uri,flowObj)))}catch(e){parseResults.push(new _ParsedFlow.ParsedFlow(uri,undefined,e.errorMessage))}}return parseResults})()}
-
-/***/ }),
-
-/***/ 186:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get ScanFlows(){return ScanFlows},get scan(){return scan},get scanInternal(){return scanInternal}});const _internals=__nccwpck_require__(9684);const _DefaultRuleStore=__nccwpck_require__(3833);const _DynamicRule=__nccwpck_require__(9975);const _GetRuleDefinitions=__nccwpck_require__(8414);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _object_spread(target){for(var i=1;i<arguments.length;i++){var source=arguments[i]!=null?arguments[i]:{};var ownKeys=Object.keys(source);if(typeof Object.getOwnPropertySymbols==="function"){ownKeys=ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym){return Object.getOwnPropertyDescriptor(source,sym).enumerable}))}ownKeys.forEach(function(key){_define_property(target,key,source[key])})}return target}function ownKeys(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);if(enumerableOnly){symbols=symbols.filter(function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable})}keys.push.apply(keys,symbols)}return keys}function _object_spread_props(target,source){source=source!=null?source:{};if(Object.getOwnPropertyDescriptors){Object.defineProperties(target,Object.getOwnPropertyDescriptors(source))}else{ownKeys(Object(source)).forEach(function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key))})}return target}const{IS_NEW_SCAN_ENABLED:isNewScanEnabled,OVERRIDE_CONFIG:overrideConfig}=process.env;function scan(parsedFlows,ruleOptions){if(isNewScanEnabled==="true"){return scanInternal(parsedFlows,ruleOptions)}const flows=[];for(const flow of parsedFlows){if(!flow.errorMessage&&flow.flow){flows.push(flow.flow)}}let scanResults;if((ruleOptions===null||ruleOptions===void 0?void 0:ruleOptions.rules)&&Object.entries(ruleOptions.rules).length>0){scanResults=ScanFlows(flows,ruleOptions)}else{scanResults=ScanFlows(flows)}generalSuppressions(scanResults,ruleOptions);return scanResults}function ScanFlows(flows,ruleOptions){const flowResults=[];let selectedRules=[];if(ruleOptions&&ruleOptions.rules){const ruleMap=new Map;for(const[ruleName,rule]of Object.entries(ruleOptions.rules)){ruleMap.set(ruleName,rule)}selectedRules=(0,_GetRuleDefinitions.GetRuleDefinitions)(ruleMap)}else{selectedRules=(0,_GetRuleDefinitions.GetRuleDefinitions)()}for(const flow of flows){const ruleResults=[];for(const rule of selectedRules){try{if(rule.supportedTypes.includes(flow.type)){let config=undefined;if(ruleOptions&&ruleOptions["rules"]&&ruleOptions["rules"][rule.name]){config=ruleOptions["rules"][rule.name]}const result=config&&Object.keys(config).length>0?rule.execute(flow,config):rule.execute(flow);if(result.severity!==rule.severity){result.severity=rule.severity}ruleResults.push(result)}else{ruleResults.push(new _internals.RuleResult(rule,[]))}}catch(error){const message=`Something went wrong while executing ${rule.name} in the Flow: ${flow.name} with error ${error}`;ruleResults.push(new _internals.RuleResult(rule,[],message))}}flowResults.push(new _internals.ScanResult(flow,ruleResults))}return flowResults}function scanInternal(parsedFlows,ruleOptions){const flows=parsedFlows.map(parsedFlow=>parsedFlow.flow);const scanResults=[];for(const flow of flows){scanResults.push(scanFlowWithConfig(flow,ruleOptions))}return scanResults}function generalSuppressions(scanResults,ruleOptions){if(!(ruleOptions===null||ruleOptions===void 0?void 0:ruleOptions.exceptions)){return}const applyExceptionToResults=(ruleResult,exceptions)=>{const filteredDetails=ruleResult.details.filter(detail=>!exceptions.includes(detail.name));ruleResult.details=filteredDetails;ruleResult.occurs=filteredDetails.length>0};for(const[flowName,exceptionElements]of Object.entries(ruleOptions.exceptions)){const matchingScanResult=scanResults.find(result=>result.flow.name===flowName);if(!matchingScanResult){continue}for(const ruleResult of matchingScanResult.ruleResults){const exceptions=exceptionElements[ruleResult.ruleName];if(!exceptions){continue}applyExceptionToResults(ruleResult,exceptions)}}}function ruleAndConfig(ruleOptions){const ruleConfiguration=unifiedRuleConfig(ruleOptions);let allRules=_object_spread({},_DefaultRuleStore.DefaultRuleStore,_DefaultRuleStore.BetaRuleStore);if(overrideConfig==="true"&&(ruleOptions===null||ruleOptions===void 0?void 0:ruleOptions.rules)&&Object.keys(ruleOptions.rules).length>0){allRules=Object.entries(allRules).reduce((accumulator,[ruleName,rule])=>{var _ruleOptions_rules;if(ruleOptions===null||ruleOptions===void 0?void 0:(_ruleOptions_rules=ruleOptions.rules)===null||_ruleOptions_rules===void 0?void 0:_ruleOptions_rules[ruleName]){accumulator[ruleName]=rule}return accumulator},{})}return[allRules,ruleConfiguration]}function scanFlowWithConfig(flow,ruleOptions){const[allRules,ruleConfiguration]=ruleAndConfig(ruleOptions);const ruleResults=[];for(const[ruleName]of Object.entries(allRules)){var _ruleConfiguration_ruleName,_ruleConfiguration_ruleName1,_ruleOptions_exceptions_flowName,_ruleOptions_exceptions;const rule=new _DynamicRule.DynamicRule(ruleName);if(!rule.supportedTypes.includes(flow.type)||(ruleConfiguration===null||ruleConfiguration===void 0?void 0:(_ruleConfiguration_ruleName=ruleConfiguration[ruleName])===null||_ruleConfiguration_ruleName===void 0?void 0:_ruleConfiguration_ruleName.disabled)===true){ruleResults.push(new _internals.RuleResult(rule,[]));continue}if(ruleConfiguration===null||ruleConfiguration===void 0?void 0:(_ruleConfiguration_ruleName1=ruleConfiguration[ruleName])===null||_ruleConfiguration_ruleName1===void 0?void 0:_ruleConfiguration_ruleName1.severity){rule.severity=ruleConfiguration[ruleName].severity}const flowName=flow.name;var _ruleConfiguration_ruleName2;const userRuleConfiguration=(_ruleConfiguration_ruleName2=ruleConfiguration[ruleName])!==null&&_ruleConfiguration_ruleName2!==void 0?_ruleConfiguration_ruleName2:{};var _ruleOptions_exceptions_flowName_ruleName;const userFlowSuppressions=(_ruleOptions_exceptions_flowName_ruleName=ruleOptions===null||ruleOptions===void 0?void 0:(_ruleOptions_exceptions=ruleOptions.exceptions)===null||_ruleOptions_exceptions===void 0?void 0:(_ruleOptions_exceptions_flowName=_ruleOptions_exceptions[flowName])===null||_ruleOptions_exceptions_flowName===void 0?void 0:_ruleOptions_exceptions_flowName[ruleName])!==null&&_ruleOptions_exceptions_flowName_ruleName!==void 0?_ruleOptions_exceptions_flowName_ruleName:[];ruleResults.push(rule.execute2(flow,userRuleConfiguration,userFlowSuppressions))}return new _internals.ScanResult(flow,ruleResults)}function unifiedRuleConfig(ruleOptions){var _ruleOptions_rules;const configuredRules=(_ruleOptions_rules=ruleOptions===null||ruleOptions===void 0?void 0:ruleOptions.rules)!==null&&_ruleOptions_rules!==void 0?_ruleOptions_rules:{};const activeConfiguredRules=Object.entries(configuredRules).reduce((accumulator,[ruleName,config])=>{return _object_spread_props(_object_spread({},accumulator),{[ruleName]:config})},{});return activeConfiguredRules}
-
-/***/ }),
-
-/***/ 104:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "AdvancedRule", ({enumerable:true,get:function(){return AdvancedRule}}));const _util=__nccwpck_require__(9023);const _RuleCommon=__nccwpck_require__(5419);const _RuleResult=__nccwpck_require__(9235);let AdvancedRule=class AdvancedRule extends _RuleCommon.RuleCommon{execute2(flow,ruleConfiguration,userFlowSuppressions){if(!hasClassicRuleDefinition(this)){return new _RuleResult.RuleResult(this,[])}let ruleResult;try{ruleResult=this.execute(flow,ruleConfiguration)}catch(error){return new _RuleResult.RuleResult(this,[],(0,_util.inspect)(error))}if(hasAdvancedSuppression(this)){ruleResult=this.suppress(ruleResult,ruleConfiguration)}ruleResult=generalSuppressions(ruleResult,userFlowSuppressions);return ruleResult}constructor(info,optional){super(info,optional)}};function generalSuppressions(ruleResult,userFlowRuleSuppressions){if(!userFlowRuleSuppressions||userFlowRuleSuppressions.length===0){return ruleResult}const filteredDetails=ruleResult.details.filter(detail=>!userFlowRuleSuppressions.includes(detail.name));ruleResult.details=filteredDetails;ruleResult.occurs=filteredDetails.length>0;return ruleResult}const isFunction=val=>typeof val==="function";function hasAdvancedSuppression(instance){return isFunction(instance.suppress)}function hasClassicRuleDefinition(instance){return isFunction(instance.execute)}
-
-/***/ }),
-
-/***/ 4020:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "Flow", ({enumerable:true,get:function(){return Flow}}));const _path=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(6928));const _xmlbuilder2=__nccwpck_require__(2998);const _FlowMetadata=__nccwpck_require__(293);const _FlowNode=__nccwpck_require__(1812);const _FlowResource=__nccwpck_require__(3768);const _FlowVariable=__nccwpck_require__(4056);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let Flow=class Flow{preProcessNodes(){this.label=this.xmldata.label;this.interviewLabel=this.xmldata.interviewLabel;this.processType=this.xmldata.processType;this.processMetadataValues=this.xmldata.processMetadataValues;this.startElementReference=this.xmldata.startElementReference;this.start=this.xmldata.start;this.status=this.xmldata.status;this.type=this.xmldata.processType;this.triggerOrder=this.xmldata.triggerOrder;const allNodes=[];for(const nodeType in this.xmldata){const data=this.xmldata[nodeType];if(this.flowMetadata.includes(nodeType)){if(Array.isArray(data)){for(const node of data){allNodes.push(new _FlowMetadata.FlowMetadata(nodeType,node))}}else{allNodes.push(new _FlowMetadata.FlowMetadata(nodeType,data))}}else if(this.flowVariables.includes(nodeType)){if(Array.isArray(data)){for(const node of data){allNodes.push(new _FlowVariable.FlowVariable(node.name,nodeType,node))}}else{allNodes.push(new _FlowVariable.FlowVariable(data.name,nodeType,data))}}else if(this.flowNodes.includes(nodeType)){if(Array.isArray(data)){for(const node of data){allNodes.push(new _FlowNode.FlowNode(node.name,nodeType,node))}}else{allNodes.push(new _FlowNode.FlowNode(data.name,nodeType,data))}}else if(this.flowResources.includes(nodeType)){if(Array.isArray(data)){for(const node of data){allNodes.push(new _FlowResource.FlowResource(node.name,nodeType,node))}}else{allNodes.push(new _FlowResource.FlowResource(data.name,nodeType,data))}}}this.elements=allNodes;this.startReference=this.findStart()}toXMLString(){try{return this.generateDoc()}catch(exception){console.warn(`Unable to write xml, caught an error ${exception.toString()}`);return""}}findStart(){let start="";const flowElements=this.elements.filter(node=>node instanceof _FlowNode.FlowNode);if(this.startElementReference){start=this.startElementReference}else if(flowElements.find(n=>{return n.subtype==="start"})){const startElement=flowElements.find(n=>{return n.subtype==="start"});start=startElement.connectors[0]["reference"]}return start}generateDoc(){const flowXmlNamespace="http://soap.sforce.com/2006/04/metadata";const doc=(0,_xmlbuilder2.create)({encoding:"UTF-8"},{Flow:this.xmldata}).root().att("xmlns",flowXmlNamespace);return doc.end({prettyPrint:true})}constructor(path,data){_define_property(this,"elements",void 0);_define_property(this,"fsPath",void 0);_define_property(this,"interviewLabel",void 0);_define_property(this,"label",void 0);_define_property(this,"name",void 0);_define_property(this,"processMetadataValues",void 0);_define_property(this,"processType",void 0);_define_property(this,"root",void 0);_define_property(this,"start",void 0);_define_property(this,"startElementReference",void 0);_define_property(this,"startReference",void 0);_define_property(this,"status",void 0);_define_property(this,"triggerOrder",void 0);_define_property(this,"type",void 0);_define_property(this,"xmldata",void 0);_define_property(this,"flowMetadata",["description","apiVersion","processMetadataValues","processType","interviewLabel","label","status","runInMode","startElementReference","isTemplate","fullName","timeZoneSidKey","isAdditionalPermissionRequiredToRun","migratedFromWorkflowRuleName","triggerOrder","environments","segment"]);_define_property(this,"flowNodes",["actionCalls","apexPluginCalls","assignments","collectionProcessors","decisions","loops","orchestratedStages","recordCreates","recordDeletes","recordLookups","recordUpdates","recordRollbacks","screens","start","steps","subflows","waits","transforms","customErrors"]);_define_property(this,"flowResources",["textTemplates","stages"]);_define_property(this,"flowVariables",["choices","constants","dynamicChoiceSets","formulas","variables"]);if(path){this.fsPath=_path.resolve(path);let flowName=_path.basename(_path.basename(this.fsPath),_path.extname(this.fsPath));if(flowName.includes(".")){flowName=flowName.split(".")[0]}this.name=flowName}if(data){const hasFlowElement=typeof data==="object"&&"Flow"in data;if(hasFlowElement){this.xmldata=data.Flow}else this.xmldata=data;this.preProcessNodes()}}};
-
-/***/ }),
-
-/***/ 1486:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowAttribute", ({enumerable:true,get:function(){return FlowAttribute}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowAttribute=class FlowAttribute{constructor(name,subtype,expression){_define_property(this,"name",void 0);_define_property(this,"subtype",void 0);_define_property(this,"expression",void 0);_define_property(this,"metaType","attribute");this.name=name;this.subtype=subtype;this.expression=expression}};
-
-/***/ }),
-
-/***/ 4642:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowElement", ({enumerable:true,get:function(){return FlowElement}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowElement=class FlowElement{constructor(metaType,subtype,element){_define_property(this,"subtype",void 0);_define_property(this,"metaType",void 0);_define_property(this,"element",{});_define_property(this,"connectors",void 0);_define_property(this,"name",void 0);_define_property(this,"locationX",void 0);_define_property(this,"locationY",void 0);this.element=element;this.subtype=subtype;this.metaType=metaType}};
-
-/***/ }),
-
-/***/ 5099:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowElementConnector", ({enumerable:true,get:function(){return FlowElementConnector}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowElementConnector=class FlowElementConnector{constructor(type,element,args){_define_property(this,"type",void 0);_define_property(this,"element",{});_define_property(this,"processed",false);_define_property(this,"alias",void 0);_define_property(this,"reference",void 0);_define_property(this,"childName",void 0);_define_property(this,"childOf",void 0);_define_property(this,"connectorTargetReference",void 0);this.type=type;this.element=element;this.childName=args.childName?args.childName:undefined;this.childOf=args.childOf?args.childOf:undefined;if(element&&"targetReference"in element){this.reference=element.targetReference}if(element&&"connector"in element){this.connectorTargetReference=element.connector}}};let FlowElementConnectorReference=class FlowElementConnectorReference{constructor(){_define_property(this,"targetReference",void 0)}};
-
-/***/ }),
-
-/***/ 293:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowMetadata", ({enumerable:true,get:function(){return FlowMetadata}}));const _FlowElement=__nccwpck_require__(4642);let FlowMetadata=class FlowMetadata extends _FlowElement.FlowElement{constructor(subtype,element){super("metadata",subtype,element)}};
-
-/***/ }),
-
-/***/ 1812:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowNode", ({enumerable:true,get:function(){return FlowNode}}));const _FlowElement=__nccwpck_require__(4642);const _FlowElementConnector=__nccwpck_require__(5099);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowNode=class FlowNode extends _FlowElement.FlowElement{getConnectors(subtype,element){const connectors=[];if(subtype==="start"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(Array.isArray(element.scheduledPaths)){for(const asyncElement of(element===null||element===void 0?void 0:element.scheduledPaths)||[]){if(asyncElement.connector){var _asyncElement_name;connectors.push(new _FlowElementConnector.FlowElementConnector("connector",asyncElement.connector,{childName:(_asyncElement_name=asyncElement===null||asyncElement===void 0?void 0:asyncElement.name)!==null&&_asyncElement_name!==void 0?_asyncElement_name:"AsyncAfterCommit",childOf:"scheduledPaths"}))}}}else{if(element.scheduledPaths){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.scheduledPaths,{childName:element.scheduledPaths.name,childOf:"scheduledPaths"}))}}return connectors}else if(subtype==="decisions"){if(element.defaultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("defaultConnector",element.defaultConnector,{}))}if(element.rules){if(Array.isArray(element.rules)){for(const rule of element.rules){if(rule.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",rule.connector,{childName:rule.name,childOf:"rules"}))}}}else{if(element.rules.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.rules.connector,{childName:element.rules.name,childOf:"rules"}))}}}return connectors}else if(subtype==="assignments"||subtype==="transforms"||subtype==="customErrors"){return element.connector?[new _FlowElementConnector.FlowElementConnector("connector",element.connector,{})]:[]}else if(subtype==="loops"){if(element.nextValueConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("nextValueConnector",element.nextValueConnector,{}))}if(element.noMoreValuesConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("noMoreValuesConnector",element.noMoreValuesConnector,{}))}return connectors}else if(subtype==="actionCalls"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}return connectors}else if(subtype==="waits"){if(element.defaultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("defaultConnector",element.defaultConnector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}if(Array.isArray(element.waitEvents)){for(const waitEvent of element.waitEvents){if(waitEvent.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",waitEvent.connector,{childName:waitEvent.name,childOf:"waitEvents"}))}}}return connectors}else if(subtype==="recordCreates"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}return connectors}else if(subtype==="recordDeletes"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}return connectors}else if(subtype==="recordLookups"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}return connectors}else if(subtype==="recordUpdates"){if(element.connector){connectors.push(new _FlowElementConnector.FlowElementConnector("connector",element.connector,{}))}if(element.faultConnector){connectors.push(new _FlowElementConnector.FlowElementConnector("faultConnector",element.faultConnector,{}))}return connectors}else if(subtype==="subflows"){return element.connector?[new _FlowElementConnector.FlowElementConnector("connector",element.connector,{})]:[]}else if(subtype==="screens"){return element.connector?[new _FlowElementConnector.FlowElementConnector("connector",element.connector,{})]:[]}else{return element.connector?[new _FlowElementConnector.FlowElementConnector("connector",element.connector,{})]:[]}}constructor(provName,subtype,element){super("node",subtype,element),_define_property(this,"connectors",[]),_define_property(this,"locationX",void 0),_define_property(this,"locationY",void 0),_define_property(this,"name",void 0);const nodeName=subtype==="start"?"flowstart":provName;this.name=nodeName;const connectors=this.getConnectors(subtype,element);this.connectors=connectors;this.locationX=element["locationX"];this.locationY=element["locationY"]}};
-
-/***/ }),
-
-/***/ 3768:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowResource", ({enumerable:true,get:function(){return FlowResource}}));const _FlowElement=__nccwpck_require__(4642);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowResource=class FlowResource extends _FlowElement.FlowElement{constructor(name,subtype,element){super("resource",subtype,element),_define_property(this,"name",void 0);this.name=name}};
-
-/***/ }),
-
-/***/ 4540:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowType", ({enumerable:true,get:function(){return FlowType}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowType=class FlowType{};_define_property(FlowType,"autolaunchedType","AutoLaunchedFlow");_define_property(FlowType,"backEndTypes",[FlowType.autolaunchedType,"CustomEvent","InvocableProcess","Orchestrator","EvaluationFlow","ActionCadenceAutolaunchedFlow"]);_define_property(FlowType,"processBuilder",["Workflow"]);_define_property(FlowType,"surveyTypes",["Survey"]);_define_property(FlowType,"unsupportedTypes",["CheckoutFlow","FSCLending","FSCLending","LoyaltyManagementFlow"]);_define_property(FlowType,"visualTypes",["Flow","IndividualObjectLinkingFlow","LoginFlow","RoutingFlow","Appointments","ActionCadenceStepFlow","ContactRequestFlow","ContactRequestFlow","CustomerLifecycle","FieldServiceMobile","FieldServiceWeb","SurveyEnrich"]);_define_property(FlowType,"allTypes",function(){return[...this.backEndTypes,...this.visualTypes,...this.surveyTypes]});
-
-/***/ }),
-
-/***/ 4056:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowVariable", ({enumerable:true,get:function(){return FlowVariable}}));const _FlowElement=__nccwpck_require__(4642);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let FlowVariable=class FlowVariable extends _FlowElement.FlowElement{constructor(name,subtype,element){super("variable",subtype,element),_define_property(this,"name",void 0),_define_property(this,"dataType",void 0);this.name=name;this.dataType=element["dataType"]}};
-
-/***/ }),
-
-/***/ 9561:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "LoopRuleCommon", ({enumerable:true,get:function(){return LoopRuleCommon}}));const _internals=__nccwpck_require__(9684);const _AdvancedRule=__nccwpck_require__(104);let LoopRuleCommon=class LoopRuleCommon extends _AdvancedRule.AdvancedRule{execute(flow){const loopElements=this.findLoopElements(flow);if(!loopElements.length){return new _internals.RuleResult(this,[])}const statementsInLoops=this.findStatementsInLoops(flow,loopElements);const results=statementsInLoops.map(det=>new _internals.ResultDetails(det));return new _internals.RuleResult(this,results)}findLoopElements(flow){var _flow_elements;return((_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>node.subtype==="loops"))||[]}findLoopEnd(element){var _element_element_noMoreValuesConnector;var _element_element_noMoreValuesConnector_targetReference;return(_element_element_noMoreValuesConnector_targetReference=(_element_element_noMoreValuesConnector=element.element["noMoreValuesConnector"])===null||_element_element_noMoreValuesConnector===void 0?void 0:_element_element_noMoreValuesConnector.targetReference)!==null&&_element_element_noMoreValuesConnector_targetReference!==void 0?_element_element_noMoreValuesConnector_targetReference:element.name}findStatementsInLoops(flow,loopElements){const statementsInLoops=[];const statementTypes=this.getStatementTypes();const findStatement=element=>{if(statementTypes.includes(element.subtype)){statementsInLoops.push(element)}};for(const element of loopElements){const loopEnd=this.findLoopEnd(element);new _internals.Compiler().traverseFlow(flow,element.name,findStatement,loopEnd)}return statementsInLoops}};
-
-/***/ }),
-
-/***/ 8109:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "ParsedFlow", ({enumerable:true,get:function(){return ParsedFlow}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let ParsedFlow=class ParsedFlow{constructor(uri,flow,errorMessage){_define_property(this,"uri",void 0);_define_property(this,"flow",void 0);_define_property(this,"errorMessage",void 0);this.uri=uri;this.flow=flow;if(errorMessage){this.errorMessage=errorMessage}}};
-
-/***/ }),
-
-/***/ 2727:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "ResultDetails", ({enumerable:true,get:function(){return ResultDetails}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let ResultDetails=class ResultDetails{constructor(violation){_define_property(this,"violation",void 0);_define_property(this,"name",void 0);_define_property(this,"type",void 0);_define_property(this,"metaType",void 0);_define_property(this,"details",void 0);this.violation=violation;this.name=violation.name;this.metaType=violation.metaType;this.type=violation.subtype;if(violation.metaType==="variable"){const element=violation;this.details={dataType:element.dataType}}if(violation.metaType==="node"){var _element_connectors;const element=violation;this.details={locationX:element.locationX,locationY:element.locationY,connectsTo:(_element_connectors=element.connectors)===null||_element_connectors===void 0?void 0:_element_connectors.map(connector=>connector.reference)}}if(violation.metaType==="attribute"){const element=violation;this.details={expression:element.expression}}}};
-
-/***/ }),
-
-/***/ 5419:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "RuleCommon", ({enumerable:true,get:function(){return RuleCommon}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let RuleCommon=class RuleCommon{constructor(info,optional){_define_property(this,"autoFixable",void 0);_define_property(this,"description",void 0);_define_property(this,"docRefs",[]);_define_property(this,"isConfigurable",void 0);_define_property(this,"label",void 0);_define_property(this,"name",void 0);_define_property(this,"severity",void 0);_define_property(this,"supportedTypes",void 0);_define_property(this,"suppressionElement",void 0);_define_property(this,"uri",void 0);this.name=info.name;this.supportedTypes=info.supportedTypes;this.label=info.label;this.description=info.description;this.uri=`https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/${info.name}.ts`;this.docRefs=info.docRefs;this.isConfigurable=info.isConfigurable;this.autoFixable=info.autoFixable;var _optional_severity;this.severity=(_optional_severity=optional===null||optional===void 0?void 0:optional.severity)!==null&&_optional_severity!==void 0?_optional_severity:"error";this.suppressionElement=info.suppressionElement}};
-
-/***/ }),
-
-/***/ 9235:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "RuleResult", ({enumerable:true,get:function(){return RuleResult}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let RuleResult=class RuleResult{constructor(info,details,errorMessage){_define_property(this,"occurs",void 0);_define_property(this,"ruleName",void 0);_define_property(this,"ruleDefinition",void 0);_define_property(this,"severity",void 0);_define_property(this,"details",[]);_define_property(this,"errorMessage",void 0);this.ruleDefinition=info;this.ruleName=info.name;this.severity=info.severity?info.severity:"error";this.occurs=false;this.details=details;if(details.length>0){this.occurs=true}if(errorMessage){this.errorMessage=errorMessage}}};
-
-/***/ }),
-
-/***/ 9600:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "ScanResult", ({enumerable:true,get:function(){return ScanResult}}));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}let ScanResult=class ScanResult{constructor(flow,ruleResults){_define_property(this,"flow",void 0);_define_property(this,"ruleResults",void 0);this.flow=flow;this.ruleResults=ruleResults}};
-
-/***/ }),
-
-/***/ 1493:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "APIVersion", ({enumerable:true,get:function(){return APIVersion}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let APIVersion=class APIVersion extends _AdvancedRule.AdvancedRule{execute(flow,options){let flowAPIVersionNumber=null;if(flow.xmldata.apiVersion){const flowAPIVersion=flow.xmldata.apiVersion;flowAPIVersionNumber=+flowAPIVersion}const results=[];if(!flowAPIVersionNumber){results.push(new _internals.ResultDetails(new _internals.FlowAttribute("API Version <49","apiVersion","<49")));return new _internals.RuleResult(this,results)}if(options&&options.expression){const isApiNumberMoreThanConfiguredExpression=new Function(`return ${flowAPIVersionNumber}${options.expression};`);if(!isApiNumberMoreThanConfiguredExpression()){results.push(new _internals.ResultDetails(new _internals.FlowAttribute(`${flowAPIVersionNumber}`,"apiVersion",options.expression)))}}return new _internals.RuleResult(this,results)}constructor(){super({name:"APIVersion",label:"Outdated API Version",description:"Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",supportedTypes:_internals.FlowType.allTypes(),docRefs:[],isConfigurable:true,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 2353:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "ActionCallsInLoop", ({enumerable:true,get:function(){return ActionCallsInLoop}}));const _internals=__nccwpck_require__(9684);const _LoopRuleCommon=__nccwpck_require__(9561);let ActionCallsInLoop=class ActionCallsInLoop extends _LoopRuleCommon.LoopRuleCommon{getStatementTypes(){return["actionCalls","apexPluginCalls"]}constructor(){super({autoFixable:false,description:"To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",docRefs:[{label:"Invocable Method Considerations",path:"https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_InvocableMethod.htm"}],isConfigurable:false,label:"**Beta** Action Calls In Loop",name:"ActionCallsInLoop",supportedTypes:_internals.FlowType.backEndTypes},{severity:"warning"})}};
-
-/***/ }),
-
-/***/ 8026:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "AutoLayout", ({enumerable:true,get:function(){return AutoLayout}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let AutoLayout=class AutoLayout extends _AdvancedRule.AdvancedRule{execute(flow,options){if(flow.processMetadataValues){var _CanvasMode_value;const CanvasMode=flow.xmldata.processMetadataValues.find(mdv=>mdv.name==="CanvasMode");const autoLayout=CanvasMode.value&&typeof CanvasMode.value==="object"&&CanvasMode.value.stringValue&&CanvasMode.value.stringValue==="AUTO_LAYOUT_CANVAS";return!autoLayout?new _internals.RuleResult(this,[new _internals.ResultDetails(new _internals.FlowAttribute((_CanvasMode_value=CanvasMode.value)===null||_CanvasMode_value===void 0?void 0:_CanvasMode_value.stringValue,"CanvasMode","!== AUTO_LAYOUT_CANVAS"))]):new _internals.RuleResult(this,[])}return new _internals.RuleResult(this,[])}constructor(){super({name:"AutoLayout",label:"Auto-Layout Mode",description:"With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",supportedTypes:_internals.FlowType.allTypes(),docRefs:[],isConfigurable:true,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 975:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "CopyAPIName", ({enumerable:true,get:function(){return CopyAPIName}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let CopyAPIName=class CopyAPIName extends _AdvancedRule.AdvancedRule{execute(flow){const flowElements=flow.elements.filter(node=>node instanceof _internals.FlowNode);const copyOfElements=[];for(const element of flowElements){const copyOf=new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);if(copyOf){copyOfElements.push(element)}}const results=[];for(const det of copyOfElements){results.push(new _internals.ResultDetails(det))}return new _internals.RuleResult(this,results)}constructor(){super({name:"CopyAPIName",label:"Copy API Name",description:"Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",supportedTypes:_internals.FlowType.allTypes(),docRefs:[],isConfigurable:false,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 2317:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "CyclomaticComplexity", ({enumerable:true,get:function(){return CyclomaticComplexity}}));const _AdvancedRule=__nccwpck_require__(104);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let CyclomaticComplexity=class CyclomaticComplexity extends _AdvancedRule.AdvancedRule{execute(flow,options){var _flow_elements,_flow_elements1;const threshold=(options===null||options===void 0?void 0:options.threshold)||this.defaultThreshold;let cyclomaticComplexity=1;const flowDecisions=flow===null||flow===void 0?void 0:(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>node.subtype==="decisions");const flowLoops=flow===null||flow===void 0?void 0:(_flow_elements1=flow.elements)===null||_flow_elements1===void 0?void 0:_flow_elements1.filter(node=>node.subtype==="loops");for(const decision of flowDecisions||[]){const rules=decision.element["rules"];if(Array.isArray(rules)){cyclomaticComplexity+=rules.length+1}else{cyclomaticComplexity+=1}}var _flowLoops_length;cyclomaticComplexity+=(_flowLoops_length=flowLoops===null||flowLoops===void 0?void 0:flowLoops.length)!==null&&_flowLoops_length!==void 0?_flowLoops_length:0;this.cyclomaticComplexityUnit=cyclomaticComplexity;const results=[];if(cyclomaticComplexity>threshold){results.push(new _internals.ResultDetails(new _internals.FlowAttribute(`${cyclomaticComplexity}`,"CyclomaticComplexity",`>${threshold}`)))}return new _internals.RuleResult(this,results)}constructor(){super({name:"CyclomaticComplexity",label:"Cyclomatic Complexity",description:`The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,supportedTypes:_internals.FlowType.backEndTypes,docRefs:[{label:`Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code.`,path:"https://en.wikipedia.org/wiki/Cyclomatic_complexity"}],isConfigurable:true,autoFixable:false},{severity:"note"}),_define_property(this,"defaultThreshold",25),_define_property(this,"cyclomaticComplexityUnit",0)}};
-
-/***/ }),
-
-/***/ 408:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "DMLStatementInLoop", ({enumerable:true,get:function(){return DMLStatementInLoop}}));const _internals=__nccwpck_require__(9684);const _LoopRuleCommon=__nccwpck_require__(9561);let DMLStatementInLoop=class DMLStatementInLoop extends _LoopRuleCommon.LoopRuleCommon{getStatementTypes(){return["recordDeletes","recordUpdates","recordCreates"]}constructor(){super({autoFixable:false,description:"To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",docRefs:[{label:"Flow Best Practices",path:"https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"}],isConfigurable:false,label:"DML Statement In A Loop",name:"DMLStatementInLoop",supportedTypes:_internals.FlowType.backEndTypes})}};
-
-/***/ }),
-
-/***/ 2532:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "DuplicateDMLOperation", ({enumerable:true,get:function(){return DuplicateDMLOperation}}));const _AdvancedRule=__nccwpck_require__(104);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let DuplicateDMLOperation=class DuplicateDMLOperation extends _AdvancedRule.AdvancedRule{execute(flow){const flowElements=flow.elements.filter(node=>node instanceof _internals.FlowNode);const processedElementIndexes=[];const unconnectedElementIndexes=[];const DuplicateDMLOperations=[];const startingNode=this.findStart(flow);if(!startingNode||startingNode===-1){throw"Can not find starting element"}let dmlFlag=false;let indexesToProcess=[startingNode];do{indexesToProcess=indexesToProcess.filter(index=>!processedElementIndexes.includes(index));if(indexesToProcess.length>0){for(const[index,element]of flowElements.entries()){if(indexesToProcess.includes(index)){const references=[];if(element.connectors&&element.connectors.length>0){for(const connector of element.connectors){if(connector.reference){references.push(connector.reference)}}}dmlFlag=this.flagDML(element,dmlFlag);if(references.length>0){const elementsByReferences=flowElements.filter(element=>references.includes(element.name));for(const nextElement of elementsByReferences){const nextIndex=flowElements.findIndex(element=>nextElement.name===element.name);if("screens"===nextElement.subtype){if(dmlFlag&&nextElement.element["allowBack"]&&nextElement.element["allowBack"]=="true"&&nextElement.element["showFooter"]=="true"){DuplicateDMLOperations.push(nextElement)}}if(!processedElementIndexes.includes(nextIndex)){indexesToProcess.push(nextIndex)}}}processedElementIndexes.push(index)}}}else{for(const index of flowElements.keys()){if(!processedElementIndexes.includes(index)){unconnectedElementIndexes.push(index)}}}}while(processedElementIndexes.length+unconnectedElementIndexes.length<flowElements.length)const results=[];for(const det of DuplicateDMLOperations){results.push(new _internals.ResultDetails(det))}return new _internals.RuleResult(this,results)}flagDML(element,dmlFlag){const dmlStatementTypes=["recordDeletes","recordUpdates","recordCreates"];if(dmlStatementTypes.includes(element.subtype)){return true}else if(dmlFlag===true&&element.subtype==="screens"&&element.element["allowBack"]&&element.element["allowBack"]=="true"){return false}else{return dmlFlag}}findStart(flow){const flowElements=flow.elements.filter(node=>node instanceof _internals.FlowNode);let start;if(flow.startElementReference){start=flowElements.findIndex(n=>{return n.name==flow.startElementReference})}else{start=flowElements.findIndex(n=>{return n.subtype==="start"})}return start}constructor(){super({name:"DuplicateDMLOperation",label:"Duplicate DML Operation",description:"When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",supportedTypes:_internals.FlowType.visualTypes,docRefs:[],isConfigurable:false,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 6033:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowDescription", ({enumerable:true,get:function(){return FlowDescription}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let FlowDescription=class FlowDescription extends _AdvancedRule.AdvancedRule{execute(flow){var _flow_xmldata;const missingFlowDescription=!((_flow_xmldata=flow.xmldata)===null||_flow_xmldata===void 0?void 0:_flow_xmldata.description);return missingFlowDescription?new _internals.RuleResult(this,[new _internals.ResultDetails(new _internals.FlowAttribute("undefined","description","!==null"))]):new _internals.RuleResult(this,[])}constructor(){super({autoFixable:false,description:"Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",docRefs:[],isConfigurable:false,label:"Missing Flow Description",name:"FlowDescription",supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes]})}};
-
-/***/ }),
-
-/***/ 3084:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "FlowName", ({enumerable:true,get:function(){return FlowName}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let FlowName=class FlowName extends _AdvancedRule.AdvancedRule{execute(flow,advancedConfig){const rawRegexp=advancedConfig&&advancedConfig.expression?advancedConfig.expression:"[A-Za-z0-9]+_[A-Za-z0-9]+";const regexExp=rawRegexp;const flowName=flow.name;const conventionApplied=new RegExp(regexExp).test(flowName);return!conventionApplied?new _internals.RuleResult(this,[new _internals.ResultDetails(new _internals.FlowAttribute(flowName,"name",regexExp))]):new _internals.RuleResult(this,[])}constructor(){super({autoFixable:false,description:"The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",docRefs:[{label:"Naming your Flows is more critical than ever. By Stephen Church",path:"https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx?utm_source=share&utm_medium=member_desktop"}],isConfigurable:true,label:"Flow Naming Convention",name:"FlowName",supportedTypes:_internals.FlowType.allTypes()})}};
-
-/***/ }),
-
-/***/ 5626:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "GetRecordAllFields", ({enumerable:true,get:function(){return GetRecordAllFields}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let GetRecordAllFields=class GetRecordAllFields extends _AdvancedRule.AdvancedRule{execute(flow){var _flow_elements;const results=[];const getElementNodes=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(element=>element.subtype==="recordLookups");if(getElementNodes==null||getElementNodes.length===0){return new _internals.RuleResult(this,results)}const errorNodes=getElementNodes.filter(element=>{const getRecordElement=element;const hasQualifiedElementDefinition=typeof getRecordElement.element==="object";if(!hasQualifiedElementDefinition){return false}const concreteChildElement=getRecordElement.element;const storeAllFields="storeOutputAutomatically"in concreteChildElement&&concreteChildElement["storeOutputAutomatically"];const hasQueriedFields="queriedFields"in concreteChildElement&&concreteChildElement["queriedFields"].length>0;return storeAllFields&&!hasQueriedFields}).map(element=>{const getRecordElement=element;return new _internals.ResultDetails(getRecordElement)});results.push(...errorNodes);return new _internals.RuleResult(this,results)}constructor(){super({autoFixable:false,description:"Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",docRefs:[{label:"SOQL and SOSL | Best Practices for Deployments with Large Data Volumes",path:"https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_best_practices_soql_and_sosl.htm"},{label:"Indexes | Best Practices",path:"https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_infrastructure_indexes.htm"}],isConfigurable:false,label:"Get Record All Fields",name:"GetRecordAllFields",supportedTypes:_internals.FlowType.allTypes()},{severity:"warning"})}};
-
-/***/ }),
-
-/***/ 1442:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "HardcodedId", ({enumerable:true,get:function(){return HardcodedId}}));const _AdvancedRule=__nccwpck_require__(104);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let HardcodedId=class HardcodedId extends _AdvancedRule.AdvancedRule{execute(flow){const nodesWithHardcodedIds=[];const salesforceIdRegex=/\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;for(const node of flow.elements){const nodeString=JSON.stringify(node);if(salesforceIdRegex.test(nodeString)){nodesWithHardcodedIds.push(node)}}const results=nodesWithHardcodedIds.map(node=>new _internals.ResultDetails(node));return new _internals.RuleResult(this,results)}constructor(){super({name:"HardcodedId",label:"Hardcoded Id",description:"Avoid hard-coding IDs as they are org-specific. Instead, pass them into variables at the start of the flow. You can achieve this by utilizing merge fields in URL parameters or employing a Get Records element.",supportedTypes:_internals.FlowType.allTypes(),docRefs:[{label:"Flow Best Practices",path:"https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"},{label:"Don't hard code Record Type IDs in Flow. By Stephen Church.",path:"https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6947530300012826624%29"}],isConfigurable:false,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 1358:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "HardcodedUrl", ({enumerable:true,get:function(){return HardcodedUrl}}));const _internals=__nccwpck_require__(9684);const _AdvancedRule=__nccwpck_require__(104);let HardcodedUrl=class HardcodedUrl extends _AdvancedRule.AdvancedRule{execute(flow){const results=[];if(!flow.elements||flow.elements.length===0){return new _internals.RuleResult(this,results)}const urlRegex=/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;for(const element of flow.elements){const nodeString=JSON.stringify(element);if(urlRegex.test(nodeString)){results.push(new _internals.ResultDetails(element))}}return new _internals.RuleResult(this,results)}constructor(){super({autoFixable:false,description:"Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",docRefs:[{label:"The Ultimate Guide to Salesforce Flow Best Practices",path:"https://admin.salesforce.com/blog/2021/the-ultimate-guide-to-flow-best-practices-and-standards"},{label:"Why You Should Avoid Hard Coding and Three Alternative Solutions",path:"https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"}],isConfigurable:false,label:"Hardcoded Url",name:"HardcodedUrl",supportedTypes:_internals.FlowType.allTypes()},{severity:"warning"})}};
-
-/***/ }),
-
-/***/ 6169:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "InactiveFlow", ({enumerable:true,get:function(){return InactiveFlow}}));const _AdvancedRule=__nccwpck_require__(104);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let InactiveFlow=class InactiveFlow extends _AdvancedRule.AdvancedRule{execute(flow){const results=[];if(flow.status!=="Active"){results.push(new _internals.ResultDetails(new _internals.FlowAttribute(flow.status,"status","!= Active")))}return new _internals.RuleResult(this,results)}constructor(){super({name:"InactiveFlow",label:"Inactive Flow",description:"Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.",supportedTypes:_internals.FlowType.allTypes(),docRefs:[],isConfigurable:false,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 2855:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "MissingFaultPath", ({enumerable:true,get:function(){return MissingFaultPath}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let MissingFaultPath=class MissingFaultPath extends _AdvancedRule.AdvancedRule{isValidSubtype(proxyNode){if(!this.applicableElements.includes(proxyNode.subtype)){return false}if(proxyNode.subtype==="waits"){var _proxyNode_element;const elementSubtype=(_proxyNode_element=proxyNode.element)===null||_proxyNode_element===void 0?void 0:_proxyNode_element["elementSubtype"];const excludedSubtypes=["WaitDuration","WaitDate"];return!excludedSubtypes.includes(elementSubtype)}return true}execute(flow){var _flow_elements;const compiler=new _internals.Compiler;const results=[];const elementsWhereFaultPathIsApplicable=((_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>{const proxyNode=node;return this.isValidSubtype(proxyNode)})).map(e=>e.name);const isRecordBeforeSave=flow.start.triggerType==="RecordBeforeSave";const visitCallback=element=>{var _element_connectors;if(!(element===null||element===void 0?void 0:(_element_connectors=element.connectors)===null||_element_connectors===void 0?void 0:_element_connectors.find(connector=>connector.type==="faultConnector"))&&elementsWhereFaultPathIsApplicable.includes(element.name)){if(isRecordBeforeSave&&element.subtype==="recordUpdates"){return}if(!this.isPartOfFaultHandlingFlow(element,flow)){results.push(new _internals.ResultDetails(element))}}};compiler.traverseFlow(flow,flow.startReference,visitCallback);return new _internals.RuleResult(this,results)}suppress(scanResult,ruleConfiguration){const suppressedResults=[];const suppressionElementKey=this.suppressionElement;for(const resultDetails of scanResult.details){var _ruleConfiguration_suppressions;if("violation"in resultDetails&&"element"in resultDetails.violation&&typeof resultDetails.violation.element==="object"&&!Array.isArray(resultDetails.violation.element)&&suppressionElementKey in resultDetails.violation.element&&(ruleConfiguration===null||ruleConfiguration===void 0?void 0:(_ruleConfiguration_suppressions=ruleConfiguration.suppressions)===null||_ruleConfiguration_suppressions===void 0?void 0:_ruleConfiguration_suppressions.includes(resultDetails.violation.element[suppressionElementKey]))){continue}suppressedResults.push(resultDetails)}return new _internals.RuleResult(this,suppressedResults)}isPartOfFaultHandlingFlow(element,flow){var _flow_elements;const flowelements=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(el=>el instanceof _internals.FlowNode);for(const otherElement of flowelements){if(otherElement!==element){var _otherElement_connectors;if((_otherElement_connectors=otherElement.connectors)===null||_otherElement_connectors===void 0?void 0:_otherElement_connectors.find(connector=>connector.type==="faultConnector"&&connector.reference===element.name)){return true}}}return false}constructor(){super({autoFixable:false,description:"At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",docRefs:[{label:"Flow Best Practices",path:"https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"}],isConfigurable:false,label:"Missing Fault Path",name:"MissingFaultPath",supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes],suppressionElement:"actionName"}),_define_property(this,"applicableElements",["recordLookups","recordDeletes","recordUpdates","recordCreates","waits","actionCalls"])}};
-
-/***/ }),
-
-/***/ 7004:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "MissingNullHandler", ({enumerable:true,get:function(){return MissingNullHandler}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let MissingNullHandler=class MissingNullHandler extends _AdvancedRule.AdvancedRule{execute(flow){const getOperations=["recordLookups"];const getOperationElements=flow.elements.filter(node=>node.metaType==="node"&&getOperations.includes(node.subtype));const decisionElements=flow.elements.filter(node=>node.metaType==="node"&&node.subtype==="decisions");const getOperationsWithoutNullHandler=[];for(const getElement of getOperationElements){const elementName=getElement.name;let nullCheckFound=false;let resultReferences=[];if(getElement.element["storeOutputAutomatically"]){resultReferences=[elementName]}else if(getElement.element["outputReference"]){resultReferences=getElement.element["outputReference"]}else if(getElement.element["outputAssignments"]){const outputAssignments=getElement.element["outputAssignments"];for(const assignment of outputAssignments){resultReferences.push(assignment.assignToReference)}}const resultIsUsed=flow.elements.some(el=>{if(el.name===getElement.name)return false;const json=JSON.stringify(el.element);return resultReferences.some(ref=>json.includes(`"${ref}"`)||json.includes(`"${ref}.`))});if(!resultIsUsed)continue;for(const el of decisionElements){let rules=el.element["rules"];const isRuleAnArray=Array.isArray(rules);if(!isRuleAnArray){rules=[rules]}for(const rule of rules){let conditions=rule.conditions;const isConditionsAnArray=Array.isArray(conditions);if(!isConditionsAnArray){conditions=[conditions]}for(const condition of conditions){let referenceFound=false;let isNullOperator=false;let checksIfFalse=false;if(condition.leftValueReference&&condition.leftValueReference.length>0){const valueReference=condition.leftValueReference;for(const ref of resultReferences){referenceFound=valueReference.startsWith(ref);if(referenceFound){break}}}if(condition.operator&&(!Array.isArray(condition.operator)||condition.operator.length>0)){const operator=condition.operator;isNullOperator=operator==="IsNull"}if(condition.rightValue&&(!Array.isArray(condition.rightValue)||condition.rightValue.length>0)&&condition.rightValue.booleanValue&&(!Array.isArray(condition.rightValue.booleanValue)||condition.rightValue.booleanValue.length>0)){const rightValue=condition.rightValue.booleanValue;checksIfFalse=rightValue.toLowerCase()==="false"}if(referenceFound&&isNullOperator&&checksIfFalse){nullCheckFound=true}}}}if(!nullCheckFound){getOperationsWithoutNullHandler.push(getElement)}}const results=[];for(const det of getOperationsWithoutNullHandler){results.push(new _internals.ResultDetails(det))}return new _internals.RuleResult(this,results)}constructor(){super({autoFixable:false,description:"When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",docRefs:[],isConfigurable:false,label:"Missing Null Handler",name:"MissingNullHandler",supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes]})}};
-
-/***/ }),
-
-/***/ 2531:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "ProcessBuilder", ({enumerable:true,get:function(){return ProcessBuilder}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let ProcessBuilder=class ProcessBuilder extends _AdvancedRule.AdvancedRule{execute(flow,options){return new _internals.RuleResult(this,[new _internals.ResultDetails(new _internals.FlowAttribute("Workflow","processType","== Workflow"))])}constructor(){super({name:"ProcessBuilder",label:"No Process Builder",description:"Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Ensure you're prepared for this transition by migrating your organization's automation to Flow. Refer to official documentation for more information on the transition process and tools available.",supportedTypes:_internals.FlowType.processBuilder,docRefs:[{label:"Process Builder Retirement",path:"https://help.salesforce.com/s/articleView?id=000389396&type=1"}],isConfigurable:true,autoFixable:false})}};
-
-/***/ }),
-
-/***/ 80:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "RecursiveAfterUpdate", ({enumerable:true,get:function(){return RecursiveAfterUpdate}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let RecursiveAfterUpdate=class RecursiveAfterUpdate extends _AdvancedRule.AdvancedRule{execute(flow){var _flow_start,_flow_start1,_flow_elements,_flow_elements_filter,_flow_elements1;const results=[];const isAfterSave=((_flow_start=flow.start)===null||_flow_start===void 0?void 0:_flow_start.triggerType)==="RecordAfterSave";const isQualifiedTriggerTypes=this.qualifiedRecordTriggerTypes.has((_flow_start1=flow.start)===null||_flow_start1===void 0?void 0:_flow_start1.recordTriggerType);if(!isAfterSave||!isQualifiedTriggerTypes){return new _internals.RuleResult(this,results)}const potentialElements=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>node.subtype==="recordUpdates");if(potentialElements==null||typeof potentialElements[Symbol.iterator]!=="function"){return new _internals.RuleResult(this,results)}for(const node of potentialElements){if(typeof node.element==="object"&&"inputReference"in node.element&&node.element.inputReference==="$Record"){results.push(new _internals.ResultDetails(node))}}const lookupElementsWithTheSameObjectType=(_flow_elements1=flow.elements)===null||_flow_elements1===void 0?void 0:(_flow_elements_filter=_flow_elements1.filter(node=>node.subtype==="recordLookups"&&typeof node.element==="object"&&"object"in node.element&&flow.start.object===node.element["object"]))===null||_flow_elements_filter===void 0?void 0:_flow_elements_filter.map(node=>{return node.name});if(lookupElementsWithTheSameObjectType==null||typeof lookupElementsWithTheSameObjectType[Symbol.iterator]!=="function"){return new _internals.RuleResult(this,results)}for(const node of potentialElements){if(typeof node.element==="object"&&"inputReference"in node.element&&lookupElementsWithTheSameObjectType.includes(node.element.inputReference)){results.push(new _internals.ResultDetails(node))}}return new _internals.RuleResult(this,results)}constructor(){super({autoFixable:false,description:"After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",docRefs:[{label:"Learn about same record field updates",path:"https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"}],isConfigurable:false,label:"Recursive After Update",name:"RecursiveAfterUpdate",supportedTypes:[..._internals.FlowType.backEndTypes]},{severity:"warning"}),_define_property(this,"qualifiedRecordTriggerTypes",new Set(["Create","CreateAndUpdate","Update"]))}};
-
-/***/ }),
-
-/***/ 4871:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "SOQLQueryInLoop", ({enumerable:true,get:function(){return SOQLQueryInLoop}}));const _internals=__nccwpck_require__(9684);const _LoopRuleCommon=__nccwpck_require__(9561);let SOQLQueryInLoop=class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleCommon{getStatementTypes(){return["recordLookups"]}constructor(){super({autoFixable:false,description:"To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",docRefs:[{label:"Flow Best Practices",path:"https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"}],isConfigurable:false,label:"SOQL Query In A Loop",name:"SOQLQueryInLoop",supportedTypes:_internals.FlowType.backEndTypes})}};
-
-/***/ }),
-
-/***/ 6354:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "SameRecordFieldUpdates", ({enumerable:true,get:function(){return SameRecordFieldUpdates}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let SameRecordFieldUpdates=class SameRecordFieldUpdates extends _AdvancedRule.AdvancedRule{execute(flow){var _flow_start,_flow_start1,_flow_elements;const results=[];const isBeforeSaveType=((_flow_start=flow.start)===null||_flow_start===void 0?void 0:_flow_start.triggerType)==="RecordBeforeSave";const isQualifiedTriggerTypes=this.qualifiedRecordTriggerTypes.has((_flow_start1=flow.start)===null||_flow_start1===void 0?void 0:_flow_start1.recordTriggerType);if(!isBeforeSaveType||!isQualifiedTriggerTypes){return new _internals.RuleResult(this,results)}const potentialElements=(_flow_elements=flow.elements)===null||_flow_elements===void 0?void 0:_flow_elements.filter(node=>node.subtype==="recordUpdates");if(potentialElements==null||typeof potentialElements[Symbol.iterator]!=="function"){return new _internals.RuleResult(this,results)}for(const node of potentialElements){if(typeof node.element==="object"&&"inputReference"in node.element&&node.element.inputReference==="$Record"){results.push(new _internals.ResultDetails(node))}}return new _internals.RuleResult(this,results)}constructor(){super({name:"SameRecordFieldUpdates",label:"Same Record Field Updates",description:"Before-save same-record field updates allows you to update the record using variable assignments to `$Record`. This is significantly faster than doing another DML on the same-record that triggered the flow",supportedTypes:[..._internals.FlowType.backEndTypes],docRefs:[{label:"Learn about same record field updates",path:"https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"}],isConfigurable:false,autoFixable:false},{severity:"warning"}),_define_property(this,"qualifiedRecordTriggerTypes",new Set(["Create","Update","CreateAndUpdate"]))}};
-
-/***/ }),
-
-/***/ 4439:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "TriggerOrder", ({enumerable:true,get:function(){return TriggerOrder}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _define_property(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true})}else{obj[key]=value}return obj}function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let TriggerOrder=class TriggerOrder extends _AdvancedRule.AdvancedRule{execute(flow){const results=[];if(!("object"in flow.start)){return new _internals.RuleResult(this,results)}if(!flow.triggerOrder){results.push(new _internals.ResultDetails(new _internals.FlowAttribute("TriggerOrder","TriggerOrder","10, 20, 30 ...")))}return new _internals.RuleResult(this,results)}constructor(){super({name:"TriggerOrder",label:"Trigger Order",description:"With flow trigger ordering, introduced in Spring '22, admins can now assign a priority value to their flows and guarantee their execution order. This priority value is not an absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",supportedTypes:[_internals.FlowType.autolaunchedType],docRefs:[{label:"Learn more about flow ordering orchestration",path:"https://architect.salesforce.com/decision-guides/trigger-automation#Ordering___Orchestration"}],isConfigurable:false,autoFixable:false},{severity:"note"}),_define_property(this,"qualifiedRecordTriggerTypes",new Set(["Create","Update"]))}};
-
-/***/ }),
-
-/***/ 6069:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "UnconnectedElement", ({enumerable:true,get:function(){return UnconnectedElement}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let UnconnectedElement=class UnconnectedElement extends _AdvancedRule.AdvancedRule{execute(flow){const connectedElements=new Set;const logConnected=element=>{connectedElements.add(element.name)};const flowElements=flow.elements.filter(node=>node instanceof _internals.FlowNode);const startIndex=this.findStart(flowElements);if(startIndex!==-1){new _internals.Compiler().traverseFlow(flow,flowElements[startIndex].name,logConnected)}const unconnectedElements=flowElements.filter(element=>!connectedElements.has(element.name));const results=unconnectedElements.map(det=>new _internals.ResultDetails(det));return new _internals.RuleResult(this,results)}findStart(nodes){return nodes.findIndex(n=>{return n.subtype==="start"})}constructor(){super({autoFixable:true,description:"To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",docRefs:[],isConfigurable:false,label:"Unconnected Element",name:"UnconnectedElement",supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes]})}};
-
-/***/ }),
-
-/***/ 6023:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "UnsafeRunningContext", ({enumerable:true,get:function(){return UnsafeRunningContext}}));const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));const _AdvancedRule=__nccwpck_require__(104);function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let UnsafeRunningContext=class UnsafeRunningContext extends _AdvancedRule.AdvancedRule{execute(flow){const hasRunInMode="runInMode"in flow.xmldata;const runInMode=hasRunInMode?flow.xmldata.runInMode:undefined;const riskyMode="SystemModeWithoutSharing";const results=[];if(hasRunInMode&&runInMode===riskyMode){results.push(new _internals.ResultDetails(new _internals.FlowAttribute(runInMode,"runInMode",`== ${riskyMode}`)))}return new _internals.RuleResult(this,results)}constructor(){super({name:"UnsafeRunningContext",label:"Unsafe Running Context",description:`This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.`,supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes],docRefs:[{label:"Learn about data safety when running flows in system context in Salesforce Help",path:"https://help.salesforce.com/s/articleView?id=sf.flow_distribute_context_data_safety_system_context.htm&type=5"}],isConfigurable:false,autoFixable:false},{severity:"warning"})}};
-
-/***/ }),
-
-/***/ 5357:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));Object.defineProperty(exports, "UnusedVariable", ({enumerable:true,get:function(){return UnusedVariable}}));const _AdvancedRule=__nccwpck_require__(104);const _internals=/*#__PURE__*/_interop_require_wildcard(__nccwpck_require__(9684));function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap;var cacheNodeInterop=new WeakMap;return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop})(nodeInterop)}function _interop_require_wildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj}}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj)}var newObj={__proto__:null};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc)}else{newObj[key]=obj[key]}}}newObj.default=obj;if(cache){cache.set(obj,newObj)}return newObj}let UnusedVariable=class UnusedVariable extends _AdvancedRule.AdvancedRule{execute(flow){const unusedVariables=[];for(const variable of flow.elements.filter(node=>node instanceof _internals.FlowVariable)){const variableName=variable.name;if([...JSON.stringify(flow.elements.filter(node=>node instanceof _internals.FlowNode)).matchAll(new RegExp(variableName,"gi"))].map(a=>a.index).length===0){if([...JSON.stringify(flow.elements.filter(node=>node instanceof _internals.FlowResource)).matchAll(new RegExp(variableName,"gi"))].map(a=>a.index).length===0){const insideCounter=[...JSON.stringify(variable).matchAll(new RegExp(variable.name,"gi"))].map(a=>a.index);const variableUsage=[...JSON.stringify(flow.elements.filter(node=>node instanceof _internals.FlowVariable)).matchAll(new RegExp(variableName,"gi"))].map(a=>a.index);if(variableUsage.length===insideCounter.length){unusedVariables.push(variable)}}}}const results=[];for(const det of unusedVariables){results.push(new _internals.ResultDetails(det))}return new _internals.RuleResult(this,results)}constructor(){super({name:"UnusedVariable",label:"Unused Variable",description:"To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use.",supportedTypes:[..._internals.FlowType.backEndTypes,..._internals.FlowType.visualTypes],docRefs:[],isConfigurable:false,autoFixable:true})}};
-
-/***/ }),
-
-/***/ 3833:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", ({value:true}));function _export(target,all){for(var name in all)Object.defineProperty(target,name,{enumerable:true,get:Object.getOwnPropertyDescriptor(all,name).get})}_export(exports,{get BetaRuleStore(){return BetaRuleStore},get DefaultRuleStore(){return DefaultRuleStore}});const _ActionCallsInLoop=__nccwpck_require__(2353);const _APIVersion=__nccwpck_require__(1493);const _AutoLayout=__nccwpck_require__(8026);const _CopyAPIName=__nccwpck_require__(975);const _CyclomaticComplexity=__nccwpck_require__(2317);const _DMLStatementInLoop=__nccwpck_require__(408);const _DuplicateDMLOperation=__nccwpck_require__(2532);const _FlowDescription=__nccwpck_require__(6033);const _FlowName=__nccwpck_require__(3084);const _GetRecordAllFields=__nccwpck_require__(5626);const _HardcodedId=__nccwpck_require__(1442);const _HardcodedUrl=__nccwpck_require__(1358);const _InactiveFlow=__nccwpck_require__(6169);const _MissingFaultPath=__nccwpck_require__(2855);const _MissingNullHandler=__nccwpck_require__(7004);const _ProcessBuilder=__nccwpck_require__(2531);const _RecursiveAfterUpdate=__nccwpck_require__(80);const _SameRecordFieldUpdates=__nccwpck_require__(6354);const _SOQLQueryInLoop=__nccwpck_require__(4871);const _TriggerOrder=__nccwpck_require__(4439);const _UnconnectedElement=__nccwpck_require__(6069);const _UnsafeRunningContext=__nccwpck_require__(6023);const _UnusedVariable=__nccwpck_require__(5357);const DefaultRuleStore={APIVersion:_APIVersion.APIVersion,AutoLayout:_AutoLayout.AutoLayout,CopyAPIName:_CopyAPIName.CopyAPIName,CyclomaticComplexity:_CyclomaticComplexity.CyclomaticComplexity,DMLStatementInLoop:_DMLStatementInLoop.DMLStatementInLoop,DuplicateDMLOperation:_DuplicateDMLOperation.DuplicateDMLOperation,FlowDescription:_FlowDescription.FlowDescription,FlowName:_FlowName.FlowName,GetRecordAllFields:_GetRecordAllFields.GetRecordAllFields,HardcodedId:_HardcodedId.HardcodedId,HardcodedUrl:_HardcodedUrl.HardcodedUrl,InactiveFlow:_InactiveFlow.InactiveFlow,MissingFaultPath:_MissingFaultPath.MissingFaultPath,MissingNullHandler:_MissingNullHandler.MissingNullHandler,ProcessBuilder:_ProcessBuilder.ProcessBuilder,RecursiveAfterUpdate:_RecursiveAfterUpdate.RecursiveAfterUpdate,SameRecordFieldUpdates:_SameRecordFieldUpdates.SameRecordFieldUpdates,SOQLQueryInLoop:_SOQLQueryInLoop.SOQLQueryInLoop,TriggerOrder:_TriggerOrder.TriggerOrder,UnconnectedElement:_UnconnectedElement.UnconnectedElement,UnsafeRunningContext:_UnsafeRunningContext.UnsafeRunningContext,UnusedVariable:_UnusedVariable.UnusedVariable};const BetaRuleStore={ActionCallsInLoop:_ActionCallsInLoop.ActionCallsInLoop};
-
 /***/ })
 
 /******/ 	});
@@ -67370,7 +71359,7 @@ Object.defineProperty(exports, "__esModule", ({value:true}));function _export(ta
 var __webpack_exports__ = {};
 const core = __nccwpck_require__(7484);
 const github = __nccwpck_require__(3228);
-const lfs_core = __nccwpck_require__(2689);
+const lfs_core = __nccwpck_require__(1650);
 const fs = __nccwpck_require__(9896);
 const path = __nccwpck_require__(6928);
 const yaml = __nccwpck_require__(4281);
