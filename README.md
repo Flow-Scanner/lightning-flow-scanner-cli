@@ -47,6 +47,9 @@ Also ensure the following:
 - Workflows have read and write permissions in the repository.
 - Allow GitHub Actions to create and approve pull requests.
 
+**Privacy:** Zero user data collected. All processing is client-side.
+→ See Data Handling in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx?tab=security-ov-file).
+
 ### Run On Pull Requests
 
 `on:pull_request` will trigger Flow Scanner to scan changed flow files every time a pull request is opened.
