@@ -3,7 +3,7 @@
     <img src="media/bannerslim.png" style="width: 41%;" />
   </a>
 </p>
-<p align="center">Scans for unsafe contexts, hardcoded IDs, and other issues to optimize your Flows.</p>
+<p align="center"><em>Detect unsafe contexts, queries in loops, hardcoded IDs, and more to optimize your Salesforce Flows.</em></p>
 
 <p align="center">
  <img src="media/lfsaction.gif" alt="Lightning Flow Scanner Demo" width="70%" />
