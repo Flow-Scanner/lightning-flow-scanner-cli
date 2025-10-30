@@ -48,7 +48,7 @@ Also ensure the following:
 - Allow GitHub Actions to create and approve pull requests.
 
 **Privacy:** Zero user data collected. All processing is client-side.
-→ See Data Handling in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx?tab=security-ov-file).
+→ See Data Handling in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
 
 ### Run On Pull Requests
 
