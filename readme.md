@@ -4,10 +4,13 @@
   </a>
 </p>
 
+<p align="center"><i>A plug-and-play engine for Flow metadata in Node.js & browsers—with 20+ rules to catch unsafe contexts, loop queries, hardcoded IDs, and more.</i></p>
+
 - [Default Rules](#default-rules)
-- [Configurations](#configurations)
-  - [Rule Configuration](#rule-configuration)
-  - [Exception Configuration](#exception-configuration)
+- [Configuration](#configuration)
+  - [Defining Severity Levels](#defining-severity-levels)
+  - [Configuring Expressions](#configuring-expressions)
+  - [Specifying Exceptions](#specifying-exceptions)
 - [Core Functions](#core-functions)
 - [Development](#development)
 
@@ -113,11 +116,27 @@ _[UnusedVariable](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tr
 
 ---
 
-## Configurations
+## Configuration
 
-### Rule Configuration
+It is recommended to set up configuration and define:
 
-Using the rules section of your configurations, you can specify the list of rules to be run and provide custom rules. Furthermore, you can define the severity of violating specific rules and configure relevant attributes for some rules. Below is a breakdown of the available attributes of rule configuration:
+- The rules to be executed.
+- The severity of violating any specific rule.
+- Rule properties such as REGEX expressions.
+- Any known exceptions that should be ignored during scanning.
+
+```json
+{
+  "rules": {
+    ...
+  },
+  "exceptions": {
+    ...
+  }
+}
+```
+
+Using the rules section of your configurations, you can specify the list of rules to be run. Furthermore, you can define the severity of violating specific rules and configure relevant expressions for some rules. Below is a breakdown of the available attributes of rule configuration:
 
 ```json
 {
@@ -130,7 +149,43 @@ Using the rules section of your configurations, you can specify the list of rule
 }
 ```
 
-### Exception Configuration
+### Defining Severity Levels
+
+When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Define the severity per rule as shown below:
+
+```json
+{
+  "rules": {
+    "FlowDescription": {
+      "severity": "warning"
+    },
+    "UnusedVariable": {
+      "severity": "error"
+    }
+  }
+}
+```
+
+### Configuring Expressions
+
+Some rules have additional attributes to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
+
+```json
+{
+  "rules": {
+    "APIVersion": {
+      "severity": "error",
+      "expression": "===58"
+    },
+    "FlowName": {
+      "severity": "error",
+      "expression": "[A-Za-z0-9]"
+    }
+  }
+}
+```
+
+### Specifying Exceptions
 
 Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
@@ -148,15 +203,6 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
   }
 }
 ```
-
-- **FlowName:**
-  - The name of the flow where exceptions apply.
-- **RuleName:**
-  - The name of the rule for which exceptions are defined.
-- **ResultName:**
-  - The specific result or condition within the rule for which exceptions are specified.
-
----
 
 ## Core Functions
 
