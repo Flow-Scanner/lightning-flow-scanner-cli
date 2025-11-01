@@ -11,12 +11,12 @@ export default defineConfig({
     },
     minify: true,
     rollupOptions: {
-      external: ["xmlbuilder2"],
+      external: ["fast-xml-parser"],
       output: {
         globals: {
+          'fast-xml-parser': "fast-xml-parser",
           fs: "fs",
           path: "path",
-          xmlbuilder2: "xmlbuilder2",
         },
       },
     },

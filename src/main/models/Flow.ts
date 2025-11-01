@@ -1,6 +1,5 @@
+import { XMLBuilder } from "fast-xml-parser";
 import * as p from "path";
-import { create } from "xmlbuilder2";
-import { XMLSerializedAsObject } from "xmlbuilder2/lib/interfaces";
 
 import { FlowElement } from "./FlowElement";
 import { FlowMetadata } from "./FlowMetadata";
@@ -30,7 +29,6 @@ export class Flow {
    * XML to JSON conversion in raw format
    */
   public xmldata;
-
   private flowMetadata = [
     "description",
     "apiVersion",
@@ -87,7 +85,7 @@ export class Flow {
     if (data) {
       const hasFlowElement = typeof data === "object" && "Flow" in data;
       if (hasFlowElement) {
-        this.xmldata = (data as XMLSerializedAsObject).Flow;
+        this.xmldata = (data as any).Flow;
       } else this.xmldata = data;
       this.preProcessNodes();
     }
@@ -103,12 +101,13 @@ export class Flow {
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
     this.triggerOrder = this.xmldata.triggerOrder;
+
     const allNodes: Array<FlowMetadata | FlowNode | FlowVariable> = [];
     for (const nodeType in this.xmldata) {
-      // skip xmlns url
-      // if (nodeType == "@xmlns") {
-      //   continue;
-      // }
+      // Skip xmlns and attributes (updated: generalized from your commented line)
+      if (nodeType.startsWith("@_") || nodeType === "@xmlns") {
+        continue;
+      }
       const data = this.xmldata[nodeType];
       if (this.flowMetadata.includes(nodeType)) {
         if (Array.isArray(data)) {
@@ -180,14 +179,27 @@ export class Flow {
   private generateDoc(): string {
     // eslint-disable-next-line sonarjs/no-clear-text-protocols
     const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
-    const doc = create(
-      {
-        encoding: "UTF-8",
-      },
-      { Flow: this.xmldata }
-    )
-      .root()
-      .att("xmlns", flowXmlNamespace);
-    return doc.end({ prettyPrint: true });
+    const builderOptions = {
+      format: true,                          // Pretty-print (indented; expands empties to </tag>)
+      ignoreAttributes: false,               // Preserve attrs like xmlns
+      attributeNamePrefix: "@_",             // Matches parsing (key prefix)
+      suppressEmptyNode: false,              // Keep empty tags (but doesn't force self-closing in pretty)
+      suppressBooleanAttributes: false       // NEW: Force ="true" for boolean-like strings (fixes missing value)
+    };
+    const builder = new XMLBuilder(builderOptions);
+
+    // Fallback: Inject xmlns as attribute if missing
+    const xmldataWithNs = { ...this.xmldata };
+    if (!xmldataWithNs["@_xmlns"]) {
+      xmldataWithNs["@_xmlns"] = flowXmlNamespace;
+    }
+    // Optional: Add xsi if needed (often in parsed data; test has it in root)
+    if (!xmldataWithNs["@_xmlns:xsi"]) {
+      xmldataWithNs["@_xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
+    }
+
+    // Build: Wrap in { Flow: ... }
+    const rootObj = { Flow: xmldataWithNs };
+    return builder.build(rootObj);
   }
 }

@@ -1,7 +1,7 @@
-import * as core from "../src";
+import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
 
-import { describe, it, expect } from "@jest/globals";
+import * as core from "../src";
 
 describe("DuplicateDMLOperation  ", () => {
   const example_uri = path.join(__dirname, "../assets/example-flows/force-app/main/default/flows/Duplicate_DML_Operation.flow-meta.xml");

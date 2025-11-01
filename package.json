@@ -35,7 +35,7 @@
     "url": "git+https://github.com/Flow-Scanner/lightning-flow-scanner-core.git"
   },
   "dependencies": {
-    "xmlbuilder2": "^3.1.1"
+    "fast-xml-parser": "^5.3.0"
   },
   "devDependencies": {
     "@jest/types": "30.0.1",

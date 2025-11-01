@@ -18,6 +18,6 @@ This project collects zero user data. No credentials, PII, payment info, or heal
 
 We actively track and maintain an up-to-date inventory of all third-party dependencies to ensure security and compatibility. Our dependencies include:
 
-| Package       | License                                                                | Purpose                 |
-| ------------- | ---------------------------------------------------------------------- | ----------------------- |
-| `xmlbuilder2` | [MIT](https://github.com/oozcitak/xmlbuilder2/blob/master/LICENSE.txt) | XML builder for Node.js |
+| Package           | License                                                                           | Purpose                                        |
+| ----------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `fast-xml-parser` | [MIT](https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/LICENSE) | Validate XML, Parse XML and Build XML rapidly. |
