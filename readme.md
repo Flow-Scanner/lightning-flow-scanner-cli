@@ -15,7 +15,6 @@
 - [Usage](#installation)
   - [Install As Dependency](#install-as-dependency)
   - [Core Functions](#core-functions)
-  - [UMD Module](#umd-module)
 - [Development](#development)
 
 ---
@@ -256,14 +255,6 @@ _Runs rules against parsed flows and returns scan results._
 
 _Attempts to apply automatic fixes where available._
 
-### UMD Module
-
-To create a standalone UMD module, follow the [development insructions](#development) and run:
-
-```bash
-npm run vite:dist
-```
-
 ---
 
 ## Development
@@ -314,5 +305,13 @@ npm run vite:dist
    ```
 
    Your local core module will now replace the installed dependency and update automatically on rebuild.
+
+6. Create a standalone UMD Module:
+
+```bash
+npm run vite:dist
+```
+
+The resulting file will be available in the `dist` directory as `lightning-flow-scanner-core.umd.js`.
 
 ###### Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
