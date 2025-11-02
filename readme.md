@@ -12,7 +12,10 @@
   - [Configuring Expressions](#configuring-expressions)
   - [Specifying Exceptions](#specifying-exceptions)
   - [Include Beta Rules](#include-beta-rules)
-- [Core Functions](#core-functions)
+- [Usage](#installation)
+  - [Install As Dependency](#install-as-dependency)
+  - [Core Functions](#core-functions)
+  - [UMD Module](#umd-module)
 - [Development](#development)
 
 ---
@@ -221,7 +224,21 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 }
 ```
 
-## Core Functions
+---
+
+## Usage
+
+The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or as a standalone UMD module.
+
+### Install As Dependency
+
+To install the module as a dependency run:
+
+```bash
+npm install @flow-scanner/lightning-flow-scanner-core
+```
+
+### Core Functions
 
 ### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
 
@@ -238,6 +255,14 @@ _Runs rules against parsed flows and returns scan results._
 ### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
 
 _Attempts to apply automatic fixes where available._
+
+### UMD Module
+
+To create a standalone UMD module, follow the [development insructions](#development) and run:
+
+```bash
+npm run vite:dist
+```
 
 ---
 
