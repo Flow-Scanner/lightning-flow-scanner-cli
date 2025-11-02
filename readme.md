@@ -12,8 +12,8 @@
   - [Configuring Expressions](#configuring-expressions)
   - [Specifying Exceptions](#specifying-exceptions)
   - [Include Beta Rules](#include-beta-rules)
-- [Usage](#installation)
-  - [Install As Dependency](#install-as-dependency)
+- [Usage](#Usage)
+  - [Installation](#installation)
   - [Core Functions](#core-functions)
 - [Development](#development)
 
@@ -226,11 +226,9 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 
 ## Usage
 
-The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or as a standalone UMD module.
+### Installation
 
-### Install As Dependency
-
-To install the module as a dependency run:
+The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or used as a standalone UMD module. To install:
 
 ```bash
 npm install @flow-scanner/lightning-flow-scanner-core
