@@ -11,6 +11,7 @@
   - [Defining Severity Levels](#defining-severity-levels)
   - [Configuring Expressions](#configuring-expressions)
   - [Specifying Exceptions](#specifying-exceptions)
+  - [Include Beta Rules](#include-beta-rules)
 - [Core Functions](#core-functions)
 - [Development](#development)
 
@@ -128,15 +129,15 @@ It is recommended to set up configuration and define:
 ```json
 {
   "rules": {
-    ...
+    // Your rules here
   },
   "exceptions": {
-    ...
+    // Your exceptions here
   }
 }
 ```
 
-Using the rules section of your configurations, you can specify the list of rules to be run. Furthermore, you can define the severity of violating specific rules and configure relevant expressions for some rules. Below is a breakdown of the available attributes of rule configuration:
+Using the rules section of your configurations, you can specify the list of rules to be run. Furthermore, you can define the severity and configure expressions of rules. To include rules currently that are currently in beta, set `betarules` to true. Below is a breakdown of the available attributes of rule configuration:
 
 ```json
 {
@@ -157,10 +158,10 @@ When the severity is not provided it will be `warning` by default. Other availab
 {
   "rules": {
     "FlowDescription": {
-      "severity": "warning"
+      "severity": "error"
     },
     "UnusedVariable": {
-      "severity": "error"
+      "severity": "note"
     }
   }
 }
@@ -178,7 +179,7 @@ Some rules have additional attributes to configure, such as the expression, that
       "expression": "===58"
     },
     "FlowName": {
-      "severity": "error",
+      "severity": "note",
       "expression": "[A-Za-z0-9]"
     }
   }
@@ -201,6 +202,23 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
     },
     ...
   }
+}
+```
+
+### Include Beta Rules
+
+New rules are introduced in Beta mode before being added to the default ruleset.
+To include current Beta rules, enable the optional betamode parameter in your configuration:
+
+```json
+{
+  "rules": {
+    ...
+  },
+  "exceptions": {
+    ...
+  },
+  "betamode": true
 }
 ```
 
