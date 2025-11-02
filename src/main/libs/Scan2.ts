@@ -4,7 +4,7 @@ import {
   IRulesConfig,
   RuleResult,
   ScanResult,
-} from "../../main/internals/internals";
+} from "../internals/internals";
 import { AdvancedRuleConfig } from "../interfaces/AdvancedRuleConfig";
 import { AdvancedRule } from "../models/AdvancedRule";
 import { ParsedFlow } from "../models/ParsedFlow";

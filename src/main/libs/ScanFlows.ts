@@ -9,7 +9,7 @@ import {
 } from "../../main/internals/internals";
 import { ParsedFlow } from "../models/ParsedFlow";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
-import { scan2 } from "./Scan";
+import { scan2 } from "./Scan2";
 
 const { IS_NEW_SCAN_ENABLED: isNewScanEnabled, OVERRIDE_CONFIG: overrideConfig } = process.env;
 
