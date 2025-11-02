@@ -236,19 +236,19 @@ npm install @flow-scanner/lightning-flow-scanner-core
 
 ### Core Functions
 
-### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
+#### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
 
 _Retrieves rule definitions used in the scanner._
 
-### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
+#### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
 
 _Parses metadata from selected Flow files._
 
-### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
+#### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
 
 _Runs rules against parsed flows and returns scan results._
 
-### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
+#### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
 
 _Attempts to apply automatic fixes where available._
 
