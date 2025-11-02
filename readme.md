@@ -207,8 +207,7 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
 
 ### Include Beta Rules
 
-New rules are introduced in Beta mode before being added to the default ruleset.
-To include current Beta rules, enable the optional betamode parameter in your configuration:
+New rules are introduced in Beta mode before being added to the default ruleset. To include current Beta rules, enable the optional betamode parameter in your configuration:
 
 ```json
 {
