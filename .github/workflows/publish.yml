@@ -1,0 +1,46 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*" # Trigger on version tags like v6.0.0
+
+permissions:
+  contents: read
+  id-token: write # Required for OIDC (Trusted Publishing)
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Update npm
+        run: npm install -g npm@latest # Ensure latest npm for Trusted Publishing
+      - run: npm ci
+      - run: npm test # Your unit tests
+      - run: npm run wdio # Your WDIO CLI E2E tests for runtime behavior/data leaks
+      - name: Snyk Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} # Store as repo secret (rotate as needed)
+        with:
+          command: test --severity-threshold=high # Block on high-severity/malicious issues
+
+  publish:
+    needs: build-and-test # Only publish if tests/scans pass
+    runs-on: ubuntu-latest
+    # environment: production  # Uncomment if using GitHub environment for approvals
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: Update npm
+        run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run build --if-present # If you have a build step
+      - run: npm publish --access public # For scoped packages; OIDC handles auth

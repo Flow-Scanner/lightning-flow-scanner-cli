@@ -268,7 +268,7 @@ _Attempts to apply automatic fixes where available._
    b) Go to the dependent project (VSX or SF CLI) and use:
 
    ```bash
-   npm link lightning-flow-scanner-core
+   npm link @flow-scanner/lightning-flow-scanner-core
    ```
 
    Your local core module will now replace the installed dependency and update automatically on rebuild.
