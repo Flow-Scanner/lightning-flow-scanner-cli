@@ -21,9 +21,8 @@
 
 ## Default Rules
 
-📌 **Tip:** To link directly to a specific rule, use the full GitHub anchor link format:
-`https://github.com/Flow-Scanner/lightning-flow-scanner-core#<rule-label>`
-Ex: _https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context_
+<p>📌 <strong>Tip:</strong> To link directly to a specific rule, use the full GitHub anchor link format. Example:</p>
+<p><em><a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context">https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context</a></em></i></p>
 
 ### Action Calls In Loop
 
