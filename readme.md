@@ -291,7 +291,7 @@ _Attempts to apply automatic fixes where available._
    npm run test
    ```
 
-5. Test as local dependency:
+5. Test as local dependency(Optional):
    To test changes to the core module in the VS Code extension or SF CLI plugin locally, run:
 
    ```bash
@@ -306,7 +306,7 @@ _Attempts to apply automatic fixes where available._
 
    Your local core module will now replace the installed dependency and update automatically on rebuild.
 
-6. Create a standalone UMD Module:
+6. Create a standalone UMD Module(Optional):
 
 ```bash
 npm run vite:dist
