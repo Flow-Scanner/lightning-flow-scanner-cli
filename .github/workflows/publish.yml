@@ -23,4 +23,4 @@ jobs:
         run: npm install -g npm@latest
       - run: npm ci
       - run: npm run build
-      - run: npm publish --access public
+      - run: cd out && npm publish --access public
