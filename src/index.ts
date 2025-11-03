@@ -5,6 +5,7 @@ import { Compiler } from "./main/libs/Compiler";
 import { fix } from "./main/libs/FixFlows";
 import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
+import { exportSarif } from "./main/libs/SARIFExporter";
 import { scan } from "./main/libs/ScanFlows";
 import { AdvancedRule } from "./main/models/AdvancedRule";
 import { Flow } from "./main/models/Flow";
@@ -22,6 +23,7 @@ import { ScanResult } from "./main/models/ScanResult";
 export {
   AdvancedRule,
   Compiler,
+  exportSarif,
   fix,
   Flow,
   FlowAttribute,
