@@ -2,10 +2,10 @@ import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
 import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
 
 import { Compiler } from "./main/libs/Compiler";
+import { exportSarif } from "./main/libs/ExportSarif";
 import { fix } from "./main/libs/FixFlows";
 import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
-import { exportSarif } from "./main/libs/SARIFExporter";
 import { scan } from "./main/libs/ScanFlows";
 import { AdvancedRule } from "./main/models/AdvancedRule";
 import { Flow } from "./main/models/Flow";

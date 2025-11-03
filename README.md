@@ -4,18 +4,23 @@
   </a>
 </p>
 
-<p align="center"><i>A plug-and-play engine for Flow metadata in Node.js & browsers—with 20+ rules to catch unsafe contexts, loop queries, hardcoded IDs, and more.</i></p>
+<p align="center"><i>UMD-compatible Flow metadata engine for Node.js & browsers—20+ rules to catch common issues.</i></p>
 
-- [Default Rules](#default-rules)
-- [Configuration](#configuration)
+---
+
+## Table of contens
+
+- **[Default Rules](#default-rules)**
+- **[Configuration](#configuration)**
   - [Defining Severity Levels](#defining-severity-levels)
   - [Configuring Expressions](#configuring-expressions)
   - [Specifying Exceptions](#specifying-exceptions)
   - [Include Beta Rules](#include-beta-rules)
-- [Usage](#Usage)
-  - [Installation](#installation)
-  - [Core Functions](#core-functions)
-- [Development](#development)
+- **[Usage](#Usage)**
+  - [Examples](#examples)
+  - [Functions](#core-functions)
+- **[Installation](#installation)**
+- **[Development](#development)**
 
 ---
 
@@ -24,7 +29,7 @@
 <p>📌 <strong>Tip:</strong> To link directly to a specific rule, use the full GitHub anchor link format. Example:</p>
 <p><em><a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context">https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context</a></em></i></p>
 
-### Action Calls In Loop
+### Action Calls In Loop(Beta)
 
 _[ActionCallsInLoop](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/ActionCallsInLoop.ts)_ - To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.
 
@@ -226,15 +231,28 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 
 ## Usage
 
-### Installation
+The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or used as a standalone UMD module.
 
-The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or used as a standalone UMD module. To install:
+### Examples
 
-```bash
-npm install @flow-scanner/lightning-flow-scanner-core
+```js
+// Basic
+import { parse, scan } from "@flow-scanner/lightning-flow-scanner-core";
+parse("flows/*.xml").then(scan);
+
+// Apply fixes automatically
+import { parse, scan, fix } from "@flow-scanner/lightning-flow-scanner-core";
+parse("flows/*.xml").then(scan).then(fix);
+
+// Get SARIF output
+import { parse, scan, exportSarif } from "@flow-scanner/lightning-flow-scanner-core";
+parse("flows/*.xml")
+  .then(scan)
+  .then(exportSarif)
+  .then((sarif) => save("results.sarif", sarif));
 ```
 
-### Core Functions
+### Functions
 
 #### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
 
@@ -242,15 +260,33 @@ _Retrieves rule definitions used in the scanner._
 
 #### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
 
-_Parses metadata from selected Flow files._
+_Loads Flow XML files into in-memory models._
 
 #### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
 
-_Runs rules against parsed flows and returns scan results._
+_Runs all enabled rules and returns detailed violations._
 
 #### [`fix(results: ScanResult[]): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/FixFlows.ts)
 
-_Attempts to apply automatic fixes where available._
+_Automatically applies available fixes(removing variables and unconnected elements)._
+
+#### [`exportSarif(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ExportSarif.ts)
+
+_Generates SARIF output with paths and exact line numbers._
+
+---
+
+## Installation
+
+`lightning-flow-scanner-core` is published to **npm** only.
+
+[![npm version](https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core?label=npm)](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)
+
+**To install with npm:**
+
+```bash
+npm install @flow-scanner/lightning-flow-scanner-core
+```
 
 ---
 

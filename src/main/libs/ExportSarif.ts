@@ -1,12 +1,8 @@
+// src/main/libs/exportSarif.ts
 import { Flow } from "../models/Flow";
 import { ResultDetails } from "../models/ResultDetails";
 import { ScanResult } from "../models/ScanResult";
 
-/**
- * Export scan results to SARIF v2.1.0
- * Uses real fsPath → GitHub clickable
- * Falls back to virtual URI in browser
- */
 export function exportSarif(results: ScanResult[]): string {
   const runs = results.map((result) => {
     const flow = result.flow;
@@ -21,7 +17,7 @@ export function exportSarif(results: ScanResult[]): string {
           locations: [{
             physicalLocation: {
               artifactLocation: { index: 0, uri },
-              region: mapRegion(d),
+              region: mapRegion(d, result.flow.toXMLString() || "")
             },
           }],
           message: { text: r.errorMessage || `${r.ruleName} in ${d.name}` },
@@ -42,7 +38,6 @@ export function exportSarif(results: ScanResult[]): string {
             .map(r => ({
               defaultConfiguration: { level: mapSeverity(r.severity) },
               fullDescription: { text: r.ruleDefinition.description || "" },
-              helpUri: r.ruleDefinition.helpUrl,
               id: r.ruleName,
               shortDescription: { text: r.ruleDefinition.description || r.ruleName },
             })),
@@ -59,27 +54,33 @@ export function exportSarif(results: ScanResult[]): string {
   }, null, 2);
 }
 
-// ─── Private Helpers ───
 function getUri(flow: Flow): string {
   return flow.fsPath
     ? flow.fsPath.replace(/\\/g, "/")
     : `flows/${flow.name}.flow-meta.xml`;
 }
 
-function mapRegion(detail: ResultDetails): any {
-  if (detail.metaType === "node" && (detail.details as any).locationY != null) {
-    return {
-      startColumn: (detail.details as any).locationX || 1,
-      startLine: Math.max(1, (detail.details as any).locationY),
-    };
-  }
-  return { startColumn: 1, startLine: 1 };
-}
+function mapRegion(detail: ResultDetails, rawXml: string = ""): any {
+  if (!rawXml) return { startLine: 1, startColumn: 1 };
 
+  const lines = rawXml.split("\n");
+  const name = detail.name;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].includes(`<name>${name}</name>`)) {
+      return {
+        startLine: i + 1,
+        startColumn: lines[i].indexOf(name) + 1
+      };
+    }
+  }
+  return { startLine: 1, startColumn: 1 };
+}
 function mapSeverity(sev: string): "error" | "note" | "warning" {
   switch (sev?.toLowerCase()) {
     case "info":
-    case "note": return "note"; case "warning": return "warning";
+    case "note": return "note";
+    case "warning": return "warning";
     default: return "error";
   }
 }
