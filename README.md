@@ -250,6 +250,17 @@ parse("flows/*.xml")
   .then(scan)
   .then(exportSarif)
   .then((sarif) => save("results.sarif", sarif));
+
+// Browser Usage (Tooling API)
+const { Flow, scan } = window.lightningflowscanner;
+const metadataRes = await conn.tooling.query(`SELECT Id, FullName, Metadata FROM Flow`);
+const results = scan(
+  metadataRes.records.map((r) => ({
+    uri: `/services/data/v60.0/tooling/sobjects/Flow/${r.Id}`,
+    flow: new Flow(r.FullName, r.Metadata),
+  })),
+  optionsForScan
+);
 ```
 
 ### Functions
