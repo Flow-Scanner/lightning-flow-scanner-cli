@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<p align="center"><i>UMD-compatible Flow metadata engine for Node.js & browsers—20+ rules to catch common issues.</i></p>
+<p align="center"><i>UMD-compatible Flow metadata engine for Node.js & browsers—20+ rules to catch issues.</i></p>
 
 ---
 
@@ -143,7 +143,7 @@ It is recommended to set up configuration and define:
 }
 ```
 
-Using the rules section of your configurations, you can specify the list of rules to be run. Furthermore, you can define the severity and configure expressions of rules. To include rules currently that are currently in beta, set `betarules` to true. Below is a breakdown of the available attributes of rule configuration:
+Using the rules section of your configurations, you can specify the list of rules to be run. Furthermore, you can define the severity and configure expressions of rules. Below is a breakdown of the available attributes of rule configuration:
 
 ```json
 {
@@ -182,11 +182,11 @@ Some rules have additional attributes to configure, such as the expression, that
   "rules": {
     "APIVersion": {
       "severity": "error",
-      "expression": "===58"
+      "expression": "===58" // comparison operator
     },
     "FlowName": {
       "severity": "note",
-      "expression": "[A-Za-z0-9]"
+      "expression": "[A-Za-z0-9]" // regular expression
     }
   }
 }
@@ -231,7 +231,7 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 
 ## Usage
 
-The Lightning Flow Scanner Core can be used as a dependency in Node.js and browser environments, or used as a standalone UMD module.
+`lightning-flow-scanner-core` can be used as a dependency in Node.js and browser environments, or as a standalone UMD module.
 
 ### Examples
 
@@ -240,16 +240,13 @@ The Lightning Flow Scanner Core can be used as a dependency in Node.js and brows
 import { parse, scan } from "@flow-scanner/lightning-flow-scanner-core";
 parse("flows/*.xml").then(scan);
 
-// Apply fixes automatically
+// Apply available patches
 import { parse, scan, fix } from "@flow-scanner/lightning-flow-scanner-core";
 parse("flows/*.xml").then(scan).then(fix);
 
 // Get SARIF output
 import { parse, scan, exportSarif } from "@flow-scanner/lightning-flow-scanner-core";
-parse("flows/*.xml")
-  .then(scan)
-  .then(exportSarif)
-  .then((sarif) => save("results.sarif", sarif));
+parse("flows/*.xml").then(scan).then(exportSarif); //.then((sarif) => save("results.sarif", sarif));
 
 // Browser Usage (Tooling API)
 const { Flow, scan } = window.lightningflowscanner;
@@ -258,8 +255,7 @@ const results = scan(
   metadataRes.records.map((r) => ({
     uri: `/services/data/v60.0/tooling/sobjects/Flow/${r.Id}`,
     flow: new Flow(r.FullName, r.Metadata),
-  })),
-  optionsForScan
+  })) //, optionsForScan
 );
 ```
 
@@ -336,26 +332,26 @@ npm install @flow-scanner/lightning-flow-scanner-core
    ```
 
 5. Test as local dependency(Optional):
-   To test changes to the core module in the VS Code extension or SF CLI plugin locally, run:
+   To test changes to the core module locally, run:
 
    ```bash
    npm run link
    ```
 
-   b) Go to the dependent project (VSX or SF CLI) and use:
+   b) Go to the dependent project (e.g. VSX or CLI) and use:
 
    ```bash
    npm link @flow-scanner/lightning-flow-scanner-core
    ```
 
-   Your local core module will now replace the installed dependency and update automatically on rebuild.
+   Your local module will now replace any installed version and update on rebuild.
 
 6. Create a standalone UMD Module(Optional):
 
 ```bash
-npm run vite:dist
+  npm run vite:dist
 ```
 
-The resulting file will be available in the `dist` directory as `lightning-flow-scanner-core.umd.js`.
+    The UMD module will be created at`dist/lightning-flow-scanner-core.umd.js`.
 
 ###### Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
