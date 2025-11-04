@@ -2,8 +2,8 @@ import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
 import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
 
 import { Compiler } from "./main/libs/Compiler";
-import { exportDetails } from "./main/libs/exportDetails";
-import { exportSarif } from "./main/libs/exportSarif";
+import { exportDetails } from "./main/libs/exportAsDetails";
+import { exportSarif } from "./main/libs/exportAsSarif";
 import { fix } from "./main/libs/FixFlows";
 import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";

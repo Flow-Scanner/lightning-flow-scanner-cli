@@ -353,9 +353,7 @@ npm install @flow-scanner/lightning-flow-scanner-core
 6. Create a standalone UMD Module(Optional):
 
 ```bash
-  npm run vite:dist
+  npm run vite:dist // creates UMD at`dist/lightning-flow-scanner-core.umd.js`.
 ```
-
-    The UMD module will be created at`dist/lightning-flow-scanner-core.umd.js`.
 
 ###### Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
