@@ -279,11 +279,11 @@ _Automatically applies available fixes(removing variables and unconnected elemen
 
 #### [`exportDetails(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportDetails.ts)
 
-_Get output as flattened violations._
+_Get flattened output of violations only._
 
 #### [`exportSarif(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportSarif.ts)
 
-_Get SARIF output with exact line numbers of violations._
+_Get SARIF output including exact line numbers of violations._
 
 ---
 
