@@ -18,7 +18,7 @@
   - [Include Beta Rules](#include-beta-rules)
 - **[Usage](#Usage)**
   - [Examples](#examples)
-  - [Functions](#core-functions)
+  - [Functions](#functions)
 - **[Installation](#installation)**
 - **[Development](#development)**
 
@@ -277,7 +277,7 @@ _Runs all enabled rules and returns detailed violations._
 
 _Automatically applies available fixes(removing variables and unconnected elements)._
 
-#### [`exportDetails(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportDetails.ts)
+#### [`exportDetails(results: ScanResult[]): FlatViolation[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportDetails.ts)
 
 _Get flattened output of violations only._
 
