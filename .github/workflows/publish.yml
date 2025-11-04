@@ -3,24 +3,41 @@ name: Publish to npm
 on:
   push:
     tags:
-      - "v*" # Trigger on version tags like v6.0.0
+      - "v*"
 
 permissions:
   contents: read
-  id-token: write # Required for OIDC (Trusted Publishing)
+  id-token: write
+  security-events: write # Added for Snyk SARIF upload
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # environment: production  # Uncomment for approval gates
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed for Snyk
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
+
       - name: Update npm
         run: npm install -g npm@latest
+
       - run: npm ci
       - run: npm run build
-      - run: cd out && npm publish --access public
+
+      # === SNYK integration ===
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Auth Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Test (fail on high/critical)
+        run: snyk test --severity-threshold=high
+
+      # === Publish (only runs if Snyk passes) ===
+      - run: cd out && npm publish --access public --provenance
