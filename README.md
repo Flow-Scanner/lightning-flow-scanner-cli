@@ -289,7 +289,7 @@ _Get SARIF output including exact line numbers of violations._
 
 ## Installation
 
-`lightning-flow-scanner-core` is published to **npm** and **scanned with Snyk during release**.
+`lightning-flow-scanner-core` is [scanned with Snyk](https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=security-ov-file) prior to publication on **npm**.
 
 [![npm version](https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core?label=npm)](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core) [![Known Vulnerabilities](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core/badge.svg)](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core)
 

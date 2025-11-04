@@ -29,15 +29,4 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      # === SNYK integration ===
-      - name: Install Snyk
-        run: npm install -g snyk
-
-      - name: Auth Snyk
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
-      - name: Snyk Test (fail on high/critical)
-        run: snyk test --severity-threshold=high
-
-      # === Publish (only runs if Snyk passes) ===
       - run: cd out && npm publish --access public --provenance

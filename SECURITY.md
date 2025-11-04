@@ -3,9 +3,10 @@
 ## Security Practices
 
 - Code is open-source and peer-reviewed by the community.
-- Vulnerabilities can be reported privately via GitHub security features.
-- Changes to the repository are scanned and reviewed before merging.
-- Tokenless Publishing with scoped npm packages and releases via GitHub Actions Trusted Publishing (OIDC).
+- Vulnerabilities can be reported privately via [GitHub security reporting](https://github.com/Flow-Scanner/lightning-flow-scanner-core/security).
+- All changes are **scanned with Snyk** and reviewed before merging.
+- Releases are published to npm using **GitHub Actions Trusted Publishing (OIDC)**.
+- Tags (`v*`) trigger automated `npm publish`, providing a full audit trail.
 
 ## Reporting a Vulnerability
 
