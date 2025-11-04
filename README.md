@@ -277,9 +277,13 @@ _Runs all enabled rules and returns detailed violations._
 
 _Automatically applies available fixes(removing variables and unconnected elements)._
 
-#### [`exportSarif(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ExportSarif.ts)
+#### [`exportDetails(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportDetails.ts)
 
-_Generates SARIF output with paths and exact line numbers._
+_Get output as flattened violations._
+
+#### [`exportSarif(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportSarif.ts)
+
+_Get SARIF output with exact line numbers of violations._
 
 ---
 

@@ -1,4 +1,3 @@
-// src/main/libs/exportSarif.ts
 import { Flow } from "../models/Flow";
 import { ResultDetails } from "../models/ResultDetails";
 import { ScanResult } from "../models/ScanResult";
