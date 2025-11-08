@@ -293,7 +293,7 @@ _Get SARIF output including exact line numbers of violations._
 
 [![GitHub stars](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)
 [![GitHub contributors](https://img.shields.io/github/contributors/Flow-Scanner/lightning-flow-scanner-core.svg)](https://gitHub.com/Flow-Scanner/lightning-flow-scanner-core/graphs/contributors/)
-[![License](https://img.shields.io/npm/l/Flow-Scanner/lightning-flow-scanner-core.svg)](github.com/Flow-Scanner/lightning-flow-scanner-core/raw/main/LICENSE.md)
+[![License](https://img.shields.io/npm/l/lightning-flow-scanner-core.svg)](https://github.com/Flow-Scanner/lightning-flow-scanner-core/raw/main/LICENSE.md)
 [![npm version](https://img.shields.io/npm/v/lightning-flow-scanner?label=npm)](https://www.npmjs.com/package/lightning-flow-scanner)
 [![Known Vulnerabilities](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core/badge.svg)](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core)
 
