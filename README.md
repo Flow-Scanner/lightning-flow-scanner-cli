@@ -259,6 +259,8 @@ const results = scan(
 );
 ```
 
+**Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=security-ov-file).
+
 ### Functions
 
 #### [`getRules(ruleNames?: string[]): IRuleDefinition[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/GetRuleDefinitions.ts)
@@ -289,9 +291,11 @@ _Get SARIF output including exact line numbers of violations._
 
 ## Installation
 
-`lightning-flow-scanner-core` is [scanned with Snyk](https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=security-ov-file) prior to publication on **npm**.
-
-[![npm version](https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core?label=npm)](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core) [![Known Vulnerabilities](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core/badge.svg)](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core)
+[![GitHub stars](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)
+[![GitHub contributors](https://img.shields.io/github/contributors/Flow-Scanner/lightning-flow-scanner-core.svg)](https://gitHub.com/Flow-Scanner/lightning-flow-scanner-core/graphs/contributors/)
+[![License](https://img.shields.io/npm/l/Flow-Scanner/lightning-flow-scanner-core.svg)](github.com/Flow-Scanner/lightning-flow-scanner-core/raw/main/LICENSE.md)
+[![npm version](https://img.shields.io/npm/v/lightning-flow-scanner?label=npm)](https://www.npmjs.com/package/lightning-flow-scanner)
+[![Known Vulnerabilities](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core/badge.svg)](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core)
 
 **To install with npm:**
 
@@ -356,4 +360,4 @@ npm install @flow-scanner/lightning-flow-scanner-core
   npm run vite:dist // creates UMD at`dist/lightning-flow-scanner-core.umd.js`.
 ```
 
-###### Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner-core/blob/main/CONTRIBUTING.md).
+<p><strong>Want to help improve Lightning Flow Scanner? See our <a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=contributing-ov-file">Contributing Guidelines</a></strong></p>

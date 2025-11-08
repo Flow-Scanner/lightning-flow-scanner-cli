@@ -4,7 +4,7 @@
 
 - Code is open-source and peer-reviewed by the community.
 - Vulnerabilities can be reported privately via [GitHub vulnerability reporting](https://github.com/Flow-Scanner/lightning-flow-scanner-core/security).
-- All changes are **scanned with Snyk** and reviewed before merging.
+- All changes are scanned with [Snyk](https://github.com/snyk/cli) prior to publication.
 - Releases are published to npm using **GitHub Actions Trusted Publishing (OIDC)**.
 - Tags (`v*`) trigger automated `npm publish`, providing a full audit trail.
 
