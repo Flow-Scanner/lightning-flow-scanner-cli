@@ -1,6 +1,6 @@
 {
   "name": "@flow-scanner/lightning-flow-scanner-core",
-  "description": "A lightweight, purpose-built engine for parsing and analyzing Salesforce Flow metadata in Node.js or browser environments. Scan, validate, and optimize Flow automations for security risks, best practices, governor limits, and performance bottlenecks.",
+  "description": "A lightweight and purpose-built engine for Flow metadata in Node.js, and browser environments. Assess and enhance Salesforce Flow automations for best practices, security, governor limits, and performance issues.",
   "version": "6.2.1",
   "main": "index.js",
   "types": "index.d.ts",
@@ -8,7 +8,7 @@
     "node": "^18 || ^20 || ^22 || ^23"
   },
   "scripts": {
-    "clean": "rm -rf out",
+    "clean": "rimraf out",
     "build:js": "swc src --out-dir out --copy-files --strip-leading-paths --config-file .swcrc",
     "build:types": "tsc -p tsconfig.types.json --declaration --emitDeclarationOnly --outDir out",
     "copy:index": "cp out/main/index.js out/index.js || true",
@@ -46,6 +46,7 @@
     "@types/jest": "29.5.14",
     "@types/node": "22.15.30",
     "@types/semantic-release": "20.0.6",
+    "cross-env": "^10.1.0",
     "eslint": "9.30.0",
     "eslint-plugin-de-morgan": "1.3.0",
     "eslint-plugin-github": "6.0.0",
@@ -56,6 +57,7 @@
     "jest": "30.0.3",
     "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
+    "rimraf": "^6.1.0",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
     "typescript-eslint": "8.35.0",
@@ -63,7 +65,7 @@
     "vite-plugin-node-polyfills": "0.23.0",
     "vitest": "3.2.4"
   },
-  "homepage": "https://flow-scanner.github.io/lightning-flow-scanner-core",
+  "homepage": "https://dev.lightningflowscanner.org",
   "author": {
     "name": "Ruben Halman",
     "url": "https://github.com/RubenHalman"

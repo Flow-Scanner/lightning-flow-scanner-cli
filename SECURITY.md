@@ -3,14 +3,10 @@
 ## Security Practices
 
 - Code is open-source and peer-reviewed by the community.
-- Vulnerabilities can be reported privately via [GitHub security reporting](https://github.com/Flow-Scanner/lightning-flow-scanner-core/security).
+- Vulnerabilities can be reported privately via [GitHub vulnerability reporting](https://github.com/Flow-Scanner/lightning-flow-scanner-core/security).
 - All changes are **scanned with Snyk** and reviewed before merging.
 - Releases are published to npm using **GitHub Actions Trusted Publishing (OIDC)**.
 - Tags (`v*`) trigger automated `npm publish`, providing a full audit trail.
-
-## Reporting a Vulnerability
-
-If you discover a security vulnerability, please report it using [GitHub vulnerability reporting](https://github.com/Flow-Scanner/lightning-flow-scanner-core/security).
 
 ## Data Handling
 

@@ -6,7 +6,7 @@ Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code too
 - 📢 Sharing our work with your network
 - 💬 Sharing feedback to help us improve
 - 💻 Contributing code to drive innovation
-- 🤝 [Become a member](https://register.lightningflowscanner.org/)
+- 🤝 [Become a member](https://register.lightningflowscanner.org/) to stay connected.
 
 ### I have a Question/Feedback
 
@@ -18,7 +18,7 @@ If it's more specific like a bug or a new feature—use [GitHub Issues](https://
 
 - [Report Issue](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=bug_report.md): Report a bug or issue.
 - [Rule Request](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new?template=rule-request.md): Submit a request for a new rule.
-- [Features/Other](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new): Suggest a new feature.
+- [Features/Other](https://github.com/Flow-Scanner/lightning-flow-scanner-core/issues/new): Suggest a new feature or enhancement.
 
 ###### Platforms - For issues or requests related to specific platforms, use the appropriate link below:
 
