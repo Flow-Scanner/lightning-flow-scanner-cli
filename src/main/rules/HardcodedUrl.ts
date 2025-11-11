@@ -28,25 +28,30 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(flow: Flow, options?: object, suppressions: string[] = []): RuleResult {
-    const suppSet = new Set(suppressions);
-    const results: ResultDetails[] = [];
+  public execute(
+    flow: Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const results: ResultDetails[] = [];
 
-    if (!flow.elements || flow.elements.length === 0) {
-      return new RuleResult(this, results);
-    }
+      if (!flow.elements || flow.elements.length === 0) {
+        return new RuleResult(this, results);
+      }
 
-    const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
+      const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
 
-    for (const element of flow.elements) {
-      const nodeString = JSON.stringify(element);
-      if (urlRegex.test(nodeString)) {
-        if (!suppSet.has(element.name)) {
-          results.push(new ResultDetails(element));
+      for (const element of flow.elements) {
+        const nodeString = JSON.stringify(element);
+        if (urlRegex.test(nodeString)) {
+          if (!suppSet.has(element.name)) {
+            results.push(new ResultDetails(element));
+          }
         }
       }
-    }
 
-    return new RuleResult(this, results);
+      return new RuleResult(this, results);
+    });
   }
 }

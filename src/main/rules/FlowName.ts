@@ -21,18 +21,29 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, options?: { expression?: string }, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const rawRegexp = options?.expression ?? "[A-Za-z0-9]+_[A-Za-z0-9]+";  // Fallback to default
-    const flowName = flow.name as string;
-    const conventionApplied = new RegExp(rawRegexp).test(flowName);
-    if (conventionApplied) {
-      return new core.RuleResult(this, []);
-    }
-    const detail = new core.ResultDetails(new core.FlowAttribute(flowName, "name", rawRegexp));
-    if (suppSet.has(detail.name)) {
-      return new core.RuleResult(this, []);  // Early exit if suppressed
-    }
-    return new core.RuleResult(this, [detail]);
+  public execute(
+    flow: core.Flow,
+    options?: { expression?: string },
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const rawRegexp = options?.expression ?? "[A-Za-z0-9]+_[A-Za-z0-9]+";
+      const flowName = flow.name as string;
+      const conventionApplied = new RegExp(rawRegexp).test(flowName);
+
+      if (conventionApplied) {
+        return new core.RuleResult(this, []);
+      }
+
+      const detail = new core.ResultDetails(
+        new core.FlowAttribute(flowName, "name", rawRegexp)
+      );
+
+      if (suppSet.has(detail.name)) {
+        return new core.RuleResult(this, []);
+      }
+
+      return new core.RuleResult(this, [detail]);
+    });
   }
 }

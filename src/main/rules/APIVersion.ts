@@ -16,33 +16,42 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, options?: { expression: string }, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);  // O(1) lookups
-    let flowAPIVersionNumber: number | null = null;
-    if (flow.xmldata.apiVersion) {
-      flowAPIVersionNumber = +flow.xmldata.apiVersion;
-    }
-    const results: core.ResultDetails[] = [];
-    if (!flowAPIVersionNumber) {
-      const detail = new core.ResultDetails(new core.FlowAttribute("API Version <49", "apiVersion", "<49"));
-      if (!suppSet.has(detail.name)) {  // Inline filter: skip if suppressed
-        results.push(detail);
+  public execute(
+    flow: core.Flow,
+    options?: { expression: string },
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      let flowAPIVersionNumber: number | null = null;
+      if (flow.xmldata.apiVersion) {
+        flowAPIVersionNumber = +flow.xmldata.apiVersion;
       }
-      return new core.RuleResult(this, results);
-    }
-    if (options?.expression) {
-      const isApiNumberMoreThanConfiguredExpression = new Function(
-        `return ${flowAPIVersionNumber}${options.expression};`
-      );
-      if (!isApiNumberMoreThanConfiguredExpression()) {
+
+      const results: core.ResultDetails[] = [];
+
+      if (!flowAPIVersionNumber) {
         const detail = new core.ResultDetails(
-          new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
+          new core.FlowAttribute("API Version <49", "apiVersion", "<49")
         );
-        if (!suppSet.has(detail.name)) {  // Inline filter
+        if (!suppSet.has(detail.name)) {
           results.push(detail);
         }
+        return new core.RuleResult(this, results);
       }
-    }
-    return new core.RuleResult(this, results);
+
+      if (options?.expression) {
+        const isValid = new Function(`return ${flowAPIVersionNumber}${options.expression};`)();
+        if (!isValid) {
+          const detail = new core.ResultDetails(
+            new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
+          );
+          if (!suppSet.has(detail.name)) {
+            results.push(detail);
+          }
+        }
+      }
+
+      return new core.RuleResult(this, results);
+    });
   }
 }

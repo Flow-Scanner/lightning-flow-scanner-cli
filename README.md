@@ -201,12 +201,25 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
   "exceptions": {
     "<FlowName>": {
       "<RuleName>": [
-        "<ResultName>",
-        "<ResultName>",
+        "<ResultName>",   // Suppress specific result
+        "*",              // Suppress ALL results of this rule
         ...
       ]
     },
     ...
+  }
+}
+```
+
+_Example_
+
+```json
+{
+  "exceptions": {
+    "MyFlow": {
+      "MissingNullHandler": ["*"],
+      "HardcodedId": ["Old_Lookup_1"]
+    }
   }
 }
 ```

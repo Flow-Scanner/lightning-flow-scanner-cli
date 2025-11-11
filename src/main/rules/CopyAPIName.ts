@@ -16,20 +16,27 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, options?: object, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);  // O(1) lookups
-    const flowElements: core.FlowNode[] = flow.elements.filter(
-      (node) => node instanceof core.FlowNode
-    ) as core.FlowNode[];
-    const copyOfElements: core.FlowNode[] = [];
-    for (const element of flowElements) {
-      // eslint-disable-next-line sonarjs/concise-regex
-      const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
-      if (copyOf && !suppSet.has(element.name)) {  // Inline filter: skip if suppressed
-        copyOfElements.push(element);
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const flowElements: core.FlowNode[] = flow.elements.filter(
+        (node) => node instanceof core.FlowNode
+      ) as core.FlowNode[];
+
+      const copyOfElements: core.FlowNode[] = [];
+
+      for (const element of flowElements) {
+        const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
+        if (copyOf && !suppSet.has(element.name)) {
+          copyOfElements.push(element);
+        }
       }
-    }
-    const results = copyOfElements.map(det => new core.ResultDetails(det));
-    return new core.RuleResult(this, results);
+
+      const results = copyOfElements.map(det => new core.ResultDetails(det));
+      return new core.RuleResult(this, results);
+    });
   }
 }

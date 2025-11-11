@@ -8,17 +8,24 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
     super(info);
   }
 
-  public execute(flow: Flow, options?: object, suppressions: string[] = []): RuleResult {
-    const suppSet = new Set(suppressions);
-    const loopElements = this.findLoopElements(flow);
-    if (!loopElements.length) {
-      return new RuleResult(this, []);
-    }
-    const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
-    const results = statementsInLoops
-      .filter(det => !suppSet.has(det.name))  // Early filter: O(1) per detail
-      .map(det => new ResultDetails(det));
-    return new RuleResult(this, results);
+  public execute(
+    flow: Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const loopElements = this.findLoopElements(flow);
+      if (!loopElements.length) {
+        return new RuleResult(this, []);
+      }
+
+      const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
+      const results = statementsInLoops
+        .filter(det => !suppSet.has(det.name))
+        .map(det => new ResultDetails(det));
+
+      return new RuleResult(this, results);
+    });
   }
 
   protected abstract getStatementTypes(): string[];
@@ -39,12 +46,12 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
         statementsInLoops.push(element);
       }
     };
+
     for (const element of loopElements) {
       const loopEnd = this.findLoopEnd(element);
-      // decide if we should count fault connectors as a violation
-      // if (typeof element.element === "object" && "faultConnector" in (element.element as object)) {}
       new Compiler().traverseFlow(flow, element.name, findStatement, loopEnd);
     }
+
     return statementsInLoops;
   }
 }

@@ -21,49 +21,50 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition {
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const unusedVariables: core.FlowVariable[] = [];
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const unusedVariables: core.FlowVariable[] = [];
 
-    for (const variable of flow.elements.filter(
-      (node) => node instanceof core.FlowVariable
-    ) as core.FlowVariable[]) {
-      const variableName = variable.name;
+      for (const variable of flow.elements.filter(
+        (node) => node instanceof core.FlowVariable
+      ) as core.FlowVariable[]) {
+        const variableName = variable.name;
 
-      // Skip if suppressed
-      if (suppSet.has(variableName)) continue;
+        // Skip if suppressed
+        if (suppSet.has(variableName)) continue;
 
-      const nodeMatches = [
-        ...JSON.stringify(flow.elements.filter((node) => node instanceof core.FlowNode)).matchAll(
-          new RegExp(variableName, "gi")
-        ),
-      ].map((a) => a.index);
+        const nodeMatches = [
+          ...JSON.stringify(flow.elements.filter((node) => node instanceof core.FlowNode)).matchAll(
+            new RegExp(variableName, "gi")
+          ),
+        ].map((a) => a.index);
 
-      if (nodeMatches.length > 0) continue;
+        if (nodeMatches.length > 0) continue;
 
-      const resourceMatches = [
-        ...JSON.stringify(
-          flow.elements.filter((node) => node instanceof core.FlowResource)
-        ).matchAll(new RegExp(variableName, "gi")),
-      ].map((a) => a.index);
+        const resourceMatches = [
+          ...JSON.stringify(
+            flow.elements.filter((node) => node instanceof core.FlowResource)
+          ).matchAll(new RegExp(variableName, "gi")),
+        ].map((a) => a.index);
 
-      if (resourceMatches.length > 0) continue;
+        if (resourceMatches.length > 0) continue;
 
-      const insideCounter = [
-        ...JSON.stringify(variable).matchAll(new RegExp(variable.name, "gi")),
-      ].map((a) => a.index);
+        const insideCounter = [
+          ...JSON.stringify(variable).matchAll(new RegExp(variable.name, "gi")),
+        ].map((a) => a.index);
 
-      const variableUsage = [
-        ...JSON.stringify(
-          flow.elements.filter((node) => node instanceof core.FlowVariable)
-        ).matchAll(new RegExp(variableName, "gi")),
-      ].map((a) => a.index);
+        const variableUsage = [
+          ...JSON.stringify(
+            flow.elements.filter((node) => node instanceof core.FlowVariable)
+          ).matchAll(new RegExp(variableName, "gi")),
+        ].map((a) => a.index);
 
-      if (variableUsage.length === insideCounter.length) {
-        unusedVariables.push(variable);
+        if (variableUsage.length === insideCounter.length) {
+          unusedVariables.push(variable);
+        }
       }
-    }
 
-    const results = unusedVariables.map((det) => new core.ResultDetails(det));
-    return new core.RuleResult(this, results);
+      const results = unusedVariables.map((det) => new core.ResultDetails(det));
+      return new core.RuleResult(this, results);
+    });
   }
 }

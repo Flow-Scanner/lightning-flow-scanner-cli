@@ -35,67 +35,69 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const results: core.ResultDetails[] = [];
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const results: core.ResultDetails[] = [];
+      const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
+      const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
+        flow.start?.recordTriggerType
+      );
 
-    const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
-    const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
-      flow.start?.recordTriggerType
-    );
-
-    if (!isAfterSave || !isQualifiedTriggerTypes) {
-      return new core.RuleResult(this, results);
-    }
-
-    const potentialElements = flow.elements?.filter(
-      (node) => node.subtype === "recordUpdates"
-    ) as core.FlowNode[];
-
-    if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
-      return new core.RuleResult(this, results);
-    }
-
-    for (const node of potentialElements) {
-      if (
-        typeof node.element === "object" &&
-        "inputReference" in node.element &&
-        node.element.inputReference === "$Record"
-      ) {
-        if (!suppSet.has(node.name)) {
-          results.push(new core.ResultDetails(node));
-        }
+      if (!isAfterSave || !isQualifiedTriggerTypes) {
+        return new core.RuleResult(this, results);
       }
-    }
 
-    const lookupElementsWithTheSameObjectType = flow.elements
-      ?.filter(
-        (node) =>
-          node.subtype === "recordLookups" &&
+      const potentialElements = flow.elements?.filter(
+        (node) => node.subtype === "recordUpdates"
+      ) as core.FlowNode[];
+
+      if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+        return new core.RuleResult(this, results);
+      }
+
+      // === $Record updates ===
+      for (const node of potentialElements) {
+        if (
           typeof node.element === "object" &&
-          "object" in node.element &&
-          flow.start.object === node.element["object"]
-      )
-      ?.map((node) => node.name);
-
-    if (
-      lookupElementsWithTheSameObjectType == null ||
-      typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function"
-    ) {
-      return new core.RuleResult(this, results);
-    }
-
-    for (const node of potentialElements) {
-      if (
-        typeof node.element === "object" &&
-        "inputReference" in node.element &&
-        lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
-      ) {
-        if (!suppSet.has(node.name)) {
-          results.push(new core.ResultDetails(node));
+          "inputReference" in node.element &&
+          node.element.inputReference === "$Record"
+        ) {
+          if (!suppSet.has(node.name)) {
+            results.push(new core.ResultDetails(node));
+          }
         }
       }
-    }
 
-    return new core.RuleResult(this, results);
+      // === Lookup → same object type updates ===
+      const lookupElementsWithTheSameObjectType = flow.elements
+        ?.filter(
+          (node) =>
+            node.subtype === "recordLookups" &&
+            typeof node.element === "object" &&
+            "object" in node.element &&
+            flow.start.object === node.element["object"]
+        )
+        ?.map((node) => node.name);
+
+      if (
+        lookupElementsWithTheSameObjectType == null ||
+        typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function"
+      ) {
+        return new core.RuleResult(this, results);
+      }
+
+      for (const node of potentialElements) {
+        if (
+          typeof node.element === "object" &&
+          "inputReference" in node.element &&
+          lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
+        ) {
+          if (!suppSet.has(node.name)) {
+            results.push(new core.ResultDetails(node));
+          }
+        }
+      }
+
+      return new core.RuleResult(this, results);
+    });
   }
 }

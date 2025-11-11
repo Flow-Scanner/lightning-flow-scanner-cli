@@ -47,42 +47,45 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const compiler = new core.Compiler();
-    const results: core.ResultDetails[] = [];
-    const elementsWhereFaultPathIsApplicable = (
-      flow.elements?.filter((node) => {
-        const proxyNode = node as unknown as core.FlowNode;
-        return this.isValidSubtype(proxyNode);
-      }) as core.FlowNode[]
-    ).map((e) => e.name);
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const compiler = new core.Compiler();
+      const results: core.ResultDetails[] = [];
 
-    const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+      const elementsWhereFaultPathIsApplicable = (
+        flow.elements?.filter((node) => {
+          const proxyNode = node as unknown as core.FlowNode;
+          return this.isValidSubtype(proxyNode);
+        }) as core.FlowNode[]
+      ).map((e) => e.name);
 
-    const visitCallback = (element: core.FlowNode) => {
-      if (
-        !element?.connectors?.find((connector) => connector.type === "faultConnector") &&
-        elementsWhereFaultPathIsApplicable.includes(element.name)
-      ) {
-        if (isRecordBeforeSave && element.subtype === "recordUpdates") {
-          return;
-        }
-        if (!this.isPartOfFaultHandlingFlow(element, flow)) {
-          if (!suppSet.has(element.name)) {
-            results.push(new core.ResultDetails(element));
+      const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+
+      const visitCallback = (element: core.FlowNode) => {
+        if (
+          !element?.connectors?.find((connector) => connector.type === "faultConnector") &&
+          elementsWhereFaultPathIsApplicable.includes(element.name)
+        ) {
+          if (isRecordBeforeSave && element.subtype === "recordUpdates") {
+            return;
+          }
+          if (!this.isPartOfFaultHandlingFlow(element, flow)) {
+            if (!suppSet.has(element.name)) {
+              results.push(new core.ResultDetails(element));
+            }
           }
         }
-      }
-    };
+      };
 
-    compiler.traverseFlow(flow, flow.startReference, visitCallback);
-    return new core.RuleResult(this, results);
+      compiler.traverseFlow(flow, flow.startReference, visitCallback);
+      return new core.RuleResult(this, results);
+    });
   }
 
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
     const flowelements = flow.elements?.filter(
       (el) => el instanceof core.FlowNode
     ) as core.FlowNode[];
+
     for (const otherElement of flowelements) {
       if (otherElement !== element) {
         if (

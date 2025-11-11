@@ -16,31 +16,42 @@ export class AutoLayout extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, options?: { expression: string }, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);  // O(1) lookups
-    if (!flow.processMetadataValues) {
-      return new core.RuleResult(this, []);
-    }
-    const CanvasMode = flow.xmldata.processMetadataValues.find(
-      (mdv) => mdv.name === "CanvasMode"
-    );
-    const autoLayout =
-      CanvasMode?.value &&
-      typeof CanvasMode.value === "object" &&
-      CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
-    if (autoLayout) {
-      return new core.RuleResult(this, []);
-    }
-    const detail = new core.ResultDetails(
-      new core.FlowAttribute(
-        CanvasMode?.value?.stringValue ?? "undefined",
-        "CanvasMode",
-        "!== AUTO_LAYOUT_CANVAS"
-      )
-    );
-    if (suppSet.has(detail.name)) {
-      return new core.RuleResult(this, []);  // Early exit if suppressed
-    }
-    return new core.RuleResult(this, [detail]);
+  public execute(
+    flow: core.Flow,
+    options?: { expression: string },
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      if (!flow.processMetadataValues) {
+        return new core.RuleResult(this, []);
+      }
+
+      const CanvasMode = flow.xmldata.processMetadataValues.find(
+        (mdv) => mdv.name === "CanvasMode"
+      );
+
+      const autoLayout =
+        CanvasMode?.value &&
+        typeof CanvasMode.value === "object" &&
+        CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
+
+      if (autoLayout) {
+        return new core.RuleResult(this, []);
+      }
+
+      const detail = new core.ResultDetails(
+        new core.FlowAttribute(
+          CanvasMode?.value?.stringValue ?? "undefined",
+          "CanvasMode",
+          "!== AUTO_LAYOUT_CANVAS"
+        )
+      );
+
+      if (suppSet.has(detail.name)) {
+        return new core.RuleResult(this, []);
+      }
+
+      return new core.RuleResult(this, [detail]);
+    });
   }
 }

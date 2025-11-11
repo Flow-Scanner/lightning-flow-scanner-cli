@@ -16,87 +16,94 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
     });
   }
 
-  public execute(flow: core.Flow, options?: object, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const flowElements: core.FlowNode[] = flow.elements.filter(
-      (node) => node instanceof core.FlowNode
-    ) as core.FlowNode[];
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const flowElements: core.FlowNode[] = flow.elements.filter(
+        (node) => node instanceof core.FlowNode
+      ) as core.FlowNode[];
 
-    const processedElementIndexes: number[] = [];
-    const unconnectedElementIndexes: number[] = [];
-    const DuplicateDMLOperations: core.FlowNode[] = [];
-    const startingNode = this.findStart(flow);
-    if (startingNode === -1) {
-      return new core.RuleResult(this, []);
-    }
+      const processedElementIndexes: number[] = [];
+      const unconnectedElementIndexes: number[] = [];
+      const DuplicateDMLOperations: core.FlowNode[] = [];
+      const startingNode = this.findStart(flow);
 
-    let dmlFlag = false;
-    let indexesToProcess = [startingNode];
+      if (startingNode === -1) {
+        return new core.RuleResult(this, []);
+      }
 
-    do {
-      indexesToProcess = indexesToProcess.filter(
-        (index) => !processedElementIndexes.includes(index)
-      );
+      let dmlFlag = false;
+      let indexesToProcess = [startingNode];
 
-      if (indexesToProcess.length > 0) {
-        for (const [index, element] of flowElements.entries()) {
-          if (indexesToProcess.includes(index)) {
-            const references: string[] = [];
-            if (element.connectors && element.connectors.length > 0) {
-              for (const connector of element.connectors) {
-                if (connector.reference) {
-                  references.push(connector.reference);
-                }
-              }
-            }
+      do {
+        indexesToProcess = indexesToProcess.filter(
+          (index) => !processedElementIndexes.includes(index)
+        );
 
-            dmlFlag = this.flagDML(element, dmlFlag);
-
-            if (references.length > 0) {
-              const elementsByReferences = flowElements.filter((el) =>
-                references.includes(el.name)
-              );
-              for (const nextElement of elementsByReferences) {
-                const nextIndex = flowElements.findIndex(
-                  (el) => nextElement.name === el.name
-                );
-
-                if (nextElement.subtype === "screens") {
-                  if (
-                    dmlFlag &&
-                    nextElement.element["allowBack"] === "true" &&
-                    nextElement.element["showFooter"] === "true"
-                  ) {
-                    if (!suppSet.has(nextElement.name)) {
-                      DuplicateDMLOperations.push(nextElement);
-                    }
+        if (indexesToProcess.length > 0) {
+          for (const [index, element] of flowElements.entries()) {
+            if (indexesToProcess.includes(index)) {
+              const references: string[] = [];
+              if (element.connectors && element.connectors.length > 0) {
+                for (const connector of element.connectors) {
+                  if (connector.reference) {
+                    references.push(connector.reference);
                   }
                 }
+              }
 
-                if (!processedElementIndexes.includes(nextIndex)) {
-                  indexesToProcess.push(nextIndex);
+              dmlFlag = this.flagDML(element, dmlFlag);
+
+              if (references.length > 0) {
+                const elementsByReferences = flowElements.filter((el) =>
+                  references.includes(el.name)
+                );
+                for (const nextElement of elementsByReferences) {
+                  const nextIndex = flowElements.findIndex(
+                    (el) => nextElement.name === el.name
+                  );
+
+                  if (nextElement.subtype === "screens") {
+                    if (
+                      dmlFlag &&
+                      nextElement.element["allowBack"] === "true" &&
+                      nextElement.element["showFooter"] === "true"
+                    ) {
+                      if (!suppSet.has(nextElement.name)) {
+                        DuplicateDMLOperations.push(nextElement);
+                      }
+                    }
+                  }
+
+                  if (!processedElementIndexes.includes(nextIndex)) {
+                    indexesToProcess.push(nextIndex);
+                  }
                 }
               }
-            }
-            processedElementIndexes.push(index);
-          }
-        }
-      } else {
-        for (const index of flowElements.keys()) {
-          if (!processedElementIndexes.includes(index)) {
-            unconnectedElementIndexes.push(index);
-          }
-        }
-      }
-    } while (
-      processedElementIndexes.length + unconnectedElementIndexes.length <
-      flowElements.length
-    );
 
-    const results = DuplicateDMLOperations.map(
-      (det) => new core.ResultDetails(det)
-    );
-    return new core.RuleResult(this, results);
+              processedElementIndexes.push(index);
+            }
+          }
+        } else {
+          for (const index of flowElements.keys()) {
+            if (!processedElementIndexes.includes(index)) {
+              unconnectedElementIndexes.push(index);
+            }
+          }
+        }
+      } while (
+        processedElementIndexes.length + unconnectedElementIndexes.length <
+        flowElements.length
+      );
+
+      const results = DuplicateDMLOperations.map(
+        (det) => new core.ResultDetails(det)
+      );
+      return new core.RuleResult(this, results);
+    });
   }
 
   private flagDML(element: core.FlowNode, dmlFlag: boolean): boolean {

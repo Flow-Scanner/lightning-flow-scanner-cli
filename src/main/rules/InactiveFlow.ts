@@ -12,7 +12,7 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
       isConfigurable: false,
-      autoFixable: false, // TODO: make fixable
+      autoFixable: false,
     });
   }
 
@@ -21,19 +21,20 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const results: core.ResultDetails[] = [];
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const results: core.ResultDetails[] = [];
 
-    if (flow.status !== "Active") {
-      if (!suppSet.has("InactiveFlow")) {
-        results.push(
-          new core.ResultDetails(
-            new core.FlowAttribute(flow.status, "status", "!= Active")
-          )
-        );
+      if (flow.status !== "Active") {
+        if (!suppSet.has("InactiveFlow")) {
+          results.push(
+            new core.ResultDetails(
+              new core.FlowAttribute(flow.status, "status", "!= Active")
+            )
+          );
+        }
       }
-    }
 
-    return new core.RuleResult(this, results);
+      return new core.RuleResult(this, results);
+    });
   }
 }

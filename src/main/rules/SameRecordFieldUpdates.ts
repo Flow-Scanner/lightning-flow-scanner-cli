@@ -35,38 +35,38 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const results: core.ResultDetails[] = [];
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const results: core.ResultDetails[] = [];
+      const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
+      const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
+        flow.start?.recordTriggerType
+      );
 
-    const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
-    const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
-      flow.start?.recordTriggerType
-    );
+      if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
+        return new core.RuleResult(this, results);
+      }
 
-    if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
-      return new core.RuleResult(this, results);
-    }
+      const potentialElements = flow.elements?.filter(
+        (node) => node.subtype === "recordUpdates"
+      ) as core.FlowNode[];
 
-    const potentialElements = flow.elements?.filter(
-      (node) => node.subtype === "recordUpdates"
-    ) as core.FlowNode[];
+      if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+        return new core.RuleResult(this, results);
+      }
 
-    if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
-      return new core.RuleResult(this, results);
-    }
-
-    for (const node of potentialElements) {
-      if (
-        typeof node.element === "object" &&
-        "inputReference" in node.element &&
-        node.element.inputReference === "$Record"
-      ) {
-        if (!suppSet.has(node.name)) {
-          results.push(new core.ResultDetails(node));
+      for (const node of potentialElements) {
+        if (
+          typeof node.element === "object" &&
+          "inputReference" in node.element &&
+          node.element.inputReference === "$Record"
+        ) {
+          if (!suppSet.has(node.name)) {
+            results.push(new core.ResultDetails(node));
+          }
         }
       }
-    }
 
-    return new core.RuleResult(this, results);
+      return new core.RuleResult(this, results);
+    });
   }
 }

@@ -21,29 +21,28 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     options?: object,
     suppressions: string[] = []
   ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-    const connectedElements: Set<string> = new Set<string>();
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const connectedElements: Set<string> = new Set<string>();
+      const logConnected = (element: core.FlowNode) => {
+        connectedElements.add(element.name);
+      };
 
-    const logConnected = (element: core.FlowNode) => {
-      connectedElements.add(element.name);
-    };
+      const flowElements: core.FlowNode[] = flow.elements!.filter(
+        (node) => node instanceof core.FlowNode
+      ) as core.FlowNode[];
 
-    const flowElements: core.FlowNode[] = flow.elements!.filter(
-      (node) => node instanceof core.FlowNode
-    ) as core.FlowNode[];
+      const startIndex = this.findStart(flowElements);
+      if (startIndex !== -1) {
+        new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
+      }
 
-    const startIndex = this.findStart(flowElements);
+      const unconnectedElements: core.FlowNode[] = flowElements.filter(
+        (element) => !connectedElements.has(element.name) && !suppSet.has(element.name)
+      );
 
-    if (startIndex !== -1) {
-      new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
-    }
-
-    const unconnectedElements: core.FlowNode[] = flowElements.filter(
-      (element) => !connectedElements.has(element.name) && !suppSet.has(element.name)
-    );
-
-    const results = unconnectedElements.map((det) => new core.ResultDetails(det));
-    return new core.RuleResult(this, results);
+      const results = unconnectedElements.map((det) => new core.ResultDetails(det));
+      return new core.RuleResult(this, results);
+    });
   }
 
   private findStart(nodes: core.FlowNode[]) {

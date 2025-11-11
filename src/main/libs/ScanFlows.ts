@@ -49,11 +49,13 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
           config = ruleOptions.rules[rule.name];
         }
 
-        // Get suppressions for this flow + rule
-        const suppressions: string[] =
-          ruleOptions?.exceptions?.[flow.name]?.[rule.name] ?? [];
+        // WILDCARD SUPPORT: "*" = suppress all
+        const rawSuppressions: string[] | undefined = 
+          ruleOptions?.exceptions?.[flow.name]?.[rule.name];
 
-        // Execute with suppressions
+        const suppressions: string[] = 
+          rawSuppressions?.includes("*") ? ["*"] : (rawSuppressions ?? []);
+
         const result =
           config && Object.keys(config).length > 0
             ? rule.execute(flow, config, suppressions)

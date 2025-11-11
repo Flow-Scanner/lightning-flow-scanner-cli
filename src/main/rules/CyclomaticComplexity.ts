@@ -26,33 +26,45 @@ export class CyclomaticComplexity extends RuleCommon implements IRuleDefinition 
   private defaultThreshold: number = 25;
   private cyclomaticComplexityUnit: number = 0;
 
-  public execute(flow: core.Flow, options?: { threshold: number }, suppressions: string[] = []): core.RuleResult {
-    const suppSet = new Set(suppressions);  // O(1) lookups
-    const threshold = options?.threshold || this.defaultThreshold;
-    let cyclomaticComplexity = 1;
-    const flowDecisions = flow?.elements?.filter(
-      (node) => node.subtype === "decisions"
-    ) as core.FlowElement[];
-    const flowLoops = flow?.elements?.filter((node) => node.subtype === "loops");
-    for (const decision of flowDecisions || []) {
-      const rules = decision.element["rules"];
-      if (Array.isArray(rules)) {
-        cyclomaticComplexity += rules.length + 1;
-      } else {
-        cyclomaticComplexity += 1;
+  public execute(
+    flow: core.Flow,
+    options?: { threshold: number },
+    suppressions: string[] = []
+  ): core.RuleResult {
+    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
+      const threshold = options?.threshold || this.defaultThreshold;
+      let cyclomaticComplexity = 1;
+
+      const flowDecisions = flow?.elements?.filter(
+        (node) => node.subtype === "decisions"
+      ) as core.FlowElement[];
+
+      const flowLoops = flow?.elements?.filter((node) => node.subtype === "loops");
+
+      for (const decision of flowDecisions || []) {
+        const rules = decision.element["rules"];
+        if (Array.isArray(rules)) {
+          cyclomaticComplexity += rules.length + 1;
+        } else {
+          cyclomaticComplexity += 1;
+        }
       }
-    }
-    cyclomaticComplexity += flowLoops?.length ?? 0;
-    this.cyclomaticComplexityUnit = cyclomaticComplexity; // for unit testing
-    const results: core.ResultDetails[] = [];
-    if (cyclomaticComplexity > threshold) {
-      const detail = new core.ResultDetails(
-        new core.FlowAttribute(`${cyclomaticComplexity}`, "CyclomaticComplexity", `>${threshold}`)
-      );
-      if (!suppSet.has(detail.name)) {  // Inline filter: assume detail.name = "CyclomaticComplexity"
-        results.push(detail);
+
+      cyclomaticComplexity += flowLoops?.length ?? 0;
+      this.cyclomaticComplexityUnit = cyclomaticComplexity;
+
+      const results: core.ResultDetails[] = [];
+
+      if (cyclomaticComplexity > threshold) {
+        const detail = new core.ResultDetails(
+          new core.FlowAttribute(`${cyclomaticComplexity}`, "CyclomaticComplexity", `>${threshold}`)
+        );
+        if (!suppSet.has(detail.name)) {
+          results.push(detail);
+        }
       }
-    }
-    return new core.RuleResult(this, results);
+
+      return new core.RuleResult(this, results);
+    });
   }
 }
