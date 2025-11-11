@@ -328,7 +328,7 @@ npm install @flow-scanner/lightning-flow-scanner-core
 >
 > Volta will automatically use the Node.js version defined in `package.json`.
 
-1. Clone the repo:
+1. Clone the repository
 
    ```bash
    git clone https://github.com/Flow-Scanner/lightning-flow-scanner-core.git
@@ -340,7 +340,7 @@ npm install @flow-scanner/lightning-flow-scanner-core
    npm install
    ```
 
-3. Build the project:
+3. Compile a new version:
 
    ```bash
    npm run build
@@ -353,13 +353,13 @@ npm install @flow-scanner/lightning-flow-scanner-core
    ```
 
 5. Test as local dependency(Optional):
-   To test changes to the core module locally, run:
+   a. run:
 
    ```bash
    npm run link
    ```
 
-   b) Go to the dependent project (e.g. VSX or CLI) and use:
+   b. Go to the dependent project (e.g. VSX or CLI) and use:
 
    ```bash
    npm link @flow-scanner/lightning-flow-scanner-core
