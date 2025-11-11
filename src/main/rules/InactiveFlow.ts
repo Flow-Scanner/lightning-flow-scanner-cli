@@ -1,7 +1,8 @@
-import { AdvancedRule } from "../models/AdvancedRule";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class InactiveFlow extends AdvancedRule implements core.IRuleDefinition {
+export class InactiveFlow extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "InactiveFlow",
@@ -15,13 +16,24 @@ export class InactiveFlow extends AdvancedRule implements core.IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const results: core.ResultDetails[] = [];
+
     if (flow.status !== "Active") {
-      results.push(
-        new core.ResultDetails(new core.FlowAttribute(flow.status, "status", "!= Active"))
-      );
+      if (!suppSet.has("InactiveFlow")) {
+        results.push(
+          new core.ResultDetails(
+            new core.FlowAttribute(flow.status, "status", "!= Active")
+          )
+        );
+      }
     }
+
     return new core.RuleResult(this, results);
   }
 }

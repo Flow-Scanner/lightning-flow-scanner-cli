@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class AutoLayout extends AdvancedRule implements core.IRuleDefinition {
+export class AutoLayout extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "AutoLayout",
@@ -15,29 +16,31 @@ export class AutoLayout extends AdvancedRule implements core.IRuleDefinition {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
-    if (flow.processMetadataValues) {
-      const CanvasMode = flow.xmldata.processMetadataValues.find(
-        (mdv) => mdv.name === "CanvasMode"
-      );
-      const autoLayout =
-        CanvasMode.value &&
-        typeof CanvasMode.value === "object" &&
-        CanvasMode.value.stringValue &&
-        CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
-      return !autoLayout
-        ? new core.RuleResult(this, [
-            new core.ResultDetails(
-              new core.FlowAttribute(
-                CanvasMode.value?.stringValue,
-                "CanvasMode",
-                "!== AUTO_LAYOUT_CANVAS"
-              )
-            ),
-          ])
-        : new core.RuleResult(this, []);
+  public execute(flow: core.Flow, options?: { expression: string }, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);  // O(1) lookups
+    if (!flow.processMetadataValues) {
+      return new core.RuleResult(this, []);
     }
-    return new core.RuleResult(this, []);
+    const CanvasMode = flow.xmldata.processMetadataValues.find(
+      (mdv) => mdv.name === "CanvasMode"
+    );
+    const autoLayout =
+      CanvasMode?.value &&
+      typeof CanvasMode.value === "object" &&
+      CanvasMode.value.stringValue === "AUTO_LAYOUT_CANVAS";
+    if (autoLayout) {
+      return new core.RuleResult(this, []);
+    }
+    const detail = new core.ResultDetails(
+      new core.FlowAttribute(
+        CanvasMode?.value?.stringValue ?? "undefined",
+        "CanvasMode",
+        "!== AUTO_LAYOUT_CANVAS"
+      )
+    );
+    if (suppSet.has(detail.name)) {
+      return new core.RuleResult(this, []);  // Early exit if suppressed
+    }
+    return new core.RuleResult(this, [detail]);
   }
 }

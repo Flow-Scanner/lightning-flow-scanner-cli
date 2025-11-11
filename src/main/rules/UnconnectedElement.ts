@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class UnconnectedElement extends AdvancedRule implements core.IRuleDefinition {
+export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       autoFixable: true,
@@ -15,34 +16,33 @@ export class UnconnectedElement extends AdvancedRule implements core.IRuleDefini
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const connectedElements: Set<string> = new Set<string>();
 
-    // Callback function to log connected elements
     const logConnected = (element: core.FlowNode) => {
       connectedElements.add(element.name);
     };
 
-    // Get Traversable Nodes
     const flowElements: core.FlowNode[] = flow.elements!.filter(
       (node) => node instanceof core.FlowNode
     ) as core.FlowNode[];
 
-    // Find start of Flow
     const startIndex = this.findStart(flowElements);
 
-    // Start traversal from the start node
     if (startIndex !== -1) {
       new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
     }
 
     const unconnectedElements: core.FlowNode[] = flowElements.filter(
-      (element) => !connectedElements.has(element.name)
+      (element) => !connectedElements.has(element.name) && !suppSet.has(element.name)
     );
 
-    // Create result details
     const results = unconnectedElements.map((det) => new core.ResultDetails(det));
-
     return new core.RuleResult(this, results);
   }
 

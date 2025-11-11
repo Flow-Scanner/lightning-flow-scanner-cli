@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class SameRecordFieldUpdates extends AdvancedRule implements core.IRuleDefinition {
+export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>([
     "Create",
     "Update",
@@ -29,7 +30,12 @@ export class SameRecordFieldUpdates extends AdvancedRule implements core.IRuleDe
     );
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const results: core.ResultDetails[] = [];
 
     const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
@@ -55,7 +61,9 @@ export class SameRecordFieldUpdates extends AdvancedRule implements core.IRuleDe
         "inputReference" in node.element &&
         node.element.inputReference === "$Record"
       ) {
-        results.push(new core.ResultDetails(node));
+        if (!suppSet.has(node.name)) {
+          results.push(new core.ResultDetails(node));
+        }
       }
     }
 

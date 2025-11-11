@@ -14,6 +14,7 @@ import { ScanResult } from "../models/ScanResult";
 import { RuleCommon } from "../models/RuleCommon";
 import { ParsedFlow } from "../models/ParsedFlow";
 
+// Used to prevent circular dependencies in Common JS
 export {
   FlowAttribute,
   FlowElement,

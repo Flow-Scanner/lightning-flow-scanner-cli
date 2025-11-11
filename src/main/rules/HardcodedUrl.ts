@@ -1,7 +1,8 @@
-import { Flow, FlowType, IRuleDefinition, ResultDetails, RuleResult } from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { Flow, FlowType, ResultDetails, RuleResult } from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class HardcodedUrl extends AdvancedRule implements IRuleDefinition {
+export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
@@ -23,13 +24,12 @@ export class HardcodedUrl extends AdvancedRule implements IRuleDefinition {
         name: "HardcodedUrl",
         supportedTypes: FlowType.allTypes(),
       },
-      {
-        severity: "warning",
-      }
+      { severity: "warning" }
     );
   }
 
-  public execute(flow: Flow): RuleResult {
+  public execute(flow: Flow, options?: object, suppressions: string[] = []): RuleResult {
+    const suppSet = new Set(suppressions);
     const results: ResultDetails[] = [];
 
     if (!flow.elements || flow.elements.length === 0) {
@@ -41,7 +41,9 @@ export class HardcodedUrl extends AdvancedRule implements IRuleDefinition {
     for (const element of flow.elements) {
       const nodeString = JSON.stringify(element);
       if (urlRegex.test(nodeString)) {
-        results.push(new ResultDetails(element));
+        if (!suppSet.has(element.name)) {
+          results.push(new ResultDetails(element));
+        }
       }
     }
 

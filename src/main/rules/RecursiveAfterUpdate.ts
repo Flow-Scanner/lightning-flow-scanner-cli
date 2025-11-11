@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class RecursiveAfterUpdate extends AdvancedRule implements core.IRuleDefinition {
+export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>([
     "Create",
     "CreateAndUpdate",
@@ -29,7 +30,12 @@ export class RecursiveAfterUpdate extends AdvancedRule implements core.IRuleDefi
     );
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const results: core.ResultDetails[] = [];
 
     const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
@@ -55,12 +61,11 @@ export class RecursiveAfterUpdate extends AdvancedRule implements core.IRuleDefi
         "inputReference" in node.element &&
         node.element.inputReference === "$Record"
       ) {
-        results.push(new core.ResultDetails(node));
+        if (!suppSet.has(node.name)) {
+          results.push(new core.ResultDetails(node));
+        }
       }
     }
-
-    // do another search for record updates from lookups with the same object type
-    // and check whether there is references on record updates
 
     const lookupElementsWithTheSameObjectType = flow.elements
       ?.filter(
@@ -70,9 +75,7 @@ export class RecursiveAfterUpdate extends AdvancedRule implements core.IRuleDefi
           "object" in node.element &&
           flow.start.object === node.element["object"]
       )
-      ?.map((node) => {
-        return node.name;
-      });
+      ?.map((node) => node.name);
 
     if (
       lookupElementsWithTheSameObjectType == null ||
@@ -87,7 +90,9 @@ export class RecursiveAfterUpdate extends AdvancedRule implements core.IRuleDefi
         "inputReference" in node.element &&
         lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
       ) {
-        results.push(new core.ResultDetails(node));
+        if (!suppSet.has(node.name)) {
+          results.push(new core.ResultDetails(node));
+        }
       }
     }
 

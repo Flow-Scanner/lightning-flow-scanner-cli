@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class CopyAPIName extends AdvancedRule implements core.IRuleDefinition {
+export class CopyAPIName extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "CopyAPIName",
@@ -15,22 +16,20 @@ export class CopyAPIName extends AdvancedRule implements core.IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(flow: core.Flow, options?: object, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);  // O(1) lookups
     const flowElements: core.FlowNode[] = flow.elements.filter(
       (node) => node instanceof core.FlowNode
     ) as core.FlowNode[];
-    const copyOfElements = [];
+    const copyOfElements: core.FlowNode[] = [];
     for (const element of flowElements) {
       // eslint-disable-next-line sonarjs/concise-regex
       const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
-      if (copyOf) {
+      if (copyOf && !suppSet.has(element.name)) {  // Inline filter: skip if suppressed
         copyOfElements.push(element);
       }
     }
-    const results = [];
-    for (const det of copyOfElements) {
-      results.push(new core.ResultDetails(det));
-    }
+    const results = copyOfElements.map(det => new core.ResultDetails(det));
     return new core.RuleResult(this, results);
   }
 }

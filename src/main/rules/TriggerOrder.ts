@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class TriggerOrder extends AdvancedRule implements core.IRuleDefinition {
+export class TriggerOrder extends RuleCommon implements IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>(["Create", "Update"]);
 
   constructor() {
@@ -25,7 +26,12 @@ export class TriggerOrder extends AdvancedRule implements core.IRuleDefinition {
     );
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const results: core.ResultDetails[] = [];
 
     if (!("object" in flow.start)) {
@@ -33,11 +39,13 @@ export class TriggerOrder extends AdvancedRule implements core.IRuleDefinition {
     }
 
     if (!flow.triggerOrder) {
-      results.push(
-        new core.ResultDetails(
-          new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
-        )
-      );
+      if (!suppSet.has("TriggerOrder")) {
+        results.push(
+          new core.ResultDetails(
+            new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
+          )
+        );
+      }
     }
 
     return new core.RuleResult(this, results);

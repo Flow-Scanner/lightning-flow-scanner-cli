@@ -1,12 +1,8 @@
-import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
-import { AdvancedSuppression } from "../interfaces/AdvancedSuppression";
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class MissingFaultPath
-  extends AdvancedRule
-  implements AdvancedSuppression, core.IRuleDefinition
-{
+export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   protected applicableElements: string[] = [
     "recordLookups",
     "recordDeletes",
@@ -31,7 +27,6 @@ export class MissingFaultPath
       label: "Missing Fault Path",
       name: "MissingFaultPath",
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
-      suppressionElement: "actionName",
     });
   }
 
@@ -39,17 +34,20 @@ export class MissingFaultPath
     if (!this.applicableElements.includes(proxyNode.subtype)) {
       return false;
     }
-
     if (proxyNode.subtype === "waits") {
       const elementSubtype: string = (proxyNode.element as Record<string, unknown>)?.["elementSubtype"] as string;
       const excludedSubtypes: string[] = ["WaitDuration", "WaitDate"];
       return !excludedSubtypes.includes(elementSubtype);
     }
-
     return true;
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const compiler = new core.Compiler();
     const results: core.ResultDetails[] = [];
     const elementsWhereFaultPathIsApplicable = (
@@ -69,43 +67,16 @@ export class MissingFaultPath
         if (isRecordBeforeSave && element.subtype === "recordUpdates") {
           return;
         }
-        // Check if the element is part of another fault path
         if (!this.isPartOfFaultHandlingFlow(element, flow)) {
-          results.push(new core.ResultDetails(element));
+          if (!suppSet.has(element.name)) {
+            results.push(new core.ResultDetails(element));
+          }
         }
       }
     };
 
-    // Use the core.Compiler for traversal
     compiler.traverseFlow(flow, flow.startReference, visitCallback);
-
     return new core.RuleResult(this, results);
-  }
-
-  public suppress(
-    scanResult: core.RuleResult,
-    ruleConfiguration?: AdvancedConfig
-  ): core.RuleResult {
-    const suppressedResults: core.ResultDetails[] = [];
-    const suppressionElementKey = this.suppressionElement as string;
-    for (const resultDetails of scanResult.details) {
-      if (
-        "violation" in resultDetails &&
-        "element" in resultDetails.violation &&
-        typeof resultDetails.violation.element === "object" &&
-        !Array.isArray(resultDetails.violation.element) &&
-        suppressionElementKey in resultDetails.violation.element &&
-        ruleConfiguration?.suppressions?.includes(
-          (resultDetails.violation.element as { actionName: string })[
-            suppressionElementKey
-          ] as string
-        )
-      ) {
-        continue;
-      }
-      suppressedResults.push(resultDetails);
-    }
-    return new core.RuleResult(this, suppressedResults);
   }
 
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
@@ -114,7 +85,6 @@ export class MissingFaultPath
     ) as core.FlowNode[];
     for (const otherElement of flowelements) {
       if (otherElement !== element) {
-        // Check if the otherElement has a faultConnector pointing to element
         if (
           otherElement.connectors?.find(
             (connector) =>

@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class FlowDescription extends AdvancedRule implements core.IRuleDefinition {
+export class FlowDescription extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       autoFixable: false,
@@ -15,12 +16,17 @@ export class FlowDescription extends AdvancedRule implements core.IRuleDefinitio
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(flow: core.Flow, options?: object, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const missingFlowDescription = !flow.xmldata?.description;
-    return missingFlowDescription
-      ? new core.RuleResult(this, [
-          new core.ResultDetails(new core.FlowAttribute("undefined", "description", "!==null")),
-        ])
-      : new core.RuleResult(this, []);
+
+    if (!missingFlowDescription || suppSet.has("FlowDescription")) {
+      return new core.RuleResult(this, []);
+    }
+
+    const detail = new core.ResultDetails(
+      new core.FlowAttribute("undefined", "description", "!==null")
+    );
+    return new core.RuleResult(this, [detail]);
   }
 }

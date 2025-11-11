@@ -8,7 +8,6 @@ import { fix } from "./main/libs/FixFlows";
 import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
 import { scan } from "./main/libs/ScanFlows";
-import { AdvancedRule } from "./main/models/AdvancedRule";
 import { Flow } from "./main/models/Flow";
 import { FlowAttribute } from "./main/models/FlowAttribute";
 import { FlowElement } from "./main/models/FlowElement";
@@ -22,7 +21,6 @@ import { RuleResult } from "./main/models/RuleResult";
 import { ScanResult } from "./main/models/ScanResult";
 
 export {
-  AdvancedRule,
   Compiler,
   exportDetails,
   exportSarif,

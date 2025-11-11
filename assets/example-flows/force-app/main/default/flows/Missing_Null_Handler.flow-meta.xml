@@ -63,9 +63,6 @@
         <connector>
             <targetReference>Assign_New_Account_Name</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>something_went_wrong</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Name</field>

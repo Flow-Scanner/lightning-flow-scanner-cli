@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class ProcessBuilder extends AdvancedRule implements core.IRuleDefinition {
+export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "ProcessBuilder",
@@ -20,10 +21,21 @@ export class ProcessBuilder extends AdvancedRule implements core.IRuleDefinition
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: { expression: string },
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
+
+    if (suppSet.has("ProcessBuilder")) {
+      return new core.RuleResult(this, []);
+    }
+
     return new core.RuleResult(this, [
-      new core.ResultDetails(new core.FlowAttribute("Workflow", "processType", "== Workflow")),
+      new core.ResultDetails(
+        new core.FlowAttribute("Workflow", "processType", "== Workflow")
+      ),
     ]);
   }
 }

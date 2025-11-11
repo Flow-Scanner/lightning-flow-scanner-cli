@@ -1,8 +1,8 @@
-import { AdvancedConfig } from "../interfaces/AdvancedRuleConfig";
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class FlowName extends AdvancedRule implements core.IRuleDefinition {
+export class FlowName extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       autoFixable: false,
@@ -21,18 +21,18 @@ export class FlowName extends AdvancedRule implements core.IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, advancedConfig?: AdvancedConfig): core.RuleResult {
-    const rawRegexp =
-      advancedConfig && advancedConfig.expression
-        ? advancedConfig.expression
-        : "[A-Za-z0-9]+_[A-Za-z0-9]+";
-    const regexExp = rawRegexp as string;
+  public execute(flow: core.Flow, options?: { expression?: string }, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);
+    const rawRegexp = options?.expression ?? "[A-Za-z0-9]+_[A-Za-z0-9]+";  // Fallback to default
     const flowName = flow.name as string;
-    const conventionApplied = new RegExp(regexExp).test(flowName);
-    return !conventionApplied
-      ? new core.RuleResult(this, [
-          new core.ResultDetails(new core.FlowAttribute(flowName, "name", regexExp)),
-        ])
-      : new core.RuleResult(this, []);
+    const conventionApplied = new RegExp(rawRegexp).test(flowName);
+    if (conventionApplied) {
+      return new core.RuleResult(this, []);
+    }
+    const detail = new core.ResultDetails(new core.FlowAttribute(flowName, "name", rawRegexp));
+    if (suppSet.has(detail.name)) {
+      return new core.RuleResult(this, []);  // Early exit if suppressed
+    }
+    return new core.RuleResult(this, [detail]);
   }
 }

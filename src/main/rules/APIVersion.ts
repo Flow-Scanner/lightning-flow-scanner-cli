@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class APIVersion extends AdvancedRule implements core.IRuleDefinition {
+export class APIVersion extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "APIVersion",
@@ -15,34 +16,33 @@ export class APIVersion extends AdvancedRule implements core.IRuleDefinition {
     });
   }
 
-  public execute(flow: core.Flow, options?: { expression: string }): core.RuleResult {
+  public execute(flow: core.Flow, options?: { expression: string }, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);  // O(1) lookups
     let flowAPIVersionNumber: number | null = null;
     if (flow.xmldata.apiVersion) {
-      const flowAPIVersion = flow.xmldata.apiVersion;
-      flowAPIVersionNumber = +flowAPIVersion;
+      flowAPIVersionNumber = +flow.xmldata.apiVersion;
     }
     const results: core.ResultDetails[] = [];
     if (!flowAPIVersionNumber) {
-      results.push(
-        new core.ResultDetails(new core.FlowAttribute("API Version <49", "apiVersion", "<49"))
-      );
-
+      const detail = new core.ResultDetails(new core.FlowAttribute("API Version <49", "apiVersion", "<49"));
+      if (!suppSet.has(detail.name)) {  // Inline filter: skip if suppressed
+        results.push(detail);
+      }
       return new core.RuleResult(this, results);
     }
-    if (options && options.expression) {
-      // eslint-disable-next-line sonarjs/code-eval
+    if (options?.expression) {
       const isApiNumberMoreThanConfiguredExpression = new Function(
         `return ${flowAPIVersionNumber}${options.expression};`
       );
       if (!isApiNumberMoreThanConfiguredExpression()) {
-        results.push(
-          new core.ResultDetails(
-            new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
-          )
+        const detail = new core.ResultDetails(
+          new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
         );
+        if (!suppSet.has(detail.name)) {  // Inline filter
+          results.push(detail);
+        }
       }
     }
-
     return new core.RuleResult(this, results);
   }
 }

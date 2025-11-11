@@ -18,8 +18,7 @@ export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition
         label: "**Beta** Action Calls In Loop",
         name: "ActionCallsInLoop",
         supportedTypes: FlowType.backEndTypes,
-      },
-      { severity: "warning" }
+      }
     );
   }
 

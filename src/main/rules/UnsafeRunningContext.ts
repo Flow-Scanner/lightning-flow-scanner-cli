@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class UnsafeRunningContext extends AdvancedRule implements core.IRuleDefinition {
+export class UnsafeRunningContext extends RuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
@@ -23,18 +24,28 @@ export class UnsafeRunningContext extends AdvancedRule implements core.IRuleDefi
     );
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
+    const results: core.ResultDetails[] = [];
+
     const hasRunInMode = "runInMode" in flow.xmldata;
     const runInMode: string = hasRunInMode ? flow.xmldata.runInMode : undefined;
     const riskyMode: string = "SystemModeWithoutSharing";
 
-    const results: core.ResultDetails[] = [];
-
     if (hasRunInMode && runInMode === riskyMode) {
-      results.push(
-        new core.ResultDetails(new core.FlowAttribute(runInMode, "runInMode", `== ${riskyMode}`))
-      );
+      if (!suppSet.has("UnsafeRunningContext")) {
+        results.push(
+          new core.ResultDetails(
+            new core.FlowAttribute(runInMode, "runInMode", `== ${riskyMode}`)
+          )
+        );
+      }
     }
+
     return new core.RuleResult(this, results);
   }
 }

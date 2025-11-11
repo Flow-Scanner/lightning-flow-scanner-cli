@@ -1,7 +1,8 @@
-import { AdvancedRule } from "../models/AdvancedRule";
 import * as core from "../internals/internals";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDefinition {
+export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       name: "DuplicateDMLOperation",
@@ -15,23 +16,28 @@ export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDef
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(flow: core.Flow, options?: object, suppressions: string[] = []): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const flowElements: core.FlowNode[] = flow.elements.filter(
       (node) => node instanceof core.FlowNode
     ) as core.FlowNode[];
+
     const processedElementIndexes: number[] = [];
     const unconnectedElementIndexes: number[] = [];
     const DuplicateDMLOperations: core.FlowNode[] = [];
     const startingNode = this.findStart(flow);
-    if (!startingNode || startingNode === -1) {
-      throw "Can not find starting element";
+    if (startingNode === -1) {
+      return new core.RuleResult(this, []);
     }
+
     let dmlFlag = false;
     let indexesToProcess = [startingNode];
+
     do {
       indexesToProcess = indexesToProcess.filter(
         (index) => !processedElementIndexes.includes(index)
       );
+
       if (indexesToProcess.length > 0) {
         for (const [index, element] of flowElements.entries()) {
           if (indexesToProcess.includes(index)) {
@@ -43,25 +49,30 @@ export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDef
                 }
               }
             }
+
             dmlFlag = this.flagDML(element, dmlFlag);
+
             if (references.length > 0) {
-              const elementsByReferences = flowElements.filter((element) =>
-                references.includes(element.name)
+              const elementsByReferences = flowElements.filter((el) =>
+                references.includes(el.name)
               );
               for (const nextElement of elementsByReferences) {
                 const nextIndex = flowElements.findIndex(
-                  (element) => nextElement.name === element.name
+                  (el) => nextElement.name === el.name
                 );
-                if ("screens" === nextElement.subtype) {
+
+                if (nextElement.subtype === "screens") {
                   if (
                     dmlFlag &&
-                    nextElement.element["allowBack"] &&
-                    nextElement.element["allowBack"] == "true" &&
-                    nextElement.element["showFooter"] == "true"
+                    nextElement.element["allowBack"] === "true" &&
+                    nextElement.element["showFooter"] === "true"
                   ) {
-                    DuplicateDMLOperations.push(nextElement);
+                    if (!suppSet.has(nextElement.name)) {
+                      DuplicateDMLOperations.push(nextElement);
+                    }
                   }
                 }
+
                 if (!processedElementIndexes.includes(nextIndex)) {
                   indexesToProcess.push(nextIndex);
                 }
@@ -71,7 +82,6 @@ export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDef
           }
         }
       } else {
-        // skip unconnected elements
         for (const index of flowElements.keys()) {
           if (!processedElementIndexes.includes(index)) {
             unconnectedElementIndexes.push(index);
@@ -83,22 +93,20 @@ export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDef
       flowElements.length
     );
 
-    const results = [];
-    for (const det of DuplicateDMLOperations) {
-      results.push(new core.ResultDetails(det));
-    }
+    const results = DuplicateDMLOperations.map(
+      (det) => new core.ResultDetails(det)
+    );
     return new core.RuleResult(this, results);
   }
 
-  private flagDML(element, dmlFlag) {
+  private flagDML(element: core.FlowNode, dmlFlag: boolean): boolean {
     const dmlStatementTypes = ["recordDeletes", "recordUpdates", "recordCreates"];
     if (dmlStatementTypes.includes(element.subtype)) {
       return true;
     } else if (
       dmlFlag === true &&
       element.subtype === "screens" &&
-      element.element["allowBack"] &&
-      element.element["allowBack"] == "true"
+      element.element["allowBack"] === "true"
     ) {
       return false;
     } else {
@@ -106,20 +114,15 @@ export class DuplicateDMLOperation extends AdvancedRule implements core.IRuleDef
     }
   }
 
-  private findStart(flow: core.Flow) {
+  private findStart(flow: core.Flow): number {
     const flowElements: core.FlowNode[] = flow.elements.filter(
       (node) => node instanceof core.FlowNode
     ) as core.FlowNode[];
-    let start;
+
     if (flow.startElementReference) {
-      start = flowElements.findIndex((n) => {
-        return n.name == flow.startElementReference;
-      });
+      return flowElements.findIndex((n) => n.name === flow.startElementReference);
     } else {
-      start = flowElements.findIndex((n) => {
-        return n.subtype === "start";
-      });
+      return flowElements.findIndex((n) => n.subtype === "start");
     }
-    return start;
   }
 }

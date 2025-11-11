@@ -1,7 +1,8 @@
 import * as core from "../internals/internals";
-import { AdvancedRule } from "../models/AdvancedRule";
+import { RuleCommon } from "../models/RuleCommon";
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class MissingNullHandler extends AdvancedRule implements core.IRuleDefinition {
+export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       autoFixable: false,
@@ -15,100 +16,106 @@ export class MissingNullHandler extends AdvancedRule implements core.IRuleDefini
     });
   }
 
-  public execute(flow: core.Flow): core.RuleResult {
+  public execute(
+    flow: core.Flow,
+    options?: object,
+    suppressions: string[] = []
+  ): core.RuleResult {
+    const suppSet = new Set(suppressions);
     const getOperations = ["recordLookups"];
     const getOperationElements: core.FlowNode[] = flow.elements.filter(
       (node) => node.metaType === "node" && getOperations.includes(node.subtype)
     ) as core.FlowNode[];
+
     const decisionElements: core.FlowNode[] = flow.elements.filter(
       (node) => node.metaType === "node" && node.subtype === "decisions"
     ) as core.FlowNode[];
-    const getOperationsWithoutNullHandler = [];
+
+    const violations: core.FlowNode[] = [];
 
     for (const getElement of getOperationElements) {
-      const elementName = getElement.name;
-      let nullCheckFound = false;
-      let resultReferences: string[] = [];
+      if (suppSet.has(getElement.name)) continue;
 
+      const elementName = getElement.name;
+
+      const assignNulls = getElement.element["assignNullValuesIfNoRecordsFound"] === true;
+      if (assignNulls) continue;
+
+      const hasFaultConnector =
+        !!getElement.element["faultConnector"] ||
+        getElement.connectors?.some((c) => c.type === "faultConnector");
+      if (hasFaultConnector) continue;
+
+      const resultReferences: string[] = [];
       if (getElement.element["storeOutputAutomatically"]) {
-        resultReferences = [elementName];
+        resultReferences.push(elementName);
       } else if (getElement.element["outputReference"]) {
-        resultReferences = getElement.element["outputReference"];
+        resultReferences.push(getElement.element["outputReference"] as string);
       } else if (getElement.element["outputAssignments"]) {
-        const outputAssignments = getElement.element["outputAssignments"];
-        for (const assignment of outputAssignments) {
-          resultReferences.push(assignment.assignToReference);
+        const assignments = getElement.element["outputAssignments"] as any[];
+        for (const a of assignments) {
+          resultReferences.push(a.assignToReference);
         }
       }
 
-      // ✅ Skip check if result is never used inside the flow
+      // Skip if result never used
       const resultIsUsed = flow.elements.some((el) => {
         if (el.name === getElement.name) return false;
         const json = JSON.stringify(el.element);
-        return resultReferences.some((ref) =>
-          json.includes(`"${ref}"`) || json.includes(`"${ref}.`)
+        return resultReferences.some(
+          (ref) => json.includes(`"${ref}"`) || json.includes(`"${ref}.`)
         );
       });
       if (!resultIsUsed) continue;
 
-      for (const el of decisionElements) {
-        let rules = el.element["rules"];
-        const isRuleAnArray = Array.isArray(rules);
-        if (!isRuleAnArray) {
-          rules = [rules];
-        }
+      // Check for IsNull == false in decisions
+      let nullCheckFound = false;
+      for (const decision of decisionElements) {
+        let rules = decision.element["rules"];
+        if (!Array.isArray(rules)) rules = [rules];
+
         for (const rule of rules) {
           let conditions = rule.conditions;
-          const isConditionsAnArray = Array.isArray(conditions);
-          if (!isConditionsAnArray) {
-            conditions = [conditions];
-          }
+          if (!Array.isArray(conditions)) conditions = [conditions];
+
           for (const condition of conditions) {
-            let referenceFound: boolean = false;
-            let isNullOperator: boolean = false;
-            let checksIfFalse: boolean = false;
-            if (condition.leftValueReference && condition.leftValueReference.length > 0) {
-              const valueReference = condition.leftValueReference;
-              for (const ref of resultReferences) {
-                referenceFound = valueReference.startsWith(ref);
-                if (referenceFound) {
-                  break;
-                }
+            let referenceFound = false;
+            let isNullOperator = false;
+            let checksFalse = false;
+
+            if (condition.leftValueReference) {
+              const ref = condition.leftValueReference as string;
+              if (resultReferences.some((r) => ref.startsWith(r))) {
+                referenceFound = true;
               }
             }
-            if (
-              condition.operator &&
-              (!Array.isArray(condition.operator) || condition.operator.length > 0)
-            ) {
-              const operator = condition.operator;
-              isNullOperator = operator === "IsNull";
+
+            if (condition.operator === "IsNull") {
+              isNullOperator = true;
             }
-            if (
-              condition.rightValue &&
-              (!Array.isArray(condition.rightValue) || condition.rightValue.length > 0) &&
-              condition.rightValue.booleanValue &&
-              (!Array.isArray(condition.rightValue.booleanValue) ||
-                condition.rightValue.booleanValue.length > 0)
-            ) {
-              const rightValue = condition.rightValue.booleanValue;
-              checksIfFalse = rightValue.toLowerCase() === "false";
+
+            const rightBool = condition.rightValue?.booleanValue;
+            if (rightBool != null && String(rightBool).toLowerCase() === "false") {
+              checksFalse = true;
             }
-            if (referenceFound && isNullOperator && checksIfFalse) {
+
+            if (referenceFound && isNullOperator && checksFalse) {
               nullCheckFound = true;
+              break;
             }
           }
+          if (nullCheckFound) break;
         }
+        if (nullCheckFound) break;
       }
 
+      // Violation if no handler found
       if (!nullCheckFound) {
-        getOperationsWithoutNullHandler.push(getElement);
+        violations.push(getElement);
       }
     }
 
-    const results = [];
-    for (const det of getOperationsWithoutNullHandler) {
-      results.push(new core.ResultDetails(det));
-    }
+    const results = violations.map((det) => new core.ResultDetails(det));
     return new core.RuleResult(this, results);
   }
 }
