@@ -23,28 +23,46 @@
 To enable the Lightning Flow Scanner in your workflow, create a file named `.github/workflows/lightning-flow-scanner.yml` with the following content:
 
 ```yaml
-name: Flow Scanner
+# File: .github/workflows/scan-flows.yml
+name: Scan Flows
 
 on:
   pull_request:
-    paths:
-      - '**/*.flow-meta.xml'
-      - '**/*.flow'
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  scan-flows:
+  scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Lightning Flow Scanner
+      - name: Flow Scanner
         id: scanner
-        uses: Flow-Scanner/lightning-flow-scanner-action@v1
+        uses: ./  # ← This uses your local action (for testing with `act`)
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          severityThreshold: warning
+          outputMode: sarif
 
-      - name: Upload SARIF file
+      - name: Show SARIF file
+        run: |
+          SARIF_PATH="${{ steps.scanner.outputs.sarifPath }}"
+          echo "SARIF Path: $SARIF_PATH"
+          if [ -f "$SARIF_PATH" ]; then
+            echo "File exists! Size: $(stat -c%s "$SARIF_PATH") bytes"
+            echo "=== First 20 lines ==="
+            head -20 "$SARIF_PATH"
+            echo "=== End ==="
+          else
+            echo "File NOT found!"
+          fi
+
+      - name: Upload SARIF to Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.scanner.outputs.sarifPath }}
@@ -121,12 +139,12 @@ Note: if you prefer JSON format, you can create a `.flow-scanner.json` file usin
 
 To debug the action you need to:
 
-- _Install [`ncc`](https://www.npmjs.com/package/@vercel/ncc) for compilation._
+- _Install [`ncc`](https://www.npmjs.com/package/@vercel/ncc) for compilation. On MacOs/ Unix run:_
 ```bash
 npm i -g @vercel/ncc
 ```
 
-- _Install [`act`](https://nektosact.com/installation/index.html) to run GitHub Actions locally_
+- _Install [`docker`](https://www.docker.com/) and [`act`](https://nektosact.com/installation/index.html) to run GitHub Actions locally. On MacOs/ Unix run:_
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash 
 ```

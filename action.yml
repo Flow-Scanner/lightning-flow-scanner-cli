@@ -1,4 +1,4 @@
-name: Run Flow Scanner
+name: Flow Scanner
 description: Scan Salesforce Lightning Flows for best practices, security, and performance issues.
 branding:
   icon: shield
@@ -10,21 +10,26 @@ inputs:
     required: true
     default: ${{ github.token }}
 
-  severityThreshold:
-    description: Minimum severity to fail the action (note, warning, error)
+  threshold:
+    description: |
+      Minimum severity to fail the action in **table** mode (note, warning, error).
+      **Ignored in `sarif` mode** — any result fails the action.
+      Optional — no default.
     required: false
-    default: warning
 
   outputMode:
-    description: Output format — 'sarif' (GitHub Code Scanning), 'table' (human logs), or 'both' (default)
+    description: |
+      Output format:
+      - `sarif` (default): Uploads to GitHub Code Scanning. **Fails on any result**.
+      - `table`: Logs results in console. Fails only if severity >= `threshold`.
     required: false
-    default: both
+    default: sarif
 
 outputs:
   sarifPath:
-    description: Path to the generated SARIF file (when outputMode includes 'sarif')
+    description: Path to the generated SARIF file (only in `sarif` mode)
   scanResults:
-    description: Array of scan results in table format (when outputMode includes 'table')
+    description: Array of scan results in table format (only in `table` mode)
 
 runs:
   using: node20

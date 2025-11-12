@@ -1,0 +1,43 @@
+# .github/workflows/test-flow-scanner.yml
+name: Scan Flows (local test)
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:        # <-- lets you run `act workflow_dispatch`
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Flow Scanner
+        id: scanner
+        uses: ./               # <-- points to the action in this repo
+        with:
+          outputMode: sarif
+
+      - name: Show SARIF file (debug)
+        run: |
+          SARIF_PATH="${{ steps.scanner.outputs.sarifPath }}"
+          echo "SARIF Path: $SARIF_PATH"
+          if [ -f "$SARIF_PATH" ]; then
+            echo "File exists! Size: $(stat -c%s "$SARIF_PATH") bytes"
+            echo "=== First 20 lines ==="
+            head -20 "$SARIF_PATH"
+            echo "=== End ==="
+          else
+            echo "File NOT found!"
+          fi
+
+      - name: Upload SARIF (simulated)
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.scanner.outputs.sarifPath }}

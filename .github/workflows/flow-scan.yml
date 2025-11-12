@@ -1,0 +1,30 @@
+# .github/workflows/flow-scan.yml
+name: Flow Scanner
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  scan-flows:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read               # read repo files
+      security-events: write       # upload SARIF to Code Scanning
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan Flows
+        id: flowscan
+        uses: rubenhalman/lightning-flow-scanner-action@v1   # <-- replace with your org/action
+        with:
+          outputMode: sarif        # default, can be omitted
+
+      - name: Upload SARIF to Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.flowscan.outputs.sarifPath }}
