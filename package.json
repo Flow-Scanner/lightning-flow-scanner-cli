@@ -11,6 +11,7 @@
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
+    "@flow-scanner/lightning-flow-scanner-core": "^6.4.0",
     "@vercel/ncc": "^0.38.1",
     "lightning-flow-scanner-core": "^5.9.7"
   },
@@ -41,5 +42,8 @@
   "author": {
     "name": "Ruben Halman",
     "url": "https://github.com/RubenHalman"
+  },
+  "volta": {
+    "node": "20.19.5"
   }
 }

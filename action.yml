@@ -1,19 +1,33 @@
 name: Run Flow Scanner
-description: A GitHub Action to scan Salesfoce Flows(.flow files).
+description: Scan Salesforce Lightning Flows for best practices, security, and performance issues.
+branding:
+  icon: shield
+  color: blue
+
 inputs:
   GITHUB_TOKEN:
-    description: "GitHub access token"
+    description: GitHub token with `contents:read` and `security-events:write` permissions
     required: true
     default: ${{ github.token }}
+
   severityThreshold:
+    description: Minimum severity to fail the action (note, warning, error)
     required: false
-    default: "warning"
-    description: "Minimum severity that should fail the workflow (note|warning|error)"
+    default: warning
+
+  outputMode:
+    description: Output format — 'sarif' (GitHub Code Scanning), 'table' (human logs), or 'both' (default)
+    required: false
+    default: both
+
+outputs:
+  sarifPath:
+    description: Path to the generated SARIF file (when outputMode includes 'sarif')
+  scanResults:
+    description: Array of scan results in table format (when outputMode includes 'table')
 
 runs:
-  using: node16
-  main: "dist/index.js"
-branding:
-  icon: "shield"
-  color: "blue"
+  using: node20
+  main: dist/index.js
+
 author: Ruben Halman

@@ -4,7 +4,6 @@ const lfs_core = require("lightning-flow-scanner-core");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-
 const CONFIG_PATHS = [
   ".flow-scanner.yaml",
   ".flow-scanner.yml",
@@ -13,9 +12,9 @@ const CONFIG_PATHS = [
   "config/.flow-scanner.yml",
   ".flow-scanner"
 ];
-
+const { exportSarif } = lfs_core;
 const SEVERITY_LEVELS = ["note", "warning", "error"];
-
+const OUTPUT_MODES = ["sarif", "table", "both"];
 async function loadConfig() {
   for (const configPath of CONFIG_PATHS) {
     if (fs.existsSync(configPath)) {
@@ -36,43 +35,41 @@ async function loadConfig() {
   core.info("No config file found. Using default scanner behavior.");
   return {};
 }
-
 function getSeverityThreshold(config) {
-  // First check workflow input
   const thresholdInput = core.getInput("severityThreshold");
   if (SEVERITY_LEVELS.includes(thresholdInput)) {
     core.info(`Using severity threshold from workflow input: ${thresholdInput}`);
     return thresholdInput;
   }
-
-  // Else check config file
   if (config?.severityThreshold && SEVERITY_LEVELS.includes(config.severityThreshold)) {
     core.info(`Using severity threshold from config file: ${config.severityThreshold}`);
     return config.severityThreshold;
   }
-
-  // Fallback
   core.info("Using default severity threshold: warning");
   return "warning";
 }
-
+function getOutputMode() {
+  const modeInput = core.getInput("outputMode") || "both";
+  if (OUTPUT_MODES.includes(modeInput)) {
+    core.info(`Using output mode: ${modeInput}`);
+    return modeInput;
+  }
+  core.info(`Invalid outputMode '${modeInput}'. Using default: both`);
+  return "both";
+}
 function meetsThreshold(severity, threshold) {
   const sevIndex = SEVERITY_LEVELS.indexOf(severity);
   const thIndex = SEVERITY_LEVELS.indexOf(threshold);
   return sevIndex >= thIndex;
 }
-
 async function run() {
   const GITHUB_TOKEN = core.getInput("GITHUB_TOKEN");
   const octokit = github.getOctokit(GITHUB_TOKEN);
   const { context } = github;
   const repo = context.repo;
-
   try {
     let files = [];
     let head_sha;
-
-    // Resolve commit SHA
     if (context.eventName === "pull_request") {
       head_sha = context.payload.pull_request.head.sha;
     } else {
@@ -83,8 +80,6 @@ async function run() {
       });
       head_sha = defaultBranch.commit.sha;
     }
-
-    // Collect flow files
     if (context.eventName === "pull_request") {
       const pull_number = context.payload.pull_request.number;
       const { data: prFiles } = await octokit.rest.pulls.listFiles({
@@ -102,14 +97,12 @@ async function run() {
         per_page: 1
       });
       const latestCommitSha = latestCommit[0].sha;
-
       const { data: tree } = await octokit.rest.git.getTree({
         owner: repo.owner,
         repo: repo.repo,
         tree_sha: latestCommitSha,
         recursive: true
       });
-
       files = tree.tree
         .filter(
           item =>
@@ -118,30 +111,23 @@ async function run() {
         )
         .map(item => item.path);
     }
-
-    // Load scanner config
     const config = await loadConfig();
     const severityThreshold = getSeverityThreshold(config);
-
-    // Parse flows
+    const outputMode = getOutputMode();
     let pFlows = [];
     for (const file of files) {
       pFlows.push(...(await lfs_core.parse([file])));
     }
-
     if (pFlows.length > 0) {
       console.log("Scanning " + pFlows.length + " Flows...");
       let scanResults = [];
       for (let flow of pFlows) {
-        // Pass IRulesConfig into scanner
         const res = lfs_core.scan([flow], config);
         scanResults.push(...res);
       }
-
-      if (scanResults) {
+      if (scanResults.length > 0) {
         const tableRows = [];
         const thresholdViolations = [];
-
         for (let scanResult of scanResults) {
           if (scanResult.ruleResults.length > 0) {
             for (let ruleResult of scanResult.ruleResults) {
@@ -152,7 +138,7 @@ async function run() {
                     const severity =
                       config.rules?.[ruleResult.ruleName]?.severity ||
                       ruleResult.severity ||
-                      "warning"; 
+                      "warning";
                     const row = {
                       flow: scanResult.flow.name,
                       violation: detail.name || "",
@@ -161,7 +147,6 @@ async function run() {
                       severity
                     };
                     tableRows.push(row);
-
                     if (meetsThreshold(severity, severityThreshold)) {
                       thresholdViolations.push(row);
                     }
@@ -171,12 +156,22 @@ async function run() {
             }
           }
         }
-
-        core.setOutput("scanResults", tableRows);
-        if (tableRows.length > 0) {
-          console.table(tableRows, ["flow", "violation", "type", "rule", "severity"]);
+        const shouldSarif = outputMode === "sarif" || outputMode === "both";
+        const shouldTable = outputMode === "table" || outputMode === "both";
+        if (shouldSarif) {
+          const sarifOutput = exportSarif(scanResults);
+          const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
+          fs.writeFileSync(sarifPath, sarifOutput);
+          core.setOutput('sarifPath', sarifPath);
+          core.info(`SARIF report generated: ${sarifPath}`);
         }
-
+        if (shouldTable) {
+          core.setOutput("scanResults", tableRows);
+          if (tableRows.length > 0) {
+            console.table(tableRows, ["flow", "violation", "type", "rule", "severity"]);
+          }
+        }
+        core.info(`Violations >= ${severityThreshold}: ${thresholdViolations.length}`);
         if (thresholdViolations.length > 0) {
           core.setFailed(
             `${thresholdViolations.length} violations at severity >= ${severityThreshold} in ${pFlows.length} Flows.`
@@ -186,6 +181,8 @@ async function run() {
             `0 violations at severity >= ${severityThreshold} in ${pFlows.length} Flows.`
           );
         }
+      } else {
+        core.info("No issues found in scanned flows.");
       }
     } else {
       core.info(`No Flows identified within the repository..`);
@@ -195,5 +192,4 @@ async function run() {
     core.setFailed(e.message);
   }
 }
-
 run();

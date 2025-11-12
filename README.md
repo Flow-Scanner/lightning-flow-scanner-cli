@@ -6,7 +6,7 @@
 <p align="center"><em>Detect unsafe contexts, queries in loops, hardcoded IDs, and more to optimize Salesforce Flows.</em></p>
 
 <p align="center">
- <img src="media/lfsaction.gif" alt="Lightning Flow Scanner Demo" width="70%" />
+ <img src="media/lfsaction.gif" alt="Lightning Flow Scanner Demo"/>
 </p>
 
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner)
@@ -23,33 +23,50 @@
 To enable the Lightning Flow Scanner in your workflow, create a file named `.github/workflows/lightning-flow-scanner.yml` with the following content:
 
 ```yaml
-name: lightning-flow-scanner
+name: Flow Scanner
+
 on:
-  workflow_dispatch:
   pull_request:
+    paths:
+      - '**/*.flow-meta.xml'
+      - '**/*.flow'
+
 jobs:
-  action:
+  scan-flows:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Latest Version
-        uses: actions/checkout@v4
-      - name: Run Flow Scanner
-        uses: Flow-Scanner/lightning-flow-scanner-action@v1.4.3
-        with:
-            # 
-            severityThreshold: error
-            # Your Token
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-Also ensure the following:
+      - uses: actions/checkout@v4
 
-- Create a .secrets file in the root of your repository with the following content:
-  - `GITHUB_TOKEN=<your-personal-access-token(PAT)>`
-- Workflows have read and write permissions in the repository.
-- Allow GitHub Actions to create and approve pull requests.
+      - name: Lightning Flow Scanner
+        id: scanner
+        uses: Flow-Scanner/lightning-flow-scanner-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          severityThreshold: warning
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.scanner.outputs.sarifPath }}
+```
+To run the action you must also:
+
+1. **Create a secrets file**:
+- Add a secrets file at the repository root(`.secrets` is recommended).
+- Include the following key-value pair: `GITHUB_TOKEN=<personal-access-token>`. 
+  > Replace `<personal-access-token>` with a valid _GitHub Personal Access Token_(PAT) with appropriate permissions (`repo`, `workflow` scopes).
+
+2. **Configure repository permissions**:
+- Navigate to _Repository Settings > Actions > General_.
+- Under _Workflow permissions_, select:
+- _Read and write permissions_.
+
+3. **Enable pull request creation and approval**:
+- In the same _Actions > General_ settings page:
+- Check _Allow GitHub Actions to create and approve pull requests_
 
 **Privacy:** Zero user data collected. All processing is client-side.
-→ See Data Handling in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
+→ See in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
 
 ### Run On Pull Requests
 
@@ -102,12 +119,14 @@ Note: if you prefer JSON format, you can create a `.flow-scanner.json` file usin
 
 ## Development
 
-To debug the action locally, you need to have [`ncc`](https://www.npmjs.com/package/@vercel/ncc) and [`act`](https://nektosact.com/installation/index.html) installed. 
+To debug the action you need to:
 
+- _Install [`ncc`](https://www.npmjs.com/package/@vercel/ncc) for compilation._
 ```bash
 npm i -g @vercel/ncc
 ```
 
+- _Install [`act`](https://nektosact.com/installation/index.html) to run GitHub Actions locally_
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash 
 ```
