@@ -1,6 +1,6 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-const lfs_core = require("lightning-flow-scanner-core");
+const lfs_core = require("@flow-scanner/lightning-flow-scanner-core");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
