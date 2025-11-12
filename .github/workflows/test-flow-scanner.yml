@@ -1,11 +1,11 @@
-# .github/workflows/test-flow-scanner.yml
+# Local Debugging Template
 name: Scan Flows (local test)
 
 on:
   pull_request:
   push:
     branches: [ main ]
-  workflow_dispatch:        # <-- lets you run `act workflow_dispatch`
+  workflow_dispatch:
 
 jobs:
   scan:
@@ -20,11 +20,12 @@ jobs:
 
       - name: Flow Scanner
         id: scanner
-        uses: ./               # <-- points to the action in this repo
+        uses: ./
         with:
           outputMode: sarif
 
       - name: Show SARIF file (debug)
+        if: always()
         run: |
           SARIF_PATH="${{ steps.scanner.outputs.sarifPath }}"
           echo "SARIF Path: $SARIF_PATH"
@@ -37,7 +38,14 @@ jobs:
             echo "File NOT found!"
           fi
 
-      - name: Upload SARIF (simulated)
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ${{ steps.scanner.outputs.sarifPath }}
+      # - name: Upload SARIF (simulated)
+      #   if: always()
+      #   uses: github/codeql-action/upload-sarif@v3
+      #   with:
+      #     sarif_file: ${{ steps.scanner.outputs.sarifPath }}
+
+      - name: Debug SARIF Path
+        if: always()
+        run: |
+          echo "SARIF Path: ${{ steps.scanner.outputs.sarifPath }}"
+          ls -la "${{ steps.scanner.outputs.sarifPath }}" || echo "File not found!"

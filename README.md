@@ -11,63 +11,56 @@
 
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner)
 
+---
+
+## Table of contens
+
 - **[Usage](#usage)**
-  - [Run On Pull Requests](#run-on-pull-requests)
-  - [Run As Manual Action](run-as-manual-action)
+  - [Run Manually](#run-manually-workflow_dispatch)
+  - [Run On Pull Requests](#run-on-pull-requestspull_request)
+  - [Run On Push](#run-on-pushpush)  
 - **[Configuration](#configuration)**
   - [Scanner Options](scanner-options)
 - **[Development](#development)**
 
+---
+
 ## Usage
 
-To enable the Lightning Flow Scanner in your workflow, create a file named `.github/workflows/lightning-flow-scanner.yml` with the following content:
+To enable the Lightning Flow Scanner in your workflow, create a file named [`.github/workflows/lightning-flow-scanner.yml`](.github\workflows\flow-scan.yml) with the following content:
 
 ```yaml
-# File: .github/workflows/scan-flows.yml
-name: Scan Flows
+name: Flow Scanner
 
 on:
-  pull_request:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  scan:
+  scan-flows:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      security-events: write
+      contents: read           # Read flow files
+      security-events: write   # Upload SARIF to Code Scanning
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Flow Scanner
-        id: scanner
-        uses: ./  # ← This uses your local action (for testing with `act`)
+      - name: Scan Flows
+        id: flowscan
+        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0
         with:
-          outputMode: sarif
-
-      - name: Show SARIF file
-        run: |
-          SARIF_PATH="${{ steps.scanner.outputs.sarifPath }}"
-          echo "SARIF Path: $SARIF_PATH"
-          if [ -f "$SARIF_PATH" ]; then
-            echo "File exists! Size: $(stat -c%s "$SARIF_PATH") bytes"
-            echo "=== First 20 lines ==="
-            head -20 "$SARIF_PATH"
-            echo "=== End ==="
-          else
-            echo "File NOT found!"
-          fi
+          outputMode: sarif      # optional (default)
 
       - name: Upload SARIF to Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ${{ steps.scanner.outputs.sarifPath }}
+          sarif_file: ${{ steps.flowscan.outputs.sarifPath }}
 ```
-To run the action you must also:
+To set-up the action you must also:
 
 1. **Create a secrets file**:
 - Add a secrets file at the repository root(`.secrets` is recommended).
@@ -79,23 +72,39 @@ To run the action you must also:
 - Under _Workflow permissions_, select:
 - _Read and write permissions_.
 
-3. **Enable pull request creation and approval**:
-- In the same _Actions > General_ settings page:
-- Check _Allow GitHub Actions to create and approve pull requests_
+You can now run the action as [Manual Action](#run-as-manual-action) or run it automatically on pushes or pull requests. 
 
 **Privacy:** Zero user data collected. All processing is client-side.
-→ See in our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
+→ See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
 
-### Run On Pull Requests
+#### Run Manually(`workflow_dispatch`)
+Trigger **Flow Scanner** on-demand to scan **all flows** in the repo.
 
-`on:pull_request` will trigger Flow Scanner to scan changed flow files every time a pull request is opened.
-
-### Run As Manual Action
-
-`on:workflow_dispatch` allows you to run the action on all Flows manually, by following these steps:
+```yaml
+on: workflow_dispatch
+```
     1. Navigate to the "Actions" tab of your GitHub repository.
     2. Click on "Run Flow Scanner" in the list of available workflows.
     3. Press the "Run workflow" button to trigger the action.
+
+#### Run on Pull Requests(`pull_request`)
+Scan only changed flow files when a PR is opened or updated.
+
+```
+on:
+  pull_request:
+    branches: [ main ]
+```
+
+In Settings → Actions → General, ensure:
+"Allow GitHub Actions to create and approve pull requests" is checked
+
+#### Run On Push(`push`)
+Scan all flows on every push to selected branches.
+
+`on:push:branches: [ main ]:` will trigger Flow Scanner to scan the every time a new change is pushed to the provide a list of branch names.
+
+---
 
 ## Configuration
 
@@ -134,6 +143,8 @@ Using the rules section of your configurations, you can specify the list of rule
 ```
 
 Note: if you prefer JSON format, you can create a `.flow-scanner.json` file using the same format. For a more on configurations, review the [scanner documentation](https://flow-scanner.github.io/lightning-flow-scanner-core/#configuration).
+
+---
 
 ## Development
 

@@ -175,21 +175,45 @@ async function run() {
     // SARIF Mode: Fail on ANY result
     if (outputMode === "sarif") {
       const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
-      const sarifOutput = exportSarif(scanResults);
+
+      // Always force single run — ignore core's behavior
+      const baseSarif = exportSarif(scanResults);
+      const parsed = JSON.parse(baseSarif);
+
+      if (parsed.runs && parsed.runs.length > 1) {
+        core.info(`Merging ${parsed.runs.length} SARIF runs into 1`);
+
+        const mergedRun = {
+          tool: parsed.runs[0].tool || { driver: { name: "FlowScanner" } },
+          results: []
+        };
+
+        // Collect all results from all runs
+        for (const run of parsed.runs) {
+          if (run.results) {
+            mergedRun.results.push(...run.results);
+          }
+          // Preserve artifacts from first run only
+          if (!mergedRun.artifacts && run.artifacts) {
+            mergedRun.artifacts = run.artifacts;
+          }
+        }
+
+        parsed.runs = [mergedRun];
+      }
+
+      const sarifOutput = JSON.stringify(parsed, null, 2);
       fs.writeFileSync(sarifPath, sarifOutput);
       core.setOutput('sarifPath', sarifPath);
-      core.info(`SARIF report generated: ${sarifPath}`);
+      core.info(`SARIF report generated: ${sarifPath} (1 run)`);
 
       if (violations.length > 0) {
-        core.setFailed(
-          `${violations.length} flow issue(s) found. SARIF mode fails on any result (threshold ignored).`
-        );
+        core.setFailed(`${violations.length} flow issue(s) found. SARIF mode fails on any result.`);
       } else {
         core.info("SARIF report generated with no issues.");
       }
       return;
     }
-
     // Table Mode: Respect threshold
     if (outputMode === "table") {
       core.setOutput("scanResults", tableRows);
