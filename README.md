@@ -143,6 +143,14 @@ Note: if you prefer JSON format, you can create a `.flow-scanner.json` file usin
 
 ## Development
 
+> This project optionally uses [Volta](https://volta.sh) to manage Node.js versions. Install Volta with:
+>
+> ```sh
+> curl https://get.volta.sh | bash
+> ```
+>
+> Volta will automatically use the Node.js version defined in `package.json`.
+
 To debug the action you need to:
 
 - _Install [`ncc`](https://www.npmjs.com/package/@vercel/ncc) for compilation. On MacOs/ Unix run:_
