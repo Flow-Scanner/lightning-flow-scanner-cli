@@ -51,7 +51,7 @@ jobs:
 
       - name: Scan Flows
         id: flowscan
-        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0
+        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0.0
         with:
           outputMode: sarif      # optional (default)
 
