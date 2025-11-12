@@ -14,11 +14,11 @@
 ## Table of contens
 
 - **[Usage](#usage)**
-  - [Run Manually](#run-manually-workflow_dispatch)
+  - [Run Manually](#run-manuallyworkflow_dispatch)
   - [Run On Pull Requests](#run-on-pull-requestspull_request)
   - [Run On Push](#run-on-pushpush)  
 - **[Configuration](#configuration)**
-  - [Scanner Options](scanner-options)
+  - [Scanner Options](#scanner-options)
 - **[Development](#development)**
 
 ---
