@@ -25,14 +25,12 @@
 
 ## Usage
 
-To enable the Lightning Flow Scanner in your workflow, create a file named [`.github/workflows/lightning-flow-scanner.yml`](.github\workflows\flow-scan.yml) with the following content:
+Lightning Flow Scanner Action integrates Flow Scanner into your GitHub CI/CD pipeline. [`.github/workflows/scan-flows.yml`](.github\workflows\scan-flows.yml) to automatically detect 20+ critical issues in your flows — hardcoded IDs, unsafe contexts, inefficient SOQL/DML, recursion risks, missing fault handling — directly in pull requests. Example:
 
 ```yaml
-name: Flow Scanner
+name: Scan Flows
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -47,9 +45,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Scan Flows
-        id: flowscan
-        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0.0
+      - name: Run Flow Scanner
+        id: scanner
+        uses: Flow-Scanner/lightning-flow-scanner-action@v2.1.0
         with:
           outputMode: sarif      # optional (default)
 
@@ -69,8 +67,6 @@ To set-up the action you must also:
 - Navigate to _Repository Settings > Actions > General_.
 - Under _Workflow permissions_, select:
 - _Read and write permissions_.
-
-You can now run the action as [Manual Action](#run-as-manual-action) or run it automatically on pushes or pull requests. 
 
 **Privacy:** Zero user data collected. All processing is client-side.
 → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).

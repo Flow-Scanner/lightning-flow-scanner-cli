@@ -1,5 +1,5 @@
 # Local Debugging Template
-name: Scan Flows (local test)
+name: Flow Scanner (local test)
 
 on:
   pull_request:

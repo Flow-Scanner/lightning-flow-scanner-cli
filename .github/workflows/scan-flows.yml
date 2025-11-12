@@ -2,8 +2,6 @@
 name: Flow Scanner
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -27,4 +25,4 @@ jobs:
       - name: Upload SARIF to Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ${{ steps.flowscan.outputs.sarifPath }}
+          sarif_file: ${{ steps.scanner.outputs.sarifPath }}
