@@ -9,8 +9,6 @@
  <img src="media/lfsaction.gif" alt="Lightning Flow Scanner Demo"/>
 </p>
 
-[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Action-Lightning%20Flow%20Scanner-blue?logo=github)](https://github.com/marketplace/actions/run-flow-scanner)
-
 ---
 
 ## Table of contens
@@ -77,17 +75,18 @@ You can now run the action as [Manual Action](#run-as-manual-action) or run it a
 **Privacy:** Zero user data collected. All processing is client-side.
 → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-action?tab=security-ov-file).
 
-#### Run Manually(`workflow_dispatch`)
+### Run Manually(`workflow_dispatch`)
 Trigger **Flow Scanner** on-demand to scan **all flows** in the repo.
 
 ```yaml
 on: workflow_dispatch
 ```
-    1. Navigate to the "Actions" tab of your GitHub repository.
-    2. Click on "Run Flow Scanner" in the list of available workflows.
-    3. Press the "Run workflow" button to trigger the action.
 
-#### Run on Pull Requests(`pull_request`)
+- Navigate to the "Actions" tab of your GitHub repository.
+- Click on "Run Flow Scanner" in the list of available workflows.
+- Press the "Run workflow" button to trigger the action.
+
+### Run on Pull Requests(`pull_request`)
 Scan only changed flow files when a PR is opened or updated.
 
 ```
@@ -99,7 +98,7 @@ on:
 In Settings → Actions → General, ensure:
 "Allow GitHub Actions to create and approve pull requests" is checked
 
-#### Run On Push(`push`)
+### Run On Push(`push`)
 Scan all flows on every push to selected branches.
 
 `on:push:branches: [ main ]:` will trigger Flow Scanner to scan the every time a new change is pushed to the provide a list of branch names.
