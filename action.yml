@@ -1,4 +1,4 @@
-name: Flow Scanner
+name: Run Flow Scanner
 description: Scan Salesforce Lightning Flows for best practices, security, and performance issues.
 branding:
   icon: zap

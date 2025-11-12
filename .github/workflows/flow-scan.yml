@@ -18,9 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Scan Flows
-        id: flowscan
-        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0
+      - name: Run Flow Scanner
+        id: scanner
+        uses: Flow-Scanner/lightning-flow-scanner-action@v2.0.0
         with:
           outputMode: sarif      # optional (default)
 
