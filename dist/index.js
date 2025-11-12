@@ -40360,6 +40360,14 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 7260:
+/***/ ((module) => {
+
+module.exports = eval("require")("./package.json");
+
+
+/***/ }),
+
 /***/ 8668:
 /***/ ((module) => {
 
@@ -42797,7 +42805,6 @@ const fs = __nccwpck_require__(9896);
 const path = __nccwpck_require__(6928);
 const { cosmiconfig } = __nccwpck_require__(2488);
 const { exportSarif } = lfs_core;
-
 const SEVERITY_LEVELS = ["note", "warning", "error"];
 const OUTPUT_MODES = ["sarif", "table"];
 
@@ -42833,7 +42840,7 @@ function getThreshold(config) {
     return config.threshold;
   }
   core.info("No threshold specified. Will only be used in 'table' mode.");
-  return null; // No default
+  return null;
 }
 
 function getOutputMode() {
@@ -42917,26 +42924,88 @@ async function run() {
       pFlows.push(...(await lfs_core.parse([file])));
     }
 
+    // CHANGED: Only log, don't return
     if (pFlows.length === 0) {
-      core.info("No Flows identified in the repository.");
-      return;
+      core.info("No modified flows to scan in this pull request.");
+    } else {
+      console.log(`Scanning ${pFlows.length} Flow(s)...`);
     }
 
-    console.log(`Scanning ${pFlows.length} Flow(s)...`);
     let scanResults = [];
     for (const flow of pFlows) {
       const res = lfs_core.scan([flow], config);
       scanResults.push(...res);
     }
 
+    // Always generate SARIF — even if no flows or no issues
+    const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
+    let sarifOutput;
+
     if (scanResults.length === 0) {
       core.info("No issues found in scanned flows.");
+      // Generate empty valid SARIF
+      const emptySarif = {
+        version: "2.1.0",
+        $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+        runs: [
+          {
+            tool: {
+              driver: {
+                name: "Lightning Flow Scanner",
+                version: (__nccwpck_require__(7260).version) || "1.0.0",
+                informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-action"
+              }
+            },
+            results: []
+          }
+        ]
+      };
+      sarifOutput = JSON.stringify(emptySarif, null, 2);
+    } else {
+      // Existing: export and merge SARIF runs
+      const baseSarif = exportSarif(scanResults);
+      const parsed = JSON.parse(baseSarif);
+      if (parsed.runs && parsed.runs.length > 1) {
+        core.info(`Merging ${parsed.runs.length} SARIF runs into 1`);
+        const mergedRun = {
+          tool: parsed.runs[0].tool || { driver: { name: "FlowScanner" } },
+          results: []
+        };
+        for (const run of parsed.runs) {
+          if (run.results) mergedRun.results.push(...run.results);
+          if (!mergedRun.artifacts && run.artifacts) mergedRun.artifacts = run.artifacts;
+        }
+        parsed.runs = [mergedRun];
+      }
+      sarifOutput = JSON.stringify(parsed, null, 2);
+    }
+
+    // Always write file and set output
+    fs.writeFileSync(sarifPath, sarifOutput);
+    core.setOutput('sarifPath', sarifPath);
+    core.info(`SARIF report generated: ${sarifPath}`);
+
+    // Handle output modes
+    if (outputMode === "sarif") {
+      if (scanResults.length === 0) {
+        core.info("No issues found. SARIF uploaded with zero results.");
+      } else {
+        // Count actual violations
+        let violationCount = 0;
+        for (const result of scanResults) {
+          for (const rule of result.ruleResults) {
+            if (rule.occurs && Array.isArray(rule.details)) {
+              violationCount += rule.details.length;
+            }
+          }
+        }
+        core.setFailed(`${violationCount} flow issue(s) found. SARIF mode fails on any result.`);
+      }
       return;
     }
 
+    // Table mode (unchanged)
     const tableRows = [];
-    const violations = [];
-
     for (const scanResult of scanResults) {
       if (scanResult.ruleResults.length > 0) {
         for (const ruleResult of scanResult.ruleResults) {
@@ -42946,7 +43015,6 @@ async function run() {
                 config.rules?.[ruleResult.ruleName]?.severity ||
                 ruleResult.severity ||
                 "warning";
-
               const row = {
                 flow: scanResult.flow.name,
                 violation: detail.name || "",
@@ -42955,71 +43023,22 @@ async function run() {
                 severity
               };
               tableRows.push(row);
-
-              // Always collect for SARIF
-              violations.push(row);
             }
           }
         }
       }
     }
 
-    // SARIF Mode: Fail on ANY result
-    if (outputMode === "sarif") {
-      const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
-
-      // Always force single run — ignore core's behavior
-      const baseSarif = exportSarif(scanResults);
-      const parsed = JSON.parse(baseSarif);
-
-      if (parsed.runs && parsed.runs.length > 1) {
-        core.info(`Merging ${parsed.runs.length} SARIF runs into 1`);
-
-        const mergedRun = {
-          tool: parsed.runs[0].tool || { driver: { name: "FlowScanner" } },
-          results: []
-        };
-
-        // Collect all results from all runs
-        for (const run of parsed.runs) {
-          if (run.results) {
-            mergedRun.results.push(...run.results);
-          }
-          // Preserve artifacts from first run only
-          if (!mergedRun.artifacts && run.artifacts) {
-            mergedRun.artifacts = run.artifacts;
-          }
-        }
-
-        parsed.runs = [mergedRun];
-      }
-
-      const sarifOutput = JSON.stringify(parsed, null, 2);
-      fs.writeFileSync(sarifPath, sarifOutput);
-      core.setOutput('sarifPath', sarifPath);
-      core.info(`SARIF report generated: ${sarifPath} (1 run)`);
-
-      if (violations.length > 0) {
-        core.setFailed(`${violations.length} flow issue(s) found. SARIF mode fails on any result.`);
-      } else {
-        core.info("SARIF report generated with no issues.");
-      }
-      return;
-    }
-    // Table Mode: Respect threshold
     if (outputMode === "table") {
       core.setOutput("scanResults", tableRows);
       if (tableRows.length > 0) {
         console.table(tableRows, ["flow", "violation", "type", "rule", "severity"]);
       }
-
       const thresholdViolations = threshold
         ? tableRows.filter(r => meetsThreshold(r.severity, threshold))
         : [];
-
       core.info(`Threshold: ${threshold || "none (not applied in table mode if unset)"}`);
       core.info(`Violations >= threshold: ${thresholdViolations.length}`);
-
       if (threshold && thresholdViolations.length > 0) {
         core.setFailed(
           `${thresholdViolations.length} violation(s) at severity >= ${threshold}.`
