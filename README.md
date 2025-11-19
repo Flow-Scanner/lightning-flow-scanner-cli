@@ -292,10 +292,6 @@ _Runs all enabled rules and returns detailed violations._
 
 _Automatically applies available fixes(removing variables and unconnected elements)._
 
-#### [`exportDetails(results: ScanResult[]): FlatViolation[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportAsDetails.ts)
-
-_Get output of violations only(Reserved for future use)._
-
 #### [`exportSarif(results: ScanResult[]): string`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/exportAsSarif.ts)
 
 _Get SARIF output including exact line numbers of violations._
@@ -307,7 +303,7 @@ _Get SARIF output including exact line numbers of violations._
 [![GitHub stars](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)](https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner-core)
 [![GitHub contributors](https://img.shields.io/github/contributors/Flow-Scanner/lightning-flow-scanner-core.svg)](https://gitHub.com/Flow-Scanner/lightning-flow-scanner-core/graphs/contributors/)
 [![License](https://img.shields.io/npm/l/lightning-flow-scanner-core.svg)](https://github.com/Flow-Scanner/lightning-flow-scanner-core/raw/main/LICENSE.md)
-[![npm version](https://img.shields.io/npm/v/Flow-Scanner/lightning-flow-scanner-core?label=npm)](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)
+[![npm version](https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core)](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)
 [![Known Vulnerabilities](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core/badge.svg)](https://snyk.io/test/github/Flow-Scanner/lightning-flow-scanner-core)
 
 **To install with npm:**
