@@ -1,12 +1,12 @@
 ## Contributing Guidelines
 
-Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code tool to empower Salesforce Developers across six free and open-source platforms—from developer tools to native Salesforce App—delivering a unified experience for robust static analysis of Flows. Our dedicated community has shared their expertise to deepen understanding of Flow optimization. Your support can amplify our impact. Here’s how you can contribute:
+Since 20201, the _Lightning Flow Scanner_ has grown from its roots as VS Code tool to empower Salesforce Developers across six free and open-source platforms—from developer tools to native Salesforce App—delivering a unified experience for robust static analysis of Flows. Our dedicated community has shared their expertise to deepen understanding of Flow optimization. Your support can amplify our impact. Here’s how you can contribute to the [Flow Scanner](https://github.com/Flow-Scanner) project:
 
-- ⭐ Starring the project to show your support
-- 📢 Sharing our work with your network
-- 💬 Sharing feedback to help us improve
-- 💻 Contributing code to drive innovation
-- 🤝 [Become a member](https://register.lightningflowscanner.org/) to stay connected.
+- ⭐ Star your favorite repositories.
+- 📢 Share our work with your network.
+- 💬 Share feedback to help us improve.
+- 💻 Contribute code by submitting pull requests.
+- 🤝 [Join as a member](https://register.lightningflowscanner.org/) to connect.
 
 ### I have a Question/Feedback
 
@@ -22,10 +22,10 @@ If it's more specific like a bug or a new feature—use [GitHub Issues](https://
 
 ###### Platforms - For issues or requests related to specific platforms, use the appropriate link below:
 
-- [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-cli/issues/new)
-- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues/new)
-- [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner-action/issues/new)
-- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new)
-- [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx/issues/new)
+- [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-cli/issues)
+- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues)
+- [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner-action/issues)
+- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues)
+- [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx/issues)
 
 ###### Thank you
