@@ -3,6 +3,10 @@ import { IRulesConfig } from "../interfaces/IRulesConfig";
 import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
 import { DynamicRule } from "./DynamicRule";
 
+export function getBetaRules(): IRuleDefinition[] {
+  return getBetaDefinition();
+}
+
 export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>, options?: IRulesConfig): IRuleDefinition[] {
   const selectedRules: IRuleDefinition[] = [];
   const includeBeta = options?.betamode === true;
@@ -37,10 +41,9 @@ export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>, options?: 
     }
   }
 
-  // Append all beta rules if opted in (skip if already included via config/default)
-  if (includeBeta) {
+  if (includeBeta && BetaRuleStore && typeof BetaRuleStore === 'object' && !Array.isArray(BetaRuleStore)) {
     for (const betaRuleName in BetaRuleStore) {
-      if (!selectedRules.some((r) => r.name === betaRuleName)) {  // Avoid duplicates
+      if (!selectedRules.some((r) => r.name === betaRuleName)) {
         const betaRule = new DynamicRule(betaRuleName) as IRuleDefinition;
         selectedRules.push(betaRule);
       }
@@ -57,10 +60,6 @@ export function getRules(ruleNames?: string[], options?: IRulesConfig): IRuleDef
   } else {
     return GetRuleDefinitions(undefined, options);
   }
-}
-
-export function getBetaRules(): IRuleDefinition[] {
-  return getBetaDefinition();
 }
 
 function getBetaDefinition(): IRuleDefinition[] {
