@@ -27,7 +27,7 @@
 ## Default Rules
 
 <p>📌<strong>Tip:</strong> To link directly to a specific rule, use the full GitHub anchor link format. Example:</p>
-<p><em><a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context">https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context</a></em></i></p>
+<p><em><a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context">https://github.com/Flow-Scanner/lightning-flow-scanner-core#unsafe-running-context</a></em></p>
 
 ### Action Calls In Loop(Beta)
 
@@ -201,8 +201,10 @@ Specifying exceptions allows you to exclude specific scenarios from rule enforce
   "exceptions": {
     "<FlowName>": {
       "<RuleName>": [
-        "<ResultName>",   // Suppress specific result
-        "*",              // Suppress ALL results of this rule
+        // Suppress a specific result:
+        "<ResultName>",
+        // Suppress ALL results of rule:
+        "*",
         ...
       ]
     },
