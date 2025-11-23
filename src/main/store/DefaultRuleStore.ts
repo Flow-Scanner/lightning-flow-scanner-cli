@@ -23,6 +23,7 @@ import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
 
 export const DefaultRuleStore: object = {
+  ActionCallsInLoop,
   APIVersion,
   AutoLayout,
   CopyAPIName,
@@ -48,5 +49,4 @@ export const DefaultRuleStore: object = {
 };
 
 export const BetaRuleStore: object = {
-  ActionCallsInLoop,
 };
