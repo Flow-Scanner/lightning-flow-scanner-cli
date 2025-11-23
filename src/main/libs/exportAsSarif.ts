@@ -6,7 +6,6 @@ export function exportSarif(results: ScanResult[]): string {
   const runs = results.map((result) => {
     const flow = result.flow;
     const uri = getUri(flow);
-
     return {
       artifacts: [{ location: { uri }, sourceLanguage: "xml" }],
       results: result.ruleResults
@@ -16,7 +15,7 @@ export function exportSarif(results: ScanResult[]): string {
           locations: [{
             physicalLocation: {
               artifactLocation: { index: 0, uri },
-              region: mapRegion(d, result.flow.toXMLString() || "")
+              region: mapRegion(d)
             },
           }],
           message: { text: r.errorMessage || `${r.ruleName} in ${d.name}` },
@@ -45,7 +44,6 @@ export function exportSarif(results: ScanResult[]): string {
       },
     };
   });
-
   return JSON.stringify({
     $schema: "https://json.schemastore.org/sarif-2.1.0.json",
     runs,
@@ -59,22 +57,15 @@ function getUri(flow: Flow): string {
     : `flows/${flow.name}.flow-meta.xml`;
 }
 
-function mapRegion(detail: Violation, rawXml: string = ""): any {
-  if (!rawXml) return { startLine: 1, startColumn: 1 };
-
-  const lines = rawXml.split("\n");
-  const name = detail.name;
-
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i].includes(`<name>${name}</name>`)) {
-      return {
-        startLine: i + 1,
-        startColumn: lines[i].indexOf(name) + 1
-      };
-    }
-  }
-  return { startLine: 1, startColumn: 1 };
+function mapRegion(detail: Violation): any {
+  // Use pre-enriched line/column from Violation (added by enrichViolationsWithLineNumbers)
+  // Fallback if somehow missing (e.g., unenriched legacy data)
+  return {
+    startColumn: detail.columnNumber ?? 1,
+    startLine: detail.lineNumber ?? 1,
+  };
 }
+
 function mapSeverity(sev: string): "error" | "note" | "warning" {
   switch (sev?.toLowerCase()) {
     case "info":

@@ -72,5 +72,12 @@ describe("APIVersion", () => {
     expect(results[0].ruleResults).toHaveLength(1);
     expect(results[0].ruleResults[0].ruleName).toBe("APIVersion");
     expect(results[0].ruleResults[0].occurs).toBe(true);
+
+    const violations = results[0].ruleResults[0].details;
+    if (violations.length > 0) {
+      // ensure tag level line numbers are correct
+      expect(violations[0].lineNumber).toBeDefined();
+      expect(violations[0].lineNumber).toBeGreaterThan(1);
+    }
   });
 });

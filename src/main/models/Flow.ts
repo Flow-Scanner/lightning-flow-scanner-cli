@@ -8,6 +8,17 @@ import { FlowResource } from "./FlowResource";
 import { FlowVariable } from "./FlowVariable";
 
 export class Flow {
+    /**
+   * Metadata Tags of Salesforce Flow Elements
+   */
+  public static readonly FLOW_METADATA_TAGS = [
+    "description", "apiVersion", "processMetadataValues", "processType",
+    "interviewLabel", "label", "status", "runInMode", "startElementReference",
+    "isTemplate", "fullName", "timeZoneSidKey", 
+    "isAdditionalPermissionRequiredToRun", "migratedFromWorkflowRuleName",
+    "triggerOrder", "environments", "segment",
+  ];
+
   /**
    * Categorized flow contents that should be used in the rule implementation
    */
@@ -25,29 +36,12 @@ export class Flow {
   public status?;
   public triggerOrder?: number;
   public type?;
+
   /**
    * XML to JSON conversion in raw format
    */
   public xmldata;
-  private flowMetadata = [
-    "description",
-    "apiVersion",
-    "processMetadataValues",
-    "processType",
-    "interviewLabel",
-    "label",
-    "status",
-    "runInMode",
-    "startElementReference",
-    "isTemplate",
-    "fullName",
-    "timeZoneSidKey",
-    "isAdditionalPermissionRequiredToRun",
-    "migratedFromWorkflowRuleName",
-    "triggerOrder",
-    "environments",
-    "segment",
-  ];
+  private flowMetadata = Flow.FLOW_METADATA_TAGS;
   private flowNodes = [
     "actionCalls",
     "apexPluginCalls",
@@ -91,6 +85,21 @@ export class Flow {
     }
   }
 
+  public static from(obj: Partial<Flow>): Flow {
+    if (obj instanceof Flow) {
+      return obj;
+    }
+    
+    const flow = Object.create(Flow.prototype);
+    Object.assign(flow, obj);
+    
+    if (!flow.toXMLString) {
+      flow.toXMLString = () => '';
+    }
+    
+    return flow;
+  }
+
   public preProcessNodes() {
     this.label = this.xmldata.label;
     this.interviewLabel = this.xmldata.interviewLabel;
@@ -104,7 +113,7 @@ export class Flow {
 
     const allNodes: Array<FlowMetadata | FlowNode | FlowVariable> = [];
     for (const nodeType in this.xmldata) {
-      // Skip xmlns and attributes (updated: generalized from your commented line)
+      // Skip xmlns and attributes
       if (nodeType.startsWith("@_") || nodeType === "@xmlns") {
         continue;
       }
@@ -180,11 +189,11 @@ export class Flow {
     // eslint-disable-next-line sonarjs/no-clear-text-protocols
     const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
     const builderOptions = {
+      attributeNamePrefix: "@_",             // Matches parsing (key prefix)
       format: true,                          // Pretty-print (indented; expands empties to </tag>)
       ignoreAttributes: false,               // Preserve attrs like xmlns
-      attributeNamePrefix: "@_",             // Matches parsing (key prefix)
-      suppressEmptyNode: false,              // Keep empty tags (but doesn't force self-closing in pretty)
-      suppressBooleanAttributes: false       // NEW: Force ="true" for boolean-like strings (fixes missing value)
+      suppressBooleanAttributes: false,       // NEW: Force ="true" for boolean-like strings (fixes missing value)
+      suppressEmptyNode: false              // Keep empty tags (but doesn't force self-closing in pretty)
     };
     const builder = new XMLBuilder(builderOptions);
 

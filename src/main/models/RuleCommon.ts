@@ -29,7 +29,6 @@ export class RuleCommon {
     this.suppressionElement = info.suppressionElement;
   }
 
-  // NEW: Centralized suppression logic
   protected executeWithSuppression<T extends any[]>(
     flow: core.Flow,
     options: object | undefined,
