@@ -35,7 +35,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
         }
       }
 
-      const results = copyOfElements.map(det => new core.ResultDetails(det));
+      const results = copyOfElements.map(det => new core.Violation(det));
       return new core.RuleResult(this, results);
     });
   }

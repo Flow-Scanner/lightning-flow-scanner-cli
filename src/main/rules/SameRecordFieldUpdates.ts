@@ -36,7 +36,7 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
       const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
       const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
         flow.start?.recordTriggerType
@@ -61,7 +61,7 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
           node.element.inputReference === "$Record"
         ) {
           if (!suppSet.has(node.name)) {
-            results.push(new core.ResultDetails(node));
+            results.push(new core.Violation(node));
           }
         }
       }

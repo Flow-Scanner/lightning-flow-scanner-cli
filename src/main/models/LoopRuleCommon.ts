@@ -1,5 +1,5 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { Compiler, Flow, FlowNode, ResultDetails, RuleResult } from "../internals/internals";
+import { Compiler, Flow, FlowNode, RuleResult, Violation } from "../internals/internals";
 import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 
@@ -22,7 +22,7 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
       const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
       const results = statementsInLoops
         .filter(det => !suppSet.has(det.name))
-        .map(det => new ResultDetails(det));
+        .map(det => new Violation(det));
 
       return new RuleResult(this, results);
     });

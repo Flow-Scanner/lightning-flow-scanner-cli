@@ -22,12 +22,12 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       if (flow.status !== "Active") {
         if (!suppSet.has("InactiveFlow")) {
           results.push(
-            new core.ResultDetails(
+            new core.Violation(
               new core.FlowAttribute(flow.status, "status", "!= Active")
             )
           );

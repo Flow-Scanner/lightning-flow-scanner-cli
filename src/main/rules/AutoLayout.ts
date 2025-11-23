@@ -39,7 +39,7 @@ export class AutoLayout extends RuleCommon implements IRuleDefinition {
         return new core.RuleResult(this, []);
       }
 
-      const detail = new core.ResultDetails(
+      const detail = new core.Violation(
         new core.FlowAttribute(
           CanvasMode?.value?.stringValue ?? "undefined",
           "CanvasMode",

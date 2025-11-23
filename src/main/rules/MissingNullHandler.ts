@@ -111,7 +111,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
         }
       }
 
-      const results = violations.map((det) => new core.ResultDetails(det));
+      const results = violations.map((det) => new core.Violation(det));
       return new core.RuleResult(this, results);
     });
   }

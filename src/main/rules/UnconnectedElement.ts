@@ -40,7 +40,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
         (element) => !connectedElements.has(element.name) && !suppSet.has(element.name)
       );
 
-      const results = unconnectedElements.map((det) => new core.ResultDetails(det));
+      const results = unconnectedElements.map((det) => new core.Violation(det));
       return new core.RuleResult(this, results);
     });
   }

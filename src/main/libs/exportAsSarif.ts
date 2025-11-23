@@ -1,6 +1,6 @@
 import { Flow } from "../models/Flow";
-import { ResultDetails } from "../models/ResultDetails";
 import { ScanResult } from "../models/ScanResult";
+import { Violation } from "../models/Violation";
 
 export function exportSarif(results: ScanResult[]): string {
   const runs = results.map((result) => {
@@ -59,7 +59,7 @@ function getUri(flow: Flow): string {
     : `flows/${flow.name}.flow-meta.xml`;
 }
 
-function mapRegion(detail: ResultDetails, rawXml: string = ""): any {
+function mapRegion(detail: Violation, rawXml: string = ""): any {
   if (!rawXml) return { startLine: 1, startColumn: 1 };
 
   const lines = rawXml.split("\n");

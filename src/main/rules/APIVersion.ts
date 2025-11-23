@@ -27,10 +27,10 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
         flowAPIVersionNumber = +flow.xmldata.apiVersion;
       }
 
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       if (!flowAPIVersionNumber) {
-        const detail = new core.ResultDetails(
+        const detail = new core.Violation(
           new core.FlowAttribute("API Version <49", "apiVersion", "<49")
         );
         if (!suppSet.has(detail.name)) {
@@ -42,7 +42,7 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       if (options?.expression) {
         const isValid = new Function(`return ${flowAPIVersionNumber}${options.expression};`)();
         if (!isValid) {
-          const detail = new core.ResultDetails(
+          const detail = new core.Violation(
             new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
           );
           if (!suppSet.has(detail.name)) {

@@ -3,7 +3,7 @@ import { FlowAttribute } from "./FlowAttribute";
 import { FlowNode } from "./FlowNode";
 import { FlowVariable } from "./FlowVariable";
 
-export class ResultDetails {
+export class Violation {
   public violation: FlowAttribute | FlowElement;
   public name: string;
   public type: string;

@@ -34,7 +34,7 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       const getElementNodes = flow.elements?.filter(
         (element) => element.subtype === "recordLookups"
@@ -62,7 +62,7 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
           const isViolation = storeAllFields && !hasQueriedFields;
           return isViolation && !suppSet.has(getRecordElement.name);
         })
-        .map((element) => new core.ResultDetails(element as core.FlowNode));
+        .map((element) => new core.Violation(element as core.FlowNode));
 
       results.push(...errorNodes);
       return new core.RuleResult(this, results);

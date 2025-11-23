@@ -49,7 +49,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
       const compiler = new core.Compiler();
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       const elementsWhereFaultPathIsApplicable = (
         flow.elements?.filter((node) => {
@@ -70,7 +70,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
           }
           if (!this.isPartOfFaultHandlingFlow(element, flow)) {
             if (!suppSet.has(element.name)) {
-              results.push(new core.ResultDetails(element));
+              results.push(new core.Violation(element));
             }
           }
         }

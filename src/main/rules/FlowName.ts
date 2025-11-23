@@ -35,7 +35,7 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
         return new core.RuleResult(this, []);
       }
 
-      const detail = new core.ResultDetails(
+      const detail = new core.Violation(
         new core.FlowAttribute(flowName, "name", rawRegexp)
       );
 

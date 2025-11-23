@@ -1,18 +1,19 @@
 import type { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import type { IRulesConfig } from "../interfaces/IRulesConfig";
+
 import { Compiler } from "../libs/Compiler";
 import { Flow } from "../models/Flow";
 import { FlowAttribute } from "../models/FlowAttribute";
 import { FlowElement } from "../models/FlowElement";
-import { FlowType } from "../models/FlowType";
 import { FlowNode } from "../models/FlowNode";
 import { FlowResource } from "../models/FlowResource";
+import { FlowType } from "../models/FlowType";
 import { FlowVariable } from "../models/FlowVariable";
-import { ResultDetails } from "../models/ResultDetails";
+import { ParsedFlow } from "../models/ParsedFlow";
+import { RuleCommon } from "../models/RuleCommon";
 import { RuleResult } from "../models/RuleResult";
 import { ScanResult } from "../models/ScanResult";
-import { RuleCommon } from "../models/RuleCommon";
-import { ParsedFlow } from "../models/ParsedFlow";
+import { Violation } from "../models/Violation";
 
 // Used to prevent circular dependencies in Common JS
 export {
@@ -26,7 +27,7 @@ export {
   Compiler,
   ScanResult,
   RuleResult,
-  ResultDetails,
+  Violation,
   RuleCommon,
   ParsedFlow,
 };

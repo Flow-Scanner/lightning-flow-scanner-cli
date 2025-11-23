@@ -30,7 +30,7 @@ export class UnsafeRunningContext extends RuleCommon implements IRuleDefinition 
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
       const hasRunInMode = "runInMode" in flow.xmldata;
       const runInMode: string = hasRunInMode ? flow.xmldata.runInMode : undefined;
       const riskyMode: string = "SystemModeWithoutSharing";
@@ -38,7 +38,7 @@ export class UnsafeRunningContext extends RuleCommon implements IRuleDefinition 
       if (hasRunInMode && runInMode === riskyMode) {
         if (!suppSet.has("UnsafeRunningContext")) {
           results.push(
-            new core.ResultDetails(
+            new core.Violation(
               new core.FlowAttribute(runInMode, "runInMode", `== ${riskyMode}`)
             )
           );

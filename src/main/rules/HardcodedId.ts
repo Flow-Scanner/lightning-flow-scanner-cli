@@ -32,13 +32,13 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
       const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       for (const node of flow.elements) {
         const nodeString = JSON.stringify(node);
         if (salesforceIdRegex.test(nodeString)) {
           if (!suppSet.has(node.name)) {
-            results.push(new core.ResultDetails(node));
+            results.push(new core.Violation(node));
           }
         }
       }

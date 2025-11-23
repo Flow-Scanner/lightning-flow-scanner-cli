@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ResultDetails } from "../models/ResultDetails";
+import { Violation } from "../models/Violation";
 import { RuleResult } from "../models/RuleResult";
 import { ScanResult } from "../models/ScanResult";
 
@@ -34,7 +34,7 @@ export function exportDetails(results: ScanResult[]): FlatViolation[] {
       const ruleName = rule.ruleDefinition.label || rule.ruleName;
       const severity = rule.severity ?? "error";
 
-      for (const detail of rule.details as ResultDetails[]) {
+      for (const detail of rule.details as Violation[]) {
         const d = detail.details || {};
 
         violations.push({

@@ -36,7 +36,7 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
       const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
       const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
         flow.start?.recordTriggerType
@@ -62,7 +62,7 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
           node.element.inputReference === "$Record"
         ) {
           if (!suppSet.has(node.name)) {
-            results.push(new core.ResultDetails(node));
+            results.push(new core.Violation(node));
           }
         }
       }
@@ -92,7 +92,7 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
           lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
         ) {
           if (!suppSet.has(node.name)) {
-            results.push(new core.ResultDetails(node));
+            results.push(new core.Violation(node));
           }
         }
       }

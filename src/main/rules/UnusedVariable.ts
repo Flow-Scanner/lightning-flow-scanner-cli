@@ -63,7 +63,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition {
         }
       }
 
-      const results = unusedVariables.map((det) => new core.ResultDetails(det));
+      const results = unusedVariables.map((det) => new core.Violation(det));
       return new core.RuleResult(this, results);
     });
   }

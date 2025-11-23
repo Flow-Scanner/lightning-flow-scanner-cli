@@ -100,7 +100,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
       );
 
       const results = DuplicateDMLOperations.map(
-        (det) => new core.ResultDetails(det)
+        (det) => new core.Violation(det)
       );
       return new core.RuleResult(this, results);
     });

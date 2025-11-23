@@ -1,4 +1,4 @@
-import { Flow, FlowType, ResultDetails, RuleResult } from "../internals/internals";
+import { Flow, FlowType, Violation, RuleResult } from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
@@ -34,7 +34,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     suppressions: string[] = []
   ): RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: ResultDetails[] = [];
+      const results: Violation[] = [];
 
       if (!flow.elements || flow.elements.length === 0) {
         return new RuleResult(this, results);
@@ -46,7 +46,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
         const nodeString = JSON.stringify(element);
         if (urlRegex.test(nodeString)) {
           if (!suppSet.has(element.name)) {
-            results.push(new ResultDetails(element));
+            results.push(new Violation(element));
           }
         }
       }

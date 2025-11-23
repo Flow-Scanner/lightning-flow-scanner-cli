@@ -53,10 +53,10 @@ export class CyclomaticComplexity extends RuleCommon implements IRuleDefinition 
       cyclomaticComplexity += flowLoops?.length ?? 0;
       this.cyclomaticComplexityUnit = cyclomaticComplexity;
 
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       if (cyclomaticComplexity > threshold) {
-        const detail = new core.ResultDetails(
+        const detail = new core.Violation(
           new core.FlowAttribute(`${cyclomaticComplexity}`, "CyclomaticComplexity", `>${threshold}`)
         );
         if (!suppSet.has(detail.name)) {

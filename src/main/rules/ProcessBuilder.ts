@@ -33,7 +33,7 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
     }
 
     return new core.RuleResult(this, [
-      new core.ResultDetails(
+      new core.Violation(
         new core.FlowAttribute("Workflow", "processType", "== Workflow")
       ),
     ]);

@@ -1,15 +1,15 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { ResultDetails } from "./ResultDetails";
+import { Violation } from "./Violation";
 
 export class RuleResult {
   public occurs: boolean;
   public ruleName: string;
   public ruleDefinition: IRuleDefinition;
   public severity: string;
-  public details: ResultDetails[] = [];
+  public details: Violation[] = [];
   public errorMessage: string;
 
-  constructor(info: IRuleDefinition, details: ResultDetails[], errorMessage?: string) {
+  constructor(info: IRuleDefinition, details: Violation[], errorMessage?: string) {
     this.ruleDefinition = info;
     this.ruleName = info.name;
     this.severity = info.severity ? info.severity : "error";

@@ -32,7 +32,7 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
     suppressions: string[] = []
   ): core.RuleResult {
     return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.ResultDetails[] = [];
+      const results: core.Violation[] = [];
 
       if (!("object" in flow.start)) {
         return new core.RuleResult(this, results);
@@ -41,7 +41,7 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
       if (!flow.triggerOrder) {
         if (!suppSet.has("TriggerOrder")) {
           results.push(
-            new core.ResultDetails(
+            new core.Violation(
               new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
             )
           );
