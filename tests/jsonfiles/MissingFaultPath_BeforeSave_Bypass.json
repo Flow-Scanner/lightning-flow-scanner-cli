@@ -1,46 +1,6 @@
 [
   {
     "flow": {
-      "flowVariables": ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"],
-      "flowResources": ["textTemplates", "stages"],
-      "flowMetadata": [
-        "description",
-        "apiVersion",
-        "processMetadataValues",
-        "processType",
-        "interviewLabel",
-        "label",
-        "status",
-        "runInMode",
-        "startElementReference",
-        "isTemplate",
-        "fullName",
-        "timeZoneSidKey",
-        "isAdditionalPermissionRequiredToRun",
-        "migratedFromWorkflowRuleName",
-        "triggerOrder",
-        "environments",
-        "segment"
-      ],
-      "flowNodes": [
-        "actionCalls",
-        "apexPluginCalls",
-        "assignments",
-        "collectionProcessors",
-        "decisions",
-        "loops",
-        "orchestratedStages",
-        "recordCreates",
-        "recordDeletes",
-        "recordLookups",
-        "recordUpdates",
-        "recordRollbacks",
-        "screens",
-        "start",
-        "steps",
-        "subflows",
-        "waits"
-      ],
       "name": "Test_Flow",
       "xmldata": {
         "@xmlns": "http://soap.sforce.com/2006/04/metadata",

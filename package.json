@@ -18,7 +18,7 @@
     "build": "npm run clean && npm run build:js && npm run build:types && npm run copy:media && npm run copy:root-files:out",
     "test": "npm run test:umd",
     "test:node": "jest",
-    "test:umd": "npm run build:js && vite build && npm run copy:root-files:dist && cross-env UMD_PATH=dist/lightning-flow-scanner-core.umd.js jest --passWithNoTests",
+    "test:umd": "npm run build:js && vite build && npm run copy:root-files:dist && cross-env UMD_PATH=dist/lightning-flow-scanner-core.umd.js jest",
     "link": "npm run build && npm link ./out",
     "____pack____": "PACKAGING COMMANDS__",
     "swc:sim:pack": "npm run build",

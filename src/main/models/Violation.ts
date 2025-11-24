@@ -4,7 +4,6 @@ import { FlowElement } from "./FlowElement";
 import { FlowNode } from "./FlowNode";
 import { FlowVariable } from "./FlowVariable";
 
-
 export class Violation {
   public columnNumber: number;  // Mandatory post-enrich; defaults to 1 if not found
   public details?: object;      // Optional; only populated for rule-specific needs
@@ -17,8 +16,8 @@ export class Violation {
     this.name = violation.name as string;
     this.metaType = violation.metaType;
     this.type = violation.subtype;
-    this.lineNumber = 1;        // Default; will be overwritten by enrich if found
-    this.columnNumber = 1;      // Default; will be overwritten by enrich if found
+    this.lineNumber = 1;         // Default; will be overwritten by enrich if found
+    this.columnNumber = 1;       // Default; will be overwritten by enrich if found
 
     // Conditionally populate details only if needed (e.g., via config flag later)
     if (violation.metaType === "variable") {
@@ -45,10 +44,8 @@ export function enrichViolationsWithLineNumbers(
 ): void {
   if (!flowXml || violations.length === 0) return;
   const lines = flowXml.split("\n");
-
   // Flow-level XML tags (same as Flow.flowMetadata)
   const flowLevelTags = Flow.FLOW_METADATA_TAGS;
-
   for (const violation of violations) {
     // For flow elements (nodes, variables, resources), search by <name> tag
     if (violation.metaType !== 'attribute') {
@@ -65,8 +62,8 @@ export function enrichViolationsWithLineNumbers(
     if (violation.metaType === 'attribute') {
       const tagName = violation.type;
      
-      // Only search if it's an actual XML tag
-      if (flowLevelTags.includes(tagName)) {
+      // Only search if it's an actual XML tag (type assertion for literal check)
+      if (flowLevelTags.includes(tagName as any)) {
         for (let i = 0; i < lines.length; i++) {
           if (lines[i].includes(`<${tagName}>`)) {
             violation.lineNumber = i + 1;

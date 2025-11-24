@@ -1,6 +1,5 @@
 import { XMLBuilder } from "fast-xml-parser";
 import * as p from "path";
-
 import { FlowElement } from "./FlowElement";
 import { FlowMetadata } from "./FlowMetadata";
 import { FlowNode } from "./FlowNode";
@@ -8,41 +7,21 @@ import { FlowResource } from "./FlowResource";
 import { FlowVariable } from "./FlowVariable";
 
 export class Flow {
-    /**
+  /**
    * Metadata Tags of Salesforce Flow Elements
    */
   public static readonly FLOW_METADATA_TAGS = [
     "description", "apiVersion", "processMetadataValues", "processType",
     "interviewLabel", "label", "status", "runInMode", "startElementReference",
-    "isTemplate", "fullName", "timeZoneSidKey", 
+    "isTemplate", "fullName", "timeZoneSidKey",
     "isAdditionalPermissionRequiredToRun", "migratedFromWorkflowRuleName",
     "triggerOrder", "environments", "segment",
-  ];
+  ] as const;
 
   /**
    * Categorized flow contents that should be used in the rule implementation
    */
-  public elements?: FlowElement[];
-  public fsPath;
-  public interviewLabel?: string;
-  public label: string;
-  public name?: string;
-  public processMetadataValues?;
-  public processType?;
-  public root?;
-  public start?;
-  public startElementReference?;
-  public startReference;
-  public status?;
-  public triggerOrder?: number;
-  public type?;
-
-  /**
-   * XML to JSON conversion in raw format
-   */
-  public xmldata;
-  private flowMetadata = Flow.FLOW_METADATA_TAGS;
-  private flowNodes = [
+  public static readonly FLOW_NODES = [
     "actionCalls",
     "apexPluginCalls",
     "assignments",
@@ -62,12 +41,36 @@ export class Flow {
     "waits",
     "transforms",
     "customErrors",
-  ];
-  private flowResources = ["textTemplates", "stages"];
-  private flowVariables = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"];
+  ] as const;
 
-  constructor(path?: string, data?: unknown);
-  constructor(path: string, data?: unknown) {
+  public static readonly FLOW_RESOURCES = ["textTemplates", "stages"] as const;
+  public static readonly FLOW_VARIABLES = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"] as const;
+
+  /**
+   * Categorized flow contents that should be used in the rule implementation
+   */
+  public elements?: FlowElement[];
+
+  public fsPath?: string;
+  public interviewLabel?: string;
+  public label: string;
+  public name?: string;
+  public processMetadataValues?: any;
+  public processType?: string;
+  public root?: any;
+  public start?: any;
+  public startElementReference?: string;
+  public startReference?: string;
+  public status?: string;
+  public triggerOrder?: number;
+  public type?: string;
+
+  /**
+   * XML to JSON conversion in raw format
+   */
+  public xmldata: any;
+
+  constructor(path?: string, data?: unknown) {
     if (path) {
       this.fsPath = p.resolve(path);
       let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
@@ -89,14 +92,14 @@ export class Flow {
     if (obj instanceof Flow) {
       return obj;
     }
-    
+
     const flow = Object.create(Flow.prototype);
     Object.assign(flow, obj);
-    
+
     if (!flow.toXMLString) {
       flow.toXMLString = () => '';
     }
-    
+
     return flow;
   }
 
@@ -118,7 +121,7 @@ export class Flow {
         continue;
       }
       const data = this.xmldata[nodeType];
-      if (this.flowMetadata.includes(nodeType)) {
+      if (Flow.FLOW_METADATA_TAGS.includes(nodeType as any)) {
         if (Array.isArray(data)) {
           for (const node of data) {
             allNodes.push(new FlowMetadata(nodeType, node));
@@ -126,7 +129,7 @@ export class Flow {
         } else {
           allNodes.push(new FlowMetadata(nodeType, data));
         }
-      } else if (this.flowVariables.includes(nodeType)) {
+      } else if (Flow.FLOW_VARIABLES.includes(nodeType as any)) {
         if (Array.isArray(data)) {
           for (const node of data) {
             allNodes.push(new FlowVariable(node.name, nodeType, node));
@@ -134,7 +137,7 @@ export class Flow {
         } else {
           allNodes.push(new FlowVariable(data.name, nodeType, data));
         }
-      } else if (this.flowNodes.includes(nodeType)) {
+      } else if (Flow.FLOW_NODES.includes(nodeType as any)) {
         if (Array.isArray(data)) {
           for (const node of data) {
             allNodes.push(new FlowNode(node.name, nodeType, node));
@@ -142,7 +145,7 @@ export class Flow {
         } else {
           allNodes.push(new FlowNode(data.name, nodeType, data));
         }
-      } else if (this.flowResources.includes(nodeType)) {
+      } else if (Flow.FLOW_RESOURCES.includes(nodeType as any)) {
         if (Array.isArray(data)) {
           for (const node of data) {
             allNodes.push(new FlowResource(node.name, nodeType, node));
@@ -189,14 +192,13 @@ export class Flow {
     // eslint-disable-next-line sonarjs/no-clear-text-protocols
     const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
     const builderOptions = {
-      attributeNamePrefix: "@_",             // Matches parsing (key prefix)
-      format: true,                          // Pretty-print (indented; expands empties to </tag>)
-      ignoreAttributes: false,               // Preserve attrs like xmlns
+      attributeNamePrefix: "@_",              // Matches parsing (key prefix)
+      format: true,                           // Pretty-print (indented; expands empties to </tag>)
+      ignoreAttributes: false,                // Preserve attrs like xmlns
       suppressBooleanAttributes: false,       // NEW: Force ="true" for boolean-like strings (fixes missing value)
-      suppressEmptyNode: false              // Keep empty tags (but doesn't force self-closing in pretty)
+      suppressEmptyNode: false                // Keep empty tags (but doesn't force self-closing in pretty)
     };
     const builder = new XMLBuilder(builderOptions);
-
     // Fallback: Inject xmlns as attribute if missing
     const xmldataWithNs = { ...this.xmldata };
     if (!xmldataWithNs["@_xmlns"]) {
@@ -206,7 +208,6 @@ export class Flow {
     if (!xmldataWithNs["@_xmlns:xsi"]) {
       xmldataWithNs["@_xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
     }
-
     // Build: Wrap in { Flow: ... }
     const rootObj = { Flow: xmldataWithNs };
     return builder.build(rootObj);
