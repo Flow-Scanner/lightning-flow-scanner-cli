@@ -21,7 +21,7 @@ describe("UnconnectedElement", () => {
     expect(ruleResult.occurs).toBe(true);
     expect(ruleResult.details).not.toHaveLength(0);
     ruleResult.details.forEach((detail) => {
-      expect(detail.violation.name).toBe("unused_assignment");
+      expect(detail.name).toBe("unused_assignment");
     });
   });
 
