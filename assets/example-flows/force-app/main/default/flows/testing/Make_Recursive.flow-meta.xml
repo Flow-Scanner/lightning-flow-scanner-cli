@@ -7,7 +7,7 @@
         <locationX>182</locationX>
         <locationY>323</locationY>
         <defaultConnector>
-            <targetReference>Yeah_dummy_don_t_do_another_update</targetReference>
+            <targetReference>Yeah_don_t_do_another_update</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -80,7 +80,7 @@
         <locationX>50</locationX>
         <locationY>431</locationY>
         <connector>
-            <targetReference>Yeah_dummy_don_t_do_another_update</targetReference>
+            <targetReference>Yeah_don_t_do_another_update</targetReference>
         </connector>
         <inputAssignments>
             <field>Description</field>
@@ -98,8 +98,8 @@
         <inputReference>Get_All_Cases_Related_to_the_Account</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Yeah_dummy_don_t_do_another_update</name>
-        <label>Yeah dummy.. don&apos;t do another update</label>
+        <name>Yeah_don_t_do_another_update</name>
+        <label>Yeah.. don&apos;t do another update</label>
         <locationX>182</locationX>
         <locationY>623</locationY>
         <connector>

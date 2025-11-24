@@ -368,7 +368,15 @@ npm install @flow-scanner/lightning-flow-scanner-core
    npm run test
    ```
 
-5. Test as local dependency(Optional):
+5. Deploy Demo Flows (Optional):
+
+```bash
+cd assets/example-flows && sf project deploy start &&
+```
+
+Navigate to the [Demo Readme](assets\example-flows\README.md) for full details
+
+6. Test as local dependency(Optional):
    a. run:
 
    ```bash
@@ -383,7 +391,7 @@ npm install @flow-scanner/lightning-flow-scanner-core
 
    Your local module will now replace any installed version and update on rebuild.
 
-6. Create a standalone UMD Module(Optional):
+7. Create a standalone UMD Module(Optional):
 
 ```bash
   npm run vite:dist // creates UMD at`dist/lightning-flow-scanner-core.umd.js`.

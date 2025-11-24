@@ -1,6 +1,7 @@
 import { Flow } from "../models/Flow";
 import { ScanResult } from "../models/ScanResult";
 import { Violation } from "../models/Violation";
+import * as p from "path";  // For relative path fallback
 
 export function exportSarif(results: ScanResult[]): string {
   const runs = results.map((result) => {
@@ -52,9 +53,16 @@ export function exportSarif(results: ScanResult[]): string {
 }
 
 function getUri(flow: Flow): string {
-  return flow.fsPath
-    ? flow.fsPath.replace(/\\/g, "/")
-    : `flows/${flow.name}.flow-meta.xml`;
+  // Prioritize uri (virtual/relative from input, e.g., for browser)
+  if (flow.uri) {
+    return flow.uri.replace(/\\/g, "/");
+  }
+  // Fallback to relative fsPath for Node
+  if (flow.fsPath) {
+    return p.relative(process.cwd(), flow.fsPath).replace(/\\/g, "/");
+  }
+  // Final generic fallback
+  return `flows/${flow.name}.flow-meta.xml`;
 }
 
 function mapRegion(detail: Violation): any {

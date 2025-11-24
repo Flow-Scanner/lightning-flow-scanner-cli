@@ -17,7 +17,6 @@ export class Flow {
     "isAdditionalPermissionRequiredToRun", "migratedFromWorkflowRuleName",
     "triggerOrder", "environments", "segment",
   ] as const;
-
   /**
    * Categorized flow contents that should be used in the rule implementation
    */
@@ -42,16 +41,14 @@ export class Flow {
     "transforms",
     "customErrors",
   ] as const;
-
   public static readonly FLOW_RESOURCES = ["textTemplates", "stages"] as const;
   public static readonly FLOW_VARIABLES = ["choices", "constants", "dynamicChoiceSets", "formulas", "variables"] as const;
-
   /**
    * Categorized flow contents that should be used in the rule implementation
    */
   public elements?: FlowElement[];
-
   public fsPath?: string;
+  public uri?: string;  // General source URI/path (file or virtual); set from constructor input
   public interviewLabel?: string;
   public label: string;
   public name?: string;
@@ -64,7 +61,6 @@ export class Flow {
   public status?: string;
   public triggerOrder?: number;
   public type?: string;
-
   /**
    * XML to JSON conversion in raw format
    */
@@ -72,8 +68,9 @@ export class Flow {
 
   constructor(path?: string, data?: unknown) {
     if (path) {
-      this.fsPath = p.resolve(path);
-      let flowName = p.basename(p.basename(this.fsPath), p.extname(this.fsPath));
+      this.uri = path;  // Always set general URI from input (file path or virtual)
+      this.fsPath = p.resolve(path);  // Resolve for Node; test can override to undefined for browser sim
+      let flowName = p.basename(p.basename(path), p.extname(path));
       if (flowName.includes(".")) {
         flowName = flowName.split(".")[0];
       }
@@ -92,14 +89,11 @@ export class Flow {
     if (obj instanceof Flow) {
       return obj;
     }
-
     const flow = Object.create(Flow.prototype);
     Object.assign(flow, obj);
-
     if (!flow.toXMLString) {
       flow.toXMLString = () => '';
     }
-
     return flow;
   }
 
@@ -113,7 +107,6 @@ export class Flow {
     this.status = this.xmldata.status;
     this.type = this.xmldata.processType;
     this.triggerOrder = this.xmldata.triggerOrder;
-
     const allNodes: Array<FlowMetadata | FlowNode | FlowVariable> = [];
     for (const nodeType in this.xmldata) {
       // Skip xmlns and attributes
@@ -192,11 +185,11 @@ export class Flow {
     // eslint-disable-next-line sonarjs/no-clear-text-protocols
     const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
     const builderOptions = {
-      attributeNamePrefix: "@_",              // Matches parsing (key prefix)
-      format: true,                           // Pretty-print (indented; expands empties to </tag>)
-      ignoreAttributes: false,                // Preserve attrs like xmlns
-      suppressBooleanAttributes: false,       // NEW: Force ="true" for boolean-like strings (fixes missing value)
-      suppressEmptyNode: false                // Keep empty tags (but doesn't force self-closing in pretty)
+      attributeNamePrefix: "@_",               // Matches parsing (key prefix)
+      format: true,                            // Pretty-print (indented; expands empties to </tag>)
+      ignoreAttributes: false,                 // Preserve attrs like xmlns
+      suppressBooleanAttributes: false,        // NEW: Force ="true" for boolean-like strings (fixes missing value)
+      suppressEmptyNode: false                 // Keep empty tags (but doesn't force self-closing in pretty)
     };
     const builder = new XMLBuilder(builderOptions);
     // Fallback: Inject xmlns as attribute if missing
