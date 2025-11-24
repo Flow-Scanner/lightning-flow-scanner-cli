@@ -1,3 +1,4 @@
+
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import { IRulesConfig } from "../interfaces/IRulesConfig";
 import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
@@ -9,7 +10,7 @@ export function getBetaRules(): IRuleDefinition[] {
 
 export function GetRuleDefinitions(ruleConfig?: Map<string, unknown>, options?: IRulesConfig): IRuleDefinition[] {
   const selectedRules: IRuleDefinition[] = [];
-  const includeBeta = options?.betamode === true;
+  const includeBeta = options?.betaMode === true || options?.betamode === true;
 
   if (ruleConfig && ruleConfig instanceof Map) {
     for (const ruleName of ruleConfig.keys()) {

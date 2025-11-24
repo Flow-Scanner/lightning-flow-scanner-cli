@@ -21,7 +21,7 @@ describe("Rule Configurations ", () => {
   it.skip("should use default and include beta", async () => {
     const flows = await core.parse([example_uri1]);
     const ruleConfig = {
-      betamode: true,
+      betaMode: true,
       exceptions: {
         CreateANewAccountWithChild: { DuplicateDMLOperation: ["ViewAccountId"] },
       },
