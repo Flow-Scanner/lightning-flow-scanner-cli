@@ -284,7 +284,7 @@ _Retrieves rule definitions used in the scanner._
 
 #### [`parse(selectedUris: any): Promise<ParsedFlow[]>`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ParseFlows.ts)
 
-_Loads Flow XML files into in-memory models._
+_Loads Flow XML files into in-memory models.(Node.js only)_
 
 #### [`scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[]`](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/libs/ScanFlows.ts)
 

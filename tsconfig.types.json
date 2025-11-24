@@ -17,7 +17,7 @@
     "node_modules",
     "node_modules/**",
     "assets/example-flows/**",
-    "tests/**/*.test.ts",
+    "tests/**/*.ts",
     "jest.config.ts",
     "vite.config.ts",
     "jest.setup.ts"
