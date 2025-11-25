@@ -368,22 +368,21 @@ npm install @flow-scanner/lightning-flow-scanner-core
    npm run test
    ```
 
-5. Deploy Demo Flows (Optional):
+5. Testing the module locally(Optional):
 
-```bash
-cd assets/example-flows && sf project deploy start &&
-```
-
-Navigate to the [Demo Readme](assets\example-flows\README.md) for full details
-
-6. Test as local dependency(Optional):
-   a. run:
+   To link the module, run:
 
    ```bash
    npm run link
    ```
 
-   b. Go to the dependent project (e.g. VSX or CLI) and use:
+   a. Ad-Hoc Testing with node:
+
+   ```bash
+   npm run link
+   ```
+
+   b. Test in a dependent project (e.g. VSX or CLI):
 
    ```bash
    npm link @flow-scanner/lightning-flow-scanner-core
@@ -391,10 +390,18 @@ Navigate to the [Demo Readme](assets\example-flows\README.md) for full details
 
    Your local module will now replace any installed version and update on rebuild.
 
+6. Deploy Demo Flows (Optional):
+
+   ```bash
+   cd assets/example-flows && sf project deploy start &&
+   ```
+
+   Navigate to the [Demo Readme](assets\example-flows\README.md) for full details
+
 7. Create a standalone UMD Module(Optional):
 
-```bash
-  npm run vite:dist // creates UMD at`dist/lightning-flow-scanner-core.umd.js`.
-```
+   ```bash
+     npm run vite:dist // creates UMD at`dist/lightning-flow-scanner-core.umd.js`.
+   ```
 
 <p><strong>Want to help improve Lightning Flow Scanner? See our <a href="https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=contributing-ov-file">Contributing Guidelines</a></strong></p>

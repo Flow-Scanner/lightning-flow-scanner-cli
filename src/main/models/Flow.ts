@@ -69,7 +69,13 @@ export class Flow {
   constructor(path?: string, data?: unknown) {
     if (path) {
       this.uri = path;  // Always set general URI from input (file path or virtual)
-      this.fsPath = p.resolve(path);  // Resolve for Node; test can override to undefined for browser sim
+      
+      // Only resolve fsPath in Node.js environments
+      // In browser with polyfills, fsPath stays undefined
+      if (typeof process !== 'undefined' && process.cwd) {
+        this.fsPath = p.resolve(path);
+      }
+      
       let flowName = p.basename(p.basename(path), p.extname(path));
       if (flowName.includes(".")) {
         flowName = flowName.split(".")[0];
