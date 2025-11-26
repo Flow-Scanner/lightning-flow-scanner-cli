@@ -7,7 +7,7 @@ Everything else (suppression handling, wildcard “\*”, conversion to RuleResu
 
 - You return every violation you find – no manual “if (!suppressions.has(name))” needed in 95% of cases.
 - The base class automatically removes violations whose element.name (or the attr name for flow-level issues) is listed in the suppressions array.
-- You only add manual suppression checks when the traversal is expensive (e.g. graph walking in MissingFaultPath, UnconnectedElement, DuplicateDMLOperation).
+- You can add manual suppression checks for performance improvements, when the traversal is expensive (e.g. graph walking in MissingFaultPath, UnconnectedElement, DuplicateDMLOperation).
 
 ## The Flow Model – What You Actually Work With
 
