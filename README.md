@@ -25,7 +25,7 @@
 
 ## Usage
 
-Lightning Flow Scanner Action is a plug-and-play. Just add the GitHub workflow file `.github/workflows/scan-flows.yml` to automatically detect 20+ issues in flows — hardcoded IDs, unsafe contexts, inefficient SOQL/DML, recursion risks, missing fault handling — directly in pull requests. Example:
+Lightning Flow Scanner Action is plug-and-play. Just add the GitHub workflow file `.github/workflows/scan-flows.yml` to automatically detect 20+ issues in flows — hardcoded IDs, unsafe contexts, inefficient SOQL/DML, recursion risks, missing fault handling — directly in pull requests. Example:
 
 ```yaml
 name: Scan Flows
