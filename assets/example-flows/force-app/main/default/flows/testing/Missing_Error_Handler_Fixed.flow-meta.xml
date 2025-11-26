@@ -3,6 +3,7 @@
     <actionCalls>
         <name>dosomethingelse</name>
         <label>dosomethingelse</label>
+        <description>description</description>
         <locationX>440</locationX>
         <locationY>242</locationY>
         <actionName>NewTask</actionName>
@@ -20,6 +21,7 @@
     <actionCalls>
         <name>log_call</name>
         <label>log call</label>
+        <description>description</description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <actionName>LogACall</actionName>

@@ -21,6 +21,7 @@ import { TriggerOrder } from "../rules/TriggerOrder";
 import { UnconnectedElement } from "../rules/UnconnectedElement";
 import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
+import { MissingMetadataDescription } from "../rules/MissingMetadataDescription";
 
 export const DefaultRuleStore: object = {
   ActionCallsInLoop,
@@ -46,6 +47,7 @@ export const DefaultRuleStore: object = {
   UnconnectedElement,
   UnsafeRunningContext,
   UnusedVariable,
+  MissingMetadataDescription,
 };
 
 export const BetaRuleStore: object = {

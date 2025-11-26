@@ -48,4 +48,6 @@ rules:
     severity: error
   UnusedVariable:
     severity: error
+  MissingMetadataDescription:
+    severity: warning
 exceptions:
