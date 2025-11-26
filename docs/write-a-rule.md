@@ -6,7 +6,7 @@ Your rule only has to implement one method: **check()**.
 Everything else (suppression handling, wildcard “\*”, conversion to RuleResult) is done for you by RuleCommon.execute().
 
 - You return every violation you find – no manual “if (!suppressions.has(name))” needed in 95% of cases.
-- The base class automatically removes violations whose element.name (or the rule name for flow-level issues) is listed in the suppressions array.
+- The base class automatically removes violations whose element.name (or the attr name for flow-level issues) is listed in the suppressions array.
 - You only add manual suppression checks when the traversal is expensive (e.g. graph walking in MissingFaultPath, UnconnectedElement, DuplicateDMLOperation).
 
 ## The Flow Model – What You Actually Work With
