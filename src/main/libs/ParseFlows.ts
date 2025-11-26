@@ -13,7 +13,7 @@ export async function parse(selectedUris: string[]): Promise<ParsedFlow[]> {
     ignoreAttributes: false,
     // @ts-expect-error type issue
     ignoreNameSpace: false,
-    parseTagValue: false,  // ADD THIS: Keeps tag/text values as strings (no auto boolean/number conversion)
+    parseTagValue: false,
     textNodeName: "#text"
   });
 

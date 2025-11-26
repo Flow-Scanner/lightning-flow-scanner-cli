@@ -2,8 +2,6 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = () => {
-  console.log("UMD Setup: Running, UMD_PATH:", process.env.UMD_PATH || "undefined");
-
   if (!process.env.UMD_PATH) {
     console.log("UMD Setup: No UMD_PATH—skipping (Node-only mode)");
     return;
@@ -32,10 +30,6 @@ module.exports = () => {
     const exportsParam = viteUmdMatch[2];
     const depParam = viteUmdMatch[3];
 
-    console.log("UMD Setup: Vite UMD pattern matched!");
-    console.log("UMD Setup: Factory body length:", factoryBody.length);
-    console.log("UMD Setup: Exports param:", exportsParam, "Dependency param:", depParam);
-
     try {
       // Create the factory function with proper parameters
       const factoryFn = depParam
@@ -53,9 +47,6 @@ module.exports = () => {
       // Assign to global
       global.lightningflowscanner = exports;
 
-      console.log("UMD Setup: Factory invoked successfully");
-      console.log("UMD Setup: Exported keys:", Object.keys(exports).slice(0, 10));
-
       if (Object.keys(exports).length === 0) {
         console.error("UMD Setup: WARNING - exports object is empty!");
       }
@@ -65,7 +56,6 @@ module.exports = () => {
     }
   } else {
     // Fallback: Try direct execution approach
-    console.log("UMD Setup: Trying direct execution approach...");
 
     try {
       // Create a mock global/window context
@@ -107,13 +97,5 @@ module.exports = () => {
       console.error("UMD Direct execution error:", e.message);
       console.error("Stack:", e.stack.slice(0, 400));
     }
-  }
-
-  // Final verification
-  if (global.lightningflowscanner && Object.keys(global.lightningflowscanner).length > 0) {
-    console.log("✓ UMD Setup: SUCCESS - lightningflowscanner loaded on global");
-    console.log("  Available exports:", Object.keys(global.lightningflowscanner).join(", "));
-  } else {
-    console.error("✗ UMD Setup: FAILED - lightningflowscanner not properly loaded");
   }
 };

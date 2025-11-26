@@ -17,7 +17,7 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
         },
         {
           label: "Don't hard code Record Type IDs in Flow. By Stephen Church.",
-          path: "https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6947530300012826624%29",
+          path: "https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/",
         },
       ],
       isConfigurable: false,
@@ -25,25 +25,15 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}([a-zA-Z0-9]{3})?\b/g;
-      const results: core.Violation[] = [];
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}(?:[a-zA-Z0-9]{3})?\b/g;
 
-      for (const node of flow.elements) {
-        const nodeString = JSON.stringify(node);
-        if (salesforceIdRegex.test(nodeString)) {
-          if (!suppSet.has(node.name)) {
-            results.push(new core.Violation(node));
-          }
-        }
-      }
-
-      return new core.RuleResult(this, results);
-    });
+    return flow.elements
+      .filter((node) => salesforceIdRegex.test(JSON.stringify(node)))
+      .map((node) => new core.Violation(node));
   }
 }

@@ -1,4 +1,4 @@
-import { Flow, FlowType, Violation, RuleResult } from "../internals/internals";
+import { Flow, FlowType, Violation } from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
@@ -28,30 +28,17 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(
+  protected check(
     flow: Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: Violation[] = [];
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): Violation[] {
+    if (!flow.elements || flow.elements.length === 0) return [];
 
-      if (!flow.elements || flow.elements.length === 0) {
-        return new RuleResult(this, results);
-      }
+    const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
 
-      const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
-
-      for (const element of flow.elements) {
-        const nodeString = JSON.stringify(element);
-        if (urlRegex.test(nodeString)) {
-          if (!suppSet.has(element.name)) {
-            results.push(new Violation(element));
-          }
-        }
-      }
-
-      return new RuleResult(this, results);
-    });
+    return flow.elements
+      .filter((element) => urlRegex.test(JSON.stringify(element)))
+      .map((element) => new Violation(element));
   }
 }

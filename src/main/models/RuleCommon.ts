@@ -1,7 +1,7 @@
 import { RuleInfo } from "./RuleInfo";
 import * as core from "../internals/internals";
 
-export class RuleCommon {
+export abstract class RuleCommon {
   public autoFixable: boolean;
   public description: string;
   public docRefs: Array<{ label: string; path: string }> = [];
@@ -13,10 +13,7 @@ export class RuleCommon {
   public suppressionElement?: string;
   public uri?: string;
 
-  constructor(
-    info: RuleInfo,
-    optional?: { severity?: string }
-  ) {
+  constructor(info: RuleInfo, optional?: { severity?: string }) {
     this.name = info.name;
     this.supportedTypes = info.supportedTypes;
     this.label = info.label;
@@ -29,16 +26,47 @@ export class RuleCommon {
     this.suppressionElement = info.suppressionElement;
   }
 
-  protected executeWithSuppression<T extends any[]>(
+  /**
+   * execute() – automatic suppression
+   */
+  public execute(
     flow: core.Flow,
-    options: object | undefined,
-    suppressions: string[],
-    executeLogic: (suppSet: Set<string>) => core.RuleResult
+    options?: object,
+    suppressions: string[] = []
   ): core.RuleResult {
+
+    // Wildcard suppression disables entire rule
     if (suppressions.includes("*")) {
       return new core.RuleResult(this as any, []);
     }
+
+    // Convert to Set for fast lookup
     const suppSet = new Set(suppressions);
-    return executeLogic(suppSet);
+
+    // Raw violations from rule
+    let violations = this.check(flow, options, suppSet);
+
+    // Automatically filter suppressed violations by their .name
+    violations = violations.filter(v => !suppSet.has(v.name));
+
+    // Wrap into RuleResult
+    return new core.RuleResult(this as any, violations);
+  }
+
+  /**
+   * Rules implement this. They should return *all* violations,
+   * NOT pre-filter suppressed ones (unless they need early-exit performance).
+   */
+  protected abstract check(
+    flow: core.Flow,
+    options: object | undefined,
+    suppressions: Set<string>
+  ): core.Violation[];
+
+  /**
+   * Legacy/manual suppression helper (still available for early exits)
+   */
+  protected isSuppressed(name: string, suppressions: Set<string>): boolean {
+    return suppressions.has(name);
   }
 }

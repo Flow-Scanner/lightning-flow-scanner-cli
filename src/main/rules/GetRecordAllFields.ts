@@ -28,44 +28,34 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(
-    flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.Violation[] = [];
+  protected check(
+  flow: core.Flow,
+  _options: object | undefined,
+  _suppressions: Set<string>
+): core.Violation[] {
+  const lookupNodes = flow.elements?.filter(
+    (e) => e.subtype === "recordLookups"
+  ) ?? [];
 
-      const getElementNodes = flow.elements?.filter(
-        (element) => element.subtype === "recordLookups"
-      );
+  const violations = lookupNodes
+    .filter((node) => {
+      const el = (node as core.FlowNode).element as core.FlowElement;
 
-      if (!getElementNodes || getElementNodes.length === 0) {
-        return new core.RuleResult(this, results);
-      }
+      const storeAllFields =
+        typeof el === "object" &&
+        "storeOutputAutomatically" in el &&
+        el.storeOutputAutomatically;
 
-      const errorNodes = getElementNodes
-        .filter((element) => {
-          const getRecordElement = element as core.FlowNode;
-          const hasQualifiedElementDefinition = typeof getRecordElement.element === "object";
-          if (!hasQualifiedElementDefinition) return false;
+      const hasQueriedFields =
+        typeof el === "object" &&
+        Array.isArray((el as any).queriedFields) &&
+        (el as any).queriedFields.length > 0;
 
-          const concreteChildElement = getRecordElement.element as core.FlowElement;
-          const storeAllFields =
-            "storeOutputAutomatically" in concreteChildElement &&
-            concreteChildElement["storeOutputAutomatically"];
-          const hasQueriedFields =
-            "queriedFields" in concreteChildElement &&
-            Array.isArray(concreteChildElement["queriedFields"]) &&
-            (concreteChildElement["queriedFields"] as string[]).length > 0;
+      return storeAllFields && !hasQueriedFields;
+    })
+    .map((node) => new core.Violation(node));
 
-          const isViolation = storeAllFields && !hasQueriedFields;
-          return isViolation && !suppSet.has(getRecordElement.name);
-        })
-        .map((element) => new core.Violation(element as core.FlowNode));
+  return violations;
+}
 
-      results.push(...errorNodes);
-      return new core.RuleResult(this, results);
-    });
-  }
 }

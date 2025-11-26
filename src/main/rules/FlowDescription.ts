@@ -16,23 +16,19 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const missingFlowDescription = !flow.xmldata?.description;
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    if (flow.xmldata?.description) {
+      return [];
+    }
 
-      if (!missingFlowDescription || suppSet.has("FlowDescription")) {
-        return new core.RuleResult(this, []);
-      }
-
-      const detail = new core.Violation(
+    return [
+      new core.Violation(
         new core.FlowAttribute("undefined", "description", "!==null")
-      );
-
-      return new core.RuleResult(this, [detail]);
-    });
+      )
+    ];
   }
 }

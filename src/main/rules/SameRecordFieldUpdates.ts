@@ -30,43 +30,37 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
     );
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.Violation[] = [];
-      const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
-      const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
-        flow.start?.recordTriggerType
-      );
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    const results: core.Violation[] = [];
+    const isBeforeSaveType = flow.start?.triggerType === "RecordBeforeSave";
+    const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
+      flow.start?.recordTriggerType
+    );
 
-      if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
-        return new core.RuleResult(this, results);
+    if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
+      return results;
+    }
+
+    const potentialElements = flow.elements?.filter(
+      (node) => node.subtype === "recordUpdates"
+    ) as core.FlowNode[];
+
+    if (!potentialElements) return results;
+
+    for (const node of potentialElements) {
+      if (
+        typeof node.element === "object" &&
+        "inputReference" in node.element &&
+        node.element.inputReference === "$Record"
+      ) {
+        results.push(new core.Violation(node));
       }
+    }
 
-      const potentialElements = flow.elements?.filter(
-        (node) => node.subtype === "recordUpdates"
-      ) as core.FlowNode[];
-
-      if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
-        return new core.RuleResult(this, results);
-      }
-
-      for (const node of potentialElements) {
-        if (
-          typeof node.element === "object" &&
-          "inputReference" in node.element &&
-          node.element.inputReference === "$Record"
-        ) {
-          if (!suppSet.has(node.name)) {
-            results.push(new core.Violation(node));
-          }
-        }
-      }
-
-      return new core.RuleResult(this, results);
-    });
+    return results;
   }
 }

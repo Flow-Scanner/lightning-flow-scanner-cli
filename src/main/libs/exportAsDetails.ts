@@ -1,12 +1,6 @@
+import { FlatViolation } from "../models/FlatViolation";
 import { ScanResult } from "../models/ScanResult";
 import { Violation } from "../models/Violation";
-
-export interface FlatViolation extends Omit<Violation, 'details'> {
-  flowFile: string;
-  flowName: string;
-  ruleName: string;
-  severity: string;
-}
 
 export function exportDetails(results: ScanResult[], includeDetails = false): FlatViolation[] {
   return results.flatMap(result => {

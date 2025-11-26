@@ -1,5 +1,6 @@
 import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
 import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
+import type { FlatViolation } from "./main/models/FlatViolation";
 
 import { Compiler } from "./main/libs/Compiler";
 import { exportDetails } from "./main/libs/exportAsDetails";
@@ -41,4 +42,4 @@ export {
   scan,
   ScanResult,
 };
-export type { IRuleDefinition, IRulesConfig };
+export type { FlatViolation, IRuleDefinition, IRulesConfig };

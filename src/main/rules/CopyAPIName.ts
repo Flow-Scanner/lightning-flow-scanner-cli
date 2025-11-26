@@ -1,7 +1,6 @@
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-
 export class CopyAPIName extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
@@ -15,28 +14,18 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
       autoFixable: false,
     });
   }
+  protected check(
+  flow: core.Flow
+): core.Violation[] {
+  const flowElements = flow.elements.filter(
+    (node) => node instanceof core.FlowNode
+  ) as core.FlowNode[];
 
-  public execute(
-    flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const flowElements: core.FlowNode[] = flow.elements.filter(
-        (node) => node instanceof core.FlowNode
-      ) as core.FlowNode[];
+  const copyOfElements = flowElements.filter(el =>
+    /Copy_[0-9]+_of_[A-Za-z0-9]+/.test(el.name)
+  );
 
-      const copyOfElements: core.FlowNode[] = [];
+  return copyOfElements.map(el => new core.Violation(el));
+}
 
-      for (const element of flowElements) {
-        const copyOf = new RegExp("Copy_[0-9]+_of_[A-Za-z0-9]+").test(element.name);
-        if (copyOf && !suppSet.has(element.name)) {
-          copyOfElements.push(element);
-        }
-      }
-
-      const results = copyOfElements.map(det => new core.Violation(det));
-      return new core.RuleResult(this, results);
-    });
-  }
 }

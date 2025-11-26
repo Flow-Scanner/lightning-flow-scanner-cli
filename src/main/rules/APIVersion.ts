@@ -16,42 +16,46 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
-    flow: core.Flow,
-    options?: { expression: string },
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      let flowAPIVersionNumber: number | null = null;
-      if (flow.xmldata.apiVersion) {
-        flowAPIVersionNumber = +flow.xmldata.apiVersion;
-      }
+  protected check(
+  flow: core.Flow,
+  options: { expression?: string } | undefined,
+  _suppressions: Set<string>
+): core.Violation[] {
 
-      const results: core.Violation[] = [];
-
-      if (!flowAPIVersionNumber) {
-        const detail = new core.Violation(
-          new core.FlowAttribute("API Version <49", "apiVersion", "<49")
-        );
-        if (!suppSet.has(detail.name)) {
-          results.push(detail);
-        }
-        return new core.RuleResult(this, results);
-      }
-
-      if (options?.expression) {
-        const isValid = new Function(`return ${flowAPIVersionNumber}${options.expression};`)();
-        if (!isValid) {
-          const detail = new core.Violation(
-            new core.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression)
-          );
-          if (!suppSet.has(detail.name)) {
-            results.push(detail);
-          }
-        }
-      }
-
-      return new core.RuleResult(this, results);
-    });
+  let flowAPIVersionNumber: number | null = null;
+  if (flow.xmldata.apiVersion) {
+    flowAPIVersionNumber = +flow.xmldata.apiVersion;
   }
+
+  // No API version
+  if (!flowAPIVersionNumber) {
+    return [
+      new core.Violation(
+        new core.FlowAttribute("API Version <49", "apiVersion", "<49")
+      )
+    ];
+  }
+
+  // Custom logic
+  if (options?.expression) {
+    const isValid = new Function(
+      `return ${flowAPIVersionNumber}${options.expression};`
+    )();
+      
+    if (!isValid) {
+      return [
+        new core.Violation(
+          new core.FlowAttribute(
+            `${flowAPIVersionNumber}`,
+            "apiVersion",
+            options.expression
+          )
+        )
+      ];
+    }
+  }
+
+  return [];
+}
+
 }

@@ -16,25 +16,18 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.Violation[] = [];
-
-      if (flow.status !== "Active") {
-        if (!suppSet.has("InactiveFlow")) {
-          results.push(
-            new core.Violation(
-              new core.FlowAttribute(flow.status, "status", "!= Active")
-            )
-          );
-        }
-      }
-
-      return new core.RuleResult(this, results);
-    });
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    if (flow.status !== "Active") {
+      return [
+        new core.Violation(
+          new core.FlowAttribute(flow.status, "status", "!= Active")
+        ),
+      ];
+    }
+    return [];
   }
 }

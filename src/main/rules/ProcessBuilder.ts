@@ -21,21 +21,15 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: { expression: string },
-    suppressions: string[] = []
-  ): core.RuleResult {
-    const suppSet = new Set(suppressions);
-
-    if (suppSet.has("ProcessBuilder")) {
-      return new core.RuleResult(this, []);
-    }
-
-    return new core.RuleResult(this, [
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    return [
       new core.Violation(
         new core.FlowAttribute("Workflow", "processType", "== Workflow")
       ),
-    ]);
+    ];
   }
 }

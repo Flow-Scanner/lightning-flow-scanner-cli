@@ -16,33 +16,30 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
     });
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const connectedElements: Set<string> = new Set<string>();
-      const logConnected = (element: core.FlowNode) => {
-        connectedElements.add(element.name);
-      };
+    _options: object | undefined,
+    suppressions: Set<string>
+  ): core.Violation[] {
+    const connectedElements: Set<string> = new Set<string>();
+    const logConnected = (element: core.FlowNode) => {
+      connectedElements.add(element.name);
+    };
 
-      const flowElements: core.FlowNode[] = flow.elements!.filter(
-        (node) => node instanceof core.FlowNode
-      ) as core.FlowNode[];
+    const flowElements: core.FlowNode[] = flow.elements!.filter(
+      (node) => node instanceof core.FlowNode
+    ) as core.FlowNode[];
 
-      const startIndex = this.findStart(flowElements);
-      if (startIndex !== -1) {
-        new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
-      }
+    const startIndex = this.findStart(flowElements);
+    if (startIndex !== -1) {
+      new core.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
+    }
 
-      const unconnectedElements: core.FlowNode[] = flowElements.filter(
-        (element) => !connectedElements.has(element.name) && !suppSet.has(element.name)
-      );
+    const unconnectedElements: core.FlowNode[] = flowElements.filter(
+      (element) => !connectedElements.has(element.name) && !suppressions.has(element.name)
+    );
 
-      const results = unconnectedElements.map((det) => new core.Violation(det));
-      return new core.RuleResult(this, results);
-    });
+    return unconnectedElements.map((det) => new core.Violation(det));
   }
 
   private findStart(nodes: core.FlowNode[]) {

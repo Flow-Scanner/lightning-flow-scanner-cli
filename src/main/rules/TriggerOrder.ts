@@ -26,29 +26,21 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
     );
   }
 
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.Violation[] = [];
+    _options: object | undefined,
+    _suppressions: Set<string>
+  ): core.Violation[] {
+    if (!("object" in flow.start)) return [];
 
-      if (!("object" in flow.start)) {
-        return new core.RuleResult(this, results);
-      }
+    if (!flow.triggerOrder) {
+      return [
+        new core.Violation(
+          new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
+        ),
+      ];
+    }
 
-      if (!flow.triggerOrder) {
-        if (!suppSet.has("TriggerOrder")) {
-          results.push(
-            new core.Violation(
-              new core.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ...")
-            )
-          );
-        }
-      }
-
-      return new core.RuleResult(this, results);
-    });
+    return [];
   }
 }

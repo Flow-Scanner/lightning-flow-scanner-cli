@@ -1,14 +1,12 @@
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-
 export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition {
   protected qualifiedRecordTriggerTypes: Set<string> = new Set<string>([
     "Create",
     "CreateAndUpdate",
     "Update",
   ]);
-
   constructor() {
     super(
       {
@@ -29,75 +27,64 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
       { severity: "warning" }
     );
   }
-
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const results: core.Violation[] = [];
-      const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
-      const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
-        flow.start?.recordTriggerType
-      );
-
-      if (!isAfterSave || !isQualifiedTriggerTypes) {
-        return new core.RuleResult(this, results);
-      }
-
-      const potentialElements = flow.elements?.filter(
-        (node) => node.subtype === "recordUpdates"
-      ) as core.FlowNode[];
-
-      if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
-        return new core.RuleResult(this, results);
-      }
-
-      // === $Record updates ===
-      for (const node of potentialElements) {
-        if (
-          typeof node.element === "object" &&
-          "inputReference" in node.element &&
-          node.element.inputReference === "$Record"
-        ) {
-          if (!suppSet.has(node.name)) {
-            results.push(new core.Violation(node));
-          }
-        }
-      }
-
-      // === Lookup → same object type updates ===
-      const lookupElementsWithTheSameObjectType = flow.elements
-        ?.filter(
-          (node) =>
-            node.subtype === "recordLookups" &&
-            typeof node.element === "object" &&
-            "object" in node.element &&
-            flow.start.object === node.element["object"]
-        )
-        ?.map((node) => node.name);
-
+    _options: object | undefined,
+    suppressions: Set<string>
+  ): core.Violation[] {
+    const results: core.Violation[] = [];
+    const isAfterSave = flow.start?.triggerType === "RecordAfterSave";
+    const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(
+      flow.start?.recordTriggerType
+    );
+    if (!isAfterSave || !isQualifiedTriggerTypes) {
+      return results;
+    }
+    const potentialElements = flow.elements?.filter(
+      (node) => node.subtype === "recordUpdates"
+    ) as core.FlowNode[];
+    if (potentialElements == null || typeof potentialElements[Symbol.iterator] !== "function") {
+      return results;
+    }
+    // === $Record updates ===
+    for (const node of potentialElements) {
       if (
-        lookupElementsWithTheSameObjectType == null ||
-        typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function"
+        typeof node.element === "object" &&
+        "inputReference" in node.element &&
+        node.element.inputReference === "$Record"
       ) {
-        return new core.RuleResult(this, results);
-      }
-
-      for (const node of potentialElements) {
-        if (
-          typeof node.element === "object" &&
-          "inputReference" in node.element &&
-          lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
-        ) {
-          if (!suppSet.has(node.name)) {
-            results.push(new core.Violation(node));
-          }
+        if (!suppressions.has(node.name)) {
+          results.push(new core.Violation(node));
         }
       }
-
-      return new core.RuleResult(this, results);
-    });
+    }
+    // === Lookup → same object type updates ===
+    const lookupElementsWithTheSameObjectType = flow.elements
+      ?.filter(
+        (node) =>
+          node.subtype === "recordLookups" &&
+          typeof node.element === "object" &&
+          "object" in node.element &&
+          flow.start.object === node.element["object"]
+      )
+      ?.map((node) => node.name);
+    if (
+      lookupElementsWithTheSameObjectType == null ||
+      typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function"
+    ) {
+      return results;
+    }
+    for (const node of potentialElements) {
+      if (
+        typeof node.element === "object" &&
+        "inputReference" in node.element &&
+        lookupElementsWithTheSameObjectType.includes(node.element.inputReference as string)
+      ) {
+        if (!suppressions.has(node.name)) {
+          results.push(new core.Violation(node));
+        }
+      }
+    }
+    return results;
   }
 }

@@ -1,5 +1,5 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { Compiler, Flow, FlowNode, RuleResult, Violation } from "../internals/internals";
+import { Compiler, Flow, FlowNode, Violation } from "../internals/internals";
 import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 
@@ -8,24 +8,22 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
     super(info);
   }
 
-  public execute(
+  protected check(
     flow: Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const loopElements = this.findLoopElements(flow);
-      if (!loopElements.length) {
-        return new RuleResult(this, []);
-      }
+    _options: object | undefined,
+    suppressions: Set<string>
+  ): Violation[] {
+    const loopElements = this.findLoopElements(flow);
+    if (!loopElements.length) {
+      return [];
+    }
 
-      const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
-      const results = statementsInLoops
-        .filter(det => !suppSet.has(det.name))
-        .map(det => new Violation(det));
+    const statementsInLoops = this.findStatementsInLoops(flow, loopElements);
+    const results = statementsInLoops
+      .filter(det => !suppressions.has(det.name))
+      .map(det => new Violation(det));
 
-      return new RuleResult(this, results);
-    });
+    return results;
   }
 
   protected abstract getStatementTypes(): string[];

@@ -1,7 +1,6 @@
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-
 export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   protected applicableElements: string[] = [
     "recordLookups",
@@ -11,7 +10,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     "waits",
     "actionCalls",
   ];
-
   constructor() {
     super({
       autoFixable: false,
@@ -29,7 +27,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
     });
   }
-
   private isValidSubtype(proxyNode: core.FlowNode): boolean {
     if (!this.applicableElements.includes(proxyNode.subtype)) {
       return false;
@@ -41,51 +38,42 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     }
     return true;
   }
-
-  public execute(
+  protected check(
     flow: core.Flow,
-    options?: object,
-    suppressions: string[] = []
-  ): core.RuleResult {
-    return this.executeWithSuppression(flow, options, suppressions, (suppSet) => {
-      const compiler = new core.Compiler();
-      const results: core.Violation[] = [];
-
-      const elementsWhereFaultPathIsApplicable = (
-        flow.elements?.filter((node) => {
-          const proxyNode = node as unknown as core.FlowNode;
-          return this.isValidSubtype(proxyNode);
-        }) as core.FlowNode[]
-      ).map((e) => e.name);
-
-      const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
-
-      const visitCallback = (element: core.FlowNode) => {
-        if (
-          !element?.connectors?.find((connector) => connector.type === "faultConnector") &&
-          elementsWhereFaultPathIsApplicable.includes(element.name)
-        ) {
-          if (isRecordBeforeSave && element.subtype === "recordUpdates") {
-            return;
-          }
-          if (!this.isPartOfFaultHandlingFlow(element, flow)) {
-            if (!suppSet.has(element.name)) {
-              results.push(new core.Violation(element));
-            }
+    _options: object | undefined,
+    suppressions: Set<string>
+  ): core.Violation[] {
+    const compiler = new core.Compiler();
+    const results: core.Violation[] = [];
+    const elementsWhereFaultPathIsApplicable = (
+      flow.elements?.filter((node) => {
+        const proxyNode = node as unknown as core.FlowNode;
+        return this.isValidSubtype(proxyNode);
+      }) as core.FlowNode[]
+    ).map((e) => e.name);
+    const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+    const visitCallback = (element: core.FlowNode) => {
+      if (
+        !element?.connectors?.find((connector) => connector.type === "faultConnector") &&
+        elementsWhereFaultPathIsApplicable.includes(element.name)
+      ) {
+        if (isRecordBeforeSave && element.subtype === "recordUpdates") {
+          return;
+        }
+        if (!this.isPartOfFaultHandlingFlow(element, flow)) {
+          if (!suppressions.has(element.name)) {
+            results.push(new core.Violation(element));
           }
         }
-      };
-
-      compiler.traverseFlow(flow, flow.startReference, visitCallback);
-      return new core.RuleResult(this, results);
-    });
+      }
+    };
+    compiler.traverseFlow(flow, flow.startReference, visitCallback);
+    return results;
   }
-
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
     const flowelements = flow.elements?.filter(
       (el) => el instanceof core.FlowNode
     ) as core.FlowNode[];
-
     for (const otherElement of flowelements) {
       if (otherElement !== element) {
         if (
