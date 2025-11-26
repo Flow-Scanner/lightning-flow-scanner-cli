@@ -25,7 +25,7 @@
 
 ## Usage
 
-Lightning Flow Scanner Action integrates Flow Scanner into your GitHub CI/CD pipeline. [`.github/workflows/scan-flows.yml`](.github\workflows\scan-flows.yml) to automatically detect 20+ critical issues in your flows — hardcoded IDs, unsafe contexts, inefficient SOQL/DML, recursion risks, missing fault handling — directly in pull requests. Example:
+Lightning Flow Scanner Action is a plug-and-play. Just add the GitHub workflow file `.github/workflows/scan-flows.yml` to automatically detect 20+ issues in flows — hardcoded IDs, unsafe contexts, inefficient SOQL/DML, recursion risks, missing fault handling — directly in pull requests. Example:
 
 ```yaml
 name: Scan Flows
@@ -56,14 +56,7 @@ jobs:
         with:
           sarif_file: ${{ steps.flowscan.outputs.sarifPath }}
 ```
-To set-up the action you must also:
-
-1. **Create a secrets file**:
-- Add a secrets file at the repository root(`.secrets` is recommended).
-- Include the following key-value pair: `GITHUB_TOKEN=<personal-access-token>`. 
-  > Replace `<personal-access-token>` with a valid _GitHub Personal Access Token_(PAT) with appropriate permissions (`repo`, `workflow` scopes).
-
-2. **Configure repository permissions**:
+To set-up the action you must also Configure repository permissions:
 - Navigate to _Repository Settings > Actions > General_.
 - Under _Workflow permissions_, select:
 - _Read and write permissions_.
@@ -119,8 +112,7 @@ It is recommended to set up a `.flow-scanner.yml` and define:
   },
   "exceptions": {
     // Your exceptions here
-  },
-  "betamode": false // Enable beta rules
+  }
 }
 ```
 
@@ -163,12 +155,21 @@ npm i -g @vercel/ncc
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash 
 ```
 
-1. Compile a new version
+1. **Add the GITHUB_TOKEN as a repository secret**:
+- Include the following key-value pair: `GITHUB_TOKEN=<personal-access-token>`. 
+  > Replace `<personal-access-token>` with a valid _GitHub Personal Access Token_(PAT) with appropriate permissions (`repo`, `workflow` scopes).
+2. Compile a new version
 ```bash
 npm run build
 ```
 
 2. Test the workflows locally:
+When running locally with `act`, you need to create a `.secrets` file in the repo root(Recommended to use a Classic Personal Access Token with `repo` scope):
+
+```bash
+GITHUB_TOKEN=ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+Then test with:
 
 ```bash
 act workflow_dispatch --secret-file .secrets
