@@ -6,7 +6,7 @@ import { Compiler } from "./main/libs/Compiler";
 import { exportDetails } from "./main/libs/exportAsDetails";
 import { exportSarif } from "./main/libs/exportAsSarif";
 import { fix } from "./main/libs/FixFlows";
-import { getBetaRules, getRules } from "./main/libs/GetRuleDefinitions";
+import { getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
 import { scan } from "./main/libs/ScanFlows";
 import { Flow } from "./main/models/Flow";
@@ -33,7 +33,6 @@ export {
   FlowResource,
   FlowType,
   FlowVariable,
-  getBetaRules,
   getRules,
   parse,
   ParsedFlow,

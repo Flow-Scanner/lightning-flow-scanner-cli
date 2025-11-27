@@ -47,8 +47,8 @@ export const DefaultRuleStore: object = {
   UnconnectedElement,
   UnsafeRunningContext,
   UnusedVariable,
-  MissingMetadataDescription,
 };
 
 export const BetaRuleStore: object = {
+  MissingMetadataDescription,
 };

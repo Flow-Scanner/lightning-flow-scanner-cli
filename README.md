@@ -32,7 +32,7 @@
 
 > Want to code a new rule? → See [How to Write a Rule](docs/write-a-rule.md)
 
-### Action Calls In Loop(Beta)
+### Action Calls In Loop
 
 _[ActionCallsInLoop](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/ActionCallsInLoop.ts)_ - To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.
 
@@ -87,6 +87,10 @@ _[MissingFaultPath](https://github.com/Flow-Scanner/lightning-flow-scanner-core/
 ### Missing Flow Description
 
 _[FlowDescription](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/FlowDescription.ts)_ - Descriptions play a vital role in documentation. We highly recommend including details about where flows are used and their intended purpose.
+
+### MissingMetadataDescription
+
+_[MissingMetadataDescription](https://github.com/Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/MissingMetadataDescription.ts)_ – Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.
 
 ### Missing Null Handler
 
