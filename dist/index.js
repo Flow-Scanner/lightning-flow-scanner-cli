@@ -3509,9 +3509,6 @@ _export(exports, {
     get fix () {
         return _FixFlows.fix;
     },
-    get getBetaRules () {
-        return _GetRuleDefinitions.getBetaRules;
-    },
     get getRules () {
         return _GetRuleDefinitions.getRules;
     },
@@ -3787,8 +3784,8 @@ Object.defineProperty(exports, "DynamicRule", ({
 }));
 const _DefaultRuleStore = __nccwpck_require__(5914);
 let DynamicRule = class DynamicRule {
-    constructor(className){
-        if (!_DefaultRuleStore.DefaultRuleStore.hasOwnProperty(className) && _DefaultRuleStore.BetaRuleStore.hasOwnProperty(className)) {
+    constructor(className, betaMode = false){
+        if (betaMode && _DefaultRuleStore.BetaRuleStore.hasOwnProperty(className)) {
             return new _DefaultRuleStore.BetaRuleStore[className]();
         }
         return new _DefaultRuleStore.DefaultRuleStore[className]();
@@ -3931,18 +3928,12 @@ _export(exports, {
     get GetRuleDefinitions () {
         return GetRuleDefinitions;
     },
-    get getBetaRules () {
-        return getBetaRules;
-    },
     get getRules () {
         return getRules;
     }
 });
 const _DefaultRuleStore = __nccwpck_require__(5914);
 const _DynamicRule = __nccwpck_require__(3132);
-function getBetaRules() {
-    return getBetaDefinition();
-}
 function GetRuleDefinitions(ruleConfig, options) {
     const selectedRules = [];
     const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
@@ -3955,10 +3946,9 @@ function GetRuleDefinitions(ruleConfig, options) {
                 if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
                     severity = configuredSeverity;
                 }
-                const matchedRule = new _DynamicRule.DynamicRule(ruleName);
-                if (configuredSeverity) {
-                    matchedRule.severity = severity;
-                }
+                // Pass betaMode to DynamicRule
+                const matchedRule = new _DynamicRule.DynamicRule(ruleName, includeBeta);
+                if (configuredSeverity) matchedRule.severity = severity;
                 selectedRules.push(matchedRule);
             } catch (error) {
                 console.log(error.message);
@@ -3967,14 +3957,15 @@ function GetRuleDefinitions(ruleConfig, options) {
     } else {
         // Load all defaults
         for(const rule in _DefaultRuleStore.DefaultRuleStore){
-            const matchedRule = new _DynamicRule.DynamicRule(rule);
+            const matchedRule = new _DynamicRule.DynamicRule(rule, includeBeta);
             selectedRules.push(matchedRule);
         }
     }
-    if (includeBeta && _DefaultRuleStore.BetaRuleStore && typeof _DefaultRuleStore.BetaRuleStore === 'object' && !Array.isArray(_DefaultRuleStore.BetaRuleStore)) {
+    // Optionally add beta-only rules that are not in defaults
+    if (includeBeta) {
         for(const betaRuleName in _DefaultRuleStore.BetaRuleStore){
             if (!selectedRules.some((r)=>r.name === betaRuleName)) {
-                const betaRule = new _DynamicRule.DynamicRule(betaRuleName);
+                const betaRule = new _DynamicRule.DynamicRule(betaRuleName, true);
                 selectedRules.push(betaRule);
             }
         }
@@ -3990,12 +3981,8 @@ function getRules(ruleNames, options) {
                 }
             ]));
         return GetRuleDefinitions(ruleSeverityMap, options);
-    } else {
-        return GetRuleDefinitions(undefined, options);
     }
-}
-function getBetaDefinition() {
-    return Object.values(_DefaultRuleStore.BetaRuleStore).map((rule)=>new rule());
+    return GetRuleDefinitions(undefined, options);
 }
 
 
@@ -4166,9 +4153,9 @@ function ScanFlows(flows, ruleOptions) {
         for (const [ruleName, config] of Object.entries(ruleOptions.rules)){
             ruleMap.set(ruleName, config);
         }
-        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(ruleMap);
+        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(ruleMap, ruleOptions);
     } else {
-        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)();
+        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(undefined, ruleOptions);
     }
     const flowXmlCache = new Map();
     for (const flowInput of flows){
@@ -6976,6 +6963,91 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
 
 /***/ }),
 
+/***/ 6945:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingMetadataDescription", ({
+    enumerable: true,
+    get: function() {
+        return MissingMetadataDescription;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(3417));
+const _RuleCommon = __nccwpck_require__(1618);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingMetadataDescription = class MissingMetadataDescription extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppression) {
+        const violations = [];
+        flow.elements.filter((elem)=>{
+            if (elem.metaType !== "metadata" && !elem.element["description"] && elem.subtype !== "start") {
+                return elem;
+            }
+        }).forEach((elem)=>{
+            return violations.push(new _internals.Violation(elem));
+        });
+        return violations;
+    }
+    constructor(){
+        super({
+            autoFixable: false,
+            description: "Every element must have a meaningful description",
+            docRefs: [],
+            isConfigurable: false,
+            label: "Missing Metadata Description",
+            name: "MissingMetadataDescription",
+            supportedTypes: _internals.FlowType.allTypes()
+        });
+    }
+};
+
+
+/***/ }),
+
 /***/ 4091:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -7954,6 +8026,7 @@ const _TriggerOrder = __nccwpck_require__(9796);
 const _UnconnectedElement = __nccwpck_require__(4062);
 const _UnsafeRunningContext = __nccwpck_require__(9664);
 const _UnusedVariable = __nccwpck_require__(5650);
+const _MissingMetadataDescription = __nccwpck_require__(6945);
 const DefaultRuleStore = {
     ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop,
     APIVersion: _APIVersion.APIVersion,
@@ -7979,7 +8052,9 @@ const DefaultRuleStore = {
     UnsafeRunningContext: _UnsafeRunningContext.UnsafeRunningContext,
     UnusedVariable: _UnusedVariable.UnusedVariable
 };
-const BetaRuleStore = {};
+const BetaRuleStore = {
+    MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription
+};
 
 
 /***/ }),
