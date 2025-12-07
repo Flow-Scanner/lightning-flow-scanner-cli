@@ -238692,7 +238692,7 @@ let RuleCommon = class RuleCommon {
     constructor(info, optional){
         _define_property(this, "description", void 0);
         _define_property(this, "docRefs", []);
-        _define_property(this, "isConfigurable", void 0);
+        _define_property(this, "isConfigurable", void 0); // Auto-detected by checking if the implemented check() method actually uses "options."
         _define_property(this, "label", void 0);
         _define_property(this, "name", void 0);
         _define_property(this, "severity", void 0);
@@ -238705,7 +238705,6 @@ let RuleCommon = class RuleCommon {
         this.description = info.description;
         this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/${info.name}.ts`;
         this.docRefs = info.docRefs;
-        // Auto-detect isConfigurable by checking if the implemented check() method actually uses "options."
         const checkImpl = this.check;
         if (typeof checkImpl === "function") {
             const source = checkImpl.toString();
