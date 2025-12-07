@@ -236814,9 +236814,6 @@ _export(exports, {
     get Compiler () {
         return _Compiler.Compiler;
     },
-    get FlatViolation () {
-        return _FlatViolation.FlatViolation;
-    },
     get Flow () {
         return _Flow.Flow;
     },
@@ -236855,7 +236852,6 @@ _export(exports, {
     }
 });
 const _Compiler = __nccwpck_require__(7361);
-const _FlatViolation = __nccwpck_require__(2798);
 const _Flow = __nccwpck_require__(1970);
 const _FlowAttribute = __nccwpck_require__(3656);
 const _FlowElement = __nccwpck_require__(7264);
@@ -237681,18 +237677,6 @@ function mapSeverity(sev) {
             return "error";
     }
 }
-
-
-/***/ }),
-
-/***/ 2798:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
 
 
 /***/ }),
@@ -238706,7 +238690,6 @@ let RuleCommon = class RuleCommon {
         return suppressions.has(name);
     }
     constructor(info, optional){
-        _define_property(this, "autoFixable", void 0);
         _define_property(this, "description", void 0);
         _define_property(this, "docRefs", []);
         _define_property(this, "isConfigurable", void 0);
@@ -238722,8 +238705,14 @@ let RuleCommon = class RuleCommon {
         this.description = info.description;
         this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner-core/tree/main/src/main/rules/${info.name}.ts`;
         this.docRefs = info.docRefs;
-        this.isConfigurable = info.isConfigurable;
-        this.autoFixable = info.autoFixable;
+        // Auto-detect isConfigurable by checking if the implemented check() method actually uses "options."
+        const checkImpl = this.check;
+        if (typeof checkImpl === "function") {
+            const source = checkImpl.toString();
+            this.isConfigurable = /options[.\?]/.test(source);
+        } else {
+            this.isConfigurable = false;
+        }
         var _optional_severity;
         this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "error";
         this.suppressionElement = info.suppressionElement;
@@ -239019,9 +239008,7 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
             label: "Outdated API Version",
             description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: [],
-            isConfigurable: true,
-            autoFixable: false
+            docRefs: []
         });
     }
 };
@@ -239054,7 +239041,6 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",
             docRefs: [
                 {
@@ -239062,7 +239048,6 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
                     path: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_InvocableMethod.htm"
                 }
             ],
-            isConfigurable: false,
             label: "Action Call In Loop",
             name: "ActionCallsInLoop",
             supportedTypes: _internals.FlowType.backEndTypes
@@ -239148,9 +239133,7 @@ let AutoLayout = class AutoLayout extends _RuleCommon.RuleCommon {
             label: "Auto-Layout Mode",
             description: "With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: [],
-            isConfigurable: true,
-            autoFixable: false
+            docRefs: []
         });
     }
 };
@@ -239227,9 +239210,7 @@ let CopyAPIName = class CopyAPIName extends _RuleCommon.RuleCommon {
             label: "Copy API Name",
             description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: [],
-            isConfigurable: false,
-            autoFixable: false
+            docRefs: []
         });
     }
 };
@@ -239339,9 +239320,7 @@ let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCo
                     label: `Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code.`,
                     path: "https://en.wikipedia.org/wiki/Cyclomatic_complexity"
                 }
-            ],
-            isConfigurable: true,
-            autoFixable: false
+            ]
         }, {
             severity: "note"
         }), _define_property(this, "defaultThreshold", 25), _define_property(this, "cyclomaticComplexityUnit", 0);
@@ -239377,7 +239356,6 @@ let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRu
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
             docRefs: [
                 {
@@ -239385,7 +239363,6 @@ let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRu
                     path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
                 }
             ],
-            isConfigurable: false,
             label: "DML Statement In A Loop",
             name: "DMLStatementInLoop",
             supportedTypes: _internals.FlowType.backEndTypes
@@ -239538,9 +239515,7 @@ let DuplicateDMLOperation = class DuplicateDMLOperation extends _RuleCommon.Rule
             label: "Duplicate DML Operation",
             description: "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
             supportedTypes: _internals.FlowType.visualTypes,
-            docRefs: [],
-            isConfigurable: false,
-            autoFixable: false
+            docRefs: []
         });
     }
 };
@@ -239617,10 +239592,8 @@ let FlowDescription = class FlowDescription extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
             docRefs: [],
-            isConfigurable: false,
             label: "Missing Flow Description",
             name: "FlowDescription",
             supportedTypes: [
@@ -239706,7 +239679,6 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",
             docRefs: [
                 {
@@ -239714,7 +239686,6 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
                     path: "https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx"
                 }
             ],
-            isConfigurable: true,
             label: "Flow Naming Convention",
             name: "FlowName",
             supportedTypes: _internals.FlowType.allTypes()
@@ -239797,7 +239768,6 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
             docRefs: [
                 {
@@ -239809,7 +239779,6 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
                     path: "https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_infrastructure_indexes.htm"
                 }
             ],
-            isConfigurable: false,
             label: "Get Record All Fields",
             name: "GetRecordAllFields",
             supportedTypes: _internals.FlowType.allTypes()
@@ -239899,9 +239868,7 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
                     label: "Don't hard code Record Type IDs in Flow. By Stephen Church.",
                     path: "https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/"
                 }
-            ],
-            isConfigurable: false,
-            autoFixable: false
+            ]
         });
     }
 };
@@ -239933,7 +239900,6 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",
             docRefs: [
                 {
@@ -239945,7 +239911,6 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
                     path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"
                 }
             ],
-            isConfigurable: false,
             label: "Hardcoded Url",
             name: "HardcodedUrl",
             supportedTypes: _internals.FlowType.allTypes()
@@ -240030,9 +239995,7 @@ let InactiveFlow = class InactiveFlow extends _RuleCommon.RuleCommon {
             label: "Inactive Flow",
             description: "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: [],
-            isConfigurable: false,
-            autoFixable: false
+            docRefs: []
         });
     }
 };
@@ -240166,7 +240129,6 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
             docRefs: [
                 {
@@ -240174,7 +240136,6 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
                     path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
                 }
             ],
-            isConfigurable: false,
             label: "Missing Fault Path",
             name: "MissingFaultPath",
             supportedTypes: [
@@ -240266,10 +240227,8 @@ let MissingMetadataDescription = class MissingMetadataDescription extends _RuleC
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "Every element must have a meaningful description",
             docRefs: [],
-            isConfigurable: false,
             label: "Missing Metadata Description",
             name: "MissingMetadataDescription",
             supportedTypes: _internals.FlowType.allTypes()
@@ -240416,10 +240375,8 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
             docRefs: [],
-            isConfigurable: false,
             label: "Missing Null Handler",
             name: "MissingNullHandler",
             supportedTypes: [
@@ -240507,9 +240464,7 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
                     label: "Process Builder Retirement",
                     path: "https://help.salesforce.com/s/articleView?id=000389396&type=1"
                 }
-            ],
-            isConfigurable: true,
-            autoFixable: false
+            ]
         });
     }
 };
@@ -240624,7 +240579,6 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",
             docRefs: [
                 {
@@ -240632,7 +240586,6 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
                     path: "https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"
                 }
             ],
-            isConfigurable: false,
             label: "Recursive After Update",
             name: "RecursiveAfterUpdate",
             supportedTypes: [
@@ -240675,7 +240628,6 @@ let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleComm
     }
     constructor(){
         super({
-            autoFixable: false,
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
             docRefs: [
                 {
@@ -240683,7 +240635,6 @@ let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleComm
                     path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
                 }
             ],
-            isConfigurable: false,
             label: "SOQL Query In A Loop",
             name: "SOQLQueryInLoop",
             supportedTypes: _internals.FlowType.backEndTypes
@@ -240795,9 +240746,7 @@ let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.Ru
                     label: "Learn about same record field updates",
                     path: "https://architect.salesforce.com/decision-guides/trigger-automation#Same_Record_Field_Updates"
                 }
-            ],
-            isConfigurable: false,
-            autoFixable: false
+            ]
         }, {
             severity: "warning"
         }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
@@ -240904,9 +240853,7 @@ let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
                     label: "Learn more about flow ordering orchestration",
                     path: "https://architect.salesforce.com/decision-guides/trigger-automation#Ordering___Orchestration"
                 }
-            ],
-            isConfigurable: false,
-            autoFixable: false
+            ]
         }, {
             severity: "note"
         }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
@@ -240997,10 +240944,8 @@ let UnconnectedElement = class UnconnectedElement extends _RuleCommon.RuleCommon
     }
     constructor(){
         super({
-            autoFixable: true,
             description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
             docRefs: [],
-            isConfigurable: false,
             label: "Unconnected Element",
             name: "UnconnectedElement",
             supportedTypes: [
@@ -241099,9 +241044,7 @@ let UnsafeRunningContext = class UnsafeRunningContext extends _RuleCommon.RuleCo
                     label: "Learn about data safety when running flows in system context in Salesforce Help",
                     path: "https://help.salesforce.com/s/articleView?id=sf.flow_distribute_context_data_safety_system_context.htm&type=5"
                 }
-            ],
-            isConfigurable: false,
-            autoFixable: false
+            ]
         }, {
             severity: "warning"
         });
@@ -241203,9 +241146,7 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
             ],
-            docRefs: [],
-            isConfigurable: false,
-            autoFixable: true
+            docRefs: []
         });
     }
 };
