@@ -214362,10 +214362,10 @@ _export(exports, {
         return _Violation.Violation;
     },
     get exportDetails () {
-        return _exportAsDetails.exportDetails;
+        return _ExportDetails.exportDetails;
     },
     get exportSarif () {
-        return _exportAsSarif.exportSarif;
+        return _ExportSarif.exportSarif;
     },
     get fix () {
         return _FixFlows.fix;
@@ -214381,8 +214381,8 @@ _export(exports, {
     }
 });
 const _Compiler = __nccwpck_require__(7361);
-const _exportAsDetails = __nccwpck_require__(6546);
-const _exportAsSarif = __nccwpck_require__(1961);
+const _ExportDetails = __nccwpck_require__(10);
+const _ExportSarif = __nccwpck_require__(961);
 const _FixFlows = __nccwpck_require__(5576);
 const _GetRuleDefinitions = __nccwpck_require__(9044);
 const _ParseFlows = __nccwpck_require__(1744);
@@ -214677,6 +214677,244 @@ let DynamicRule = class DynamicRule {
 
 /***/ }),
 
+/***/ 10:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "exportDetails", ({
+    enumerable: true,
+    get: function() {
+        return exportDetails;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+function exportDetails(results, includeDetails = false) {
+    return results.flatMap((result)=>{
+        const flow = result.flow;
+        const flowName = flow.label || flow.name;
+        const flowFile = flow.fsPath ? flow.fsPath.replace(/\\/g, "/") : `${flow.name}.flow-meta.xml`;
+        return result.ruleResults.filter((rule)=>{
+            var _rule_details;
+            return rule.occurs && ((_rule_details = rule.details) === null || _rule_details === void 0 ? void 0 : _rule_details.length);
+        }).flatMap((rule)=>rule.details.map((detail)=>{
+                // Exclude details by default (via Omit), add conditionally
+                const base = detail;
+                var _rule_severity;
+                const exported = _object_spread_props(_object_spread({}, base, includeDetails && detail.details ? {
+                    details: detail.details
+                } : {}), {
+                    flowFile,
+                    flowName,
+                    ruleName: rule.ruleDefinition.label || rule.ruleName,
+                    severity: (_rule_severity = rule.severity) !== null && _rule_severity !== void 0 ? _rule_severity : "warning"
+                });
+                return exported;
+            }));
+    });
+}
+
+
+/***/ }),
+
+/***/ 961:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "exportSarif", ({
+    enumerable: true,
+    get: function() {
+        return exportSarif;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function exportSarif(results) {
+    const runs = results.map((result)=>{
+        const flow = result.flow;
+        const uri = getUri(flow);
+        return {
+            artifacts: [
+                {
+                    location: {
+                        uri
+                    },
+                    sourceLanguage: "xml"
+                }
+            ],
+            results: result.ruleResults.filter((r)=>r.occurs).flatMap((r)=>r.details.map((d)=>({
+                        level: mapSeverity(r.severity),
+                        locations: [
+                            {
+                                physicalLocation: {
+                                    artifactLocation: {
+                                        index: 0,
+                                        uri
+                                    },
+                                    region: mapRegion(d)
+                                }
+                            }
+                        ],
+                        message: {
+                            text: r.errorMessage || `${r.ruleName} in ${d.name}`
+                        },
+                        properties: _object_spread({
+                            element: d.name,
+                            flow: flow.name,
+                            type: d.type
+                        }, d.details),
+                        ruleId: r.ruleName
+                    }))),
+            tool: {
+                driver: {
+                    informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-core",
+                    name: "Lightning Flow Scanner",
+                    rules: result.ruleResults.filter((r)=>r.occurs).map((r)=>({
+                            defaultConfiguration: {
+                                level: mapSeverity(r.severity)
+                            },
+                            fullDescription: {
+                                text: r.ruleDefinition.description || ""
+                            },
+                            id: r.ruleName,
+                            shortDescription: {
+                                text: r.ruleDefinition.description || r.ruleName
+                            }
+                        })),
+                    version: "1.0.0"
+                }
+            }
+        };
+    });
+    return JSON.stringify({
+        $schema: "https://json.schemastore.org/sarif-2.1.0.json",
+        runs,
+        version: "2.1.0"
+    }, null, 2);
+}
+function getUri(flow) {
+    // Prefer uri (works in both browser and Node)
+    if (flow.uri) {
+        return flow.uri.replace(/\\/g, "/");
+    }
+    // Node only: fsPath is only set in Node environments
+    if (flow.fsPath) {
+        const match = flow.fsPath.match(/(?:force-app|src)\/.+$/);
+        if (match) {
+            return match[0].replace(/\\/g, "/");
+        }
+        return flow.fsPath.replace(/\\/g, "/");
+    }
+    return `flows/${flow.name}.flow-meta.xml`;
+}
+function mapRegion(detail) {
+    var _detail_columnNumber, _detail_lineNumber;
+    // Use pre-enriched line/column from Violation (added by enrichViolationsWithLineNumbers)
+    // Fallback if somehow missing (e.g., unenriched legacy data)
+    return {
+        startColumn: (_detail_columnNumber = detail.columnNumber) !== null && _detail_columnNumber !== void 0 ? _detail_columnNumber : 1,
+        startLine: (_detail_lineNumber = detail.lineNumber) !== null && _detail_lineNumber !== void 0 ? _detail_lineNumber : 1
+    };
+}
+function mapSeverity(sev) {
+    switch(sev === null || sev === void 0 ? void 0 : sev.toLowerCase()){
+        case "info":
+        case "note":
+            return "note";
+        case "warning":
+            return "warning";
+        default:
+            return "warning";
+    }
+}
+
+
+/***/ }),
+
 /***/ 5576:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -214819,37 +215057,62 @@ const _DynamicRule = __nccwpck_require__(3657);
 function GetRuleDefinitions(ruleConfig, options) {
     const selectedRules = [];
     const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
-    if (ruleConfig && ruleConfig instanceof Map) {
+    // Default to "merged" mode for backward compatibility
+    const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
+    // In "isolated" mode, only load rules that are explicitly configured
+    if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
         for (const ruleName of ruleConfig.keys()){
-            let severity = "warning";
             try {
-                var _ruleConfig_get;
-                const configuredSeverity = (_ruleConfig_get = ruleConfig.get(ruleName)) === null || _ruleConfig_get === void 0 ? void 0 : _ruleConfig_get["severity"];
-                if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
-                    severity = configuredSeverity;
+                const customConfig = ruleConfig.get(ruleName);
+                // Skip if explicitly disabled
+                if (customConfig && customConfig["enabled"] === false) {
+                    continue;
                 }
-                // Pass betaMode to DynamicRule
+                // Create the rule instance
                 const matchedRule = new _DynamicRule.DynamicRule(ruleName, includeBeta);
-                if (configuredSeverity) matchedRule.severity = severity;
+                // Apply custom severity if provided
+                const configuredSeverity = customConfig === null || customConfig === void 0 ? void 0 : customConfig["severity"];
+                if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
+                    matchedRule.severity = configuredSeverity;
+                }
                 selectedRules.push(matchedRule);
             } catch (error) {
                 console.log(error.message);
             }
         }
-    } else {
-        // Load all defaults
-        for(const rule in _DefaultRuleStore.DefaultRuleStore){
-            const matchedRule = new _DynamicRule.DynamicRule(rule, includeBeta);
-            selectedRules.push(matchedRule);
+        return selectedRules;
+    }
+    // In "merged" mode (default), start with all default rules and merge with config
+    const allRuleNames = new Set();
+    // Add all default rules
+    for(const ruleName in _DefaultRuleStore.DefaultRuleStore){
+        allRuleNames.add(ruleName);
+    }
+    // Add beta rules if beta mode is enabled
+    if (includeBeta) {
+        for(const ruleName in _DefaultRuleStore.BetaRuleStore){
+            allRuleNames.add(ruleName);
         }
     }
-    // Optionally add beta-only rules that are not in defaults
-    if (includeBeta) {
-        for(const betaRuleName in _DefaultRuleStore.BetaRuleStore){
-            if (!selectedRules.some((r)=>r.name === betaRuleName)) {
-                const betaRule = new _DynamicRule.DynamicRule(betaRuleName, true);
-                selectedRules.push(betaRule);
+    // Process each rule
+    for (const ruleName of allRuleNames){
+        try {
+            // Check if there's a custom config for this rule
+            const customConfig = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(ruleName);
+            // Skip if explicitly disabled
+            if (customConfig && customConfig["enabled"] === false) {
+                continue;
             }
+            // Create the rule instance
+            const matchedRule = new _DynamicRule.DynamicRule(ruleName, includeBeta);
+            // Apply custom severity if provided
+            const configuredSeverity = customConfig === null || customConfig === void 0 ? void 0 : customConfig["severity"];
+            if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
+                matchedRule.severity = configuredSeverity;
+            }
+            selectedRules.push(matchedRule);
+        } catch (error) {
+            console.log(error.message);
         }
     }
     return selectedRules;
@@ -215027,18 +215290,17 @@ function scan(parsedFlows, ruleOptions) {
 }
 function ScanFlows(flows, ruleOptions) {
     const flowResults = [];
-    let selectedRules = [];
     const rawMode = ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.detailLevel;
     const detailLevel = typeof rawMode === 'string' && rawMode.toLowerCase() === 'simple' ? _IRulesConfig.DetailLevel.SIMPLE : _IRulesConfig.DetailLevel.ENRICHED;
+    let ruleMap = undefined;
     if ((ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules) && Object.keys(ruleOptions.rules).length > 0) {
-        const ruleMap = new Map();
+        ruleMap = new Map();
         for (const [ruleName, config] of Object.entries(ruleOptions.rules)){
             ruleMap.set(ruleName, config);
         }
-        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(ruleMap, ruleOptions);
-    } else {
-        selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(undefined, ruleOptions);
     }
+    // This ensures default rules are loaded and merged with any custom configs
+    const selectedRules = (0, _GetRuleDefinitions.GetRuleDefinitions)(ruleMap, ruleOptions);
     const flowXmlCache = new Map();
     for (const flowInput of flows){
         const flow = flowInput instanceof _internals.Flow ? flowInput : _internals.Flow.from(flowInput);
@@ -215092,244 +215354,6 @@ function ScanFlows(flows, ruleOptions) {
         });
     }
     return flowResults;
-}
-
-
-/***/ }),
-
-/***/ 6546:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "exportDetails", ({
-    enumerable: true,
-    get: function() {
-        return exportDetails;
-    }
-}));
-function _define_property(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _object_spread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _define_property(target, key, source[key]);
-        });
-    }
-    return target;
-}
-function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-        var symbols = Object.getOwnPropertySymbols(object);
-        if (enumerableOnly) {
-            symbols = symbols.filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-            });
-        }
-        keys.push.apply(keys, symbols);
-    }
-    return keys;
-}
-function _object_spread_props(target, source) {
-    source = source != null ? source : {};
-    if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-        ownKeys(Object(source)).forEach(function(key) {
-            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-    }
-    return target;
-}
-function exportDetails(results, includeDetails = false) {
-    return results.flatMap((result)=>{
-        const flow = result.flow;
-        const flowName = flow.label || flow.name;
-        const flowFile = flow.fsPath ? flow.fsPath.replace(/\\/g, "/") : `${flow.name}.flow-meta.xml`;
-        return result.ruleResults.filter((rule)=>{
-            var _rule_details;
-            return rule.occurs && ((_rule_details = rule.details) === null || _rule_details === void 0 ? void 0 : _rule_details.length);
-        }).flatMap((rule)=>rule.details.map((detail)=>{
-                // Exclude details by default (via Omit), add conditionally
-                const base = detail;
-                var _rule_severity;
-                const exported = _object_spread_props(_object_spread({}, base, includeDetails && detail.details ? {
-                    details: detail.details
-                } : {}), {
-                    flowFile,
-                    flowName,
-                    ruleName: rule.ruleDefinition.label || rule.ruleName,
-                    severity: (_rule_severity = rule.severity) !== null && _rule_severity !== void 0 ? _rule_severity : "warning"
-                });
-                return exported;
-            }));
-    });
-}
-
-
-/***/ }),
-
-/***/ 1961:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "exportSarif", ({
-    enumerable: true,
-    get: function() {
-        return exportSarif;
-    }
-}));
-function _define_property(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _object_spread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _define_property(target, key, source[key]);
-        });
-    }
-    return target;
-}
-function exportSarif(results) {
-    const runs = results.map((result)=>{
-        const flow = result.flow;
-        const uri = getUri(flow);
-        return {
-            artifacts: [
-                {
-                    location: {
-                        uri
-                    },
-                    sourceLanguage: "xml"
-                }
-            ],
-            results: result.ruleResults.filter((r)=>r.occurs).flatMap((r)=>r.details.map((d)=>({
-                        level: mapSeverity(r.severity),
-                        locations: [
-                            {
-                                physicalLocation: {
-                                    artifactLocation: {
-                                        index: 0,
-                                        uri
-                                    },
-                                    region: mapRegion(d)
-                                }
-                            }
-                        ],
-                        message: {
-                            text: r.errorMessage || `${r.ruleName} in ${d.name}`
-                        },
-                        properties: _object_spread({
-                            element: d.name,
-                            flow: flow.name,
-                            type: d.type
-                        }, d.details),
-                        ruleId: r.ruleName
-                    }))),
-            tool: {
-                driver: {
-                    informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-core",
-                    name: "Lightning Flow Scanner",
-                    rules: result.ruleResults.filter((r)=>r.occurs).map((r)=>({
-                            defaultConfiguration: {
-                                level: mapSeverity(r.severity)
-                            },
-                            fullDescription: {
-                                text: r.ruleDefinition.description || ""
-                            },
-                            id: r.ruleName,
-                            shortDescription: {
-                                text: r.ruleDefinition.description || r.ruleName
-                            }
-                        })),
-                    version: "1.0.0"
-                }
-            }
-        };
-    });
-    return JSON.stringify({
-        $schema: "https://json.schemastore.org/sarif-2.1.0.json",
-        runs,
-        version: "2.1.0"
-    }, null, 2);
-}
-function getUri(flow) {
-    // Prefer uri (works in both browser and Node)
-    if (flow.uri) {
-        return flow.uri.replace(/\\/g, "/");
-    }
-    // Node only: fsPath is only set in Node environments
-    if (flow.fsPath) {
-        const match = flow.fsPath.match(/(?:force-app|src)\/.+$/);
-        if (match) {
-            return match[0].replace(/\\/g, "/");
-        }
-        return flow.fsPath.replace(/\\/g, "/");
-    }
-    return `flows/${flow.name}.flow-meta.xml`;
-}
-function mapRegion(detail) {
-    var _detail_columnNumber, _detail_lineNumber;
-    // Use pre-enriched line/column from Violation (added by enrichViolationsWithLineNumbers)
-    // Fallback if somehow missing (e.g., unenriched legacy data)
-    return {
-        startColumn: (_detail_columnNumber = detail.columnNumber) !== null && _detail_columnNumber !== void 0 ? _detail_columnNumber : 1,
-        startLine: (_detail_lineNumber = detail.lineNumber) !== null && _detail_lineNumber !== void 0 ? _detail_lineNumber : 1
-    };
-}
-function mapSeverity(sev) {
-    switch(sev === null || sev === void 0 ? void 0 : sev.toLowerCase()){
-        case "info":
-        case "note":
-            return "note";
-        case "warning":
-            return "warning";
-        default:
-            return "warning";
-    }
 }
 
 
@@ -217806,6 +217830,103 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
 
 /***/ }),
 
+/***/ 2252:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingFilterRecordTrigger", ({
+    enumerable: true,
+    get: function() {
+        return MissingFilterRecordTrigger;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingFilterRecordTrigger = class MissingFilterRecordTrigger extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        var _flow_xmldata_start, _flow_xmldata, _flow_xmldata_start1, _flow_xmldata1, _flow_xmldata_start2, _flow_xmldata2;
+        const violations = [];
+        // Check if this is a record-triggered flow
+        const triggerType = (_flow_xmldata = flow.xmldata) === null || _flow_xmldata === void 0 ? void 0 : (_flow_xmldata_start = _flow_xmldata.start) === null || _flow_xmldata_start === void 0 ? void 0 : _flow_xmldata_start.triggerType;
+        // Only check flows with record trigger types
+        if (!triggerType || ![
+            "RecordAfterSave",
+            "RecordBeforeSave"
+        ].includes(triggerType)) {
+            return violations;
+        }
+        // Check if the flow has filters or entry conditions at the flow level
+        const filters = (_flow_xmldata1 = flow.xmldata) === null || _flow_xmldata1 === void 0 ? void 0 : (_flow_xmldata_start1 = _flow_xmldata1.start) === null || _flow_xmldata_start1 === void 0 ? void 0 : _flow_xmldata_start1.filters;
+        const hasFilters = !!filters;
+        const scheduledPaths = (_flow_xmldata2 = flow.xmldata) === null || _flow_xmldata2 === void 0 ? void 0 : (_flow_xmldata_start2 = _flow_xmldata2.start) === null || _flow_xmldata_start2 === void 0 ? void 0 : _flow_xmldata_start2.scheduledPaths;
+        const hasScheduledPaths = !!scheduledPaths;
+        // If no filters or scheduled paths (which have their own conditions), flag as violation
+        if (!hasFilters && !hasScheduledPaths) {
+            violations.push(new _internals.Violation(new _internals.FlowAttribute(triggerType, "triggerType", "autolaunched && triggerType")));
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            name: "MissingFilterRecordTrigger",
+            label: "Missing Record Trigger Filter",
+            description: "Detects record-triggered flows that lack filters on changed fields or entry conditions, leading to unnecessary executions on every record change. This can degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
+            supportedTypes: [
+                _internals.FlowType.autolaunchedType
+            ],
+            docRefs: []
+        });
+    }
+};
+
+
+/***/ }),
+
 /***/ 104:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -218854,6 +218975,7 @@ const _UnconnectedElement = __nccwpck_require__(5055);
 const _UnsafeRunningContext = __nccwpck_require__(257);
 const _UnusedVariable = __nccwpck_require__(8519);
 const _MissingMetadataDescription = __nccwpck_require__(104);
+const _MissingFilterRecordTrigger = __nccwpck_require__(2252);
 const DefaultRuleStore = {
     ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop,
     APIVersion: _APIVersion.APIVersion,
@@ -218880,7 +219002,8 @@ const DefaultRuleStore = {
     UnusedVariable: _UnusedVariable.UnusedVariable
 };
 const BetaRuleStore = {
-    MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription
+    MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription,
+    MissingFilterRecordTrigger: _MissingFilterRecordTrigger.MissingFilterRecordTrigger
 };
 
 
