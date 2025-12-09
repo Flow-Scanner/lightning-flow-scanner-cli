@@ -217752,6 +217752,7 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
         if (!this.applicableElements.includes(proxyNode.subtype)) {
             return false;
         }
+        // Exclude specific wait element subtypes that don't need fault paths
         if (proxyNode.subtype === "waits") {
             var _proxyNode_element;
             const elementSubtype = (_proxyNode_element = proxyNode.element) === null || _proxyNode_element === void 0 ? void 0 : _proxyNode_element["elementSubtype"];
@@ -217775,6 +217776,7 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
         const visitCallback = (element)=>{
             var _element_connectors;
             if (!(element === null || element === void 0 ? void 0 : (_element_connectors = element.connectors) === null || _element_connectors === void 0 ? void 0 : _element_connectors.find((connector)=>connector.type === "faultConnector")) && elementsWhereFaultPathIsApplicable.includes(element.name)) {
+                // Skip record updates in before-save flows (they're safe by design)
                 if (isRecordBeforeSave && element.subtype === "recordUpdates") {
                     return;
                 }
@@ -217803,7 +217805,7 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
-            description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path.",
+            description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path. This rule checks DML operations, actions (Send Email, Quick Actions), and Invocable Apex Actions for proper error handling.",
             docRefs: [
                 {
                     label: "Flow Best Practices",
@@ -217822,7 +217824,8 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
             "recordUpdates",
             "recordCreates",
             "waits",
-            "actionCalls"
+            "actionCalls",
+            "apexPluginCalls"
         ]);
     }
 };
@@ -218535,6 +218538,106 @@ let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.Ru
 
 /***/ }),
 
+/***/ 8296:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "TransformInsteadOfLoop", ({
+    enumerable: true,
+    get: function() {
+        return TransformInsteadOfLoop;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        var _flow_elements;
+        const violations = [];
+        var _flow_elements_filter;
+        // Get all loop elements
+        const loops = (_flow_elements_filter = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((e)=>e.subtype === "loops")) !== null && _flow_elements_filter !== void 0 ? _flow_elements_filter : [];
+        for (const loop of loops){
+            var _loopNode_connectors;
+            const loopNode = loop;
+            // Check if the loop's nextValueConnector (the iterative path) leads to an assignment
+            const nextValueConnector = (_loopNode_connectors = loopNode.connectors) === null || _loopNode_connectors === void 0 ? void 0 : _loopNode_connectors.find((connector)=>connector.type === "nextValueConnector");
+            if (nextValueConnector === null || nextValueConnector === void 0 ? void 0 : nextValueConnector.reference) {
+                var _flow_elements1;
+                // Find the element that the nextValueConnector points to
+                const targetElement = (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : _flow_elements1.find((e)=>e.name === nextValueConnector.reference);
+                // Check if the target is an assignment
+                if ((targetElement === null || targetElement === void 0 ? void 0 : targetElement.subtype) === "assignments") {
+                    violations.push(new _internals.Violation(loopNode));
+                }
+            }
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            name: "TransformInsteadOfLoop",
+            label: "Transform Instead of Loop",
+            description: "Detects Loop elements that directly connect to Assignment elements. This pattern can often be replaced with the Transform element, which is on average 10x more performant according to Salesforce documentation.",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [
+                {
+                    label: "Transform Multiple Records - Trailhead",
+                    path: "https://trailhead.salesforce.com/content/learn/modules/multirecord-elements-and-transforms-in-flows/transform-multiple-records"
+                }
+            ]
+        });
+    }
+};
+
+
+/***/ }),
+
 /***/ 1793:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -218976,6 +219079,7 @@ const _UnsafeRunningContext = __nccwpck_require__(257);
 const _UnusedVariable = __nccwpck_require__(8519);
 const _MissingMetadataDescription = __nccwpck_require__(104);
 const _MissingFilterRecordTrigger = __nccwpck_require__(2252);
+const _TransformInsteadOfLoop = __nccwpck_require__(8296);
 const DefaultRuleStore = {
     ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop,
     APIVersion: _APIVersion.APIVersion,
@@ -219003,7 +219107,8 @@ const DefaultRuleStore = {
 };
 const BetaRuleStore = {
     MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription,
-    MissingFilterRecordTrigger: _MissingFilterRecordTrigger.MissingFilterRecordTrigger
+    MissingFilterRecordTrigger: _MissingFilterRecordTrigger.MissingFilterRecordTrigger,
+    TransformInsteadOfLoop: _TransformInsteadOfLoop.TransformInsteadOfLoop
 };
 
 
