@@ -218248,6 +218248,106 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
 
 /***/ }),
 
+/***/ 6920:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "RecordIdAsString", ({
+    enumerable: true,
+    get: function() {
+        return RecordIdAsString;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        var _flow_start, _flow_start1, _flow_elements;
+        const violations = [];
+        // Skip record-triggered flows - they don't support this pattern
+        const isRecordTriggered = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordAfterSave" || ((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.triggerType) === "RecordBeforeSave";
+        if (isRecordTriggered) {
+            return violations;
+        }
+        // Find input variables named "recordId" (case-insensitive)
+        const variables = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((e)=>e.subtype === "variables");
+        for (const variable of variables){
+            const varElement = variable.element;
+            if ((varElement.isInput === true || varElement.isInput === "true") && variable.name.toLowerCase() === "recordid" && varElement.dataType === "String") {
+                violations.push(new _internals.Violation(variable));
+            }
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            name: "RecordIdAsString",
+            label: "Record ID as String Instead of Record",
+            description: "Detects flows using a String variable named 'recordId' as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
+            supportedTypes: [
+                ..._internals.FlowType.visualTypes,
+                _internals.FlowType.autolaunchedType
+            ],
+            docRefs: [
+                {
+                    label: "Screen Flow Distribution",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_distribute_screen.htm"
+                }
+            ]
+        }, {
+            severity: "error"
+        });
+    }
+};
+
+
+/***/ }),
+
 /***/ 546:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -218631,6 +218731,8 @@ let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.Ru
                     path: "https://trailhead.salesforce.com/content/learn/modules/multirecord-elements-and-transforms-in-flows/transform-multiple-records"
                 }
             ]
+        }, {
+            severity: "error"
         });
     }
 };
@@ -219080,6 +219182,7 @@ const _UnusedVariable = __nccwpck_require__(8519);
 const _MissingMetadataDescription = __nccwpck_require__(104);
 const _MissingFilterRecordTrigger = __nccwpck_require__(2252);
 const _TransformInsteadOfLoop = __nccwpck_require__(8296);
+const _RecordIdAsString = __nccwpck_require__(6920);
 const DefaultRuleStore = {
     ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop,
     APIVersion: _APIVersion.APIVersion,
@@ -219108,7 +219211,8 @@ const DefaultRuleStore = {
 const BetaRuleStore = {
     MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription,
     MissingFilterRecordTrigger: _MissingFilterRecordTrigger.MissingFilterRecordTrigger,
-    TransformInsteadOfLoop: _TransformInsteadOfLoop.TransformInsteadOfLoop
+    TransformInsteadOfLoop: _TransformInsteadOfLoop.TransformInsteadOfLoop,
+    RecordIdAsString: _RecordIdAsString.RecordIdAsString
 };
 
 
