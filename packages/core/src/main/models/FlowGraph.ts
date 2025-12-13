@@ -57,7 +57,6 @@ export class FlowGraph {
         } else {
           this.normalConnectors.get(node.name)?.add(targetRef);
         }
-
         this.allConnectors.get(node.name)?.add(targetRef);
         // Build reverse map for "previous elements" queries
         if (!this.reverseConnectors.has(targetRef)) {
@@ -74,7 +73,6 @@ export class FlowGraph {
    */
   private computeReachability(startReference: string): void {
     const compiler = new Compiler();
-
     compiler.traverseFlow(startReference, (element) => {
       this.reachableFromStart.add(element.name);
     }, this.nodeMap, this.allConnectors);
@@ -86,14 +84,11 @@ export class FlowGraph {
    */
   private computeLoopBoundaries(): void {
     const loopNodes = Array.from(this.nodeMap.values()).filter(n => n.subtype === "loops");
-
     for (const loopNode of loopNodes) {
       // Find loop end (noMoreValuesConnector)
       const loopEnd = (loopNode.element as any)?.noMoreValuesConnector?.targetReference ?? loopNode.name;
-
       // Use Compiler to find all elements between loop start and end
       const compiler = new Compiler();
-
       compiler.traverseFlow(loopNode.name, (element) => {
         this.elementsInLoop.set(element.name, loopNode.name);
       }, this.nodeMap, this.allConnectors, loopEnd); // Pass endElementName to stop at loop boundary
@@ -171,5 +166,86 @@ export class FlowGraph {
         callback(node);
       }
     }
+  }
+    /**
+   * Export the graph to Mermaid flowchart syntax.
+   * @param options - Customization: { includeDetails: boolean } to add node labels/descriptions.
+   * @returns Mermaid string for embedding in Markdown.
+   */
+  public toMermaid(options: { includeDetails?: boolean } = {}): string {
+    let mermaid = 'flowchart TB\n';
+    
+    // Define nodes with shapes/icons
+    for (const [name, node] of this.nodeMap) {
+      let shape = '["' + node.subtype + ': ' + name + '"]';  // Basic label; enhance with icons if needed
+      if (options.includeDetails && typeof node.element === 'object' && !Array.isArray(node.element) && 'description' in node.element && typeof node.element.description === 'string') {
+        shape = '["' + node.subtype + ': ' + name + '\\n' + node.element.description + '"]';
+      }
+      if (node.subtype === 'decisions') shape = '{' + shape.slice(1, -1) + '}';  // Diamond for decisions
+      else if (node.subtype === 'loops') shape = '{{' + shape.slice(1, -1) + '}}';  // Hexagon for loops
+      mermaid += `  ${name}${shape}:::nodeClass\n`;
+    }
+    
+    // Add edges (normal, fault, loop)
+    for (const [from, targets] of this.allConnectors) {
+      for (const to of targets) {
+        mermaid += `  ${from} --> ${to}\n`;
+      }
+    }
+    for (const [from, faults] of this.faultConnectors) {
+      for (const to of faults) {
+        mermaid += `  ${from} -. Fault .-> ${to}\n`;
+      }
+    }
+    
+    // Highlight loops (group elements in subgraphs if needed)
+    for (const loopNode of this.getLoopNodes()) {
+      const loopElems = this.getLoopElements(loopNode.name);
+      if (loopElems.size > 0) {
+        mermaid += `  subgraph "${loopNode.name} Loop"\n`;
+        for (const elem of loopElems) {
+          mermaid += `    ${elem}\n`;
+        }
+        mermaid += '  end\n';
+      }
+    }
+    
+    // Basic styling
+    mermaid += '  classDef nodeClass fill:#D4E4FC,stroke:#333,stroke-width:2px;\n';  // Example blue nodes
+    
+    return mermaid;
+  }
+
+  /**
+   * Export the graph to PlantUML syntax for UML-style diagrams.
+   * @returns PlantUML string.
+   */
+  public toPlantUML(): string {
+    let plantuml = '@startuml\nskinparam activityBackgroundColor #D4E4FC\n';  // Basic styling
+    
+    // Nodes
+    for (const [name, node] of this.nodeMap) {
+      plantuml += `activity "${node.subtype}: ${name}" as ${name}\n`;
+    }
+    
+    // Edges
+    for (const [from, targets] of this.allConnectors) {
+      for (const to of targets) {
+        plantuml += `${from} --> ${to}\n`;
+      }
+    }
+    
+    // Loops as groups
+    for (const loopNode of this.getLoopNodes()) {
+      plantuml += `partition "${loopNode.name} Loop" {\n`;
+      const loopElems = this.getLoopElements(loopNode.name);
+      for (const elem of loopElems) {
+        plantuml += `  ${elem}\n`;
+      }
+      plantuml += '}\n';
+    }
+    
+    plantuml += '@enduml';
+    return plantuml;
   }
 }
