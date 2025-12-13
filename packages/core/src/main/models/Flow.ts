@@ -196,6 +196,15 @@ export class Flow {
     this._graph = new FlowGraph(flowNodes, this.startReference);
   }
 
+  public visualize(format: 'mermaid' | 'plantuml' = 'mermaid', options?: any): string {
+    if (format === 'mermaid') {
+      return this.graph.toMermaid(options);
+    } else if (format === 'plantuml') {
+      return this.graph.toPlantUML();
+    }
+    throw new Error('Unsupported format');
+  }
+
   private processNodeType<T extends FlowElement>(
     data: any,
     nodeType: string,
