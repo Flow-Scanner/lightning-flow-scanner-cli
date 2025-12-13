@@ -49,7 +49,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
     _options: object | undefined,
     suppressions: Set<string>
   ): core.Violation[] {
-    const compiler = new core.Compiler();
     const results: core.Violation[] = [];
     
     const elementsWhereFaultPathIsApplicable = (
@@ -80,9 +79,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
       }
     };
 
-    if (flow.startReference) {
-      compiler.traverseFlow(flow, flow.startReference, visitCallback);
-    }
+    flow.graph?.forEachReachable(visitCallback);
 
     return results;
   }
@@ -101,25 +98,6 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   }
 
   private isPartOfFaultHandlingFlow(element: core.FlowNode, flow: core.Flow): boolean {
-    const flowelements = flow.elements.filter(
-      (el): el is core.FlowNode => el instanceof core.FlowNode
-    );
-
-    for (const otherElement of flowelements) {
-      if (otherElement !== element) {
-        if (
-          otherElement.connectors?.find(
-            (connector) =>
-              connector.type === "faultConnector" && 
-              connector.reference && 
-              connector.reference === element.name
-          )
-        ) {
-          return true;
-        }
-      }
-    }
-
-    return false;
+    return flow.graph?.isPartOfFaultHandling(element.name) || false;
   }
 }

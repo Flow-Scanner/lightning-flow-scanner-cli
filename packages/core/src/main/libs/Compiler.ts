@@ -1,67 +1,51 @@
-import { Flow } from "../models/Flow";
 import { FlowNode } from "../models/FlowNode";
 
 export class Compiler {
   public visitedElements: Set<string>;
-
   constructor() {
     this.visitedElements = new Set<string>();
   }
-
   traverseFlow(
-    flow: Flow,
     startElementName: string,
     visitCallback: (element: FlowNode) => void,
+    nodeMap: Map<string, FlowNode>,
+    allConnectors: Map<string, Set<string>>,
     endElementName?: string
   ) {
     // Iterative Deepening Depth-First Search (IDDFS)
     let elementsToVisit = [startElementName];
-
     while (elementsToVisit.length > 0) {
       const nextElements: string[] = [];
-
       for (const elementName of elementsToVisit) {
         if (!this.visitedElements.has(elementName)) {
-          const currentElement = flow.elements?.find(
-            (element) => element.name === elementName
-          ) as FlowNode;
+          const currentElement = nodeMap.get(elementName);
           if (currentElement) {
             visitCallback(currentElement);
             this.visitedElements.add(elementName);
-            nextElements.push(...this.findNextElements(flow, currentElement, endElementName));
+            nextElements.push(...this.findNextElements(elementName, allConnectors, nodeMap, endElementName));
           }
         }
       }
-
       if (nextElements.length === 0) {
         // If no more next elements
         break; // Terminate the traversal
       }
-
       elementsToVisit = nextElements;
     }
   }
-
   private findNextElements(
-    flow: Flow,
-    currentElement: FlowNode,
+    elementName: string,
+    allConnectors: Map<string, Set<string>>,
+    nodeMap: Map<string, FlowNode>,
     endElementName?: string
   ): string[] {
     const nextElements: string[] = [];
-
-    if (!currentElement.connectors || currentElement.connectors.length === 0) {
-      return nextElements;
-    }
-
-    for (const connector of currentElement.connectors) {
-      const targetReference =
-        connector?.connectorTargetReference?.targetReference ?? connector.reference;
-      // Check if the reference exists in the flow elements
-      const nextElement = flow.elements?.find(
-        (element) => element.metaType === "node" && element.name === targetReference
-      );
-      if (nextElement && nextElement.metaType === "node" && nextElement.name !== endElementName) {
-        nextElements.push(nextElement!.name as string);
+    const targets = allConnectors.get(elementName);
+    if (targets) {
+      for (const targetReference of targets) {
+        if (targetReference !== endElementName && nodeMap.has(targetReference)) { // Safety check for existence
+          nextElements.push(targetReference);
+        }
       }
     }
     return nextElements;

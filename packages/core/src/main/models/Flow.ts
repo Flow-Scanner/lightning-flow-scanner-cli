@@ -5,6 +5,7 @@ import { FlowMetadata } from "./FlowMetadata";
 import { FlowNode } from "./FlowNode";
 import { FlowResource } from "./FlowResource";
 import { FlowVariable } from "./FlowVariable";
+import { FlowGraph } from "./FlowGraph";
 
 export class Flow {
   /**
@@ -87,7 +88,18 @@ export class Flow {
    */
   public startNode?: FlowNode;
 
-  // Legacy/internal
+  private _graph?: FlowGraph;
+
+  public get graph(): FlowGraph {
+    if (!this._graph) {
+      const flowNodes = this.elements.filter((e): e is FlowNode => e instanceof FlowNode);
+      this.startReference ||= this.findStart();
+      this._graph = new FlowGraph(flowNodes, this.startReference);
+    }
+    return this._graph;
+  }
+
+    // Legacy/internal
   public root?: any;
   public xmldata: any;
 
@@ -178,6 +190,10 @@ export class Flow {
 
     this.elements = allNodes;
     this.startReference = this.findStart();
+
+    // Build the connectivity graph
+    const flowNodes = allNodes.filter((e): e is FlowNode => e instanceof FlowNode);
+    this._graph = new FlowGraph(flowNodes, this.startReference);
   }
 
   private processNodeType<T extends FlowElement>(
