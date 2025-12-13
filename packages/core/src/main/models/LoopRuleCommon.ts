@@ -1,5 +1,5 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { Compiler, Flow, FlowNode, Violation } from "../internals/internals";
+import { Flow, FlowNode, Violation } from "../internals/internals";
 import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 
@@ -13,7 +13,7 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
     _options: object | undefined,
     suppressions: Set<string>
   ): Violation[] {
-    const loopElements = this.findLoopElements(flow);
+    const loopElements = flow.graph.getLoopNodes();
     if (!loopElements.length) {
       return [];
     }
@@ -27,24 +27,24 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
   protected abstract getStatementTypes(): string[];
 
   private findLoopElements(flow: Flow): FlowNode[] {
-    return (flow.elements?.filter((node) => node.subtype === "loops") as FlowNode[]) || [];
+    return flow.graph.getLoopNodes();
   }
 
   private findLoopEnd(element: FlowNode): string {
-    return element.element["noMoreValuesConnector"]?.targetReference ?? element.name;
+    return (element.element as any)?.noMoreValuesConnector?.targetReference ?? element.name;
   }
 
   private findStatementsInLoops(flow: Flow, loopElements: FlowNode[]): FlowNode[] {
     const statementsInLoops: FlowNode[] = [];
     const statementTypes = this.getStatementTypes();
-    const findStatement = (element: FlowNode) => {
-      if (statementTypes.includes(element.subtype)) {
-        statementsInLoops.push(element);
-      }
-    };
     for (const element of loopElements) {
-      const loopEnd = this.findLoopEnd(element);
-      new Compiler().traverseFlow(flow, element.name, findStatement, loopEnd);
+      const loopElems = flow.graph.getLoopElements(element.name);
+      for (const elemName of loopElems) {
+        const node = flow.graph.getNode(elemName);
+        if (node && statementTypes.includes(node.subtype)) {
+          statementsInLoops.push(node);
+        }
+      }
     }
     return statementsInLoops;
   }

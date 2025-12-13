@@ -8,7 +8,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
       name: "DuplicateDMLOperation",
       label: "Duplicate DML Operation",
       description:
-        "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
+        "When the flow executes database changes between screens, users must not be allowed to navigate back, or duplicate DML operations may occur.",
       supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
     });
@@ -19,101 +19,63 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
     _options: object | undefined,
     suppressions: Set<string>
   ): core.Violation[] {
-    const flowElements: core.FlowNode[] = flow.elements.filter(
-      (node): node is core.FlowNode => node instanceof core.FlowNode
-    );
+    const graph = flow.graph;
+    const start = flow.startReference;
 
-    // Use the helper to find the starting element index
-    const startingNode = this.findStartIndex(flow, flowElements);
-    if (startingNode === -1) {
-      return [];
+    if (!start) return [];
+
+    const violations: core.Violation[] = [];
+    const visited = new Set<string>();
+
+    type State = { name: string; seenDML: boolean };
+
+    const stack: State[] = [{ name: start, seenDML: false }];
+
+    while (stack.length > 0) {
+      const { name, seenDML } = stack.pop()!;
+      const stateKey = `${name}:${seenDML}`;
+
+      if (visited.has(stateKey)) continue;
+      visited.add(stateKey);
+
+      const node = graph.getNode(name);
+      if (!node) continue;
+
+      let nextSeenDML = seenDML || this.isDML(node);
+
+      if (
+        nextSeenDML &&
+        node.subtype === "screens" &&
+        node.element["allowBack"] === "true" &&
+        node.element["showFooter"] === "true" &&
+        !suppressions.has(node.name)
+      ) {
+        violations.push(new core.Violation(node));
+        // Note: do NOT return early; multiple violations possible
+      }
+
+      // Reset DML flag after screen with back disabled
+      if (
+        nextSeenDML &&
+        node.subtype === "screens" &&
+        node.element["allowBack"] !== "true"
+      ) {
+        nextSeenDML = false;
+      }
+
+      for (const next of graph.getNextElements(name)) {
+        stack.push({ name: next, seenDML: nextSeenDML });
+      }
     }
 
-    const processedElementIndexes: number[] = [];
-    const unconnectedElementIndexes: number[] = [];
-    const DuplicateDMLOperations: core.FlowNode[] = [];
-    let dmlFlag = false;
-    let indexesToProcess = [startingNode];
-
-    do {
-      indexesToProcess = indexesToProcess.filter(
-        (index) => !processedElementIndexes.includes(index)
-      );
-
-      if (indexesToProcess.length > 0) {
-        for (const [index, element] of flowElements.entries()) {
-          if (indexesToProcess.includes(index)) {
-            const references: string[] = [];
-            
-            if (element.connectors && element.connectors.length > 0) {
-              for (const connector of element.connectors) {
-                if (connector.reference) {
-                  references.push(connector.reference);
-                }
-              }
-            }
-
-            dmlFlag = this.flagDML(element, dmlFlag);
-
-            if (references.length > 0) {
-              const elementsByReferences = flowElements.filter((el) =>
-                references.includes(el.name)
-              );
-
-              for (const nextElement of elementsByReferences) {
-                const nextIndex = flowElements.findIndex(
-                  (el) => nextElement.name === el.name
-                );
-
-                if (nextElement.subtype === "screens") {
-                  if (
-                    dmlFlag &&
-                    nextElement.element["allowBack"] === "true" &&
-                    nextElement.element["showFooter"] === "true"
-                  ) {
-                    if (!suppressions.has(nextElement.name)) {
-                      DuplicateDMLOperations.push(nextElement);
-                    }
-                  }
-                }
-
-                if (!processedElementIndexes.includes(nextIndex)) {
-                  indexesToProcess.push(nextIndex);
-                }
-              }
-            }
-
-            processedElementIndexes.push(index);
-          }
-        }
-      } else {
-        for (const index of flowElements.keys()) {
-          if (!processedElementIndexes.includes(index)) {
-            unconnectedElementIndexes.push(index);
-          }
-        }
-      }
-    } while (
-      processedElementIndexes.length + unconnectedElementIndexes.length <
-      flowElements.length
-    );
-
-    return DuplicateDMLOperations.map((det) => new core.Violation(det));
+    return violations;
   }
 
-  private flagDML(element: core.FlowNode, dmlFlag: boolean): boolean {
-    const dmlStatementTypes = ["recordDeletes", "recordUpdates", "recordCreates"];
-    
-    if (dmlStatementTypes.includes(element.subtype)) {
-      return true;
-    } else if (
-      dmlFlag === true &&
-      element.subtype === "screens" &&
-      element.element["allowBack"] === "true"
-    ) {
-      return false;
-    } else {
-      return dmlFlag;
-    }
+  private isDML(node: core.FlowNode): boolean {
+    return (
+      node.subtype === "recordCreates" ||
+      node.subtype === "recordUpdates" ||
+      node.subtype === "recordDeletes"
+    );
   }
 }

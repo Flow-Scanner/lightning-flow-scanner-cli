@@ -45,9 +45,8 @@ describe("LoopRuleCommon", () => {
           name: "create_case_manually_2",
         }),
       ];
-      const flow: Flow = {
-        elements: [...actionCalls],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [...actionCalls];
 
       const result = rule.execute(flow);
 
@@ -55,23 +54,22 @@ describe("LoopRuleCommon", () => {
     });
 
     it("should return empty when no statements in loops exists", () => {
-      const flow: Flow = {
-        elements: [
-          new FlowNode("loop1", "loops", {
-            description: "loop 1",
-            label: "loop",
-            locationX: "0",
-            locationY: "0",
-            name: "loop1",
-            nextValueConnector: { targetReference: "assign1" },
-            noMoreValuesConnector: { targetReference: "End" },
-          }),
-          new FlowNode("assign1", "assignments", {
-            connector: { targetReference: "End" },
-            name: "assign1",
-          }),
-        ],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [
+        new FlowNode("loop1", "loops", {
+          description: "loop 1",
+          label: "loop",
+          locationX: "0",
+          locationY: "0",
+          name: "loop1",
+          nextValueConnector: { targetReference: "assign1" },
+          noMoreValuesConnector: { targetReference: "End" },
+        }),
+        new FlowNode("assign1", "assignments", {
+          connector: { targetReference: "End" },
+          name: "assign1",
+        }),
+      ];
 
       const result = rule.execute(flow);
 
@@ -109,9 +107,8 @@ describe("LoopRuleCommon", () => {
         }),
       ];
 
-      const flow: Flow = {
-        elements: [...loopElements, ...actionCalls],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [...loopElements, ...actionCalls];
 
       const result = rule.execute(flow);
 
@@ -138,9 +135,8 @@ describe("LoopRuleCommon", () => {
           name: "create_case_manually_2",
         }),
       ];
-      const flow: Flow = {
-        elements: [...actionCalls],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [...actionCalls];
 
       const result = rule["findLoopElements"](flow);
 
@@ -148,9 +144,8 @@ describe("LoopRuleCommon", () => {
       expect(result).toEqual([]);
     });
     it("should return empty when no loop elements exists", () => {
-      const flow: Flow = {
-        elements: [],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [];
 
       const result = rule["findLoopElements"](flow);
 
@@ -200,9 +195,8 @@ describe("LoopRuleCommon", () => {
         }),
       ];
 
-      const flow: Flow = {
-        elements: [...actionCalls],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [...actionCalls];
 
       const result = rule["findStatementsInLoops"](flow, []);
 
@@ -240,9 +234,8 @@ describe("LoopRuleCommon", () => {
         }),
       ];
 
-      const flow: Flow = {
-        elements: [...loopElements, ...actionCalls],
-      } as Partial<Flow> as Flow;
+      const flow = new Flow();
+      flow.elements = [...loopElements, ...actionCalls];
 
       const result = rule["findStatementsInLoops"](flow, loopElements);
 
