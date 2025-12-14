@@ -35,7 +35,7 @@
 - **[Configuration](#configuration)**
   - [Configure Severity Levels](#configure-severity-levels)
   - [Overwrite Expressions](#overwrite-expressions)
-  - [Defining Exceptions](#define-exceptions)
+  - [Define Exceptions](#define-exceptions)
   - [Scan Modes](#scan-modes)
 - **[Installation](#installation)**
   - [Distributions](#distributions)
@@ -335,7 +335,7 @@ Use our side bar or the **Command Palette** and type `flowscanner` to see all av
 
 For full details, see the [VSX Readme](packages/vsx/README.md).
 
-### Action
+### GitHub Action
 Add a GitHub workflow file `.github/workflows/scan-flows.yml` to detect issues directly in pull requests:
 
 ```yaml
