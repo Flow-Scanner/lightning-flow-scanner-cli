@@ -108,8 +108,8 @@
       <button class="btn btn-blue" on:click={configRules}>Configure Rules</button>
       <button class="btn btn-blue" on:click={scanFlows}>Scan Flows</button>
       <button class="btn btn-blue" on:click={fixFlows}>Fix Flows</button>
-      <button class="btn btn-blue" on:click={generateFlowDocs}>Create Documentation</button>
-      <button class="btn btn-blue" on:click={openDocumentation}>Documentation</button>
+      <button class="btn btn-blue" on:click={generateFlowDocs}>Create Docs</button>
+      <button class="btn btn-blue" on:click={openDocumentation}>Scanner Help</button>
 
       <div class="mt-4 p-3">
         {#if loading}
