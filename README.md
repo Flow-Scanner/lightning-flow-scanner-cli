@@ -33,11 +33,10 @@
 
 - **[Default Rules](#default-rules)**
 - **[Configuration](#configuration)**
-  - [Defining Severity Levels](#defining-severity-levels)
-  - [Configuring Expressions](#configuring-expressions)
-  - [Specifying Exceptions](#specifying-exceptions)
-  - [Include Beta Rules](#include-beta-rules)
-  - [Rule Mode](#rule-mode)
+  - [Defining Severity Levels](#configuring-severity-levels)
+  - [Configuring Expressions](#specifying-expressions)
+  - [Specifying Exceptions](#defining-exceptions)
+  - [Scan Modes](#scan-modes)
 - **[Installation](#installation)**
   - [Distributions](#distributions)
   - [CICD Templates](#cicd-templates)
@@ -199,7 +198,7 @@ By default, all default rules are executed. You can customize individual rules a
 }
 ```
 
-### Defining Severity Levels
+### Configuring Severity Levels
 
 When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Define the severity per rule as shown below:
 
@@ -216,7 +215,7 @@ When the severity is not provided it will be `warning` by default. Other availab
 }
 ```
 
-### Configuring Expressions
+### Specifying Expressions
 
 Some rules have additional attributes to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
 
@@ -233,7 +232,7 @@ Some rules have additional attributes to configure, such as the expression, that
 }
 ```
 
-### Specifying Exceptions
+### Defining Exceptions
 
 Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
@@ -265,7 +264,9 @@ _Example_
 }
 ```
 
-### Include Beta Rules
+### Scan Modes
+
+#### Beta Mode
 
 New rules are introduced in Beta mode before being added to the default ruleset. To include current Beta rules, enable the optional betamode parameter in your configuration:
 
@@ -283,7 +284,6 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
   "ruleMode": "isolated"
 }
 ```
-
 
 ## Installation
 
