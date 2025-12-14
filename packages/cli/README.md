@@ -34,10 +34,6 @@
 
 ---
 
-
-
-
-
 ## Table of contents
 
 - **[Usage](#usage)**
@@ -59,11 +55,12 @@ sf flow:scan
 All default rules are applied automatically. 
 
 ```bash
-sf flow:scan # scan flows in current directory
-sf flow:doc -d src/force-app # Generate Markdown documentation with Mermaid diagrams
-sf flow:fix -d src/force-app # fix flows in force-app directory
-sf flow:scan --sarif > report.sarif # get results as SARIF file
-sf flow scan --csv > results.csv # get results as CSV file
+sf flow:scan # Scan flows in the current directory
+sf flow:scan --sarif > report.sarif # Export scan results as SARIF
+sf flow scan --csv > results.csv # Export scan results as CSV
+sf flow doc > flow-docs.md # Generate flow documentation (Single markdown file)
+sf flow doc --output flow-docs --separate # Generate one Markdown file per flow
+sf flow:fix -d src/force-app # Fix flows in a specific directory
 ```
 
 | Flag            | Alias | Description                                   | Example                             |
