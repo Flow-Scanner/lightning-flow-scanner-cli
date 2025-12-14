@@ -330,10 +330,12 @@ To see the full example, see [`scan-flows.yml`](docs/templates/github-action/sca
 Use `lightning-flow-scanner` in the Salesforce CLI:
 
 ```bash
-sf flow:scan # scan flows in current directory
-sf flow:fix -d src/force-app # fix flows in force-app directory
-sf flow:scan --sarif > report.sarif # get results as SARIF file
-sf flow scan --csv > results.csv # get results as CSV file
+sf flow:scan # Scan flows in the current directory
+sf flow:scan --sarif > report.sarif # Export scan results as SARIF
+sf flow scan --csv > results.csv # Export scan results as CSV
+sf flow doc > flow-docs.md # Generate flow documentation (Single markdown file)
+sf flow doc --output flow-docs --separate # Generate one Markdown file per flow
+sf flow:fix -d src/force-app # Fix flows in a specific directory
 ```
 
 ### VS Code Extension
@@ -360,7 +362,7 @@ parse("flows/**/*.flow-meta.xml").then(scan).then(exportSarif)
 // Generate Markdown documentation with Mermaid flow diagrams
 import { parse, exportDiagram } from "@flow-scanner/lightning-flow-scanner-core";
 parse("flows/**/*.flow-meta.xml").then(exportDiagram) 
-  // .then(md => fs.writeFile("FLOW_DOCUMENTATION.md", md))
+  // .then(md => fs.writeFile("flow-docs.md", md))
 
 // Browser Usage (Tooling API)
 const { Flow, scan } = window.lightningflowscanner;
