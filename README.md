@@ -276,7 +276,7 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 }
 ```
 
-### Rule Mode
+#### Rule Mode
 
 By default, Lightning Flow Scanner runs **all** default rules and merges any custom configurations you provide. This means you can override specific rules without having to list every rule to be executed. If instead, you want to run **only** the rules you explicitly specify, use `"ruleMode": "isolated"`:
 ```json
