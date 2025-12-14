@@ -98,6 +98,7 @@
   function configRules()      { tsvscode.postMessage({ type: "configRules" }); }
   function scanFlows()        { tsvscode.postMessage({ type: "scanFlows" }); }
   function fixFlows()         { tsvscode.postMessage({ type: "fixFlows" }); }
+  function generateFlowDocs()    { tsvscode.postMessage({ type: "generateFlowDocs" }); }
 </script>
 
 <TailwindWrapper>
@@ -107,6 +108,7 @@
       <button class="btn btn-blue" on:click={configRules}>Configure Rules</button>
       <button class="btn btn-blue" on:click={scanFlows}>Scan Flows</button>
       <button class="btn btn-blue" on:click={fixFlows}>Fix Flows</button>
+      <button class="btn btn-blue" on:click={generateFlowDocs}>Create Documentation</button>
       <button class="btn btn-blue" on:click={openDocumentation}>Documentation</button>
 
       <div class="mt-4 p-3">

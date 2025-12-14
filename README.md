@@ -326,12 +326,13 @@ sf flow:fix -d src/force-app # Fix flows in a specific directory
 For full details, see the [CLI Readme](packages/cli/README.md).
 
 ### VS Code Extension
-Use our side bar or the **Command Palette** and type `flowscanner` to see all available commands:
+Use our side bar or the **Command Palette** and type `flow scanner` to see the list of all available commands.
 
-* `Configure Flow Scanner` - Set up rules in `.flow-scanner.yml`
+* `Configure Scanner` - Set up rules in `.flow-scanner.yml`
 * `Scan Flows` - Analyze a directory or selected flow files
 * `Fix Flows` - Automatically apply available fixes
-* `Flow Scanner Documentation` - Open the rules reference guide
+* `Generate Flow Documentation` - Generate flow documentation
+* `Open Scanner Documentation` - Open the rules reference guide
 
 For full details, see the [VSX Readme](packages/vsx/README.md).
 

@@ -40,6 +40,7 @@
 
 
 
+
 ## Table of contents
 
 - **[Usage](#usage)**
@@ -52,12 +53,13 @@
 
 ## Usage
 
-Lightning Flow Scanner VSX is plug-and-play. Open any project with flows and use our side bar or the **Command Palette** and type `flowscanner` to see the list of all available commands.
+Lightning Flow Scanner VSX is plug-and-play. Open any project with flows and use our side bar or the **Command Palette** and type `flow scanner` to see the list of all available commands.
 
-* `Configure Flow Scanner` - Set up rules in `.flow-scanner.yml`
+* `Configure Scanner` - Set up rules in `.flow-scanner.yml`
 * `Scan Flows` - Analyze a directory or selected flow files
 * `Fix Flows` - Automatically apply available fixes
-* `Flow Scanner Documentation` - Open the rules reference guide
+* `Generate Flow Documentation` - Generate flow documentation
+* `Open Scanner Documentation` - Open the rules reference guide
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner-vsx?tab=security-ov-file).
 
@@ -216,9 +218,9 @@ By default, all default rules are executed. You can customize individual rules a
 }
 ```
 
-### Defining Severity Levels
+### Configure Severity Levels
 
-When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Define the severity per rule as shown below:
+When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as shown below:
 
 ```json
 {
@@ -233,9 +235,9 @@ When the severity is not provided it will be `warning` by default. Other availab
 }
 ```
 
-### Configuring Expressions
+### Overwrite Expressions
 
-Some rules have additional attributes to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
+Some rules have an expression to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
 
 ```json
 {
@@ -250,9 +252,9 @@ Some rules have additional attributes to configure, such as the expression, that
 }
 ```
 
-### Specifying Exceptions
+### Define Exceptions
 
-Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
+Defining exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
 ```json
 {
@@ -282,7 +284,9 @@ _Example_
 }
 ```
 
-### Include Beta Rules
+### Scan Modes
+
+#### Beta Mode
 
 New rules are introduced in Beta mode before being added to the default ruleset. To include current Beta rules, enable the optional betamode parameter in your configuration:
 
@@ -292,7 +296,7 @@ New rules are introduced in Beta mode before being added to the default ruleset.
 }
 ```
 
-### Rule Mode
+#### Rule Mode
 
 By default, Lightning Flow Scanner runs **all** default rules and merges any custom configurations you provide. This means you can override specific rules without having to list every rule to be executed. If instead, you want to run **only** the rules you explicitly specify, use `"ruleMode": "isolated"`:
 ```json
