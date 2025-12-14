@@ -21,13 +21,72 @@ export class FlowGraph {
   private allConnectors: Map<string, Set<string>> = new Map();
   private reverseConnectors: Map<string, Set<string>> = new Map();
 
-  constructor(nodes: FlowNode[], startReference?: string) {
+  constructor(nodes: FlowNode[], startReference?: string, startNode?: FlowNode) {
     this.buildNodeMaps(nodes);
     this.buildConnectorMaps(nodes);
+
+    // ALWAYS ensure START node edges exist
+    if (startNode) {
+      // Old flows: use explicit <start> element connectors
+      this.addStartNodeConnectors(startNode);
+    } else if (startReference) {
+      // New flows: direct edge from START to startElementReference
+      this.addStartEdgeFromReference(startReference);
+    }
+
     this.computeLoopBoundaries();
     if (startReference) {
       this.computeReachability(startReference);
     }
+  }
+
+  /**
+   * Add START node connectors to the connector maps (for flows with explicit <start> element)
+   */
+  private addStartNodeConnectors(startNode: FlowNode): void {
+    const startName = 'START';
+    
+    this.faultConnectors.set(startName, new Set());
+    this.normalConnectors.set(startName, new Set());
+    this.allConnectors.set(startName, new Set());
+    
+    if (!startNode.connectors || startNode.connectors.length === 0) return;
+    
+    for (const connector of startNode.connectors) {
+      const targetRef = connector.connectorTargetReference?.targetReference ?? connector.reference;
+      if (!targetRef) continue;
+      
+      // START node typically has normal connectors, not fault connectors
+      this.normalConnectors.get(startName)?.add(targetRef);
+      this.allConnectors.get(startName)?.add(targetRef);
+      
+      // Build reverse map
+      if (!this.reverseConnectors.has(targetRef)) {
+        this.reverseConnectors.set(targetRef, new Set());
+      }
+      this.reverseConnectors.get(targetRef)?.add(startName);
+    }
+  }
+
+  /**
+   * Add START edge for newer flows that use startElementReference (no explicit <start> node)
+   */
+  private addStartEdgeFromReference(startReference: string): void {
+    const startName = 'START';
+    
+    this.faultConnectors.set(startName, new Set());
+    this.normalConnectors.set(startName, new Set());
+    this.allConnectors.set(startName, new Set());
+    
+    // Direct edge: START --> first element
+    this.normalConnectors.get(startName)?.add(startReference);
+    this.allConnectors.get(startName)?.add(startReference);
+    
+    // Build reverse map
+    if (!this.reverseConnectors.has(startReference)) {
+      this.reverseConnectors.set(startReference, new Set());
+    }
+    this.reverseConnectors.get(startReference)?.add(startName);
   }
 
   /**
@@ -167,53 +226,273 @@ export class FlowGraph {
       }
     }
   }
-    /**
-   * Export the graph to Mermaid flowchart syntax.
-   * @param options - Customization: { includeDetails: boolean } to add node labels/descriptions.
-   * @returns Mermaid string for embedding in Markdown.
+
+  
+  /**
+   * Export the graph to Mermaid flowchart syntax with rich documentation.
    */
-  public toMermaid(options: { includeDetails?: boolean } = {}): string {
+  public toMermaid(options: {
+    includeDetails?: boolean;
+    includeMarkdownDocs?: boolean;
+    collapsedDetails?: boolean;
+    flowMetadata?: any;
+  } = {}): string {
+    let output = "";
+    
+    const diagram = this.generateMermaidDiagram(options);
+    
+    if (options.includeMarkdownDocs) {
+      output = this.generateFullMarkdownDoc(diagram, options);
+    } else {
+      output = `\`\`\`mermaid\n${diagram}\n\`\`\``;
+    }
+    
+    return output;
+  }
+
+  private generateMermaidDiagram(options: any): string {
     let mermaid = 'flowchart TB\n';
     
-    // Define nodes with shapes/icons
+    // START node with flow metadata
+    mermaid += this.generateStartNode(options.flowMetadata) + '\n\n';
+    
+    // Define nodes using FlowNode helper methods
     for (const [name, node] of this.nodeMap) {
-      let shape = '["' + node.subtype + ': ' + name + '"]';  // Basic label; enhance with icons if needed
-      if (options.includeDetails && typeof node.element === 'object' && !Array.isArray(node.element) && 'description' in node.element && typeof node.element.description === 'string') {
-        shape = '["' + node.subtype + ': ' + name + '\\n' + node.element.description + '"]';
+      const icon = node.getIcon();
+      const typeLabel = node.getTypeLabel();
+      const summary = options.includeDetails ? node.getSummary() : '';
+      
+      let label = `${icon} <em>${typeLabel}</em><br/>${node.label || node.name}`;
+      if (summary) {
+        label += `<br/><small>${summary}</small>`;
       }
-      if (node.subtype === 'decisions') shape = '{' + shape.slice(1, -1) + '}';  // Diamond for decisions
-      else if (node.subtype === 'loops') shape = '{{' + shape.slice(1, -1) + '}}';  // Hexagon for loops
-      mermaid += `  ${name}${shape}:::nodeClass\n`;
+      
+      const shape = this.getNodeShape(node.subtype);
+      mermaid += `  ${name}${shape[0]}"${label}"${shape[1]}:::${node.subtype}\n`;
     }
     
-    // Add edges (normal, fault, loop)
+    mermaid += '\n';
+    mermaid += this.generateEdges() + '\n';
+    mermaid += this.generateLoopSubgraphs() + '\n';
+    mermaid += this.generateMermaidStyles();
+    
+    return mermaid;
+  }
+
+  private generateStartNode(flowMetadata?: any): string {
+    if (!flowMetadata) {
+      return 'START(["\uD83D\uDE80 <b>START</b>"]):::startClass';
+    }
+    
+    let label = '\uD83D\uDE80 <b>START</b>'; // ROCKET
+    
+    if (flowMetadata.processType === 'Flow') {
+      label += '<br/><b>Screen Flow</b>';
+    } else if (flowMetadata.processType === 'AutoLaunchedFlow') {
+      label += '<br/><b>AutoLaunched Flow</b>';
+      if (flowMetadata.triggerType) {
+        label += `<br/>Type: <b>${this.prettifyValue(flowMetadata.triggerType)}</b>`;
+      }
+    } else if (flowMetadata.object) {
+      label += `<br/><b>${flowMetadata.object}</b>`;
+      if (flowMetadata.triggerType) {
+        label += `<br/>Type: <b>${this.prettifyValue(flowMetadata.triggerType)}</b>`;
+      }
+    }
+    
+    if (flowMetadata.status) {
+      const statusIcon = flowMetadata.status === 'Active' ? '✅' : '⚠️';
+      label += `<br/>${statusIcon} ${flowMetadata.status}`;
+    }
+    
+    return `START(["${label}"]):::startClass`;
+  }
+
+  private getNodeShape(subtype: string): [string, string] {
+    const shapeMap: Record<string, [string, string]> = {
+      decisions: ['{', '}'],
+      loops: ['{{', '}}'],
+      collectionProcessors: ['{{', '}}'],
+      transforms: ['{{', '}}'],
+      screens: ['([', '])'],
+      recordCreates: ['[(', ')]'],
+      recordDeletes: ['[(', ')]'],
+      recordLookups: ['[(', ')]'],
+      recordUpdates: ['[(', ')]'],
+      subflows: ['[[', ']]'],
+      assignments: ['[\\', '/]'],
+      default: ['(', ')']
+    };
+    
+    return shapeMap[subtype] || shapeMap.default;
+  }
+
+  private generateEdges(): string {
+    let edges = '';
+    
+    // Normal connectors
     for (const [from, targets] of this.allConnectors) {
       for (const to of targets) {
-        mermaid += `  ${from} --> ${to}\n`;
-      }
-    }
-    for (const [from, faults] of this.faultConnectors) {
-      for (const to of faults) {
-        mermaid += `  ${from} -. Fault .-> ${to}\n`;
+        edges += `  ${from} --> ${to}\n`;
       }
     }
     
-    // Highlight loops (group elements in subgraphs if needed)
+    // Fault connectors (dashed)
+    for (const [from, faults] of this.faultConnectors) {
+      for (const to of faults) {
+        edges += `  ${from} -. Fault .-> ${to}\n`;
+      }
+    }
+    
+    // Add END nodes
+    const endNodes = this.findEndNodes();
+    for (const endNode of endNodes) {
+      edges += `  ${endNode}(( END )):::endClass\n`;
+    }
+    
+    return edges;
+  }
+
+  private findEndNodes(): Set<string> {
+    const endNodes = new Set<string>();
+    
+    for (const [from, targets] of this.allConnectors) {
+      for (const to of targets) {
+        // If target doesn't exist in nodeMap, it's an END
+        if (!this.nodeMap.has(to)) {
+          endNodes.add(to);
+        }
+      }
+    }
+    
+    return endNodes;
+  }
+
+  private generateLoopSubgraphs(): string {
+    let subgraphs = '';
+    
     for (const loopNode of this.getLoopNodes()) {
       const loopElems = this.getLoopElements(loopNode.name);
       if (loopElems.size > 0) {
-        mermaid += `  subgraph "${loopNode.name} Loop"\n`;
+        subgraphs += `  subgraph "${loopNode.label || loopNode.name} Loop"\n`;
         for (const elem of loopElems) {
-          mermaid += `    ${elem}\n`;
+          subgraphs += `    ${elem}\n`;
         }
-        mermaid += '  end\n';
+        subgraphs += '  end\n';
       }
     }
     
-    // Basic styling
-    mermaid += '  classDef nodeClass fill:#D4E4FC,stroke:#333,stroke-width:2px;\n';  // Example blue nodes
+    return subgraphs;
+  }
+
+  private generateMermaidStyles(): string {
+    const styles = {
+      actionCalls: { fill: '#D4E4FC', color: 'black' },
+      assignments: { fill: '#FBEED7', color: 'black' },
+      collectionProcessors: { fill: '#F0E3FA', color: 'black' },
+      customErrors: { fill: '#FFE9E9', color: 'black' },
+      decisions: { fill: '#FDEAF6', color: 'black' },
+      loops: { fill: '#FDEAF6', color: 'black' },
+      recordCreates: { fill: '#FFF8C9', color: 'black' },
+      recordDeletes: { fill: '#FFF8C9', color: 'black' },
+      recordLookups: { fill: '#EDEAFF', color: 'black' },
+      recordUpdates: { fill: '#FFF8C9', color: 'black' },
+      screens: { fill: '#DFF6FF', color: 'black' },
+      subflows: { fill: '#D4E4FC', color: 'black' },
+      transforms: { fill: '#FDEAF6', color: 'black' },
+      startClass: { fill: '#D9F2E6', color: 'black' },
+      endClass: { fill: '#F9BABA', color: 'black' },
+    };
     
-    return mermaid;
+    let styleStr = '';
+    for (const [className, style] of Object.entries(styles)) {
+      styleStr += `  classDef ${className} fill:${style.fill},color:${style.color},stroke:#333,stroke-width:2px\n`;
+    }
+    
+    return styleStr;
+  }
+
+  private generateNodeDetailsMarkdown(collapsed: boolean): string {
+    let md = '## Flow Nodes Details\n\n';
+    
+    if (collapsed) {
+      md += '<details><summary>NODE DETAILS (expand to view)</summary>\n\n';
+    }
+    
+    for (const [name, node] of this.nodeMap) {
+      md += `### ${name}\n\n`;
+      md += this.nodeToMarkdownTable(node);
+      md += '\n';
+    }
+    
+    if (collapsed) {
+      md += '</details>\n\n';
+    }
+    
+    return md;
+  }
+
+  private nodeToMarkdownTable(node: FlowNode): string {
+    let table = '| Property | Value |\n|:---|:---|\n';
+    
+    // Use typed properties from FlowNode
+    if (node.label) table += `| Label | ${node.label} |\n`;
+    table += `| Type | ${node.getTypeLabel()} |\n`;
+    
+    // Type-specific properties (now type-safe!)
+    if (node.actionType) table += `| Action Type | ${this.prettifyValue(node.actionType)} |\n`;
+    if (node.actionName) table += `| Action Name | ${node.actionName} |\n`;
+    if (node.object) table += `| Object | ${node.object} |\n`;
+    if (node.flowName) table += `| Subflow | ${node.flowName} |\n`;
+    if (node.collectionReference) table += `| Collection | ${node.collectionReference} |\n`;
+    if (node.elementSubtype) table += `| Subtype | ${this.prettifyValue(node.elementSubtype)} |\n`;
+    
+    // Decision rules
+    if (node.rules && node.rules.length > 0) {
+      table += `| Rules | ${node.rules.length} |\n`;
+      for (const rule of node.rules) {
+        const conditions = Array.isArray(rule.conditions) ? rule.conditions : 
+                          rule.conditions ? [rule.conditions] : [];
+        table += `| ↳ ${rule.label || rule.name} | ${conditions.length} condition(s) |\n`;
+      }
+    }
+    
+    // Screen fields
+    if (node.fields && node.fields.length > 0) {
+      table += `| Fields | ${node.fields.length} |\n`;
+    }
+    
+    if (node.description) table += `| Description | ${node.description} |\n`;
+    if (node.faultConnector) table += `| Has Fault Handler | ✅ |\n`;
+    
+    return table;
+  }
+
+  private prettifyValue(value: string): string {
+    return value
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .trim();
+  }
+
+  /**
+   * Generate full markdown documentation with diagram and node details
+   */
+  private generateFullMarkdownDoc(diagram: string, options: any): string {
+    let md = '';
+    
+    // Header with flow metadata would come from Flow class
+    md += '## Flow Diagram\n\n';
+    md += '```mermaid\n';
+    md += diagram;
+    md += '\n```\n\n';
+    
+    // Node details section
+    if (options.includeDetails) {
+      md += this.generateNodeDetailsMarkdown(options.collapsedDetails);
+    }
+    
+    return md;
   }
 
   /**

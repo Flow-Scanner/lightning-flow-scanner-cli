@@ -352,9 +352,15 @@ Use `lightning-flow-scanner-core` as a Node.js/browser dependency:
 import { parse, scan } from "@flow-scanner/lightning-flow-scanner-core";
 parse("flows/*.xml").then(scan);
 
-// Get SARIF output
+// Get SARIF output (e.g. for GitHub Code Scanning)
 import { parse, scan, exportSarif } from "@flow-scanner/lightning-flow-scanner-core";
-parse("flows/*.xml").then(scan).then(exportSarif);
+parse("flows/**/*.flow-meta.xml").then(scan).then(exportSarif) 
+  // .then(sarif => fs.writeFile("results.sarif", sarif))
+
+// Generate Markdown documentation with Mermaid flow diagrams
+import { parse, exportDiagram } from "@flow-scanner/lightning-flow-scanner-core";
+parse("flows/**/*.flow-meta.xml").then(exportDiagram) 
+  // .then(md => fs.writeFile("FLOW_DOCUMENTATION.md", md))
 
 // Browser Usage (Tooling API)
 const { Flow, scan } = window.lightningflowscanner;
