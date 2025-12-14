@@ -336,7 +336,7 @@ Use our side bar or the **Command Palette** and type `flowscanner` to see all av
 For full details, see the [VSX Readme](packages/vsx/README.md).
 
 ### Action
-Add a GitHub workflow file `.github/workflows/scan-flows.yml` to automatically detect issues directly in pull requests. Example:
+Add a GitHub workflow file `.github/workflows/scan-flows.yml` to detect issues directly in pull requests:
 
 ```yaml
 - name: Lightning Flow Scan
