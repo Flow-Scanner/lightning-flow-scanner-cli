@@ -292,9 +292,9 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 | Distribution                                      | Best for                                      | Install / Use                                                                                           |
 |----------------------------------------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | **[Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner)** | Local development, scratch orgs, CI/CD        | `sf plugins install lightning-flow-scanner`                                                             |
-| **[VS Code Extension](packages/vsx/README.md)** | Real-time scanning inside VS Code             | `code --install-extension ForceConfigControl.lightning-flow-scanner-vsx`                               |
+| **[VS Code Extension](https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx)** | Real-time scanning inside VS Code             | `code --install-extension ForceConfigControl.lightning-flow-scanner-vsx`                               |
 | **[Salesforce App (Managed Package)](https://github.com/Flow-Scanner/lightning-flow-scanner-app)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000007M73QAE` |
-| **[Core Library](packages/core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
+| **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](SECURITY.md).
 
@@ -308,8 +308,7 @@ Ready-to-use CI/CD templates and a **native GitHub Action**.
 | **[GitHub Action](packages/action/README.md)** | Native PR checks                              | [GitHub Marketplace](https://github.com/marketplace/actions/run-flow-scanner)                           |
 | **[Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado)** | Copado Plugin                       | [Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS) |
 
-
-GitHub Action Snippet:
+GitHub Action :
 ```yaml
 - name: Lightning Flow Scan
   id: flowscanner
@@ -339,7 +338,6 @@ sf flow:fix -d src/force-app # Fix flows in a specific directory
 ```
 
 For full details, see the [CLI Readme](packages/cli/README.md).
-
 
 ### VS Code Extension
 Use our side bar or the **Command Palette** and type `flowscanner` to see all available commands:
