@@ -33,9 +33,9 @@
 
 - **[Default Rules](#default-rules)**
 - **[Configuration](#configuration)**
-  - [Defining Severity Levels](#configuring-severity-levels)
-  - [Configuring Expressions](#specifying-expressions)
-  - [Specifying Exceptions](#defining-exceptions)
+  - [Configure Severity Levels](#configure-severity-levels)
+  - [Overwrite Expressions](#overwrite-expressions)
+  - [Defining Exceptions](#define-exceptions)
   - [Scan Modes](#scan-modes)
 - **[Installation](#installation)**
   - [Distributions](#distributions)
@@ -198,9 +198,9 @@ By default, all default rules are executed. You can customize individual rules a
 }
 ```
 
-### Configuring Severity Levels
+### Configure Severity Levels
 
-When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Define the severity per rule as shown below:
+When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as shown below:
 
 ```json
 {
@@ -215,9 +215,9 @@ When the severity is not provided it will be `warning` by default. Other availab
 }
 ```
 
-### Specifying Expressions
+### Overwrite Expressions
 
-Some rules have additional attributes to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
+Some rules have an expression to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
 
 ```json
 {
@@ -232,9 +232,9 @@ Some rules have additional attributes to configure, such as the expression, that
 }
 ```
 
-### Defining Exceptions
+### Define Exceptions
 
-Specifying exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
+Defining exceptions allows you to exclude specific scenarios from rule enforcement. Exceptions can be specified at the flow, rule, or result level to provide fine-grained control. Below is a breakdown of the available attributes of exception configuration:
 
 ```json
 {
