@@ -4,7 +4,7 @@ import { cosmiconfig } from "cosmiconfig";
 export interface ScannerOptions {
   rules?: Record<string, any>;
   exceptions?: Record<string, any>;
-  betamode?: boolean;
+  betaMode?: boolean;
   [key: string]: any;
 }
 
@@ -33,6 +33,6 @@ export async function loadScannerOptions(
   return {
     ...fileConfig,
     ...cliOverrides,
-    betamode: cliOverrides.betamode ?? fileConfig.betamode ?? false,
+    betaMode: cliOverrides.betaMode ?? fileConfig.betaMode ?? false,
   };
 }

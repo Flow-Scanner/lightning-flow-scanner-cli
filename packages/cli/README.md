@@ -37,6 +37,7 @@
 
 
 
+
 ## Table of contents
 
 - **[Usage](#usage)**
@@ -59,6 +60,7 @@ All default rules are applied automatically.
 
 ```bash
 sf flow:scan # scan flows in current directory
+sf flow:doc -d src/force-app # Generate Markdown documentation with Mermaid diagrams
 sf flow:fix -d src/force-app # fix flows in force-app directory
 sf flow:scan --sarif > report.sarif # get results as SARIF file
 sf flow scan --csv > results.csv # get results as CSV file
@@ -73,7 +75,7 @@ sf flow scan --csv > results.csv # get results as CSV file
 | `--sarif`      | `-s`  | SARIF output (GitHub, etc.)                   | `--sarif > report.sarif`            |
 | `--json`       |       | Pretty JSON output                            | `--json`                            |
 | `--threshold`  | `-t`  | Fail on error/warn                            | `--threshold error`                 |
-| `--betamode`   | `-z`  | Enable beta rules                             | `--betamode`                        |
+| `--betaMode`   | `-z`  | Enable beta rules                             | `--betaMode`                        |
 | `--loglevel`   |       | Logging level                                 | `--loglevel debug`                  |
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner?tab=security-ov-file).
