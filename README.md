@@ -289,38 +289,24 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 
 ### Distributions
 
-| Distribution                                      | Best for                                      | Install / Use                                                                                           |
+| Distribution                                      | Best for                                      | Install                                                                                           |
 |----------------------------------------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | **[Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner)** | Local development, scratch orgs, CI/CD        | `sf plugins install lightning-flow-scanner`                                                             |
 | **[VS Code Extension](https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx)** | Real-time scanning inside VS Code             | `code --install-extension ForceConfigControl.lightning-flow-scanner-vsx`                               |
 | **[Salesforce App (Managed Package)](https://github.com/Flow-Scanner/lightning-flow-scanner-app)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000007M73QAE` |
+| **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@action-v2.6.0` |
 | **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](SECURITY.md).
 
 ### CICD Templates
-Ready-to-use CI/CD templates and a **native GitHub Action**.  
+Ready-to-use CI/CD templates and a **Copado Plugin**.  
 
 | Platform       | Type                     | Link |
 |----------------|-----------------------------------|------|
 | [Azure DevOps](docs/azure-templates.md)   | Full Project Scan                 | [`azure-pipelines-flow-FullScan.yml`](docs/templates/azure-devops/azure-pipelines-flow-FullScan.yml) |
 | [Azure DevOps](docs/azure-templates.md)   | Change-Based Scan                 | [`azure-pipelines-flow-changedFiles.yml`](docs/templates/azure-devops/azure-pipelines-flow-changedFiles.yml) |
-| **[GitHub Action](packages/action/README.md)** | Native PR checks                              | [GitHub Marketplace](https://github.com/marketplace/actions/run-flow-scanner)                           |
 | **[Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado)** | Copado Plugin                       | [Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS) |
-
-GitHub Action :
-```yaml
-- name: Lightning Flow Scan
-  id: flowscanner
-  uses: Flow-Scanner/lightning-flow-scanner@main
-
-- name: Upload SARIF to Code Scanning
-  uses: github/codeql-action/upload-sarif@v3
-  with:
-    sarif_file: ${{ steps.flowscanner.outputs.sarifPath }}
-```
-
-To see the full example, see [`scan-flows.yml`](docs/templates/github-action/scan-flows.yml).
 
 ## Quick Start
 
@@ -348,6 +334,22 @@ Use our side bar or the **Command Palette** and type `flowscanner` to see all av
 * `Flow Scanner Documentation` - Open the rules reference guide
 
 For full details, see the [VSX Readme](packages/vsx/README.md).
+
+### Action
+Add a GitHub workflow file `.github/workflows/scan-flows.yml` to automatically detect issues directly in pull requests. Example:
+
+```yaml
+- name: Lightning Flow Scan
+  id: flowscanner
+  uses: Flow-Scanner/lightning-flow-scanner@action-v2.6.0
+
+- name: Upload SARIF to Code Scanning
+  uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: ${{ steps.flowscanner.outputs.sarifPath }}
+```
+
+For full details, see the [Action Readme](packages/action/README.md).
 
 ### Core Module
 Use `lightning-flow-scanner-core` as a Node.js/browser dependency:
