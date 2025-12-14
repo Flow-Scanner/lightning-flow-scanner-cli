@@ -1,7 +1,7 @@
 {
   "name": "@flow-scanner/lightning-flow-scanner-core",
   "description": "A lightweight engine for Flow metadata in Node.js, and browser environments. Assess and enhance Salesforce Flow automations for best practices, security, governor limits, and performance issues.",
-  "version": "6.10.6",
+  "version": "6.11.0",
   "main": "out/index.js",
   "exports": {
     ".": {
@@ -73,7 +73,7 @@
     "vite": "6.4.1",
     "vite-plugin-node-polyfills": "0.23.0"
   },
-  "homepage": "https://dev.lightningflowscanner.org",
+  "homepage": "https://flow-scanner.github.io/lightning-flow-scanner/",
   "author": {
     "name": "Ruben Halman",
     "url": "https://github.com/RubenHalman"

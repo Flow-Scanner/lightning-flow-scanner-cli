@@ -94,7 +94,7 @@ export class Flow {
     if (!this._graph) {
       const flowNodes = this.elements.filter((e): e is FlowNode => e instanceof FlowNode);
       this.startReference ||= this.findStart();
-      this._graph = new FlowGraph(flowNodes, this.startReference);
+      this._graph = new FlowGraph(flowNodes, this.startReference, this.startNode);
     }
     return this._graph;
   }
@@ -166,14 +166,14 @@ export class Flow {
 
       const data = this.xmldata[nodeType];
 
-      // Handle start nodes separately - store in startNode, don't add to elements
+      // Handle start nodes separately - store in startNode property
       if (nodeType === "start") {
         if (Array.isArray(data) && data.length > 0) {
           this.startNode = new FlowNode(data[0].name || "start", "start", data[0]);
         } else if (!Array.isArray(data)) {
           this.startNode = new FlowNode(data.name || "start", "start", data);
         }
-        continue; // Don't add to elements array
+        continue;
       }
 
       // Process other node types
@@ -193,18 +193,34 @@ export class Flow {
 
     // Build the connectivity graph
     const flowNodes = allNodes.filter((e): e is FlowNode => e instanceof FlowNode);
-    this._graph = new FlowGraph(flowNodes, this.startReference);
+    this._graph = new FlowGraph(flowNodes, this.startReference, this.startNode);
   }
 
-  public visualize(format: 'mermaid' | 'plantuml' = 'mermaid', options?: any): string {
-    if (format === 'mermaid') {
-      return this.graph.toMermaid(options);
-    } else if (format === 'plantuml') {
-      return this.graph.toPlantUML();
-    }
-    throw new Error('Unsupported format');
+  public visualize(
+  format: 'mermaid' | 'plantuml' = 'mermaid',
+  options: {
+    includeDetails?: boolean;
+    includeMarkdownDocs?: boolean;
+    collapsedDetails?: boolean;
+  } = {}
+): string {
+  if (format === 'mermaid') {
+    return this.graph.toMermaid({
+      ...options,
+      flowMetadata: {
+        label: this.label,
+        processType: this.processType,
+        status: this.status,
+        description: this.xmldata?.description,
+        triggerType: this.startNode?.element?.['triggerType'],
+        object: this.startNode?.element?.['object'],
+      }
+    });
+  } else if (format === 'plantuml') {
+    return this.graph.toPlantUML();
   }
-
+  throw new Error('Unsupported format');
+}
   private processNodeType<T extends FlowElement>(
     data: any,
     nodeType: string,

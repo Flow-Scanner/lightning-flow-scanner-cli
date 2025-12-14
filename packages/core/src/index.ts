@@ -1,7 +1,7 @@
+// Updated exports in index.ts
 import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
 import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
 import type { FlatViolation } from "./main/models/FlatViolation";
-
 import { Compiler } from "./main/libs/Compiler";
 import { exportDetails } from "./main/libs/ExportDetails";
 import { exportSarif } from "./main/libs/ExportSarif";
@@ -20,10 +20,14 @@ import { ParsedFlow } from "./main/models/ParsedFlow";
 import { RuleResult } from "./main/models/RuleResult";
 import { ScanResult } from "./main/models/ScanResult";
 import { Violation } from "./main/models/Violation";
+import { DEFAULT_ICONS, ASCII_ICONS, type NodeIconConfig } from "./main/config/NodeIcons";
+import { DEFAULT_VARIABLE_ICONS, ASCII_VARIABLE_ICONS, type VariableIconConfig } from "./main/config/VariableIcons";
+import { exportDiagram, type DiagramOptions } from "./main/libs/ExportDiagram";
 
 export {
   Compiler,
   exportDetails,
+  exportDiagram,
   exportSarif,
   fix,
   Flow,
@@ -40,5 +44,9 @@ export {
   RuleResult,
   scan,
   ScanResult,
+  DEFAULT_ICONS,
+  ASCII_ICONS,
+  DEFAULT_VARIABLE_ICONS,
+  ASCII_VARIABLE_ICONS,
 };
-export type { FlatViolation, IRuleDefinition, IRulesConfig };
+export type { FlatViolation, IRuleDefinition, IRulesConfig, NodeIconConfig, DiagramOptions, VariableIconConfig };
