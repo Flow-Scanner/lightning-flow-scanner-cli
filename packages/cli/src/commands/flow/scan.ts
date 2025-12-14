@@ -89,7 +89,7 @@ export default class Scan extends SfCommand<Output> {
       default: false,
       exclusive: ["sarif"],
     }),
-    betamode: Flags.boolean({
+    betaMode: Flags.boolean({
       char: "z",
       description: "Enable beta rules at run-time (experimental)",
       default: false,
@@ -112,7 +112,7 @@ export default class Scan extends SfCommand<Output> {
     // ---- 2. Merge CLI overrides (betamode) ----------------------------------
     const mergedConfig = {
       ...fileConfig,
-      betamode: flags.betamode ?? fileConfig.betamode ?? false,
+      betaMode: flags.betaMode ?? fileConfig.betaMode ?? false,
     };
 
     // ---- 3. Locate flows ----------------------------------------------------
@@ -128,7 +128,7 @@ export default class Scan extends SfCommand<Output> {
     try {
       const scanConfig = {
         rules: mergedConfig.rules ?? {},
-        betamode: !!mergedConfig.betamode,
+        betaMode: !!mergedConfig.betaMode,
       };
       scanResults = scanFlows(parsedFlows, scanConfig);
     } catch (err) {

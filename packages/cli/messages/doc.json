@@ -1,0 +1,12 @@
+{
+  "summary": "Generate rich Markdown documentation with Mermaid diagrams for Salesforce flows",
+  "description": "Scans for flow files and produces beautiful, readable documentation including interactive Mermaid flow diagrams, node details, variables, and parse errors.",
+  "flags.directory": "Directory to scan for .flow-meta.xml files (default: current directory)",
+  "flags.files": "Specific flow files to generate documentation for (multiple allowed)",
+  "flags.output": "Write the generated documentation to a file instead of printing to console",
+  "flags.noDetails": "Omit detailed node and variable tables (produces cleaner, diagram-focused output)",
+  "flags.raw": "Output only the raw Mermaid code blocks with no surrounding Markdown text or headings",
+  "flags.collapsed": "Collapse detailed sections (variables, node details) by default in the output",
+  "flags.no-collapsed": "Expand all detailed sections (overrides --collapsed)",
+  "commandDescription": "Generate documentation for Salesforce flows"
+}
