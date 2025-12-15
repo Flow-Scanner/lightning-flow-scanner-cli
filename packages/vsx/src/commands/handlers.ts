@@ -29,7 +29,7 @@ export default class Commands {
       'flowscanner.configRules': () => this.configRules(),
       'flowscanner.scanFlows': () => this.scanFlows(),
       'flowscanner.generateFlowDocs': (options?: any) => this.generateFlowDocs(options),
-      'flowscanner.fixFlows': () => this.fixFlows(),      
+      'flowscanner.fixFlows': () => this.fixFlows(),
     };
     return Object.entries(rawHandlers).map(([command, handler]) => {
       return [command, async (...args: any[]) => handler(...args)] as const;
@@ -216,31 +216,31 @@ export default class Commands {
     const selectedUris = await this.selectFlows('Select flow files or folder to scan:');
     if (!selectedUris) return;
     const root = vscode.workspace.workspaceFolders![0].uri;
-    
+
     const configReset = vscode.workspace.getConfiguration('flowscanner').get<boolean>('Reset');
     if (configReset) await this.configRules();
-    
+
     // Load config dynamically from YAML file
     let config = await this.loadConfig(root.fsPath);
-    
+
     if (Object.keys(config.rules).length === 0) {
       const choice = await vscode.window.showWarningMessage(
         'No rules configured. Run "Configure Rules" first?',
         'Configure Now',
         'Scan Anyway'
       );
-      
+
       if (choice === 'Configure Now') {
         const configured = await this.configRules();
-        
+
         if (!configured) {
           // User cancelled or just opened file
           return;
         }
-        
+
         // RELOAD config after configuration
         config = await this.loadConfig(root.fsPath);
-        
+
         // If still no rules, something went wrong
         if (Object.keys(config.rules).length === 0) {
           vscode.window.showWarningMessage('No rules configured. Scan cancelled.');
@@ -250,10 +250,10 @@ export default class Commands {
         return;
       }
     }
-    
+
     // Show panel with loading state
     ScanOverview.createOrShow(this.context.extensionUri, []);
-    
+
     OutputChannel.getInstance().logChannel.debug('Using rule config for scan:', config);
     const scanConfig = { rules: config.rules, betamode: config.betamode, ruleMode: config.ruleMode };
     const parsed = await core.parse(toFsPaths(selectedUris));
@@ -261,141 +261,164 @@ export default class Commands {
     await CacheProvider.instance.set('results', results);
     ScanOverview.createOrShow(this.context.extensionUri, results);
   }
-  
+
   private async generateFlowDocs(options?: {
-  mode?: 'combined' | 'separate';
-  includeDetails?: boolean;
-  collapsedDetails?: boolean;
-}) {
-  const selectedUris = await this.selectFlows('Select flow files or folder to document:');
-  if (!selectedUris) return;
+    mode?: 'combined' | 'separate';
+    includeDetails?: boolean;
+    collapsedDetails?: boolean;
+    outputDir?: string;
+    configuredViaSidebar?: boolean;
+  }) {
+    const selectedUris = await this.selectFlows('Select flow files or folder to document:');
+    if (!selectedUris) return;
 
-  // Use provided options or prompt for them
-  let mode = options?.mode;
-  let includeDetails = options?.includeDetails;
-  let collapsedDetails = options?.collapsedDetails;
+    // Use provided options or prompt for them
+    let mode = options?.mode;
+    let includeDetails = options?.includeDetails;
+    let collapsedDetails = options?.collapsedDetails;
 
-  // If not provided, prompt user
-  if (!mode) {
-    const modeChoice = await vscode.window.showQuickPick(
-      [
-        { label: '📄 Single Combined Document', value: 'combined' as const },
-        { label: '📚 Separate Document Per Flow', value: 'separate' as const }
-      ],
-      { placeHolder: 'How would you like to generate documentation?' }
-    );
-    if (!modeChoice) return;
-    mode = modeChoice.value;
-  }
+    // If not provided, prompt user
+    const interactive = !options?.configuredViaSidebar;
 
-  if (includeDetails === undefined) {
-    const detailsChoice = await vscode.window.showQuickPick(
-      ['Yes', 'No'],
-      { placeHolder: 'Include detailed node information?' }
-    );
-    if (detailsChoice === undefined) return;
-    includeDetails = detailsChoice === 'Yes';
-  }
+    // Prompt ONLY if interactive
+    if (!mode && interactive) {
+      const modeChoice = await vscode.window.showQuickPick(
+        [
+          { label: '📄 Single Combined Document', value: 'combined' as const },
+          { label: '📚 Separate Document Per Flow', value: 'separate' as const }
+        ],
+        { placeHolder: 'How would you like to generate documentation?' }
+      );
+      if (!modeChoice) return;
+      mode = modeChoice.value;
+    }
 
-  if (collapsedDetails === undefined && includeDetails) {
-    const collapsedChoice = await vscode.window.showQuickPick(
-      ['Yes', 'No'],
-      { placeHolder: 'Collapse details by default?' }
-    );
-    if (collapsedChoice === undefined) return;
-    collapsedDetails = collapsedChoice === 'Yes';
-  }
+    // Apply defaults if non-interactive
+    mode ??= 'combined';
 
-  // Rest of the implementation stays the same
-  try {
-    await vscode.window.withProgress({
-      location: vscode.ProgressLocation.Notification,
-      title: "Generating flow documentation...",
-      cancellable: false
-    }, async (progress) => {
-      progress.report({ increment: 0, message: "Parsing flows..." });
-      
-      const parsed = await core.parse(toFsPaths(selectedUris));
-      const validFlows = parsed.filter(p => p.flow);
-      
-      if (validFlows.length === 0) {
-        vscode.window.showErrorMessage('No valid flows found to document.');
-        return;
-      }
+    if (includeDetails === undefined && interactive) {
+      const detailsChoice = await vscode.window.showQuickPick(['Yes', 'No'], {
+        placeHolder: 'Include detailed node information?'
+      });
+      if (detailsChoice === undefined) return;
+      includeDetails = detailsChoice === 'Yes';
+    }
+    includeDetails ??= true;
 
-      progress.report({ increment: 50, message: `Generating documentation for ${validFlows.length} flow(s)...` });
+    if (collapsedDetails === undefined && includeDetails && interactive) {
+      const collapsedChoice = await vscode.window.showQuickPick(['Yes', 'No'], {
+        placeHolder: 'Collapse details by default?'
+      });
+      if (collapsedChoice === undefined) return;
+      collapsedDetails = collapsedChoice === 'Yes';
+    }
+    collapsedDetails ??= true;
 
-      const docOptions = {
-        includeDetails: includeDetails ?? true,
-        includeMarkdownDocs: true,
-        collapsedDetails: collapsedDetails ?? true,
-      };
+    // Rest of the implementation stays the same
+    try {
+      await vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: "Generating flow documentation...",
+        cancellable: false
+      }, async (progress) => {
+        progress.report({ increment: 0, message: "Parsing flows..." });
 
-      const tempDir = path.join(this.context.globalStorageUri.fsPath, 'flow-docs');
-      await vscode.workspace.fs.createDirectory(vscode.Uri.file(tempDir));
+        const parsed = await core.parse(toFsPaths(selectedUris));
+        const validFlows = parsed.filter(p => p.flow);
 
-      if (mode === 'combined') {
-        const markdown = core.exportDiagram(parsed, docOptions);
-        const fileName = `Flow_Documentation_${Date.now()}.md`;
-        const outputFile = vscode.Uri.file(path.join(tempDir, fileName));
-        
-        await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
-        progress.report({ increment: 100 });
-
-        const doc = await vscode.workspace.openTextDocument(outputFile);
-        await vscode.window.showTextDocument(doc, { preview: false });
-        await vscode.commands.executeCommand('markdown.showPreview', outputFile);
-        
-        vscode.window.showInformationMessage(
-          `✅ Documentation generated for ${validFlows.length} flow(s)`,
-          'Open File'
-        ).then(choice => {
-          if (choice === 'Open File') {
-            vscode.commands.executeCommand('revealFileInOS', outputFile);
-          }
-        });
-      } else {
-        const generatedFiles: vscode.Uri[] = [];
-        
-        for (let i = 0; i < validFlows.length; i++) {
-          const pf = validFlows[i];
-          const singleParsed = [pf];
-          const markdown = core.exportDiagram(singleParsed, docOptions);
-          
-          const safeName = pf.flow!.name.replace(/[^a-zA-Z0-9_-]/g, '_');
-          const fileName = `${safeName}.md`;
-          const outputFile = vscode.Uri.file(path.join(tempDir, fileName));
-          
-          await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
-          generatedFiles.push(outputFile);
-          
-          progress.report({ 
-            increment: (50 / validFlows.length),
-            message: `Generated ${i + 1}/${validFlows.length}: ${safeName}` 
-          });
+        if (validFlows.length === 0) {
+          vscode.window.showErrorMessage('No valid flows found to document.');
+          return;
         }
 
-        progress.report({ increment: 100 });
+        progress.report({ increment: 50, message: `Generating documentation for ${validFlows.length} flow(s)...` });
 
-        const choice = await vscode.window.showInformationMessage(
-          `✅ Generated ${validFlows.length} flow documentation file(s)`,
-          'Open Folder',
-          'Open First File'
+        const docOptions = {
+          includeDetails: includeDetails ?? true,
+          includeMarkdownDocs: true,
+          collapsedDetails: collapsedDetails ?? true,
+        };
+
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+          vscode.window.showErrorMessage('No workspace folder found.');
+          return;
+        }
+
+        // ✅ Default to /docs/flow-docs
+        const defaultDir = path.join(
+          workspaceFolder.uri.fsPath,
+          'docs',
+          'flow-docs'
         );
 
-        if (choice === 'Open Folder') {
-          vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(tempDir));
-        } else if (choice === 'Open First File' && generatedFiles.length > 0) {
-          const doc = await vscode.workspace.openTextDocument(generatedFiles[0]);
+        const outputDir = options?.outputDir || defaultDir;
+
+        // ✅ Creates /docs and /docs/flow-docs if missing
+        await vscode.workspace.fs.createDirectory(vscode.Uri.file(outputDir));
+
+        if (mode === 'combined') {
+          const markdown = core.exportDiagram(parsed, docOptions);
+          const fileName = `Flow_Documentation_${Date.now()}.md`;
+          const outputFile = vscode.Uri.file(path.join(outputDir, fileName));
+
+          await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
+          progress.report({ increment: 100 });
+
+          const doc = await vscode.workspace.openTextDocument(outputFile);
           await vscode.window.showTextDocument(doc, { preview: false });
-          await vscode.commands.executeCommand('markdown.showPreview', generatedFiles[0]);
+          await vscode.commands.executeCommand('markdown.showPreview', outputFile);
+
+          vscode.window.showInformationMessage(
+            `✅ Documentation generated for ${validFlows.length} flow(s)`,
+            'Open File'
+          ).then(choice => {
+            if (choice === 'Open File') {
+              vscode.commands.executeCommand('revealFileInOS', outputFile);
+            }
+          });
+        } else {
+          const generatedFiles: vscode.Uri[] = [];
+
+          for (let i = 0; i < validFlows.length; i++) {
+            const pf = validFlows[i];
+            const singleParsed = [pf];
+            const markdown = core.exportDiagram(singleParsed, docOptions);
+
+            const safeName = pf.flow!.name.replace(/[^a-zA-Z0-9_-]/g, '_');
+            const fileName = `${safeName}.md`;
+            const outputFile = vscode.Uri.file(path.join(outputDir, fileName));
+
+            await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
+            generatedFiles.push(outputFile);
+
+            progress.report({
+              increment: (50 / validFlows.length),
+              message: `Generated ${i + 1}/${validFlows.length}: ${safeName}`
+            });
+          }
+
+          progress.report({ increment: 100 });
+
+          const choice = await vscode.window.showInformationMessage(
+            `✅ Generated ${validFlows.length} flow documentation file(s)`,
+            'Open Folder',
+            'Open First File'
+          );
+
+          if (choice === 'Open Folder') {
+            vscode.commands.executeCommand('revealFileInOS', vscode.Uri.file(outputDir));
+          } else if (choice === 'Open First File' && generatedFiles.length > 0) {
+            const doc = await vscode.workspace.openTextDocument(generatedFiles[0]);
+            await vscode.window.showTextDocument(doc, { preview: false });
+            await vscode.commands.executeCommand('markdown.showPreview', generatedFiles[0]);
+          }
         }
-      }
-    });
-  } catch (err: any) {
-    vscode.window.showErrorMessage(`Documentation generation failed: ${err.message}`);
+      });
+    } catch (err: any) {
+      vscode.window.showErrorMessage(`Documentation generation failed: ${err.message}`);
+    }
   }
-}
 
   private async fixFlows() {
     let results: core.ScanResult[] = CacheProvider.instance.get('results') || [];
@@ -453,4 +476,17 @@ export default class Commands {
     }
     return toUris(paths);
   }
+
+  private async pickOutputDirectory(defaultDir: string): Promise<string | undefined> {
+    const uri = await vscode.window.showOpenDialog({
+      canSelectFiles: false,
+      canSelectFolders: true,
+      canSelectMany: false,
+      defaultUri: vscode.Uri.file(defaultDir),
+      openLabel: 'Select output folder'
+    });
+
+    return uri?.[0]?.fsPath;
+  }
+
 }
