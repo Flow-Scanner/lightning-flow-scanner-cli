@@ -33,7 +33,7 @@ export default class MessageService {
   }
 
   generateFlowDocs(query: any) {
-  vscode.commands.executeCommand('flowscanner.generateFlowDocs');
+  vscode.commands.executeCommand('flowscanner.generateFlowDocs', query.options);
   }
 
   configRules(query: any) {
@@ -47,7 +47,7 @@ export default class MessageService {
   }
 
   openReviewPage(query: any) {
-  const url = query.url || "https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx";
+  const url = query.url || "https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx&ssr=false#review-details";
   vscode.env.openExternal(vscode.Uri.parse(url));
 }
 

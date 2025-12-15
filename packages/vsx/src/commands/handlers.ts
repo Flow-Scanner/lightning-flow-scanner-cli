@@ -27,7 +27,7 @@ export default class Commands {
 'flowscanner.openDocumentation': () => this.openDocumentation(),
       'flowscanner.configRules': () => this.configRules(),
       'flowscanner.scanFlows': () => this.scanFlows(),
-      'flowscanner.generateFlowDocs': () => this.generateFlowDocs(),
+      'flowscanner.generateFlowDocs': (options?: any) => this.generateFlowDocs(options),
       'flowscanner.fixFlows': () => this.fixFlows(),      
     };
     return Object.entries(rawHandlers).map(([command, handler]) => {
@@ -36,7 +36,7 @@ export default class Commands {
   }
 
   private openDocumentation() {
-    const url = vscode.Uri.parse('https://github.com/Flow-Scanner/lightning-flow-scanner-core?tab=readme-ov-file#default-rules');
+    const url = vscode.Uri.parse('https://github.com/Flow-Scanner/lightning-flow-scanner?tab=readme-ov-file#default-rules');
     vscode.env.openExternal(url);
   }
 
@@ -221,37 +221,51 @@ export default class Commands {
     ScanOverview.createOrShow(this.context.extensionUri, results);
   }
   
-  private async generateFlowDocs() {
+  private async generateFlowDocs(options?: {
+  mode?: 'combined' | 'separate';
+  includeDetails?: boolean;
+  collapsedDetails?: boolean;
+}) {
   const selectedUris = await this.selectFlows('Select flow files or folder to document:');
   if (!selectedUris) return;
 
-  // Quick pick for documentation options
-  const mode = await vscode.window.showQuickPick(
-    [
-      { label: '📄 Single Combined Document', value: 'combined' },
-      { label: '📚 Separate Document Per Flow', value: 'separate' }
-    ],
-    { placeHolder: 'How would you like to generate documentation?' }
-  );
-  
-  if (!mode) return;
+  // Use provided options or prompt for them
+  let mode = options?.mode;
+  let includeDetails = options?.includeDetails;
+  let collapsedDetails = options?.collapsedDetails;
 
-  const includeDetails = await vscode.window.showQuickPick(
-    ['Yes', 'No'],
-    { placeHolder: 'Include detailed node information?' }
-  );
-  
-  if (includeDetails === undefined) return;
+  // If not provided, prompt user
+  if (!mode) {
+    const modeChoice = await vscode.window.showQuickPick(
+      [
+        { label: '📄 Single Combined Document', value: 'combined' as const },
+        { label: '📚 Separate Document Per Flow', value: 'separate' as const }
+      ],
+      { placeHolder: 'How would you like to generate documentation?' }
+    );
+    if (!modeChoice) return;
+    mode = modeChoice.value;
+  }
 
-  const collapsedDetails = includeDetails === 'Yes' 
-    ? await vscode.window.showQuickPick(
-        ['Yes', 'No'],
-        { placeHolder: 'Collapse details by default?' }
-      )
-    : 'No';
-  
-  if (collapsedDetails === undefined) return;
+  if (includeDetails === undefined) {
+    const detailsChoice = await vscode.window.showQuickPick(
+      ['Yes', 'No'],
+      { placeHolder: 'Include detailed node information?' }
+    );
+    if (detailsChoice === undefined) return;
+    includeDetails = detailsChoice === 'Yes';
+  }
 
+  if (collapsedDetails === undefined && includeDetails) {
+    const collapsedChoice = await vscode.window.showQuickPick(
+      ['Yes', 'No'],
+      { placeHolder: 'Collapse details by default?' }
+    );
+    if (collapsedChoice === undefined) return;
+    collapsedDetails = collapsedChoice === 'Yes';
+  }
+
+  // Rest of the implementation stays the same
   try {
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
@@ -270,31 +284,23 @@ export default class Commands {
 
       progress.report({ increment: 50, message: `Generating documentation for ${validFlows.length} flow(s)...` });
 
-      const options = {
-        includeDetails: includeDetails === 'Yes',
+      const docOptions = {
+        includeDetails: includeDetails ?? true,
         includeMarkdownDocs: true,
-        collapsedDetails: collapsedDetails === 'Yes',
+        collapsedDetails: collapsedDetails ?? true,
       };
 
-      // Create output directory
       const tempDir = path.join(this.context.globalStorageUri.fsPath, 'flow-docs');
       await vscode.workspace.fs.createDirectory(vscode.Uri.file(tempDir));
 
-      if (mode.value === 'combined') {
-        // Generate single combined document
-        const markdown = core.exportDiagram(parsed, options);
-        
+      if (mode === 'combined') {
+        const markdown = core.exportDiagram(parsed, docOptions);
         const fileName = `Flow_Documentation_${Date.now()}.md`;
         const outputFile = vscode.Uri.file(path.join(tempDir, fileName));
         
-        await vscode.workspace.fs.writeFile(
-          outputFile, 
-          new TextEncoder().encode(markdown)
-        );
-
+        await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
         progress.report({ increment: 100 });
 
-        // Open in preview
         const doc = await vscode.workspace.openTextDocument(outputFile);
         await vscode.window.showTextDocument(doc, { preview: false });
         await vscode.commands.executeCommand('markdown.showPreview', outputFile);
@@ -308,23 +314,18 @@ export default class Commands {
           }
         });
       } else {
-        // Generate separate documents
         const generatedFiles: vscode.Uri[] = [];
         
         for (let i = 0; i < validFlows.length; i++) {
           const pf = validFlows[i];
           const singleParsed = [pf];
-          const markdown = core.exportDiagram(singleParsed, options);
+          const markdown = core.exportDiagram(singleParsed, docOptions);
           
           const safeName = pf.flow!.name.replace(/[^a-zA-Z0-9_-]/g, '_');
           const fileName = `${safeName}.md`;
           const outputFile = vscode.Uri.file(path.join(tempDir, fileName));
           
-          await vscode.workspace.fs.writeFile(
-            outputFile,
-            new TextEncoder().encode(markdown)
-          );
-          
+          await vscode.workspace.fs.writeFile(outputFile, new TextEncoder().encode(markdown));
           generatedFiles.push(outputFile);
           
           progress.report({ 
@@ -335,7 +336,6 @@ export default class Commands {
 
         progress.report({ increment: 100 });
 
-        // Show success and offer to open folder
         const choice = await vscode.window.showInformationMessage(
           `✅ Generated ${validFlows.length} flow documentation file(s)`,
           'Open Folder',
