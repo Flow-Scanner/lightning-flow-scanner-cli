@@ -15,6 +15,7 @@ const toUris = (paths: string[]): vscode.Uri[] => paths.map(p => vscode.Uri.file
 interface RuleEntry {
   severity: string;
   expression?: string;
+  enabled?: boolean;
 }
 
 type RuleConfig = Record<string, RuleEntry>;
@@ -24,7 +25,7 @@ export default class Commands {
 
   get handlers() {
     const rawHandlers: Record<string, (...args: any[]) => any> = {
-'flowscanner.openDocumentation': () => this.openDocumentation(),
+      'flowscanner.openDocumentation': () => this.openDocumentation(),
       'flowscanner.configRules': () => this.configRules(),
       'flowscanner.scanFlows': () => this.scanFlows(),
       'flowscanner.generateFlowDocs': (options?: any) => this.generateFlowDocs(options),
@@ -40,7 +41,7 @@ export default class Commands {
     vscode.env.openExternal(url);
   }
 
-  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean }> {
+  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated" }> {
     const rawConfig = await loadScannerConfig(workspacePath);
     // OutputChannel.getInstance().logChannel.debug('Raw config loaded:', JSON.stringify(rawConfig, null, 2));
     const rawRules = (rawConfig.rules as Record<string, unknown>) || {};
@@ -50,32 +51,42 @@ export default class Commands {
         const r = rule as Record<string, unknown>;
         rules[name] = {
           severity: String(r.severity ?? 'warning'),
-          expression: r.expression !== undefined ? String(r.expression) : undefined
+          expression: r.expression !== undefined ? String(r.expression) : undefined,
+          enabled: r.enabled !== undefined ? !!r.enabled : undefined
         };
       }
     }
     const betamode = !!rawConfig.betamode;
-    await CacheProvider.instance.set('ruleconfig', { rules, betamode });
-    return { rules, betamode };
+    const ruleMode: "merged" | "isolated" = String(rawConfig.ruleMode ?? 'merged').toLowerCase() === 'isolated' ? 'isolated' : 'merged';
+    await CacheProvider.instance.set('ruleconfig', { rules, betamode, ruleMode });
+    return { rules, betamode, ruleMode };
   }
 
-  private async saveConfig(workspacePath: string, rules: RuleConfig, betamode: boolean) {
+  private async saveConfig(workspacePath: string, rules: RuleConfig, betamode: boolean, ruleMode: "merged" | "isolated") {
     const configPath = path.join(workspacePath, '.flow-scanner.yml');
     const yamlLines: string[] = [];
+    if (ruleMode !== 'merged') {
+      yamlLines.push(`ruleMode: ${ruleMode}`);
+    }
     if (betamode) {
       yamlLines.push('betamode: true');
     }
-    yamlLines.push('rules:');
-    for (const [name, rule] of Object.entries(rules)) {
-      yamlLines.push(`  ${name}:`); // 2 spaces
-      yamlLines.push(`    severity: ${rule.severity}`); // 4 spaces
-      if (rule.expression) {
-        yamlLines.push(`    expression: ${JSON.stringify(rule.expression)}`); // 4 spaces
+    if (Object.keys(rules).length > 0) {
+      yamlLines.push('rules:');
+      for (const [name, entry] of Object.entries(rules)) {
+        yamlLines.push(`  ${name}:`); // 2 spaces
+        if (entry.enabled !== undefined) {
+          yamlLines.push(`    enabled: ${entry.enabled}`); // 4 spaces
+        }
+        yamlLines.push(`    severity: ${entry.severity}`); // 4 spaces
+        if (entry.expression) {
+          yamlLines.push(`    expression: ${JSON.stringify(entry.expression)}`); // 4 spaces
+        }
       }
     }
     const yamlString = yamlLines.join('\n');
     await vscode.workspace.fs.writeFile(vscode.Uri.file(configPath), new TextEncoder().encode(yamlString));
-    await CacheProvider.instance.set('ruleconfig', { rules, betamode });
+    await CacheProvider.instance.set('ruleconfig', { rules, betamode, ruleMode });
   }
 
   private async configRules(): Promise<boolean> {
@@ -109,62 +120,92 @@ export default class Commands {
     const config = await this.loadConfig(workspacePath);
     let rules = config.rules;
     let currentBetamode = config.betamode;
+    let currentRuleMode = config.ruleMode;
+    const modeOptions = currentRuleMode === 'merged' ? ['Merged (run all, override selected)', 'Isolated (run only selected)'] : ['Isolated (run only selected)', 'Merged (run all, override selected)'];
+    const modeChoice = await vscode.window.showQuickPick(modeOptions, {
+      placeHolder: 'Select rule mode'
+    });
+    if (modeChoice === undefined) return false;
+    const ruleMode: "merged" | "isolated" = modeChoice.startsWith('Merged') ? 'merged' : 'isolated';
     const betaOptions = currentBetamode ? ['Yes', 'No'] : ['No', 'Yes'];
     const includeBeta = await vscode.window.showQuickPick(betaOptions, {
       placeHolder: 'Do you want to opt-in for beta rules?'
     });
     if (includeBeta === undefined) return false;
     const betamode = includeBeta === 'Yes';
-    const allRules = [...core.getRules()];
+    const allRules = core.getRules(undefined, { betaMode: betamode });
     const currentNames = Object.keys(rules);
     // Preselect all rules if no config exists
     const isEmptyConfig = currentNames.length === 0;
     const items = allRules.map(rule => ({
       label: rule.label,
       description: rule.name,
-      picked: isEmptyConfig ? true : currentNames.includes(rule.name),
+      picked: isEmptyConfig ? true : (rules[rule.name]?.enabled ?? true),
     }));
     const selected = await vscode.window.showQuickPick(items, {
       canPickMany: true,
       placeHolder: 'Select rules to enable/disable',
     });
     if (selected === undefined) return false;
+    const selectedNames = new Set(selected.map(s => s.description!));
     const newRules: RuleConfig = {};
-    for (const item of selected) {
-      const def = allRules.find(r => r.name === item.description)!;
-      const existing = rules[def.name];
-      newRules[def.name] = {
-        severity: existing?.severity || def.severity || 'warning',
-        expression: existing?.expression,
-      };
+    if (ruleMode === 'isolated') {
+      for (const item of selected) {
+        const def = allRules.find(r => r.name === item.description)!;
+        const severity = rules[def.name]?.severity ?? def.severity ?? 'warning';
+        const expression = rules[def.name]?.expression;
+        newRules[def.name] = { severity };
+        if (expression !== undefined) newRules[def.name].expression = expression;
+      }
+    } else {
+      for (const def of allRules) {
+        const name = def.name;
+        const isSelected = selectedNames.has(name);
+        const ruleConfig = rules[name];
+        const severity = ruleConfig?.severity ?? def.severity ?? 'warning';
+        const expression = ruleConfig?.expression;
+        const enabled = isSelected;
+        const hasCustomSeverity = severity !== (def.severity ?? 'warning');
+        const hasCustomExpression = expression !== undefined;
+        const hasCustomEnabled = !enabled;
+        if (hasCustomSeverity || hasCustomExpression || hasCustomEnabled) {
+          newRules[name] = { severity };
+          if (expression !== undefined) newRules[name].expression = expression;
+          if (hasCustomEnabled) newRules[name].enabled = enabled;
+        }
+      }
     }
     let changed = false;
-    if (newRules.FlowName) {
-      const current = newRules.FlowName.expression || '';
+    if (selectedNames.has('FlowName')) {
+      const def = allRules.find(r => r.name === 'FlowName')!;
+      const current = newRules.FlowName?.expression || '';
       const expr = await vscode.window.showInputBox({
         prompt: 'Define naming convention (REGEX) for FlowName',
         placeHolder: '[A-Za-z0-9]+_[A-Za-z0-9]+',
         value: current || '[A-Za-z0-9]+_[A-Za-z0-9]+',
       });
       if (expr !== undefined && expr.trim() !== current) {
+        if (!newRules.FlowName) newRules.FlowName = { severity: def.severity ?? 'warning' };
         newRules.FlowName.expression = expr.trim() || undefined;
         changed = true;
       }
     }
-    if (newRules.APIVersion) {
-      const current = newRules.APIVersion.expression || '';
+    if (selectedNames.has('APIVersion')) {
+      const def = allRules.find(r => r.name === 'APIVersion')!;
+      const current = newRules.APIVersion?.expression || '';
       const expr = await vscode.window.showInputBox({
         prompt: 'Set API version rule (e.g. ">=50")',
         placeHolder: '>=50',
         value: current || '>=50',
       });
       if (expr !== undefined && expr.trim() !== current) {
+        if (!newRules.APIVersion) newRules.APIVersion = { severity: def.severity ?? 'warning' };
         newRules.APIVersion.expression = expr.trim() || undefined;
         changed = true;
       }
     }
-    if (changed || Object.keys(newRules).length !== currentNames.length || betamode !== currentBetamode) {
-      await this.saveConfig(workspacePath, newRules, betamode);
+    if (changed || Object.keys(newRules).length !== currentNames.length || betamode !== currentBetamode || ruleMode !== currentRuleMode) {
+      await this.saveConfig(workspacePath, newRules, betamode, ruleMode);
       vscode.window.showInformationMessage('Configuration saved successfully!');
       return true; // Configuration was completed
     }
@@ -214,7 +255,7 @@ export default class Commands {
     ScanOverview.createOrShow(this.context.extensionUri, []);
     
     OutputChannel.getInstance().logChannel.debug('Using rule config for scan:', config);
-    const scanConfig = { rules: config.rules, betamode: config.betamode };
+    const scanConfig = { rules: config.rules, betamode: config.betamode, ruleMode: config.ruleMode };
     const parsed = await core.parse(toFsPaths(selectedUris));
     const results = core.scan(parsed, scanConfig);
     await CacheProvider.instance.set('results', results);
