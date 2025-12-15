@@ -16,11 +16,16 @@
   let docMode = 'combined'; // 'combined' | 'separate'
   let docIncludeDetails = true;
   let docCollapsedDetails = true;
+  let docOptionsConfigured = false;
+  let outputDir = '';
 
   // Load preferences + environment
   onMount(async () => {
     const handler = (event) => {
       const message = event.data;
+      if (message.type === 'docOutputDirSelected') {
+        docOutputDir = message.path;
+      }
       if (message.type === "initEnvironment") {
         isVSCode = message.isVSCode;
         marketplace = message.marketplace;
@@ -44,11 +49,46 @@
         docMode = prefs.mode || 'combined';
         docIncludeDetails = prefs.includeDetails ?? true;
         docCollapsedDetails = prefs.collapsedDetails ?? true;
+        outputDir = prefs.outputDir || '';
       }
     } catch (e) {
       console.log('Using default doc preferences');
     }
   });
+
+  async function getWorkspaceRoot() {
+    return new Promise((resolve) => {
+      const nonce = Date.now().toString();
+      const handler = (event) => {
+        const msg = event.data;
+        if (msg.type === 'workspaceRoot' && msg.nonce === nonce) {
+          window.removeEventListener('message', handler);
+          resolve(msg.path || '');
+        }
+      };
+      window.addEventListener('message', handler);
+      tsvscode.postMessage({ type: 'getWorkspaceRoot', nonce });
+    });
+  }
+
+  async function selectOutputDir() {
+    const newPath = await new Promise((resolve) => {
+      const nonce = Date.now().toString();
+      const handler = (event) => {
+        const msg = event.data;
+        if (msg.type === 'selectedFolder' && msg.nonce === nonce) {
+          window.removeEventListener('message', handler);
+          resolve(msg.path);
+        }
+      };
+      window.addEventListener('message', handler);
+      tsvscode.postMessage({ type: 'selectOutputFolder', nonce });
+    });
+    if (newPath) {
+      outputDir = newPath;
+      docOptionsConfigured = true;
+    }
+  }
 
   // Cache helpers
   async function getCache(key) {
@@ -97,7 +137,8 @@
       await setCache('docPreferences', {
         mode: docMode,
         includeDetails: docIncludeDetails,
-        collapsedDetails: docCollapsedDetails
+        collapsedDetails: docCollapsedDetails,
+        outputDir
       });
     } catch (e) {
       console.error('Failed to save preferences:', e);
@@ -168,17 +209,19 @@
   function scanFlows()        { tsvscode.postMessage({ type: "scanFlows" }); }
   function fixFlows()         { tsvscode.postMessage({ type: "fixFlows" }); }
   
-  async function generateFlowDocs() {
-    await saveDocPreferences();
-    tsvscode.postMessage({ 
-      type: "generateFlowDocs",
-      options: {
-        mode: docMode,
-        includeDetails: docIncludeDetails,
-        collapsedDetails: docCollapsedDetails
-      }
-    });
-  }
+  function generateFlowDocs() {
+  tsvscode.postMessage({
+    type: "generateFlowDocs",
+    options: {
+      mode: docMode,
+      includeDetails: docIncludeDetails,
+      collapsedDetails: docCollapsedDetails,
+      outputDir: outputDir || undefined,
+      configuredViaSidebar: true // now true because the user explicitly clicked
+    }
+  });
+}
+
 </script>
 
 <TailwindWrapper>
@@ -212,7 +255,7 @@
             </div>
             
             <div class="flex items-center gap-2">
-              <input type="checkbox" id="includeDetails" bind:checked={docIncludeDetails} class="rounded" />
+              <input type="checkbox" id="includeDetails" bind:checked={docIncludeDetails} on:change={() => (docOptionsConfigured = true)} class="rounded" />
               <label for="includeDetails" class="text-xs text-gray-700">Include node details</label>
             </div>
             
@@ -222,6 +265,14 @@
                 <label for="collapsedDetails" class="text-xs text-gray-700">Collapse by default</label>
               </div>
             {/if}
+
+            <div>
+              <label class="text-xs font-medium text-gray-700 block mb-1">Output Folder</label>
+              <div class="flex gap-2">
+                <input type="text" bind:value={outputDir} class="flex-1 text-sm border rounded px-2 py-1" readonly />
+                <button on:click={selectOutputDir} class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">Browse</button>
+              </div>
+            </div>
           </div>
         {/if}
         

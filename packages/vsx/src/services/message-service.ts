@@ -36,6 +36,33 @@ export default class MessageService {
   vscode.commands.executeCommand('flowscanner.generateFlowDocs', query.options);
   }
 
+  getWorkspaceRoot(query: any) {
+    const root = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
+    this.webview.postMessage({
+      type: 'workspaceRoot',
+      path: root,
+      nonce: query.nonce
+    });
+  }
+
+  async selectOutputFolder(query: any) {
+    const workspace = vscode.workspace.workspaceFolders?.[0];
+    if (!workspace) return;
+
+    const uri = await vscode.window.showOpenDialog({
+      canSelectFiles: false,
+      canSelectFolders: true,
+      canSelectMany: false,
+      defaultUri: workspace.uri
+    });
+
+    this.webview.postMessage({
+      type: 'selectedFolder',
+      path: uri?.[0]?.fsPath || '',
+      nonce: query.nonce
+    });
+  }
+
   configRules(query: any) {
     vscode.commands.executeCommand('flowscanner.configRules');
   }
