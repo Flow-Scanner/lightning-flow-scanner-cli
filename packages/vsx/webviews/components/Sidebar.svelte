@@ -13,11 +13,16 @@
 
   // Documentation preferences
   let showDocOptions = false;
-  let docMode = 'combined'; // 'combined' | 'separate'
+  let docMode = 'combined';
   let docIncludeDetails = true;
   let docCollapsedDetails = true;
   let docOptionsConfigured = false;
   let outputDir = '';
+
+  // Scan preferences
+  let showScanOptions = false;
+  let scanIsolatedMode = false;  // false = merged (default), true = isolated
+  let scanBetaMode = false;      // false = no beta (default), true = beta
 
   // Load preferences + environment
   onMount(async () => {
@@ -206,21 +211,38 @@
 
   function openDocumentation() { tsvscode.postMessage({ type: "openDocumentation" }); }
   function configRules()      { tsvscode.postMessage({ type: "configRules" }); }
-  function scanFlows()        { tsvscode.postMessage({ type: "scanFlows" }); }
   function fixFlows()         { tsvscode.postMessage({ type: "fixFlows" }); }
   
   function generateFlowDocs() {
-  tsvscode.postMessage({
-    type: "generateFlowDocs",
-    options: {
-      mode: docMode,
-      includeDetails: docIncludeDetails,
-      collapsedDetails: docCollapsedDetails,
-      outputDir: outputDir || undefined,
-      configuredViaSidebar: true // now true because the user explicitly clicked
-    }
-  });
-}
+    tsvscode.postMessage({
+      type: "generateFlowDocs",
+      options: {
+        mode: docMode,
+        includeDetails: docIncludeDetails,
+        collapsedDetails: docCollapsedDetails,
+        outputDir: outputDir || undefined,
+        configuredViaSidebar: true
+      }
+    });
+  }
+
+  function handleScanFlows() {
+    // Only override if any setting is non-default (true)
+    const hasOverrides = scanIsolatedMode || scanBetaMode;
+    
+    const options = hasOverrides
+      ? {
+          ruleMode: scanIsolatedMode ? 'isolated' : 'merged',
+          betaMode: scanBetaMode,
+          overrideConfig: true
+        }
+      : undefined;
+    
+    tsvscode.postMessage({
+      type: 'scanFlows',
+      options
+    });
+  }
 
 </script>
 
@@ -229,7 +251,53 @@
     <Banner />
     <nav aria-label="Sidebar" class="flex flex-col gap-3">
       <button class="btn btn-blue" on:click={configRules}>⚙️ Configure Rules</button>
-      <button class="btn btn-blue" on:click={scanFlows}>🔍 Scan Flows</button>
+      
+      <!-- Scan Options Section -->
+      <div class="border-t border-gray-300 pt-3 mt-2">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-xs text-gray-500 uppercase font-semibold">Scan Options</p>
+          <button 
+            class="text-xs text-blue-600 hover:underline"
+            on:click={() => showScanOptions = !showScanOptions}
+          >
+            {showScanOptions ? 'Hide Options' : 'Show Options'}
+          </button>
+        </div>
+        
+        {#if showScanOptions}
+          <div class="bg-gray-50 rounded p-3 mb-2 space-y-2">
+            <div class="flex items-center gap-2">
+              <input 
+                type="checkbox" 
+                id="scanIsolatedMode" 
+                bind:checked={scanIsolatedMode} 
+                class="rounded" 
+              />
+              <label for="scanIsolatedMode" class="text-xs text-gray-700">
+                🎯 Use Isolated Mode (run only selected rules)
+              </label>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <input 
+                type="checkbox" 
+                id="scanBetaMode" 
+                bind:checked={scanBetaMode} 
+                class="rounded" 
+              />
+              <label for="scanBetaMode" class="text-xs text-gray-700">
+                🧪 Enable Beta Rules
+              </label>
+            </div>
+            
+            <p class="text-xs text-gray-500 italic mt-2">
+              These settings override config file when checked
+            </p>
+          </div>
+        {/if}
+      </div>
+
+      <button class="btn btn-blue" on:click={handleScanFlows}>🔍 Scan Flows</button>
       <button class="btn btn-blue" on:click={fixFlows}>🔧 Fix Flows</button>
       
       <!-- Documentation Section with Options -->
@@ -313,8 +381,8 @@
 
     <p class="mt-6 text-center text-sm text-gray-600">
       Since 2021, built by the community.
-      <a
-        href="https://github.com/Flow-Scanner/lightning-flow-scanner?tab=contributing-ov-file"
+      
+        <a href="https://github.com/Flow-Scanner/lightning-flow-scanner?tab=contributing-ov-file"
         target="_blank"
         class="text-blue-600 font-medium hover:underline"
       >

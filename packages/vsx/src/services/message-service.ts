@@ -24,10 +24,9 @@ export default class MessageService {
   }
 
   scanFlows(query: any) {
-    vscode.commands.executeCommand('flowscanner.scanFlows');
+    vscode.commands.executeCommand('flowscanner.scanFlows', query.options);  // ✅ Options passed
   }
 
-  
   fixFlows(query: any) {
     vscode.commands.executeCommand('flowscanner.fixFlows');
   }

@@ -27,7 +27,7 @@ export default class Commands {
     const rawHandlers: Record<string, (...args: any[]) => any> = {
       'flowscanner.openDocumentation': () => this.openDocumentation(),
       'flowscanner.configRules': () => this.configRules(),
-      'flowscanner.scanFlows': () => this.scanFlows(),
+      'flowscanner.scanFlows': (options?: any) => this.scanFlows(options),
       'flowscanner.generateFlowDocs': (options?: any) => this.generateFlowDocs(options),
       'flowscanner.fixFlows': () => this.fixFlows(),
     };
@@ -212,16 +212,33 @@ export default class Commands {
     return false; // No changes made
   }
 
-  private async scanFlows() {
+  private async scanFlows(options?: {
+  ruleMode?: 'merged' | 'isolated';
+  betaMode?: boolean;
+  overrideConfig?: boolean;
+  }) {
     const selectedUris = await this.selectFlows('Select flow files or folder to scan:');
     if (!selectedUris) return;
     const root = vscode.workspace.workspaceFolders![0].uri;
 
-    const configReset = vscode.workspace.getConfiguration('flowscanner').get<boolean>('Reset');
+    const configReset = vscode.workspace.getConfiguration('flowscanner').get('Reset');
     if (configReset) await this.configRules();
 
     // Load config dynamically from YAML file
     let config = await this.loadConfig(root.fsPath);
+
+    // Apply sidebar overwrites if enabled
+    if (options?.overrideConfig) {
+      OutputChannel.getInstance().logChannel.debug('Applying sidebar scan options:', options);
+      
+      if (options.ruleMode !== undefined) {
+        config.ruleMode = options.ruleMode;
+      }
+      
+      if (options.betaMode !== undefined) {
+        config.betamode = options.betaMode;
+      }
+    }
 
     if (Object.keys(config.rules).length === 0) {
       const choice = await vscode.window.showWarningMessage(
@@ -234,14 +251,22 @@ export default class Commands {
         const configured = await this.configRules();
 
         if (!configured) {
-          // User cancelled or just opened file
           return;
         }
 
         // RELOAD config after configuration
         config = await this.loadConfig(root.fsPath);
 
-        // If still no rules, something went wrong
+        // Re-apply sidebar overwrites after reload
+        if (options?.overrideConfig) {
+          if (options.ruleMode !== undefined) {
+            config.ruleMode = options.ruleMode;
+          }
+          if (options.betaMode !== undefined) {
+            config.betamode = options.betaMode;
+          }
+        }
+
         if (Object.keys(config.rules).length === 0) {
           vscode.window.showWarningMessage('No rules configured. Scan cancelled.');
           return;
