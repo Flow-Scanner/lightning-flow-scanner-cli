@@ -61,7 +61,7 @@ const publishPkg = {
 };
 
 // Copy root files from monorepo root
-['README.md','LICENSE.md','SECURITY.md','CONTRIBUTING.md'].forEach(f => {
+['README.md','LICENSE.md'].forEach(f => {
   const source = path.join('..', '..', f);
   const dest = path.join('out', f);
   if (fs.existsSync(source)) {
