@@ -33,8 +33,7 @@
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
     "version:major": "npm version major --no-git-tag-version",
-    "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish && npm run publish:tag",
-    "publish:tag": "node ../../scripts/publish-core-tag.js"
+    "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish && node ../../scripts/publish-core-tag.js"
   },
   "license": "MIT",
   "repository": {
