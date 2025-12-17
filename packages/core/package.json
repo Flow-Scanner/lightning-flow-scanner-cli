@@ -1,7 +1,7 @@
 {
   "name": "@flow-scanner/lightning-flow-scanner-core",
   "description": "A lightweight engine for Flow metadata in Node.js, and browser environments. Assess and enhance Salesforce Flow automations for best practices, security, governor limits, and performance issues.",
-  "version": "6.11.0",
+  "version": "6.11.1",
   "main": "out/index.js",
   "exports": {
     ".": {
@@ -33,7 +33,7 @@
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
     "version:major": "npm version major --no-git-tag-version",
-    "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish",
+    "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish && npm run publish:tag",
     "publish:tag": "node ../../scripts/publish-core-tag.js"
   },
   "license": "MIT",

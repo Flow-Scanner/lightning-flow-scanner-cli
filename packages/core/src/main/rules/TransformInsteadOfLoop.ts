@@ -16,7 +16,7 @@ export class TransformInsteadOfLoop extends RuleCommon implements IRuleDefinitio
           path: "https://trailhead.salesforce.com/content/learn/modules/multirecord-elements-and-transforms-in-flows/transform-multiple-records",
         },
       ],
-    }, { severity: "error" });
+    }, { severity: "note" });
   }
 
   protected check(
@@ -26,26 +26,25 @@ export class TransformInsteadOfLoop extends RuleCommon implements IRuleDefinitio
   ): core.Violation[] {
     const violations: core.Violation[] = [];
 
-    // Get all loop elements
-    const loops = flow.elements?.filter((e) => e.subtype === "loops") ?? [];
+    const triggerType = this.getStartProperty(flow, 'triggerType');
+    const isRecordBeforeSave = triggerType === "RecordBeforeSave";
+    if (isRecordBeforeSave) {
+      return violations;
+    }
 
-    for (const loop of loops) {
-      const loopNode = loop as core.FlowNode;
-      
-      // Check if the loop's nextValueConnector (the iterative path) leads to an assignment
-      const nextValueConnector = loopNode.connectors?.find(
-        (connector) => connector.type === "nextValueConnector"
-      );
+    const loops = flow.graph.getLoopNodes();
 
-      if (nextValueConnector?.reference) {
-        // Find the element that the nextValueConnector points to
-        const targetElement = flow.elements?.find(
-          (e) => e.name === nextValueConnector.reference
-        );
+    for (const loopNode of loops) {
+      // Get elements that the loop connects to (includes nextValueConnector)
+      const nextElements = flow.graph.getNextElements(loopNode.name);
 
-        // Check if the target is an assignment
-        if (targetElement?.subtype === "assignments") {
+      // Check if any directly connected element is an assignment
+      for (const nextElementName of nextElements) {
+        const nextElement = flow.graph.getNode(nextElementName);
+
+        if (nextElement?.subtype === "assignments") {
           violations.push(new core.Violation(loopNode));
+          break; // Only report once per loop
         }
       }
     }
