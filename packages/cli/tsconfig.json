@@ -12,6 +12,7 @@
     "importHelpers": true,
     "resolveJsonModule": true,
     "types": ["node", "mocha"],
+    "tsBuildInfoFile": "../../.tsbuildinfo/cli.tsbuildinfo",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true
     ,
