@@ -28,5 +28,5 @@
   "references": [
     { "path": "../core" }
   ],
-  "include": ["./src/**/*", "./test/**/*"]
+  "include": ["./src/**/*"],
 }
