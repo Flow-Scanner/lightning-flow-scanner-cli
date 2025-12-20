@@ -104,7 +104,7 @@ _[InactiveFlow](packages/core/src/main/rules/InactiveFlow.ts)_ – Like cleaning
 _[MissingFaultPath](packages/core/src/main/rules/MissingFaultPath.ts)_ – A flow may fail to execute an operation as intended. By default, the flow displays an error to the user and emails the creator. Customize this behavior by incorporating a Fault Path.  
 **Severity:** 🟡 *Warning*
 
-### Missing Filter Record Trigger
+### Missing Filter Record Trigger ![Beta](https://img.shields.io/badge/status-beta-yellow)
 _[MissingFilterRecordTrigger](packages/core/src/main/rules/MissingFilterRecordTrigger.ts)_ – Record-triggered flows that lack filters on changed fields or entry conditions can lead to unnecessary executions on every record change. This may degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs. 
 **Severity:** 🟡 *Warning*
 
@@ -112,7 +112,7 @@ _[MissingFilterRecordTrigger](packages/core/src/main/rules/MissingFilterRecordTr
 _[FlowDescription](packages/core/src/main/rules/FlowDescription.ts)_ – Descriptions play a vital role in documentation. It is highly recommended to include details about where a flow is used and its intended purpose.  
 **Severity:** 🔴 *Error*
 
-### Missing Metadata Description  
+### Missing Metadata Description ![Beta](https://img.shields.io/badge/status-beta-yellow)
 _[MissingMetadataDescription](packages/core/src/main/rules/MissingMetadataDescription.ts)_ – Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.  
 **Severity:** 🔴 *Error*
 
@@ -124,7 +124,7 @@ _[MissingNullHandler](packages/core/src/main/rules/MissingNullHandler.ts)_ – W
 _[ProcessBuilder](packages/core/src/main/rules/ProcessBuilder.ts)_ – Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.  
 **Severity:** 🟡 *Warning*
 
-### Record ID as String
+### Record ID as String ![Beta](https://img.shields.io/badge/status-beta-yellow)
 _[RecordIdAsString](packages/core/src/main/rules/RecordIdAsString.ts)_ – Detects flows using a String variable named `recordId` as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.  
 **Severity:** 🔵 *Note*
 
@@ -140,7 +140,7 @@ _[SameRecordFieldUpdates](packages/core/src/main/rules/SameRecordFieldUpdates.ts
 _[SOQLQueryInLoop](packages/core/src/main/rules/SOQLQueryInLoop.ts)_ – To prevent exceeding Apex governor limits, consolidate all SOQL queries at the end of the flow.  
 **Severity:** 🔴 *Error*
 
-### Transform Instead of Loop
+### Transform Instead of Loop ![Beta](https://img.shields.io/badge/status-beta-yellow)
 _[TransformInsteadOfLoop](packages/core/src/main/rules/TransformInsteadOfLoop.ts)_ – Detects Loop elements that directly connect to Assignment elements. Transform elements handle collection manipulation in bulk operations, providing significant performance improvements over iterative loop-assignment patterns.  
 **Severity:** 🔵 *Note*
 
