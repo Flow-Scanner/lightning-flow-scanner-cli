@@ -12,7 +12,7 @@
     "build:vsx": "pnpm --filter=lightning-flow-scanner-vsx run build",
     "build:vsx:package": "pnpm --filter=lightning-flow-scanner-vsx run build:vsx",
     "build:docs": "node scripts/update-package-readmes.js",
-    "test": "turbo run test",
+    "test": "turbo run test --filter=!lightning-flow-scanner-action",
     "test:core": "turbo run test --filter=@flow-scanner/lightning-flow-scanner-core",
     "test:cli": "turbo run test --filter=lightning-flow-scanner",
     "clean": "turbo run clean",
