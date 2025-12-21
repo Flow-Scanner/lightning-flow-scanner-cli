@@ -216,7 +216,7 @@ By default, all default rules are executed. You can customize individual rules a
 ```json
 {
   "rules": {
-    "<RuleName>": {
+    "<RuleId>": {
       "severity": "<Severity>", // Override severity level
       "expression": "<Expression>", // Override rule expression
       "enabled": "false" // Disable this rule
@@ -232,10 +232,10 @@ When the severity is not provided it will be `warning` by default. Other availab
 ```json
 {
   "rules": {
-    "FlowDescription": {
+    "missing-flow-description": {
       "severity": "error"
     },
-    "UnusedVariable": {
+    "unused-variable": {
       "severity": "note"
     }
   }
@@ -249,10 +249,10 @@ Some rules have an expression to configure, such as the expression, that will ov
 ```json
 {
   "rules": {
-    "APIVersion": {
+    "invalid-api-version": {
       "expression": "===58" // comparison operator
     },
-    "FlowName": {
+    "invalid-naming-convention": {
       "expression": "[A-Za-z0-9]" // regular expression
     }
   }
@@ -267,7 +267,7 @@ Defining exceptions allows you to exclude specific scenarios from rule enforceme
 {
   "exceptions": {
     "<FlowName>": {
-      "<RuleName>": [
+      "<RuleId>": [
         "<ResultName>", // Suppress a result
         "*", // Wildcard to suppress all results
         ...
@@ -284,8 +284,8 @@ _Example_
 {
   "exceptions": {
     "MyFlow": {
-      "HardcodedId": ["Old_Lookup_1"]
-      "MissingNullHandler": ["*"],
+      "hardcoded-id": ["Old_Lookup_1"],
+      "missing-null-handler": ["*"]
     }
   }
 }
