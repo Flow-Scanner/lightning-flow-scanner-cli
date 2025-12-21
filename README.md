@@ -193,9 +193,8 @@ _[UnusedVariable](packages/core/src/main/rules/UnusedVariable.ts)_ – To mainta
 
 It is recommend to configure and define:
 
-- The rules to be executed.
 - The severity of violating any specific rule.
-- Rule properties such as REGEX expressions.
+- Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
 
 ```json
