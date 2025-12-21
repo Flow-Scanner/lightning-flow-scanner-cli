@@ -15,6 +15,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
 
   constructor() {
     super({
+      ruleId: "missing-fault-path",
       description:
         "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path. This rule checks DML operations, actions (Send Email, Quick Actions), and Invocable Apex Actions for proper error handling.",
       docRefs: [

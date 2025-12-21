@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class HardcodedId extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "hardcoded-id",
       name: "HardcodedId",
       label: "Hardcoded Id",
       description:

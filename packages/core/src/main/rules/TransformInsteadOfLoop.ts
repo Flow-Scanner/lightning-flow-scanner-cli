@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class TransformInsteadOfLoop extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "transform-instead-of-loop",
       name: "TransformInsteadOfLoop",
       label: "Transform Instead of Loop",
       description:

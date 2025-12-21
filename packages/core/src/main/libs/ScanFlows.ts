@@ -10,6 +10,28 @@ import { ParsedFlow } from "../models/ParsedFlow";
 import { enrichViolationsWithLineNumbers } from "../models/Violation";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
 
+function getRuleConfigByIdOrName(
+  rule: IRuleDefinition,
+  rulesConfig?: Record<string, any>
+): any | undefined {
+  if (!rulesConfig) return undefined;
+  // Try ruleId first, then fall back to name
+  return rulesConfig[rule.ruleId] || rulesConfig[rule.name];
+}
+
+function getSuppressionsForRule(
+  rule: IRuleDefinition,
+  flowName: string,
+  exceptions?: Record<string, Record<string, string[]>>
+): string[] {
+  if (!exceptions?.[flowName]) return [];
+  const flowExceptions = exceptions[flowName];
+  // Try ruleId first, then fall back to name
+  const rawSuppressions = flowExceptions[rule.ruleId] || flowExceptions[rule.name];
+  // If wildcard exists, return only wildcard; otherwise return array or empty
+  return rawSuppressions?.includes("*") ? ["*"] : (rawSuppressions ?? []);
+}
+
 export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
   for (const flow of parsedFlows) {
@@ -53,16 +75,8 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
           continue;
         }
 
-        let config: object | undefined = undefined;
-        if (ruleOptions?.rules?.[rule.name]) {
-          config = ruleOptions.rules[rule.name];
-        }
-
-        const rawSuppressions: string[] | undefined =
-          ruleOptions?.exceptions?.[flow.name]?.[rule.name];
-
-        const suppressions: string[] =
-          rawSuppressions?.includes("*") ? ["*"] : (rawSuppressions ?? []);
+        const config = getRuleConfigByIdOrName(rule, ruleOptions?.rules);
+        const suppressions = getSuppressionsForRule(rule, flow.name, ruleOptions?.exceptions);
 
         const result =
           config && Object.keys(config).length > 0

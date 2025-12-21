@@ -5,6 +5,7 @@ import { RuleCommon } from "../models/RuleCommon";
 export class MissingMetadataDescription extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "missing-metadata-description",
       description: "Every element must have a meaningful description",
       docRefs: [],
       label: "Missing Metadata Description",

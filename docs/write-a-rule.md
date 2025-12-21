@@ -94,4 +94,17 @@ export class HardcodedReferences extends RuleCommon implements IRuleDefinition {
    - Return new Violation(element) for element-level issues.
    - Return new Violation(new FlowAttribute(value, "property", "expected")) for flow-level issues.
    - No suppression code needed unless performance demands it.
-5. Add the rule to DefaultRuleStore.ts
+5. Add the rule to the registry in src/main/store/RuleRegistry.ts:
+
+```
+// Import your rule class at the top
+import { YourRuleName } from "../rules/YourRuleName";
+
+// Inside the registration block
+registry.register(
+  "your-rule-id-in-kebab-case",  // e.g. "hardcoded-references"
+  YourRuleName,                  // TypeScript Class name
+  "YourRuleName",                // legacy CamelCase name
+  true                           // add true to activate as a beta rule
+);
+```

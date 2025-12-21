@@ -9,10 +9,11 @@ export abstract class RuleCommon {
   public name: string;
   public severity?: string;
   public supportedTypes: string[];
-  public suppressionElement?: string;
   public uri?: string;
+  public readonly ruleId: string;
   
   constructor(info: RuleInfo, optional?: { severity?: string }) {
+    this.ruleId = info.ruleId;
     this.name = info.name;
     this.supportedTypes = info.supportedTypes;
     this.label = info.label;
@@ -29,7 +30,6 @@ export abstract class RuleCommon {
     }
 
     this.severity = optional?.severity ?? "error";
-    this.suppressionElement = info.suppressionElement;
   }
 
   public execute(
@@ -41,6 +41,11 @@ export abstract class RuleCommon {
     if (suppressions.includes("*")) {
       return new core.RuleResult(this as any, []);
     }
+    
+    if (suppressions.includes(this.ruleId) || suppressions.includes(this.name)) {
+      return new core.RuleResult(this as any, []);
+    }
+    
     const suppSet = new Set(suppressions);
     let violations = this.check(flow, options, suppSet);
     violations = violations.filter(v => !suppSet.has(v.name));

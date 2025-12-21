@@ -2,10 +2,11 @@ import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 
-export class MissingFilterRecordTrigger extends RuleCommon implements IRuleDefinition {
+export class MissingRecordTriggerFilter extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
-      name: "MissingFilterRecordTrigger",
+      ruleId: "missing-record-trigger-filter",
+      name: "MissingRecordTriggerFilter",
       label: "Missing Record Trigger Filter",
       description:
         "Detects record-triggered flows that lack filters on changed fields or entry conditions, leading to unnecessary executions on every record change. This can degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",

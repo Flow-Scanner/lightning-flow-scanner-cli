@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "duplicate-dml",
       name: "DuplicateDMLOperation",
       label: "Duplicate DML Operation",
       description:

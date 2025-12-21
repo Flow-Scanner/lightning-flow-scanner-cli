@@ -4,6 +4,7 @@ import { LoopRuleCommon } from "../models/LoopRuleCommon";
 export class DMLStatementInLoop extends LoopRuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "dml-in-loop",
       description:
         "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
       docRefs: [

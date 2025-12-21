@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class RecordIdAsString extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "record-id-as-string",
       name: "RecordIdAsString",
       label: "Record ID as String Instead of Record",
       description:

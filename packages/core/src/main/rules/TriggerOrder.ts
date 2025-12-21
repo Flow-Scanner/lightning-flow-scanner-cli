@@ -7,6 +7,7 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
+        ruleId: "unspecified-trigger-order",
         name: "TriggerOrder",
         label: "Trigger Order",
         description:
