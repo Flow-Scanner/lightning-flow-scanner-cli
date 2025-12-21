@@ -57,22 +57,17 @@ _[ActionCallsInLoop](packages/core/src/main/rules/ActionCallsInLoop.ts)_ – To 
 **Rule ID:** `action-call-in-loop`  
 **Severity:** 🔴 *Error*
 
-### Outdated API Version  
+### Invalid API Version  
 _[APIVersion](packages/core/src/main/rules/APIVersion.ts)_ – Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the **Api Version** attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.  
 **Rule ID:** `invalid-api-version`  
 **Severity:** 🟡 *Warning*
 
-### Auto Layout  
-_[AutoLayout](packages/core/src/main/rules/AutoLayout.ts)_ – With Canvas Mode set to Auto-Layout, elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized—saving you time.  
-**Rule ID:** `missing-auto-layout`  
-**Severity:** 🔵 *Note*
-
-### Copy API Name  
+### Unclear API Name  
 _[CopyAPIName](packages/core/src/main/rules/CopyAPIName.ts)_ – Maintaining multiple elements with a similar name, like `Copy_X_Of_Element`, can diminish the overall readability of your Flow. When copying and pasting these elements, remember to update the API name of the newly created copy.  
 **Rule ID:** `unclear-api-naming`  
 **Severity:** 🟡 *Warning*
 
-### Cyclomatic Complexity  
+### Excessive Cyclomatic Complexity  
 _[CyclomaticComplexity](packages/core/src/main/rules/CyclomaticComplexity.ts)_ – The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger-ordered flows to reduce cyclomatic complexity within a single flow, ensuring maintainability and simplicity.  
 **Rule ID:** `excessive-cyclomatic-complexity`  
 **Severity:** 🔵 *Note*
@@ -92,7 +87,7 @@ _[FlowName](packages/core/src/main/rules/FlowName.ts)_ – The readability of a 
 **Rule ID:** `invalid-naming-convention`  
 **Severity:** 🔴 *Error*
 
-### Get Record All Fields  
+### Get Records Stores All Fields 
 _[GetRecordAllFields](packages/core/src/main/rules/GetRecordAllFields.ts)_ – Following the principle of least privilege (PoLP), avoid using **Get Records** with “Automatically store all fields” unless necessary.  
 **Rule ID:** `get-record-all-fields`  
 **Severity:** 🟡 *Warning*
@@ -111,6 +106,11 @@ _[HardcodedUrl](packages/core/src/main/rules/HardcodedUrl.ts)_ – Avoid hard-co
 _[InactiveFlow](packages/core/src/main/rules/InactiveFlow.ts)_ – Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble—such as accidentally deleting records during testing, or being activated as subflows.  
 **Rule ID:** `inactive-flow`  
 **Severity:** 🟡 *Warning*
+
+### Missing Auto Layout  
+_[AutoLayout](packages/core/src/main/rules/AutoLayout.ts)_ – With Canvas Mode set to Auto-Layout, elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized—saving you time.  
+**Rule ID:** `missing-auto-layout`  
+**Severity:** 🔵 *Note*
 
 ### Missing Fault Path  
 _[MissingFaultPath](packages/core/src/main/rules/MissingFaultPath.ts)_ – A flow may fail to execute an operation as intended. By default, the flow displays an error to the user and emails the creator. Customize this behavior by incorporating a Fault Path.  
@@ -136,6 +136,11 @@ _[MissingMetadataDescription](packages/core/src/main/rules/MissingMetadataDescri
 _[MissingNullHandler](packages/core/src/main/rules/MissingNullHandler.ts)_ – When a **Get Records** operation finds no data, it returns `null`. Validate data by using a Decision element to check for a non-null result.  
 **Rule ID:** `missing-null-handler`  
 **Severity:** 🟡 *Warning*
+
+### Missing Trigger Order  
+_[TriggerOrder](packages/core/src/main/rules/TriggerOrder.ts)_ – Guarantee your flow execution order with the **Trigger Order** property introduced in Spring ’22.  
+**Rule ID:** `missing-trigger-order`  
+**Severity:** 🔵 *Note*
 
 ### Process Builder  
 _[ProcessBuilder](packages/core/src/main/rules/ProcessBuilder.ts)_ – Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.  
@@ -167,12 +172,7 @@ _[TransformInsteadOfLoop](packages/core/src/main/rules/TransformInsteadOfLoop.ts
 **Rule ID:** `transform-instead-of-loop`  
 **Severity:** 🔵 *Note*
 
-### Trigger Order  
-_[TriggerOrder](packages/core/src/main/rules/TriggerOrder.ts)_ – Guarantee your flow execution order with the **Trigger Order** property introduced in Spring ’22.  
-**Rule ID:** `unspecified-trigger-order`  
-**Severity:** 🔵 *Note*
-
-### Unconnected Element  
+### Unreachable Element  
 _[UnconnectedElement](packages/core/src/main/rules/UnconnectedElement.ts)_ – Avoid unconnected elements that are not used by the flow to keep flows efficient and maintainable.  
 **Rule ID:** `unreachable-element`  
 **Severity:** 🟡 *Warning*
