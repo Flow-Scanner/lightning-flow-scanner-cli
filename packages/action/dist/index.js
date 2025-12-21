@@ -214314,6 +214314,7 @@ function wrappy (fn, cb) {
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
+// Updated exports in index.ts
 
 Object.defineProperty(exports, "__esModule", ({
     value: true
@@ -214325,8 +214326,20 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    get ASCII_ICONS () {
+        return _NodeIcons.ASCII_ICONS;
+    },
+    get ASCII_VARIABLE_ICONS () {
+        return _VariableIcons.ASCII_VARIABLE_ICONS;
+    },
     get Compiler () {
         return _Compiler.Compiler;
+    },
+    get DEFAULT_ICONS () {
+        return _NodeIcons.DEFAULT_ICONS;
+    },
+    get DEFAULT_VARIABLE_ICONS () {
+        return _VariableIcons.DEFAULT_VARIABLE_ICONS;
     },
     get Flow () {
         return _Flow.Flow;
@@ -214364,6 +214377,9 @@ _export(exports, {
     get exportDetails () {
         return _ExportDetails.exportDetails;
     },
+    get exportDiagram () {
+        return _ExportDiagram.exportDiagram;
+    },
     get exportSarif () {
         return _ExportSarif.exportSarif;
     },
@@ -214398,6 +214414,200 @@ const _ParsedFlow = __nccwpck_require__(6619);
 const _RuleResult = __nccwpck_require__(777);
 const _ScanResult = __nccwpck_require__(2614);
 const _Violation = __nccwpck_require__(4323);
+const _NodeIcons = __nccwpck_require__(2166);
+const _VariableIcons = __nccwpck_require__(9025);
+const _ExportDiagram = __nccwpck_require__(8277);
+
+
+/***/ }),
+
+/***/ 2166:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Icon configuration for flow node types.
+ * Emoji are safe in UTF-8 encoded source files and will work in all modern builds.
+ * If you need ASCII fallback, use FlowNode.setIconConfig(ASCII_ICONS)
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get ASCII_ICONS () {
+        return ASCII_ICONS;
+    },
+    get DEFAULT_ICONS () {
+        return DEFAULT_ICONS;
+    },
+    get getDefaultIconConfig () {
+        return getDefaultIconConfig;
+    }
+});
+const DEFAULT_ICONS = {
+    actionCalls: {
+        apex: '\u2699\uFE0F',
+        emailAlert: '\uD83D\uDCE7',
+        emailSimple: '\uD83D\uDCE7',
+        submit: '\u26A1',
+        default: '\u26A1' // HIGH VOLTAGE
+    },
+    assignments: {
+        default: '\uD83D\uDFF0' // 🟰 HEAVY EQUALS SIGN
+    },
+    collectionProcessors: {
+        FilterCollectionProcessor: '\uD83D\uDD3D',
+        SortCollectionProcessor: '\uD83D\uDD03',
+        default: '\uD83D\uDCE6' // PACKAGE
+    },
+    customErrors: {
+        default: '\uD83D\uDEAB' // PROHIBITED
+    },
+    decisions: {
+        default: '\uD83D\uDD00' // TWISTED ARROWS
+    },
+    loops: {
+        default: '\uD83D\uDD01' // REPEAT BUTTON
+    },
+    recordCreates: {
+        default: '\u2795' // PLUS
+    },
+    recordDeletes: {
+        default: '\uD83D\uDDD1\uFE0F' // WASTEBASKET
+    },
+    recordLookups: {
+        default: '\uD83D\uDD0D' // MAGNIFYING GLASS
+    },
+    recordUpdates: {
+        default: '\uD83D\uDEE0\uFE0F' // HAMMER AND WRENCH
+    },
+    screens: {
+        default: '\uD83D\uDCBB' // LAPTOP
+    },
+    subflows: {
+        default: '\uD83D\uDD17' // LINK
+    },
+    transforms: {
+        default: '\u267B\uFE0F'
+    }
+};
+const ASCII_ICONS = {
+    actionCalls: {
+        apex: '[A]',
+        emailAlert: '[E]',
+        emailSimple: '[E]',
+        submit: '[!]',
+        default: '[!]'
+    },
+    assignments: {
+        default: '[=]'
+    },
+    collectionProcessors: {
+        FilterCollectionProcessor: '[F]',
+        SortCollectionProcessor: '[S]',
+        default: '[C]'
+    },
+    customErrors: {
+        default: '[X]'
+    },
+    decisions: {
+        default: '[?]'
+    },
+    loops: {
+        default: '[L]'
+    },
+    recordCreates: {
+        default: '[+]'
+    },
+    recordDeletes: {
+        default: '[-]'
+    },
+    recordLookups: {
+        default: '[S]'
+    },
+    recordUpdates: {
+        default: '[U]'
+    },
+    screens: {
+        default: '[#]'
+    },
+    subflows: {
+        default: '[>]'
+    },
+    transforms: {
+        default: '[T]'
+    }
+};
+function getDefaultIconConfig() {
+    return DEFAULT_ICONS;
+}
+
+
+/***/ }),
+
+/***/ 9025:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Icon configuration for flow variable types.
+ * Includes icons for variable subtypes and boolean states.
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get ASCII_VARIABLE_ICONS () {
+        return ASCII_VARIABLE_ICONS;
+    },
+    get DEFAULT_VARIABLE_ICONS () {
+        return DEFAULT_VARIABLE_ICONS;
+    },
+    get getDefaultVariableIconConfig () {
+        return getDefaultVariableIconConfig;
+    }
+});
+const DEFAULT_VARIABLE_ICONS = {
+    subtypes: {
+        variables: '\uD83D\uDCCA',
+        constants: '\uD83D\uDD12',
+        formulas: '\uD83E\uDDEE',
+        choices: '\uD83D\uDCCB',
+        dynamicChoiceSets: '\uD83D\uDD04'
+    },
+    boolean: {
+        true: '\u2705',
+        false: '\u2B1C'
+    }
+};
+const ASCII_VARIABLE_ICONS = {
+    subtypes: {
+        variables: '[V]',
+        constants: '[C]',
+        formulas: '[F]',
+        choices: '[CH]',
+        dynamicChoiceSets: '[D]'
+    },
+    boolean: {
+        true: '[X]',
+        false: '[ ]'
+    }
+};
+function getDefaultVariableIconConfig() {
+    return DEFAULT_VARIABLE_ICONS;
+}
 
 
 /***/ }),
@@ -214578,7 +214788,7 @@ function _define_property(obj, key, value) {
     return obj;
 }
 let Compiler = class Compiler {
-    traverseFlow(flow, startElementName, visitCallback, endElementName) {
+    traverseFlow(startElementName, visitCallback, nodeMap, allConnectors, endElementName) {
         // Iterative Deepening Depth-First Search (IDDFS)
         let elementsToVisit = [
             startElementName
@@ -214587,12 +214797,11 @@ let Compiler = class Compiler {
             const nextElements = [];
             for (const elementName of elementsToVisit){
                 if (!this.visitedElements.has(elementName)) {
-                    var _flow_elements;
-                    const currentElement = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.find((element)=>element.name === elementName);
+                    const currentElement = nodeMap.get(elementName);
                     if (currentElement) {
                         visitCallback(currentElement);
                         this.visitedElements.add(elementName);
-                        nextElements.push(...this.findNextElements(flow, currentElement, endElementName));
+                        nextElements.push(...this.findNextElements(elementName, allConnectors, nodeMap, endElementName));
                     }
                 }
             }
@@ -214602,19 +214811,14 @@ let Compiler = class Compiler {
             elementsToVisit = nextElements;
         }
     }
-    findNextElements(flow, currentElement, endElementName) {
+    findNextElements(elementName, allConnectors, nodeMap, endElementName) {
         const nextElements = [];
-        if (!currentElement.connectors || currentElement.connectors.length === 0) {
-            return nextElements;
-        }
-        for (const connector of currentElement.connectors){
-            var _connector_connectorTargetReference, _flow_elements;
-            var _connector_connectorTargetReference_targetReference;
-            const targetReference = (_connector_connectorTargetReference_targetReference = connector === null || connector === void 0 ? void 0 : (_connector_connectorTargetReference = connector.connectorTargetReference) === null || _connector_connectorTargetReference === void 0 ? void 0 : _connector_connectorTargetReference.targetReference) !== null && _connector_connectorTargetReference_targetReference !== void 0 ? _connector_connectorTargetReference_targetReference : connector.reference;
-            // Check if the reference exists in the flow elements
-            const nextElement = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.find((element)=>element.metaType === "node" && element.name === targetReference);
-            if (nextElement && nextElement.metaType === "node" && nextElement.name !== endElementName) {
-                nextElements.push(nextElement.name);
+        const targets = allConnectors.get(elementName);
+        if (targets) {
+            for (const targetReference of targets){
+                if (targetReference !== endElementName && nodeMap.has(targetReference)) {
+                    nextElements.push(targetReference);
+                }
             }
         }
         return nextElements;
@@ -214646,33 +214850,6 @@ function convertFlowNodes(obj, nodes, key) {
     obj[key] = nodes.map((node)=>node.element);
     return obj;
 }
-
-
-/***/ }),
-
-/***/ 3657:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "DynamicRule", ({
-    enumerable: true,
-    get: function() {
-        return DynamicRule;
-    }
-}));
-const _DefaultRuleStore = __nccwpck_require__(615);
-let DynamicRule = class DynamicRule {
-    constructor(className, betaMode = false){
-        if (betaMode && _DefaultRuleStore.BetaRuleStore.hasOwnProperty(className)) {
-            return new _DefaultRuleStore.BetaRuleStore[className]();
-        }
-        return new _DefaultRuleStore.DefaultRuleStore[className]();
-    }
-};
 
 
 /***/ }),
@@ -214743,29 +214920,125 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _object_without_properties(source, excluded) {
+    if (source == null) return {};
+    var target = _object_without_properties_loose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for(i = 0; i < sourceSymbolKeys.length; i++){
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+function _object_without_properties_loose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
 function exportDetails(results, includeDetails = false) {
     return results.flatMap((result)=>{
         const flow = result.flow;
-        const flowName = flow.label || flow.name;
-        const flowFile = flow.fsPath ? flow.fsPath.replace(/\\/g, "/") : `${flow.name}.flow-meta.xml`;
+        const flowName = flow.name || flow.label;
+        // Prefer fsPath (resolved absolute path), fallback to uri (input path), or construct from name
+        const flowFile = flow.fsPath ? flow.fsPath.replace(/\\/g, "/") : flow.uri ? flow.uri.replace(/\\/g, "/") : `${flow.name}.flow-meta.xml`;
         return result.ruleResults.filter((rule)=>{
             var _rule_details;
             return rule.occurs && ((_rule_details = rule.details) === null || _rule_details === void 0 ? void 0 : _rule_details.length);
         }).flatMap((rule)=>rule.details.map((detail)=>{
-                // Exclude details by default (via Omit), add conditionally
-                const base = detail;
+                // Base violation without details
+                const { details } = detail, base = _object_without_properties(detail, [
+                    "details"
+                ]);
                 var _rule_severity;
-                const exported = _object_spread_props(_object_spread({}, base, includeDetails && detail.details ? {
-                    details: detail.details
-                } : {}), {
+                // Build the flat violation with conditionally flattened details
+                const exported = _object_spread_props(_object_spread({}, base), {
                     flowFile,
                     flowName,
-                    ruleName: rule.ruleDefinition.label || rule.ruleName,
+                    ruleName: rule.ruleName,
                     severity: (_rule_severity = rule.severity) !== null && _rule_severity !== void 0 ? _rule_severity : "warning"
                 });
+                // Flatten details object into top-level properties if includeDetails is true
+                if (includeDetails && details) {
+                    if ('dataType' in details) {
+                        exported.dataType = details.dataType;
+                    }
+                    if ('locationX' in details) {
+                        exported.locationX = String(details.locationX);
+                    }
+                    if ('locationY' in details) {
+                        exported.locationY = String(details.locationY);
+                    }
+                    if ('connectsTo' in details) {
+                        // Join array into comma-separated string
+                        exported.connectsTo = Array.isArray(details.connectsTo) ? details.connectsTo.join(', ') : String(details.connectsTo);
+                    }
+                    if ('expression' in details) {
+                        exported.expression = details.expression;
+                    }
+                }
                 return exported;
             }));
     });
+}
+
+
+/***/ }),
+
+/***/ 8277:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "exportDiagram", ({
+    enumerable: true,
+    get: function() {
+        return exportDiagram;
+    }
+}));
+function exportDiagram(parsedFlows, options = {
+    includeDetails: true,
+    includeMarkdownDocs: true,
+    collapsedDetails: true
+}) {
+    const validFlows = parsedFlows.filter((p)=>p.flow).map((p)=>p.flow);
+    let markdown = "# Flow Documentation\n\n";
+    if (validFlows.length === 0) {
+        markdown += "No valid flows found.\n\n";
+    }
+    for (const flow of validFlows){
+        markdown += `## ${flow.name}\n\n`;
+        const vizOptions = {
+            includeDetails: options.includeDetails,
+            includeMarkdownDocs: options.includeMarkdownDocs,
+            collapsedDetails: options.collapsedDetails
+        };
+        markdown += flow.visualize("mermaid", vizOptions) + "\n\n";
+    }
+    // Optionally add errors section if any
+    const errors = parsedFlows.filter((p)=>p.errorMessage);
+    if (errors.length > 0) {
+        markdown += "## Parse Errors\n\n";
+        for (const err of errors){
+            markdown += `- ${err.uri}: ${err.errorMessage}\n`;
+        }
+        markdown += "\n";
+    }
+    return markdown;
 }
 
 
@@ -214851,7 +215124,7 @@ function exportSarif(results) {
                     }))),
             tool: {
                 driver: {
-                    informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-core",
+                    informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner",
                     name: "Lightning Flow Scanner",
                     rules: result.ruleResults.filter((r)=>r.occurs).map((r)=>({
                             defaultConfiguration: {
@@ -215052,82 +215325,45 @@ _export(exports, {
         return getRules;
     }
 });
-const _DefaultRuleStore = __nccwpck_require__(615);
-const _DynamicRule = __nccwpck_require__(3657);
+const _RuleRegistry = __nccwpck_require__(3082);
 function GetRuleDefinitions(ruleConfig, options) {
-    const selectedRules = [];
     const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
-    // Default to "merged" mode for backward compatibility
     const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
-    // In "isolated" mode, only load rules that are explicitly configured
+    const selectedRules = [];
+    const ruleIds = _RuleRegistry.ruleRegistry.getAllRuleIds(includeBeta);
+    // ISOLATED MODE
     if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
-        for (const ruleName of ruleConfig.keys()){
-            try {
-                const customConfig = ruleConfig.get(ruleName);
-                // Skip if explicitly disabled
-                if (customConfig && customConfig["enabled"] === false) {
-                    continue;
-                }
-                // Create the rule instance
-                const matchedRule = new _DynamicRule.DynamicRule(ruleName, includeBeta);
-                // Apply custom severity if provided
-                const configuredSeverity = customConfig === null || customConfig === void 0 ? void 0 : customConfig["severity"];
-                if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
-                    matchedRule.severity = configuredSeverity;
-                }
-                selectedRules.push(matchedRule);
-            } catch (error) {
-                console.log(error.message);
+        for (const key of ruleConfig.keys()){
+            // key can now be either ruleId (new) or legacyName (old config compatibility)
+            const entry = _RuleRegistry.ruleRegistry.get(key);
+            if (!entry) continue;
+            const config = ruleConfig.get(key);
+            if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+            const rule = _RuleRegistry.ruleRegistry.createInstance(entry.ruleId); // Always use ruleId to instantiate
+            if (config === null || config === void 0 ? void 0 : config.severity) {
+                rule.severity = config.severity;
             }
+            selectedRules.push(rule);
         }
         return selectedRules;
     }
-    // In "merged" mode (default), start with all default rules and merge with config
-    const allRuleNames = new Set();
-    // Add all default rules
-    for(const ruleName in _DefaultRuleStore.DefaultRuleStore){
-        allRuleNames.add(ruleName);
-    }
-    // Add beta rules if beta mode is enabled
-    if (includeBeta) {
-        for(const ruleName in _DefaultRuleStore.BetaRuleStore){
-            allRuleNames.add(ruleName);
+    // MERGED MODE (default)
+    for (const ruleId of ruleIds){
+        const rule = _RuleRegistry.ruleRegistry.createInstance(ruleId);
+        var _ruleConfig_get;
+        // Try to find config by ruleId first, then fall back to legacy name
+        const config = (_ruleConfig_get = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.ruleId)) !== null && _ruleConfig_get !== void 0 ? _ruleConfig_get : ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.name) // rule.name is the legacy camelCase name (e.g. "ActionCallsInLoop")
+        ;
+        if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+        if (config === null || config === void 0 ? void 0 : config.severity) {
+            rule.severity = config.severity;
         }
-    }
-    // Process each rule
-    for (const ruleName of allRuleNames){
-        try {
-            // Check if there's a custom config for this rule
-            const customConfig = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(ruleName);
-            // Skip if explicitly disabled
-            if (customConfig && customConfig["enabled"] === false) {
-                continue;
-            }
-            // Create the rule instance
-            const matchedRule = new _DynamicRule.DynamicRule(ruleName, includeBeta);
-            // Apply custom severity if provided
-            const configuredSeverity = customConfig === null || customConfig === void 0 ? void 0 : customConfig["severity"];
-            if (configuredSeverity && (configuredSeverity === "error" || configuredSeverity === "warning" || configuredSeverity === "note")) {
-                matchedRule.severity = configuredSeverity;
-            }
-            selectedRules.push(matchedRule);
-        } catch (error) {
-            console.log(error.message);
-        }
+        selectedRules.push(rule);
     }
     return selectedRules;
 }
 function getRules(ruleNames, options) {
-    if (ruleNames && ruleNames.length > 0) {
-        const ruleSeverityMap = new Map(ruleNames.map((name)=>[
-                name,
-                {
-                    severity: "error"
-                }
-            ]));
-        return GetRuleDefinitions(ruleSeverityMap, options);
-    }
-    return GetRuleDefinitions(undefined, options);
+    return _RuleRegistry.ruleRegistry.getRulesByNames(ruleNames, options);
 }
 
 
@@ -215278,6 +215514,21 @@ const _internals = __nccwpck_require__(934);
 const _IRulesConfig = __nccwpck_require__(1960);
 const _Violation = __nccwpck_require__(4323);
 const _GetRuleDefinitions = __nccwpck_require__(9044);
+function getRuleConfigByIdOrName(rule, rulesConfig) {
+    if (!rulesConfig) return undefined;
+    // Try ruleId first, then fall back to name
+    return rulesConfig[rule.ruleId] || rulesConfig[rule.name];
+}
+function getSuppressionsForRule(rule, flowName, exceptions) {
+    if (!(exceptions === null || exceptions === void 0 ? void 0 : exceptions[flowName])) return [];
+    const flowExceptions = exceptions[flowName];
+    // Try ruleId first, then fall back to name
+    const rawSuppressions = flowExceptions[rule.ruleId] || flowExceptions[rule.name];
+    // If wildcard exists, return only wildcard; otherwise return array or empty
+    return (rawSuppressions === null || rawSuppressions === void 0 ? void 0 : rawSuppressions.includes("*")) ? [
+        "*"
+    ] : rawSuppressions !== null && rawSuppressions !== void 0 ? rawSuppressions : [];
+}
 function scan(parsedFlows, ruleOptions) {
     const flows = [];
     for (const flow of parsedFlows){
@@ -215307,19 +215558,12 @@ function ScanFlows(flows, ruleOptions) {
         const ruleResults = [];
         for (const rule of selectedRules){
             try {
-                var _ruleOptions_rules, _ruleOptions_exceptions_flow_name, _ruleOptions_exceptions;
                 if (!rule.supportedTypes.includes(flow.type)) {
                     ruleResults.push(new _internals.RuleResult(rule, []));
                     continue;
                 }
-                let config = undefined;
-                if (ruleOptions === null || ruleOptions === void 0 ? void 0 : (_ruleOptions_rules = ruleOptions.rules) === null || _ruleOptions_rules === void 0 ? void 0 : _ruleOptions_rules[rule.name]) {
-                    config = ruleOptions.rules[rule.name];
-                }
-                const rawSuppressions = ruleOptions === null || ruleOptions === void 0 ? void 0 : (_ruleOptions_exceptions = ruleOptions.exceptions) === null || _ruleOptions_exceptions === void 0 ? void 0 : (_ruleOptions_exceptions_flow_name = _ruleOptions_exceptions[flow.name]) === null || _ruleOptions_exceptions_flow_name === void 0 ? void 0 : _ruleOptions_exceptions_flow_name[rule.name];
-                const suppressions = (rawSuppressions === null || rawSuppressions === void 0 ? void 0 : rawSuppressions.includes("*")) ? [
-                    "*"
-                ] : rawSuppressions !== null && rawSuppressions !== void 0 ? rawSuppressions : [];
+                const config = getRuleConfigByIdOrName(rule, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules);
+                const suppressions = getSuppressionsForRule(rule, flow.name, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.exceptions);
                 const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config, suppressions) : rule.execute(flow, undefined, suppressions);
                 if (result.severity !== rule.severity) {
                     result.severity = rule.severity;
@@ -215379,6 +215623,7 @@ const _FlowMetadata = __nccwpck_require__(1723);
 const _FlowNode = __nccwpck_require__(1274);
 const _FlowResource = __nccwpck_require__(50);
 const _FlowVariable = __nccwpck_require__(7794);
+const _FlowGraph = __nccwpck_require__(9456);
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -215448,7 +215693,39 @@ function _object_spread(target) {
     }
     return target;
 }
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
 let Flow = class Flow {
+    get graph() {
+        if (!this._graph) {
+            const flowNodes = this.elements.filter((e)=>e instanceof _FlowNode.FlowNode);
+            this.startReference || (this.startReference = this.findStart());
+            this._graph = new _FlowGraph.FlowGraph(flowNodes, this.startReference, this.startNode);
+        }
+        return this._graph;
+    }
     static from(obj) {
         if (obj instanceof Flow) {
             return obj;
@@ -215461,14 +215738,17 @@ let Flow = class Flow {
         return flow;
     }
     preProcessNodes() {
-        this.label = this.xmldata.label;
+        if (!this.xmldata) {
+            return;
+        }
+        // Extract top-level attributes
+        this.label = this.xmldata.label || "";
         this.interviewLabel = this.xmldata.interviewLabel;
-        this.processType = this.xmldata.processType;
+        this.processType = this.xmldata.processType || "AutoLaunchedFlow";
+        this.type = this.processType;
         this.processMetadataValues = this.xmldata.processMetadataValues;
         this.startElementReference = this.xmldata.startElementReference;
-        this.start = this.xmldata.start;
-        this.status = this.xmldata.status;
-        this.type = this.xmldata.processType;
+        this.status = this.xmldata.status || "Draft";
         this.triggerOrder = this.xmldata.triggerOrder;
         const allNodes = [];
         for(const nodeType in this.xmldata){
@@ -215477,129 +215757,182 @@ let Flow = class Flow {
                 continue;
             }
             const data = this.xmldata[nodeType];
+            // Handle start nodes separately - store in startNode property
+            if (nodeType === "start") {
+                if (Array.isArray(data) && data.length > 0) {
+                    this.startNode = new _FlowNode.FlowNode(data[0].name || "start", "start", data[0]);
+                } else if (!Array.isArray(data)) {
+                    this.startNode = new _FlowNode.FlowNode(data.name || "start", "start", data);
+                }
+                continue;
+            }
+            // Process other node types
             if (Flow.ATTRIBUTE_TAGS.includes(nodeType)) {
-                if (Array.isArray(data)) {
-                    for (const node of data){
-                        allNodes.push(new _FlowMetadata.FlowMetadata(node.name, nodeType, node));
-                    }
-                } else {
-                    allNodes.push(new _FlowMetadata.FlowMetadata(data.name, nodeType, data));
-                }
+                this.processNodeType(data, nodeType, allNodes, _FlowMetadata.FlowMetadata);
             } else if (Flow.VARIABLE_TAGS.includes(nodeType)) {
-                if (Array.isArray(data)) {
-                    for (const node of data){
-                        allNodes.push(new _FlowVariable.FlowVariable(node.name, nodeType, node));
-                    }
-                } else {
-                    allNodes.push(new _FlowVariable.FlowVariable(data.name, nodeType, data));
-                }
+                this.processNodeType(data, nodeType, allNodes, _FlowVariable.FlowVariable);
             } else if (Flow.NODE_TAGS.includes(nodeType)) {
-                if (Array.isArray(data)) {
-                    for (const node of data){
-                        allNodes.push(new _FlowNode.FlowNode(node.name, nodeType, node));
-                    }
-                } else {
-                    allNodes.push(new _FlowNode.FlowNode(data.name, nodeType, data));
-                }
+                this.processNodeType(data, nodeType, allNodes, _FlowNode.FlowNode);
             } else if (Flow.RESOURCE_TAGS.includes(nodeType)) {
-                if (Array.isArray(data)) {
-                    for (const node of data){
-                        allNodes.push(new _FlowResource.FlowResource(node.name, nodeType, node));
-                    }
-                } else {
-                    allNodes.push(new _FlowResource.FlowResource(data.name, nodeType, data));
-                }
+                this.processNodeType(data, nodeType, allNodes, _FlowResource.FlowResource);
             }
         }
         this.elements = allNodes;
         this.startReference = this.findStart();
+        // Build the connectivity graph
+        const flowNodes = allNodes.filter((e)=>e instanceof _FlowNode.FlowNode);
+        this._graph = new _FlowGraph.FlowGraph(flowNodes, this.startReference, this.startNode);
+    }
+    visualize(format = 'mermaid', options = {}) {
+        if (format === 'mermaid') {
+            var _this_xmldata, _this_startNode_element, _this_startNode, _this_startNode_element1, _this_startNode1;
+            return this.graph.toMermaid(_object_spread_props(_object_spread({}, options), {
+                flowMetadata: {
+                    label: this.label,
+                    processType: this.processType,
+                    status: this.status,
+                    description: (_this_xmldata = this.xmldata) === null || _this_xmldata === void 0 ? void 0 : _this_xmldata.description,
+                    triggerType: (_this_startNode = this.startNode) === null || _this_startNode === void 0 ? void 0 : (_this_startNode_element = _this_startNode.element) === null || _this_startNode_element === void 0 ? void 0 : _this_startNode_element['triggerType'],
+                    object: (_this_startNode1 = this.startNode) === null || _this_startNode1 === void 0 ? void 0 : (_this_startNode_element1 = _this_startNode1.element) === null || _this_startNode_element1 === void 0 ? void 0 : _this_startNode_element1['object']
+                }
+            }));
+        } else if (format === 'plantuml') {
+            return this.graph.toPlantUML();
+        }
+        throw new Error('Unsupported format');
+    }
+    processNodeType(data, nodeType, allNodes, NodeClass) {
+        if (Array.isArray(data)) {
+            for (const node of data){
+                allNodes.push(new NodeClass(node.name, nodeType, node));
+            }
+        } else {
+            allNodes.push(new NodeClass(data.name, nodeType, data));
+        }
+    }
+    /**
+   * Find the name of the first element to execute.
+   * Priority order:
+   * 1. startElementReference (newer flows, direct XML attribute)
+   * 2. Start node connector (older flows, points to first element)
+   * 3. Start node scheduledPaths (async flows)
+   */ findStart() {
+        var _this_startNode;
+        // Priority 1: Explicit startElementReference
+        if (this.startElementReference) {
+            return this.startElementReference;
+        }
+        // Priority 2: Start node with regular connector
+        if (this.startNode && this.startNode.connectors && this.startNode.connectors.length > 0) {
+            const connector = this.startNode.connectors[0];
+            if (connector.reference) {
+                return connector.reference;
+            }
+        }
+        // Priority 3: Start node with scheduledPaths (async flows)
+        if ((_this_startNode = this.startNode) === null || _this_startNode === void 0 ? void 0 : _this_startNode.element) {
+            const scheduledPaths = this.startNode.element['scheduledPaths'];
+            if (scheduledPaths) {
+                var _paths_;
+                const paths = Array.isArray(scheduledPaths) ? scheduledPaths : [
+                    scheduledPaths
+                ];
+                if (paths.length > 0 && ((_paths_ = paths[0]) === null || _paths_ === void 0 ? void 0 : _paths_.connector)) {
+                    const targetRef = paths[0].connector.targetReference;
+                    if (targetRef) {
+                        return targetRef;
+                    }
+                }
+            }
+        }
+        // No valid start found
+        return "";
     }
     toXMLString() {
         try {
             return this.generateDoc();
         } catch (exception) {
-            console.warn(`Unable to write xml, caught an error ${exception.toString()}`);
+            const errorMsg = exception instanceof Error ? exception.message : String(exception);
+            console.warn(`Unable to write xml, caught an error: ${errorMsg}`);
             return "";
         }
     }
-    findStart() {
-        let start = "";
-        const flowElements = this.elements.filter((node)=>node instanceof _FlowNode.FlowNode);
-        if (this.startElementReference) {
-            start = this.startElementReference;
-        } else if (flowElements.find((n)=>{
-            return n.subtype === "start";
-        })) {
-            const startElement = flowElements.find((n)=>{
-                return n.subtype === "start";
-            });
-            start = startElement.connectors[0]["reference"];
-        }
-        return start;
-    }
     generateDoc() {
-        // eslint-disable-next-line sonarjs/no-clear-text-protocols
         const flowXmlNamespace = "http://soap.sforce.com/2006/04/metadata";
         const builderOptions = {
             attributeNamePrefix: "@_",
             format: true,
             ignoreAttributes: false,
             suppressBooleanAttributes: false,
-            suppressEmptyNode: false // Keep empty tags (but doesn't force self-closing in pretty)
+            suppressEmptyNode: false
         };
         const builder = new _fastxmlparser.XMLBuilder(builderOptions);
-        // Fallback: Inject xmlns as attribute if missing
         const xmldataWithNs = _object_spread({}, this.xmldata);
         if (!xmldataWithNs["@_xmlns"]) {
             xmldataWithNs["@_xmlns"] = flowXmlNamespace;
         }
-        // Optional: Add xsi if needed (often in parsed data; test has it in root)
         if (!xmldataWithNs["@_xmlns:xsi"]) {
             xmldataWithNs["@_xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
         }
-        // Build: Wrap in { Flow: ... }
         const rootObj = {
             Flow: xmldataWithNs
         };
         return builder.build(rootObj);
     }
     constructor(path, data){
-        _define_property(this, "elements", void 0);
-        _define_property(this, "fsPath", void 0);
-        _define_property(this, "uri", void 0); // General source URI/path (file or virtual); set from constructor input
+        // Flow elements (excludes legacy start nodes)
+        _define_property(this, "elements", []);
+        // Path properties
+        _define_property(this, "fsPath", void 0); // Resolved absolute path (Node.js only)
+        _define_property(this, "uri", void 0); // Input path (could be relative, absolute, or virtual)
+        // Flow metadata
+        _define_property(this, "label", "");
         _define_property(this, "interviewLabel", void 0);
-        _define_property(this, "label", void 0);
-        _define_property(this, "name", void 0);
+        _define_property(this, "name", "unnamed");
         _define_property(this, "processMetadataValues", void 0);
-        _define_property(this, "processType", void 0);
-        _define_property(this, "root", void 0);
-        _define_property(this, "start", void 0);
-        _define_property(this, "startElementReference", void 0);
-        _define_property(this, "startReference", void 0);
-        _define_property(this, "status", void 0);
+        _define_property(this, "processType", "AutoLaunchedFlow");
+        _define_property(this, "type", ""); // Alias for processType (backward compatibility)
+        _define_property(this, "status", "");
         _define_property(this, "triggerOrder", void 0);
-        _define_property(this, "type", void 0);
+        // Start-related properties
         /**
-   * XML to JSON conversion in raw format
-   */ _define_property(this, "xmldata", void 0);
+   * @deprecated Use startNode.element instead. Kept for backward compatibility.
+   */ _define_property(this, "start", void 0);
+        /**
+   * Direct reference to first element (from XML attribute).
+   * Used in newer flows as an alternative to the start element.
+   */ _define_property(this, "startElementReference", void 0);
+        /**
+   * Computed reference to the first element to execute.
+   * This is what rules should use for traversal.
+   */ _define_property(this, "startReference", void 0);
+        /**
+   * Parsed FlowNode object of the start element.
+   * Contains trigger information and connectors.
+   * Access start element data via startNode.element
+   */ _define_property(this, "startNode", void 0);
+        _define_property(this, "_graph", void 0);
+        // Legacy/internal
+        _define_property(this, "root", void 0);
+        _define_property(this, "xmldata", void 0);
         if (path) {
-            this.uri = path; // Always set general URI from input (file path or virtual)
-            // Only resolve fsPath in Node.js environments
-            // In browser with polyfills, fsPath stays undefined
-            if (typeof process !== 'undefined' && process.cwd) {
+            this.uri = path;
+            if (typeof process !== 'undefined' && typeof process.cwd === 'function') {
                 this.fsPath = _path.resolve(path);
             }
             let flowName = _path.basename(_path.basename(path), _path.extname(path));
             if (flowName.includes(".")) {
                 flowName = flowName.split(".")[0];
             }
-            this.name = flowName;
+            this.name = flowName || "unnamed";
         }
         if (data) {
-            const hasFlowElement = typeof data === "object" && "Flow" in data;
+            const hasFlowElement = typeof data === "object" && data !== null && "Flow" in data;
             if (hasFlowElement) {
                 this.xmldata = data.Flow;
-            } else this.xmldata = data;
+            } else {
+                this.xmldata = data;
+            }
             this.preProcessNodes();
         }
     }
@@ -215641,7 +215974,6 @@ let Flow = class Flow {
     "recordUpdates",
     "recordRollbacks",
     "screens",
-    "start",
     "steps",
     "subflows",
     "waits",
@@ -215806,6 +216138,546 @@ let FlowElementConnectorReference = class FlowElementConnectorReference {
 
 /***/ }),
 
+/***/ 9456:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "FlowGraph", ({
+    enumerable: true,
+    get: function() {
+        return FlowGraph;
+    }
+}));
+const _Compiler = __nccwpck_require__(7361);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let FlowGraph = class FlowGraph {
+    /**
+   * Add START node connectors to the connector maps (for flows with explicit <start> element)
+   */ addStartNodeConnectors(startNode) {
+        const startName = 'START';
+        this.faultConnectors.set(startName, new Set());
+        this.normalConnectors.set(startName, new Set());
+        this.allConnectors.set(startName, new Set());
+        if (!startNode.connectors || startNode.connectors.length === 0) return;
+        for (const connector of startNode.connectors){
+            var _connector_connectorTargetReference, // START node typically has normal connectors, not fault connectors
+            _this_normalConnectors_get, _this_allConnectors_get, _this_reverseConnectors_get;
+            var _connector_connectorTargetReference_targetReference;
+            const targetRef = (_connector_connectorTargetReference_targetReference = (_connector_connectorTargetReference = connector.connectorTargetReference) === null || _connector_connectorTargetReference === void 0 ? void 0 : _connector_connectorTargetReference.targetReference) !== null && _connector_connectorTargetReference_targetReference !== void 0 ? _connector_connectorTargetReference_targetReference : connector.reference;
+            if (!targetRef) continue;
+            (_this_normalConnectors_get = this.normalConnectors.get(startName)) === null || _this_normalConnectors_get === void 0 ? void 0 : _this_normalConnectors_get.add(targetRef);
+            (_this_allConnectors_get = this.allConnectors.get(startName)) === null || _this_allConnectors_get === void 0 ? void 0 : _this_allConnectors_get.add(targetRef);
+            // Build reverse map
+            if (!this.reverseConnectors.has(targetRef)) {
+                this.reverseConnectors.set(targetRef, new Set());
+            }
+            (_this_reverseConnectors_get = this.reverseConnectors.get(targetRef)) === null || _this_reverseConnectors_get === void 0 ? void 0 : _this_reverseConnectors_get.add(startName);
+        }
+    }
+    /**
+   * Add START edge for newer flows that use startElementReference (no explicit <start> node)
+   */ addStartEdgeFromReference(startReference) {
+        var // Direct edge: START --> first element
+        _this_normalConnectors_get, _this_allConnectors_get, _this_reverseConnectors_get;
+        const startName = 'START';
+        this.faultConnectors.set(startName, new Set());
+        this.normalConnectors.set(startName, new Set());
+        this.allConnectors.set(startName, new Set());
+        (_this_normalConnectors_get = this.normalConnectors.get(startName)) === null || _this_normalConnectors_get === void 0 ? void 0 : _this_normalConnectors_get.add(startReference);
+        (_this_allConnectors_get = this.allConnectors.get(startName)) === null || _this_allConnectors_get === void 0 ? void 0 : _this_allConnectors_get.add(startReference);
+        // Build reverse map
+        if (!this.reverseConnectors.has(startReference)) {
+            this.reverseConnectors.set(startReference, new Set());
+        }
+        (_this_reverseConnectors_get = this.reverseConnectors.get(startReference)) === null || _this_reverseConnectors_get === void 0 ? void 0 : _this_reverseConnectors_get.add(startName);
+    }
+    /**
+   * Build node map for O(1) lookups
+   */ buildNodeMaps(nodes) {
+        for (const node of nodes){
+            this.nodeMap.set(node.name, node);
+        }
+    }
+    /**
+   * Build connector maps by inspecting node connectors
+   */ buildConnectorMaps(nodes) {
+        for (const node of nodes){
+            this.faultConnectors.set(node.name, new Set());
+            this.normalConnectors.set(node.name, new Set());
+            this.allConnectors.set(node.name, new Set());
+            if (!node.connectors || node.connectors.length === 0) continue;
+            for (const connector of node.connectors){
+                var _connector_connectorTargetReference, _this_allConnectors_get, _this_reverseConnectors_get;
+                var _connector_connectorTargetReference_targetReference;
+                const targetRef = (_connector_connectorTargetReference_targetReference = (_connector_connectorTargetReference = connector.connectorTargetReference) === null || _connector_connectorTargetReference === void 0 ? void 0 : _connector_connectorTargetReference.targetReference) !== null && _connector_connectorTargetReference_targetReference !== void 0 ? _connector_connectorTargetReference_targetReference : connector.reference;
+                if (!targetRef) continue;
+                // Categorize by connector type
+                if (connector.type === "faultConnector") {
+                    var _this_faultConnectors_get;
+                    (_this_faultConnectors_get = this.faultConnectors.get(node.name)) === null || _this_faultConnectors_get === void 0 ? void 0 : _this_faultConnectors_get.add(targetRef);
+                } else {
+                    var _this_normalConnectors_get;
+                    (_this_normalConnectors_get = this.normalConnectors.get(node.name)) === null || _this_normalConnectors_get === void 0 ? void 0 : _this_normalConnectors_get.add(targetRef);
+                }
+                (_this_allConnectors_get = this.allConnectors.get(node.name)) === null || _this_allConnectors_get === void 0 ? void 0 : _this_allConnectors_get.add(targetRef);
+                // Build reverse map for "previous elements" queries
+                if (!this.reverseConnectors.has(targetRef)) {
+                    this.reverseConnectors.set(targetRef, new Set());
+                }
+                (_this_reverseConnectors_get = this.reverseConnectors.get(targetRef)) === null || _this_reverseConnectors_get === void 0 ? void 0 : _this_reverseConnectors_get.add(node.name);
+            }
+        }
+    }
+    /**
+   * Use Compiler to compute which elements are reachable from start.
+   * This reuses the existing IDDFS traversal logic!
+   */ computeReachability(startReference) {
+        const compiler = new _Compiler.Compiler();
+        compiler.traverseFlow(startReference, (element)=>{
+            this.reachableFromStart.add(element.name);
+        }, this.nodeMap, this.allConnectors);
+    }
+    /**
+   * Use Compiler to compute which elements are inside loops.
+   * Calls Compiler.traverseFlow() for each loop with endElementName.
+   */ computeLoopBoundaries() {
+        const loopNodes = Array.from(this.nodeMap.values()).filter((n)=>n.subtype === "loops");
+        for (const loopNode of loopNodes){
+            var _loopNode_element_noMoreValuesConnector, _loopNode_element;
+            var _loopNode_element_noMoreValuesConnector_targetReference;
+            // Find loop end (noMoreValuesConnector)
+            const loopEnd = (_loopNode_element_noMoreValuesConnector_targetReference = (_loopNode_element = loopNode.element) === null || _loopNode_element === void 0 ? void 0 : (_loopNode_element_noMoreValuesConnector = _loopNode_element.noMoreValuesConnector) === null || _loopNode_element_noMoreValuesConnector === void 0 ? void 0 : _loopNode_element_noMoreValuesConnector.targetReference) !== null && _loopNode_element_noMoreValuesConnector_targetReference !== void 0 ? _loopNode_element_noMoreValuesConnector_targetReference : loopNode.name;
+            // Use Compiler to find all elements between loop start and end
+            const compiler = new _Compiler.Compiler();
+            compiler.traverseFlow(loopNode.name, (element)=>{
+                this.elementsInLoop.set(element.name, loopNode.name);
+            }, this.nodeMap, this.allConnectors, loopEnd); // Pass endElementName to stop at loop boundary
+        }
+    }
+    // ========== PUBLIC QUERY API ==========
+    isReachable(elementName) {
+        return this.reachableFromStart.has(elementName);
+    }
+    getReachableElements() {
+        return new Set(this.reachableFromStart);
+    }
+    isInLoop(elementName) {
+        return this.elementsInLoop.has(elementName);
+    }
+    getContainingLoop(elementName) {
+        return this.elementsInLoop.get(elementName);
+    }
+    getLoopElements(loopName) {
+        const result = new Set();
+        for (const [element, loop] of this.elementsInLoop){
+            if (loop === loopName) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+    hasFaultConnector(elementName) {
+        const faults = this.faultConnectors.get(elementName);
+        return faults ? faults.size > 0 : false;
+    }
+    getFaultTargets(elementName) {
+        return Array.from(this.faultConnectors.get(elementName) || []);
+    }
+    getNextElements(elementName) {
+        return Array.from(this.normalConnectors.get(elementName) || []);
+    }
+    getAllNextElements(elementName) {
+        return Array.from(this.allConnectors.get(elementName) || []);
+    }
+    getPreviousElements(elementName) {
+        return Array.from(this.reverseConnectors.get(elementName) || []);
+    }
+    getNode(elementName) {
+        return this.nodeMap.get(elementName);
+    }
+    isPartOfFaultHandling(elementName) {
+        const previous = this.getPreviousElements(elementName);
+        return previous.some((prev)=>{
+            const faultTargets = this.faultConnectors.get(prev);
+            var _faultTargets_has;
+            return (_faultTargets_has = faultTargets === null || faultTargets === void 0 ? void 0 : faultTargets.has(elementName)) !== null && _faultTargets_has !== void 0 ? _faultTargets_has : false;
+        });
+    }
+    getLoopNodes() {
+        return Array.from(this.nodeMap.values()).filter((n)=>n.subtype === "loops");
+    }
+    forEachReachable(callback) {
+        for (const elementName of this.reachableFromStart){
+            const node = this.nodeMap.get(elementName);
+            if (node) {
+                callback(node);
+            }
+        }
+    }
+    /**
+   * Export the graph to Mermaid flowchart syntax with rich documentation.
+   */ toMermaid(options = {}) {
+        let output = "";
+        const diagram = this.generateMermaidDiagram(options);
+        if (options.includeMarkdownDocs) {
+            output = this.generateFullMarkdownDoc(diagram, options);
+        } else {
+            output = `\`\`\`mermaid\n${diagram}\n\`\`\``;
+        }
+        return output;
+    }
+    generateMermaidDiagram(options) {
+        let mermaid = 'flowchart TB\n';
+        // START node with flow metadata
+        mermaid += this.generateStartNode(options.flowMetadata) + '\n\n';
+        // Define nodes using FlowNode helper methods
+        for (const [name, node] of this.nodeMap){
+            const icon = node.getIcon();
+            const typeLabel = node.getTypeLabel();
+            const summary = options.includeDetails ? node.getSummary() : '';
+            let label = `${icon} <em>${typeLabel}</em><br/>${node.label || node.name}`;
+            if (summary) {
+                label += `<br/><small>${summary}</small>`;
+            }
+            const shape = this.getNodeShape(node.subtype);
+            mermaid += `  ${name}${shape[0]}"${label}"${shape[1]}:::${node.subtype}\n`;
+        }
+        mermaid += '\n';
+        mermaid += this.generateEdges() + '\n';
+        mermaid += this.generateLoopSubgraphs() + '\n';
+        mermaid += this.generateMermaidStyles();
+        return mermaid;
+    }
+    generateStartNode(flowMetadata) {
+        if (!flowMetadata) {
+            return 'START(["\uD83D\uDE80 <b>START</b>"]):::startClass';
+        }
+        let label = '\uD83D\uDE80 <b>START</b>'; // ROCKET
+        if (flowMetadata.processType === 'Flow') {
+            label += '<br/><b>Screen Flow</b>';
+        } else if (flowMetadata.processType === 'AutoLaunchedFlow') {
+            label += '<br/><b>AutoLaunched Flow</b>';
+            if (flowMetadata.triggerType) {
+                label += `<br/>Type: <b>${this.prettifyValue(flowMetadata.triggerType)}</b>`;
+            }
+        } else if (flowMetadata.object) {
+            label += `<br/><b>${flowMetadata.object}</b>`;
+            if (flowMetadata.triggerType) {
+                label += `<br/>Type: <b>${this.prettifyValue(flowMetadata.triggerType)}</b>`;
+            }
+        }
+        if (flowMetadata.status) {
+            const statusIcon = flowMetadata.status === 'Active' ? '✅' : '⚠️';
+            label += `<br/>${statusIcon} ${flowMetadata.status}`;
+        }
+        return `START(["${label}"]):::startClass`;
+    }
+    getNodeShape(subtype) {
+        const shapeMap = {
+            decisions: [
+                '{',
+                '}'
+            ],
+            loops: [
+                '{{',
+                '}}'
+            ],
+            collectionProcessors: [
+                '{{',
+                '}}'
+            ],
+            transforms: [
+                '{{',
+                '}}'
+            ],
+            screens: [
+                '([',
+                '])'
+            ],
+            recordCreates: [
+                '[(',
+                ')]'
+            ],
+            recordDeletes: [
+                '[(',
+                ')]'
+            ],
+            recordLookups: [
+                '[(',
+                ')]'
+            ],
+            recordUpdates: [
+                '[(',
+                ')]'
+            ],
+            subflows: [
+                '[[',
+                ']]'
+            ],
+            assignments: [
+                '[\\',
+                '/]'
+            ],
+            default: [
+                '(',
+                ')'
+            ]
+        };
+        return shapeMap[subtype] || shapeMap.default;
+    }
+    generateEdges() {
+        let edges = '';
+        // Normal connectors
+        for (const [from, targets] of this.allConnectors){
+            for (const to of targets){
+                edges += `  ${from} --> ${to}\n`;
+            }
+        }
+        // Fault connectors (dashed)
+        for (const [from, faults] of this.faultConnectors){
+            for (const to of faults){
+                edges += `  ${from} -. Fault .-> ${to}\n`;
+            }
+        }
+        // Add END nodes
+        const endNodes = this.findEndNodes();
+        for (const endNode of endNodes){
+            edges += `  ${endNode}(( END )):::endClass\n`;
+        }
+        return edges;
+    }
+    findEndNodes() {
+        const endNodes = new Set();
+        for (const [from, targets] of this.allConnectors){
+            for (const to of targets){
+                // If target doesn't exist in nodeMap, it's an END
+                if (!this.nodeMap.has(to)) {
+                    endNodes.add(to);
+                }
+            }
+        }
+        return endNodes;
+    }
+    generateLoopSubgraphs() {
+        let subgraphs = '';
+        for (const loopNode of this.getLoopNodes()){
+            const loopElems = this.getLoopElements(loopNode.name);
+            if (loopElems.size > 0) {
+                subgraphs += `  subgraph "${loopNode.label || loopNode.name} Loop"\n`;
+                for (const elem of loopElems){
+                    subgraphs += `    ${elem}\n`;
+                }
+                subgraphs += '  end\n';
+            }
+        }
+        return subgraphs;
+    }
+    generateMermaidStyles() {
+        const styles = {
+            actionCalls: {
+                fill: '#D4E4FC',
+                color: 'black'
+            },
+            assignments: {
+                fill: '#FBEED7',
+                color: 'black'
+            },
+            collectionProcessors: {
+                fill: '#F0E3FA',
+                color: 'black'
+            },
+            customErrors: {
+                fill: '#FFE9E9',
+                color: 'black'
+            },
+            decisions: {
+                fill: '#FDEAF6',
+                color: 'black'
+            },
+            loops: {
+                fill: '#FDEAF6',
+                color: 'black'
+            },
+            recordCreates: {
+                fill: '#FFF8C9',
+                color: 'black'
+            },
+            recordDeletes: {
+                fill: '#FFF8C9',
+                color: 'black'
+            },
+            recordLookups: {
+                fill: '#EDEAFF',
+                color: 'black'
+            },
+            recordUpdates: {
+                fill: '#FFF8C9',
+                color: 'black'
+            },
+            screens: {
+                fill: '#DFF6FF',
+                color: 'black'
+            },
+            subflows: {
+                fill: '#D4E4FC',
+                color: 'black'
+            },
+            transforms: {
+                fill: '#FDEAF6',
+                color: 'black'
+            },
+            startClass: {
+                fill: '#D9F2E6',
+                color: 'black'
+            },
+            endClass: {
+                fill: '#F9BABA',
+                color: 'black'
+            }
+        };
+        let styleStr = '';
+        for (const [className, style] of Object.entries(styles)){
+            styleStr += `  classDef ${className} fill:${style.fill},color:${style.color},stroke:#333,stroke-width:2px\n`;
+        }
+        return styleStr;
+    }
+    generateNodeDetailsMarkdown(collapsed) {
+        let md = '## Flow Nodes Details\n\n';
+        if (collapsed) {
+            md += '<details><summary>NODE DETAILS (expand to view)</summary>\n\n';
+        }
+        for (const [name, node] of this.nodeMap){
+            md += `### ${name}\n\n`;
+            md += this.nodeToMarkdownTable(node);
+            md += '\n';
+        }
+        if (collapsed) {
+            md += '</details>\n\n';
+        }
+        return md;
+    }
+    nodeToMarkdownTable(node) {
+        let table = '| Property | Value |\n|:---|:---|\n';
+        // Use typed properties from FlowNode
+        if (node.label) table += `| Label | ${node.label} |\n`;
+        table += `| Type | ${node.getTypeLabel()} |\n`;
+        // Type-specific properties (now type-safe!)
+        if (node.actionType) table += `| Action Type | ${this.prettifyValue(node.actionType)} |\n`;
+        if (node.actionName) table += `| Action Name | ${node.actionName} |\n`;
+        if (node.object) table += `| Object | ${node.object} |\n`;
+        if (node.flowName) table += `| Subflow | ${node.flowName} |\n`;
+        if (node.collectionReference) table += `| Collection | ${node.collectionReference} |\n`;
+        if (node.elementSubtype) table += `| Subtype | ${this.prettifyValue(node.elementSubtype)} |\n`;
+        // Decision rules
+        if (node.rules && node.rules.length > 0) {
+            table += `| Rules | ${node.rules.length} |\n`;
+            for (const rule of node.rules){
+                const conditions = Array.isArray(rule.conditions) ? rule.conditions : rule.conditions ? [
+                    rule.conditions
+                ] : [];
+                table += `| ↳ ${rule.label || rule.name} | ${conditions.length} condition(s) |\n`;
+            }
+        }
+        // Screen fields
+        if (node.fields && node.fields.length > 0) {
+            table += `| Fields | ${node.fields.length} |\n`;
+        }
+        if (node.description) table += `| Description | ${node.description} |\n`;
+        if (node.faultConnector) table += `| Has Fault Handler | ✅ |\n`;
+        return table;
+    }
+    prettifyValue(value) {
+        return value.replace(/([A-Z])/g, ' $1').replace(/^./, (str)=>str.toUpperCase()).trim();
+    }
+    /**
+   * Generate full markdown documentation with diagram and node details
+   */ generateFullMarkdownDoc(diagram, options) {
+        let md = '';
+        // Header with flow metadata would come from Flow class
+        md += '## Flow Diagram\n\n';
+        md += '```mermaid\n';
+        md += diagram;
+        md += '\n```\n\n';
+        // Node details section
+        if (options.includeDetails) {
+            md += this.generateNodeDetailsMarkdown(options.collapsedDetails);
+        }
+        return md;
+    }
+    /**
+   * Export the graph to PlantUML syntax for UML-style diagrams.
+   * @returns PlantUML string.
+   */ toPlantUML() {
+        let plantuml = '@startuml\nskinparam activityBackgroundColor #D4E4FC\n'; // Basic styling
+        // Nodes
+        for (const [name, node] of this.nodeMap){
+            plantuml += `activity "${node.subtype}: ${name}" as ${name}\n`;
+        }
+        // Edges
+        for (const [from, targets] of this.allConnectors){
+            for (const to of targets){
+                plantuml += `${from} --> ${to}\n`;
+            }
+        }
+        // Loops as groups
+        for (const loopNode of this.getLoopNodes()){
+            plantuml += `partition "${loopNode.name} Loop" {\n`;
+            const loopElems = this.getLoopElements(loopNode.name);
+            for (const elem of loopElems){
+                plantuml += `  ${elem}\n`;
+            }
+            plantuml += '}\n';
+        }
+        plantuml += '@enduml';
+        return plantuml;
+    }
+    constructor(nodes, startReference, startNode){
+        // Fast lookups by element name
+        _define_property(this, "nodeMap", new Map());
+        // Pre-computed sets for common queries (built using Compiler)
+        _define_property(this, "reachableFromStart", new Set());
+        _define_property(this, "elementsInLoop", new Map()); // element -> loop name
+        // Connector metadata (extracted during node processing)
+        _define_property(this, "faultConnectors", new Map());
+        _define_property(this, "normalConnectors", new Map());
+        _define_property(this, "allConnectors", new Map());
+        _define_property(this, "reverseConnectors", new Map());
+        this.buildNodeMaps(nodes);
+        this.buildConnectorMaps(nodes);
+        // ALWAYS ensure START node edges exist
+        if (startNode) {
+            // Old flows: use explicit <start> element connectors
+            this.addStartNodeConnectors(startNode);
+        } else if (startReference) {
+            // New flows: direct edge from START to startElementReference
+            this.addStartEdgeFromReference(startReference);
+        }
+        this.computeLoopBoundaries();
+        if (startReference) {
+            this.computeReachability(startReference);
+        }
+    }
+};
+
+
+/***/ }),
+
 /***/ 1723:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -215848,6 +216720,7 @@ Object.defineProperty(exports, "FlowNode", ({
 const _MetadataTypes = __nccwpck_require__(1466);
 const _FlowElement = __nccwpck_require__(7264);
 const _FlowElementConnector = __nccwpck_require__(9113);
+const _NodeIcons = __nccwpck_require__(2166);
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -215862,6 +216735,146 @@ function _define_property(obj, key, value) {
     return obj;
 }
 let FlowNode = class FlowNode extends _FlowElement.FlowElement {
+    /**
+   * Set custom icon configuration for all FlowNodes
+   * @example
+   * ```typescript
+   * // Use ASCII icons for old terminals
+   * FlowNode.setIconConfig(ASCII_ICONS);
+   * 
+   * // Or provide custom icons
+   * FlowNode.setIconConfig({
+   *   actionCalls: { default: '[ACTION]' },
+   *   decisions: { default: '[IF]' }
+   * });
+   * ```
+   */ static setIconConfig(config) {
+        FlowNode.iconConfig = config;
+    }
+    /**
+   * Use ASCII icons instead of emoji (for older browsers/terminals)
+   */ static useAsciiIcons() {
+        FlowNode.iconConfig = _NodeIcons.ASCII_ICONS;
+    }
+    /**
+   * Reset to default emoji icons
+   */ static useDefaultIcons() {
+        FlowNode.iconConfig = _NodeIcons.DEFAULT_ICONS;
+    }
+    extractTypeSpecificProperties(subtype, element) {
+        switch(subtype){
+            case "actionCalls":
+                this.actionType = element.actionType;
+                this.actionName = element.actionName;
+                break;
+            case "recordCreates":
+            case "recordUpdates":
+            case "recordDeletes":
+            case "recordLookups":
+                this.object = element.object;
+                this.inputReference = element.inputReference;
+                this.outputReference = element.outputReference;
+                break;
+            case "collectionProcessors":
+                this.elementSubtype = element.elementSubtype;
+                this.collectionReference = element.collectionReference;
+                break;
+            case "subflows":
+                this.flowName = element.flowName;
+                break;
+            case "decisions":
+                this.rules = Array.isArray(element.rules) ? element.rules : element.rules ? [
+                    element.rules
+                ] : [];
+                this.defaultConnectorLabel = element.defaultConnectorLabel;
+                break;
+            case "loops":
+                this.collectionReference = element.collectionReference;
+                this.iterationOrder = element.iterationOrder;
+                break;
+            case "screens":
+                this.fields = Array.isArray(element.fields) ? element.fields : element.fields ? [
+                    element.fields
+                ] : [];
+                this.allowPause = element.allowPause;
+                this.showFooter = element.showFooter;
+                break;
+        }
+    }
+    /**
+   * Get a human-readable summary of this node
+   */ getSummary() {
+        const parts = [];
+        switch(this.subtype){
+            case "actionCalls":
+                if (this.actionType) parts.push(this.prettifyValue(this.actionType));
+                if (this.actionName) parts.push(this.actionName);
+                break;
+            case "recordCreates":
+            case "recordUpdates":
+            case "recordDeletes":
+            case "recordLookups":
+                if (this.object) parts.push(this.object);
+                break;
+            case "collectionProcessors":
+                if (this.elementSubtype) parts.push(this.prettifyValue(this.elementSubtype));
+                break;
+            case "decisions":
+                var _this_rules, _this_rules1;
+                parts.push(`${((_this_rules = this.rules) === null || _this_rules === void 0 ? void 0 : _this_rules.length) || 0} rule${((_this_rules1 = this.rules) === null || _this_rules1 === void 0 ? void 0 : _this_rules1.length) !== 1 ? 's' : ''}`);
+                break;
+            case "loops":
+                if (this.collectionReference) parts.push(`Loop: ${this.collectionReference}`);
+                break;
+            case "subflows":
+                if (this.flowName) parts.push(this.flowName);
+                break;
+        }
+        if (this.description) {
+            parts.push(this.description.substring(0, 50) + (this.description.length > 50 ? '...' : ''));
+        }
+        return parts.join(' • ');
+    }
+    /**
+   * Get the icon for this node type
+   */ getIcon() {
+        const typeIcons = FlowNode.iconConfig[this.subtype];
+        if (!typeIcons) {
+            // Fallback for unknown types
+            const fallback = FlowNode.iconConfig['default'];
+            return fallback && 'default' in fallback ? fallback.default : '\u2022'; // • BULLET
+        }
+        // For nodes with subtypes (like actionCalls or collectionProcessors)
+        const subtype = this.actionType || this.elementSubtype;
+        const icons = typeIcons;
+        if (subtype && icons[subtype]) {
+            return icons[subtype];
+        }
+        return icons.default || '\u2022'; // • BULLET fallback
+    }
+    /**
+   * Get the display name for this node type
+   */ getTypeLabel() {
+        const labelMap = {
+            actionCalls: 'Action',
+            assignments: 'Assignment',
+            collectionProcessors: 'Collection',
+            customErrors: 'Error',
+            decisions: 'Decision',
+            loops: 'Loop',
+            recordCreates: 'Create',
+            recordDeletes: 'Delete',
+            recordLookups: 'Get Records',
+            recordUpdates: 'Update',
+            screens: 'Screen',
+            subflows: 'Subflow',
+            transforms: 'Transform'
+        };
+        return labelMap[this.subtype] || this.subtype;
+    }
+    prettifyValue(value) {
+        return value.replace(/([A-Z])/g, ' $1').replace(/^./, (str)=>str.toUpperCase()).trim();
+    }
     getConnectors(subtype, element) {
         const connectors = [];
         if (subtype === "start") {
@@ -215997,13 +217010,30 @@ let FlowNode = class FlowNode extends _FlowElement.FlowElement {
     }
     constructor(provName, subtype, element){
         const nodeName = subtype === "start" ? "flowstart" : provName;
-        super(_MetadataTypes.MetaType.NODE, subtype, nodeName, element), _define_property(this, "connectors", []), _define_property(this, "locationX", void 0), _define_property(this, "locationY", void 0);
-        const connectors = this.getConnectors(subtype, element);
-        this.connectors = connectors;
+        super(_MetadataTypes.MetaType.NODE, subtype, nodeName, element), _define_property(this, "connectors", []), _define_property(this, "locationX", void 0), _define_property(this, "locationY", void 0), // Common properties across node types
+        _define_property(this, "label", void 0), _define_property(this, "description", void 0), // Action-specific properties
+        _define_property(this, "actionType", void 0), _define_property(this, "actionName", void 0), // Record operation properties
+        _define_property(this, "object", void 0), _define_property(this, "inputReference", void 0), _define_property(this, "outputReference", void 0), // Collection processor properties
+        _define_property(this, "elementSubtype", void 0), _define_property(this, "collectionReference", void 0), // Subflow properties
+        _define_property(this, "flowName", void 0), // Decision properties
+        _define_property(this, "rules", void 0), _define_property(this, "defaultConnectorLabel", void 0), // Loop properties
+        _define_property(this, "iterationOrder", void 0), // Screen properties
+        _define_property(this, "fields", void 0), _define_property(this, "allowPause", void 0), _define_property(this, "showFooter", void 0), // Fault handling
+        _define_property(this, "faultConnector", void 0);
+        // Extract common properties
+        this.label = element["label"];
+        this.description = element["description"];
         this.locationX = element["locationX"];
         this.locationY = element["locationY"];
+        // Extract type-specific properties
+        this.extractTypeSpecificProperties(subtype, element);
+        // Extract connectors
+        this.connectors = this.getConnectors(subtype, element);
+        this.faultConnector = this.connectors.find((c)=>c.type === "faultConnector");
     }
 };
+// Static icon configuration (can be overridden)
+_define_property(FlowNode, "iconConfig", _NodeIcons.DEFAULT_ICONS);
 
 
 /***/ }),
@@ -216137,6 +217167,7 @@ Object.defineProperty(exports, "FlowVariable", ({
 }));
 const _MetadataTypes = __nccwpck_require__(1466);
 const _FlowElement = __nccwpck_require__(7264);
+const _VariableIcons = __nccwpck_require__(9025);
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -216151,11 +217182,127 @@ function _define_property(obj, key, value) {
     return obj;
 }
 let FlowVariable = class FlowVariable extends _FlowElement.FlowElement {
+    /**
+   * Set custom icon configuration for all FlowVariables
+   * @example
+   * ```typescript
+   * // Use ASCII icons
+   * FlowVariable.setIconConfig(ASCII_VARIABLE_ICONS);
+   * 
+   * // Or provide custom icons
+   * FlowVariable.setIconConfig({
+   *   subtypes: {
+   *     variables: '[VAR]',
+   *     constants: '[CONST]'
+   *   },
+   *   boolean: {
+   *     true: '[YES]',
+   *     false: '[NO]'
+   *   }
+   * });
+   * ```
+   */ static setIconConfig(config) {
+        FlowVariable.iconConfig = config;
+    }
+    /**
+   * Use ASCII icons instead of emoji
+   */ static useAsciiIcons() {
+        FlowVariable.iconConfig = _VariableIcons.ASCII_VARIABLE_ICONS;
+    }
+    /**
+   * Reset to default emoji icons
+   */ static useDefaultIcons() {
+        FlowVariable.iconConfig = _VariableIcons.DEFAULT_VARIABLE_ICONS;
+    }
+    /**
+   * Get the icon for this variable subtype
+   */ getIcon() {
+        return FlowVariable.iconConfig.subtypes[this.subtype] || '\uD83D\uDCCA'; // 📊 default
+    }
+    /**
+   * Get icon for a boolean value
+   */ getBooleanIcon(value) {
+        if (value === true) {
+            return FlowVariable.iconConfig.boolean.true;
+        } else if (value === false) {
+            return FlowVariable.iconConfig.boolean.false;
+        }
+        return ''; // undefined/null
+    }
+    /**
+   * Get a human-readable type label
+   */ getTypeLabel() {
+        const labelMap = {
+            variables: 'Variable',
+            constants: 'Constant',
+            formulas: 'Formula',
+            choices: 'Choice',
+            dynamicChoiceSets: 'Dynamic Choice'
+        };
+        return labelMap[this.subtype] || this.subtype;
+    }
+    /**
+   * Get a markdown table row for this variable
+   */ toTableRow() {
+        const parts = [
+            this.name,
+            this.dataType || '',
+            this.getBooleanIcon(this.isCollection),
+            this.getBooleanIcon(this.isInput),
+            this.getBooleanIcon(this.isOutput),
+            this.objectType || '',
+            this.description || ''
+        ];
+        return `| ${parts.join(' | ')} |`;
+    }
+    /**
+   * Get a detailed markdown table for this variable
+   */ toMarkdownTable() {
+        let table = '| Property | Value |\n|:---|:---|\n';
+        table += `| Name | ${this.name} |\n`;
+        table += `| Type | ${this.getIcon()} ${this.getTypeLabel()} |\n`;
+        if (this.dataType) table += `| Data Type | ${this.dataType} |\n`;
+        if (this.objectType) table += `| Object Type | ${this.objectType} |\n`;
+        if (this.isCollection !== undefined) {
+            table += `| Collection | ${this.getBooleanIcon(this.isCollection)} |\n`;
+        }
+        if (this.isInput !== undefined) {
+            table += `| Input | ${this.getBooleanIcon(this.isInput)} |\n`;
+        }
+        if (this.isOutput !== undefined) {
+            table += `| Output | ${this.getBooleanIcon(this.isOutput)} |\n`;
+        }
+        if (this.value !== undefined) {
+            table += `| Value | ${this.formatValue(this.value)} |\n`;
+        }
+        if (this.description) table += `| Description | ${this.description} |\n`;
+        return table;
+    }
+    formatValue(value) {
+        if (typeof value === 'object') {
+            return JSON.stringify(value, null, 2);
+        }
+        return String(value);
+    }
     constructor(name, subtype, element){
-        super(_MetadataTypes.MetaType.VARIABLE, subtype, name, element), _define_property(this, "dataType", void 0);
+        super(_MetadataTypes.MetaType.VARIABLE, subtype, name, element), _define_property(this, "dataType", void 0), _define_property(this, "isCollection", void 0), _define_property(this, "isInput", void 0), _define_property(this, "isOutput", void 0), _define_property(this, "objectType", void 0), _define_property(this, "description", void 0), _define_property(this, "value", void 0);
+        // Extract properties based on variable subtype
         this.dataType = element["dataType"];
+        this.isCollection = element["isCollection"];
+        this.isInput = element["isInput"];
+        this.isOutput = element["isOutput"];
+        this.objectType = element["objectType"];
+        this.description = element["description"];
+        // Different subtypes have different value properties
+        if (subtype === "constants") {
+            this.value = element["value"];
+        } else if (subtype === "formulas") {
+            this.value = element["expression"];
+        }
     }
 };
+// Static icon configuration (can be overridden)
+_define_property(FlowVariable, "iconConfig", _VariableIcons.DEFAULT_VARIABLE_ICONS);
 
 
 /***/ }),
@@ -216178,7 +217325,7 @@ const _internals = __nccwpck_require__(934);
 const _RuleCommon = __nccwpck_require__(7137);
 let LoopRuleCommon = class LoopRuleCommon extends _RuleCommon.RuleCommon {
     check(flow, _options, suppressions) {
-        const loopElements = this.findLoopElements(flow);
+        const loopElements = flow.graph.getLoopNodes();
         if (!loopElements.length) {
             return [];
         }
@@ -216187,25 +217334,24 @@ let LoopRuleCommon = class LoopRuleCommon extends _RuleCommon.RuleCommon {
         return results;
     }
     findLoopElements(flow) {
-        var _flow_elements;
-        return ((_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "loops")) || [];
+        return flow.graph.getLoopNodes();
     }
     findLoopEnd(element) {
-        var _element_element_noMoreValuesConnector;
+        var _element_element_noMoreValuesConnector, _element_element;
         var _element_element_noMoreValuesConnector_targetReference;
-        return (_element_element_noMoreValuesConnector_targetReference = (_element_element_noMoreValuesConnector = element.element["noMoreValuesConnector"]) === null || _element_element_noMoreValuesConnector === void 0 ? void 0 : _element_element_noMoreValuesConnector.targetReference) !== null && _element_element_noMoreValuesConnector_targetReference !== void 0 ? _element_element_noMoreValuesConnector_targetReference : element.name;
+        return (_element_element_noMoreValuesConnector_targetReference = (_element_element = element.element) === null || _element_element === void 0 ? void 0 : (_element_element_noMoreValuesConnector = _element_element.noMoreValuesConnector) === null || _element_element_noMoreValuesConnector === void 0 ? void 0 : _element_element_noMoreValuesConnector.targetReference) !== null && _element_element_noMoreValuesConnector_targetReference !== void 0 ? _element_element_noMoreValuesConnector_targetReference : element.name;
     }
     findStatementsInLoops(flow, loopElements) {
         const statementsInLoops = [];
         const statementTypes = this.getStatementTypes();
-        const findStatement = (element)=>{
-            if (statementTypes.includes(element.subtype)) {
-                statementsInLoops.push(element);
-            }
-        };
         for (const element of loopElements){
-            const loopEnd = this.findLoopEnd(element);
-            new _internals.Compiler().traverseFlow(flow, element.name, findStatement, loopEnd);
+            const loopElems = flow.graph.getLoopElements(element.name);
+            for (const elemName of loopElems){
+                const node = flow.graph.getNode(elemName);
+                if (node && statementTypes.includes(node.subtype)) {
+                    statementsInLoops.push(node);
+                }
+            }
         }
         return statementsInLoops;
     }
@@ -216330,37 +217476,79 @@ function _interop_require_wildcard(obj, nodeInterop) {
     return newObj;
 }
 let RuleCommon = class RuleCommon {
-    /**
-   * execute() – automatic suppression
-   */ execute(flow, options, suppressions = []) {
+    execute(flow, options, suppressions = []) {
         // Wildcard suppression disables entire rule
         if (suppressions.includes("*")) {
             return new _internals.RuleResult(this, []);
         }
-        // Convert to Set for fast lookup
+        if (suppressions.includes(this.ruleId) || suppressions.includes(this.name)) {
+            return new _internals.RuleResult(this, []);
+        }
         const suppSet = new Set(suppressions);
-        // Raw violations from rule
         let violations = this.check(flow, options, suppSet);
-        // Automatically filter suppressed violations by their .name
         violations = violations.filter((v)=>!suppSet.has(v.name));
-        // Wrap into RuleResult
         return new _internals.RuleResult(this, violations);
     }
-    /**
-   * Legacy/manual suppression helper (still available for early exits)
-   */ isSuppressed(name, suppressions) {
+    isSuppressed(name, suppressions) {
         return suppressions.has(name);
+    }
+    /**
+   * Get the start node (the special <start> element).
+   * This is now stored separately in flow.startNode, not in flow.elements.
+   * 
+   * @param flow - The Flow instance
+   * @returns The start FlowNode or undefined if not found
+   */ getStartNode(flow) {
+        return flow.startNode;
+    }
+    /**
+   * Get the reference name of the first actual element (what the flow starts at).
+   * This is the element that comes AFTER the start node.
+   * 
+   * @param flow - The Flow instance
+   * @returns The start reference name or undefined
+   */ getStartReference(flow) {
+        return flow.startReference || undefined;
+    }
+    /**
+   * Find the INDEX of the first actual element in a FlowNode array.
+   * Useful for rules that need to iterate by index.
+   * 
+   * @param flow - The Flow instance
+   * @param flowElements - Array of FlowNodes (typically from flow.elements)
+   * @returns The index of the starting element, or -1 if not found
+   */ findStartIndex(flow, flowElements) {
+        const startRef = this.getStartReference(flow);
+        if (!startRef) {
+            return -1;
+        }
+        return flowElements.findIndex((n)=>n.name === startRef);
+    }
+    /**
+   * Safely get a property from the start element.
+   * 
+   * @param flow - The Flow instance
+   * @param propertyName - The property to retrieve (e.g., 'triggerType', 'object')
+   * @returns The property value or undefined
+   */ getStartProperty(flow, propertyName) {
+        var _flow_startNode;
+        if ((_flow_startNode = flow.startNode) === null || _flow_startNode === void 0 ? void 0 : _flow_startNode.element) {
+            var _flow_startNode_element;
+            return (_flow_startNode_element = flow.startNode.element) === null || _flow_startNode_element === void 0 ? void 0 : _flow_startNode_element[propertyName];
+        }
+        return undefined;
     }
     constructor(info, optional){
         _define_property(this, "description", void 0);
         _define_property(this, "docRefs", []);
-        _define_property(this, "isConfigurable", void 0); // Auto-detected by checking if the implemented check() method actually uses "options."
+        _define_property(this, "isConfigurable", void 0);
         _define_property(this, "label", void 0);
         _define_property(this, "name", void 0);
         _define_property(this, "severity", void 0);
         _define_property(this, "supportedTypes", void 0);
-        _define_property(this, "suppressionElement", void 0);
         _define_property(this, "uri", void 0);
+        _define_property(this, "ruleId", void 0);
+        this.ruleId = info.ruleId;
         this.name = info.name;
         this.supportedTypes = info.supportedTypes;
         this.label = info.label;
@@ -216376,7 +217564,6 @@ let RuleCommon = class RuleCommon {
         }
         var _optional_severity;
         this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "error";
-        this.suppressionElement = info.suppressionElement;
     }
 };
 
@@ -216655,7 +217842,37 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
         }
         // Custom logic
         if (options === null || options === void 0 ? void 0 : options.expression) {
-            const isValid = new Function(`return ${flowAPIVersionNumber}${options.expression};`)();
+            // Match something like: >= 58
+            const match = options.expression.match(/^\s*(>=|<=|>|<|===|!==)\s*(\d+)\s*$/);
+            if (!match) {
+                // Invalid expression format
+                return [
+                    new _internals.Violation(new _internals.FlowAttribute("Invalid API rule expression", "apiVersion", options.expression))
+                ];
+            }
+            const [, operator, versionStr] = match;
+            const target = parseFloat(versionStr);
+            let isValid = true;
+            switch(operator){
+                case ">":
+                    isValid = flowAPIVersionNumber > target;
+                    break;
+                case "<":
+                    isValid = flowAPIVersionNumber < target;
+                    break;
+                case ">=":
+                    isValid = flowAPIVersionNumber >= target;
+                    break;
+                case "<=":
+                    isValid = flowAPIVersionNumber <= target;
+                    break;
+                case "===":
+                    isValid = flowAPIVersionNumber === target;
+                    break;
+                case "!==":
+                    isValid = flowAPIVersionNumber !== target;
+                    break;
+            }
             if (!isValid) {
                 return [
                     new _internals.Violation(new _internals.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression))
@@ -216666,8 +217883,9 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "invalid-api-version",
             name: "APIVersion",
-            label: "Outdated API Version",
+            label: "Invalid API Version",
             description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the 'Api Version' attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
@@ -216703,6 +217921,7 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
     }
     constructor(){
         super({
+            ruleId: "action-call-in-loop",
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",
             docRefs: [
                 {
@@ -216793,6 +218012,7 @@ let AutoLayout = class AutoLayout extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "missing-auto-layout",
             name: "AutoLayout",
             label: "Auto-Layout Mode",
             description: "With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",
@@ -216872,8 +218092,9 @@ let CopyAPIName = class CopyAPIName extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "unclear-api-naming",
             name: "CopyAPIName",
-            label: "Copy API Name",
+            label: "Unclear API Name",
             description: "Maintaining multiple elements with a similar name, like 'Copy_X_Of_Element,' can diminish the overall readability of your Flow. When copying and pasting these elements, it's crucial to remember to update the API name of the newly created copy.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
@@ -216977,8 +218198,9 @@ let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCo
     }
     constructor(){
         super({
+            ruleId: "excessive-cyclomatic-complexity",
             name: "CyclomaticComplexity",
-            label: "Cyclomatic Complexity",
+            label: "Excessive Cyclomatic Complexity",
             description: `The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,
             supportedTypes: _internals.FlowType.backEndTypes,
             docRefs: [
@@ -217022,6 +218244,7 @@ let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRu
     }
     constructor(){
         super({
+            ruleId: "dml-in-loop",
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your database operations, including record creation, updates, or deletions, at the conclusion of the flow.",
             docRefs: [
                 {
@@ -217100,88 +218323,51 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let DuplicateDMLOperation = class DuplicateDMLOperation extends _RuleCommon.RuleCommon {
     check(flow, _options, suppressions) {
-        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
-        const processedElementIndexes = [];
-        const unconnectedElementIndexes = [];
-        const DuplicateDMLOperations = [];
-        const startingNode = this.findStart(flow);
-        if (startingNode === -1) {
-            return [];
-        }
-        let dmlFlag = false;
-        let indexesToProcess = [
-            startingNode
-        ];
-        do {
-            indexesToProcess = indexesToProcess.filter((index)=>!processedElementIndexes.includes(index));
-            if (indexesToProcess.length > 0) {
-                for (const [index, element] of flowElements.entries()){
-                    if (indexesToProcess.includes(index)) {
-                        const references = [];
-                        if (element.connectors && element.connectors.length > 0) {
-                            for (const connector of element.connectors){
-                                if (connector.reference) {
-                                    references.push(connector.reference);
-                                }
-                            }
-                        }
-                        dmlFlag = this.flagDML(element, dmlFlag);
-                        if (references.length > 0) {
-                            const elementsByReferences = flowElements.filter((el)=>references.includes(el.name));
-                            for (const nextElement of elementsByReferences){
-                                const nextIndex = flowElements.findIndex((el)=>nextElement.name === el.name);
-                                if (nextElement.subtype === "screens") {
-                                    if (dmlFlag && nextElement.element["allowBack"] === "true" && nextElement.element["showFooter"] === "true") {
-                                        if (!suppressions.has(nextElement.name)) {
-                                            DuplicateDMLOperations.push(nextElement);
-                                        }
-                                    }
-                                }
-                                if (!processedElementIndexes.includes(nextIndex)) {
-                                    indexesToProcess.push(nextIndex);
-                                }
-                            }
-                        }
-                        processedElementIndexes.push(index);
-                    }
-                }
-            } else {
-                for (const index of flowElements.keys()){
-                    if (!processedElementIndexes.includes(index)) {
-                        unconnectedElementIndexes.push(index);
-                    }
-                }
+        const graph = flow.graph;
+        const start = flow.startReference;
+        if (!start) return [];
+        const violations = [];
+        const visited = new Set();
+        const stack = [
+            {
+                name: start,
+                seenDML: false
             }
-        }while (processedElementIndexes.length + unconnectedElementIndexes.length < flowElements.length)
-        return DuplicateDMLOperations.map((det)=>new _internals.Violation(det));
-    }
-    findStart(flow) {
-        const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
-        if (flow.startElementReference) {
-            return flowElements.findIndex((n)=>n.name === flow.startElementReference);
-        } else {
-            return flowElements.findIndex((n)=>n.subtype === "start");
-        }
-    }
-    flagDML(element, dmlFlag) {
-        const dmlStatementTypes = [
-            "recordDeletes",
-            "recordUpdates",
-            "recordCreates"
         ];
-        if (dmlStatementTypes.includes(element.subtype)) {
-            return true;
-        } else if (dmlFlag === true && element.subtype === "screens" && element.element["allowBack"] === "true") {
-            return false;
-        } else {
-            return dmlFlag;
+        while(stack.length > 0){
+            const { name, seenDML } = stack.pop();
+            const stateKey = `${name}:${seenDML}`;
+            if (visited.has(stateKey)) continue;
+            visited.add(stateKey);
+            const node = graph.getNode(name);
+            if (!node) continue;
+            let nextSeenDML = seenDML || this.isDML(node);
+            if (nextSeenDML && node.subtype === "screens" && node.element["allowBack"] === "true" && node.element["showFooter"] === "true" && !suppressions.has(node.name)) {
+                violations.push(new _internals.Violation(node));
+            // Note: do NOT return early; multiple violations possible
+            }
+            // Reset DML flag after screen with back disabled
+            if (nextSeenDML && node.subtype === "screens" && node.element["allowBack"] !== "true") {
+                nextSeenDML = false;
+            }
+            for (const next of graph.getNextElements(name)){
+                stack.push({
+                    name: next,
+                    seenDML: nextSeenDML
+                });
+            }
         }
+        return violations;
+    }
+    isDML(node) {
+        return node.subtype === "recordCreates" || node.subtype === "recordUpdates" || node.subtype === "recordDeletes";
     }
     constructor(){
         super({
+            ruleId: "duplicate-dml",
             name: "DuplicateDMLOperation",
             label: "Duplicate DML Operation",
-            description: "When the flow executes database changes or actions between two screens, it's important to prevent users from navigating back between screens. Failure to do so may result in duplicate database operations being performed within the flow.",
+            description: "When the flow executes database changes between screens, users must not be allowed to navigate back, or duplicate DML operations may occur.",
             supportedTypes: _internals.FlowType.visualTypes,
             docRefs: []
         });
@@ -217260,6 +218446,7 @@ let FlowDescription = class FlowDescription extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "missing-flow-description",
             description: "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
             docRefs: [],
             label: "Missing Flow Description",
@@ -217349,6 +218536,7 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "invalid-naming-convention",
             description: "The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",
             docRefs: [
                 {
@@ -217440,6 +218628,7 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
     }
     constructor(){
         super({
+            ruleId: "get-record-all-fields",
             description: "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
             docRefs: [
                 {
@@ -217527,6 +218716,7 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "hardcoded-id",
             name: "HardcodedId",
             label: "Hardcoded Id",
             description: "Avoid hard-coding IDs as they are org-specific. Instead, pass them into variables at the start of the flow. You can achieve this by utilizing merge fields in URL parameters or employing a Get Records element.",
@@ -217574,6 +218764,7 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "hardcoded-url",
             description: "Avoid hard-coding URLs as they are org-specific. Instead, use a $API formula (preferred) or you can use an environment-specific such as custom labels, custom metadata, or custom settings.",
             docRefs: [
                 {
@@ -217665,6 +218856,7 @@ let InactiveFlow = class InactiveFlow extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "inactive-flow",
             name: "InactiveFlow",
             label: "Inactive Flow",
             description: "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.",
@@ -217765,14 +218957,14 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
         return true;
     }
     check(flow, _options, suppressions) {
-        var _flow_elements;
-        const compiler = new _internals.Compiler();
+        var _flow_graph;
         const results = [];
-        const elementsWhereFaultPathIsApplicable = ((_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>{
+        const elementsWhereFaultPathIsApplicable = flow.elements.filter((node)=>{
             const proxyNode = node;
             return this.isValidSubtype(proxyNode);
-        })).map((e)=>e.name);
-        const isRecordBeforeSave = flow.start.triggerType === "RecordBeforeSave";
+        }).map((e)=>e.name);
+        // Check if this is a RecordBeforeSave flow
+        const isRecordBeforeSave = this.isRecordBeforeSaveFlow(flow);
         const visitCallback = (element)=>{
             var _element_connectors;
             if (!(element === null || element === void 0 ? void 0 : (_element_connectors = element.connectors) === null || _element_connectors === void 0 ? void 0 : _element_connectors.find((connector)=>connector.type === "faultConnector")) && elementsWhereFaultPathIsApplicable.includes(element.name)) {
@@ -217787,24 +218979,29 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
                 }
             }
         };
-        compiler.traverseFlow(flow, flow.startReference, visitCallback);
+        (_flow_graph = flow.graph) === null || _flow_graph === void 0 ? void 0 : _flow_graph.forEachReachable(visitCallback);
         return results;
     }
-    isPartOfFaultHandlingFlow(element, flow) {
-        var _flow_elements;
-        const flowelements = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((el)=>el instanceof _internals.FlowNode);
-        for (const otherElement of flowelements){
-            if (otherElement !== element) {
-                var _otherElement_connectors;
-                if ((_otherElement_connectors = otherElement.connectors) === null || _otherElement_connectors === void 0 ? void 0 : _otherElement_connectors.find((connector)=>connector.type === "faultConnector" && connector.reference === element.name)) {
-                    return true;
-                }
+    /**
+   *  Determine if this is a RecordBeforeSave flow.
+   */ isRecordBeforeSaveFlow(flow) {
+        var _flow_startNode;
+        if ((_flow_startNode = flow.startNode) === null || _flow_startNode === void 0 ? void 0 : _flow_startNode.element) {
+            var _flow_startNode_element;
+            const triggerType = (_flow_startNode_element = flow.startNode.element) === null || _flow_startNode_element === void 0 ? void 0 : _flow_startNode_element["triggerType"];
+            if (triggerType === "RecordBeforeSave") {
+                return true;
             }
         }
         return false;
     }
+    isPartOfFaultHandlingFlow(element, flow) {
+        var _flow_graph;
+        return ((_flow_graph = flow.graph) === null || _flow_graph === void 0 ? void 0 : _flow_graph.isPartOfFaultHandling(element.name)) || false;
+    }
     constructor(){
         super({
+            ruleId: "missing-fault-path",
             description: "At times, a flow may fail to execute a configured operation as intended. By default, the flow displays an error message to the user and notifies the admin who created the flow via email. However, you can customize this behavior by incorporating a Fault Path. This rule checks DML operations, actions (Send Email, Quick Actions), and Invocable Apex Actions for proper error handling.",
             docRefs: [
                 {
@@ -217827,103 +219024,6 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
             "actionCalls",
             "apexPluginCalls"
         ]);
-    }
-};
-
-
-/***/ }),
-
-/***/ 2252:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "MissingFilterRecordTrigger", ({
-    enumerable: true,
-    get: function() {
-        return MissingFilterRecordTrigger;
-    }
-}));
-const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
-const _RuleCommon = __nccwpck_require__(7137);
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interop_require_wildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) {
-        return obj;
-    }
-    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
-        return {
-            default: obj
-        };
-    }
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) {
-        return cache.get(obj);
-    }
-    var newObj = {
-        __proto__: null
-    };
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj){
-        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-            if (desc && (desc.get || desc.set)) {
-                Object.defineProperty(newObj, key, desc);
-            } else {
-                newObj[key] = obj[key];
-            }
-        }
-    }
-    newObj.default = obj;
-    if (cache) {
-        cache.set(obj, newObj);
-    }
-    return newObj;
-}
-let MissingFilterRecordTrigger = class MissingFilterRecordTrigger extends _RuleCommon.RuleCommon {
-    check(flow, _options, _suppressions) {
-        var _flow_xmldata_start, _flow_xmldata, _flow_xmldata_start1, _flow_xmldata1, _flow_xmldata_start2, _flow_xmldata2;
-        const violations = [];
-        // Check if this is a record-triggered flow
-        const triggerType = (_flow_xmldata = flow.xmldata) === null || _flow_xmldata === void 0 ? void 0 : (_flow_xmldata_start = _flow_xmldata.start) === null || _flow_xmldata_start === void 0 ? void 0 : _flow_xmldata_start.triggerType;
-        // Only check flows with record trigger types
-        if (!triggerType || ![
-            "RecordAfterSave",
-            "RecordBeforeSave"
-        ].includes(triggerType)) {
-            return violations;
-        }
-        // Check if the flow has filters or entry conditions at the flow level
-        const filters = (_flow_xmldata1 = flow.xmldata) === null || _flow_xmldata1 === void 0 ? void 0 : (_flow_xmldata_start1 = _flow_xmldata1.start) === null || _flow_xmldata_start1 === void 0 ? void 0 : _flow_xmldata_start1.filters;
-        const hasFilters = !!filters;
-        const scheduledPaths = (_flow_xmldata2 = flow.xmldata) === null || _flow_xmldata2 === void 0 ? void 0 : (_flow_xmldata_start2 = _flow_xmldata2.start) === null || _flow_xmldata_start2 === void 0 ? void 0 : _flow_xmldata_start2.scheduledPaths;
-        const hasScheduledPaths = !!scheduledPaths;
-        // If no filters or scheduled paths (which have their own conditions), flag as violation
-        if (!hasFilters && !hasScheduledPaths) {
-            violations.push(new _internals.Violation(new _internals.FlowAttribute(triggerType, "triggerType", "autolaunched && triggerType")));
-        }
-        return violations;
-    }
-    constructor(){
-        super({
-            name: "MissingFilterRecordTrigger",
-            label: "Missing Record Trigger Filter",
-            description: "Detects record-triggered flows that lack filters on changed fields or entry conditions, leading to unnecessary executions on every record change. This can degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
-            supportedTypes: [
-                _internals.FlowType.autolaunchedType
-            ],
-            docRefs: []
-        });
     }
 };
 
@@ -218001,6 +219101,7 @@ let MissingMetadataDescription = class MissingMetadataDescription extends _RuleC
     }
     constructor(){
         super({
+            ruleId: "missing-metadata-description",
             description: "Every element must have a meaningful description",
             docRefs: [],
             label: "Missing Metadata Description",
@@ -218151,6 +219252,7 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
     }
     constructor(){
         super({
+            ruleId: "missing-null-handler",
             description: "When a Get Records operation doesn't find any data, it returns null. To ensure data validation, utilize a decision element on the operation result variable to check for a non-null result.",
             docRefs: [],
             label: "Missing Null Handler",
@@ -218159,6 +219261,104 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
             ]
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 1312:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingRecordTriggerFilter", ({
+    enumerable: true,
+    get: function() {
+        return MissingRecordTriggerFilter;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingRecordTriggerFilter = class MissingRecordTriggerFilter extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        var _flow_xmldata_start, _flow_xmldata;
+        const violations = [];
+        // Check if this is a record-triggered flow
+        const triggerType = this.getStartProperty(flow, 'triggerType');
+        // Only check flows with record trigger types
+        if (!triggerType || ![
+            "RecordAfterSave",
+            "RecordBeforeSave"
+        ].includes(triggerType)) {
+            return violations;
+        }
+        // Check if the flow has filters or entry conditions at the flow level
+        const filters = this.getStartProperty(flow, 'filters');
+        const hasFilters = !!filters;
+        const scheduledPaths = (_flow_xmldata = flow.xmldata) === null || _flow_xmldata === void 0 ? void 0 : (_flow_xmldata_start = _flow_xmldata.start) === null || _flow_xmldata_start === void 0 ? void 0 : _flow_xmldata_start.scheduledPaths;
+        const hasScheduledPaths = !!scheduledPaths;
+        // If no filters or scheduled paths (which have their own conditions), flag as violation
+        if (!hasFilters && !hasScheduledPaths) {
+            violations.push(new _internals.Violation(new _internals.FlowAttribute(triggerType, "triggerType", "autolaunched && triggerType")));
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            ruleId: "missing-record-trigger-filter",
+            name: "MissingRecordTriggerFilter",
+            label: "Missing Record Trigger Filter",
+            description: "Detects record-triggered flows that lack filters on changed fields or entry conditions, leading to unnecessary executions on every record change. This can degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
+            supportedTypes: [
+                _internals.FlowType.autolaunchedType
+            ],
+            docRefs: []
         });
     }
 };
@@ -218231,8 +219431,9 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "process-builder-usage",
             name: "ProcessBuilder",
-            label: "No Process Builder",
+            label: "Process Builder Usage",
             description: "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Ensure you're prepared for this transition by migrating your organization's automation to Flow. Refer to official documentation for more information on the transition process and tools available.",
             supportedTypes: _internals.FlowType.processBuilder,
             docRefs: [
@@ -218307,10 +219508,11 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        var _flow_start, _flow_start1, _flow_elements;
+        var _flow_elements;
         const violations = [];
         // Skip record-triggered flows - they don't support this pattern
-        const isRecordTriggered = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordAfterSave" || ((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.triggerType) === "RecordBeforeSave";
+        const triggerType = this.getStartProperty(flow, 'triggerType');
+        const isRecordTriggered = triggerType === "RecordAfterSave" || triggerType === "RecordBeforeDelete" || triggerType === "RecordBeforeSave";
         if (isRecordTriggered) {
             return violations;
         }
@@ -218326,6 +219528,7 @@ let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "record-id-as-string",
             name: "RecordIdAsString",
             label: "Record ID as String Instead of Record",
             description: "Detects flows using a String variable named 'recordId' as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
@@ -218420,10 +219623,12 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCommon {
     check(flow, _options, suppressions) {
-        var _flow_start, _flow_start1, _flow_elements, _flow_elements_filter, _flow_elements1;
+        var _flow_elements, _flow_elements_filter, _flow_elements1;
         const results = [];
-        const isAfterSave = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordAfterSave";
-        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.recordTriggerType);
+        const triggerType = this.getStartProperty(flow, 'triggerType');
+        const recordTriggerType = this.getStartProperty(flow, 'recordTriggerType');
+        const isAfterSave = triggerType === "RecordAfterSave";
+        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(recordTriggerType);
         if (!isAfterSave || !isQualifiedTriggerTypes) {
             return results;
         }
@@ -218440,7 +219645,8 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
             }
         }
         // === Lookup → same object type updates ===
-        const lookupElementsWithTheSameObjectType = (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : (_flow_elements_filter = _flow_elements1.filter((node)=>node.subtype === "recordLookups" && typeof node.element === "object" && "object" in node.element && flow.start.object === node.element["object"])) === null || _flow_elements_filter === void 0 ? void 0 : _flow_elements_filter.map((node)=>node.name);
+        const flowObject = this.getStartProperty(flow, 'object');
+        const lookupElementsWithTheSameObjectType = (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : (_flow_elements_filter = _flow_elements1.filter((node)=>node.subtype === "recordLookups" && typeof node.element === "object" && "object" in node.element && flowObject === node.element["object"])) === null || _flow_elements_filter === void 0 ? void 0 : _flow_elements_filter.map((node)=>node.name);
         if (lookupElementsWithTheSameObjectType == null || typeof lookupElementsWithTheSameObjectType[Symbol.iterator] !== "function") {
             return results;
         }
@@ -218455,6 +219661,7 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
     }
     constructor(){
         super({
+            ruleId: "recursive-record-update",
             description: "After updates are meant to be used for record modifications that are not the same record that triggered the flow. Using after updates on the same record can lead to recursion and unexpected behavior. Consider using before save flows for same record updates.",
             docRefs: [
                 {
@@ -218504,6 +219711,7 @@ let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleComm
     }
     constructor(){
         super({
+            ruleId: "soql-in-loop",
             description: "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
             docRefs: [
                 {
@@ -218595,10 +219803,12 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        var _flow_start, _flow_start1, _flow_elements;
+        var _flow_elements;
         const results = [];
-        const isBeforeSaveType = ((_flow_start = flow.start) === null || _flow_start === void 0 ? void 0 : _flow_start.triggerType) === "RecordBeforeSave";
-        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has((_flow_start1 = flow.start) === null || _flow_start1 === void 0 ? void 0 : _flow_start1.recordTriggerType);
+        const triggerType = this.getStartProperty(flow, 'triggerType');
+        const recordTriggerType = this.getStartProperty(flow, 'recordTriggerType');
+        const isBeforeSaveType = triggerType === "RecordBeforeSave";
+        const isQualifiedTriggerTypes = this.qualifiedRecordTriggerTypes.has(recordTriggerType);
         if (!isBeforeSaveType || !isQualifiedTriggerTypes) {
             return results;
         }
@@ -218613,6 +219823,7 @@ let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.Ru
     }
     constructor(){
         super({
+            ruleId: "same-record-field-updates",
             name: "SameRecordFieldUpdates",
             label: "Same Record Field Updates",
             description: "Before-save same-record field updates allows you to update the record using variable assignments to `$Record`. This is significantly faster than doing another DML on the same-record that triggered the flow",
@@ -218697,23 +219908,22 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        var _flow_elements;
         const violations = [];
-        var _flow_elements_filter;
-        // Get all loop elements
-        const loops = (_flow_elements_filter = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((e)=>e.subtype === "loops")) !== null && _flow_elements_filter !== void 0 ? _flow_elements_filter : [];
-        for (const loop of loops){
-            var _loopNode_connectors;
-            const loopNode = loop;
-            // Check if the loop's nextValueConnector (the iterative path) leads to an assignment
-            const nextValueConnector = (_loopNode_connectors = loopNode.connectors) === null || _loopNode_connectors === void 0 ? void 0 : _loopNode_connectors.find((connector)=>connector.type === "nextValueConnector");
-            if (nextValueConnector === null || nextValueConnector === void 0 ? void 0 : nextValueConnector.reference) {
-                var _flow_elements1;
-                // Find the element that the nextValueConnector points to
-                const targetElement = (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : _flow_elements1.find((e)=>e.name === nextValueConnector.reference);
-                // Check if the target is an assignment
-                if ((targetElement === null || targetElement === void 0 ? void 0 : targetElement.subtype) === "assignments") {
+        const triggerType = this.getStartProperty(flow, 'triggerType');
+        const isRecordBeforeSave = triggerType === "RecordBeforeSave";
+        if (isRecordBeforeSave) {
+            return violations;
+        }
+        const loops = flow.graph.getLoopNodes();
+        for (const loopNode of loops){
+            // Get elements that the loop connects to (includes nextValueConnector)
+            const nextElements = flow.graph.getNextElements(loopNode.name);
+            // Check if any directly connected element is an assignment
+            for (const nextElementName of nextElements){
+                const nextElement = flow.graph.getNode(nextElementName);
+                if ((nextElement === null || nextElement === void 0 ? void 0 : nextElement.subtype) === "assignments") {
                     violations.push(new _internals.Violation(loopNode));
+                    break; // Only report once per loop
                 }
             }
         }
@@ -218721,6 +219931,7 @@ let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.Ru
     }
     constructor(){
         super({
+            ruleId: "transform-instead-of-loop",
             name: "TransformInsteadOfLoop",
             label: "Transform Instead of Loop",
             description: "Detects Loop elements that directly connect to Assignment elements. This pattern can often be replaced with the Transform element, which is on average 10x more performant according to Salesforce documentation.",
@@ -218732,7 +219943,7 @@ let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.Ru
                 }
             ]
         }, {
-            severity: "error"
+            severity: "note"
         });
     }
 };
@@ -218756,19 +219967,6 @@ Object.defineProperty(exports, "TriggerOrder", ({
 }));
 const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
 const _RuleCommon = __nccwpck_require__(7137);
-function _define_property(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -218812,7 +220010,12 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        if (!("object" in flow.start)) return [];
+        const startObject = this.getStartProperty(flow, "object");
+        // If there's no `object` on the start node, this is NOT a record-triggered flow
+        if (!startObject) {
+            return [];
+        }
+        // This *is* a record-triggered flow → should have triggerOrder
         if (!flow.triggerOrder) {
             return [
                 new _internals.Violation(new _internals.FlowAttribute("TriggerOrder", "TriggerOrder", "10, 20, 30 ..."))
@@ -218822,9 +220025,10 @@ let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "unspecified-trigger-order",
             name: "TriggerOrder",
             label: "Trigger Order",
-            description: "With flow trigger ordering, introduced in Spring '22, admins can now assign a priority value to their flows and guarantee their execution order. This priority value is not an absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",
+            description: "With flow trigger ordering, introduced in Spring '22, admins can now assign a priority " + "value to their flows and guarantee their execution order. This priority value is not an " + "absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",
             supportedTypes: [
                 _internals.FlowType.autolaunchedType
             ],
@@ -218836,10 +220040,7 @@ let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
             ]
         }, {
             severity: "note"
-        }), _define_property(this, "qualifiedRecordTriggerTypes", new Set([
-            "Create",
-            "Update"
-        ]));
+        });
     }
 };
 
@@ -218905,28 +220106,18 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let UnconnectedElement = class UnconnectedElement extends _RuleCommon.RuleCommon {
     check(flow, _options, suppressions) {
-        const connectedElements = new Set();
-        const logConnected = (element)=>{
-            connectedElements.add(element.name);
-        };
+        var _flow_graph;
+        const connectedElements = ((_flow_graph = flow.graph) === null || _flow_graph === void 0 ? void 0 : _flow_graph.getReachableElements()) || new Set();
         const flowElements = flow.elements.filter((node)=>node instanceof _internals.FlowNode);
-        const startIndex = this.findStart(flowElements);
-        if (startIndex !== -1) {
-            new _internals.Compiler().traverseFlow(flow, flowElements[startIndex].name, logConnected);
-        }
         const unconnectedElements = flowElements.filter((element)=>!connectedElements.has(element.name) && !suppressions.has(element.name));
         return unconnectedElements.map((det)=>new _internals.Violation(det));
     }
-    findStart(nodes) {
-        return nodes.findIndex((n)=>{
-            return n.subtype === "start";
-        });
-    }
     constructor(){
         super({
+            ruleId: "unreachable-element",
             description: "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
             docRefs: [],
-            label: "Unconnected Element",
+            label: "Unreachable Element",
             name: "UnconnectedElement",
             supportedTypes: [
                 ..._internals.FlowType.backEndTypes,
@@ -219012,6 +220203,7 @@ let UnsafeRunningContext = class UnsafeRunningContext extends _RuleCommon.RuleCo
     }
     constructor(){
         super({
+            ruleId: "unsafe-running-context",
             name: "UnsafeRunningContext",
             label: "Unsafe Running Context",
             description: `This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.`,
@@ -219119,6 +220311,7 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
     }
     constructor(){
         super({
+            ruleId: "unused-variable",
             name: "UnusedVariable",
             label: "Unused Variable",
             description: "To maintain the efficiency and manageability of your Flow, it's advisable to avoid including unconnected variables that are not in use.",
@@ -219134,7 +220327,7 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
 
 /***/ }),
 
-/***/ 615:
+/***/ 3082:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -219142,20 +220335,12 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: Object.getOwnPropertyDescriptor(all, name).get
-    });
-}
-_export(exports, {
-    get BetaRuleStore () {
-        return BetaRuleStore;
-    },
-    get DefaultRuleStore () {
-        return DefaultRuleStore;
+Object.defineProperty(exports, "ruleRegistry", ({
+    enumerable: true,
+    get: function() {
+        return ruleRegistry;
     }
-});
+}));
 const _ActionCallsInLoop = __nccwpck_require__(2971);
 const _APIVersion = __nccwpck_require__(8385);
 const _AutoLayout = __nccwpck_require__(8648);
@@ -219180,40 +220365,177 @@ const _UnconnectedElement = __nccwpck_require__(5055);
 const _UnsafeRunningContext = __nccwpck_require__(257);
 const _UnusedVariable = __nccwpck_require__(8519);
 const _MissingMetadataDescription = __nccwpck_require__(104);
-const _MissingFilterRecordTrigger = __nccwpck_require__(2252);
+const _MissingRecordTriggerFilter = __nccwpck_require__(1312);
 const _TransformInsteadOfLoop = __nccwpck_require__(8296);
 const _RecordIdAsString = __nccwpck_require__(6920);
-const DefaultRuleStore = {
-    ActionCallsInLoop: _ActionCallsInLoop.ActionCallsInLoop,
-    APIVersion: _APIVersion.APIVersion,
-    AutoLayout: _AutoLayout.AutoLayout,
-    CopyAPIName: _CopyAPIName.CopyAPIName,
-    CyclomaticComplexity: _CyclomaticComplexity.CyclomaticComplexity,
-    DMLStatementInLoop: _DMLStatementInLoop.DMLStatementInLoop,
-    DuplicateDMLOperation: _DuplicateDMLOperation.DuplicateDMLOperation,
-    FlowDescription: _FlowDescription.FlowDescription,
-    FlowName: _FlowName.FlowName,
-    GetRecordAllFields: _GetRecordAllFields.GetRecordAllFields,
-    HardcodedId: _HardcodedId.HardcodedId,
-    HardcodedUrl: _HardcodedUrl.HardcodedUrl,
-    InactiveFlow: _InactiveFlow.InactiveFlow,
-    MissingFaultPath: _MissingFaultPath.MissingFaultPath,
-    MissingNullHandler: _MissingNullHandler.MissingNullHandler,
-    ProcessBuilder: _ProcessBuilder.ProcessBuilder,
-    RecursiveAfterUpdate: _RecursiveAfterUpdate.RecursiveAfterUpdate,
-    SameRecordFieldUpdates: _SameRecordFieldUpdates.SameRecordFieldUpdates,
-    SOQLQueryInLoop: _SOQLQueryInLoop.SOQLQueryInLoop,
-    TriggerOrder: _TriggerOrder.TriggerOrder,
-    UnconnectedElement: _UnconnectedElement.UnconnectedElement,
-    UnsafeRunningContext: _UnsafeRunningContext.UnsafeRunningContext,
-    UnusedVariable: _UnusedVariable.UnusedVariable
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+let RuleRegistry = class RuleRegistry {
+    register(ruleId, ruleClass, legacyName, isBeta = false) {
+        const entry = {
+            ruleId,
+            ruleClass,
+            legacyName,
+            isBeta
+        };
+        this.rules.set(ruleId, entry);
+        this.legacyNameMap.set(legacyName, ruleId);
+    }
+    get(idOrLegacyName) {
+        let entry = this.rules.get(idOrLegacyName);
+        if (!entry) {
+            const ruleId = this.legacyNameMap.get(idOrLegacyName);
+            if (ruleId) {
+                entry = this.rules.get(ruleId);
+            }
+        }
+        return entry;
+    }
+    getAllRuleIds(includeBeta = false) {
+        return Array.from(this.rules.values()).filter((entry)=>includeBeta || !entry.isBeta).map((entry)=>entry.ruleId);
+    }
+    has(idOrLegacyName) {
+        return this.get(idOrLegacyName) !== undefined;
+    }
+    createInstance(idOrLegacyName) {
+        const entry = this.get(idOrLegacyName);
+        if (!entry) {
+            throw new Error(`Rule not found: ${idOrLegacyName}`);
+        }
+        return new entry.ruleClass();
+    }
+    getRules(ruleConfig, options) {
+        const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
+        const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
+        const selectedRules = [];
+        if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
+            for (const key of ruleConfig.keys()){
+                const entry = this.get(key);
+                if (!entry) continue;
+                const config = ruleConfig.get(key);
+                if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+                const rule = this.createInstance(entry.ruleId);
+                if (config === null || config === void 0 ? void 0 : config.severity) {
+                    rule.severity = config.severity;
+                }
+                selectedRules.push(rule);
+            }
+            return selectedRules;
+        }
+        const allRuleIds = this.getAllRuleIds(includeBeta);
+        for (const ruleId of allRuleIds){
+            const rule = this.createInstance(ruleId);
+            var _ruleConfig_get;
+            const config = (_ruleConfig_get = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.ruleId)) !== null && _ruleConfig_get !== void 0 ? _ruleConfig_get : ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.name);
+            if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+            if (config === null || config === void 0 ? void 0 : config.severity) {
+                rule.severity = config.severity;
+            }
+            selectedRules.push(rule);
+        }
+        return selectedRules;
+    }
+    getRulesByNames(ruleNames, options) {
+        if (!ruleNames || ruleNames.length === 0) {
+            return this.getRules(undefined, options);
+        }
+        const config = new Map();
+        for (const identifier of ruleNames){
+            const entry = this.get(identifier);
+            if (entry) {
+                config.set(entry.ruleId, {
+                    enabled: true
+                });
+            }
+        }
+        return this.getRules(config, _object_spread_props(_object_spread({}, options), {
+            ruleMode: "isolated"
+        }));
+    }
+    constructor(){
+        _define_property(this, "rules", new Map());
+        _define_property(this, "legacyNameMap", new Map());
+    }
 };
-const BetaRuleStore = {
-    MissingMetadataDescription: _MissingMetadataDescription.MissingMetadataDescription,
-    MissingFilterRecordTrigger: _MissingFilterRecordTrigger.MissingFilterRecordTrigger,
-    TransformInsteadOfLoop: _TransformInsteadOfLoop.TransformInsteadOfLoop,
-    RecordIdAsString: _RecordIdAsString.RecordIdAsString
-};
+const registry = new RuleRegistry();
+registry.register("action-call-in-loop", _ActionCallsInLoop.ActionCallsInLoop, "ActionCallsInLoop");
+registry.register("invalid-api-version", _APIVersion.APIVersion, "APIVersion");
+registry.register("missing-auto-layout", _AutoLayout.AutoLayout, "AutoLayout");
+registry.register("unclear-api-naming", _CopyAPIName.CopyAPIName, "CopyAPIName");
+registry.register("excessive-cyclomatic-complexity", _CyclomaticComplexity.CyclomaticComplexity, "CyclomaticComplexity");
+registry.register("dml-in-loop", _DMLStatementInLoop.DMLStatementInLoop, "DMLStatementInLoop");
+registry.register("duplicate-dml", _DuplicateDMLOperation.DuplicateDMLOperation, "DuplicateDMLOperation");
+registry.register("missing-flow-description", _FlowDescription.FlowDescription, "FlowDescription");
+registry.register("invalid-naming-convention", _FlowName.FlowName, "FlowName");
+registry.register("get-record-all-fields", _GetRecordAllFields.GetRecordAllFields, "GetRecordAllFields");
+registry.register("hardcoded-id", _HardcodedId.HardcodedId, "HardcodedId");
+registry.register("hardcoded-url", _HardcodedUrl.HardcodedUrl, "HardcodedUrl");
+registry.register("inactive-flow", _InactiveFlow.InactiveFlow, "InactiveFlow");
+registry.register("missing-fault-path", _MissingFaultPath.MissingFaultPath, "MissingFaultPath");
+registry.register("missing-null-handler", _MissingNullHandler.MissingNullHandler, "MissingNullHandler");
+registry.register("process-builder-usage", _ProcessBuilder.ProcessBuilder, "ProcessBuilder");
+registry.register("recursive-record-update", _RecursiveAfterUpdate.RecursiveAfterUpdate, "RecursiveAfterUpdate");
+registry.register("same-record-field-updates", _SameRecordFieldUpdates.SameRecordFieldUpdates, "SameRecordFieldUpdates");
+registry.register("soql-in-loop", _SOQLQueryInLoop.SOQLQueryInLoop, "SOQLQueryInLoop");
+registry.register("unspecified-trigger-order", _TriggerOrder.TriggerOrder, "TriggerOrder");
+registry.register("unreachable-element", _UnconnectedElement.UnconnectedElement, "UnconnectedElement");
+registry.register("unsafe-running-context", _UnsafeRunningContext.UnsafeRunningContext, "UnsafeRunningContext");
+registry.register("unused-variable", _UnusedVariable.UnusedVariable, "UnusedVariable");
+registry.register("missing-metadata-description", _MissingMetadataDescription.MissingMetadataDescription, "MissingMetadataDescription", true);
+registry.register("missing-record-trigger-filter", _MissingRecordTriggerFilter.MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
+registry.register("transform-instead-of-loop", _TransformInsteadOfLoop.TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
+registry.register("record-id-as-string", _RecordIdAsString.RecordIdAsString, "RecordIdAsString", true);
+const ruleRegistry = registry;
 
 
 /***/ }),
