@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { ruleRegistry } from "../../src/main/store/RuleRegistry";
+import { ruleRegistry } from "../../src/main/config/RuleRegistry";
 
 describe("RuleCommon automatically sets isConfigurable correctly", () => {
   it("isConfigurable=true only when check() actually uses options", () => {

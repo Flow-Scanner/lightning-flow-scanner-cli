@@ -1,7 +1,7 @@
 import { IRuleConfig } from "../interfaces/IRuleConfig";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import { IRulesConfig } from "../interfaces/IRulesConfig";
-import { ruleRegistry } from "../store/RuleRegistry";
+import { ruleRegistry } from "../config/RuleRegistry";
 
 export function GetRuleDefinitions(
   ruleConfig?: Map<string, unknown>,
