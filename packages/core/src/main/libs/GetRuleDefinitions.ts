@@ -1,106 +1,64 @@
+import { IRuleConfig } from "../interfaces/IRuleConfig";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import { IRulesConfig } from "../interfaces/IRulesConfig";
-import { BetaRuleStore, DefaultRuleStore } from "../store/DefaultRuleStore";
-import { DynamicRule } from "./DynamicRule";
+import { ruleRegistry } from "../store/RuleRegistry";
 
 export function GetRuleDefinitions(
   ruleConfig?: Map<string, unknown>,
   options?: IRulesConfig
 ): IRuleDefinition[] {
-  const selectedRules: IRuleDefinition[] = [];
   const includeBeta = options?.betaMode === true || options?.betamode === true;
-  
-  // Default to "merged" mode for backward compatibility
   const rulesMode = options?.ruleMode || "merged";
+  const selectedRules: IRuleDefinition[] = [];
 
-  // In "isolated" mode, only load rules that are explicitly configured
+  const ruleIds = ruleRegistry.getAllRuleIds(includeBeta);
+
+  // ISOLATED MODE
   if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
-    for (const ruleName of ruleConfig.keys()) {
-      try {
-        const customConfig = ruleConfig.get(ruleName);
-        
-        // Skip if explicitly disabled
-        if (customConfig && customConfig["enabled"] === false) {
-          continue;
-        }
+    for (const key of ruleConfig.keys()) {
+      // key can now be either ruleId (new) or legacyName (old config compatibility)
+      const entry = ruleRegistry.get(key);
+      if (!entry) continue;
 
-        // Create the rule instance
-        const matchedRule = new DynamicRule(ruleName, includeBeta) as IRuleDefinition;
+      const config = ruleConfig.get(key) as IRuleConfig | undefined;
+      if (config?.enabled === false) continue;
 
-        // Apply custom severity if provided
-        const configuredSeverity = customConfig?.["severity"];
-        if (
-          configuredSeverity &&
-          (configuredSeverity === "error" ||
-           configuredSeverity === "warning" ||
-           configuredSeverity === "note")
-        ) {
-          matchedRule.severity = configuredSeverity;
-        }
+      const rule = ruleRegistry.createInstance(entry.ruleId);  // Always use ruleId to instantiate
 
-        selectedRules.push(matchedRule);
-      } catch (error) {
-        console.log(error.message);
+      if (config?.severity) {
+        rule.severity = config.severity;
       }
+
+      selectedRules.push(rule);
     }
     return selectedRules;
   }
 
-  // In "merged" mode (default), start with all default rules and merge with config
-  const allRuleNames = new Set<string>();
-  
-  // Add all default rules
-  for (const ruleName in DefaultRuleStore) {
-    allRuleNames.add(ruleName);
-  }
+  // MERGED MODE (default)
+  for (const ruleId of ruleIds) {
+    const rule = ruleRegistry.createInstance(ruleId);
 
-  // Add beta rules if beta mode is enabled
-  if (includeBeta) {
-    for (const ruleName in BetaRuleStore) {
-      allRuleNames.add(ruleName);
+    // Try to find config by ruleId first, then fall back to legacy name
+    const config = (
+      ruleConfig?.get(rule.ruleId) ??
+      ruleConfig?.get(rule.name)  // rule.name is the legacy camelCase name (e.g. "ActionCallsInLoop")
+    ) as IRuleConfig | undefined;
+
+    if (config?.enabled === false) continue;
+
+    if (config?.severity) {
+      rule.severity = config.severity;
     }
-  }
 
-  // Process each rule
-  for (const ruleName of allRuleNames) {
-    try {
-      // Check if there's a custom config for this rule
-      const customConfig = ruleConfig?.get(ruleName);
-      
-      // Skip if explicitly disabled
-      if (customConfig && customConfig["enabled"] === false) {
-        continue;
-      }
-
-      // Create the rule instance
-      const matchedRule = new DynamicRule(ruleName, includeBeta) as IRuleDefinition;
-
-      // Apply custom severity if provided
-      const configuredSeverity = customConfig?.["severity"];
-      if (
-        configuredSeverity &&
-        (configuredSeverity === "error" ||
-         configuredSeverity === "warning" ||
-         configuredSeverity === "note")
-      ) {
-        matchedRule.severity = configuredSeverity;
-      }
-
-      selectedRules.push(matchedRule);
-    } catch (error) {
-      console.log(error.message);
-    }
+    selectedRules.push(rule);
   }
 
   return selectedRules;
 }
 
-export function getRules(ruleNames?: string[], options?: IRulesConfig): IRuleDefinition[] {
-  if (ruleNames && ruleNames.length > 0) {
-    const ruleSeverityMap = new Map<string, { severity: string }>(
-      ruleNames.map(name => [name, { severity: "error" }])
-    );
-    return GetRuleDefinitions(ruleSeverityMap, options);
-  }
-  return GetRuleDefinitions(undefined, options);
+export function getRules(
+  ruleNames?: string[],
+  options?: IRulesConfig
+): IRuleDefinition[] {
+  return ruleRegistry.getRulesByNames(ruleNames, options);
 }

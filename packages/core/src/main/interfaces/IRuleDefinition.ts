@@ -1,5 +1,7 @@
 import { Flow, RuleResult } from "../internals/internals";
+
 export interface IRuleDefinition {
+  ruleId: string;
   description: string;
   docRefs: Array<{ label: string; path: string }>;
   execute(flow: Flow, options?: object, suppressions?: string[]): RuleResult;

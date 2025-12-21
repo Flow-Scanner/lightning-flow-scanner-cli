@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class UnusedVariable extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "unused-variable",
       name: "UnusedVariable",
       label: "Unused Variable",
       description:

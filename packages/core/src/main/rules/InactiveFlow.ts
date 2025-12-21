@@ -5,6 +5,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class InactiveFlow extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "inactive-flow",
       name: "InactiveFlow",
       label: "Inactive Flow",
       description:

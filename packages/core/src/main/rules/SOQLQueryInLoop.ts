@@ -4,6 +4,7 @@ import { LoopRuleCommon } from "../models/LoopRuleCommon";
 export class SOQLQueryInLoop extends LoopRuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "soql-in-loop",
       description:
         "To prevent exceeding Apex governor limits, it is advisable to consolidate all your SOQL queries at the conclusion of the flow.",
       docRefs: [

@@ -1,3 +1,4 @@
 export interface IRuleConfig {
-  severity?: string;
+  enabled?: boolean;
+  severity?: "error" | "warning" | "note";
 }

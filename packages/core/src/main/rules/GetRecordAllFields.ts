@@ -6,6 +6,7 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
   constructor() {
     super(
       {
+        ruleId: "get-record-all-fields",
         description:
           "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
         docRefs: [

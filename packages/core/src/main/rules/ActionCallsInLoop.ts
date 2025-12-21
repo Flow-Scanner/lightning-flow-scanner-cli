@@ -4,6 +4,7 @@ export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition
   constructor() {
     super(
       {
+        ruleId: "action-call-in-loop",
         description:
           "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilize a single action call containing a collection variable at the end of the loop.",
         docRefs: [

@@ -4,6 +4,7 @@ import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 export class AutoLayout extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
+      ruleId: "missing-auto-layout",
       name: "AutoLayout",
       label: "Auto-Layout Mode",
       description:

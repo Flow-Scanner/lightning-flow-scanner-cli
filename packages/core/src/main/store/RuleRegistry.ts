@@ -1,0 +1,186 @@
+import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import { IRuleConfig } from "../interfaces/IRuleConfig";
+import { IRulesConfig } from "../interfaces/IRulesConfig";
+// Import all rules
+import { ActionCallsInLoop } from "../rules/ActionCallsInLoop";
+import { APIVersion } from "../rules/APIVersion";
+import { AutoLayout } from "../rules/AutoLayout";
+import { CopyAPIName } from "../rules/CopyAPIName";
+import { CyclomaticComplexity } from "../rules/CyclomaticComplexity";
+import { DMLStatementInLoop } from "../rules/DMLStatementInLoop";
+import { DuplicateDMLOperation } from "../rules/DuplicateDMLOperation";
+import { FlowDescription } from "../rules/FlowDescription";
+import { FlowName } from "../rules/FlowName";
+import { GetRecordAllFields } from "../rules/GetRecordAllFields";
+import { HardcodedId } from "../rules/HardcodedId";
+import { HardcodedUrl } from "../rules/HardcodedUrl";
+import { InactiveFlow } from "../rules/InactiveFlow";
+import { MissingFaultPath } from "../rules/MissingFaultPath";
+import { MissingNullHandler } from "../rules/MissingNullHandler";
+import { ProcessBuilder } from "../rules/ProcessBuilder";
+import { RecursiveAfterUpdate } from "../rules/RecursiveAfterUpdate";
+import { SameRecordFieldUpdates } from "../rules/SameRecordFieldUpdates";
+import { SOQLQueryInLoop } from "../rules/SOQLQueryInLoop";
+import { TriggerOrder } from "../rules/TriggerOrder";
+import { UnconnectedElement } from "../rules/UnconnectedElement";
+import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
+import { UnusedVariable } from "../rules/UnusedVariable";
+import { MissingMetadataDescription } from "../rules/MissingMetadataDescription";
+import { MissingRecordTriggerFilter } from "../rules/MissingRecordTriggerFilter";
+import { TransformInsteadOfLoop } from "../rules/TransformInsteadOfLoop";
+import { RecordIdAsString } from "../rules/RecordIdAsString";
+
+type RuleConstructor = new () => IRuleDefinition;
+
+interface RuleRegistryEntry {
+  ruleId: string;
+  ruleClass: RuleConstructor;
+  legacyName: string;
+  isBeta: boolean;
+}
+
+class RuleRegistry {
+  private rules: Map<string, RuleRegistryEntry> = new Map();
+  private legacyNameMap: Map<string, string> = new Map();
+
+  register(
+    ruleId: string,
+    ruleClass: RuleConstructor,
+    legacyName: string,
+    isBeta: boolean = false
+  ): void {
+    const entry: RuleRegistryEntry = {
+      ruleId,
+      ruleClass,
+      legacyName,
+      isBeta,
+    };
+    this.rules.set(ruleId, entry);
+    this.legacyNameMap.set(legacyName, ruleId);
+  }
+
+  get(idOrLegacyName: string): RuleRegistryEntry | undefined {
+    let entry = this.rules.get(idOrLegacyName);
+    if (!entry) {
+      const ruleId = this.legacyNameMap.get(idOrLegacyName);
+      if (ruleId) {
+        entry = this.rules.get(ruleId);
+      }
+    }
+    return entry;
+  }
+
+  getAllRuleIds(includeBeta: boolean = false): string[] {
+    return Array.from(this.rules.values())
+      .filter(entry => includeBeta || !entry.isBeta)
+      .map(entry => entry.ruleId);
+  }
+
+  has(idOrLegacyName: string): boolean {
+    return this.get(idOrLegacyName) !== undefined;
+  }
+
+  createInstance(idOrLegacyName: string): IRuleDefinition {
+    const entry = this.get(idOrLegacyName);
+    if (!entry) {
+      throw new Error(`Rule not found: ${idOrLegacyName}`);
+    }
+    return new entry.ruleClass();
+  }
+
+  getRules(
+    ruleConfig?: Map<string, unknown>,
+    options?: IRulesConfig
+  ): IRuleDefinition[] {
+    const includeBeta = options?.betaMode === true || options?.betamode === true;
+    const rulesMode = options?.ruleMode || "merged";
+    const selectedRules: IRuleDefinition[] = [];
+
+    if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
+      for (const key of ruleConfig.keys()) {
+        const entry = this.get(key);
+        if (!entry) continue;
+
+        const config = ruleConfig.get(key) as IRuleConfig | undefined;
+        if (config?.enabled === false) continue;
+
+        const rule = this.createInstance(entry.ruleId);
+        if (config?.severity) {
+          rule.severity = config.severity;
+        }
+
+        selectedRules.push(rule);
+      }
+      return selectedRules;
+    }
+
+    const allRuleIds = this.getAllRuleIds(includeBeta);
+
+    for (const ruleId of allRuleIds) {
+      const rule = this.createInstance(ruleId);
+
+      const config = (
+        ruleConfig?.get(rule.ruleId) ??
+        ruleConfig?.get(rule.name)
+      ) as IRuleConfig | undefined;
+
+      if (config?.enabled === false) continue;
+      if (config?.severity) {
+        rule.severity = config.severity;
+      }
+
+      selectedRules.push(rule);
+    }
+
+    return selectedRules;
+  }
+
+  getRulesByNames(ruleNames?: string[], options?: IRulesConfig): IRuleDefinition[] {
+    if (!ruleNames || ruleNames.length === 0) {
+      return this.getRules(undefined, options);
+    }
+
+    const config = new Map<string, IRuleConfig>();
+    for (const identifier of ruleNames) {
+      const entry = this.get(identifier);
+      if (entry) {
+        config.set(entry.ruleId, { enabled: true });
+      }
+    }
+
+    return this.getRules(config, { ...options, ruleMode: "isolated" });
+  }
+}
+
+const registry = new RuleRegistry();
+
+registry.register("action-call-in-loop", ActionCallsInLoop, "ActionCallsInLoop");
+registry.register("invalid-api-version", APIVersion, "APIVersion");
+registry.register("missing-auto-layout", AutoLayout, "AutoLayout");
+registry.register("unclear-api-naming", CopyAPIName, "CopyAPIName");
+registry.register("excessive-cyclomatic-complexity", CyclomaticComplexity, "CyclomaticComplexity");
+registry.register("dml-in-loop", DMLStatementInLoop, "DMLStatementInLoop");
+registry.register("duplicate-dml", DuplicateDMLOperation, "DuplicateDMLOperation");
+registry.register("missing-flow-description", FlowDescription, "FlowDescription");
+registry.register("invalid-naming-convention", FlowName, "FlowName");
+registry.register("get-record-all-fields", GetRecordAllFields, "GetRecordAllFields");
+registry.register("hardcoded-id", HardcodedId, "HardcodedId");
+registry.register("hardcoded-url", HardcodedUrl, "HardcodedUrl");
+registry.register("inactive-flow", InactiveFlow, "InactiveFlow");
+registry.register("missing-fault-path", MissingFaultPath, "MissingFaultPath");
+registry.register("missing-null-handler", MissingNullHandler, "MissingNullHandler");
+registry.register("process-builder-usage", ProcessBuilder, "ProcessBuilder");
+registry.register("recursive-record-update", RecursiveAfterUpdate, "RecursiveAfterUpdate");
+registry.register("same-record-field-updates", SameRecordFieldUpdates, "SameRecordFieldUpdates");
+registry.register("soql-in-loop", SOQLQueryInLoop, "SOQLQueryInLoop");
+registry.register("unspecified-trigger-order", TriggerOrder, "TriggerOrder");
+registry.register("unreachable-element", UnconnectedElement, "UnconnectedElement");
+registry.register("unsafe-running-context", UnsafeRunningContext, "UnsafeRunningContext");
+registry.register("unused-variable", UnusedVariable, "UnusedVariable");
+
+registry.register("missing-metadata-description", MissingMetadataDescription, "MissingMetadataDescription", true);
+registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
+registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
+registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", true);
+
+export const ruleRegistry = registry;

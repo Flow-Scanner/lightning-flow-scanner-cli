@@ -12,6 +12,7 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
   constructor() {
     super(
       {
+        ruleId: "same-record-field-updates",
         name: "SameRecordFieldUpdates",
         label: "Same Record Field Updates",
         description:

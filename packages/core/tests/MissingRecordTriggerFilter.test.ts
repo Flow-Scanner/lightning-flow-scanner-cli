@@ -27,7 +27,7 @@ describe("MissingRecordTriggerFilter", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results.length).toBeGreaterThan(0);
-    const ruleResult = results[0].ruleResults.find(r => r.ruleName === "MissingFilterRecordTrigger");
+    const ruleResult = results[0].ruleResults.find(r => r.ruleName === "MissingRecordTriggerFilter");
     expect(ruleResult).toBeDefined();
     expect(ruleResult.occurs).toBe(true);
     expect(ruleResult.details.length).toBeGreaterThan(0);
@@ -47,7 +47,7 @@ describe("MissingRecordTriggerFilter", () => {
     };
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     expect(results.length).toBeGreaterThan(0);
-    const ruleResult = results[0].ruleResults.find(r => r.ruleName === "MissingFilterRecordTrigger");
+    const ruleResult = results[0].ruleResults.find(r => r.ruleName === "MissingRecordTriggerFilter");
     expect(ruleResult).toBeDefined();
     expect(ruleResult.occurs).toBe(false);
   });

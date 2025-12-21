@@ -25,7 +25,13 @@ export class RuleInfo {
   public label: string;
 
   /**
-   * The unique name identifier for the rule.
+   * Stable public identifier used for config, suppression, and reporting.
+   */
+  public ruleId: string;
+
+  /**
+   * Legacy rule name (class-based identifier).
+   * Kept for backward compatibility.
    */
   public name: string;
 
@@ -34,10 +40,4 @@ export class RuleInfo {
    * Use defined types in @see FlowType
    */
   public supportedTypes: string[];
-
-  /**
-   * (Optional) The element that can be used to suppress this rule.
-   * @see AdvancedSuppression
-   */
-  public suppressionElement?: string;
 }
