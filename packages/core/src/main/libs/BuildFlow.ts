@@ -1,5 +1,3 @@
-import { convertFlowNodes } from "./ConvertFlowNodes";
-
 export function BuildFlow(nodesToMerge) {
   let res = {};
   for (const nodeToMerge of nodesToMerge) {
@@ -8,4 +6,9 @@ export function BuildFlow(nodesToMerge) {
     res = convertFlowNodes(res, nodesOfType, subtype);
   }
   return res;
+}
+
+function convertFlowNodes(obj, nodes, key) {
+  obj[key] = nodes.map((node) => node.element);
+  return obj;
 }
