@@ -52,7 +52,7 @@
 
 > Want to code a new rule? → See [How to Write a Rule](docs/write-a-rule.md)
 
-### Action Calls In Loop  
+### Action Call In A Loop
 _[ActionCallsInLoop](packages/core/src/main/rules/ActionCallsInLoop.ts)_ – To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.  
 **Rule ID:** `action-call-in-loop`  
 **Severity:** 🔴 *Error*
