@@ -1,14 +1,14 @@
 {
   "name": "lightning-flow-scanner-action",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "A GitHub Action for automated analysis and optimization of Salesforce Flow in Pull Requests. Scans metadata for 20+ issues such as hardcoded IDs, unsafe contexts, inefficient SOQL/DML operations, recursion risks, and missing fault handling.",
   "main": "dist/index.js",
   "private": true,
   "scripts": {
     "build": "ncc build src/action.js -o dist --source-map",
-    "version:patch": "npm version patch --no-git-tag-version",
-    "version:minor": "npm version minor --no-git-tag-version",
-    "version:major": "npm version major --no-git-tag-version"
+    "version:patch": "pnpm version patch --no-git-tag-version",
+    "version:minor": "pnpm version minor --no-git-tag-version",
+    "version:major": "pnpm version major --no-git-tag-version"
   },
   "license": "MIT",
   "dependencies": {
