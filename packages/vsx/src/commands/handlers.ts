@@ -12,10 +12,17 @@ import * as path from 'path';
 const toFsPaths = (uris: vscode.Uri[]): string[] => uris.map(u => u.fsPath);
 const toUris = (paths: string[]): vscode.Uri[] => paths.map(p => vscode.Uri.file(p));
 
+type Severity = "error" | "warning" | "note";
+
 interface RuleEntry {
-  severity: string;
+  severity: Severity;
   expression?: string;
   enabled?: boolean;
+}
+
+function normalizeSeverity(s: unknown): Severity {
+  if (s === "error" || s === "warning" || s === "note") return s;
+  return "warning"; // default
 }
 
 type RuleConfig = Record<string, RuleEntry>;
@@ -50,7 +57,7 @@ export default class Commands {
       if (typeof rule === 'object' && rule !== null) {
         const r = rule as Record<string, unknown>;
         rules[name] = {
-          severity: String(r.severity ?? 'warning'),
+          severity: normalizeSeverity(r.severity),
           expression: r.expression !== undefined ? String(r.expression) : undefined,
           enabled: r.enabled !== undefined ? !!r.enabled : undefined
         };
@@ -97,62 +104,61 @@ export default class Commands {
     }
     const workspacePath = ws.uri.fsPath;
     const configPath = path.join(workspacePath, '.flow-scanner.yml');
-    // Check if config file exists and offer to open it
+
     try {
       await vscode.workspace.fs.stat(vscode.Uri.file(configPath));
-      // File exists - ask user what they want to do
       const choice = await vscode.window.showQuickPick(
         ['Open Config File', 'Reconfigure Rules'],
-        {
-          placeHolder: 'Configuration file exists. What would you like to do?'
-        }
+        { placeHolder: 'Configuration file exists. What would you like to do?' }
       );
       if (choice === undefined) return false;
       if (choice === 'Open Config File') {
         const doc = await vscode.workspace.openTextDocument(configPath);
         await vscode.window.showTextDocument(doc);
-        return false; // User just opened file, didn't configure
+        return false;
       }
-      // Otherwise continue with reconfiguration
     } catch {
-      // File doesn't exist, continue with normal flow
+      // file doesn't exist, continue
     }
+
     const config = await this.loadConfig(workspacePath);
     let rules = config.rules;
     let currentBetamode = config.betamode;
     let currentRuleMode = config.ruleMode;
-    const modeOptions = currentRuleMode === 'merged' ? ['Merged (run all, override selected)', 'Isolated (run only selected)'] : ['Isolated (run only selected)', 'Merged (run all, override selected)'];
-    const modeChoice = await vscode.window.showQuickPick(modeOptions, {
-      placeHolder: 'Select rule mode'
-    });
+
+    const modeOptions = currentRuleMode === 'merged'
+      ? ['Merged (run all, override selected)', 'Isolated (run only selected)']
+      : ['Isolated (run only selected)', 'Merged (run all, override selected)'];
+
+    const modeChoice = await vscode.window.showQuickPick(modeOptions, { placeHolder: 'Select rule mode' });
     if (modeChoice === undefined) return false;
+
     const ruleMode: "merged" | "isolated" = modeChoice.startsWith('Merged') ? 'merged' : 'isolated';
     const betaOptions = currentBetamode ? ['Yes', 'No'] : ['No', 'Yes'];
-    const includeBeta = await vscode.window.showQuickPick(betaOptions, {
-      placeHolder: 'Do you want to opt-in for beta rules?'
-    });
+    const includeBeta = await vscode.window.showQuickPick(betaOptions, { placeHolder: 'Do you want to opt-in for beta rules?' });
     if (includeBeta === undefined) return false;
     const betamode = includeBeta === 'Yes';
+
     const allRules = core.getRules(undefined, { betaMode: betamode });
     const currentNames = Object.keys(rules);
-    // Preselect all rules if no config exists
     const isEmptyConfig = currentNames.length === 0;
+
     const items = allRules.map(rule => ({
       label: rule.label,
       description: rule.name,
       picked: isEmptyConfig ? true : (rules[rule.name]?.enabled ?? true),
     }));
-    const selected = await vscode.window.showQuickPick(items, {
-      canPickMany: true,
-      placeHolder: 'Select rules to enable/disable',
-    });
+
+    const selected = await vscode.window.showQuickPick(items, { canPickMany: true, placeHolder: 'Select rules to enable/disable' });
     if (selected === undefined) return false;
+
     const selectedNames = new Set(selected.map(s => s.description!));
     const newRules: RuleConfig = {};
+
     if (ruleMode === 'isolated') {
       for (const item of selected) {
         const def = allRules.find(r => r.name === item.description)!;
-        const severity = rules[def.name]?.severity ?? def.severity ?? 'warning';
+        const severity = normalizeSeverity(rules[def.name]?.severity ?? def.severity ?? 'warning');
         const expression = rules[def.name]?.expression;
         newRules[def.name] = { severity };
         if (expression !== undefined) newRules[def.name].expression = expression;
@@ -162,12 +168,13 @@ export default class Commands {
         const name = def.name;
         const isSelected = selectedNames.has(name);
         const ruleConfig = rules[name];
-        const severity = ruleConfig?.severity ?? def.severity ?? 'warning';
+        const severity = normalizeSeverity(ruleConfig?.severity ?? def.severity ?? 'warning');
         const expression = ruleConfig?.expression;
         const enabled = isSelected;
-        const hasCustomSeverity = severity !== (def.severity ?? 'warning');
+        const hasCustomSeverity = severity !== normalizeSeverity(def.severity ?? 'warning');
         const hasCustomExpression = expression !== undefined;
         const hasCustomEnabled = !enabled;
+
         if (hasCustomSeverity || hasCustomExpression || hasCustomEnabled) {
           newRules[name] = { severity };
           if (expression !== undefined) newRules[name].expression = expression;
@@ -175,7 +182,9 @@ export default class Commands {
         }
       }
     }
+
     let changed = false;
+
     if (selectedNames.has('FlowName')) {
       const def = allRules.find(r => r.name === 'FlowName')!;
       const current = newRules.FlowName?.expression || '';
@@ -185,11 +194,12 @@ export default class Commands {
         value: current || '[A-Za-z0-9]+_[A-Za-z0-9]+',
       });
       if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules.FlowName) newRules.FlowName = { severity: def.severity ?? 'warning' };
+        if (!newRules.FlowName) newRules.FlowName = { severity: normalizeSeverity(def.severity ?? 'warning') };
         newRules.FlowName.expression = expr.trim() || undefined;
         changed = true;
       }
     }
+
     if (selectedNames.has('APIVersion')) {
       const def = allRules.find(r => r.name === 'APIVersion')!;
       const current = newRules.APIVersion?.expression || '';
@@ -199,23 +209,25 @@ export default class Commands {
         value: current || '>=50',
       });
       if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules.APIVersion) newRules.APIVersion = { severity: def.severity ?? 'warning' };
+        if (!newRules.APIVersion) newRules.APIVersion = { severity: normalizeSeverity(def.severity ?? 'warning') };
         newRules.APIVersion.expression = expr.trim() || undefined;
         changed = true;
       }
     }
+
     if (changed || Object.keys(newRules).length !== currentNames.length || betamode !== currentBetamode || ruleMode !== currentRuleMode) {
       await this.saveConfig(workspacePath, newRules, betamode, ruleMode);
       vscode.window.showInformationMessage('Configuration saved successfully!');
-      return true; // Configuration was completed
+      return true;
     }
-    return false; // No changes made
+
+    return false;
   }
 
   private async scanFlows(options?: {
-  ruleMode?: 'merged' | 'isolated';
-  betaMode?: boolean;
-  overrideConfig?: boolean;
+    ruleMode?: 'merged' | 'isolated';
+    betaMode?: boolean;
+    overrideConfig?: boolean;
   }) {
     const selectedUris = await this.selectFlows('Select flow files or folder to scan:');
     if (!selectedUris) return;
@@ -230,11 +242,11 @@ export default class Commands {
     // Apply sidebar overwrites if enabled
     if (options?.overrideConfig) {
       OutputChannel.getInstance().logChannel.debug('Applying sidebar scan options:', options);
-      
+
       if (options.ruleMode !== undefined) {
         config.ruleMode = options.ruleMode;
       }
-      
+
       if (options.betaMode !== undefined) {
         config.betamode = options.betaMode;
       }
