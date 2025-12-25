@@ -27,7 +27,6 @@
 
 <p align="center"><i>Detect unsafe contexts, queries in loops, hardcoded IDs, and more to optimize Salesforce Flows</i></p>
 
-
 <p align="center">
   <a href="https://github.com/Flow-Scanner">
     <img src="https://raw.githubusercontent.com/Flow-Scanner/Lightning-Flow-Scanner/main/docs/media/action.gif"/>
@@ -133,7 +132,7 @@ Scan all flows on every push to selected branches.
 
 > Want to code a new rule? → See [How to Write a Rule](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/docs/write-a-rule.md)
 
-### Action Calls In Loop  
+### Action Call In A Loop
 _[ActionCallsInLoop](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/ActionCallsInLoop.ts)_ – To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.  
 **Rule ID:** `action-call-in-loop`  
 **Severity:** 🔴 *Error*
@@ -272,9 +271,8 @@ _[UnusedVariable](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/ma
 
 It is recommend to configure and define:
 
-- The rules to be executed.
 - The severity of violating any specific rule.
-- Rule properties such as REGEX expressions.
+- Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
 
 ```json
