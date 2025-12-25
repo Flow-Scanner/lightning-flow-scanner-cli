@@ -20,27 +20,24 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
     options: { expression?: string } | undefined,
     _suppressions: Set<string>
   ): core.Violation[] {
-
     let flowAPIVersionNumber: number | null = null;
     if (flow.xmldata.apiVersion) {
       flowAPIVersionNumber = +flow.xmldata.apiVersion;
     }
 
-    // No API version
-    if (!flowAPIVersionNumber) {
-      return [
-        new core.Violation(
-          new core.FlowAttribute("API Version <49", "apiVersion", "<49")
-        )
-      ];
-    }
-
     // Custom logic
     if (options?.expression) {
+      // No API version with custom expression
+      if (!flowAPIVersionNumber) {
+        return [
+          new core.Violation(
+            new core.FlowAttribute("apiVersion<50", "apiVersion", "<50")
+          )
+        ];
+      }
 
       // Match something like: >= 58
       const match = options.expression.match(/^\s*(>=|<=|>|<|===|!==)\s*(\d+)\s*$/);
-
       if (!match) {
         // Invalid expression format
         return [
@@ -53,12 +50,9 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
           )
         ];
       }
-
       const [, operator, versionStr] = match;
       const target = parseFloat(versionStr);
-
       let isValid = true;
-
       switch (operator) {
         case ">": isValid = flowAPIVersionNumber > target; break;
         case "<": isValid = flowAPIVersionNumber < target; break;
@@ -67,7 +61,6 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
         case "===": isValid = flowAPIVersionNumber === target; break;
         case "!==": isValid = flowAPIVersionNumber !== target; break;
       }
-
       if (!isValid) {
         return [
           new core.Violation(
@@ -79,9 +72,21 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
           )
         ];
       }
+    } else {
+      // Default: no API version OR version below 50
+      if (!flowAPIVersionNumber || flowAPIVersionNumber < 50) {
+        return [
+          new core.Violation(
+            new core.FlowAttribute(
+              flowAPIVersionNumber ? `${flowAPIVersionNumber}` : "apiVersion<50",
+              "apiVersion",
+              "<50"
+            )
+          )
+        ];
+      }
     }
 
     return [];
   }
-
 }
