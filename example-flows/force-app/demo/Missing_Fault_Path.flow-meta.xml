@@ -14,10 +14,10 @@
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <description>This flow demonstrates a violation of the rule &quot;Missing Error Handler&quot;.</description>
+    <description>This flow demonstrates a violation of the rule &quot;Missing Fault Path&quot;.</description>
     <environments>Default</environments>
-    <interviewLabel>Missing Error Handler {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Missing Error Handler</label>
+    <interviewLabel>Missing Fault Path {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Missing Fault Path</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
