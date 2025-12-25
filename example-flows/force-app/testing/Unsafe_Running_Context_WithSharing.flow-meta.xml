@@ -38,7 +38,7 @@
         <object>Contact</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
-    <runInMode>SystemModeWitSharing</runInMode>
+    <runInMode>SystemModeWithSharing</runInMode>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
