@@ -177,27 +177,35 @@ function syncPackageReadme(packagePath, packageName) {
   const lower = packageName.toLowerCase();
   const gifBlock = packageGifs[lower] || '';
 
-  // NEW LOGIC:
-  // We must put the GIF BEFORE the separator, so we reconstruct like this:
-  //
-  // sharedHeader = "<root header>\n\n---\n"
-  //
-  // We want to strip the ending "---\n" from sharedHeader,
-  // insert GIF,
-  // then re-add "---\n"
-  //
-  const sharedParts = sharedHeader.split('---');
-  const sharedHeaderBeforeDash = sharedParts[0].trim(); // everything before the separator
+  // Insert package-specific GIF right before --- with clean, consistent spacing
+  let newHeader = sharedHeader;
 
-  // Build correct header ordering
-  const newHeader =
-    sharedHeaderBeforeDash +         // root badges + banner + slogan
-    '\n\n' +
-    gifBlock +                       // GIF goes BEFORE the separator
-    '\n---\n';                       // separator reinserted
+  const gifBlockTrimmed = (packageGifs[lower] || '').trim();
 
-  // rebuild final readme
-  content = newHeader + afterSeparator;
+  if (gifBlockTrimmed) {
+    // Remove the trailing --- and any whitespace around it
+    newHeader = sharedHeader.replace(/\s*---\s*$/, '').trimEnd();
+
+    // Ensure exactly two blank lines before the GIF
+    newHeader += '\n\n';
+
+    // Add the GIF block
+    newHeader += gifBlockTrimmed + '\n\n';
+
+    // Add the separator with exactly one blank line before it
+    newHeader += '---\n';
+  }
+  // If no GIF (shouldn't happen for your packages), keep original sharedHeader (already ends with \n\n---\n)
+
+  let rebuiltContent = newHeader.trimEnd();  // remove any trailing whitespace from newHeader
+
+  // Add exactly one blank line after ---
+  rebuiltContent += '\n\n';
+
+  // Add the rest of the file, but skip leading blank lines in afterSeparator
+  const trimmedAfter = afterSeparator.trimStart();
+
+  content = rebuiltContent + trimmedAfter;
 
   // 3. Sync shared sections
   content = replaceSection(content, 'Default Rules', defaultRules);
