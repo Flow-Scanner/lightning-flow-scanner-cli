@@ -320,7 +320,7 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 | **[Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner)** | Local development, scratch orgs, CI/CD        | `sf plugins install lightning-flow-scanner`                                                             |
 | **[VS Code Extension](https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx)** | Real-time scanning inside VS Code             | `code --install-extension ForceConfigControl.lightning-flow-scanner-vsx`                               |
 | **[Salesforce App (Managed Package)](https://github.com/Flow-Scanner/lightning-flow-scanner-app)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000008CLlQAM` |
-| **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@action-v2.6.0` |
+| **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@main` |
 | **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](SECURITY.md).
@@ -368,7 +368,7 @@ Add a GitHub workflow file `.github/workflows/scan-flows.yml` to detect issues d
 ```yaml
 - name: Lightning Flow Scan
   id: flowscanner
-  uses: Flow-Scanner/lightning-flow-scanner@action-v2.6.0
+  uses: Flow-Scanner/lightning-flow-scanner@main
 
 - name: Upload SARIF to Code Scanning
   uses: github/codeql-action/upload-sarif@v3
