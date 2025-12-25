@@ -17,7 +17,7 @@ You can:
 | Duplicate_DML_Operation    | DML between screens, allowing backward navigation duplicates.             | DuplicateDMLOperation         |
 | FlowNamingConvention       | Flow with non-descriptive or inconsistent naming.                        | FlowName                      |
 | Hardcoded_Id               | Flow using org-specific hardcoded IDs instead of variables.              | HardcodedId                   |
-| Missing_Error_Handler      | Flow lacking fault paths for error handling.                            | MissingFaultPath              |
+| Missing_Fault_Path      | Flow lacking fault paths for error handling.                            | MissingFaultPath              |
 | Missing_Flow_Description   | Flow without a description for documentation.                           | FlowDescription               |
 | Missing_Null_Handler       | Get Records without null checks post-query.                             | MissingNullHandler            |
 | Outdated_API_Version       | Flow using an old API version (pre-50.0).                               | APIVersion                    |
