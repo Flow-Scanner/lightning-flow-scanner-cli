@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>OCR Flow</description>
     <environments>Default</environments>
     <interviewLabel>OCR Flow {!$Flow.CurrentDateTime}</interviewLabel>
@@ -55,6 +56,7 @@
         <isCollection>false</isCollection>
         <objectType>OpportunityContactRole</objectType>
         <scale>0</scale>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
         <transformValues>
             <transformValueActions>
                 <outputFieldApiName>OpportunityId</outputFieldApiName>

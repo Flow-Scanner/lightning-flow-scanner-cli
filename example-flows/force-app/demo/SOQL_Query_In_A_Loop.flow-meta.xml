@@ -12,6 +12,7 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>notnull</name>
         <label>notnull</label>
@@ -86,7 +87,7 @@
             <targetReference>dosomethingelse</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
-        <filters> 
+        <filters>
             <field>Industry</field>
             <operator>EqualTo</operator>
             <value>
