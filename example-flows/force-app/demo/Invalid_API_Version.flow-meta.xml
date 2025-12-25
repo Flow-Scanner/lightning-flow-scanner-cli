@@ -2,10 +2,10 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>49.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <description>This flow demonstrates a violation of the rule &quot;Outdated API Version&quot;.</description>
+    <description>This flow demonstrates a violation of the rule &quot;Invalid API Version&quot;.</description>
     <environments>Default</environments>
-    <interviewLabel>Outdated API Version {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Outdated API Version</label>
+    <interviewLabel>Invalid API Version {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Invalid API Version</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

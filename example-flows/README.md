@@ -20,7 +20,7 @@ You can:
 | Missing_Fault_Path      | Flow lacking fault paths for error handling.                            | MissingFaultPath              |
 | Missing_Flow_Description   | Flow without a description for documentation.                           | FlowDescription               |
 | Missing_Null_Handler       | Get Records without null checks post-query.                             | MissingNullHandler            |
-| Outdated_API_Version       | Flow using an old API version (pre-50.0).                               | APIVersion                    |
+| Invalid_API_Version       | Flow using an old API version (pre-50.0).                               | APIVersion                    |
 | SOQL_Query_In_A_Loop       | SOQL queries inside loops, hitting limits.                              | SOQLQueryInLoop               |
 | Unreachable_Element        | Flow with unused/unconnected elements.                                  | UnconnectedElement            |
 | Unsafe_Running_Context     | Flow set to System Mode without Sharing.                                | UnsafeRunningContext          |
