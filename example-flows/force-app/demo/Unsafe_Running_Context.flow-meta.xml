@@ -3,8 +3,9 @@
     <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
-    <interviewLabel>test {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>test</label>
+    <description>This flow demonstrates a violation of the rule &quot;Unsafe Running Context&quot;</description>
+    <interviewLabel>Unsafe Running Context {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Unsafe Running Context</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -43,5 +44,5 @@
             <targetReference>testtest</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

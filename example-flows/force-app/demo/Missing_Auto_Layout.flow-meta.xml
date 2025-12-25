@@ -16,20 +16,6 @@
             </value>
         </assignmentItems>
     </assignments>
-    <assignments>
-        <description>example assignment (unused)</description>
-        <name>unused_assignment</name>
-        <label>unused assignment</label>
-        <locationX>835</locationX>
-        <locationY>177</locationY>
-        <assignmentItems>
-            <assignToReference>currentTime</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.InterviewStartTime</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
     <description>This flow demonstrates a violation of the rule &quot;Unconnected Element&quot;.</description>
     <environments>Default</environments>
     <interviewLabel>Unconnected Element {!$Flow.CurrentDateTime}</interviewLabel>
@@ -43,7 +29,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
