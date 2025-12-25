@@ -3,6 +3,19 @@
     <apiVersion>60.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
+        <name>Assignment_2</name>
+        <label>Assignment 2</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>firstuser</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>userRecord</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Set_Error_Message</name>
         <label>Set Error Message</label>
         <locationX>314</locationX>
@@ -18,7 +31,7 @@
     <decisions>
         <name>Check_object_type</name>
         <label>Check object type</label>
-        <locationX>578</locationX>
+        <locationX>314</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -36,26 +49,11 @@
             </connector>
             <label>User</label>
         </rules>
-        <rules>
-            <name>Queue</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>recordId</leftValueReference>
-                <operator>StartsWith</operator>
-                <rightValue>
-                    <stringValue>00G</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_Queue</targetReference>
-            </connector>
-            <label>Queue</label>
-        </rules>
     </decisions>
-    <description>Subflow that throws MissingNullHandler</description>
+    <description>An example flow of violation &quot;Missing Nul Handler&quot;</description>
     <environments>Default</environments>
-    <interviewLabel>Subflow_Missing {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Subflow_MissingNullHandler</label>
+    <interviewLabel>Missing_Null_Handler {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Missing Null Handler</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -76,40 +74,14 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_Queue</name>
-        <label>Get Queue</label>
-        <locationX>578</locationX>
-        <locationY>242</locationY>
-        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Set_Error_Message</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Type</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Queue</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <object>Group</object>
-        <outputReference>queueRecord</outputReference>
-        <queriedFields>Id</queriedFields>
-    </recordLookups>
-    <recordLookups>
         <name>Get_User</name>
         <label>Get User</label>
         <locationX>50</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assignment_2</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Set_Error_Message</targetReference>
         </faultConnector>
@@ -126,7 +98,7 @@
         <queriedFields>Id</queriedFields>
     </recordLookups>
     <start>
-        <locationX>452</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_object_type</targetReference>
@@ -139,6 +111,15 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>assigns first user</description>
+        <name>firstuser</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>User</objectType>
     </variables>
     <variables>
         <name>queueRecord</name>
