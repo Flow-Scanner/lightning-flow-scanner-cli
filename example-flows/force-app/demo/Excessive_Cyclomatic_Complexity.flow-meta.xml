@@ -629,10 +629,10 @@
             <label>outcome26</label>
         </rules>
     </decisions>
-    <description>This flow demonstrates a violation of the rule &apos;CyclomaticComplexity&apos;</description>
+    <description>This flow demonstrates a violation of the rule &apos;Excessive CyclomaticComplexity&apos;</description>
     <environments>Default</environments>
-    <interviewLabel>Cyclomatic {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Cyclomatic Complexity</label>
+    <interviewLabel>Excessive Cyclomatic Complexity {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Excessive Cyclomatic Complexity</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
