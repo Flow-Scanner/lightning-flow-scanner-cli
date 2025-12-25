@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>Single SOQL query with fault handling and null check decision, no loop.</description>
+    <interviewLabel>Get Records Stores All Fields{!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Get Records Stores All Fields</label>
+    <processType>AutoLaunchedFlow</processType>
+    <status>Active</status>
+    <recordLookups>
+        <name>Get_Account_Record</name>
+        <label>Get Account Record</label>
+        <locationX>200</locationX>
+        <locationY>200</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Record_Found</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_Query_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Industry</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>None</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <decisions>
+        <name>Check_Record_Found</name>
+        <label>Check Record Found</label>
+        <locationX>200</locationX>
+        <locationY>320</locationY>
+        <defaultConnectorLabel>No Record Found</defaultConnectorLabel>
+        <rules>
+            <name>Record_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Account_Record</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Record Found</label>
+        </rules>
+    </decisions>
+    <assignments>
+        <name>Set_Query_Error</name>
+        <label>Set Query Error</label>
+        <locationX>400</locationX>
+        <locationY>200</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Query failed or encountered an error</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Account_Record</targetReference>
+        </connector>
+    </start>
+    <variables>
+        <name>errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

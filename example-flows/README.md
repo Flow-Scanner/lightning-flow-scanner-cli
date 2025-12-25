@@ -11,8 +11,8 @@ You can:
 
 | Flow Name                  | Description                                                         | Key Rule(s) Demonstrated      |
 |----------------------------|---------------------------------------------------------------------|-------------------------------|
-| Copy_API_Name              | Flow with copied elements retaining similar API names, reducing readability. | CopyAPIName                   |
-| Cyclomatic_Complexity      | High-complexity Flow with multiple loops/decisions in a single path.        | CyclomaticComplexity          |
+| Unclear_API_Name              | Flow with copied elements retaining similar API names, reducing readability. | CopyAPIName                   |
+| Excessive_Cyclomatic_Complexity      | High-complexity Flow with multiple loops/decisions in a single path.        | CyclomaticComplexity          |
 | DML_Statement_In_A_Loop    | DML operations inside loops, risking governor limits.                    | DMLStatementInLoop            |
 | Duplicate_DML_Operation    | DML between screens, allowing backward navigation duplicates.             | DuplicateDMLOperation         |
 | FlowNamingConvention       | Flow with non-descriptive or inconsistent naming.                        | FlowName                      |
@@ -22,7 +22,7 @@ You can:
 | Missing_Null_Handler       | Get Records without null checks post-query.                             | MissingNullHandler            |
 | Outdated_API_Version       | Flow using an old API version (pre-50.0).                               | APIVersion                    |
 | SOQL_Query_In_A_Loop       | SOQL queries inside loops, hitting limits.                              | SOQLQueryInLoop               |
-| Unconnected_Element        | Flow with unused/unconnected elements.                                  | UnconnectedElement            |
+| Unreachable_Element        | Flow with unused/unconnected elements.                                  | UnconnectedElement            |
 | Unsafe_Running_Context     | Flow set to System Mode without Sharing.                                | UnsafeRunningContext          |
 | Unused_Variable            | Flow declaring variables not referenced.                                | UnusedVariable                |
 

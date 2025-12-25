@@ -4,8 +4,8 @@
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow demonstrates a violation of the rule &quot;Copy API Name&quot;.</description>
     <environments>Default</environments>
-    <interviewLabel>Copy API Name {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Copy API Name</label>
+    <interviewLabel>Unclear API Name {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Unclear API Name</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

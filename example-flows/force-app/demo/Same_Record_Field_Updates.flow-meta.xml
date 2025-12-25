@@ -3,8 +3,8 @@
     <apiVersion>62.0</apiVersion>
     <description>test</description>
     <environments>Default</environments>
-    <interviewLabel>Test Flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Test Flow</label>
+    <interviewLabel>Same Record Field Updates {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Same Record Field Updates</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

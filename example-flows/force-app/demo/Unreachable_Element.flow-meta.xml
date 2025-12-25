@@ -30,10 +30,10 @@
             </value>
         </assignmentItems>
     </assignments>
-    <description>This flow demonstrates a violation of the rule &quot;Unconnected Element&quot;.</description>
+    <description>This flow demonstrates a violation of the rule &quot;Unreachable Element&quot;.</description>
     <environments>Default</environments>
-    <interviewLabel>Unconnected Element {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Unconnected Element</label>
+    <interviewLabel>Unreachable Element {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Unreachable Element</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
