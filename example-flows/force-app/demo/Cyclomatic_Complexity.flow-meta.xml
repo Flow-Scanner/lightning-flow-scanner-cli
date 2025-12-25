@@ -7,6 +7,9 @@
         <locationY>434</locationY>
         <actionName>FeedItem.NewTaskFromFeedItem</actionName>
         <actionType>quickAction</actionType>
+        <faultConnector>
+            <targetReference>assignErrorMessage2</targetReference>
+        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>contextId</name>
@@ -15,10 +18,24 @@
             </value>
         </inputParameters>
         <nameSegment>FeedItem.NewTaskFromFeedItem</nameSegment>
-        <versionSegment>1</versionSegment>
+        <offset>0</offset>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>assigns error message</description>
+        <name>assignErrorMessage2</name>
+        <label>assignErrorMessage2</label>
+        <locationX>5858</locationX>
+        <locationY>542</locationY>
+        <assignmentItems>
+            <assignToReference>errormessagecc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
     <assignments>
         <name>assignvalue1</name>
         <label>assignvalue1</label>
@@ -643,6 +660,17 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <description>an error message for cc rule</description>
+        <name>errormessagecc</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>error</stringValue>
+        </value>
+    </variables>
     <variables>
         <name>testvar</name>
         <dataType>Number</dataType>
