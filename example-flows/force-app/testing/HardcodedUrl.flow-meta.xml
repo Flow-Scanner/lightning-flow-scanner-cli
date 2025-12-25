@@ -41,14 +41,6 @@
             <name>FlowHardcodedUrl</name>
             <fieldText>&lt;p&gt;{!HardcodedURL}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
