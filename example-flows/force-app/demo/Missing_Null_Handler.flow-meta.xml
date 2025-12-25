@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow demonstrates a violation of the rule &quot;Missing Null Handler&quot;.</description>
     <environments>Default</environments>
     <interviewLabel>Missing Null Handlers {!$Flow.CurrentDateTime}</interviewLabel>

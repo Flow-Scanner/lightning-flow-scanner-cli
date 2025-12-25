@@ -12,11 +12,24 @@ export class Flow {
    * Metadata Tags of Salesforce Flow Attributes
    */
   public static readonly ATTRIBUTE_TAGS = [
-    "description", "apiVersion", "processMetadataValues", "processType",
-    "interviewLabel", "label", "status", "runInMode", "startElementReference",
-    "isTemplate", "fullName", "timeZoneSidKey",
-    "isAdditionalPermissionRequiredToRun", "migratedFromWorkflowRuleName",
-    "triggerOrder", "environments", "segment",
+    "apiVersion",
+    "areMetricsLoggedToDataCloud",
+    "description",
+    "environments",
+    "fullName",
+    "interviewLabel",
+    "isAdditionalPermissionRequiredToRun",
+    "isTemplate",
+    "label",
+    "migratedFromWorkflowRuleName",
+    "processMetadataValues",
+    "processType",
+    "runInMode",
+    "segment",
+    "startElementReference",
+    "status",
+    "timeZoneSidKey",
+    "triggerOrder"
   ] as const;
 
   /**

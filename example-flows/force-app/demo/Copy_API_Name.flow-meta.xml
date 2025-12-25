@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow demonstrates a violation of the rule &quot;Copy API Name&quot;.</description>
     <environments>Default</environments>
     <interviewLabel>Copy API Name {!$Flow.CurrentDateTime}</interviewLabel>

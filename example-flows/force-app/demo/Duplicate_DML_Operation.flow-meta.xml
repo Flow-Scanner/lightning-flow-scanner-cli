@@ -18,6 +18,7 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow demonstrates a violation of the rule &quot;Duplicate DML Operation&quot;.</description>
     <environments>Default</environments>
     <interviewLabel>Duplicate DML Operation {!$Flow.CurrentDateTime}</interviewLabel>
@@ -78,6 +79,14 @@
             <fieldText>account name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
