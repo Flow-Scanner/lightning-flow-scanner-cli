@@ -214551,6 +214551,219 @@ function getDefaultIconConfig() {
 
 /***/ }),
 
+/***/ 9287:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "ruleRegistry", ({
+    enumerable: true,
+    get: function() {
+        return ruleRegistry;
+    }
+}));
+const _ActionCallsInLoop = __nccwpck_require__(2971);
+const _APIVersion = __nccwpck_require__(8385);
+const _AutoLayout = __nccwpck_require__(8648);
+const _CopyAPIName = __nccwpck_require__(1397);
+const _CyclomaticComplexity = __nccwpck_require__(5371);
+const _DMLStatementInLoop = __nccwpck_require__(2706);
+const _DuplicateDMLOperation = __nccwpck_require__(5354);
+const _FlowDescription = __nccwpck_require__(2211);
+const _FlowName = __nccwpck_require__(6146);
+const _GetRecordAllFields = __nccwpck_require__(2500);
+const _HardcodedId = __nccwpck_require__(5232);
+const _HardcodedUrl = __nccwpck_require__(2948);
+const _InactiveFlow = __nccwpck_require__(3196);
+const _MissingFaultPath = __nccwpck_require__(8726);
+const _MissingNullHandler = __nccwpck_require__(9262);
+const _ProcessBuilder = __nccwpck_require__(6565);
+const _RecursiveAfterUpdate = __nccwpck_require__(546);
+const _SameRecordFieldUpdates = __nccwpck_require__(4556);
+const _SOQLQueryInLoop = __nccwpck_require__(2593);
+const _TriggerOrder = __nccwpck_require__(1793);
+const _UnconnectedElement = __nccwpck_require__(5055);
+const _UnsafeRunningContext = __nccwpck_require__(257);
+const _UnusedVariable = __nccwpck_require__(8519);
+const _MissingMetadataDescription = __nccwpck_require__(104);
+const _MissingRecordTriggerFilter = __nccwpck_require__(1312);
+const _TransformInsteadOfLoop = __nccwpck_require__(8296);
+const _RecordIdAsString = __nccwpck_require__(6920);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+let RuleRegistry = class RuleRegistry {
+    register(ruleId, ruleClass, legacyName, isBeta = false) {
+        const entry = {
+            ruleId,
+            ruleClass,
+            legacyName,
+            isBeta
+        };
+        this.rules.set(ruleId, entry);
+        this.legacyNameMap.set(legacyName, ruleId);
+    }
+    get(idOrLegacyName) {
+        let entry = this.rules.get(idOrLegacyName);
+        if (!entry) {
+            const ruleId = this.legacyNameMap.get(idOrLegacyName);
+            if (ruleId) {
+                entry = this.rules.get(ruleId);
+            }
+        }
+        return entry;
+    }
+    getAllRuleIds(includeBeta = false) {
+        return Array.from(this.rules.values()).filter((entry)=>includeBeta || !entry.isBeta).map((entry)=>entry.ruleId);
+    }
+    has(idOrLegacyName) {
+        return this.get(idOrLegacyName) !== undefined;
+    }
+    createInstance(idOrLegacyName) {
+        const entry = this.get(idOrLegacyName);
+        if (!entry) {
+            throw new Error(`Rule not found: ${idOrLegacyName}`);
+        }
+        return new entry.ruleClass();
+    }
+    getRules(ruleConfig, options) {
+        const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
+        const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
+        const selectedRules = [];
+        if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
+            for (const key of ruleConfig.keys()){
+                const entry = this.get(key);
+                if (!entry) continue;
+                const config = ruleConfig.get(key);
+                if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+                const rule = this.createInstance(entry.ruleId);
+                if (config === null || config === void 0 ? void 0 : config.severity) {
+                    rule.severity = config.severity;
+                }
+                selectedRules.push(rule);
+            }
+            return selectedRules;
+        }
+        const allRuleIds = this.getAllRuleIds(includeBeta);
+        for (const ruleId of allRuleIds){
+            const rule = this.createInstance(ruleId);
+            var _ruleConfig_get;
+            const config = (_ruleConfig_get = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.ruleId)) !== null && _ruleConfig_get !== void 0 ? _ruleConfig_get : ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.name);
+            if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
+            if (config === null || config === void 0 ? void 0 : config.severity) {
+                rule.severity = config.severity;
+            }
+            selectedRules.push(rule);
+        }
+        return selectedRules;
+    }
+    getRulesByNames(ruleNames, options) {
+        if (!ruleNames || ruleNames.length === 0) {
+            return this.getRules(undefined, options);
+        }
+        const config = new Map();
+        for (const identifier of ruleNames){
+            const entry = this.get(identifier);
+            if (entry) {
+                config.set(entry.ruleId, {
+                    enabled: true
+                });
+            }
+        }
+        return this.getRules(config, _object_spread_props(_object_spread({}, options), {
+            ruleMode: "isolated"
+        }));
+    }
+    constructor(){
+        _define_property(this, "rules", new Map());
+        _define_property(this, "legacyNameMap", new Map());
+    }
+};
+const registry = new RuleRegistry();
+registry.register("action-call-in-loop", _ActionCallsInLoop.ActionCallsInLoop, "ActionCallsInLoop");
+registry.register("invalid-api-version", _APIVersion.APIVersion, "APIVersion");
+registry.register("missing-auto-layout", _AutoLayout.AutoLayout, "AutoLayout");
+registry.register("unclear-api-naming", _CopyAPIName.CopyAPIName, "CopyAPIName");
+registry.register("excessive-cyclomatic-complexity", _CyclomaticComplexity.CyclomaticComplexity, "CyclomaticComplexity");
+registry.register("dml-in-loop", _DMLStatementInLoop.DMLStatementInLoop, "DMLStatementInLoop");
+registry.register("duplicate-dml", _DuplicateDMLOperation.DuplicateDMLOperation, "DuplicateDMLOperation");
+registry.register("missing-flow-description", _FlowDescription.FlowDescription, "FlowDescription");
+registry.register("invalid-naming-convention", _FlowName.FlowName, "FlowName");
+registry.register("get-record-all-fields", _GetRecordAllFields.GetRecordAllFields, "GetRecordAllFields");
+registry.register("hardcoded-id", _HardcodedId.HardcodedId, "HardcodedId");
+registry.register("hardcoded-url", _HardcodedUrl.HardcodedUrl, "HardcodedUrl");
+registry.register("inactive-flow", _InactiveFlow.InactiveFlow, "InactiveFlow");
+registry.register("missing-fault-path", _MissingFaultPath.MissingFaultPath, "MissingFaultPath");
+registry.register("missing-null-handler", _MissingNullHandler.MissingNullHandler, "MissingNullHandler");
+registry.register("process-builder-usage", _ProcessBuilder.ProcessBuilder, "ProcessBuilder");
+registry.register("recursive-record-update", _RecursiveAfterUpdate.RecursiveAfterUpdate, "RecursiveAfterUpdate");
+registry.register("same-record-field-updates", _SameRecordFieldUpdates.SameRecordFieldUpdates, "SameRecordFieldUpdates");
+registry.register("soql-in-loop", _SOQLQueryInLoop.SOQLQueryInLoop, "SOQLQueryInLoop");
+registry.register("unspecified-trigger-order", _TriggerOrder.TriggerOrder, "TriggerOrder");
+registry.register("unreachable-element", _UnconnectedElement.UnconnectedElement, "UnconnectedElement");
+registry.register("unsafe-running-context", _UnsafeRunningContext.UnsafeRunningContext, "UnsafeRunningContext");
+registry.register("unused-variable", _UnusedVariable.UnusedVariable, "UnusedVariable");
+registry.register("missing-metadata-description", _MissingMetadataDescription.MissingMetadataDescription, "MissingMetadataDescription", true);
+registry.register("missing-record-trigger-filter", _MissingRecordTriggerFilter.MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
+registry.register("transform-instead-of-loop", _TransformInsteadOfLoop.TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
+registry.register("record-id-as-string", _RecordIdAsString.RecordIdAsString, "RecordIdAsString", true);
+const ruleRegistry = registry;
+
+
+/***/ }),
+
 /***/ 9025:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -214733,7 +214946,7 @@ const _Violation = __nccwpck_require__(4323);
 /***/ }),
 
 /***/ 882:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
@@ -214746,15 +214959,18 @@ Object.defineProperty(exports, "BuildFlow", ({
         return BuildFlow;
     }
 }));
-const _ConvertFlowNodes = __nccwpck_require__(1652);
 function BuildFlow(nodesToMerge) {
     let res = {};
     for (const nodeToMerge of nodesToMerge){
         const subtype = nodeToMerge.subtype;
         const nodesOfType = nodesToMerge.filter((node)=>subtype === node.subtype);
-        res = (0, _ConvertFlowNodes.convertFlowNodes)(res, nodesOfType, subtype);
+        res = convertFlowNodes(res, nodesOfType, subtype);
     }
     return res;
+}
+function convertFlowNodes(obj, nodes, key) {
+    obj[key] = nodes.map((node)=>node.element);
+    return obj;
 }
 
 
@@ -214828,28 +215044,6 @@ let Compiler = class Compiler {
         this.visitedElements = new Set();
     }
 };
-
-
-/***/ }),
-
-/***/ 1652:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "convertFlowNodes", ({
-    enumerable: true,
-    get: function() {
-        return convertFlowNodes;
-    }
-}));
-function convertFlowNodes(obj, nodes, key) {
-    obj[key] = nodes.map((node)=>node.element);
-    return obj;
-}
 
 
 /***/ }),
@@ -215325,7 +215519,7 @@ _export(exports, {
         return getRules;
     }
 });
-const _RuleRegistry = __nccwpck_require__(3082);
+const _RuleRegistry = __nccwpck_require__(9287);
 function GetRuleDefinitions(ruleConfig, options) {
     const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
     const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
@@ -215940,23 +216134,24 @@ let Flow = class Flow {
 /**
    * Metadata Tags of Salesforce Flow Attributes
    */ _define_property(Flow, "ATTRIBUTE_TAGS", [
-    "description",
     "apiVersion",
+    "areMetricsLoggedToDataCloud",
+    "description",
+    "environments",
+    "fullName",
+    "interviewLabel",
+    "isAdditionalPermissionRequiredToRun",
+    "isTemplate",
+    "label",
+    "migratedFromWorkflowRuleName",
     "processMetadataValues",
     "processType",
-    "interviewLabel",
-    "label",
-    "status",
     "runInMode",
+    "segment",
     "startElementReference",
-    "isTemplate",
-    "fullName",
+    "status",
     "timeZoneSidKey",
-    "isAdditionalPermissionRequiredToRun",
-    "migratedFromWorkflowRuleName",
-    "triggerOrder",
-    "environments",
-    "segment"
+    "triggerOrder"
 ]);
 /**
    * Metadata Tags of Salesforce Flow Nodes
@@ -217834,14 +218029,14 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
         if (flow.xmldata.apiVersion) {
             flowAPIVersionNumber = +flow.xmldata.apiVersion;
         }
-        // No API version
-        if (!flowAPIVersionNumber) {
-            return [
-                new _internals.Violation(new _internals.FlowAttribute("API Version <49", "apiVersion", "<49"))
-            ];
-        }
         // Custom logic
         if (options === null || options === void 0 ? void 0 : options.expression) {
+            // No API version with custom expression
+            if (!flowAPIVersionNumber) {
+                return [
+                    new _internals.Violation(new _internals.FlowAttribute("apiVersion<50", "apiVersion", "<50"))
+                ];
+            }
             // Match something like: >= 58
             const match = options.expression.match(/^\s*(>=|<=|>|<|===|!==)\s*(\d+)\s*$/);
             if (!match) {
@@ -217876,6 +218071,13 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
             if (!isValid) {
                 return [
                     new _internals.Violation(new _internals.FlowAttribute(`${flowAPIVersionNumber}`, "apiVersion", options.expression))
+                ];
+            }
+        } else {
+            // Default: no API version OR version below 50
+            if (!flowAPIVersionNumber || flowAPIVersionNumber < 50) {
+                return [
+                    new _internals.Violation(new _internals.FlowAttribute(flowAPIVersionNumber ? `${flowAPIVersionNumber}` : "apiVersion<50", "apiVersion", "<50"))
                 ];
             }
         }
@@ -218621,7 +218823,9 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
         const violations = lookupNodes.filter((node)=>{
             const el = node.element;
             const storeAllFields = typeof el === "object" && "storeOutputAutomatically" in el && el.storeOutputAutomatically;
-            const hasQueriedFields = typeof el === "object" && Array.isArray(el.queriedFields) && el.queriedFields.length > 0;
+            // Handle both single field (string) and multiple fields (array)
+            const queriedFields = el.queriedFields;
+            const hasQueriedFields = queriedFields && (Array.isArray(queriedFields) && queriedFields.length > 0 || typeof queriedFields === "string");
             return storeAllFields && !hasQueriedFields;
         }).map((node)=>new _internals.Violation(node));
         return violations;
@@ -219186,9 +219390,12 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
             if (suppressions.has(getElement.name)) continue;
             const elementName = getElement.name;
             const assignNulls = String(getElement.element["assignNullValuesIfNoRecordsFound"]).toLowerCase() === "true";
-            if (!assignNulls) continue;
             const hasFaultConnector = !!getElement.element["faultConnector"] || ((_getElement_connectors = getElement.connectors) === null || _getElement_connectors === void 0 ? void 0 : _getElement_connectors.some((c)=>c.type === "faultConnector"));
-            if (hasFaultConnector) continue;
+            // Only skip if NOT assigning nulls AND has fault connector
+            // (because fault will catch the "no records" error)
+            if (!assignNulls && hasFaultConnector) {
+                continue;
+            }
             const resultReferences = [];
             if (getElement.element["storeOutputAutomatically"]) {
                 resultReferences.push(elementName);
@@ -219206,6 +219413,10 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
                 return resultReferences.some((ref)=>json.includes(`"${ref}"`) || json.includes(`"${ref}.`));
             });
             if (!resultIsUsed) continue;
+            // If assignNullValuesIfNoRecordsFound is TRUE, we need a null check decision
+            if (!assignNulls) {
+                continue;
+            }
             let nullCheckFound = false;
             for (const decision of decisionElements){
                 let rules = decision.element["rules"];
@@ -220323,219 +220534,6 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
         });
     }
 };
-
-
-/***/ }),
-
-/***/ 3082:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "ruleRegistry", ({
-    enumerable: true,
-    get: function() {
-        return ruleRegistry;
-    }
-}));
-const _ActionCallsInLoop = __nccwpck_require__(2971);
-const _APIVersion = __nccwpck_require__(8385);
-const _AutoLayout = __nccwpck_require__(8648);
-const _CopyAPIName = __nccwpck_require__(1397);
-const _CyclomaticComplexity = __nccwpck_require__(5371);
-const _DMLStatementInLoop = __nccwpck_require__(2706);
-const _DuplicateDMLOperation = __nccwpck_require__(5354);
-const _FlowDescription = __nccwpck_require__(2211);
-const _FlowName = __nccwpck_require__(6146);
-const _GetRecordAllFields = __nccwpck_require__(2500);
-const _HardcodedId = __nccwpck_require__(5232);
-const _HardcodedUrl = __nccwpck_require__(2948);
-const _InactiveFlow = __nccwpck_require__(3196);
-const _MissingFaultPath = __nccwpck_require__(8726);
-const _MissingNullHandler = __nccwpck_require__(9262);
-const _ProcessBuilder = __nccwpck_require__(6565);
-const _RecursiveAfterUpdate = __nccwpck_require__(546);
-const _SameRecordFieldUpdates = __nccwpck_require__(4556);
-const _SOQLQueryInLoop = __nccwpck_require__(2593);
-const _TriggerOrder = __nccwpck_require__(1793);
-const _UnconnectedElement = __nccwpck_require__(5055);
-const _UnsafeRunningContext = __nccwpck_require__(257);
-const _UnusedVariable = __nccwpck_require__(8519);
-const _MissingMetadataDescription = __nccwpck_require__(104);
-const _MissingRecordTriggerFilter = __nccwpck_require__(1312);
-const _TransformInsteadOfLoop = __nccwpck_require__(8296);
-const _RecordIdAsString = __nccwpck_require__(6920);
-function _define_property(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _object_spread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _define_property(target, key, source[key]);
-        });
-    }
-    return target;
-}
-function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-        var symbols = Object.getOwnPropertySymbols(object);
-        if (enumerableOnly) {
-            symbols = symbols.filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-            });
-        }
-        keys.push.apply(keys, symbols);
-    }
-    return keys;
-}
-function _object_spread_props(target, source) {
-    source = source != null ? source : {};
-    if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-        ownKeys(Object(source)).forEach(function(key) {
-            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-    }
-    return target;
-}
-let RuleRegistry = class RuleRegistry {
-    register(ruleId, ruleClass, legacyName, isBeta = false) {
-        const entry = {
-            ruleId,
-            ruleClass,
-            legacyName,
-            isBeta
-        };
-        this.rules.set(ruleId, entry);
-        this.legacyNameMap.set(legacyName, ruleId);
-    }
-    get(idOrLegacyName) {
-        let entry = this.rules.get(idOrLegacyName);
-        if (!entry) {
-            const ruleId = this.legacyNameMap.get(idOrLegacyName);
-            if (ruleId) {
-                entry = this.rules.get(ruleId);
-            }
-        }
-        return entry;
-    }
-    getAllRuleIds(includeBeta = false) {
-        return Array.from(this.rules.values()).filter((entry)=>includeBeta || !entry.isBeta).map((entry)=>entry.ruleId);
-    }
-    has(idOrLegacyName) {
-        return this.get(idOrLegacyName) !== undefined;
-    }
-    createInstance(idOrLegacyName) {
-        const entry = this.get(idOrLegacyName);
-        if (!entry) {
-            throw new Error(`Rule not found: ${idOrLegacyName}`);
-        }
-        return new entry.ruleClass();
-    }
-    getRules(ruleConfig, options) {
-        const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
-        const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
-        const selectedRules = [];
-        if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
-            for (const key of ruleConfig.keys()){
-                const entry = this.get(key);
-                if (!entry) continue;
-                const config = ruleConfig.get(key);
-                if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
-                const rule = this.createInstance(entry.ruleId);
-                if (config === null || config === void 0 ? void 0 : config.severity) {
-                    rule.severity = config.severity;
-                }
-                selectedRules.push(rule);
-            }
-            return selectedRules;
-        }
-        const allRuleIds = this.getAllRuleIds(includeBeta);
-        for (const ruleId of allRuleIds){
-            const rule = this.createInstance(ruleId);
-            var _ruleConfig_get;
-            const config = (_ruleConfig_get = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.ruleId)) !== null && _ruleConfig_get !== void 0 ? _ruleConfig_get : ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.name);
-            if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
-            if (config === null || config === void 0 ? void 0 : config.severity) {
-                rule.severity = config.severity;
-            }
-            selectedRules.push(rule);
-        }
-        return selectedRules;
-    }
-    getRulesByNames(ruleNames, options) {
-        if (!ruleNames || ruleNames.length === 0) {
-            return this.getRules(undefined, options);
-        }
-        const config = new Map();
-        for (const identifier of ruleNames){
-            const entry = this.get(identifier);
-            if (entry) {
-                config.set(entry.ruleId, {
-                    enabled: true
-                });
-            }
-        }
-        return this.getRules(config, _object_spread_props(_object_spread({}, options), {
-            ruleMode: "isolated"
-        }));
-    }
-    constructor(){
-        _define_property(this, "rules", new Map());
-        _define_property(this, "legacyNameMap", new Map());
-    }
-};
-const registry = new RuleRegistry();
-registry.register("action-call-in-loop", _ActionCallsInLoop.ActionCallsInLoop, "ActionCallsInLoop");
-registry.register("invalid-api-version", _APIVersion.APIVersion, "APIVersion");
-registry.register("missing-auto-layout", _AutoLayout.AutoLayout, "AutoLayout");
-registry.register("unclear-api-naming", _CopyAPIName.CopyAPIName, "CopyAPIName");
-registry.register("excessive-cyclomatic-complexity", _CyclomaticComplexity.CyclomaticComplexity, "CyclomaticComplexity");
-registry.register("dml-in-loop", _DMLStatementInLoop.DMLStatementInLoop, "DMLStatementInLoop");
-registry.register("duplicate-dml", _DuplicateDMLOperation.DuplicateDMLOperation, "DuplicateDMLOperation");
-registry.register("missing-flow-description", _FlowDescription.FlowDescription, "FlowDescription");
-registry.register("invalid-naming-convention", _FlowName.FlowName, "FlowName");
-registry.register("get-record-all-fields", _GetRecordAllFields.GetRecordAllFields, "GetRecordAllFields");
-registry.register("hardcoded-id", _HardcodedId.HardcodedId, "HardcodedId");
-registry.register("hardcoded-url", _HardcodedUrl.HardcodedUrl, "HardcodedUrl");
-registry.register("inactive-flow", _InactiveFlow.InactiveFlow, "InactiveFlow");
-registry.register("missing-fault-path", _MissingFaultPath.MissingFaultPath, "MissingFaultPath");
-registry.register("missing-null-handler", _MissingNullHandler.MissingNullHandler, "MissingNullHandler");
-registry.register("process-builder-usage", _ProcessBuilder.ProcessBuilder, "ProcessBuilder");
-registry.register("recursive-record-update", _RecursiveAfterUpdate.RecursiveAfterUpdate, "RecursiveAfterUpdate");
-registry.register("same-record-field-updates", _SameRecordFieldUpdates.SameRecordFieldUpdates, "SameRecordFieldUpdates");
-registry.register("soql-in-loop", _SOQLQueryInLoop.SOQLQueryInLoop, "SOQLQueryInLoop");
-registry.register("unspecified-trigger-order", _TriggerOrder.TriggerOrder, "TriggerOrder");
-registry.register("unreachable-element", _UnconnectedElement.UnconnectedElement, "UnconnectedElement");
-registry.register("unsafe-running-context", _UnsafeRunningContext.UnsafeRunningContext, "UnsafeRunningContext");
-registry.register("unused-variable", _UnusedVariable.UnusedVariable, "UnusedVariable");
-registry.register("missing-metadata-description", _MissingMetadataDescription.MissingMetadataDescription, "MissingMetadataDescription", true);
-registry.register("missing-record-trigger-filter", _MissingRecordTriggerFilter.MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
-registry.register("transform-instead-of-loop", _TransformInsteadOfLoop.TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
-registry.register("record-id-as-string", _RecordIdAsString.RecordIdAsString, "RecordIdAsString", true);
-const ruleRegistry = registry;
 
 
 /***/ }),
