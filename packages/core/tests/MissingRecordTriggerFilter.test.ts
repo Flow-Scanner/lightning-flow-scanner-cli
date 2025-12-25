@@ -5,7 +5,7 @@ import * as core from "../src";
 describe("MissingRecordTriggerFilter", () => {
   const violating_uri = path.join(
     __dirname,
-    "../../../example-flows/force-app/demo/Trigger_Without_Filter.flow-meta.xml"
+    "../../../example-flows/force-app/testing/Trigger_Without_Filter.flow-meta.xml"
   );
   
   const fixed_uri = path.join(
