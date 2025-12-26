@@ -83,10 +83,6 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
             ? rule.execute(flow, config, suppressions)
             : rule.execute(flow, undefined, suppressions);
 
-        if (result.severity !== rule.severity) {
-          result.severity = rule.severity as string;
-        }
-
         if (result.details.length > 0) {
           let flowXml = flowXmlCache.get(flow.name);
           if (!flowXml) {
