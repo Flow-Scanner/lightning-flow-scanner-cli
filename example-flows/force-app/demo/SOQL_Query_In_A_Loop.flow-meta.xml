@@ -17,23 +17,26 @@
         </assignmentItems>
     </assignments>
     <decisions>
-        <name>notnull</name>
-        <label>notnull</label>
-        <locationX>352</locationX>
-        <locationY>350</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>notnulln</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>SOQL_Query_Example</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>aLoop</targetReference>
+    <name>notnull</name>
+    <label>notnull</label>
+    <description>
+        Checks whether the SOQL query returned a non-null result before entering the loop.
+    </description>
+    <locationX>352</locationX>
+    <locationY>350</locationY>
+    <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+    <rules>
+        <name>notnulln</name>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>SOQL_Query_Example</leftValueReference>
+            <operator>IsNull</operator>
+            <rightValue>
+                <booleanValue>false</booleanValue>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>aLoop</targetReference>
             </connector>
             <label>notnull</label>
         </rules>
@@ -76,6 +79,9 @@
     <recordLookups>
         <name>SOQL_Query_Example</name>
         <label>SOQL Query Example</label>
+        <description>
+            Queries Account records inside a loop to demonstrate the SOQL Query In A Loop violation.
+        </description>
         <locationX>352</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
@@ -117,6 +123,9 @@
     </variables>
     <variables>
         <name>errorMessage</name>
+        <description>
+            Stores an error message returned when the SOQL query fails.
+        </description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

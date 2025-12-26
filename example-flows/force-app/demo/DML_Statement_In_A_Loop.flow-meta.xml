@@ -84,6 +84,7 @@
     </variables>
     <variables>
         <name>createCase</name>
+        <description>Holds the Case record data to be created in the loop (populated before the Record Create element).</description>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

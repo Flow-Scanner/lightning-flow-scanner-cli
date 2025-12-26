@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
-    <description>Single SOQL query with fault handling and null check decision, no loop.</description>
-    <interviewLabel>Get Records Stores All Fields{!$Flow.CurrentDateTime}</interviewLabel>
+    <description>Single SOQL query with fault handling and null check decision, no loop. Demonstrates proper use of Get Records storing all fields automatically.</description>
+    <interviewLabel>Get Records Stores All Fields {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Get Records Stores All Fields</label>
     <processType>AutoLaunchedFlow</processType>
     <status>Active</status>
     <recordLookups>
         <name>Get_Account_Record</name>
         <label>Get Account Record</label>
+        <description>Retrieves a single Account record where Industry equals 'None'. Stores all fields automatically.</description>
         <locationX>200</locationX>
         <locationY>200</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
@@ -33,6 +34,7 @@
     <decisions>
         <name>Check_Record_Found</name>
         <label>Check Record Found</label>
+        <description>Determines if the Get Records element returned a record (not null) or if no record was found.</description>
         <locationX>200</locationX>
         <locationY>320</locationY>
         <defaultConnectorLabel>No Record Found</defaultConnectorLabel>
@@ -52,6 +54,7 @@
     <assignments>
         <name>Set_Query_Error</name>
         <label>Set Query Error</label>
+        <description>Sets an error message on the fault path when the Get Records query fails.</description>
         <locationX>400</locationX>
         <locationY>200</locationY>
         <assignmentItems>
@@ -71,6 +74,7 @@
     </start>
     <variables>
         <name>errorMessage</name>
+        <description>Output variable that holds an error message if the query fails (used on fault path).</description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

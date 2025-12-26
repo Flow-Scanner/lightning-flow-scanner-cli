@@ -63,6 +63,9 @@
     <status>Active</status>
     <variables>
         <name>currentTime</name>
+        <description>
+            Stores the current date/time value used to demonstrate an unreachable element scenario.
+        </description>
         <dataType>DateTime</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Sets error message when case creation fails</description>
+        <name>Set_Case_Creation_Error</name>
+        <label>Set Case Creation Error</label>
+        <locationX>352</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>urlErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Failed to create case with URL</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>This flow demonstrates a violation of the rule "Hardcoded URL". Hard-coding Salesforce URLs makes flows org-specific and breaks when migrated between sandboxes and production. Use $API formulas, custom labels, or custom metadata instead.</description>
+    <environments>Default</environments>
+    <interviewLabel>Hardcoded URL {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Hardcoded URL</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Case_With_URL</name>
+        <label>Create Case With URL</label>
+        <description>
+            Creates a Case record with a hardcoded URL in the Description field; triggers error assignment on failure.
+        </description>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <faultConnector>
+            <targetReference>Set_Case_Creation_Error</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Follow up on Account</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Please review this account: https://mycompany.lightning.force.com/lightning/r/Account/001Dn00000AbcDefg/view</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Create_Case_With_URL</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Stores error message when operations fail</description>
+        <name>urlErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

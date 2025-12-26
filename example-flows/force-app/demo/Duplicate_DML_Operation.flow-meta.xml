@@ -3,6 +3,7 @@
     <actionCalls>
         <name>create_account_manually</name>
         <label>create account manually</label>
+        <description>Alternative quick action used on fault path when the Record Create fails (demonstrates duplicate DML-like operation in the same transaction).</description>
         <locationX>440</locationX>
         <locationY>350</locationY>
         <actionName>FeedItem.NewTaskFromFeedItem</actionName>
@@ -45,6 +46,7 @@
     <recordCreates>
         <name>createAccount</name>
         <label>createAccount</label>
+        <description>Creates a new Account record using the name entered on the previous screen.</description>
         <locationX>176</locationX>
         <locationY>242</locationY>
         <connector>
@@ -65,6 +67,7 @@
     <screens>
         <name>mock_screen_1</name>
         <label>mock screen 1</label>
+        <description>First screen where the user enters the Account name to be created.</description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>
@@ -86,6 +89,7 @@
     <screens>
         <name>mock_screen_2</name>
         <label>mock screen 2</label>
+        <description>Success screen displayed after the Account is successfully created (or after the fault path).</description>
         <locationX>176</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
@@ -104,6 +108,7 @@
     <status>Active</status>
     <variables>
         <name>Account</name>
+        <description>Holds the Account record created by the Record Create element (automatically stored due to storeOutputAutomatically).</description>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

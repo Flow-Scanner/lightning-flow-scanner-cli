@@ -28,6 +28,9 @@
     <screens>
         <name>mock_screen</name>
         <label>mock screen</label>
+        <description>
+            Mock screen used only to demonstrate an unused variable rule violation.
+        </description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>
@@ -46,6 +49,9 @@
     <status>Active</status>
     <variables>
         <name>anUnusedVariable</name>
+        <description>
+            Example variable intentionally left unused to trigger the Unused Variable rule.
+        </description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

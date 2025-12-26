@@ -28,6 +28,9 @@
     <screens>
         <name>mockscreen</name>
         <label>mockscreen</label>
+        <description>
+            Simple screen used to demonstrate an invalid API version configuration.
+        </description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>
