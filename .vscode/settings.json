@@ -1,3 +1,5 @@
 {
-  "jest.runMode": "on-demand"
+  "jest.runMode": "on-demand",
+  "typescript.tsc.autoDetect": "off",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

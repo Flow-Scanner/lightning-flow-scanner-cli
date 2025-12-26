@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pnpm: watch --filter vsx",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["watch", "--filter", "vsx"],
+      "isBackground": true,
+      "problemMatcher": "$ts-webpack-watch",
+      "presentation": {
+        "reveal": "never",
+        "group": "watchers"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "pnpm: compile --filter vsx",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["compile", "--filter", "vsx"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
