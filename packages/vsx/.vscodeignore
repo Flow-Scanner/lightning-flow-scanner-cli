@@ -3,15 +3,12 @@
 src/**
 webviews/**
 .gitignore
-vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map
 **/*.ts
 node_modules
-.wdio-vscode-service
 **.vsix
-media/demo.gif
 __mocks__/**
 coverage/**
 

@@ -1,8 +1,11 @@
-node_modules/
-*.log
-.DS_Store
+# Project files
+node_modules
 .turbo
+.npmrc
+.config
+.secrets
 *.vsix
+oclif.manifest.json
 
 # Ignore documentation and license files in packages
 packages/core/LICENSE.md
@@ -18,12 +21,33 @@ packages/vsx/CONTRIBUTING.md
 packages/vsx/SECURITY.md
 packages/vsx/README.md
 
+# generated directories
+packages/core/types
+packages/core/dist
+packages/core/out
+packages/cli/lib/
+packages/vsx/out
+packages/vsx/dist
+src/vscode.d.ts
+
 # Ignore Salesforce DX generated files
 example-flows/.sf/
 example-flows/.sfdx/
-packages/core/tsconfig.tsbuildinfo
-.npmrc
 
+# Mac files
+**/.DS_Store
+.DS_Store
 
+# generated reports
+reports
+coverage
+coverage/**
+.nyc_output
+/.nyc_output
+
+**.gz
+*.log
 .tsbuildinfo/
-.secrets
+
+# stryker temp files
+packages/core/out.stryker-tmp
