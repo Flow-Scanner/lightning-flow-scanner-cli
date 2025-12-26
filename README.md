@@ -369,6 +369,8 @@ Add a GitHub workflow file `.github/workflows/scan-flows.yml` to detect issues d
 - name: Lightning Flow Scan
   id: flowscanner
   uses: Flow-Scanner/lightning-flow-scanner@main
+  with:
+    sarif-only: true  # Strict mode for PRs
 
 - name: Upload SARIF to Code Scanning
   uses: github/codeql-action/upload-sarif@v3
