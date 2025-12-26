@@ -74,7 +74,7 @@ jobs:
         id: flowscanner
         uses: Flow-Scanner/lightning-flow-scanner@main
         with:
-          outputMode: sarif      # optional (default)
+          sarif-only: true # Strict mode for PRs
 
       - name: Upload SARIF to Code Scanning
         uses: github/codeql-action/upload-sarif@v3
@@ -119,11 +119,14 @@ Scan all flows on every push to selected branches.
 
 ### Flags
 
-| Input           | Required | Default                | Description                                                                 |
-|-----------------|----------|------------------------|-----------------------------------------------------------------------------|
-| `GITHUB_TOKEN`  | No       | `github.token`         | Custom token if needed (e.g. fork PRs, extra permissions). **Usually not required** — the default token works in nearly all cases. |
-| `threshold`     | No       | —                      | Minimum severity to fail in `table` mode (`note`, `warning`, `error`)       |
-| `outputMode`    | No       | `sarif`                | `sarif` (upload to Code Scanning) or `table` (console output)               |
+| Input          | Default          | Description                                                                 |
+|----------------|------------------|-----------------------------------------------------------------------------|
+| `GITHUB_TOKEN` | `github.token`   | GitHub token for API access. **Usually not required** — the default token works in nearly all cases. |
+| `config`       | auto-detect      | Path to configuration file (e.g., `.flow-scanner.yaml`).                    |
+| `threshold`    | `error`          | Fail if issues of this severity or higher are found (`note`, `warning`, `error`). |
+| `sarif-only`   | `false`          | Only generate SARIF (no structured output). Fails on any violation.         |
+| `betaMode`     | `false`          | Enable beta rules at run-time (experimental).                               |
+| `branch`       | auto-detect      | Branch to scan (defaults to event branch or repository default).            |
 
 ## Default Rules
 

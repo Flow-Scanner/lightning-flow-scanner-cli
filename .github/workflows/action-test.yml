@@ -19,8 +19,8 @@ jobs:
         id: flowscanner
         uses: ./
         with:
-          outputMode: sarif
-
+          sarif-only: true  # Strict mode for PRs
+   
       - name: Show SARIF file (debug)
         if: always()
         run: |
