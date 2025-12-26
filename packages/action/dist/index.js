@@ -220535,10 +220535,10 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
 
 /***/ }),
 
-/***/ 6132:
+/***/ 7616:
 /***/ ((module) => {
 
-module.exports = eval("require")("./package.json");
+module.exports = eval("require")("js-yaml");
 
 
 /***/ }),
@@ -222993,9 +222993,26 @@ const path = __nccwpck_require__(6928);
 const { cosmiconfig } = __nccwpck_require__(8489);
 const { exportSarif } = lfs_core;
 const SEVERITY_LEVELS = ["note", "warning", "error"];
-const OUTPUT_MODES = ["sarif", "table"];
 
 async function loadScannerOptions() {
+  const configPath = core.getInput("config");
+  
+  if (configPath) {
+    core.info(`Using config file from input: ${configPath}`);
+    try {
+      const configContent = fs.readFileSync(configPath, "utf8");
+      const ext = path.extname(configPath);
+      if (ext === ".json") {
+        return JSON.parse(configContent);
+      } else if (ext === ".yaml" || ext === ".yml") {
+        const yaml = __nccwpck_require__(7616);
+        return yaml.load(configContent);
+      }
+    } catch (error) {
+      core.warning(`Failed to load config from ${configPath}: ${error.message}`);
+    }
+  }
+
   const moduleName = "flow-scanner";
   const searchPlaces = [
     "package.json",
@@ -223018,37 +223035,57 @@ async function loadScannerOptions() {
 
 function getThreshold(config) {
   const thresholdInput = core.getInput("threshold");
-  if (thresholdInput && SEVERITY_LEVELS.includes(thresholdInput)) {
+  if (thresholdInput && (SEVERITY_LEVELS.includes(thresholdInput) || thresholdInput === "never")) {
     core.info(`Using threshold from workflow input: ${thresholdInput}`);
     return thresholdInput;
   }
-  if (config?.threshold && SEVERITY_LEVELS.includes(config.threshold)) {
+  if (config?.threshold && (SEVERITY_LEVELS.includes(config.threshold) || config.threshold === "never")) {
     core.info(`Using threshold from config file: ${config.threshold}`);
     return config.threshold;
   }
-  core.info("No threshold specified. Will only be used in 'table' mode.");
-  return null;
+  core.info("Using default threshold: error");
+  return "error";
 }
 
-function getOutputMode() {
-  const modeInput = core.getInput("outputMode") || "sarif";
-  if (OUTPUT_MODES.includes(modeInput)) {
-    core.info(`Using output mode: ${modeInput}`);
-    return modeInput;
+function getBetaMode(config) {
+  const betaModeInput = core.getInput("betaMode");
+  if (betaModeInput && betaModeInput.toLowerCase() === "true") {
+    core.info("Beta mode enabled from workflow input");
+    return true;
   }
-  core.info(`Invalid outputMode '${modeInput}'. Using default: sarif`);
-  return "sarif";
+  if (config?.betaMode === true) {
+    core.info("Beta mode enabled from config file");
+    return true;
+  }
+  return false;
+}
+
+function getSarifOnly() {
+  const sarifOnlyInput = core.getInput("sarif-only");
+  return sarifOnlyInput && sarifOnlyInput.toLowerCase() === "true";
 }
 
 function meetsThreshold(severity, threshold) {
-  if (!threshold) return false;
+  if (threshold === "never") return false;
   const sevIndex = SEVERITY_LEVELS.indexOf(severity);
   const thIndex = SEVERITY_LEVELS.indexOf(threshold);
   return sevIndex >= thIndex;
 }
 
+async function getDefaultBranch(octokit, repo) {
+  try {
+    const { data: repoData } = await octokit.rest.repos.get({
+      owner: repo.owner,
+      repo: repo.repo
+    });
+    return repoData.default_branch;
+  } catch (error) {
+    core.warning(`Failed to get default branch: ${error.message}. Falling back to 'main'`);
+    return "main";
+  }
+}
+
 async function run() {
-  // Smart token resolution — supports both patterns
   const inputToken = core.getInput("GITHUB_TOKEN", { required: false });
   const token = inputToken || process.env.GITHUB_TOKEN || github.context.token;
 
@@ -223064,21 +223101,40 @@ async function run() {
   try {
     let files = [];
     let head_sha;
+    let branchName;
 
-    // Determine commit SHA
-    if (context.eventName === "pull_request") {
+    // Determine commit SHA and branch based on event type
+    if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
       head_sha = context.payload.pull_request.head.sha;
-    } else {
-      const { data: defaultBranch } = await octokit.rest.repos.getBranch({
+      branchName = context.payload.pull_request.head.ref;
+      core.info(`Scanning pull request #${context.payload.pull_request.number} (branch: ${branchName})`);
+    } else if (context.eventName === "push") {
+      head_sha = context.sha;
+      branchName = context.ref.replace("refs/heads/", "");
+      core.info(`Scanning push to branch: ${branchName}`);
+    } else if (context.eventName === "workflow_dispatch" || context.eventName === "schedule") {
+      const branchInput = core.getInput("branch");
+      branchName = branchInput || context.ref.replace("refs/heads/", "");
+      
+      if (!branchName || branchName === context.ref) {
+        branchName = await getDefaultBranch(octokit, repo);
+      }
+      
+      const { data: branchData } = await octokit.rest.repos.getBranch({
         owner: repo.owner,
         repo: repo.repo,
-        branch: "master"
+        branch: branchName
       });
-      head_sha = defaultBranch.commit.sha;
+      head_sha = branchData.commit.sha;
+      core.info(`Scanning branch: ${branchName}`);
+    } else {
+      head_sha = context.sha;
+      branchName = await getDefaultBranch(octokit, repo);
+      core.info(`Event type: ${context.eventName}. Scanning default branch: ${branchName}`);
     }
 
-    // Get list of flow files
-    if (context.eventName === "pull_request") {
+    // Get list of flow files based on event type
+    if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
       const pull_number = context.payload.pull_request.number;
       const { data: prFiles } = await octokit.rest.pulls.listFiles({
         owner: repo.owner,
@@ -223088,17 +223144,12 @@ async function run() {
       files = prFiles
         .map(file => file.filename)
         .filter(file => file.endsWith("flow-meta.xml") || file.endsWith(".flow"));
+      core.info(`Found ${files.length} flow files in PR changes`);
     } else {
-      const { data: latestCommit } = await octokit.rest.repos.listCommits({
-        owner: repo.owner,
-        repo: repo.repo,
-        per_page: 1
-      });
-      const latestCommitSha = latestCommit[0].sha;
       const { data: tree } = await octokit.rest.git.getTree({
         owner: repo.owner,
         repo: repo.repo,
-        tree_sha: latestCommitSha,
+        tree_sha: head_sha,
         recursive: true
       });
       files = tree.tree
@@ -223108,56 +223159,97 @@ async function run() {
             (item.path.endsWith("flow-meta.xml") || item.path.endsWith(".flow"))
         )
         .map(item => item.path);
+      core.info(`Found ${files.length} flow files in repository`);
     }
 
-    const config = await loadScannerOptions();
+    // Load configuration
+    const fileConfig = await loadScannerOptions();
+    const betaMode = getBetaMode(fileConfig);
+    const config = {
+      ...fileConfig,
+      betaMode: betaMode,
+      rules: fileConfig.rules || {}
+    };
+    
     const threshold = getThreshold(config);
-    const outputMode = getOutputMode();
+    const sarifOnly = getSarifOnly();
 
+    // Parse flows
     let pFlows = [];
     for (const file of files) {
       pFlows.push(...(await lfs_core.parse([file])));
     }
 
-    // CHANGED: Only log, don't return
     if (pFlows.length === 0) {
-      core.info("No modified flows to scan in this pull request.");
+      core.info("No flows to scan.");
     } else {
-      console.log(`Scanning ${pFlows.length} Flow(s)...`);
+      core.info(`Scanning ${pFlows.length} Flow(s)...`);
     }
 
+    // Scan flows
     let scanResults = [];
     for (const flow of pFlows) {
       const res = lfs_core.scan([flow], config);
       scanResults.push(...res);
     }
 
-    // Always generate SARIF — even if no flows or no issues
+    // Build structured results (always, even if sarif-only)
+    const results = [];
+    const severityCounts = { error: 0, warning: 0, note: 0 };
+    
+    for (const scanResult of scanResults) {
+      if (scanResult.ruleResults.length > 0) {
+        for (const ruleResult of scanResult.ruleResults) {
+          if (ruleResult.occurs && Array.isArray(ruleResult.details)) {
+            for (const detail of ruleResult.details) {
+              const severity =
+                config.rules?.[ruleResult.ruleName]?.severity ||
+                ruleResult.severity ||
+                "warning";
+              
+              severityCounts[severity] = (severityCounts[severity] || 0) + 1;
+              
+              results.push({
+                flow: scanResult.flow.name,
+                flowLabel: scanResult.flow.label,
+                flowPath: scanResult.flow.fsPath,
+                rule: ruleResult.ruleName,
+                severity: severity,
+                type: detail.type || "",
+                name: detail.name || "",
+                line: detail.lineNumber || "",
+                column: detail.columnNumber || "",
+                metaType: detail.metaType || "",
+                dataType: detail.dataType || "",
+                expression: detail.expression || ""
+              });
+            }
+          }
+        }
+      }
+    }
+
+    // Generate SARIF (always)
     const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
     let sarifOutput;
 
-    if (scanResults.length === 0) {
-      core.info("No issues found in scanned flows.");
-      // Generate empty valid SARIF
+    if (scanResults.length === 0 || results.length === 0) {
       const emptySarif = {
         version: "2.1.0",
         $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
-        runs: [
-          {
-            tool: {
-              driver: {
-                name: "Lightning Flow Scanner",
-                version: (__nccwpck_require__(6132).version) || "1.0.0",
-                informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-action"
-              }
-            },
-            results: []
-          }
-        ]
+        runs: [{
+          tool: {
+            driver: {
+              name: "Lightning Flow Scanner",
+              version: "1.0.0",
+              informationUri: "https://github.com/Flow-Scanner/lightning-flow-scanner-action"
+            }
+          },
+          results: []
+        }]
       };
       sarifOutput = JSON.stringify(emptySarif, null, 2);
     } else {
-      // Existing: export and merge SARIF runs
       const baseSarif = exportSarif(scanResults);
       const parsed = JSON.parse(baseSarif);
       if (parsed.runs && parsed.runs.length > 1) {
@@ -223175,71 +223267,48 @@ async function run() {
       sarifOutput = JSON.stringify(parsed, null, 2);
     }
 
-    // Always write file and set output
     fs.writeFileSync(sarifPath, sarifOutput);
     core.setOutput('sarifPath', sarifPath);
-    core.info(`SARIF report generated: ${sarifPath}`);
 
-    // Handle output modes
-    if (outputMode === "sarif") {
-      if (scanResults.length === 0) {
-        core.info("No issues found. SARIF uploaded with zero results.");
+    // Build summary
+    const summary = {
+      totalFlows: scanResults.length,
+      totalViolations: results.length,
+      severityCounts: severityCounts,
+      threshold: threshold,
+      thresholdViolations: threshold === "never" ? 0 : results.filter(r => meetsThreshold(r.severity, threshold)).length
+    };
+
+    core.setOutput('results', JSON.stringify(results));
+    core.setOutput('summary', JSON.stringify(summary));
+
+    // Log summary
+    core.info(`\n${'='.repeat(60)}`);
+    core.info(`Scan Results Summary`);
+    core.info(`${'='.repeat(60)}`);
+    core.info(`Flows scanned: ${summary.totalFlows}`);
+    core.info(`Total violations: ${summary.totalViolations}`);
+    core.info(`  - Errors: ${severityCounts.error}`);
+    core.info(`  - Warnings: ${severityCounts.warning}`);
+    core.info(`  - Notes: ${severityCounts.note}`);
+    core.info(`Threshold: ${threshold}`);
+    core.info(`Violations >= threshold: ${summary.thresholdViolations}`);
+    core.info(`${'='.repeat(60)}\n`);
+
+    // Determine pass/fail
+    if (sarifOnly) {
+      // SARIF-only mode: fail on any violation
+      if (results.length > 0) {
+        core.setFailed(`${results.length} flow issue(s) found. SARIF-only mode fails on any result.`);
       } else {
-        // Count actual violations
-        let violationCount = 0;
-        for (const result of scanResults) {
-          for (const rule of result.ruleResults) {
-            if (rule.occurs && Array.isArray(rule.details)) {
-              violationCount += rule.details.length;
-            }
-          }
-        }
-        core.setFailed(`${violationCount} flow issue(s) found. SARIF mode fails on any result.`);
+        core.info("No issues found. SARIF uploaded with zero results.");
       }
-      return;
-    }
-
-    // Table mode (unchanged)
-    const tableRows = [];
-    for (const scanResult of scanResults) {
-      if (scanResult.ruleResults.length > 0) {
-        for (const ruleResult of scanResult.ruleResults) {
-          if (ruleResult.occurs && Array.isArray(ruleResult.details)) {
-            for (const detail of ruleResult.details) {
-              const severity =
-                config.rules?.[ruleResult.ruleName]?.severity ||
-                ruleResult.severity ||
-                "warning";
-              const row = {
-                flow: scanResult.flow.name,
-                violation: detail.name || "",
-                rule: ruleResult.ruleName,
-                type: detail.type || "",
-                severity
-              };
-              tableRows.push(row);
-            }
-          }
-        }
-      }
-    }
-
-    if (outputMode === "table") {
-      core.setOutput("scanResults", tableRows);
-      if (tableRows.length > 0) {
-        console.table(tableRows, ["flow", "violation", "type", "rule", "severity"]);
-      }
-      const thresholdViolations = threshold
-        ? tableRows.filter(r => meetsThreshold(r.severity, threshold))
-        : [];
-      core.info(`Threshold: ${threshold || "none (not applied in table mode if unset)"}`);
-      core.info(`Violations >= threshold: ${thresholdViolations.length}`);
-      if (threshold && thresholdViolations.length > 0) {
-        core.setFailed(
-          `${thresholdViolations.length} violation(s) at severity >= ${threshold}.`
-        );
-      } else if (!threshold) {
-        core.info("No threshold set — action passes regardless of findings.");
+    } else {
+      // Threshold mode: fail based on threshold
+      if (threshold === "never") {
+        core.info("Threshold set to 'never' — action passes regardless of findings.");
+      } else if (summary.thresholdViolations > 0) {
+        core.setFailed(`${summary.thresholdViolations} violation(s) at severity >= ${threshold}.`);
       } else {
         core.info("All findings below threshold. Action passes.");
       }
