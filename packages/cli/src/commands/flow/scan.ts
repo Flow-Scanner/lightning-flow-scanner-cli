@@ -195,7 +195,7 @@ export default class Scan extends SfCommand<Output> {
   private buildErrorCounters(flatResults: any[]) {
     this.errorCounters.clear();
     for (const result of flatResults) {
-      const severity = result.severity ?? "error";
+      const severity = result.severity ?? "warning";
       this.errorCounters.set(severity, (this.errorCounters.get(severity) ?? 0) + 1);
     }
   }
@@ -226,7 +226,7 @@ export default class Scan extends SfCommand<Output> {
       flowFile: r.flowFile ?? "",
       flowName: r.flowName ?? "",
       ruleName: r.ruleName ?? "",
-      severity: r.severity ?? "error",
+      severity: r.severity ?? "warning",
       type: r.type ?? "",
       name: r.name ?? "",
       lineNumber: r.lineNumber ?? "",
