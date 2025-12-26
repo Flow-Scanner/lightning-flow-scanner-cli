@@ -29,7 +29,7 @@ export abstract class RuleCommon {
       this.isConfigurable = false;
     }
 
-    this.severity = optional?.severity ?? "error";
+    this.severity = optional?.severity ?? "warning";
   }
 
   public execute(

@@ -12,7 +12,7 @@ export class RuleResult {
   constructor(info: IRuleDefinition, details: Violation[], errorMessage?: string) {
     this.ruleDefinition = info;
     this.ruleName = info.name;
-    this.severity = info.severity ? info.severity : "error";
+    this.severity = info.severity ? info.severity : "warning";
     this.occurs = false;
     this.details = details;
     if (details.length > 0) {
