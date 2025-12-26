@@ -9,23 +9,31 @@ You can:
 
 ## Available Flows
 
-| Flow Name                  | Description                                                         | Key Rule(s) Demonstrated      |
-|----------------------------|---------------------------------------------------------------------|-------------------------------|
-| Unclear_API_Name              | Flow with copied elements retaining similar API names, reducing readability. | CopyAPIName                   |
-| Excessive_Cyclomatic_Complexity      | High-complexity Flow with multiple loops/decisions in a single path.        | CyclomaticComplexity          |
-| DML_Statement_In_A_Loop    | DML operations inside loops, risking governor limits.                    | DMLStatementInLoop            |
-| Duplicate_DML_Operation    | DML between screens, allowing backward navigation duplicates.             | DuplicateDMLOperation         |
-| FlowNamingConvention       | Flow with non-descriptive or inconsistent naming.                        | FlowName                      |
-| Hardcoded_Id               | Flow using org-specific hardcoded IDs instead of variables.              | HardcodedId                   |
-| Missing_Fault_Path      | Flow lacking fault paths for error handling.                            | MissingFaultPath              |
-| Missing_Flow_Description   | Flow without a description for documentation.                           | FlowDescription               |
-| Missing_Null_Handler       | Get Records without null checks post-query.                             | MissingNullHandler            |
-| Invalid_API_Version       | Flow using an old API version (pre-50.0).                               | APIVersion                    |
-| SOQL_Query_In_A_Loop       | SOQL queries inside loops, hitting limits.                              | SOQLQueryInLoop               |
-| Unreachable_Element        | Flow with unused/unconnected elements.                                  | UnconnectedElement            |
-| Unsafe_Running_Context     | Flow set to System Mode without Sharing.                                | UnsafeRunningContext          |
-| Unused_Variable            | Flow declaring variables not referenced.                                | UnusedVariable                |
-
+| Flow Name                          | Description                                                                 |
+|------------------------------------|-----------------------------------------------------------------------------|
+| Action_Call_In_Loop                | Apex actions or calls placed inside loops.                                  |
+| DML_Statement_In_A_Loop            | DML operations inside loops, risking governor limits.                       |
+| Duplicate_DML_Operation            | Duplicate DML operations, e.g., due to screen navigation.                   |
+| Excessive_Cyclomatic_Complexity    | High-complexity flow with many loops and decisions.                         |
+| Flow_Naming_Convention             | Flow with non-descriptive or inconsistent naming.                           |
+| Get_Records_Stores_All_Fields      | Get Records retrieving all fields unnecessarily.                            |
+| Hardcoded_Id                       | Flow using hardcoded record IDs instead of variables.                       |
+| Hardcoded_URL                      | Flow containing hardcoded URLs.                                             |
+| Inactive_Flow                      | Inactive flow that may need review or activation.                           |
+| Invalid_API_Version                | Flow using an outdated API version.                                         |
+| Missing_Auto_Layout                | Flow that should use the deprecated auto-layout canvas but is using free-form (or demonstrates a rule related to missing/recommended auto-layout migration). |
+| Missing_Fault_Path                 | Flow without fault paths for error handling.                                |
+| Missing_Flow_Description           | Flow lacking a proper description for documentation.                        |
+| Missing_Null_Handler               | Get Records elements without null checks after query.                       |
+| Missing_Trigger_Order              | Flow missing proper trigger order handling.                                 |
+| Recursive_After_Update_Example     | Flow demonstrating potential recursion in after-update triggers.            |
+| Same_Record_Field_Updates          | Multiple updates on the same record fields inefficiently.                   |
+| SOQL_Query_In_A_Loop               | SOQL queries placed inside loops, risking governor limits.                  |
+| Unclear_API_Name                   | Flow with copied elements retaining similar API names, reducing readability.|
+| Unconnected_Element                | Flow with an element connected from Start but lacking further connectors.   |
+| Unreachable_Element                | Flow with elements that are unreachable or unconnected.                     |
+| Unsafe_Running_Context             | Flow set to run in System Mode without Sharing.                             |
+| Unused_Variable                    | Flow declaring variables that are not referenced anywhere.                  |
 ## Getting Started
 
 Follow these steps to get up and running with the Lightning Flow Scanner Example Flows:

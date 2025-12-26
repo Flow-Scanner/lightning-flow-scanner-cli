@@ -29,6 +29,9 @@
     <screens>
         <name>testtest</name>
         <label>test</label>
+        <description>
+            Simple screen used to demonstrate an unsafe running context configuration.
+        </description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>

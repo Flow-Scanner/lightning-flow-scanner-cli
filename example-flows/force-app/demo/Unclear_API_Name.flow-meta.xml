@@ -28,6 +28,9 @@
     <screens>
         <name>Copy_1_of_mockscreen</name>
         <label>Copy 1 of mockscreen</label>
+        <description>
+            Screen intentionally created by copying another screen to demonstrate unclear API naming.
+        </description>
         <locationX>176</locationX>
         <locationY>242</locationY>
         <allowBack>true</allowBack>
@@ -39,6 +42,9 @@
     <screens>
         <name>mockscreen</name>
         <label>mockscreen</label>
+        <description>
+            Original screen used as the source for a copied screen with an unclear API name.
+        </description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>

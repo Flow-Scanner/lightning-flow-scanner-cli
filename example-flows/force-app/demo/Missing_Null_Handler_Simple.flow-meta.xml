@@ -5,6 +5,7 @@
     <assignments>
         <name>Assignment_2</name>
         <label>Assignment 2</label>
+        <description>Assigns the retrieved User record to the firstuser variable (demonstrates using the record without checking for null, violating the Missing Null Handler rule).</description>
         <locationX>50</locationX>
         <locationY>350</locationY>
         <assignmentItems>
@@ -18,6 +19,7 @@
     <assignments>
         <name>Set_Error_Message</name>
         <label>Set Error Message</label>
+        <description>Sets an error message when the Get Records element encounters a fault (e.g., query error).</description>
         <locationX>314</locationX>
         <locationY>350</locationY>
         <assignmentItems>
@@ -31,6 +33,7 @@
     <decisions>
         <name>Check_object_type</name>
         <label>Check object type</label>
+        <description>Checks if the provided record Id starts with '005' to determine if it belongs to a User object.</description>
         <locationX>314</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -38,7 +41,7 @@
             <name>User</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>recordId</leftValueReference>
+                <leftValueReference>recordIdFromInput</leftValueReference>
                 <operator>StartsWith</operator>
                 <rightValue>
                     <stringValue>005</stringValue>
@@ -50,7 +53,7 @@
             <label>User</label>
         </rules>
     </decisions>
-    <description>An example flow of violation &quot;Missing Nul Handler&quot;</description>
+    <description>An example flow that intentionally violates only the "Missing Null Handler" rule by using a Get Records result directly without checking for null. The input variable has been renamed from "recordId" (String) to avoid the separate "Record ID as String Instead of Record" rule violation.</description>
     <environments>Default</environments>
     <interviewLabel>Missing_Null_Handler {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Missing Null Handler</label>
@@ -76,6 +79,7 @@
     <recordLookups>
         <name>Get_User</name>
         <label>Get User</label>
+        <description>Retrieves a single User record by Id. assignNullValuesIfNoRecordsFound is true, but there is no decision to check if the result is null before using it (Missing Null Handler violation).</description>
         <locationX>50</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
@@ -90,7 +94,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordIdFromInput</elementReference>
             </value>
         </filters>
         <object>User</object>
@@ -107,13 +111,14 @@
     <status>Active</status>
     <variables>
         <name>errorMessage</name>
+        <description>Holds an error message if the Get Records element faults.</description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <description>assigns first user</description>
+        <description>Stores the retrieved User record for further use (intentionally used without null check).</description>
         <name>firstuser</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -122,7 +127,8 @@
         <objectType>User</objectType>
     </variables>
     <variables>
-        <name>recordId</name>
+        <name>recordIdFromInput</name>
+        <description>Input String variable containing the record Id passed to the flow (renamed from "recordId" to avoid triggering the "Record ID as String Instead of Record" rule).</description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -130,6 +136,7 @@
     </variables>
     <variables>
         <name>userRecord</name>
+        <description>Stores the result of the Get User record lookup (single User record or null if not found).</description>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

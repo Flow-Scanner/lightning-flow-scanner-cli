@@ -16,10 +16,10 @@
             </value>
         </assignmentItems>
     </assignments>
-    <description>This flow demonstrates a violation of the rule &quot;Unconnected Element&quot;.</description>
+    <description>This flow demonstrates a violation of the rule &quot;Missing Auto Layout&quot;.</description>
     <environments>Default</environments>
-    <interviewLabel>Unconnected Element {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Unconnected Element</label>
+    <interviewLabel>Missing Auto Layout {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Missing Auto Layout</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -49,6 +49,9 @@
     <status>Active</status>
     <variables>
         <name>currentTime</name>
+        <description>
+            Holds the current date/time value used to demonstrate a flow without auto layout.
+        </description>
         <dataType>DateTime</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

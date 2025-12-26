@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
-    <description>test</description>
+    <description>Example of a safe before-save record-triggered flow that updates the same Account record. Includes an entry condition so it only runs when necessary, avoiding the "Missing Record Trigger Filter" violation.</description>
     <environments>Default</environments>
     <interviewLabel>Same Record Field Updates {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Same Record Field Updates</label>
     <processMetadataValues>
         <name>BuilderType</name>
-        <value>
-            <stringValue>LightningFlowBuilder</stringValue>
-        </value>
+        <value><stringValue>LightningFlowBuilder</stringValue></value>
     </processMetadataValues>
     <processMetadataValues>
         <name>CanvasMode</name>
-        <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
-        </value>
+        <value><stringValue>AUTO_LAYOUT_CANVAS</stringValue></value>
     </processMetadataValues>
     <processMetadataValues>
         <name>OriginBuilderType</name>
-        <value>
-            <stringValue>LightningFlowBuilder</stringValue>
-        </value>
+        <value><stringValue>LightningFlowBuilder</stringValue></value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <description>test</description>
+        <description>Sets the custom checkbox Active__c to 'Yes' on the triggering Account record. Only executes if the field was not already 'Yes' (thanks to entry condition).</description>
         <name>Update_triggering_records</name>
         <label>Update triggering records</label>
         <locationX>176</locationX>
         <locationY>287</locationY>
         <inputAssignments>
             <field>Active__c</field>
-            <value>
-                <stringValue>Yes</stringValue>
-            </value>
+            <value><stringValue>Yes</stringValue></value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
@@ -44,6 +36,14 @@
         <connector>
             <targetReference>Update_triggering_records</targetReference>
         </connector>
+        <filters>
+            <field>Active__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Yes</stringValue>
+            </value>
+        </filters>
+        <filterLogic>and</filterLogic>
         <object>Account</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>

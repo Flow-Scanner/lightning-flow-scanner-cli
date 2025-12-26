@@ -5,6 +5,7 @@
     <decisions>
         <name>isAccountsProvided</name>
         <label>isAccountsProvided</label>
+        <description>Checks whether the input collection variable Accounts has been provided (is not null). Used to demonstrate poor naming convention.</description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -54,6 +55,7 @@
     <status>Active</status>
     <variables>
         <name>Accounts</name>
+        <description>Input collection of Account records. Named generically to intentionally violate flow naming convention best practices.</description>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
         <isInput>true</isInput>

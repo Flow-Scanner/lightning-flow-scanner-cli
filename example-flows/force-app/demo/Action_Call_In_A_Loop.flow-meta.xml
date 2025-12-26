@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <actionCalls>
+        <name>Create_Task_For_Account</name>
+        <label>Create Task For Account</label>
+        <description>
+            Creates a Task for each Account inside the loop; fault connector handles errors.
+        </description>
+        <locationX>352</locationX>
+        <locationY>242</locationY>
+        <actionName>NewTask</actionName>
+        <actionType>quickAction</actionType>
+        <connector>
+            <targetReference>Check_Action_Success</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_Action_Error</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>WhatId</name>
+            <value>
+                <elementReference>Account_Loop.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Subject</name>
+            <value>
+                <stringValue>Follow up with Account</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Status</name>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>OwnerId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>NewTask</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <assignments>
+        <description>Sets error message when action call fails</description>
+        <name>Set_Action_Error</name>
+        <label>Set Action Error</label>
+        <locationX>704</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>actionErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Failed to create task for account</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Check_Action_Success</name>
+        <label>Check Action Success</label>
+        <description>Checks if the task creation action succeeded (no fault error returned); if yes, continues to next loop iteration.</description>
+        <locationX>352</locationX>
+        <locationY>350</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Action_Completed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Create_Task_For_Account</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Account_Loop</targetReference>
+            </connector>
+            <label>Action Completed</label>
+        </rules>
+    </decisions>
+    <description>This flow demonstrates a violation of the rule "Action Call In Loop". Making action calls inside a loop can lead to governor limit exceptions. Best practice: Collect data in the loop, then make a single bulkified action call with a collection after the loop.</description>
+    <environments>Default</environments>
+    <interviewLabel>Action Call In Loop {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Action Call In Loop</label>
+    <loops>
+        <description>Loops through accounts to create tasks</description>
+        <name>Account_Loop</name>
+        <label>Account Loop</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <collectionReference>Accounts_Collection</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Create_Task_For_Account</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Account_Loop</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>A collection of Accounts to process</description>
+        <name>Accounts_Collection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <description>Stores error message when action call fails</description>
+        <name>actionErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

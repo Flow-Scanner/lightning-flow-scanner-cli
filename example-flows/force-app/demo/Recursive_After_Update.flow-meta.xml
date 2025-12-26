@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Sets an error message when the record update fails on the fault path.</description>
+        <name>errorMessageRAU</name>
+        <label>errorMessageRAU</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>updateErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>This flow demonstrates the "Recursive After Update" anti-pattern (updating the same record in after-save context, risking recursion). The trigger filter has been added using the same structure as the working "Same Record Field Updates" example to avoid the Missing Record Trigger Filter violation.</description>
+    <environments>Default</environments>
+    <interviewLabel>Recursive After Update Example {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Recursive After Update Example</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Account_Last_Modified_Info</name>
+        <label>Update Account Last Modified Info</label>
+        <description>Updates the triggering Account record in an after-save flow by setting Description and NumberOfEmployees. This intentionally causes recursion (the core violation this demo illustrates).</description>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>errorMessageRAU</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Last modified by flow on {!$Flow.CurrentDateTime}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NumberOfEmployees</field>
+            <value>
+                <numberValue>100.0</numberValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Account_Last_Modified_Info</targetReference>
+        </connector>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+        <filters>
+            <field>Description</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filterLogic>and</filterLogic>
+    </start>
+    <status>Active</status>
+    <triggerOrder>5</triggerOrder>
+    <variables>
+        <description>Stores error message if record update fails</description>
+        <name>updateErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

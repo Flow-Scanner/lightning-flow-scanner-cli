@@ -5,6 +5,7 @@
     <assignments>
         <name>do_Anything</name>
         <label>do Anything</label>
+        <description>Simple assignment that sets the 'text' variable to a new value. Used here solely to give the flow some functionality while intentionally leaving the top-level flow description empty to demonstrate the "Missing Flow Description" rule violation.</description>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <assignmentItems>
@@ -47,6 +48,7 @@
     <status>Active</status>
     <variables>
         <name>text</name>
+        <description>String variable that holds sample text; initialized with a default value and later updated by the assignment element.</description>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

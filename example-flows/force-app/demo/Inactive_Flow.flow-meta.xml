@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>create_account_manually</name>
+        <label>create account manually</label>
+        <description>Fallback quick action to create an account manually if the automated Record Create fails (used on fault path).</description>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <actionName>FeedItem.NewTaskFromFeedItem</actionName>
+        <actionType>quickAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contextId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>FeedItem.NewTaskFromFeedItem</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>create_task</name>
+        <label>create task</label>
+        <description>Quick action to create a task as a fallback if the Get Records lookup for the user fails (fault path).</description>
+        <locationX>842</locationX>
+        <locationY>242</locationY>
+        <actionName>FeedItem.NewTaskFromFeedItem</actionName>
+        <actionType>quickAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contextId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>FeedItem.NewTaskFromFeedItem</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>CheckIfUserIsFound</name>
+        <label>CheckIfUserIsFound</label>
+        <description>Checks if the Get Records returned a valid User record (not null) to determine if the user was found.</description>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>userfound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>UserId.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>create_Test_Account</targetReference>
+            </connector>
+            <label>userfound</label>
+        </rules>
+    </decisions>
+    <description>This flow demonstrates the violation of the rule &quot;Inactive Flow&quot;. The flow is intentionally set to Draft status, making it inactive and unable to run, which can clutter the org and complicate management.</description>
+    <environments>Default</environments>
+    <interviewLabel>Inactive Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Inactive Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>create_Test_Account</name>
+        <label>create Test Account</label>
+        <description>Creates a new Account record named 'Test Account' owned by the found user. Fault path leads to manual creation.</description>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <faultConnector>
+            <targetReference>create_account_manually</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <stringValue>Test Account</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>UserId.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>getUserId</name>
+        <label>getUserId</label>
+        <description>Looks up an Account named 'Acme' to retrieve its OwnerId (intended as User reference). Fault path creates a task.</description>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CheckIfUserIsFound</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>create_task</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Acme</stringValue>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputAssignments>
+            <assignToReference>UserId.Id</assignToReference>
+            <field>OwnerId</field>
+        </outputAssignments>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>getUserId</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <name>Account</name>
+        <description>Unused SObject variable of type Account (automatically stores output from Record Create).</description>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>UserId</name>
+        <description>Stores the User reference extracted from the OwnerId of the looked-up Account record.</description>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>User</objectType>
+    </variables>
+</Flow>

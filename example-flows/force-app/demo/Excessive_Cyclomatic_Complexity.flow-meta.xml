@@ -3,6 +3,7 @@
     <actionCalls>
         <name>createtesttask</name>
         <label>createtesttask</label>
+        <description>Attempts to create a test task using a quick action; used here to provide a common endpoint for many paths.</description>
         <locationX>2822</locationX>
         <locationY>434</locationY>
         <actionName>FeedItem.NewTaskFromFeedItem</actionName>
@@ -39,6 +40,7 @@
     <assignments>
         <name>assignvalue1</name>
         <label>assignvalue1</label>
+        <description>Assignment for outcome1 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>50</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -55,6 +57,7 @@
     <assignments>
         <name>assignvalue10</name>
         <label>assignvalue10</label>
+        <description>Assignment for outcome10 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>2426</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -71,6 +74,7 @@
     <assignments>
         <name>assignvalue11</name>
         <label>assignvalue11</label>
+        <description>Assignment for outcome11 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>2690</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -87,6 +91,7 @@
     <assignments>
         <name>assignvalue12</name>
         <label>assignvalue12</label>
+        <description>Assignment for default outcome path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>5594</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -103,6 +108,7 @@
     <assignments>
         <name>assignvalue2</name>
         <label>assignvalue2</label>
+        <description>Assignment for outcome2 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>314</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -119,6 +125,7 @@
     <assignments>
         <name>assignvalue3</name>
         <label>assignvalue3</label>
+        <description>Assignment for outcome3 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>578</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -135,6 +142,7 @@
     <assignments>
         <name>assignvalue4</name>
         <label>assignvalue4</label>
+        <description>Assignment for outcome4 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>842</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -151,6 +159,7 @@
     <assignments>
         <name>assignvalue5</name>
         <label>assignvalue5</label>
+        <description>Assignment for outcome5 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>1106</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -167,6 +176,7 @@
     <assignments>
         <name>assignvalue6</name>
         <label>assignvalue6</label>
+        <description>Assignment for outcome6 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>1370</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -183,6 +193,7 @@
     <assignments>
         <name>assignvalue7</name>
         <label>assignvalue7</label>
+        <description>Assignment for outcome7 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>1634</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -199,6 +210,7 @@
     <assignments>
         <name>assignvalue8</name>
         <label>assignvalue8</label>
+        <description>Assignment for outcome8 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>1898</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -215,6 +227,7 @@
     <assignments>
         <name>assignvalue9</name>
         <label>assignvalue9</label>
+        <description>Assignment for outcome9 path: sets testvar to 1 before proceeding to task creation.</description>
         <locationX>2162</locationX>
         <locationY>242</locationY>
         <assignmentItems>
@@ -673,6 +686,7 @@
     </variables>
     <variables>
         <name>testvar</name>
+        <description>Number variable used temporarily in multiple assignment paths to demonstrate high cyclomatic complexity.</description>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
