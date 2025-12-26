@@ -215759,9 +215759,6 @@ function ScanFlows(flows, ruleOptions) {
                 const config = getRuleConfigByIdOrName(rule, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules);
                 const suppressions = getSuppressionsForRule(rule, flow.name, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.exceptions);
                 const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config, suppressions) : rule.execute(flow, undefined, suppressions);
-                if (result.severity !== rule.severity) {
-                    result.severity = rule.severity;
-                }
                 if (result.details.length > 0) {
                     let flowXml = flowXmlCache.get(flow.name);
                     if (!flowXml) {
@@ -217758,7 +217755,7 @@ let RuleCommon = class RuleCommon {
             this.isConfigurable = false;
         }
         var _optional_severity;
-        this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "error";
+        this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "warning";
     }
 };
 
@@ -217802,7 +217799,7 @@ let RuleResult = class RuleResult {
         _define_property(this, "errorMessage", void 0);
         this.ruleDefinition = info;
         this.ruleName = info.name;
-        this.severity = info.severity ? info.severity : "error";
+        this.severity = info.severity ? info.severity : "warning";
         this.occurs = false;
         this.details = details;
         if (details.length > 0) {
