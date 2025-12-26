@@ -56,8 +56,8 @@ function getThreshold(config) {
     core.info(`Using threshold from config file: ${config.threshold}`);
     return config.threshold;
   }
-  core.info("Using default threshold: error");
-  return "error";
+  core.info("Using default threshold: warning");
+  return "warning";
 }
 
 function getBetaMode(config) {
