@@ -8,8 +8,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
       ruleId: "duplicate-dml",
       name: "DuplicateDMLOperation",
       label: "Duplicate DML Operation",
-      description:
-        "When the flow executes database changes between screens, users must not be allowed to navigate back, or duplicate DML operations may occur.",
+      description: "When a flow executes database changes or actions between two screens, prevent users from navigating backward between screens; otherwise, duplicate database operations may be performed.",
       supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
     });

@@ -6,8 +6,7 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "invalid-naming-convention",
-      description:
-        "The readability of a flow is of utmost importance. Establishing a naming convention for the Flow Name significantly enhances findability, searchability, and maintains overall consistency. It is advisable to include at least a domain and a brief description of the actions carried out in the flow, for instance, 'Service_OrderFulfillment'.",
+      description: "The readability of a flow is paramount. Establishing a naming convention significantly enhances findability, searchability, and overall consistency. Include at least a domain and a brief description of the flow’s actions, for example `Service_OrderFulfillment`.",
       docRefs: [
         {
           label: "Naming your Flows is more critical than ever. By Stephen Church",

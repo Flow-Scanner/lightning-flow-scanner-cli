@@ -7,9 +7,8 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
     super({
       ruleId: "process-builder-usage",
       name: "ProcessBuilder",
-      label: "Process Builder Usage",
-      description:
-        "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Ensure you're prepared for this transition by migrating your organization's automation to Flow. Refer to official documentation for more information on the transition process and tools available.",
+      label: "Process Builder",
+      description: "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.",
       supportedTypes: core.FlowType.processBuilder,
       docRefs: [
         {

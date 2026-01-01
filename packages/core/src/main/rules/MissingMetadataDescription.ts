@@ -6,7 +6,7 @@ export class MissingMetadataDescription extends RuleCommon implements IRuleDefin
   constructor() {
     super({
       ruleId: "missing-metadata-description",
-      description: "Every element must have a meaningful description",
+      description: "Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.",
       docRefs: [],
       label: "Missing Metadata Description",
       name: "MissingMetadataDescription",

@@ -6,8 +6,7 @@ export class FlowDescription extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "missing-flow-description",
-      description:
-        "Descriptions play a vital role in documentation. We highly recommend including details about where they are used and their intended purpose.",
+      description: "Descriptions play a vital role in documentation. It is highly recommended to include details about where a flow is used and its intended purpose.",
       docRefs: [],
       label: "Missing Flow Description",
       name: "FlowDescription",

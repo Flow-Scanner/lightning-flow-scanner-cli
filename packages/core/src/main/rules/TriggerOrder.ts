@@ -9,9 +9,8 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
       {
         ruleId: "unspecified-trigger-order",
         name: "TriggerOrder",
-        label: "Trigger Order",
-        description:
-          "With flow trigger ordering, introduced in Spring '22, admins can now assign a priority " +
+        label: "Missing Trigger Order",
+        description: "Guarantee your flow execution order with the **Trigger Order** property introduced in Spring '22." +
           "value to their flows and guarantee their execution order. This priority value is not an " +
           "absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",
         supportedTypes: [core.FlowType.autolaunchedType],

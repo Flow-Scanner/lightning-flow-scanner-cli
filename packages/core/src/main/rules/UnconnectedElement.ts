@@ -5,8 +5,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "unreachable-element",
-      description:
-        "To maintain the efficiency and manageability of your Flow, it's best to avoid including unconnected elements that are not in use.",
+      description: "Avoid unconnected elements that are not used by the flow to keep flows efficient and maintainable.",
       docRefs: [],
       label: "Unreachable Element",
       name: "UnconnectedElement",
