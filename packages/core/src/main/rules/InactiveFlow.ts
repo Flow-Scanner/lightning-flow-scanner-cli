@@ -8,8 +8,7 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
       ruleId: "inactive-flow",
       name: "InactiveFlow",
       label: "Inactive Flow",
-      description:
-        "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble, like accidentally deleting records during testing, or being activated as subflows within parent flows.",
+      description: "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble—such as accidentally deleting records during testing, or being activated as subflows.",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
     });

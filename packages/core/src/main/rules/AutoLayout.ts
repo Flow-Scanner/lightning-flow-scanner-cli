@@ -6,9 +6,8 @@ export class AutoLayout extends RuleCommon implements IRuleDefinition {
     super({
       ruleId: "missing-auto-layout",
       name: "AutoLayout",
-      label: "Auto-Layout Mode",
-      description:
-        "With Canvas Mode set to Auto-Layout, Elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized thus saving you time.",
+      label: "Missing Auto Layout",
+      description: "With Canvas Mode set to Auto-Layout, elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized—saving you time.",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
     }, { severity: "note" });

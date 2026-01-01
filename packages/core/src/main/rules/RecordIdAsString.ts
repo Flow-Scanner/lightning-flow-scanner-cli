@@ -7,9 +7,8 @@ export class RecordIdAsString extends RuleCommon implements IRuleDefinition {
     super({
       ruleId: "record-id-as-string",
       name: "RecordIdAsString",
-      label: "Record ID as String Instead of Record",
-      description:
-        "Detects flows using a String variable named 'recordId' as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
+      label: "Record ID as String",
+      description: "Detects flows using a String variable named `recordId` as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
       supportedTypes: [
         ...core.FlowType.visualTypes,
         core.FlowType.autolaunchedType,

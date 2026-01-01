@@ -7,11 +7,10 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
     super(
       {
         ruleId: "get-record-all-fields",
-        description:
-          "Following the principle of least privilege (PoLP), avoid using Get Records with 'Automatically store all fields' unless necessary.",
+        description: "Following the principle of least privilege (PoLP), avoid using **Get Records** with “Automatically store all fields” unless necessary.",
         docRefs: [
           {
-            label: "SOQL and SOSL | Best Practices for Deployments with Large Data Volumes",
+            label: "Get Records Stores All Fields",
             path: "https://developer.salesforce.com/docs/atlas.en-us.salesforce_large_data_volumes_bp.meta/salesforce_large_data_volumes_bp/ldv_deployments_best_practices_soql_and_sosl.htm",
           },
           {

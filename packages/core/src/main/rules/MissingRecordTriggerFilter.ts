@@ -7,12 +7,12 @@ export class MissingRecordTriggerFilter extends RuleCommon implements IRuleDefin
     super({
       ruleId: "missing-record-trigger-filter",
       name: "MissingRecordTriggerFilter",
-      label: "Missing Record Trigger Filter",
+      label: "Missing Filter Record Trigger",
       description:
-        "Detects record-triggered flows that lack filters on changed fields or entry conditions, leading to unnecessary executions on every record change. This can degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
+        "Record-triggered flows that lack filters on changed fields or entry conditions can lead to unnecessary executions on every record change. This may degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
       supportedTypes: [core.FlowType.autolaunchedType],
       docRefs: [],
-    });
+    }, { severity: "warning" });
   }
 
   protected check(
