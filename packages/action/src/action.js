@@ -3,7 +3,9 @@ const github = require("@actions/github");
 const lfs_core = require("@flow-scanner/lightning-flow-scanner-core");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { cosmiconfig } = require("cosmiconfig");
+const { minimatch } = require("minimatch");
 const { exportSarif } = lfs_core;
 const SEVERITY_LEVELS = ["note", "warning", "error"];
 
@@ -36,7 +38,10 @@ async function loadScannerOptions() {
     `config/.${moduleName}.yml`,
     ".flow-scanner"
   ];
-  const explorer = cosmiconfig(moduleName, { searchPlaces });
+  const explorer = cosmiconfig(moduleName, {
+    searchPlaces,
+    stopDir: os.homedir() // Search up to home directory, not stopping at package boundaries
+  });
   const result = await explorer.search();
   if (result && !result.isEmpty) {
     core.info(`Found config file: ${result.filepath}`);
@@ -76,6 +81,35 @@ function getBetaMode(config) {
 function getSarifOnly() {
   const sarifOnlyInput = core.getInput("sarif-only");
   return sarifOnlyInput && sarifOnlyInput.toLowerCase() === "true";
+}
+
+function applyIgnorePatterns(files, ignorePatterns) {
+  if (!ignorePatterns || ignorePatterns.length === 0) {
+    return files;
+  }
+
+  core.info(`Applying ${ignorePatterns.length} ignore pattern(s): ${ignorePatterns.join(", ")}`);
+
+  const filtered = files.filter(file => {
+    // Normalize path separators to forward slashes for consistent matching
+    const normalizedFile = file.replace(/\\/g, "/");
+
+    // Check if file matches any ignore pattern
+    for (const pattern of ignorePatterns) {
+      if (minimatch(normalizedFile, pattern)) {
+        core.debug(`Ignoring file: ${file} (matched pattern: ${pattern})`);
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const ignoredCount = files.length - filtered.length;
+  if (ignoredCount > 0) {
+    core.info(`Ignored ${ignoredCount} file(s) based on ignore patterns`);
+  }
+
+  return filtered;
 }
 
 function meetsThreshold(severity, threshold) {
@@ -177,6 +211,12 @@ async function run() {
 
     // Load configuration
     const fileConfig = await loadScannerOptions();
+
+    // Apply ignore patterns to filter files
+    if (fileConfig.ignore && Array.isArray(fileConfig.ignore)) {
+      files = applyIgnorePatterns(files, fileConfig.ignore);
+      core.info(`After applying ignore patterns: ${files.length} flow files to scan`);
+    }
     const betaMode = getBetaMode(fileConfig);
     const config = {
       ...fileConfig,
@@ -191,6 +231,26 @@ async function run() {
     let pFlows = [];
     for (const file of files) {
       pFlows.push(...(await lfs_core.parse([file])));
+    }
+
+    // Apply ignoreFlows filter (filter by flow API name)
+    if (fileConfig.ignoreFlows && Array.isArray(fileConfig.ignoreFlows) && fileConfig.ignoreFlows.length > 0) {
+      core.info(`Applying ignoreFlows filter for ${fileConfig.ignoreFlows.length} flow name(s): ${fileConfig.ignoreFlows.join(", ")}`);
+      const originalCount = pFlows.length;
+      pFlows = pFlows.filter(pFlow => {
+        if (pFlow.flow && pFlow.flow.name) {
+          const shouldIgnore = fileConfig.ignoreFlows.includes(pFlow.flow.name);
+          if (shouldIgnore) {
+            core.debug(`Ignoring flow by name: ${pFlow.flow.name}`);
+          }
+          return !shouldIgnore;
+        }
+        return true;
+      });
+      const ignoredCount = originalCount - pFlows.length;
+      if (ignoredCount > 0) {
+        core.info(`Ignored ${ignoredCount} flow(s) by API name`);
+      }
     }
 
     if (pFlows.length === 0) {

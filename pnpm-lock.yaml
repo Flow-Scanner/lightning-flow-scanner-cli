@@ -35,6 +35,9 @@ importers:
       cosmiconfig:
         specifier: ^9.0.0
         version: 9.0.0(typescript@4.9.5)
+      minimatch:
+        specifier: ^9.0.0
+        version: 9.0.5
 
   packages/cli:
     dependencies:
@@ -230,8 +233,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0(typescript@4.9.5)
       glob:
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^11.1.0
+        version: 11.1.0
       tabulator-tables:
         specifier: ^6.3.1
         version: 6.3.1
