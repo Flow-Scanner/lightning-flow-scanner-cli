@@ -1,0 +1,6 @@
+/* Custom tabulator overrides for Lightning Flow Scanner */
+
+/* Hide header filter inputs - we use programmatic filtering with custom search UI */
+.tabulator-table .tabulator-header-filter input {
+  display: none !important;
+}
