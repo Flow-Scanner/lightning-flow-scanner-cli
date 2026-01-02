@@ -1,10 +1,15 @@
 import * as glob from "glob";
+import { loadIgnorePatterns } from './LoadIgnorePatterns';
 
-export function FindFlows(dir: string): string[] {
+export function FindFlows(dir: string, configIgnore?: string[]): string[] {
   // Normalize Windows paths → POSIX (required for glob)
   dir = dir.replace(/\\/g, "/");
+  const ignorePatterns = loadIgnorePatterns(dir, configIgnore);
 
-  return glob.sync(`${dir}/**/*.{flow-meta.xml,flow}`, {
-    ignore: ["**/node_modules/**"]
+  // Use cwd instead of absolute path in pattern to make ignore work correctly
+  return glob.sync('**/*.{flow-meta.xml,flow}', {
+    cwd: dir,
+    ignore: ignorePatterns,
+    absolute: true
   });
 }

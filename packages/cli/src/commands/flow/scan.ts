@@ -106,16 +106,19 @@ export default class Scan extends SfCommand<Output> {
 
     this.spinner.start("Loading Lightning Flow Scanner");
 
-    // ---- 1. Load config file -------------------------------------------------
-    const fileConfig = await loadScannerOptions(flags.config);
+    // ---- 1. Determine search directory for config -------------------------
+    const searchDirectory = flags.directory ?? (flags.files && flags.files.length > 0 ? flags.files[0] : ".");
 
-    // ---- 2. Merge CLI overrides (betamode) ----------------------------------
+    // ---- 2. Load config file -------------------------------------------------
+    const fileConfig = await loadScannerOptions(flags.config, {}, searchDirectory);
+
+    // ---- 3. Merge CLI overrides (betamode) ----------------------------------
     const mergedConfig = {
       ...fileConfig,
       betaMode: flags.betaMode ?? fileConfig.betaMode ?? false,
     };
 
-    // ---- 3. Locate flows ----------------------------------------------------
+    // ---- 4. Locate flows ----------------------------------------------------
     const flowFiles = this.findFlows(flags.directory, flags.files, mergedConfig.ignore);
     this.spinner.start(`Identified ${flowFiles.length} flows to scan`);
 

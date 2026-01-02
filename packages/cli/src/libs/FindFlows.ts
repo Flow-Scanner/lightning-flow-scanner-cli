@@ -6,7 +6,10 @@ export function FindFlows(dir: string, configIgnore?: string[]): string[] {
   dir = dir.replace(/\\/g, "/");
   const ignorePatterns = loadIgnorePatterns(dir, configIgnore);
 
-  return glob.sync(dir + '/**/*.{flow-meta.xml,flow}', {
-    ignore: ignorePatterns
+  // Use cwd instead of absolute path in pattern to make ignore work correctly
+  return glob.sync('**/*.{flow-meta.xml,flow}', {
+    cwd: dir,
+    ignore: ignorePatterns,
+    absolute: true
   });
 }
