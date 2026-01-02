@@ -34,8 +34,14 @@ function getSuppressionsForRule(
 
 export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): ScanResult[] {
   const flows: Flow[] = [];
+  const ignoreFlows = ruleOptions?.ignoreFlows || [];
+
   for (const flow of parsedFlows) {
     if (!flow.errorMessage && flow.flow) {
+      // Filter out flows whose names are in the ignore list
+      if (ignoreFlows.length > 0 && ignoreFlows.includes(flow.flow.name)) {
+        continue;
+      }
       flows.push(flow.flow);
     }
   }

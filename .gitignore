@@ -6,6 +6,7 @@ node_modules
 .secrets
 *.vsix
 oclif.manifest.json
+.claude/**
 
 # Ignore documentation and license files in packages
 packages/core/LICENSE.md

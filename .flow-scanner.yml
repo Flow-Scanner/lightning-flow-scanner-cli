@@ -1,5 +1,9 @@
 ignore:
+  # Example: Ignore specific files or directories(Node.js only)_
   - "**/testing/**"
+ignoreFlows:
+  # Example: Ignore specific flows by their API names
+  # - "Action_Call_In_A_Loop"
 rules:
   FlowName:
     severity: error

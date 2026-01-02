@@ -11,6 +11,7 @@ export interface IRulesConfig {
   betamode?: boolean;  // Use betaMode instead; to be removed
   detailLevel?: 'enriched' | 'simple' | DetailLevel;
   exceptions?: IExceptions;
-  rules?: IRuleOptions; 
+  rules?: IRuleOptions;
   ruleMode?: "merged" | "isolated"; // Defaults to "merged"
+  ignoreFlows?: string[]; // Flow API names to exclude from scanning
 }
