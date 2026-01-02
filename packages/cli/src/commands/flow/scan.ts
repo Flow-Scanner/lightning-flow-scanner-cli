@@ -116,7 +116,7 @@ export default class Scan extends SfCommand<Output> {
     };
 
     // ---- 3. Locate flows ----------------------------------------------------
-    const flowFiles = this.findFlows(flags.directory, flags.files);
+    const flowFiles = this.findFlows(flags.directory, flags.files, mergedConfig.ignore);
     this.spinner.start(`Identified ${flowFiles.length} flows to scan`);
 
     // ---- 4. Parse flows ------------------------------------------------------
@@ -168,10 +168,10 @@ export default class Scan extends SfCommand<Output> {
     return { summary, status, results: this.convertToCliViolations(flatResults) };
   }
 
-  private findFlows(directory?: string, sourcepath?: string[]) {
-    if (directory) return FindFlows(directory);
+  private findFlows(directory?: string, sourcepath?: string[], configIgnore?: string[]) {
+    if (directory) return FindFlows(directory, configIgnore);
     if (sourcepath?.length) return sourcepath;
-    return FindFlows(".");
+    return FindFlows(".", configIgnore);
   }
 
   private getStatus() {

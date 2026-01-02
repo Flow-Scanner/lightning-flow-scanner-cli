@@ -1,4 +1,20 @@
-import { FlatViolation } from "@flow-scanner/lightning-flow-scanner-core";
+export interface FlatViolation {
+  flowName: string;
+  flowApiName: string;
+  flowUri: string;
+  rule: string;
+  severity: string;
+  type?: string;
+  name?: string;
+  lineNumber?: number;
+  columnNumber?: number;
+  metaType?: string;
+  dataType?: string;
+  locationX?: number;
+  locationY?: number;
+  connectsTo?: string;
+  expression?: string;
+}
 
 export type ScanResult = {
   status: number;
