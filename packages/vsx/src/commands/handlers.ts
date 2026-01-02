@@ -48,7 +48,7 @@ export default class Commands {
     vscode.env.openExternal(url);
   }
 
-  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated"; ignore?: string[] }> {
+  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated"; ignore?: string[]; ignoreFlows?: string[] }> {
     const rawConfig = await loadScannerConfig(workspacePath);
     // OutputChannel.getInstance().logChannel.debug('Raw config loaded:', JSON.stringify(rawConfig, null, 2));
     const rawRules = (rawConfig.rules as Record<string, unknown>) || {};
@@ -66,8 +66,9 @@ export default class Commands {
     const betamode = !!rawConfig.betamode;
     const ruleMode: "merged" | "isolated" = String(rawConfig.ruleMode ?? 'merged').toLowerCase() === 'isolated' ? 'isolated' : 'merged';
     const ignore = Array.isArray(rawConfig.ignore) ? rawConfig.ignore as string[] : undefined;
+    const ignoreFlows = Array.isArray(rawConfig.ignoreFlows) ? rawConfig.ignoreFlows as string[] : undefined;
     await CacheProvider.instance.set('ruleconfig', { rules, betamode, ruleMode });
-    return { rules, betamode, ruleMode, ignore };
+    return { rules, betamode, ruleMode, ignore, ignoreFlows };
   }
 
   private async saveConfig(workspacePath: string, rules: RuleConfig, betamode: boolean, ruleMode: "merged" | "isolated") {
@@ -294,7 +295,7 @@ export default class Commands {
     ScanOverview.createOrShow(this.context.extensionUri, []);
 
     OutputChannel.getInstance().logChannel.debug('Using rule config for scan:', config);
-    const scanConfig = { rules: config.rules, betamode: config.betamode, ruleMode: config.ruleMode };
+    const scanConfig = { rules: config.rules, betamode: config.betamode, ruleMode: config.ruleMode, ignoreFlows: config.ignoreFlows };
     const parsed = await core.parse(toFsPaths(selectedUris));
     const results = core.scan(parsed, scanConfig);
     await CacheProvider.instance.set('results', results);
@@ -488,7 +489,7 @@ export default class Commands {
         }
       }
       const parsed = await core.parse(toFsPaths(uris));
-      results = core.scan(parsed, { rules: config.rules, betamode: config.betamode });
+      results = core.scan(parsed, { rules: config.rules, betamode: config.betamode, ignoreFlows: config.ignoreFlows });
     }
     if (results.length === 0) {
       vscode.window.showInformationMessage('No issues to fix.');

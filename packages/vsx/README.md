@@ -264,6 +264,7 @@ It is recommend to configure and define:
 - The severity of violating any specific rule.
 - Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
+- Flows or directories to exclude from scanning entirely.
 
 ```json
 {
@@ -357,6 +358,48 @@ _Example_
   }
 }
 ```
+
+### Exclude Flows from Scanning
+
+Lightning Flow Scanner provides two complementary ways to exclude flows from scanning:
+
+#### Exclude by File Path (Node.js only)
+
+Use glob patterns to exclude flows based on their file system location. This is useful for excluding entire directories or specific file patterns during the flow discovery phase:
+
+```json
+{
+  "ignore": [
+    "**/testing/**",
+    "**/*_Deprecated.flow-meta.xml"
+  ]
+}
+```
+
+**Note**: The `ignore` option uses glob patterns and applies during file discovery before flows are parsed. This is the most efficient way to exclude large numbers of flows.
+
+**Environment compatibility**: `ignore` requires Node.js (file system access) and is available in CLI Plugin, VS Code Extension, and GitHub Action. It is **not** available when using the Core Library in browser/web environments.
+
+#### Exclude by Flow API Name (Browser-compatible)
+
+Exclude specific flows by their unique API names, regardless of their location. This is particularly useful for:
+- Excluding specific flows without knowing their exact file path
+- Working with metadata API deployments where directory structures may vary
+- More precise control than path-based patterns
+
+```json
+{
+  "ignoreFlows": [
+    "My_Legacy_Flow",
+    "Temporary_Test_Flow",
+    "Deprecated_Process_Builder"
+  ]
+}
+```
+
+**Note**: The `ignoreFlows` option applies after flows are parsed, using the flow's API name (the `<fullName>` element in the flow metadata). Flow names are unique identifiers and work regardless of the flow's file system location.
+
+**Environment compatibility**: `ignoreFlows` works in **all environments** including Node.js and browser/web distributions, as it operates on parsed flow data rather than file system paths.
 
 ### Scan Modes
 
