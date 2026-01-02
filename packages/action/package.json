@@ -1,6 +1,6 @@
 {
   "name": "lightning-flow-scanner-action",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A GitHub Action for automated analysis and optimization of Salesforce Flow in Pull Requests. Scans metadata for 20+ issues such as hardcoded IDs, unsafe contexts, inefficient SOQL/DML operations, recursion risks, and missing fault handling.",
   "main": "dist/index.js",
   "private": true,
@@ -16,7 +16,8 @@
     "@actions/github": "^6.0.0",
     "@flow-scanner/lightning-flow-scanner-core": "workspace:*",
     "@vercel/ncc": "^0.38.1",
-    "cosmiconfig": "^9.0.0"
+    "cosmiconfig": "^9.0.0",
+    "minimatch": "^9.0.0"
   },
   "keywords": [
     "best-practices",
