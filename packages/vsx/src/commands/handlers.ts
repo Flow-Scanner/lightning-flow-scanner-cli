@@ -48,7 +48,7 @@ export default class Commands {
     vscode.env.openExternal(url);
   }
 
-  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated" }> {
+  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated"; ignore?: string[] }> {
     const rawConfig = await loadScannerConfig(workspacePath);
     // OutputChannel.getInstance().logChannel.debug('Raw config loaded:', JSON.stringify(rawConfig, null, 2));
     const rawRules = (rawConfig.rules as Record<string, unknown>) || {};
@@ -65,8 +65,9 @@ export default class Commands {
     }
     const betamode = !!rawConfig.betamode;
     const ruleMode: "merged" | "isolated" = String(rawConfig.ruleMode ?? 'merged').toLowerCase() === 'isolated' ? 'isolated' : 'merged';
+    const ignore = Array.isArray(rawConfig.ignore) ? rawConfig.ignore as string[] : undefined;
     await CacheProvider.instance.set('ruleconfig', { rules, betamode, ruleMode });
-    return { rules, betamode, ruleMode };
+    return { rules, betamode, ruleMode, ignore };
   }
 
   private async saveConfig(workspacePath: string, rules: RuleConfig, betamode: boolean, ruleMode: "merged" | "isolated") {
@@ -229,15 +230,16 @@ export default class Commands {
     betaMode?: boolean;
     overrideConfig?: boolean;
   }) {
-    const selectedUris = await this.selectFlows('Select flow files or folder to scan:');
-    if (!selectedUris) return;
     const root = vscode.workspace.workspaceFolders![0].uri;
 
     const configReset = vscode.workspace.getConfiguration('flowscanner').get('Reset');
     if (configReset) await this.configRules();
 
-    // Load config dynamically from YAML file
+    // Load config dynamically from YAML file BEFORE selecting flows
     let config = await this.loadConfig(root.fsPath);
+
+    const selectedUris = await this.selectFlows('Select flow files or folder to scan:', config.ignore);
+    if (!selectedUris) return;
 
     // Apply sidebar overwrites if enabled
     if (options?.overrideConfig) {
@@ -306,7 +308,9 @@ export default class Commands {
     outputDir?: string;
     configuredViaSidebar?: boolean;
   }) {
-    const selectedUris = await this.selectFlows('Select flow files or folder to document:');
+    const root = vscode.workspace.workspaceFolders![0].uri;
+    const config = await this.loadConfig(root.fsPath);
+    const selectedUris = await this.selectFlows('Select flow files or folder to document:', config.ignore);
     if (!selectedUris) return;
 
     // Use provided options or prompt for them
@@ -468,10 +472,10 @@ export default class Commands {
       else if (use === undefined) return;
     }
     if (results.length === 0) {
-      const uris = await this.selectFlows('Select flow files to fix:');
-      if (!uris) return;
       const root = vscode.workspace.workspaceFolders![0].uri;
       const config = await this.loadConfig(root.fsPath);
+      const uris = await this.selectFlows('Select flow files to fix:', config.ignore);
+      if (!uris) return;
       if (Object.keys(config.rules).length === 0) {
         const choice = await vscode.window.showWarningMessage(
           'No rules configured. Run "Configure Rules" first?',
@@ -500,13 +504,13 @@ export default class Commands {
     ScanOverview.createOrShow(this.context.extensionUri, fixed.length ? fixed : results);
   }
 
-  private async selectFlows(prompt: string): Promise<vscode.Uri[] | undefined> {
+  private async selectFlows(prompt: string, configIgnore?: string[]): Promise<vscode.Uri[] | undefined> {
     const root = vscode.workspace.workspaceFolders?.[0]?.uri;
     if (!root) {
       vscode.window.showErrorMessage('No workspace folder open.');
       return;
     }
-    const paths = await new SelectFlows(root, prompt).execute(root);
+    const paths = await new SelectFlows(root, prompt).execute(root, configIgnore);
     if (!paths.length) {
       vscode.window.showInformationMessage('No flow files selected.');
       return;

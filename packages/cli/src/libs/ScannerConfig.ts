@@ -1,5 +1,6 @@
 // scannerconfig.ts
 import { cosmiconfig } from "cosmiconfig";
+import * as os from "os";
 
 export interface ScannerOptions {
   rules?: Record<string, any>;
@@ -11,7 +12,8 @@ export interface ScannerOptions {
 
 export async function loadScannerOptions(
   forcedConfigFile?: string,
-  cliOverrides: Partial<ScannerOptions> = {}
+  cliOverrides: Partial<ScannerOptions> = {},
+  searchFrom?: string
 ): Promise<ScannerOptions> {
   const moduleName = "flow-scanner";
   const searchPlaces = [
@@ -24,10 +26,13 @@ export async function loadScannerOptions(
     `.flow-scanner`,
   ];
 
-  const explorer = cosmiconfig(moduleName, { searchPlaces });
+  const explorer = cosmiconfig(moduleName, {
+    searchPlaces,
+    stopDir: os.homedir() // Search up to home directory, not stopping at package boundaries
+  });
   const result = forcedConfigFile
     ? await explorer.load(forcedConfigFile)
-    : await explorer.search();
+    : await explorer.search(searchFrom);
 
   const fileConfig: ScannerOptions = result?.config ?? {};
 

@@ -8,7 +8,7 @@ export class SelectFlows {
     this.message = message;
   }
 
-  public async execute(initialPath: vscode.Uri) {
+  public async execute(initialPath: vscode.Uri, configIgnore?: string[]) {
     vscode.window.showInformationMessage(this.message);
     const specifyFiles: boolean = vscode.workspace
       .getConfiguration("flowscanner")
@@ -29,7 +29,7 @@ export class SelectFlows {
       if(specifyFiles){
         return uris;
       } else {
-        return FindFlows(uris[0]);
+        return FindFlows(uris[0], configIgnore);
       }
     }
     return [];
