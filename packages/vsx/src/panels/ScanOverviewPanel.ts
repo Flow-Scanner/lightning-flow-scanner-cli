@@ -3,6 +3,7 @@ import * as uuid from "uuid";
 import { ViolationOverview } from "./ViolationOverviewPanel";
 import { ScanResult, exportSarif } from "@flow-scanner/lightning-flow-scanner-core";
 import { convertArrayToCSV } from "../libs/convertArrayToCSV";
+import { ThemeHelper } from '../libs/ThemeHelper';
 
 export class ScanOverview {
   public static currentPanel: ScanOverview | undefined;
@@ -54,6 +55,12 @@ export class ScanOverview {
     this._extensionUri = extensionUri;
     this._update(scanResults);
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
+
+    // Add theme change listener
+    const themeChangeListener = vscode.window.onDidChangeActiveColorTheme(() => {
+      this._refreshWebview();
+    });
+    this._disposables.push(themeChangeListener);
   }
 
   public dispose() {
@@ -183,6 +190,20 @@ export class ScanOverview {
     });
   }
 
+  /**
+   * Refreshes the webview HTML when theme changes
+   */
+  private _refreshWebview() {
+    const webview = this._panel.webview;
+    this._panel.webview.html = this._getHtmlForWebview(webview);
+
+    // Re-send data to webview after HTML refresh
+    webview.postMessage({
+      type: "init",
+      value: this._lastScanResults
+    });
+  }
+
   private _getHtmlForWebview(webview: vscode.Webview) {
     const scriptUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ScanOverview.js")
@@ -190,8 +211,12 @@ export class ScanOverview {
     const cssUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ScanOverview.css")
     );
+    const tabulatorCssFile = ThemeHelper.getTabulatorCssFilename();
     const tabulatorStyles = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "tabulator.css")
+      vscode.Uri.joinPath(this._extensionUri, "media", tabulatorCssFile)
+    );
+    const tabulatorCustomStyles = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "tabulator-custom.css")
     );
     const stylesResetUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
@@ -209,6 +234,7 @@ export class ScanOverview {
         <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="${tabulatorStyles}" rel="stylesheet">
+        <link href="${tabulatorCustomStyles}" rel="stylesheet">
         <link href="${stylesResetUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
         <link href="${cssUri}" rel="stylesheet">
