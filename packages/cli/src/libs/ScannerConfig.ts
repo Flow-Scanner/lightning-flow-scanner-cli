@@ -5,6 +5,7 @@ export interface ScannerOptions {
   rules?: Record<string, any>;
   exceptions?: Record<string, any>;
   betaMode?: boolean;
+  ignore?: string[];
   [key: string]: any;
 }
 

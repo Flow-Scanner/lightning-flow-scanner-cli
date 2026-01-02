@@ -1,0 +1,9 @@
+ignore:
+  - "**/testing/**"
+rules:
+  FlowName:
+    severity: error
+    expression: "[A-Za-z0-9]+_[A-Za-z0-9]+"
+  APIVersion:
+    severity: warning
+    expression: ">=50"
