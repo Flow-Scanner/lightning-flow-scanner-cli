@@ -7,6 +7,7 @@ export interface ScannerOptions {
   exceptions?: Record<string, any>;
   betaMode?: boolean;
   ignore?: string[];
+  ignoreFlows?: string[];
   [key: string]: any;
 }
 

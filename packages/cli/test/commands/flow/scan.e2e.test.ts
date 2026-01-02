@@ -44,4 +44,66 @@ describe("Scan E2E Tests", () => {
     });
   });
 
+  describe("Ignore Flow Names", () => {
+    it("should exclude flows by API name using ignoreFlows", async () => {
+      // Scan demo flows but exclude specific flow names
+      // We'll use the --config flag to create a temporary config with ignoreFlows
+      const tempConfigPath = path.resolve(__dirname, "../../../temp-test-config.yml");
+      const fs = await import('fs');
+
+      // Create temp config with ignoreFlows
+      fs.writeFileSync(tempConfigPath, `
+ignoreFlows:
+  - "Hardcoded_Id"
+  - "Hardcoded_Url"
+rules: {}
+`);
+
+      try {
+        const output = await new Scan(["-d", demoFlowsPath, "--config", tempConfigPath], config).run();
+
+        // Should find 20 flows (22 demo flows - 2 ignored by name)
+        expect(output.summary.flowsNumber).to.equal(20, "Should exclude flows specified in ignoreFlows");
+
+        // Verify the ignored flows are not in results
+        const flowNames = new Set(output.results.map(r => r.flowApiName));
+        expect(flowNames.has("Hardcoded_Id")).to.be.false;
+        expect(flowNames.has("Hardcoded_Url")).to.be.false;
+      } finally {
+        // Clean up temp config
+        if (fs.existsSync(tempConfigPath)) {
+          fs.unlinkSync(tempConfigPath);
+        }
+      }
+    });
+
+    it("should combine path ignore and flow name ignore", async () => {
+      // Create temp config that ignores testing directory AND specific flow names in demo
+      const tempConfigPath = path.resolve(__dirname, "../../../temp-test-config2.yml");
+      const fs = await import('fs');
+
+      fs.writeFileSync(tempConfigPath, `
+ignore:
+  - "**/testing/**"
+ignoreFlows:
+  - "Hardcoded_Id"
+rules: {}
+`);
+
+      try {
+        const output = await new Scan(["-d", exampleFlowsPath, "--config", tempConfigPath], config).run();
+
+        // Should find 21 flows (22 demo flows - 1 ignored by name, testing already excluded by path)
+        expect(output.summary.flowsNumber).to.equal(21, "Should apply both path and flow name ignore");
+
+        const flowNames = new Set(output.results.map(r => r.flowApiName));
+        expect(flowNames.has("Hardcoded_Id")).to.be.false;
+      } finally {
+        if (fs.existsSync(tempConfigPath)) {
+          fs.unlinkSync(tempConfigPath);
+        }
+      }
+    });
+  });
+
 });
