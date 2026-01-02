@@ -2,28 +2,23 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "pnpm: watch --filter vsx",
+      "label": "vsx: build",
       "type": "shell",
       "command": "pnpm",
-      "args": ["watch", "--filter", "vsx"],
-      "isBackground": true,
-      "problemMatcher": "$ts-webpack-watch",
-      "presentation": {
-        "reveal": "never",
-        "group": "watchers"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "args": ["-F", "lightning-flow-scanner-vsx", "run", "build"],
+      "group": "build"
     },
     {
-      "label": "pnpm: compile --filter vsx",
+      "label": "vsx: watch",
       "type": "shell",
       "command": "pnpm",
-      "args": ["compile", "--filter", "vsx"],
-      "group": "build",
-      "problemMatcher": []
+      "args": ["-F", "lightning-flow-scanner-vsx", "run", "watch"],
+      "isBackground": true
+    },
+    {
+      "label": "vsx: build+watch",
+      "dependsOn": ["vsx: build", "vsx: watch"],
+      "dependsOrder": "sequence"
     }
   ]
 }

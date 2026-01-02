@@ -6,67 +6,38 @@
        ========================= */
 
     {
-      "name": "Core: Run pnpm test",
+      "name": "Test Core",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm test",
       "cwd": "${workspaceFolder}/packages/core"
     },
-
-    {
-      "name": "Core: Debug Jest Tests",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "args": [
-        "test",
-        "--",
-        "--runInBand",
-        "--watchAll=false",
-        "--testNamePattern",
-        "${jest.testNamePattern}",
-        "--runTestsByPath",
-        "${jest.testFile}"
-      ],
-      "cwd": "${workspaceFolder}/packages/core",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "${workspaceFolder}/node_modules/**",
-        "<node_internals>/**"
-      ]
-    },
-
     /* =========================
        VS CODE EXTENSION (VSX)
        ========================= */
-
     {
-      "name": "VSX: Launch Extension (watch)",
+      "name": "Launch VSX(compiled)",
       "type": "extensionHost",
       "request": "launch",
-      "runtimeExecutable": "${execPath}",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/packages/vsx"
-      ],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/packages/vsx/out/src/**/*.js"
-      ],
-      "preLaunchTask": "pnpm: watch --filter vsx"
-    },
-
-    {
-      "name": "VSX: Launch Extension (dist)",
-      "type": "pwa-extensionHost",
-      "request": "launch",
-      "runtimeExecutable": "${execPath}",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}/packages/vsx"
       ],
       "outFiles": [
-        "${workspaceFolder}/packages/vsx/dist/**/*.js"
-      ]
-    }
+        "${workspaceRoot}/packages/vsx/out/compiled/**/*.js"
+      ],
+      "preLaunchTask": "vsx: build",
+    },
+    {
+      "name": "Launch VSX(dist)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/packages/vsx"
+      ],
+      "outFiles": [
+        "${workspaceRoot}/packages/vsx/dist/**/*.js"
+      ],
+    },
   ]
 }
