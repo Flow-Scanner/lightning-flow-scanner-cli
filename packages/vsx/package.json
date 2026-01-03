@@ -93,7 +93,7 @@
     "publish:vsx": "pnpm run build:vsx",
     "____MAIN____": "Developer Scripts",
     "build": "rollup -c && pnpm run compile",
-    "copy:root-files": "node -e \"['../../LICENSE.md','../../.github/CONTRIBUTING.md','../../.github/SECURITY.md'].forEach(f=>require('fs').existsSync(f)&&require('fs').copyFileSync(f,require('path').basename(f)))\"",
+    "copy:root-files": "node -e \"['../../LICENSE.md','../../CONTRIBUTING.md','../../SECURITY.md'].forEach(f=>require('fs').existsSync(f)&&require('fs').copyFileSync(f,require('path').basename(f)))\"",
     "clean:root-files": "rimraf LICENSE.md CONTRIBUTING.md SECURITY.md",
     "build:vsx": "pnpm run vscode:prepublish && pnpm run copy:root-files && vsce package --no-dependencies && pnpm run clean:root-files",
     "watch": "rimraf out dist && concurrently \"rollup -c -w\" \"webpack --watch --config ./build/node-extension.webpack.config.js\""
