@@ -288,6 +288,7 @@ async function run() {
                 flowPath: scanResult.flow.fsPath,
                 rule: ruleResult.ruleName,
                 severity: severity,
+                message: ruleResult.message || ruleResult.ruleDefinition.description || "",
                 type: detail.type || "",
                 name: detail.name || "",
                 line: detail.lineNumber || "",
