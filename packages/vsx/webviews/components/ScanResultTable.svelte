@@ -36,10 +36,14 @@
             url: "javascript:void(0);",
           }),
           cellClick: (_e: any, cell: any) => {
-            tsvscode.postMessage({
-              type: "goToFile",
-              value: cell.getRow().getData().flow,
-            });
+            const flow = cell.getRow().getData().flow;
+            const flowPath = flow?.path || flow?.fsPath || flow?.uri;
+            if (flowPath) {
+              tsvscode.postMessage({
+                type: "goToFile",
+                value: { path: flowPath },
+              });
+            }
           },
           headerFilter: true,
           headerFilterPlaceholder: "",

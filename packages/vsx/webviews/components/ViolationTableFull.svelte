@@ -23,7 +23,7 @@
       groupBy: ["ruleLabel"],
       groupHeader: (value, count, data) => {
         const desc = data[0]?.ruleDescription || "";
-        return `${value} <span>(${count})</span><p style="font-style:italic">${desc}</p>`;
+        return `${value} <span>(${count})</span><p style="font-style:italic;white-space:normal;word-wrap:break-word;max-width:100%;">${desc}</p>`;
       },
       columns: [
         { title: "#", formatter: "rownum", width: 75 },
@@ -39,12 +39,26 @@
           title: "Type", field: "type", width: 150,
           headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: ""
         },
-        { 
+        {
           title: "Flow name", field: "flowName", minWidth: 150,
-          headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: ""
+          headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "",
+          formatter: "link",
+          formatterParams: (cell: any) => ({
+            label: cell.getValue(),
+            url: "javascript:void(0);",
+          }),
+          cellClick: (_e: any, cell: any) => {
+            const rowData = cell.getRow().getData();
+            if (rowData.flowPath) {
+              tsvscode.postMessage({
+                type: "goToFile",
+                value: { path: rowData.flowPath },
+              });
+            }
+          },
         },
-        { title: "X", field: "locationX", width: 75, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
-        { title: "Y", field: "locationY", width: 75, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
+        { title: "Line", field: "lineNumber", width: 75, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
+        { title: "Column", field: "columnNumber", width: 85, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
         { title: "Connects to", field: "connectsTo", minWidth: 150, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
         { title: "Expression", field: "expression", minWidth: 150, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
         { title: "DataType", field: "dataType", width: 150, headerFilter: "input", headerFilterFunc: "like", headerFilterPlaceholder: "" },
@@ -92,7 +106,7 @@
     const filtered = originalData.filter(row => {
       return [
         row.name, row.severity, row.type,
-        row.locationX, row.locationY,
+        row.lineNumber, row.columnNumber,
         row.connectsTo, row.expression, row.dataType
       ].some(val => val?.toString().toLowerCase().includes(term.toLowerCase()));
     });
