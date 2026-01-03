@@ -417,7 +417,7 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 | **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@main` |
 | **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
 
-**Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](.github/SECURITY.md).
+**Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](SECURITY.md).
 
 ### CICD Templates
 Ready-to-use CI/CD templates and a **Copado Plugin**.
@@ -584,4 +584,4 @@ For more on Programmatic API, types, and advanced usage of `@flow-scanner/lightn
    ```
    This creates UMD at `dist/lightning-flow-scanner-core.umd.js`.
 
-**Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](.github/CONTRIBUTING.md)**
+**Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](CONTRIBUTING.md)**

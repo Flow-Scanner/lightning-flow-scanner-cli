@@ -4,8 +4,8 @@ description: Documentation for Lightning Flow Scanner
 theme: jekyll-theme-cayman
 
 include:
-  - .github/CONTRIBUTING.md
-  - .github/SECURITY.md
+  - CONTRIBUTING.md
+  - SECURITY.md
   - .github/CODE_OF_CONDUCT.md
   - README.md
   - LICENSE.md
