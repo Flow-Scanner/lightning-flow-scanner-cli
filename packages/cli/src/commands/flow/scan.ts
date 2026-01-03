@@ -214,6 +214,7 @@ export default class Scan extends SfCommand<Output> {
       "flowName",
       "ruleName",
       "severity",
+      "message",
       "type",
       "name",
       "lineNumber",
@@ -231,6 +232,7 @@ export default class Scan extends SfCommand<Output> {
       flowName: r.flowName ?? "",
       ruleName: r.ruleName ?? "",
       severity: r.severity ?? "warning",
+      message: r.message ?? "",
       type: r.type ?? "",
       name: r.name ?? "",
       lineNumber: r.lineNumber ?? "",
@@ -258,6 +260,7 @@ export default class Scan extends SfCommand<Output> {
         resultsByFlow[r.flowName] = resultsByFlow[r.flowName] ?? [];
         resultsByFlow[r.flowName].push({
           rule: r.ruleName,
+          message: r.message || '',
           type: r.type,
           name: r.name,
           severity: r.severity,
@@ -280,7 +283,7 @@ export default class Scan extends SfCommand<Output> {
           
           this.table({
             data: resultsByFlow[flowName],
-            columns: ["rule", "type", "name", "severity", "line", "column"],
+            columns: ["rule", "message", "type", "name", "severity", "line", "column"],
           });
           this.log("");
         }

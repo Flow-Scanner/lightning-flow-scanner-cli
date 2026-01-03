@@ -13,6 +13,23 @@
       "cwd": "${workspaceFolder}/packages/core"
     },
     /* =========================
+       CLI PACKAGE
+       ========================= */
+    {
+      "name": "Test CLI - All",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm test",
+      "cwd": "${workspaceFolder}/packages/cli"
+    },
+    {
+      "name": "Test CLI - E2E",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm test test/commands/flow/scan.e2e.test.ts",
+      "cwd": "${workspaceFolder}/packages/cli"
+    },
+    /* =========================
        VS CODE EXTENSION (VSX)
        ========================= */
     {
