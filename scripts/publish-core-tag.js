@@ -27,8 +27,19 @@ function git(...args) {
 }
 
 try {
-  // Check for uncommitted changes
-  const status = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8', cwd: repoRoot }).trim();
+  // Check we're on main branch
+  const currentBranch = execFileSync('git', ['branch', '--show-current'], { encoding: 'utf8', cwd: repoRoot }).trim();
+  if (currentBranch !== 'main') {
+    console.error('❌ This script must be run on the main branch.');
+    console.error(`   Current branch: ${currentBranch}`);
+    console.error('   Use "node scripts/publish-core-from-branch.js" to publish from a feature branch.');
+    process.exit(1);
+  }
+
+
+  // Check for uncommitted changes ONLY in packages/core
+  const coreDir = path.join(repoRoot, 'packages', 'core');
+  const status = execFileSync('git', ['status', '--porcelain', 'packages/core'], { encoding: 'utf8', cwd: repoRoot }).trim();
 
   if (status) {
     const allowed = [corePkgPath, lockFilePath]
@@ -43,16 +54,16 @@ try {
 
     const unexpected = modified.filter(f => !allowed.includes(f));
     if (unexpected.length > 0) {
-      console.error('❌ Uncommitted changes not allowed:', unexpected);
+      console.error('❌ Uncommitted changes in packages/core not allowed (except package.json):', unexpected);
       process.exit(1);
     }
 
     // Auto-commit version bump
-    console.log('Auto-committing version bump...');
+    console.log('Auto-committing core version bump...');
     git('add', ...allowed);
     git('commit', '-m', `chore(core): release ${version}`);
   } else {
-    console.log('No version bump detected, proceeding...');
+    console.log('No core version bump detected, proceeding...');
   }
 
   // Delete old tag locally/remotely (ignore errors)
