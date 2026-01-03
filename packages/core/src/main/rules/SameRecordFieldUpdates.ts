@@ -15,7 +15,7 @@ export class SameRecordFieldUpdates extends RuleCommon implements IRuleDefinitio
         ruleId: "same-record-field-updates",
         name: "SameRecordFieldUpdates",
         label: "Same Record Field Updates",
-        description: "Similar to triggers, **before-save** contexts can update the same record via `$Record` without invoking DML.",
+        description: "Before-save Flows can safely update the triggering record directly via $Record, applying changes efficiently without extra DML operations. Using before-save updates improves performance",
         supportedTypes: [...core.FlowType.backEndTypes],
         docRefs: [
           {

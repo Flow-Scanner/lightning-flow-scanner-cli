@@ -8,7 +8,7 @@ export class TransformInsteadOfLoop extends RuleCommon implements IRuleDefinitio
       ruleId: "transform-instead-of-loop",
       name: "TransformInsteadOfLoop",
       label: "Transform Instead of Loop",
-      description: "Detects Loop elements that directly connect to Assignment elements. Transform elements handle collection manipulation in bulk operations, providing significant performance improvements over iterative loop-assignment patterns.",
+      description: "Loop elements that perform direct Assignments on each item can slow down Flows. Using Transform elements allows bulk operations on collections, improving performance and reducing complexity.",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [
         {

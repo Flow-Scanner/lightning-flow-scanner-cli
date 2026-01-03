@@ -5,7 +5,7 @@ export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition
     super(
       {
         ruleId: "action-call-in-loop",
-        description: "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.",
+        description: "Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.",
         docRefs: [
           {
             label: "Action Call In A Loop",
@@ -15,7 +15,7 @@ export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition
         label: "Action Call In A Loop",
         name: "ActionCallsInLoop",
         supportedTypes: FlowType.backEndTypes,
-      }, { severity: "error" });
+      }, { severity: "warning" });
   }
   protected getStatementTypes(): string[] {
     return ["actionCalls", "apexPluginCalls"];

@@ -89,6 +89,11 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
             ? rule.execute(flow, config, suppressions)
             : rule.execute(flow, undefined, suppressions);
 
+        // Apply custom message if provided in config
+        if (config && typeof config === 'object' && 'message' in config && typeof config.message === 'string') {
+          result.message = config.message;
+        }
+
         if (result.details.length > 0) {
           let flowXml = flowXmlCache.get(flow.name);
           if (!flowXml) {

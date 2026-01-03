@@ -8,7 +8,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition {
       ruleId: "unused-variable",
       name: "UnusedVariable",
       label: "Unused Variable",
-      description: "To maintain efficiency and manageability, avoid including variables that are never referenced.",
+      description: "Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.",
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
     });
