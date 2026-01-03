@@ -13,6 +13,9 @@ function absolutifyLinks(content) {
     'security.md': `${repoBase}?tab=security-ov-file`,
     'CONTRIBUTING.md': `${repoBase}?tab=contributing-ov-file`,
     'contributing.md': `${repoBase}?tab=contributing-ov-file`,
+    '.github/SECURITY.md': `${repoBase}?tab=security-ov-file`,
+    '.github/CONTRIBUTING.md': `${repoBase}?tab=contributing-ov-file`,
+    '.github/CODE_OF_CONDUCT.md': `${repoBase}?tab=coc-ov-file`,
   };
 
   // Regex for markdown links: [text](relativePath) — skip absolute, anchors, root-absolute, mailto

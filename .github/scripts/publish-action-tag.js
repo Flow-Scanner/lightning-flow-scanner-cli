@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 // This is the ONLY path that works in your fresh clone
-const pkgPath = path.join(__dirname, '..', 'packages', 'action', 'package.json');
+const pkgPath = path.join(__dirname, '../..', 'packages', 'action', 'package.json');
 if (!fs.existsSync(pkgPath)) {
   console.error('ERROR: Cannot find packages/action/package.json');
   console.error('Expected path:', pkgPath);
