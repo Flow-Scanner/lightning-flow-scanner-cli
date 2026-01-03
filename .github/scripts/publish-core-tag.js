@@ -3,8 +3,8 @@ const { execFileSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-// Determine repo root (one levels up from script)
-const repoRoot = path.resolve(__dirname, '..');
+// Determine repo root (two levels up from script in .github/scripts)
+const repoRoot = path.resolve(__dirname, '../..');
 const corePkgPath = path.join(repoRoot, 'packages', 'core', 'package.json');
 const lockFilePath = path.join(repoRoot, 'pnpm-lock.yaml');
 

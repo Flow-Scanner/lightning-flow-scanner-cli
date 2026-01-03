@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 // Load the compiled RuleRegistry
-const { ruleRegistry } = require('../packages/core/out/main/config/RuleRegistry.js');
+const { ruleRegistry } = require('../../packages/core/out/main/config/RuleRegistry.js');
 
 // Load README
-const readmePath = path.join(__dirname, '..', 'README.md');
+const readmePath = path.join(__dirname, '../..', 'README.md');
 let readmeContent = fs.readFileSync(readmePath, 'utf8');
 
 // 1. Extract metadata from RuleRegistry
