@@ -5,7 +5,7 @@ export class SOQLQueryInLoop extends LoopRuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "soql-in-loop",
-      description: "To prevent exceeding Apex governor limits, consolidate all SOQL queries at the end of the flow.",
+      description: "Running SOQL queries inside a loop can rapidly exceed query limits and severely degrade performance. Queries should be executed once, with results reused throughout the loop.",
       docRefs: [
         {
           label: "Flow Best Practices",

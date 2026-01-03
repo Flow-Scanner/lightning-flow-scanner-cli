@@ -8,7 +8,7 @@ export class RecordIdAsString extends RuleCommon implements IRuleDefinition {
       ruleId: "record-id-as-string",
       name: "RecordIdAsString",
       label: "Record ID as String",
-      description: "Detects flows using a String variable named `recordId` as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
+      description: "Flows that use a String variable for a record ID instead of receiving the full record introduce unnecessary complexity and additional Get Records queries. Using the complete record simplifies the Flow and improves performance.",
       supportedTypes: [
         ...core.FlowType.visualTypes,
         core.FlowType.autolaunchedType,
@@ -19,7 +19,7 @@ export class RecordIdAsString extends RuleCommon implements IRuleDefinition {
           path: "https://help.salesforce.com/s/articleView?id=sf.flow_distribute_screen.htm",
         },
       ],
-    }, { severity: "error" });
+    }, { severity: "note" });
   }
 
   protected check(

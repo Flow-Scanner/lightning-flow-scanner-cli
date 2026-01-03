@@ -33,10 +33,10 @@
 
 - **[Default Rules](#default-rules)**
 - **[Configuration](#configuration)**
-  - [Configure Severity Levels](#configure-severity-levels)
+  - [Configure Rules](#configure-rules)
   - [Overwrite Expressions](#overwrite-expressions)
   - [Define Exceptions](#define-exceptions)
-  - [Exclude Flows from Scanning](#exclude-flows-from-scanning)
+  - [Exclude Flows](#exclude-flows)
   - [Scan Modes](#scan-modes)
 - **[Installation](#installation)**
   - [Distributions](#distributions)
@@ -55,189 +55,189 @@
 
 <!-- START GENERATED_RULES -->
 ### Action Call In A Loop
-To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.
+Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.
 
 **Rule ID:** `action-call-in-loop`
 **Class Name:** _[ActionCallsInLoop](packages/core/src/main/rules/ActionCallsInLoop.ts)_
-**Severity:** 🔴 *Error*
+**Severity:** 🟡 *Warning*
 
 ### DML Statement In A Loop
-To prevent exceeding Apex governor limits, consolidate all your database operations—record creation, updates, or deletions—at the conclusion of the flow.
+Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.
 
 **Rule ID:** `dml-in-loop`
 **Class Name:** _[DMLStatementInLoop](packages/core/src/main/rules/DMLStatementInLoop.ts)_
 **Severity:** 🔴 *Error*
 
 ### Duplicate DML Operation
-When a flow executes database changes or actions between two screens, prevent users from navigating backward between screens; otherwise, duplicate database operations may be performed.
+When a Flow performs database operations across multiple screens, users navigating backward can cause the same actions to run multiple times. To prevent unintended changes, either restrict backward navigation or redesign the Flow so database operations execute in a single, forward-moving step.
 
 **Rule ID:** `duplicate-dml`
 **Class Name:** _[DuplicateDMLOperation](packages/core/src/main/rules/DuplicateDMLOperation.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Excessive Cyclomatic Complexity
-The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.
+High numbers of loops and decision elements increase a Flow’s cyclomatic complexity. To maintain simplicity and readability, consider using subflows or splitting a Flow into smaller, ordered Flows.
 
 **Rule ID:** `excessive-cyclomatic-complexity`
 **Class Name:** _[CyclomaticComplexity](packages/core/src/main/rules/CyclomaticComplexity.ts)_
 **Severity:** 🔵 *Note*
 
 ### Flow Naming Convention
-The readability of a flow is paramount. Establishing a naming convention significantly enhances findability, searchability, and overall consistency. Include at least a domain and a brief description of the flow’s actions, for example `Service_OrderFulfillment`.
+Using clear and consistent Flow names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a Flow’s purpose—for example, including a domain and brief description like Service_OrderFulfillment. Adopt a naming pattern that aligns with your organization’s standards.
 
 **Rule ID:** `invalid-naming-convention`
 **Class Name:** _[FlowName](packages/core/src/main/rules/FlowName.ts)_
 **Severity:** 🔴 *Error*
 
 ### Get Record All Fields
-Following the principle of least privilege (PoLP), avoid using **Get Records** with “Automatically store all fields” unless necessary.
+Avoid using Get Records to retrieve all fields unless necessary. This improves performance, reduces processing time, and limits exposure of unnecessary data.
 
 **Rule ID:** `get-record-all-fields`
 **Class Name:** _[GetRecordAllFields](packages/core/src/main/rules/GetRecordAllFields.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Hardcoded Id
-Avoid hard-coding IDs because they are org specific. Instead, pass them into variables at the start of the flow—via merge-field URL parameters or a **Get Records** element.
+Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.
 
 **Rule ID:** `hardcoded-id`
 **Class Name:** _[HardcodedId](packages/core/src/main/rules/HardcodedId.ts)_
 **Severity:** 🔴 *Error*
 
 ### Hardcoded Url
-Avoid hard-coding URLs because they are environment specific. Use an `$API` formula (preferred) or environment-specific sources like custom labels, metadata, or settings.
+Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.
 
 **Rule ID:** `hardcoded-url`
 **Class Name:** _[HardcodedUrl](packages/core/src/main/rules/HardcodedUrl.ts)_
 **Severity:** 🔴 *Error*
 
 ### Inactive Flow
-Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble—such as accidentally deleting records during testing, or being activated as subflows.
+Inactive Flows should be deleted or archived to reduce risk. Even when inactive, they can cause unintended record changes during testing or be activated as subflows. Keeping only active, relevant Flows improves safety and maintainability.
 
 **Rule ID:** `inactive-flow`
 **Class Name:** _[InactiveFlow](packages/core/src/main/rules/InactiveFlow.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Invalid API Version
-Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the **Api Version** attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.
+Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.
 
 **Rule ID:** `invalid-api-version`
 **Class Name:** _[APIVersion](packages/core/src/main/rules/APIVersion.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Missing Auto Layout
-With Canvas Mode set to Auto-Layout, elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized—saving you time.
+Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.
 
 **Rule ID:** `missing-auto-layout`
 **Class Name:** _[AutoLayout](packages/core/src/main/rules/AutoLayout.ts)_
 **Severity:** 🔵 *Note*
 
 ### Missing Fault Path
-A flow may fail to execute an operation as intended. By default, the flow displays an error to the user and emails the creator. Customize this behavior by incorporating a Fault Path.
+Elements that can fail should include a Fault Path to handle errors gracefully. Without it, failures show generic errors to users. Fault Paths improve reliability and user experience.
 
 **Rule ID:** `missing-fault-path`
 **Class Name:** _[MissingFaultPath](packages/core/src/main/rules/MissingFaultPath.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Missing Filter Record Trigger ![Beta](https://img.shields.io/badge/status-beta-yellow)
-Record-triggered flows that lack filters on changed fields or entry conditions can lead to unnecessary executions on every record change. This may degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.
+Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.
 
 **Rule ID:** `missing-record-trigger-filter`
 **Class Name:** _[MissingFilterRecordTrigger](packages/core/src/main/rules/MissingFilterRecordTrigger.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Missing Flow Description
-Descriptions play a vital role in documentation. It is highly recommended to include details about where a flow is used and its intended purpose.
+Flow descriptions are essential for documentation and maintainability. Include a description for each Flow, explaining its purpose and where it’s used.
 
 **Rule ID:** `missing-flow-description`
 **Class Name:** _[FlowDescription](packages/core/src/main/rules/FlowDescription.ts)_
 **Severity:** 🔴 *Error*
 
 ### Missing Metadata Description ![Beta](https://img.shields.io/badge/status-beta-yellow)
-Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.
+Elements and metadata without a description reduce clarity and maintainability. Adding descriptions improves readability and makes your automation easier to understand.
 
 **Rule ID:** `missing-metadata-description`
 **Class Name:** _[MissingMetadataDescription](packages/core/src/main/rules/MissingMetadataDescription.ts)_
-**Severity:** 🔴 *Error*
+**Severity:** 🟡 *Warning*
 
 ### Missing Null Handler
-When a **Get Records** operation finds no data, it returns `null`. Validate data by using a Decision element to check for a non-null result.
+Get Records operations return null when no data is found. Without handling these null values, Flows can fail or produce unintended results. Adding a null check improves reliability and ensures the Flow behaves as expected.
 
 **Rule ID:** `missing-null-handler`
 **Class Name:** _[MissingNullHandler](packages/core/src/main/rules/MissingNullHandler.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Missing Trigger Order
-Guarantee your flow execution order with the **Trigger Order** property introduced in Spring '22.value to their flows and guarantee their execution order. This priority value is not an absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.
+Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.
 
 **Rule ID:** `unspecified-trigger-order`
 **Class Name:** _[TriggerOrder](packages/core/src/main/rules/TriggerOrder.ts)_
 **Severity:** 🔵 *Note*
 
 ### Process Builder
-Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.
+Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.
 
 **Rule ID:** `process-builder-usage`
 **Class Name:** _[ProcessBuilder](packages/core/src/main/rules/ProcessBuilder.ts)_
-**Severity:** 🟡 *Warning*
+**Severity:** 🔴 *Error*
 
 ### Record ID as String ![Beta](https://img.shields.io/badge/status-beta-yellow)
-Detects flows using a String variable named `recordId` as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.
+Flows that use a String variable for a record ID instead of receiving the full record introduce unnecessary complexity and additional Get Records queries. Using the complete record simplifies the Flow and improves performance.
 
 **Rule ID:** `record-id-as-string`
 **Class Name:** _[RecordIdAsString](packages/core/src/main/rules/RecordIdAsString.ts)_
-**Severity:** 🔴 *Error*
+**Severity:** 🔵 *Note*
 
 ### Recursive After Update
-After-update flows are meant for modifying **other** records. Using them on the same record can cause recursion. Consider **before-save** flows for same-record updates.
+After-save Flows that update the same record can trigger recursion, causing unintended behavior or performance issues. Avoid updating the triggering record in after-save Flows; use before-save Flows instead to prevent recursion.
 
 **Rule ID:** `recursive-record-update`
 **Class Name:** _[RecursiveAfterUpdate](packages/core/src/main/rules/RecursiveAfterUpdate.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Same Record Field Updates
-Similar to triggers, **before-save** contexts can update the same record via `$Record` without invoking DML.
+Before-save Flows can safely update the triggering record directly via $Record, applying changes efficiently without extra DML operations. Using before-save updates improves performance
 
 **Rule ID:** `same-record-field-updates`
 **Class Name:** _[SameRecordFieldUpdates](packages/core/src/main/rules/SameRecordFieldUpdates.ts)_
 **Severity:** 🟡 *Warning*
 
 ### SOQL Query In A Loop
-To prevent exceeding Apex governor limits, consolidate all SOQL queries at the end of the flow.
+Running SOQL queries inside a loop can rapidly exceed query limits and severely degrade performance. Queries should be executed once, with results reused throughout the loop.
 
 **Rule ID:** `soql-in-loop`
 **Class Name:** _[SOQLQueryInLoop](packages/core/src/main/rules/SOQLQueryInLoop.ts)_
 **Severity:** 🔴 *Error*
 
 ### Transform Instead of Loop ![Beta](https://img.shields.io/badge/status-beta-yellow)
-Detects Loop elements that directly connect to Assignment elements. Transform elements handle collection manipulation in bulk operations, providing significant performance improvements over iterative loop-assignment patterns.
+Loop elements that perform direct Assignments on each item can slow down Flows. Using Transform elements allows bulk operations on collections, improving performance and reducing complexity.
 
 **Rule ID:** `transform-instead-of-loop`
 **Class Name:** _[TransformInsteadOfLoop](packages/core/src/main/rules/TransformInsteadOfLoop.ts)_
 **Severity:** 🔵 *Note*
 
 ### Unclear API Name
-Maintaining multiple elements with a similar name, like `Copy_X_Of_Element`, can diminish the overall readability of your Flow. When copying and pasting these elements, remember to update the API name of the newly created copy.
+Elements with unclear or duplicated API names, like Copy_X_Of_Element, reduce Flow readability. Make sure to update the API name when copying elements to keep your Flow organized.
 
 **Rule ID:** `unclear-api-naming`
 **Class Name:** _[CopyAPIName](packages/core/src/main/rules/CopyAPIName.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Unreachable Element
-Avoid unconnected elements that are not used by the flow to keep flows efficient and maintainable.
+Unconnected elements never execute and add unnecessary clutter. Remove or connect unused Flow elements to keep Flows clean and efficient.
 
 **Rule ID:** `unreachable-element`
 **Class Name:** _[UnconnectedElement](packages/core/src/main/rules/UnconnectedElement.ts)_
 **Severity:** 🟡 *Warning*
 
 ### Unsafe Running Context
-This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.
+Flows configured to run in System Mode without Sharing grant access to all data, bypassing user permissions. Avoid this setting to prevent security risks and protect sensitive data.
 
 **Rule ID:** `unsafe-running-context`
 **Class Name:** _[UnsafeRunningContext](packages/core/src/main/rules/UnsafeRunningContext.ts)_
 **Severity:** 🔴 *Error*
 
 ### Unused Variable
-To maintain efficiency and manageability, avoid including variables that are never referenced.
+Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.
 
 **Rule ID:** `unused-variable`
 **Class Name:** _[UnusedVariable](packages/core/src/main/rules/UnusedVariable.ts)_
@@ -253,20 +253,21 @@ It is recommend to configure and define:
 - The severity of violating any specific rule.
 - Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
-- Flows or directories to exclude from scanning entirely.
 
 ```json
 {
   "rules": {
-    // Your rules here
+    // Your rule configurations
   },
   "exceptions": {
-    // Your exceptions here
+    // Your defined exceptions
   }
 }
 ```
 
 Most Lightning Flow Scanner distributions automatically resolve configurations from `.flow-scanner.yml`, `.flow-scanner.json`, or `package.json` → `flowScanner`.
+
+### Configure Rules
 
 By default, all default rules are executed. You can customize individual rules and override the rules to be executed without having to specify every rule. Below is a breakdown of the available attributes of rule configuration:
 
@@ -276,24 +277,23 @@ By default, all default rules are executed. You can customize individual rules a
     "<RuleId>": {
       "severity": "<Severity>", // Override severity level
       "expression": "<Expression>", // Override rule expression
-      "enabled": "false" // Disable this rule
+      "message": "<Message>", // Set custom message
+      "enabled": false  // Disable this rule
     }
   }
 }
 ```
 
-### Configure Severity Levels
-
-When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as shown below:
+When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as demonstrated below:
 
 ```json
 {
   "rules": {
-    "missing-flow-description": {
-      "severity": "error"
+    "record-id-as-string": {
+      "severity": "warning",
     },
-    "unused-variable": {
-      "severity": "note"
+    "unclear-api-naming": {
+      "severity": "error",
     }
   }
 }
@@ -301,13 +301,13 @@ When the severity is not provided it will be `warning` by default. Other availab
 
 ### Overwrite Expressions
 
-Some rules have an expression to configure, such as the expression, that will overwrite default values. These can be configured in the same way as severity as shown in the following example.
+Some rules are configurable and allow overriding their default expressions. You configure these overrides the same way as severity, as shown in the examples below.
 
 ```json
 {
   "rules": {
     "invalid-api-version": {
-      "expression": "===58" // comparison operator
+      "expression": "===58" // comparison expression
     },
     "invalid-naming-convention": {
       "expression": "[A-Za-z0-9]" // regular expression
@@ -348,13 +348,11 @@ _Example_
 }
 ```
 
-### Exclude Flows from Scanning
-
-Lightning Flow Scanner provides two complementary ways to exclude flows from scanning:
+### Exclude Flows
 
 #### Exclude by File Path (Node.js only)
 
-Use glob patterns to exclude flows based on their file system location. This is useful for excluding entire directories or specific file patterns during the flow discovery phase:
+Use glob patterns to exclude flows based on their file system location. This is useful for excluding entire directories or specific name patterns:
 
 ```json
 {
@@ -364,8 +362,6 @@ Use glob patterns to exclude flows based on their file system location. This is 
   ]
 }
 ```
-
-**Note**: The `ignore` option uses glob patterns and applies during file discovery before flows are parsed. This is the most efficient way to exclude large numbers of flows.
 
 **Environment compatibility**: `ignore` requires Node.js (file system access) and is available in CLI Plugin, VS Code Extension, and GitHub Action. It is **not** available when using the Core Library in browser/web environments.
 
@@ -385,8 +381,6 @@ Exclude specific flows by their unique API names, regardless of their location. 
   ]
 }
 ```
-
-**Note**: The `ignoreFlows` option applies after flows are parsed, using the flow's API name (the `<fullName>` element in the flow metadata). Flow names are unique identifiers and work regardless of the flow's file system location.
 
 **Environment compatibility**: `ignoreFlows` works in **all environments** including Node.js and browser/web distributions, as it operates on parsed flow data rather than file system paths.
 

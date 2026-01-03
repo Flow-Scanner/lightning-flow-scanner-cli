@@ -8,7 +8,7 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
       ruleId: "process-builder-usage",
       name: "ProcessBuilder",
       label: "Process Builder",
-      description: "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.",
+      description: "Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.",
       supportedTypes: core.FlowType.processBuilder,
       docRefs: [
         {
@@ -16,7 +16,7 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
           path: "https://help.salesforce.com/s/articleView?id=000389396&type=1",
         },
       ],
-    });
+    }, { severity: "error" });
   }
 
   protected check(

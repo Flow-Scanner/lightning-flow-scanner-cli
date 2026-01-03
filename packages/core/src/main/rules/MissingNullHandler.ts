@@ -5,7 +5,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "missing-null-handler",
-      description: "When a **Get Records** operation finds no data, it returns `null`. Validate data by using a Decision element to check for a non-null result.",
+      description: "Get Records operations return null when no data is found. Without handling these null values, Flows can fail or produce unintended results. Adding a null check improves reliability and ensures the Flow behaves as expected.",
       docRefs: [],
       label: "Missing Null Handler",
       name: "MissingNullHandler",

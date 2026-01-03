@@ -7,7 +7,7 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
     super(
       {
         ruleId: "get-record-all-fields",
-        description: "Following the principle of least privilege (PoLP), avoid using **Get Records** with “Automatically store all fields” unless necessary.",
+        description: "Avoid using Get Records to retrieve all fields unless necessary. This improves performance, reduces processing time, and limits exposure of unnecessary data.",
         docRefs: [
           {
             label: "Get Records Stores All Fields",

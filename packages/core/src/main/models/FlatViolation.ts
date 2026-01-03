@@ -5,6 +5,7 @@ export interface FlatViolation extends Omit<Violation, 'details'> {
   flowName: string;
   ruleName: string;
   severity: string;
+  message?: string; // Custom message overriding the default rule description
   dataType?: string;
   locationX?: string;
   locationY?: string;

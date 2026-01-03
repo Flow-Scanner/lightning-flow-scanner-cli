@@ -6,12 +6,12 @@ export class MissingMetadataDescription extends RuleCommon implements IRuleDefin
   constructor() {
     super({
       ruleId: "missing-metadata-description",
-      description: "Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.",
+      description: "Elements and metadata without a description reduce clarity and maintainability. Adding descriptions improves readability and makes your automation easier to understand.",
       docRefs: [],
       label: "Missing Metadata Description",
       name: "MissingMetadataDescription",
       supportedTypes: core.FlowType.allTypes(),
-    }, { severity: "error" });
+    }, { severity: "warning" });
   }
 
   protected check(

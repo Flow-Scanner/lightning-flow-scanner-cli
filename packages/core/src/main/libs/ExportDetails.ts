@@ -25,6 +25,7 @@ export function exportDetails(results: ScanResult[], includeDetails = false): Fl
           flowName,
           ruleName: rule.ruleName,  // Use ruleName (id) instead of label
           severity: rule.severity ?? "warning",
+          message: rule.message || rule.ruleDefinition.description, // Use custom message if provided, otherwise default description
         };
 
         // Flatten details object into top-level properties if includeDetails is true
