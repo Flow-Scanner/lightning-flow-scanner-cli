@@ -21,9 +21,10 @@
           let ruleDescription = ruleResult.message || ruleResult.ruleDefinition.description;
           let ruleLabel = ruleResult.ruleDefinition.label;
           let flowName = scanResult.flow.name;
+          let flowPath = scanResult.flow.path || scanResult.flow.fsPath || scanResult.flow.uri;
           let severity = ruleResult.severity ?? "warning";
 
-          let initobj = { ruleDescription, ruleLabel, flowName, severity };
+          let initobj = { ruleDescription, ruleLabel, flowName, flowPath, severity };
 
           if (ruleResult.occurs) {
             for (let detail of ruleResult.details) {
@@ -31,14 +32,14 @@
               let type = detail.type || "";
               let metaType = detail.metaType || "";
               let dataType = detail.details?.dataType || "";
-              let locationX = detail.details?.locationX || "";
-              let locationY = detail.details?.locationY || "";
+              let lineNumber = detail.lineNumber || "";
+              let columnNumber = detail.columnNumber || "";
               let connectsTo = detail.details?.connectsTo?.join() || "";
               let expression = detail.details?.expression || "";
 
               details.push(Object.assign(structuredClone(initobj), {
                 name, type, metaType, dataType,
-                locationX, locationY, connectsTo, expression
+                lineNumber, columnNumber, connectsTo, expression
               }));
             }
           }

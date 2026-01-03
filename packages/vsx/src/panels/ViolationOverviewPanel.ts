@@ -1,7 +1,7 @@
 import { ScanOverview } from "./ScanOverviewPanel";
 import * as vscode from "vscode";
 import * as uuid from "uuid";
-import { exportSarif, ScanResult } from "@flow-scanner/lightning-flow-scanner-core";
+import { exportSarif, ScanResult, exportDetails } from "@flow-scanner/lightning-flow-scanner-core";
 import { CacheProvider } from "../providers/cache-provider";
 import { convertArrayToCSV } from "../libs/convertArrayToCSV";
 import { ThemeHelper } from '../libs/ThemeHelper';
@@ -170,7 +170,16 @@ export class ViolationOverview {
               }
               content = exportSarif(cachedResults);
             } else {
-              content = convertArrayToCSV(data.value);
+              // ----  CSV: use exportDetails with full details (consistent with CLI)
+              const cachedResults = CacheProvider.instance.get("results") as ScanResult[] | undefined;
+              if (!cachedResults || cachedResults.length === 0) {
+                await vscode.window.showWarningMessage("No scan data available for CSV export. Please run a scan first.");
+                return;
+              }
+              // Use current scan results if viewing filtered/individual flow, otherwise use all cached results
+              const resultsToExport = this._currentScanResults.length > 0 ? this._currentScanResults : cachedResults;
+              const flatViolations = exportDetails(resultsToExport, true); // includeDetails=true for full info
+              content = convertArrayToCSV(flatViolations);
             }
 
             const bytes = new TextEncoder().encode(content);
