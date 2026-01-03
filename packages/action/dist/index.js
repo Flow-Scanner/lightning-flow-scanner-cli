@@ -215441,7 +215441,8 @@ function exportDetails(results, includeDetails = false) {
                     flowFile,
                     flowName,
                     ruleName: rule.ruleName,
-                    severity: (_rule_severity = rule.severity) !== null && _rule_severity !== void 0 ? _rule_severity : "warning"
+                    severity: (_rule_severity = rule.severity) !== null && _rule_severity !== void 0 ? _rule_severity : "warning",
+                    message: rule.message || rule.ruleDefinition.description
                 });
                 // Flatten details object into top-level properties if includeDetails is true
                 if (includeDetails && details) {
@@ -215587,7 +215588,7 @@ function exportSarif(results) {
                             }
                         ],
                         message: {
-                            text: r.errorMessage || `${r.ruleName} in ${d.name}`
+                            text: r.errorMessage || (r.message || r.ruleDefinition.description ? `${r.message || r.ruleDefinition.description} (${d.name})` : `${r.ruleName} in ${d.name}`)
                         },
                         properties: _object_spread({
                             element: d.name,
@@ -215605,11 +215606,11 @@ function exportSarif(results) {
                                 level: mapSeverity(r.severity)
                             },
                             fullDescription: {
-                                text: r.ruleDefinition.description || ""
+                                text: r.message || r.ruleDefinition.description || ""
                             },
                             id: r.ruleName,
                             shortDescription: {
-                                text: r.ruleDefinition.description || r.ruleName
+                                text: r.message || r.ruleDefinition.description || r.ruleName
                             }
                         })),
                     version: "1.0.0"
@@ -216044,6 +216045,10 @@ function ScanFlows(flows, ruleOptions) {
                 const config = getRuleConfigByIdOrName(rule, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.rules);
                 const suppressions = getSuppressionsForRule(rule, flow.name, ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.exceptions);
                 const result = config && Object.keys(config).length > 0 ? rule.execute(flow, config, suppressions) : rule.execute(flow, undefined, suppressions);
+                // Apply custom message if provided in config
+                if (config && typeof config === 'object' && 'message' in config && typeof config.message === 'string') {
+                    result.message = config.message;
+                }
                 if (result.details.length > 0) {
                     let flowXml = flowXmlCache.get(flow.name);
                     if (!flowXml) {
@@ -218082,6 +218087,7 @@ let RuleResult = class RuleResult {
         _define_property(this, "severity", void 0);
         _define_property(this, "details", []);
         _define_property(this, "errorMessage", void 0);
+        _define_property(this, "message", void 0); // Custom message that overrides the default rule description
         this.ruleDefinition = info;
         this.ruleName = info.name;
         this.severity = info.severity ? info.severity : "warning";
@@ -218370,7 +218376,7 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
             ruleId: "invalid-api-version",
             name: "APIVersion",
             label: "Invalid API Version",
-            description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the **Api Version** attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
+            description: "Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
         });
@@ -218406,7 +218412,7 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
     constructor(){
         super({
             ruleId: "action-call-in-loop",
-            description: "To prevent exceeding Apex governor limits, it is advisable to consolidate and bulkify your apex calls, utilizing a single action call containing a collection variable at the end of the loop.",
+            description: "Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.",
             docRefs: [
                 {
                     label: "Action Call In A Loop",
@@ -218417,7 +218423,7 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
             name: "ActionCallsInLoop",
             supportedTypes: _internals.FlowType.backEndTypes
         }, {
-            severity: "error"
+            severity: "warning"
         });
     }
 };
@@ -218499,7 +218505,7 @@ let AutoLayout = class AutoLayout extends _RuleCommon.RuleCommon {
             ruleId: "missing-auto-layout",
             name: "AutoLayout",
             label: "Missing Auto Layout",
-            description: "With Canvas Mode set to Auto-Layout, elements are spaced, connected, and aligned automatically, keeping your Flow neatly organized—saving you time.",
+            description: "Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
         }, {
@@ -218579,7 +218585,7 @@ let CopyAPIName = class CopyAPIName extends _RuleCommon.RuleCommon {
             ruleId: "unclear-api-naming",
             name: "CopyAPIName",
             label: "Unclear API Name",
-            description: "Maintaining multiple elements with a similar name, like `Copy_X_Of_Element`, can diminish the overall readability of your Flow. When copying and pasting these elements, remember to update the API name of the newly created copy.",
+            description: "Elements with unclear or duplicated API names, like Copy_X_Of_Element, reduce Flow readability. Make sure to update the API name when copying elements to keep your Flow organized.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
         });
@@ -218685,7 +218691,7 @@ let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCo
             ruleId: "excessive-cyclomatic-complexity",
             name: "CyclomaticComplexity",
             label: "Excessive Cyclomatic Complexity",
-            description: `The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,
+            description: "High numbers of loops and decision elements increase a Flow’s cyclomatic complexity. To maintain simplicity and readability, consider using subflows or splitting a Flow into smaller, ordered Flows.",
             supportedTypes: _internals.FlowType.backEndTypes,
             docRefs: [
                 {
@@ -218729,7 +218735,7 @@ let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRu
     constructor(){
         super({
             ruleId: "dml-in-loop",
-            description: "To prevent exceeding Apex governor limits, consolidate all your database operations—record creation, updates, or deletions—at the conclusion of the flow.",
+            description: "Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.",
             docRefs: [
                 {
                     label: "Flow Best Practices",
@@ -218851,7 +218857,7 @@ let DuplicateDMLOperation = class DuplicateDMLOperation extends _RuleCommon.Rule
             ruleId: "duplicate-dml",
             name: "DuplicateDMLOperation",
             label: "Duplicate DML Operation",
-            description: "When a flow executes database changes or actions between two screens, prevent users from navigating backward between screens; otherwise, duplicate database operations may be performed.",
+            description: "When a Flow performs database operations across multiple screens, users navigating backward can cause the same actions to run multiple times. To prevent unintended changes, either restrict backward navigation or redesign the Flow so database operations execute in a single, forward-moving step.",
             supportedTypes: _internals.FlowType.visualTypes,
             docRefs: []
         });
@@ -218931,7 +218937,7 @@ let FlowDescription = class FlowDescription extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "missing-flow-description",
-            description: "Descriptions play a vital role in documentation. It is highly recommended to include details about where a flow is used and its intended purpose.",
+            description: "Flow descriptions are essential for documentation and maintainability. Include a description for each Flow, explaining its purpose and where it’s used.",
             docRefs: [],
             label: "Missing Flow Description",
             name: "FlowDescription",
@@ -219021,7 +219027,7 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "invalid-naming-convention",
-            description: "The readability of a flow is paramount. Establishing a naming convention significantly enhances findability, searchability, and overall consistency. Include at least a domain and a brief description of the flow’s actions, for example `Service_OrderFulfillment`.",
+            description: "Using clear and consistent Flow names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a Flow’s purpose—for example, including a domain and brief description like Service_OrderFulfillment. Adopt a naming pattern that aligns with your organization’s standards.",
             docRefs: [
                 {
                     label: "Naming your Flows is more critical than ever. By Stephen Church",
@@ -219115,7 +219121,7 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "get-record-all-fields",
-            description: "Following the principle of least privilege (PoLP), avoid using **Get Records** with “Automatically store all fields” unless necessary.",
+            description: "Avoid using Get Records to retrieve all fields unless necessary. This improves performance, reduces processing time, and limits exposure of unnecessary data.",
             docRefs: [
                 {
                     label: "Get Records Stores All Fields",
@@ -219205,7 +219211,7 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
             ruleId: "hardcoded-id",
             name: "HardcodedId",
             label: "Hardcoded Id",
-            description: "Avoid hard-coding IDs because they are org specific. Instead, pass them into variables at the start of the flow—via merge-field URL parameters or a **Get Records** element.",
+            description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: [
                 {
@@ -219251,7 +219257,7 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "hardcoded-url",
-            description: "Avoid hard-coding URLs because they are environment specific. Use an `$API` formula (preferred) or environment-specific sources like custom labels, metadata, or settings.",
+            description: "Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.",
             docRefs: [
                 {
                     label: "The Ultimate Guide to Salesforce Flow Best Practices",
@@ -219345,7 +219351,7 @@ let InactiveFlow = class InactiveFlow extends _RuleCommon.RuleCommon {
             ruleId: "inactive-flow",
             name: "InactiveFlow",
             label: "Inactive Flow",
-            description: "Like cleaning out your closet: deleting unused flows is essential. Inactive flows can still cause trouble—such as accidentally deleting records during testing, or being activated as subflows.",
+            description: "Inactive Flows should be deleted or archived to reduce risk. Even when inactive, they can cause unintended record changes during testing or be activated as subflows. Keeping only active, relevant Flows improves safety and maintainability.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: []
         });
@@ -219488,7 +219494,7 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "missing-fault-path",
-            description: "A flow may fail to execute an operation as intended. By default, the flow displays an error to the user and emails the creator. Customize this behavior by incorporating a Fault Path.",
+            description: "Elements that can fail should include a Fault Path to handle errors gracefully. Without it, failures show generic errors to users. Fault Paths improve reliability and user experience.",
             docRefs: [
                 {
                     label: "Flow Best Practices",
@@ -219588,13 +219594,13 @@ let MissingMetadataDescription = class MissingMetadataDescription extends _RuleC
     constructor(){
         super({
             ruleId: "missing-metadata-description",
-            description: "Flags Flow elements (Get Records, Assignments, Decisions, Actions, etc.) and metadata components (Variables, Formulas, Constants, Text Templates) that lack a description. Adding concise descriptions greatly improves readability, maintainability, and helps AI tools understand your automation intent.",
+            description: "Elements and metadata without a description reduce clarity and maintainability. Adding descriptions improves readability and makes your automation easier to understand.",
             docRefs: [],
             label: "Missing Metadata Description",
             name: "MissingMetadataDescription",
             supportedTypes: _internals.FlowType.allTypes()
         }, {
-            severity: "error"
+            severity: "warning"
         });
     }
 };
@@ -219746,7 +219752,7 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "missing-null-handler",
-            description: "When a **Get Records** operation finds no data, it returns `null`. Validate data by using a Decision element to check for a non-null result.",
+            description: "Get Records operations return null when no data is found. Without handling these null values, Flows can fail or produce unintended results. Adding a null check improves reliability and ensures the Flow behaves as expected.",
             docRefs: [],
             label: "Missing Null Handler",
             name: "MissingNullHandler",
@@ -219847,7 +219853,7 @@ let MissingRecordTriggerFilter = class MissingRecordTriggerFilter extends _RuleC
             ruleId: "missing-record-trigger-filter",
             name: "MissingRecordTriggerFilter",
             label: "Missing Filter Record Trigger",
-            description: "Record-triggered flows that lack filters on changed fields or entry conditions can lead to unnecessary executions on every record change. This may degrade system performance, hit governor limits faster, and increase resource consumption in high-volume orgs.",
+            description: "Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.",
             supportedTypes: [
                 _internals.FlowType.autolaunchedType
             ],
@@ -219929,7 +219935,7 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
             ruleId: "process-builder-usage",
             name: "ProcessBuilder",
             label: "Process Builder",
-            description: "Salesforce is transitioning away from Workflow Rules and Process Builder in favor of Flow. Begin migrating your organization’s automation to Flow.",
+            description: "Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.",
             supportedTypes: _internals.FlowType.processBuilder,
             docRefs: [
                 {
@@ -219937,6 +219943,8 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
                     path: "https://help.salesforce.com/s/articleView?id=000389396&type=1"
                 }
             ]
+        }, {
+            severity: "error"
         });
     }
 };
@@ -220026,7 +220034,7 @@ let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
             ruleId: "record-id-as-string",
             name: "RecordIdAsString",
             label: "Record ID as String",
-            description: "Detects flows using a String variable named `recordId` as input when they could receive the entire record object instead. Since recent Salesforce releases, record pages and quick actions can pass the complete record, eliminating the need for an additional Get Records query and improving performance.",
+            description: "Flows that use a String variable for a record ID instead of receiving the full record introduce unnecessary complexity and additional Get Records queries. Using the complete record simplifies the Flow and improves performance.",
             supportedTypes: [
                 ..._internals.FlowType.visualTypes,
                 _internals.FlowType.autolaunchedType
@@ -220038,7 +220046,7 @@ let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
                 }
             ]
         }, {
-            severity: "error"
+            severity: "note"
         });
     }
 };
@@ -220157,7 +220165,7 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
     constructor(){
         super({
             ruleId: "recursive-record-update",
-            description: "After-update flows are meant for modifying **other** records. Using them on the same record can cause recursion. Consider **before-save** flows for same-record updates.",
+            description: "After-save Flows that update the same record can trigger recursion, causing unintended behavior or performance issues. Avoid updating the triggering record in after-save Flows; use before-save Flows instead to prevent recursion.",
             docRefs: [
                 {
                     label: "Learn about same record field updates",
@@ -220207,7 +220215,7 @@ let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleComm
     constructor(){
         super({
             ruleId: "soql-in-loop",
-            description: "To prevent exceeding Apex governor limits, consolidate all SOQL queries at the end of the flow.",
+            description: "Running SOQL queries inside a loop can rapidly exceed query limits and severely degrade performance. Queries should be executed once, with results reused throughout the loop.",
             docRefs: [
                 {
                     label: "Flow Best Practices",
@@ -220321,7 +220329,7 @@ let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.Ru
             ruleId: "same-record-field-updates",
             name: "SameRecordFieldUpdates",
             label: "Same Record Field Updates",
-            description: "Similar to triggers, **before-save** contexts can update the same record via `$Record` without invoking DML.",
+            description: "Before-save Flows can safely update the triggering record directly via $Record, applying changes efficiently without extra DML operations. Using before-save updates improves performance",
             supportedTypes: [
                 ..._internals.FlowType.backEndTypes
             ],
@@ -220429,7 +220437,7 @@ let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.Ru
             ruleId: "transform-instead-of-loop",
             name: "TransformInsteadOfLoop",
             label: "Transform Instead of Loop",
-            description: "Detects Loop elements that directly connect to Assignment elements. Transform elements handle collection manipulation in bulk operations, providing significant performance improvements over iterative loop-assignment patterns.",
+            description: "Loop elements that perform direct Assignments on each item can slow down Flows. Using Transform elements allows bulk operations on collections, improving performance and reducing complexity.",
             supportedTypes: _internals.FlowType.allTypes(),
             docRefs: [
                 {
@@ -220523,7 +220531,7 @@ let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
             ruleId: "unspecified-trigger-order",
             name: "TriggerOrder",
             label: "Missing Trigger Order",
-            description: "Guarantee your flow execution order with the **Trigger Order** property introduced in Spring '22." + "value to their flows and guarantee their execution order. This priority value is not an " + "absolute value, so the values need not be sequentially numbered as 1, 2, 3, and so on.",
+            description: "Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.",
             supportedTypes: [
                 _internals.FlowType.autolaunchedType
             ],
@@ -220610,7 +220618,7 @@ let UnconnectedElement = class UnconnectedElement extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "unreachable-element",
-            description: "Avoid unconnected elements that are not used by the flow to keep flows efficient and maintainable.",
+            description: "Unconnected elements never execute and add unnecessary clutter. Remove or connect unused Flow elements to keep Flows clean and efficient.",
             docRefs: [],
             label: "Unreachable Element",
             name: "UnconnectedElement",
@@ -220701,7 +220709,7 @@ let UnsafeRunningContext = class UnsafeRunningContext extends _RuleCommon.RuleCo
             ruleId: "unsafe-running-context",
             name: "UnsafeRunningContext",
             label: "Unsafe Running Context",
-            description: `This flow is configured to run in System Mode without Sharing. This system context grants all running users the permission to view and edit all data in your org. Running a flow in System Mode without Sharing can lead to unsafe data access.`,
+            description: "Flows configured to run in System Mode without Sharing grant access to all data, bypassing user permissions. Avoid this setting to prevent security risks and protect sensitive data.",
             supportedTypes: [
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
@@ -220809,7 +220817,7 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
             ruleId: "unused-variable",
             name: "UnusedVariable",
             label: "Unused Variable",
-            description: "To maintain efficiency and manageability, avoid including variables that are never referenced.",
+            description: "Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.",
             supportedTypes: [
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
@@ -225425,6 +225433,7 @@ async function run() {
                 flowPath: scanResult.flow.fsPath,
                 rule: ruleResult.ruleName,
                 severity: severity,
+                message: ruleResult.message || ruleResult.ruleDefinition.description || "",
                 type: detail.type || "",
                 name: detail.name || "",
                 line: detail.lineNumber || "",
