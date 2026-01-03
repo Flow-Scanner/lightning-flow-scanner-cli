@@ -8,6 +8,7 @@ export class RuleResult {
   public severity: string;
   public details: Violation[] = [];
   public errorMessage: string;
+  public message?: string; // Custom message that overrides the default rule description
 
   constructor(info: IRuleDefinition, details: Violation[], errorMessage?: string) {
     this.ruleDefinition = info;

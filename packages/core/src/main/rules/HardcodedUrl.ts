@@ -7,7 +7,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     super(
       {
         ruleId: "hardcoded-url",
-        description: "Avoid hard-coding URLs because they are environment specific. Use an `$API` formula (preferred) or environment-specific sources like custom labels, metadata, or settings.",
+        description: "Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.",
         docRefs: [
           {
             label: "The Ultimate Guide to Salesforce Flow Best Practices",

@@ -5,7 +5,7 @@ export class DMLStatementInLoop extends LoopRuleCommon implements IRuleDefinitio
   constructor() {
     super({
       ruleId: "dml-in-loop",
-      description: "To prevent exceeding Apex governor limits, consolidate all your database operations—record creation, updates, or deletions—at the conclusion of the flow.",
+      description: "Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.",
       docRefs: [
         {
           label: "Flow Best Practices",

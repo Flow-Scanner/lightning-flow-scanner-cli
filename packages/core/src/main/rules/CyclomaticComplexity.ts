@@ -12,7 +12,7 @@ export class CyclomaticComplexity extends RuleCommon implements IRuleDefinition 
         ruleId: "excessive-cyclomatic-complexity",
         name: "CyclomaticComplexity",
         label: "Excessive Cyclomatic Complexity",
-        description: `The number of loops and decision rules, plus the number of decisions. Use a combination of 1) subflows and 2) breaking flows into multiple concise trigger ordered flows, to reduce the cyclomatic complexity within a single flow, ensuring maintainability and simplicity.`,
+        description: "High numbers of loops and decision elements increase a Flow’s cyclomatic complexity. To maintain simplicity and readability, consider using subflows or splitting a Flow into smaller, ordered Flows.",
         supportedTypes: core.FlowType.backEndTypes,
         docRefs: [
           {

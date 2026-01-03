@@ -18,7 +18,11 @@ export function exportSarif(results: ScanResult[]): string {
               region: mapRegion(d)
             },
           }],
-          message: { text: r.errorMessage || `${r.ruleName} in ${d.name}` },
+          message: {
+            text: r.errorMessage || (r.message || r.ruleDefinition.description
+              ? `${r.message || r.ruleDefinition.description} (${d.name})`
+              : `${r.ruleName} in ${d.name}`)
+          },
           properties: {
             element: d.name,
             flow: flow.name,
@@ -35,9 +39,9 @@ export function exportSarif(results: ScanResult[]): string {
             .filter(r => r.occurs)
             .map(r => ({
               defaultConfiguration: { level: mapSeverity(r.severity) },
-              fullDescription: { text: r.ruleDefinition.description || "" },
+              fullDescription: { text: r.message || r.ruleDefinition.description || "" },
               id: r.ruleName,
-              shortDescription: { text: r.ruleDefinition.description || r.ruleName },
+              shortDescription: { text: r.message || r.ruleDefinition.description || r.ruleName },
             })),
           version: "1.0.0",
         },

@@ -16,7 +16,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "missing-fault-path",
-      description: "A flow may fail to execute an operation as intended. By default, the flow displays an error to the user and emails the creator. Customize this behavior by incorporating a Fault Path.",
+      description: "Elements that can fail should include a Fault Path to handle errors gracefully. Without it, failures show generic errors to users. Fault Paths improve reliability and user experience.",
       docRefs: [
         {
           label: "Flow Best Practices",

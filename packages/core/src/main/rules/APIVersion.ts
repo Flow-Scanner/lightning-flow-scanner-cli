@@ -8,7 +8,7 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       ruleId: "invalid-api-version",
       name: "APIVersion",
       label: "Invalid API Version",
-      description: "Introducing newer API components may lead to unexpected issues with older versions of Flows, as they might not align with the underlying mechanics. Starting from API version 50.0, the **Api Version** attribute has been readily available on the Flow Object. To ensure smooth operation and reduce discrepancies between API versions, it is strongly advised to regularly update and maintain them.",
+      description: "Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
     });
