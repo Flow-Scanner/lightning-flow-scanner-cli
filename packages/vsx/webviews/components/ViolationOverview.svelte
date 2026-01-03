@@ -18,7 +18,7 @@
     if (scanResults) {
       for (let scanResult of scanResults) {
         for (let ruleResult of scanResult.ruleResults) {
-          let ruleDescription = ruleResult.ruleDefinition.description;
+          let ruleDescription = ruleResult.message || ruleResult.ruleDefinition.description;
           let ruleLabel = ruleResult.ruleDefinition.label;
           let flowName = scanResult.flow.name;
           let severity = ruleResult.severity ?? "warning";
