@@ -6,7 +6,6 @@ This document is intentionally developer-focused, providing the technical depth 
 ## Table of Contents
 
 - [Architecture Overview](#architecture-overview)
-- [Data Flow](#data-flow)
 - [Model Relationships](#model-relationships)
 - [Core Models](#core-models)
 - [Functions](#functions)
@@ -27,35 +26,6 @@ graph LR
         C -->|fix<br/>| G["ScanResult[]"]
     end
 ```
-
-## Data Flow
-
-The scanner processes flows through several stages:
-
-```mermaid
-graph TD
-    subgraph "1. Parse Stage"
-        XML[Flow XML] --> Parser[XML Parser]
-        Parser --> Flow[Flow Model]
-        Parser --> Error[Parse Error]
-    end
-
-    subgraph "2. Scan Stage"
-        Flow --> Rules[Rule Execution]
-        Rules --> Violations[Violations]
-    end
-
-    subgraph "3. Export Stage"
-        Violations --> SARIF[SARIF Export]
-        Violations --> CSV[CSV Export]
-        Violations --> Details[Details Export]
-    end
-
-    style Flow fill:#90EE90
-    style Violations fill:#FFB6C1
-    style Error fill:#FFB6C1
-```
-
 ## Model Relationships
 
 The core models form a hierarchical structure representing Salesforce Flow metadata:
