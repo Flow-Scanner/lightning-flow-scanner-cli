@@ -218079,6 +218079,7 @@ let RuleCommon = class RuleCommon {
         return undefined;
     }
     constructor(info, optional){
+        _define_property(this, "category", void 0);
         _define_property(this, "description", void 0);
         _define_property(this, "summary", void 0);
         _define_property(this, "docRefs", []);
@@ -218089,6 +218090,7 @@ let RuleCommon = class RuleCommon {
         _define_property(this, "supportedTypes", void 0);
         _define_property(this, "uri", void 0);
         _define_property(this, "ruleId", void 0);
+        this.category = info.category;
         this.ruleId = info.ruleId;
         this.name = info.name;
         this.supportedTypes = info.supportedTypes;
@@ -218437,6 +218439,7 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "invalid-api-version",
+            category: "suggestion",
             name: "APIVersion",
             label: "Invalid API Version",
             description: "Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.",
@@ -218476,6 +218479,7 @@ let ActionCallsInLoop = class ActionCallsInLoop extends _LoopRuleCommon.LoopRule
     constructor(){
         super({
             ruleId: "action-call-in-loop",
+            category: "suggestion",
             description: "Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.",
             summary: "Action calls inside loop risk governor limits",
             docRefs: [
@@ -218568,6 +218572,7 @@ let AutoLayout = class AutoLayout extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "missing-auto-layout",
+            category: "layout",
             name: "AutoLayout",
             label: "Missing Auto Layout",
             description: "Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.",
@@ -218649,6 +218654,7 @@ let CopyAPIName = class CopyAPIName extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "unclear-api-naming",
+            category: "layout",
             name: "CopyAPIName",
             label: "Unclear API Name",
             description: "Elements with unclear or duplicated API names, like Copy_X_Of_Element, reduce Flow readability. Make sure to update the API name when copying elements to keep your Flow organized.",
@@ -218756,6 +218762,7 @@ let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCo
     constructor(){
         super({
             ruleId: "excessive-cyclomatic-complexity",
+            category: "suggestion",
             name: "CyclomaticComplexity",
             label: "Excessive Cyclomatic Complexity",
             description: "High numbers of loops and decision elements increase a Flow's cyclomatic complexity. To maintain simplicity and readability, consider using subflows or splitting a Flow into smaller, ordered Flows.",
@@ -218803,6 +218810,7 @@ let DMLStatementInLoop = class DMLStatementInLoop extends _LoopRuleCommon.LoopRu
     constructor(){
         super({
             ruleId: "dml-in-loop",
+            category: "problem",
             description: "Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.",
             summary: "DML operations inside loop risk governor limits",
             docRefs: [
@@ -218924,6 +218932,7 @@ let DuplicateDMLOperation = class DuplicateDMLOperation extends _RuleCommon.Rule
     constructor(){
         super({
             ruleId: "duplicate-dml",
+            category: "problem",
             name: "DuplicateDMLOperation",
             label: "Duplicate DML Operation",
             description: "When a Flow performs database operations across multiple screens, users navigating backward can cause the same actions to run multiple times. To prevent unintended changes, either restrict backward navigation or redesign the Flow so database operations execute in a single, forward-moving step.",
@@ -219007,6 +219016,7 @@ let FlowDescription = class FlowDescription extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "missing-flow-description",
+            category: "layout",
             description: "Flow descriptions are essential for documentation and maintainability. Include a description for each Flow, explaining its purpose and where it's used.",
             summary: "Flow descriptions improve documentation and maintainability",
             docRefs: [],
@@ -219098,6 +219108,7 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "invalid-naming-convention",
+            category: "layout",
             description: "Using clear and consistent Flow names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a Flow's purpose—for example, including a domain and brief description like Service_OrderFulfillment. Adopt a naming pattern that aligns with your organization's standards.",
             summary: "Consistent naming improves Flow discoverability and maintainability",
             docRefs: [
@@ -219193,6 +219204,7 @@ let GetRecordAllFields = class GetRecordAllFields extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "get-record-all-fields",
+            category: "suggestion",
             description: "Avoid using Get Records to retrieve all fields unless necessary. This improves performance, reduces processing time, and limits exposure of unnecessary data.",
             summary: "Retrieving all fields harms performance and security",
             docRefs: [
@@ -219283,6 +219295,7 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
         super({
             ruleId: "hardcoded-id",
             name: "HardcodedId",
+            category: "problem",
             label: "Hardcoded Id",
             description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
             summary: "Hardcoded IDs break portability across environments",
@@ -219331,6 +219344,7 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "hardcoded-url",
+            category: "problem",
             description: "Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.",
             summary: "Hardcoded URLs break across different environments",
             docRefs: [
@@ -219424,6 +219438,7 @@ let InactiveFlow = class InactiveFlow extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "inactive-flow",
+            category: "suggestion",
             name: "InactiveFlow",
             label: "Inactive Flow",
             description: "Inactive Flows should be deleted or archived to reduce risk. Even when inactive, they can cause unintended record changes during testing or be activated as subflows. Keeping only active, relevant Flows improves safety and maintainability.",
@@ -219570,6 +219585,7 @@ let MissingFaultPath = class MissingFaultPath extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "missing-fault-path",
+            category: "problem",
             description: "Elements that can fail should include a Fault Path to handle errors gracefully. Without it, failures show generic errors to users. Fault Paths improve reliability and user experience.",
             summary: "Fault Paths enable graceful error handling",
             docRefs: [
@@ -219671,6 +219687,7 @@ let MissingMetadataDescription = class MissingMetadataDescription extends _RuleC
     constructor(){
         super({
             ruleId: "missing-metadata-description",
+            category: "layout",
             description: "Elements and metadata without a description reduce clarity and maintainability. Adding descriptions improves readability and makes your automation easier to understand.",
             summary: "Element descriptions improve clarity and maintainability",
             docRefs: [],
@@ -219830,6 +219847,7 @@ let MissingNullHandler = class MissingNullHandler extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "missing-null-handler",
+            category: "problem",
             description: "Get Records operations return null when no data is found. Without handling these null values, Flows can fail or produce unintended results. Adding a null check improves reliability and ensures the Flow behaves as expected.",
             summary: "Null checks prevent failures from missing records",
             docRefs: [],
@@ -219930,6 +219948,7 @@ let MissingRecordTriggerFilter = class MissingRecordTriggerFilter extends _RuleC
     constructor(){
         super({
             ruleId: "missing-record-trigger-filter",
+            category: "suggestion",
             name: "MissingRecordTriggerFilter",
             label: "Missing Filter Record Trigger",
             description: "Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.",
@@ -220013,6 +220032,7 @@ let ProcessBuilder = class ProcessBuilder extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "process-builder-usage",
+            category: "problem",
             name: "ProcessBuilder",
             label: "Process Builder",
             description: "Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.",
@@ -220113,6 +220133,7 @@ let RecordIdAsString = class RecordIdAsString extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "record-id-as-string",
+            category: "suggestion",
             name: "RecordIdAsString",
             label: "Record ID as String",
             description: "Flows that use a String variable for a record ID instead of receiving the full record introduce unnecessary complexity and additional Get Records queries. Using the complete record simplifies the Flow and improves performance.",
@@ -220247,6 +220268,7 @@ let RecursiveAfterUpdate = class RecursiveAfterUpdate extends _RuleCommon.RuleCo
     constructor(){
         super({
             ruleId: "recursive-record-update",
+            category: "problem",
             description: "After-save Flows that update the same record can trigger recursion, causing unintended behavior or performance issues. Avoid updating the triggering record in after-save Flows; use before-save Flows instead to prevent recursion.",
             summary: "After-save updates to same record trigger recursion",
             docRefs: [
@@ -220298,6 +220320,7 @@ let SOQLQueryInLoop = class SOQLQueryInLoop extends _LoopRuleCommon.LoopRuleComm
     constructor(){
         super({
             ruleId: "soql-in-loop",
+            category: "problem",
             description: "Running SOQL queries inside a loop can rapidly exceed query limits and severely degrade performance. Queries should be executed once, with results reused throughout the loop.",
             summary: "SOQL queries inside loop risk governor limits",
             docRefs: [
@@ -220411,6 +220434,7 @@ let SameRecordFieldUpdates = class SameRecordFieldUpdates extends _RuleCommon.Ru
     constructor(){
         super({
             ruleId: "same-record-field-updates",
+            category: "suggestion",
             name: "SameRecordFieldUpdates",
             label: "Same Record Field Updates",
             description: "Before-save Flows can safely update the triggering record directly via $Record, applying changes efficiently without extra DML operations. Using before-save updates improves performance",
@@ -220520,6 +220544,7 @@ let TransformInsteadOfLoop = class TransformInsteadOfLoop extends _RuleCommon.Ru
     constructor(){
         super({
             ruleId: "transform-instead-of-loop",
+            category: "suggestion",
             name: "TransformInsteadOfLoop",
             label: "Transform Instead of Loop",
             description: "Loop elements that perform direct Assignments on each item can slow down Flows. Using Transform elements allows bulk operations on collections, improving performance and reducing complexity.",
@@ -220615,6 +220640,7 @@ let TriggerOrder = class TriggerOrder extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "unspecified-trigger-order",
+            category: "suggestion",
             name: "TriggerOrder",
             label: "Missing Trigger Order",
             description: "Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.",
@@ -220705,6 +220731,7 @@ let UnconnectedElement = class UnconnectedElement extends _RuleCommon.RuleCommon
     constructor(){
         super({
             ruleId: "unreachable-element",
+            category: "layout",
             description: "Unconnected elements never execute and add unnecessary clutter. Remove or connect unused Flow elements to keep Flows clean and efficient.",
             summary: "Unconnected elements add clutter without executing",
             docRefs: [],
@@ -220795,6 +220822,7 @@ let UnsafeRunningContext = class UnsafeRunningContext extends _RuleCommon.RuleCo
     constructor(){
         super({
             ruleId: "unsafe-running-context",
+            category: "problem",
             name: "UnsafeRunningContext",
             label: "Unsafe Running Context",
             description: "Flows configured to run in System Mode without Sharing grant access to all data, bypassing user permissions. Avoid this setting to prevent security risks and protect sensitive data.",
@@ -220904,6 +220932,7 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
     constructor(){
         super({
             ruleId: "unused-variable",
+            category: "layout",
             name: "UnusedVariable",
             label: "Unused Variable",
             description: "Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.",
