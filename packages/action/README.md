@@ -358,6 +358,7 @@ By default, all default rules are executed. You can customize individual rules a
       "severity": "<Severity>", // Override severity level
       "expression": "<Expression>", // Override rule expression
       "message": "<Message>", // Set custom message
+      "messageUrl": "<URL>", // Set custom documentation URL
       "enabled": false  // Disable this rule
     }
   }
@@ -374,6 +375,19 @@ When the severity is not provided it will be `warning` by default. Other availab
     },
     "unclear-api-naming": {
       "severity": "error",
+    }
+  }
+}
+```
+
+If not provided, `message` shows the standard rule summary and `messageUrl` links to the README; providing either overrides the default behavior.
+
+```json
+{
+  "rules": {
+    "dml-in-loop": {
+      "message": "Avoid DML inside loops. Bulkify operations instead.",
+      "messageUrl": "https://internal.docs.company.com/salesforce/flow-dml-best-practices"
     }
   }
 }
