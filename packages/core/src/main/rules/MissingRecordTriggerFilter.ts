@@ -9,6 +9,7 @@ export class MissingRecordTriggerFilter extends RuleCommon implements IRuleDefin
       name: "MissingRecordTriggerFilter",
       label: "Missing Filter Record Trigger",
       description: "Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.",
+      summary: "Filters ensure Flows run only when needed",
       supportedTypes: [core.FlowType.autolaunchedType],
       docRefs: [],
     }, { severity: "warning" });

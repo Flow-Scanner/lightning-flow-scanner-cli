@@ -21,7 +21,7 @@ export function exportSarif(results: ScanResult[]): string {
           message: {
             text: r.errorMessage || (r.message || r.ruleDefinition.description
               ? `${r.message || r.ruleDefinition.description} (${d.name})`
-              : `${r.ruleName} in ${d.name}`)
+              : `${r.ruleId} in ${d.name}`)
           },
           properties: {
             element: d.name,
@@ -29,7 +29,7 @@ export function exportSarif(results: ScanResult[]): string {
             type: d.type,
             ...d.details,
           },
-          ruleId: r.ruleName,
+          ruleId: r.ruleId,
         }))),
       tool: {
         driver: {
@@ -40,8 +40,8 @@ export function exportSarif(results: ScanResult[]): string {
             .map(r => ({
               defaultConfiguration: { level: mapSeverity(r.severity) },
               fullDescription: { text: r.message || r.ruleDefinition.description || "" },
-              id: r.ruleName,
-              shortDescription: { text: r.message || r.ruleDefinition.description || r.ruleName },
+              id: r.ruleId,
+              shortDescription: { text: r.message || r.ruleDefinition.description || r.ruleId },
             })),
           version: "1.0.0",
         },

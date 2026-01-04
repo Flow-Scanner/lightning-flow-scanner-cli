@@ -14,6 +14,11 @@ export class RuleInfo {
   public description: string;
 
   /**
+   * A short summary (5-10 words) used when no custom message is provided.
+   */
+  public summary: string;
+
+  /**
    * An array of documentation references related to the rule.
    */
   public docRefs: Array<{ label: string; path: string }>;

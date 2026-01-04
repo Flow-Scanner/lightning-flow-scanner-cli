@@ -6,6 +6,7 @@ export class ActionCallsInLoop extends LoopRuleCommon implements IRuleDefinition
       {
         ruleId: "action-call-in-loop",
         description: "Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.",
+        summary: "Action calls inside loop risk governor limits",
         docRefs: [
           {
             label: "Action Call In A Loop",

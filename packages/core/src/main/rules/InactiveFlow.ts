@@ -9,6 +9,7 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
       name: "InactiveFlow",
       label: "Inactive Flow",
       description: "Inactive Flows should be deleted or archived to reduce risk. Even when inactive, they can cause unintended record changes during testing or be activated as subflows. Keeping only active, relevant Flows improves safety and maintainability.",
+      summary: "Inactive Flows should be deleted or archived",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
     });

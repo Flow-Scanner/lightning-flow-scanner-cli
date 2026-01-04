@@ -6,6 +6,7 @@ export class DMLStatementInLoop extends LoopRuleCommon implements IRuleDefinitio
     super({
       ruleId: "dml-in-loop",
       description: "Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.",
+      summary: "DML operations inside loop risk governor limits",
       docRefs: [
         {
           label: "Flow Best Practices",

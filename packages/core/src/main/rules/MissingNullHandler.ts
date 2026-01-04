@@ -6,6 +6,7 @@ export class MissingNullHandler extends RuleCommon implements IRuleDefinition {
     super({
       ruleId: "missing-null-handler",
       description: "Get Records operations return null when no data is found. Without handling these null values, Flows can fail or produce unintended results. Adding a null check improves reliability and ensures the Flow behaves as expected.",
+      summary: "Null checks prevent failures from missing records",
       docRefs: [],
       label: "Missing Null Handler",
       name: "MissingNullHandler",

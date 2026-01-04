@@ -9,6 +9,7 @@ import { DetailLevel } from "../interfaces/IRulesConfig";
 import { ParsedFlow } from "../models/ParsedFlow";
 import { enrichViolationsWithLineNumbers } from "../models/Violation";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
+import { getRuleDocumentationUrl } from "./RuleDocumentation";
 
 function getRuleConfigByIdOrName(
   rule: IRuleDefinition,
@@ -89,10 +90,19 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
             ? rule.execute(flow, config, suppressions)
             : rule.execute(flow, undefined, suppressions);
 
-        // Apply custom message if provided in config
+        // Apply custom message if provided in config, otherwise use summary
         if (config && typeof config === 'object' && 'message' in config && typeof config.message === 'string') {
           result.message = config.message;
+        } else {
+          // Use summary if available, otherwise fallback to description
+          result.message = result.ruleDefinition.summary || result.ruleDefinition.description;
         }
+
+        // Apply custom messageUrl if provided in config, otherwise auto-generate from rule label
+        const customUrl = config && typeof config === 'object' && 'messageUrl' in config && typeof config.messageUrl === 'string'
+          ? config.messageUrl
+          : undefined;
+        result.messageUrl = getRuleDocumentationUrl(result.ruleDefinition.label, customUrl);
 
         if (result.details.length > 0) {
           let flowXml = flowXmlCache.get(flow.name);

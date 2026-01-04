@@ -9,6 +9,7 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
       name: "ProcessBuilder",
       label: "Process Builder",
       description: "Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.",
+      summary: "Process Builder is retired, migrate to Flow",
       supportedTypes: core.FlowType.processBuilder,
       docRefs: [
         {

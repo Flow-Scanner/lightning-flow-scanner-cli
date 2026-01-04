@@ -6,6 +6,7 @@ export class SOQLQueryInLoop extends LoopRuleCommon implements IRuleDefinition {
     super({
       ruleId: "soql-in-loop",
       description: "Running SOQL queries inside a loop can rapidly exceed query limits and severely degrade performance. Queries should be executed once, with results reused throughout the loop.",
+      summary: "SOQL queries inside loop risk governor limits",
       docRefs: [
         {
           label: "Flow Best Practices",

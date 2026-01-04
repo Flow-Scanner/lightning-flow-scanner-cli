@@ -9,6 +9,7 @@ export class DuplicateDMLOperation extends RuleCommon implements IRuleDefinition
       name: "DuplicateDMLOperation",
       label: "Duplicate DML Operation",
       description: "When a Flow performs database operations across multiple screens, users navigating backward can cause the same actions to run multiple times. To prevent unintended changes, either restrict backward navigation or redesign the Flow so database operations execute in a single, forward-moving step.",
+      summary: "DML across screens may execute multiple times",
       supportedTypes: core.FlowType.visualTypes,
       docRefs: [],
     });
