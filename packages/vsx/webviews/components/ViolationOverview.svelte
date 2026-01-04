@@ -20,11 +20,13 @@
         for (let ruleResult of scanResult.ruleResults) {
           let ruleDescription = ruleResult.message || ruleResult.ruleDefinition.description;
           let ruleLabel = ruleResult.ruleDefinition.label;
+          let ruleId = ruleResult.ruleId;
+          let ruleUrl = ruleResult.messageUrl || "";
           let flowName = scanResult.flow.name;
           let flowPath = scanResult.flow.path || scanResult.flow.fsPath || scanResult.flow.uri;
           let severity = ruleResult.severity ?? "warning";
 
-          let initobj = { ruleDescription, ruleLabel, flowName, flowPath, severity };
+          let initobj = { ruleDescription, ruleLabel, ruleId, ruleUrl, flowName, flowPath, severity };
 
           if (ruleResult.occurs) {
             for (let detail of ruleResult.details) {
