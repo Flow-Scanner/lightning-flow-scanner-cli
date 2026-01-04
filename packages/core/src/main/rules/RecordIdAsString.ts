@@ -6,6 +6,7 @@ export class RecordIdAsString extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "record-id-as-string",
+      category: "suggestion",
       name: "RecordIdAsString",
       label: "Record ID as String",
       description: "Flows that use a String variable for a record ID instead of receiving the full record introduce unnecessary complexity and additional Get Records queries. Using the complete record simplifies the Flow and improves performance.",

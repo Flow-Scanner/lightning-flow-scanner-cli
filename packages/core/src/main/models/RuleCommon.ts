@@ -2,6 +2,7 @@ import { RuleInfo } from "./RuleInfo";
 import * as core from "../internals/internals";
 
 export abstract class RuleCommon {
+  public category?: 'problem' | 'suggestion' | 'layout';
   public description: string;
   public summary: string;
   public docRefs: Array<{ label: string; path: string }> = [];
@@ -14,6 +15,7 @@ export abstract class RuleCommon {
   public readonly ruleId: string;
 
   constructor(info: RuleInfo, optional?: { severity?: string }) {
+    this.category = info.category;
     this.ruleId = info.ruleId;
     this.name = info.name;
     this.supportedTypes = info.supportedTypes;

@@ -6,6 +6,7 @@ export class MissingRecordTriggerFilter extends RuleCommon implements IRuleDefin
   constructor() {
     super({
       ruleId: "missing-record-trigger-filter",
+      category: "suggestion",
       name: "MissingRecordTriggerFilter",
       label: "Missing Filter Record Trigger",
       description: "Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.",

@@ -6,6 +6,7 @@ export class InactiveFlow extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "inactive-flow",
+      category: "suggestion",
       name: "InactiveFlow",
       label: "Inactive Flow",
       description: "Inactive Flows should be deleted or archived to reduce risk. Even when inactive, they can cause unintended record changes during testing or be activated as subflows. Keeping only active, relevant Flows improves safety and maintainability.",

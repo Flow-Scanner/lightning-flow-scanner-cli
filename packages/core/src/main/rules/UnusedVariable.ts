@@ -6,6 +6,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "unused-variable",
+      category: "layout",
       name: "UnusedVariable",
       label: "Unused Variable",
       description: "Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.",

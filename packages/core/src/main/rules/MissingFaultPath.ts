@@ -16,6 +16,7 @@ export class MissingFaultPath extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "missing-fault-path",
+      category: "problem",
       description: "Elements that can fail should include a Fault Path to handle errors gracefully. Without it, failures show generic errors to users. Fault Paths improve reliability and user experience.",
       summary: "Fault Paths enable graceful error handling",
       docRefs: [

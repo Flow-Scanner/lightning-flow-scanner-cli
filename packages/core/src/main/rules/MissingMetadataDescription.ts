@@ -6,6 +6,7 @@ export class MissingMetadataDescription extends RuleCommon implements IRuleDefin
   constructor() {
     super({
       ruleId: "missing-metadata-description",
+      category: "layout",
       description: "Elements and metadata without a description reduce clarity and maintainability. Adding descriptions improves readability and makes your automation easier to understand.",
       summary: "Element descriptions improve clarity and maintainability",
       docRefs: [],

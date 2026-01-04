@@ -30,6 +30,12 @@ export class RuleInfo {
   public label: string;
 
   /**
+   * The category for the rule.
+   * 'problem' | 'suggestion' | 'layout'
+   */
+  public category: 'problem' | 'suggestion' | 'layout';
+
+  /**
    * Stable public identifier used for config, suppression, and reporting.
    */
   public ruleId: string;
