@@ -6,6 +6,7 @@ export class TransformInsteadOfLoop extends RuleCommon implements IRuleDefinitio
   constructor() {
     super({
       ruleId: "transform-instead-of-loop",
+      category: "suggestion",
       name: "TransformInsteadOfLoop",
       label: "Transform Instead of Loop",
       description: "Loop elements that perform direct Assignments on each item can slow down Flows. Using Transform elements allows bulk operations on collections, improving performance and reducing complexity.",

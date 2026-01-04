@@ -5,6 +5,7 @@ export class AutoLayout extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "missing-auto-layout",
+      category: "layout",
       name: "AutoLayout",
       label: "Missing Auto Layout",
       description: "Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.",

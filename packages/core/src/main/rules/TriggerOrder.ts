@@ -8,6 +8,7 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
     super(
       {
         ruleId: "unspecified-trigger-order",
+        category: "suggestion",
         name: "TriggerOrder",
         label: "Missing Trigger Order",
         description: "Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.",

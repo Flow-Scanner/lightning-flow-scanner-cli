@@ -11,6 +11,7 @@ export class RecursiveAfterUpdate extends RuleCommon implements IRuleDefinition 
     super(
       {
         ruleId: "recursive-record-update",
+        category: "problem",
         description: "After-save Flows that update the same record can trigger recursion, causing unintended behavior or performance issues. Avoid updating the triggering record in after-save Flows; use before-save Flows instead to prevent recursion.",
         summary: "After-save updates to same record trigger recursion",
         docRefs: [

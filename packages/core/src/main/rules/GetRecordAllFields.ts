@@ -7,6 +7,7 @@ export class GetRecordAllFields extends RuleCommon implements IRuleDefinition {
     super(
       {
         ruleId: "get-record-all-fields",
+        category: "suggestion",
         description: "Avoid using Get Records to retrieve all fields unless necessary. This improves performance, reduces processing time, and limits exposure of unnecessary data.",
         summary: "Retrieving all fields harms performance and security",
         docRefs: [

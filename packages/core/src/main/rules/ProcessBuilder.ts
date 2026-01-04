@@ -6,6 +6,7 @@ export class ProcessBuilder extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "process-builder-usage",
+      category: "problem",
       name: "ProcessBuilder",
       label: "Process Builder",
       description: "Process Builder is retired. Continuing to use it increases maintenance overhead and risks future compatibility issues. Migrating automation to Flow reduces risk and improves maintainability.",

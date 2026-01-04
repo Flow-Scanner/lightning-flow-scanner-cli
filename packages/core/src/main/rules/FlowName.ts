@@ -6,6 +6,7 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "invalid-naming-convention",
+      category: "layout",
       description: "Using clear and consistent Flow names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a Flow's purpose—for example, including a domain and brief description like Service_OrderFulfillment. Adopt a naming pattern that aligns with your organization's standards.",
       summary: "Consistent naming improves Flow discoverability and maintainability",
       docRefs: [

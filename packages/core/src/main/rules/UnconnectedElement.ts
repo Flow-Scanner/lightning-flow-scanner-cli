@@ -5,6 +5,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
   constructor() {
     super({
       ruleId: "unreachable-element",
+      category: "layout",
       description: "Unconnected elements never execute and add unnecessary clutter. Remove or connect unused Flow elements to keep Flows clean and efficient.",
       summary: "Unconnected elements add clutter without executing",
       docRefs: [],

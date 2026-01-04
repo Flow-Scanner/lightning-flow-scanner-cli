@@ -23,6 +23,7 @@ function getRuleMetadata(ruleRegistry) {
       title: instance.label,
       description: instance.description,
       severity: instance.severity,
+      category: instance.category,
       isBeta: entry.isBeta
     });
   }
@@ -30,9 +31,25 @@ function getRuleMetadata(ruleRegistry) {
   return rules;
 }
 
-// 2. Sort rules alphabetically by title
+// 2. Sort rules by category, then severity, then alphabetically
 function sortRules(rules) {
-  return rules.sort((a, b) => a.title.localeCompare(b.title));
+  const categoryOrder = { 'problem': 1, 'suggestion': 2, 'layout': 3 };
+  const severityOrder = { 'error': 1, 'warning': 2, 'note': 3 };
+
+  return rules.sort((a, b) => {
+    // Sort by category first
+    const catA = categoryOrder[a.category] || 999;
+    const catB = categoryOrder[b.category] || 999;
+    if (catA !== catB) return catA - catB;
+
+    // Then by severity
+    const sevA = severityOrder[a.severity?.toLowerCase()] || 999;
+    const sevB = severityOrder[b.severity?.toLowerCase()] || 999;
+    if (sevA !== sevB) return sevA - sevB;
+
+    // Finally alphabetically by title
+    return a.title.localeCompare(b.title);
+  });
 }
 
 // 3. Format severity with emoji
@@ -59,9 +76,30 @@ ${rule.description}
 **Severity:** ${formatSeverity(rule.severity)}`;
 }
 
-// 5. Build rules content (just the rules, no header)
+// 5. Build rules content with category headers
 function buildRulesContent(rules) {
-  return rules.map(formatRule).join('\n\n');
+  const categoryLabels = {
+    'problem': '### Problems',
+    'suggestion': '### Suggestions',
+    'layout': '### Layout'
+  };
+
+  let content = '';
+  let currentCategory = null;
+
+  for (const rule of rules) {
+    // Add category header if we've moved to a new category
+    if (rule.category !== currentCategory) {
+      if (content) content += '\n\n'; // Add spacing before new category (except first)
+      content += categoryLabels[rule.category] || '## Other';
+      content += '\n\n';
+      currentCategory = rule.category;
+    }
+
+    content += formatRule(rule) + '\n\n';
+  }
+
+  return content.trimEnd(); // Remove trailing newlines
 }
 
 // 6. Replace content between markers
@@ -92,7 +130,7 @@ try {
   console.log(`   ✅ Found ${rules.length} rules (${rules.filter(r => r.isBeta).length} beta)\n`);
 
   // Step 2: Sort rules
-  console.log('2️⃣  Sorting rules alphabetically...');
+  console.log('2️⃣  Sorting rules by category, severity, and alphabetically...');
   const sortedRules = sortRules(rules);
   console.log(`   ✅ Rules sorted\n`);
 
