@@ -8,6 +8,7 @@ export class CopyAPIName extends RuleCommon implements IRuleDefinition {
       name: "CopyAPIName",
       label: "Unclear API Name",
       description: "Elements with unclear or duplicated API names, like Copy_X_Of_Element, reduce Flow readability. Make sure to update the API name when copying elements to keep your Flow organized.",
+      summary: "Duplicated API names reduce Flow readability",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
     });

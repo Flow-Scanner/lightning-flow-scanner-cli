@@ -3,6 +3,7 @@ import * as core from "../internals/internals";
 
 export abstract class RuleCommon {
   public description: string;
+  public summary: string;
   public docRefs: Array<{ label: string; path: string }> = [];
   public isConfigurable: boolean;
   public label: string;
@@ -11,13 +12,14 @@ export abstract class RuleCommon {
   public supportedTypes: string[];
   public uri?: string;
   public readonly ruleId: string;
-  
+
   constructor(info: RuleInfo, optional?: { severity?: string }) {
     this.ruleId = info.ruleId;
     this.name = info.name;
     this.supportedTypes = info.supportedTypes;
     this.label = info.label;
     this.description = info.description;
+    this.summary = info.summary;
     this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner/tree/main/src/main/rules/${info.name}.ts`;
     this.docRefs = info.docRefs;
 

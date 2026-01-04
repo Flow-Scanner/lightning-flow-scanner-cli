@@ -11,6 +11,7 @@ export class TriggerOrder extends RuleCommon implements IRuleDefinition {
         name: "TriggerOrder",
         label: "Missing Trigger Order",
         description: "Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.",
+        summary: "Trigger Order ensures predictable execution sequence",
         supportedTypes: [core.FlowType.autolaunchedType],
         docRefs: [
           {

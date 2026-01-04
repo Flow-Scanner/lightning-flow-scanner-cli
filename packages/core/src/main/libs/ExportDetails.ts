@@ -23,9 +23,11 @@ export function exportDetails(results: ScanResult[], includeDetails = false): Fl
           ...base,
           flowFile,
           flowName,
-          ruleName: rule.ruleName,  // Use ruleName (id) instead of label
+          ruleId: rule.ruleId,
+          ruleName: rule.ruleName,
           severity: rule.severity ?? "warning",
-          message: rule.message || rule.ruleDefinition.description, // Use custom message if provided, otherwise default description
+          message: rule.message || rule.ruleDefinition.description,
+          messageUrl: rule.messageUrl,
         };
 
         // Flatten details object into top-level properties if includeDetails is true

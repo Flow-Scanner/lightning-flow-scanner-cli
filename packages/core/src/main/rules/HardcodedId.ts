@@ -9,6 +9,7 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
       name: "HardcodedId",
       label: "Hardcoded Id",
       description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
+      summary: "Hardcoded IDs break portability across environments",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [
         {
