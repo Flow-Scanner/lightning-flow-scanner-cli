@@ -82,8 +82,8 @@ export default class Commands {
     }
     if (Object.keys(rules).length > 0) {
       yamlLines.push('rules:');
-      for (const [name, entry] of Object.entries(rules)) {
-        yamlLines.push(`  ${name}:`); // 2 spaces
+      for (const [ruleId, entry] of Object.entries(rules)) {
+        yamlLines.push(`  ${ruleId}:`); // 2 spaces - now uses ruleId as key
         if (entry.enabled !== undefined) {
           yamlLines.push(`    enabled: ${entry.enabled}`); // 4 spaces
         }
@@ -147,8 +147,8 @@ export default class Commands {
 
     const items = allRules.map(rule => ({
       label: rule.label,
-      description: rule.name,
-      picked: isEmptyConfig ? true : (rules[rule.name]?.enabled ?? true),
+      description: rule.ruleId,
+      picked: isEmptyConfig ? true : (rules[rule.ruleId]?.enabled ?? true),
     }));
 
     const selected = await vscode.window.showQuickPick(items, { canPickMany: true, placeHolder: 'Select rules to enable/disable' });
@@ -159,17 +159,17 @@ export default class Commands {
 
     if (ruleMode === 'isolated') {
       for (const item of selected) {
-        const def = allRules.find(r => r.name === item.description)!;
-        const severity = normalizeSeverity(rules[def.name]?.severity ?? def.severity ?? 'warning');
-        const expression = rules[def.name]?.expression;
-        newRules[def.name] = { severity };
-        if (expression !== undefined) newRules[def.name].expression = expression;
+        const def = allRules.find(r => r.ruleId === item.description)!;
+        const severity = normalizeSeverity(rules[def.ruleId]?.severity ?? def.severity ?? 'warning');
+        const expression = rules[def.ruleId]?.expression;
+        newRules[def.ruleId] = { severity };
+        if (expression !== undefined) newRules[def.ruleId].expression = expression;
       }
     } else {
       for (const def of allRules) {
-        const name = def.name;
-        const isSelected = selectedNames.has(name);
-        const ruleConfig = rules[name];
+        const ruleId = def.ruleId;
+        const isSelected = selectedNames.has(ruleId);
+        const ruleConfig = rules[ruleId];
         const severity = normalizeSeverity(ruleConfig?.severity ?? def.severity ?? 'warning');
         const expression = ruleConfig?.expression;
         const enabled = isSelected;
@@ -178,41 +178,41 @@ export default class Commands {
         const hasCustomEnabled = !enabled;
 
         if (hasCustomSeverity || hasCustomExpression || hasCustomEnabled) {
-          newRules[name] = { severity };
-          if (expression !== undefined) newRules[name].expression = expression;
-          if (hasCustomEnabled) newRules[name].enabled = enabled;
+          newRules[ruleId] = { severity };
+          if (expression !== undefined) newRules[ruleId].expression = expression;
+          if (hasCustomEnabled) newRules[ruleId].enabled = enabled;
         }
       }
     }
 
     let changed = false;
 
-    if (selectedNames.has('FlowName')) {
-      const def = allRules.find(r => r.name === 'FlowName')!;
-      const current = newRules.FlowName?.expression || '';
+    if (selectedNames.has('invalid-naming-convention')) {
+      const def = allRules.find(r => r.ruleId === 'invalid-naming-convention')!;
+      const current = newRules['invalid-naming-convention']?.expression || '';
       const expr = await vscode.window.showInputBox({
-        prompt: 'Define naming convention (REGEX) for FlowName',
+        prompt: 'Define naming convention (REGEX) for Flow Name',
         placeHolder: '[A-Za-z0-9]+_[A-Za-z0-9]+',
         value: current || '[A-Za-z0-9]+_[A-Za-z0-9]+',
       });
       if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules.FlowName) newRules.FlowName = { severity: normalizeSeverity(def.severity ?? 'warning') };
-        newRules.FlowName.expression = expr.trim() || undefined;
+        if (!newRules['invalid-naming-convention']) newRules['invalid-naming-convention'] = { severity: normalizeSeverity(def.severity ?? 'warning') };
+        newRules['invalid-naming-convention'].expression = expr.trim() || undefined;
         changed = true;
       }
     }
 
-    if (selectedNames.has('APIVersion')) {
-      const def = allRules.find(r => r.name === 'APIVersion')!;
-      const current = newRules.APIVersion?.expression || '';
+    if (selectedNames.has('invalid-api-version')) {
+      const def = allRules.find(r => r.ruleId === 'invalid-api-version')!;
+      const current = newRules['invalid-api-version']?.expression || '';
       const expr = await vscode.window.showInputBox({
         prompt: 'Set API version rule (e.g. ">=50")',
         placeHolder: '>=50',
         value: current || '>=50',
       });
       if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules.APIVersion) newRules.APIVersion = { severity: normalizeSeverity(def.severity ?? 'warning') };
-        newRules.APIVersion.expression = expr.trim() || undefined;
+        if (!newRules['invalid-api-version']) newRules['invalid-api-version'] = { severity: normalizeSeverity(def.severity ?? 'warning') };
+        newRules['invalid-api-version'].expression = expr.trim() || undefined;
         changed = true;
       }
     }

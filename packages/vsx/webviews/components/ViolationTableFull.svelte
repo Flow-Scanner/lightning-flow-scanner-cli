@@ -20,10 +20,15 @@
       data: [],
       reactiveData: false,
       layout: "fitColumns",
-      groupBy: ["ruleLabel"],
+      groupBy: ["ruleId"],
       groupHeader: (value, count, data) => {
+        const label = data[0]?.ruleLabel || "";
         const desc = data[0]?.ruleDescription || "";
-        return `${value} <span>(${count})</span><p style="font-style:italic;white-space:normal;word-wrap:break-word;max-width:100%;">${desc}</p>`;
+        const url = data[0]?.ruleUrl || "";
+        const descHtml = url
+          ? `<a href="${url}" target="_blank" style="color: #4a9eff; text-decoration: underline;">${desc}</a>`
+          : desc;
+        return `<strong>${label}</strong> <span style="color: #888;">(${value})</span> <span>(${count})</span><p style="font-style:italic;white-space:normal;word-wrap:break-word;max-width:100%;">${descHtml}</p>`;
       },
       columns: [
         { title: "#", formatter: "rownum", width: 75 },
