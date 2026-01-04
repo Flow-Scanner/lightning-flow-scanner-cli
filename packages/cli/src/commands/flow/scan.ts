@@ -212,9 +212,11 @@ export default class Scan extends SfCommand<Output> {
     const columns = [
       "flowFile",
       "flowName",
+      "ruleId",
       "ruleName",
       "severity",
       "message",
+      "messageUrl",
       "type",
       "name",
       "lineNumber",
@@ -230,9 +232,11 @@ export default class Scan extends SfCommand<Output> {
     const records = flatResults.map(r => ({
       flowFile: r.flowFile ?? "",
       flowName: r.flowName ?? "",
+      ruleId: r.ruleId ?? "",
       ruleName: r.ruleName ?? "",
       severity: r.severity ?? "warning",
       message: r.message ?? "",
+      messageUrl: r.messageUrl ?? "",
       type: r.type ?? "",
       name: r.name ?? "",
       lineNumber: r.lineNumber ?? "",
@@ -254,25 +258,27 @@ export default class Scan extends SfCommand<Output> {
   private displayHumanReadable(flatResults: any[], scanResults: ScanResult[]) {
     if (flatResults.length > 0) {
       const resultsByFlow: Record<string, any[]> = {};
-      
-      // Group results by flow - keep it simple, just add file path info
+
+      // Group results by flow
       for (const r of flatResults) {
         resultsByFlow[r.flowName] = resultsByFlow[r.flowName] ?? [];
+
         resultsByFlow[r.flowName].push({
-          rule: r.ruleName,
-          message: r.message || '',
+          rule: r.ruleId,
+          severity: r.severity,
           type: r.type,
           name: r.name,
-          severity: r.severity,
           line: r.lineNumber,
           column: r.columnNumber,
+          message: r.message || '',
+          url: r.messageUrl || '',
         });
       }
 
       for (const flowName in resultsByFlow) {
         const match = scanResults.find((s) => s.flow.name === flowName);
         if (match) {
-          
+
           this.styledHeader(
             `Flow: ${chalk.yellow(match.flow.label || flowName)} ${chalk.bgYellow(
               `(${match.flow.name}.flow-meta.xml)`
@@ -280,10 +286,10 @@ export default class Scan extends SfCommand<Output> {
           );
           this.log(chalk.italic("Type: " + match.flow.type));
           this.log("");
-          
+
           this.table({
             data: resultsByFlow[flowName],
-            columns: ["rule", "message", "type", "name", "severity", "line", "column"],
+            columns: ["rule", "severity", "type", "name", "line", "column", "message", "url"],
           });
           this.log("");
         }
@@ -307,7 +313,8 @@ export default class Scan extends SfCommand<Output> {
       flowName: r.flowName,
       flowApiName: r.flowFile.split('/').pop() ?? r.flowFile,
       flowUri: r.flowFile,
-      rule: r.ruleName,
+      ruleId: r.ruleId,
+      ruleName: r.ruleName,
       severity: r.severity,
       type: r.type,
       name: r.name,
