@@ -53,7 +53,7 @@
 <p>📌<strong>Tip:</strong> To link directly to a specific rule, use the full GitHub anchor link format. Example:</p>
 <p><em><a href="https://flow-scanner.github.io/lightning-flow-scanner/#unsafe-running-context">https://flow-scanner.github.io/lightning-flow-scanner/#unsafe-running-context</a></em></p>
 
-> Want to code a new rule? → See [How to Write a Rule](docs/write-a-rule.md)
+> Want to help improve this project? See our [Contributing Guidelines](CONTRIBUTING.md)
 
 <!-- START GENERATED_RULES -->
 ### Problems
@@ -628,4 +628,3 @@ For more on Programmatic API, types, and advanced usage of `@flow-scanner/lightn
    ```
    This creates UMD at `dist/lightning-flow-scanner-core.umd.js`.
 
-**Want to help improve Lightning Flow Scanner? See our [Contributing Guidelines](CONTRIBUTING.md)**

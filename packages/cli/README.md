@@ -81,7 +81,7 @@ sf flow:fix -d src/force-app # Fix flows in a specific directory
 <p>📌<strong>Tip:</strong> To link directly to a specific rule, use the full GitHub anchor link format. Example:</p>
 <p><em><a href="https://flow-scanner.github.io/lightning-flow-scanner/#unsafe-running-context">https://flow-scanner.github.io/lightning-flow-scanner/#unsafe-running-context</a></em></p>
 
-> Want to code a new rule? → See [How to Write a Rule](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/docs/write-a-rule.md)
+> Want to help improve this project? See our [Contributing Guidelines](https://github.com/Flow-Scanner/lightning-flow-scanner?tab=contributing-ov-file)
 
 <!-- START GENERATED_RULES -->
 ### Problems
@@ -157,6 +157,7 @@ After-save Flows that update the same record can trigger recursion, causing unin
 **Severity:** 🟡 *Warning*
 
 
+
 ### Suggestions
 
 ### Action Call In A Loop
@@ -228,6 +229,7 @@ Loop elements that perform direct Assignments on each item can slow down Flows. 
 **Rule ID:** `transform-instead-of-loop`
 **Class Name:** _[TransformInsteadOfLoop](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/TransformInsteadOfLoop.ts)_
 **Severity:** 🔵 *Note*
+
 
 
 ### Layout
@@ -536,5 +538,3 @@ npm install -g lightning-flow-scanner
    ```bash
    sf plugins link packages/cli
    ```
-
-<p><strong>Want to help improve Lightning Flow Scanner? See our <a href="https://github.com/Flow-Scanner/lightning-flow-scanner?tab=contributing-ov-file">Contributing Guidelines</a></strong></p>
