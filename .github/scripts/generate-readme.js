@@ -62,6 +62,7 @@ function formatRule(rule) {
     : '';
   return `#### ${rule.title}${betaBadge}
 ${rule.description}
+
 **Rule ID:** \`${rule.ruleId}\`
 **Class Name:** _[${rule.className}](packages/core/src/main/rules/${rule.className}.ts)_
 **Severity:** ${formatSeverity(rule.severity)}`;
