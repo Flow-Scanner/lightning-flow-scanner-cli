@@ -26,10 +26,12 @@ export class FlowType {
   public static readonly processBuilder = ["Workflow"];
   public static readonly surveyTypes = ["Survey"];
   public static readonly unsupportedTypes = [
+    "ActionPlan",
+    "UserProvisioningFlow",
     "CheckoutFlow",
     "FSCLending",
-    "FSCLending",
     "LoyaltyManagementFlow",
+    "JourneyBuilderIntegration",
   ];
   public static readonly visualTypes = [
     "Flow",
@@ -38,7 +40,6 @@ export class FlowType {
     "RoutingFlow",
     "Appointments",
     "ActionCadenceStepFlow",
-    "ContactRequestFlow",
     "ContactRequestFlow",
     "CustomerLifecycle",
     "FieldServiceMobile",
