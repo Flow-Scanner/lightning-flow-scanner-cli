@@ -217661,10 +217661,12 @@ _define_property(FlowType, "surveyTypes", [
     "Survey"
 ]);
 _define_property(FlowType, "unsupportedTypes", [
+    "ActionPlan",
+    "UserProvisioningFlow",
     "CheckoutFlow",
     "FSCLending",
-    "FSCLending",
-    "LoyaltyManagementFlow"
+    "LoyaltyManagementFlow",
+    "JourneyBuilderIntegration"
 ]);
 _define_property(FlowType, "visualTypes", [
     "Flow",
@@ -217673,7 +217675,6 @@ _define_property(FlowType, "visualTypes", [
     "RoutingFlow",
     "Appointments",
     "ActionCadenceStepFlow",
-    "ContactRequestFlow",
     "ContactRequestFlow",
     "CustomerLifecycle",
     "FieldServiceMobile",
