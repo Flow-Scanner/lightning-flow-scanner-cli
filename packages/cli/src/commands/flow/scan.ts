@@ -133,6 +133,7 @@ export default class Scan extends SfCommand<Output> {
         rules: mergedConfig.rules ?? {},
         betaMode: !!mergedConfig.betaMode,
         ignoreFlows: mergedConfig.ignoreFlows,
+        exceptions: mergedConfig.exceptions,
       };
       scanResults = scanFlows(parsedFlows, scanConfig);
     } catch (err) {
