@@ -25,8 +25,8 @@ If it's more specific like a bug or a new feature—use [GitHub Issues](https://
 - [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-cli.md)
 - [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-vscode.md)
 - [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-action.md)
-- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new?template=bug-app.md)
-- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues/new?template=bug-copado.md)
+- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues)
+- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues)
 
 ### Submitting Pull Requests
 
