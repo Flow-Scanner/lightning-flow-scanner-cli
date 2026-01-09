@@ -1,55 +1,22 @@
 ---
-name: Issue report
-about: Create a report to help us improve
+name: Bug report (Core)
+about: Report an issue with the core scanning engine
 title: ""
-labels: ""
+labels: bug
 assignees: ""
 ---
 
-## Issue Summary
+**Describe the bug**
 
-Describe the issue you're experiencing with the core module, such as a rule not behaving as expected, incorrect scan output, or problems with configuration or parsing.
+**Steps to reproduce**
+1.
+2.
+3.
 
----
+**Expected behavior**
 
-## 🔁 Reproduction Steps
+**Environment**
+- Module version:
+- Platform: [CLI / VS Code / GitHub Action / Salesforce App / Copado / Direct]
 
-Steps to reproduce the bug:
-
-1. Configure rule(s): `...`
-2. Run `scan(...)` with input: `...`
-3. Observe: `...` (unexpected result, exception, etc.)
-
----
-
-## ✅ Expected Behavior
-
-Describe what _should_ have happened. Be specific about expected rule evaluation or output.
-
----
-
-## 📄 Sample Input / Configuration
-
-If applicable, include:
-
-- JSON/YAML rule config
-- Example flow metadata (anonymized)
-- Command-line usage or API invocation (e.g. `scan(...)`, `parse(...)`, `fix(...)`)
-
----
-
-## 📋 Environment
-
-- **Used via**: [Direct, VS Code extension, Salesforce CLI plugin]
-- **OS**: [e.g. macOS Ventura, Ubuntu 22.04]
-- **Module Version**: [e.g. `lightning-flow-scanner-core` v1.4.0]
-
----
-
-## 📚 Additional Context
-
-Any other details? Paste relevant error logs, stack traces, or screenshots that illustrate the issue.
-
----
-
-> ⚠️ Note: If this issue affects only one platform, such as the **VS Code Extension** or **Salesforce CLI Plugin**, please file it in the relevant repository instead.
+> For platform-specific issues, include OS and version details if relevant (e.g., Windows 11, macOS Sonoma, Ubuntu 22.04).
