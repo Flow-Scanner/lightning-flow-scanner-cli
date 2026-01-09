@@ -20,13 +20,13 @@ If it's more specific like a bug or a new feature—use [GitHub Issues](https://
 - [Rule Request](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=rule-request.md): Submit a request for a new rule.
 - [Features/Other](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new): Suggest a new feature or enhancement.
 
-###### Platforms - For issues or requests related to specific platforms, use the appropriate link below:
+###### Platforms - For issues related to specific platforms, use the appropriate template:
 
-- [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner/issues)
-- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues)
-- [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner/issues)
-- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues)
-- [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner/issues)
+- [CLI Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-cli.md)
+- [VS Code/Code Builder](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-vscode.md)
+- [GitHub Action](https://github.com/Flow-Scanner/lightning-flow-scanner/issues/new?template=bug-action.md)
+- [Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app/issues/new?template=bug-app.md)
+- [Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado/issues/new?template=bug-copado.md)
 
 ### Submitting Pull Requests
 
