@@ -88,9 +88,11 @@ sf flow:fix -d src/force-app # Fix flows in a specific directory
 
 <!-- START GENERATED_RULES -->
 
+---
+
 ### Problems
 
-Rules that detect issues highly likely to cause runtime errors, security risks, governor limit exceptions, or deployment failures.
+These rules detect anti-patterns and unsafe practices in your Flows that could break functionality, compromise security, or cause deployment failures.
 
 #### DML Statement In A Loop
 Executing DML operations (insert, update, delete) inside a loop is a high-risk anti-pattern that frequently causes governor limit exceptions. All database operations should be collected and executed once, outside the loop.
@@ -162,10 +164,11 @@ After-save Flows that update the same record can trigger recursion, causing unin
 **Class Name:** _[RecursiveAfterUpdate](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/RecursiveAfterUpdate.ts)_
 **Severity:** 🟡 *Warning*
 
+---
 
 ### Suggestions
 
-Rules in this category recommend better patterns and optimizations related to performance, bulkification, trigger behavior, and overall design. Following them improves efficiency and long-term maintainability without affecting correctness.
+These rules highlight areas where Flows can be improved. Following them increases reliability and long-term maintainability.
 
 #### Action Call In A Loop
 Repeatedly invoking Apex actions inside a loop can exhaust governor limits and lead to performance issues. Where possible, bulkify your logic by moving the action call outside the loop and passing a collection variable instead.
@@ -237,10 +240,11 @@ Loop elements that perform direct Assignments on each item can slow down Flows. 
 **Class Name:** _[TransformInsteadOfLoop](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/TransformInsteadOfLoop.ts)_
 **Severity:** 🔵 *Note*
 
+---
 
 ### Layout
 
-Rules in this category enforce consistency in naming, documentation, element organization, and visual layout. They help ensure Flows remain readable, well-documented, and structured as automations scale.
+Focused on naming, documentation, and organization, these rules ensure Flows remain clear, easy to understand, and maintainable as automations grow.
 
 #### Flow Naming Convention
 Using clear and consistent Flow names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a Flow's purpose—for example, including a domain and brief description like Service_OrderFulfillment. Adopt a naming pattern that aligns with your organization's standards.

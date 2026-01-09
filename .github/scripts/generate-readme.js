@@ -71,39 +71,53 @@ ${rule.description}
 // 5. Build rules content with category headers + formal introductions
 function buildRulesContent(rules) {
   const categoryInfo = {
-    'problem': {
+    problem: {
       header: '### Problems',
-      intro: 'Rules that detect issues highly likely to cause runtime errors, security risks, governor limit exceptions, or deployment failures.'
+      intro: 'These rules detect anti-patterns and unsafe practices in your Flows that could break functionality, compromise security, or cause deployment failures.'
     },
-    'suggestion': {
+    suggestion: {
       header: '### Suggestions',
-      intro: 'Rules in this category recommend better patterns and optimizations related to performance, bulkification, trigger behavior, and overall design. Following them improves efficiency and long-term maintainability without affecting correctness.'
+      intro: 'These rules highlight areas where Flows can be improved. Following them increases reliability and long-term maintainability.'
     },
-    'layout': {
+    layout: {
       header: '### Layout',
-      intro: 'Rules in this category enforce consistency in naming, documentation, element organization, and visual layout. They help ensure Flows remain readable, well-documented, and structured as automations scale.'
+      intro: 'Focused on naming, documentation, and organization, these rules ensure Flows remain clear, easy to understand, and maintainable as automations grow.'
     }
   };
 
   let content = '';
-  let currentCategory = null;
+  const categories = [...new Set(rules.map(r => r.category))];
 
-  for (const rule of rules) {
-    if (rule.category !== currentCategory) {
-      // Add spacing before new category (except the very first one)
-      if (content) content += '\n';
+  categories.forEach((cat, idx) => {
+    const info = categoryInfo[cat] || { header: '### Other', intro: '' };
+    
+    // ← Changed: always add separator (including before the very first category)
+    content += '---\n\n';
+    
+    content += `${info.header}\n\n${info.intro}\n\n`;
+    
+    rules.filter(r => r.category === cat).forEach(rule => {
+      content += formatRule(rule) + '\n\n';
+    });
+  });
 
-      const info = categoryInfo[rule.category] || { header: '### Other', intro: '' };
-      content += info.header + '\n\n';
-      content += info.intro + '\n\n';
+  return content.trim();
+}
 
-      currentCategory = rule.category;
-    }
+function updateReadmeWithRules(readmeContent, rulesContent) {
+  const startMarker = '<!-- START GENERATED_RULES -->';
+  const endMarker = '<!-- END GENERATED_RULES -->';
+  const startIndex = readmeContent.indexOf(startMarker);
+  const endIndex = readmeContent.indexOf(endMarker);
 
-    content += formatRule(rule) + '\n\n';
+  if (startIndex === -1 || endIndex === -1) {
+    throw new Error('Could not find generated rules markers in README.md');
   }
 
-  return content.trimEnd();
+  const before = readmeContent.substring(0, startIndex + startMarker.length);
+  const after = readmeContent.substring(endIndex);
+
+  return `${before}\n\n${rulesContent}\n${after}`;
 }
 
 // 6. Replace content between markers

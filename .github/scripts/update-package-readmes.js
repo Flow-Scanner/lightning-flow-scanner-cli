@@ -85,7 +85,9 @@ function replaceSection(content, header, newContent) {
 }
 
 function ensureSeparator(content) {
-  return content.replace(/^---\s*\n/m, '').replace(/\n\s*---\s*$/m, '');
+  // Remove leading/trailing separators only (not internal ones)
+  // Without 'm' flag, ^ and $ match start/end of string, not lines
+  return content.replace(/^---\s*\n/, '').replace(/\n\s*---\s*$/, '');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
