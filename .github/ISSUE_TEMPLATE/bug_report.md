@@ -1,8 +1,8 @@
 ---
-name: Bug report (Core)
-about: Report an issue with the core scanning engine
+name: Bug report
+about: Report an issue with the scanner
 title: ""
-labels: bug
+type: Bug
 assignees: ""
 ---
 
@@ -16,7 +16,5 @@ assignees: ""
 **Expected behavior**
 
 **Environment**
-- Module version:
 - Platform: [CLI / VS Code / GitHub Action / Salesforce App / Copado / Direct]
-
-> For platform-specific issues, include OS and version details if relevant (e.g., Windows 11, macOS Sonoma, Ubuntu 22.04).
+- Version:
