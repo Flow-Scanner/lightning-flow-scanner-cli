@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build --filter=!lightning-flow-scanner-action",
     "build:all": "turbo run build",
+    "build:regex": "pnpm turbo run build --filter=@flow-scanner/regex-scanner",
     "build:core": "pnpm turbo run build --filter=@flow-scanner/lightning-flow-scanner-core",
     "build:cli": "pnpm turbo run build --filter=lightning-flow-scanner",
     "build:action": "pnpm turbo run build --filter=lightning-flow-scanner-action",
