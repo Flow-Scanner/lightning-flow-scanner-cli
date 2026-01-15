@@ -15,8 +15,14 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@flow-scanner/regex-scanner": ["../regex-scanner/out"],
+      "@flow-scanner/regex-scanner/*": ["../regex-scanner/out/*"]
+    }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "out"]
+  "exclude": ["node_modules", "out"],
+  "references": [
+    { "path": "../regex-scanner" }
+  ]
 }

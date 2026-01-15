@@ -1,8 +1,17 @@
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import { NamingConvention } from "@flow-scanner/regex-scanner";
+import { toMetadataFile, toViolations } from "../config/RegexAdapter";
 
+/**
+ * Flow naming convention rule.
+ * This is a wrapper around the regex-scanner's NamingConvention rule,
+ * maintaining backward compatibility with the core scanner interface.
+ */
 export class FlowName extends RuleCommon implements IRuleDefinition {
+  private regexRule = new NamingConvention();
+
   constructor() {
     super({
       ruleId: "invalid-naming-convention",
@@ -26,17 +35,15 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
     options: { expression?: string } | undefined,
     _suppressions: Set<string>
   ): core.Violation[] {
-    const rawRegexp = options?.expression ?? "[A-Za-z0-9]+_[A-Za-z0-9]+";
-    const flowName = flow.name ?? "";
+    // Convert Flow to MetadataFile for regex-scanner
+    const metadataFile = toMetadataFile(flow);
 
-    if (new RegExp(rawRegexp).test(flowName)) {
-      return [];
-    }
+    // Execute regex rule
+    const regexViolations = this.regexRule.execute(metadataFile, {
+      expression: options?.expression,
+    });
 
-    return [
-      new core.Violation(
-        new core.FlowAttribute(flowName, "name", rawRegexp)
-      )
-    ];
+    // Convert back to core Violations
+    return toViolations(regexViolations);
   }
 }

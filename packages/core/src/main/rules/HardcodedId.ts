@@ -1,14 +1,23 @@
 import * as core from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import { HardcodedId as RegexHardcodedId } from "@flow-scanner/regex-scanner";
+import { toMetadataFile, toViolations } from "../config/RegexAdapter";
 
+/**
+ * Hardcoded Salesforce ID detection rule.
+ * This is a wrapper around the regex-scanner's HardcodedId rule,
+ * maintaining backward compatibility with the core scanner interface.
+ */
 export class HardcodedId extends RuleCommon implements IRuleDefinition {
+  private regexRule = new RegexHardcodedId();
+
   constructor() {
     super({
       ruleId: "hardcoded-id",
       name: "HardcodedId",
       category: "problem",
-      label: "Hardcoded Id",
+      label: "Hardcoded Salesforce Id",
       description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
       summary: "Hardcoded IDs break portability across environments",
       supportedTypes: core.FlowType.allTypes(),
@@ -30,10 +39,13 @@ export class HardcodedId extends RuleCommon implements IRuleDefinition {
     _options: object | undefined,
     _suppressions: Set<string>
   ): core.Violation[] {
-    const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}(?:[a-zA-Z0-9]{3})?\b/g;
+    // Convert Flow to MetadataFile for regex-scanner
+    const metadataFile = toMetadataFile(flow);
 
-    return flow.elements
-      .filter((node) => salesforceIdRegex.test(JSON.stringify(node)))
-      .map((node) => new core.Violation(node));
+    // Execute regex rule
+    const regexViolations = this.regexRule.execute(metadataFile);
+
+    // Convert back to core Violations
+    return toViolations(regexViolations);
   }
 }

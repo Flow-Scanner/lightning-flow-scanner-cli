@@ -24,5 +24,10 @@ export default defineConfig({
   },
   plugins: [nodePolyfills({ include: ["path", "fs"], protocolImports: true })],
 
-  resolve: { alias: { src: resolve("src/") } },
+  resolve: {
+    alias: {
+      src: resolve("src/"),
+      "@flow-scanner/regex-scanner": resolve(__dirname, "../regex-scanner/src/index.ts"),
+    },
+  },
 });
