@@ -19,7 +19,9 @@
     "build:js": "swc src --out-dir out --copy-files --strip-leading-paths --config-file .swcrc",
     "build:types": "tsc -p tsconfig.types.json --declaration --emitDeclarationOnly --outDir out",
     "build": "npm run clean && npm run build:js && npm run build:types",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "prepare:publish": "node scripts/prepare-publish.js",
+    "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish --access public"
   },
   "license": "MIT",
   "repository": {
