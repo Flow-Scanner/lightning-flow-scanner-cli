@@ -14,6 +14,7 @@ import { FlowName } from "../rules/FlowName";
 import { GetRecordAllFields } from "../rules/GetRecordAllFields";
 import { HardcodedId } from "../rules/HardcodedId";
 import { HardcodedUrl } from "../rules/HardcodedUrl";
+import { HardcodedSecret } from "../rules/HardcodedSecret";
 import { InactiveFlow } from "../rules/InactiveFlow";
 import { MissingFaultPath } from "../rules/MissingFaultPath";
 import { MissingNullHandler } from "../rules/MissingNullHandler";
@@ -182,5 +183,6 @@ registry.register("missing-metadata-description", MissingMetadataDescription, "M
 registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
 registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
 registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", true);
+registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", true);
 
 export const ruleRegistry = registry;

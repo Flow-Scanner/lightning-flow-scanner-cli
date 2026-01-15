@@ -1,8 +1,17 @@
 import { Flow, FlowType, Violation } from "../internals/internals";
 import { RuleCommon } from "../models/RuleCommon";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
+import { HardcodedUrl as RegexHardcodedUrl } from "@flow-scanner/regex-scanner";
+import { toMetadataFile, toViolations } from "../config/RegexAdapter";
 
+/**
+ * Hardcoded Salesforce URL detection rule.
+ * This is a wrapper around the regex-scanner's HardcodedUrl rule,
+ * maintaining backward compatibility with the core scanner interface.
+ */
 export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
+  private regexRule = new RegexHardcodedUrl();
+
   constructor() {
     super(
       {
@@ -20,7 +29,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
             path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions",
           },
         ],
-        label: "Hardcoded Url",
+        label: "Hardcoded Salesforce Url",
         name: "HardcodedUrl",
         supportedTypes: FlowType.allTypes(),
       },
@@ -33,12 +42,13 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
     _options: object | undefined,
     _suppressions: Set<string>
   ): Violation[] {
-    if (!flow.elements || flow.elements.length === 0) return [];
+    // Convert Flow to MetadataFile for regex-scanner
+    const metadataFile = toMetadataFile(flow);
 
-    const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
+    // Execute regex rule
+    const regexViolations = this.regexRule.execute(metadataFile);
 
-    return flow.elements
-      .filter((element) => urlRegex.test(JSON.stringify(element)))
-      .map((element) => new Violation(element));
+    // Convert back to core Violations
+    return toViolations(regexViolations);
   }
 }
