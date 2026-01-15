@@ -63,6 +63,38 @@ const publishPkg = {
   devDependencies: undefined
 };
 
+// Resolve workspace:* dependencies to actual versions
+if (publishPkg.dependencies) {
+  const packagesDir = path.join('..', '..');
+  for (const [name, version] of Object.entries(publishPkg.dependencies)) {
+    if (typeof version === 'string' && version.startsWith('workspace:')) {
+      // Find the package directory by scanning packages/*
+      const packagesDirPath = path.join(packagesDir, 'packages');
+      const packageDirs = fs.readdirSync(packagesDirPath);
+
+      for (const dir of packageDirs) {
+        const depPkgPath = path.join(packagesDirPath, dir, 'package.json');
+        if (fs.existsSync(depPkgPath)) {
+          const depPkg = JSON.parse(fs.readFileSync(depPkgPath, 'utf8'));
+          if (depPkg.name === name) {
+            // Handle workspace:*, workspace:^, workspace:~
+            const versionSpec = version.replace('workspace:', '');
+            if (versionSpec === '*') {
+              publishPkg.dependencies[name] = depPkg.version;
+            } else if (versionSpec === '^' || versionSpec === '~') {
+              publishPkg.dependencies[name] = versionSpec + depPkg.version;
+            } else {
+              publishPkg.dependencies[name] = depPkg.version;
+            }
+            console.log(`✓ Resolved ${name}: ${version} → ${publishPkg.dependencies[name]}`);
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
 // Copy root files from monorepo root
 ['README.md','LICENSE.md'].forEach(f => {
   const source = path.join('..', '..', f);
