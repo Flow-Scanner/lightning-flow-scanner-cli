@@ -214831,6 +214831,100 @@ function getDefaultIconConfig() {
 
 /***/ }),
 
+/***/ 7976:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+/**
+ * Adapter functions to convert between core models (Flow, Violation)
+ * and regex-scanner models (MetadataFile, RegexViolation).
+ *
+ * This allows core rules to delegate to regex-scanner while maintaining
+ * backward compatibility with existing consumers.
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get flowElementToMetadataElement () {
+        return flowElementToMetadataElement;
+    },
+    get toMetadataElements () {
+        return toMetadataElements;
+    },
+    get toMetadataFile () {
+        return toMetadataFile;
+    },
+    get toViolation () {
+        return toViolation;
+    },
+    get toViolations () {
+        return toViolations;
+    }
+});
+const _FlowAttribute = __nccwpck_require__(3656);
+const _Violation = __nccwpck_require__(4323);
+function toMetadataFile(flow) {
+    // Handle case where toXMLString may not exist (e.g., in tests with partial Flow objects)
+    let content = "";
+    if (typeof flow.toXMLString === "function") {
+        content = flow.toXMLString();
+    }
+    var _flow_uri_split_pop;
+    return {
+        name: flow.name,
+        fileName: flow.uri ? (_flow_uri_split_pop = flow.uri.split(/[\\/]/).pop()) !== null && _flow_uri_split_pop !== void 0 ? _flow_uri_split_pop : `${flow.name}.flow-meta.xml` : `${flow.name}.flow-meta.xml`,
+        filePath: flow.fsPath,
+        metadataType: "Flow",
+        content,
+        elements: toMetadataElements(flow)
+    };
+}
+function toMetadataElements(flow) {
+    if (!flow.elements || flow.elements.length === 0) {
+        return [];
+    }
+    return flow.elements.map((element)=>{
+        var _element_element;
+        return {
+            name: element.name,
+            type: element.subtype,
+            content: (_element_element = element.element) !== null && _element_element !== void 0 ? _element_element : element
+        };
+    });
+}
+function toViolation(rv) {
+    var _rv_expression;
+    // Create a FlowAttribute to represent the violation
+    // This is the simplest approach that works for all regex rules
+    const flowElement = new _FlowAttribute.FlowAttribute(rv.name, rv.type, (_rv_expression = rv.expression) !== null && _rv_expression !== void 0 ? _rv_expression : rv.matchedText);
+    const violation = new _Violation.Violation(flowElement);
+    // Override line/column from regex violation
+    violation.lineNumber = rv.lineNumber;
+    violation.columnNumber = rv.columnNumber;
+    return violation;
+}
+function flowElementToMetadataElement(element) {
+    var _element_element;
+    return {
+        name: element.name,
+        type: element.subtype,
+        content: (_element_element = element.element) !== null && _element_element !== void 0 ? _element_element : element
+    };
+}
+function toViolations(violations) {
+    return violations.map(toViolation);
+}
+
+
+/***/ }),
+
 /***/ 9287:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -214857,6 +214951,7 @@ const _FlowName = __nccwpck_require__(6146);
 const _GetRecordAllFields = __nccwpck_require__(2500);
 const _HardcodedId = __nccwpck_require__(5232);
 const _HardcodedUrl = __nccwpck_require__(2948);
+const _HardcodedSecret = __nccwpck_require__(4281);
 const _InactiveFlow = __nccwpck_require__(3196);
 const _MissingFaultPath = __nccwpck_require__(8726);
 const _MissingNullHandler = __nccwpck_require__(9262);
@@ -215039,6 +215134,7 @@ registry.register("missing-metadata-description", _MissingMetadataDescription.Mi
 registry.register("missing-record-trigger-filter", _MissingRecordTriggerFilter.MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
 registry.register("transform-instead-of-loop", _TransformInsteadOfLoop.TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
 registry.register("record-id-as-string", _RecordIdAsString.RecordIdAsString, "RecordIdAsString", true);
+registry.register("hardcoded-secret", _HardcodedSecret.HardcodedSecret, "HardcodedSecret", true);
 const ruleRegistry = registry;
 
 
@@ -219052,6 +219148,21 @@ Object.defineProperty(exports, "FlowName", ({
 }));
 const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
 const _RuleCommon = __nccwpck_require__(7137);
+const _regexscanner = __nccwpck_require__(1146);
+const _RegexAdapter = __nccwpck_require__(7976);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -219095,16 +219206,14 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let FlowName = class FlowName extends _RuleCommon.RuleCommon {
     check(flow, options, _suppressions) {
-        var _options_expression;
-        const rawRegexp = (_options_expression = options === null || options === void 0 ? void 0 : options.expression) !== null && _options_expression !== void 0 ? _options_expression : "[A-Za-z0-9]+_[A-Za-z0-9]+";
-        var _flow_name;
-        const flowName = (_flow_name = flow.name) !== null && _flow_name !== void 0 ? _flow_name : "";
-        if (new RegExp(rawRegexp).test(flowName)) {
-            return [];
-        }
-        return [
-            new _internals.Violation(new _internals.FlowAttribute(flowName, "name", rawRegexp))
-        ];
+        // Convert Flow to MetadataFile for regex-scanner
+        const metadataFile = (0, _RegexAdapter.toMetadataFile)(flow);
+        // Execute regex rule
+        const regexViolations = this.regexRule.execute(metadataFile, {
+            expression: options === null || options === void 0 ? void 0 : options.expression
+        });
+        // Convert back to core Violations
+        return (0, _RegexAdapter.toViolations)(regexViolations);
     }
     constructor(){
         super({
@@ -219123,7 +219232,7 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
             supportedTypes: _internals.FlowType.allTypes()
         }, {
             severity: "error"
-        });
+        }), _define_property(this, "regexRule", new _regexscanner.NamingConvention());
     }
 };
 
@@ -219246,6 +219355,21 @@ Object.defineProperty(exports, "HardcodedId", ({
 }));
 const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
 const _RuleCommon = __nccwpck_require__(7137);
+const _regexscanner = __nccwpck_require__(1146);
+const _RegexAdapter = __nccwpck_require__(7976);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -219289,15 +219413,19 @@ function _interop_require_wildcard(obj, nodeInterop) {
 }
 let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        const salesforceIdRegex = /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}(?:[a-zA-Z0-9]{3})?\b/g;
-        return flow.elements.filter((node)=>salesforceIdRegex.test(JSON.stringify(node))).map((node)=>new _internals.Violation(node));
+        // Convert Flow to MetadataFile for regex-scanner
+        const metadataFile = (0, _RegexAdapter.toMetadataFile)(flow);
+        // Execute regex rule
+        const regexViolations = this.regexRule.execute(metadataFile);
+        // Convert back to core Violations
+        return (0, _RegexAdapter.toViolations)(regexViolations);
     }
     constructor(){
         super({
             ruleId: "hardcoded-id",
             name: "HardcodedId",
             category: "problem",
-            label: "Hardcoded Id",
+            label: "Hardcoded Salesforce Id",
             description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
             summary: "Hardcoded IDs break portability across environments",
             supportedTypes: _internals.FlowType.allTypes(),
@@ -219313,7 +219441,116 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
             ]
         }, {
             severity: "error"
+        }), _define_property(this, "regexRule", new _regexscanner.HardcodedId());
+    }
+};
+
+
+/***/ }),
+
+/***/ 4281:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedSecret", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedSecret;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+const _regexscanner = __nccwpck_require__(1146);
+const _RegexAdapter = __nccwpck_require__(7976);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
         });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let HardcodedSecret = class HardcodedSecret extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        // Convert Flow to MetadataFile for regex-scanner
+        const metadataFile = (0, _RegexAdapter.toMetadataFile)(flow);
+        // Execute regex rule
+        const regexViolations = this.regexRule.execute(metadataFile);
+        // Convert back to core Violations
+        return (0, _RegexAdapter.toViolations)(regexViolations);
+    }
+    constructor(){
+        super({
+            ruleId: "hardcoded-secret",
+            name: "HardcodedSecret",
+            category: "problem",
+            label: "Hardcoded Secret",
+            description: "Avoid hardcoding secrets, API keys, tokens, or credentials in Flows. These should be stored securely in Named Credentials, Custom Settings, Custom Metadata, or external secret management systems.",
+            summary: "Hardcoded secrets pose security risks",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: [
+                {
+                    label: "Salesforce Named Credentials",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.named_credentials_about.htm"
+                },
+                {
+                    label: "OWASP Secrets Management Cheat Sheet",
+                    path: "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html"
+                }
+            ]
+        }, {
+            severity: "error"
+        }), _define_property(this, "regexRule", new _regexscanner.HardcodedSecret());
     }
 };
 
@@ -219336,11 +219573,29 @@ Object.defineProperty(exports, "HardcodedUrl", ({
 }));
 const _internals = __nccwpck_require__(934);
 const _RuleCommon = __nccwpck_require__(7137);
+const _regexscanner = __nccwpck_require__(1146);
+const _RegexAdapter = __nccwpck_require__(7976);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
-        if (!flow.elements || flow.elements.length === 0) return [];
-        const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g;
-        return flow.elements.filter((element)=>urlRegex.test(JSON.stringify(element))).map((element)=>new _internals.Violation(element));
+        // Convert Flow to MetadataFile for regex-scanner
+        const metadataFile = (0, _RegexAdapter.toMetadataFile)(flow);
+        // Execute regex rule
+        const regexViolations = this.regexRule.execute(metadataFile);
+        // Convert back to core Violations
+        return (0, _RegexAdapter.toViolations)(regexViolations);
     }
     constructor(){
         super({
@@ -219358,12 +219613,12 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
                     path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"
                 }
             ],
-            label: "Hardcoded Url",
+            label: "Hardcoded Salesforce Url",
             name: "HardcodedUrl",
             supportedTypes: _internals.FlowType.allTypes()
         }, {
             severity: "error"
-        });
+        }), _define_property(this, "regexRule", new _regexscanner.HardcodedUrl());
     }
 };
 
@@ -220946,6 +221201,967 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
         });
     }
 };
+
+
+/***/ }),
+
+/***/ 2408:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "regexRuleRegistry", ({
+    enumerable: true,
+    get: function() {
+        return regexRuleRegistry;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let RuleRegistry = class RuleRegistry {
+    register(ruleId, ruleClass, legacyName) {
+        const entry = {
+            ruleId,
+            ruleClass,
+            legacyName
+        };
+        this.rules.set(ruleId, entry);
+        this.legacyNameMap.set(legacyName, ruleId);
+    }
+    get(idOrLegacyName) {
+        let entry = this.rules.get(idOrLegacyName);
+        if (!entry) {
+            const ruleId = this.legacyNameMap.get(idOrLegacyName);
+            if (ruleId) {
+                entry = this.rules.get(ruleId);
+            }
+        }
+        return entry;
+    }
+    getAllRuleIds() {
+        return Array.from(this.rules.keys());
+    }
+    has(idOrLegacyName) {
+        return this.get(idOrLegacyName) !== undefined;
+    }
+    createInstance(idOrLegacyName) {
+        const entry = this.get(idOrLegacyName);
+        if (!entry) {
+            throw new Error(`Regex rule not found: ${idOrLegacyName}`);
+        }
+        return new entry.ruleClass();
+    }
+    /**
+   * Get all rules, optionally filtered by config.
+   * Supports both ruleId and legacy name lookups.
+   */ getRules(config) {
+        const selectedRules = [];
+        for (const ruleId of this.getAllRuleIds()){
+            var _config_rules, _config_rules1;
+            const rule = this.createInstance(ruleId);
+            var _config_rules_rule_ruleId;
+            // Look up config by ruleId or legacy name
+            const ruleConfig = (_config_rules_rule_ruleId = config === null || config === void 0 ? void 0 : (_config_rules = config.rules) === null || _config_rules === void 0 ? void 0 : _config_rules[rule.ruleId]) !== null && _config_rules_rule_ruleId !== void 0 ? _config_rules_rule_ruleId : config === null || config === void 0 ? void 0 : (_config_rules1 = config.rules) === null || _config_rules1 === void 0 ? void 0 : _config_rules1[rule.name];
+            // Skip if explicitly disabled
+            if ((ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.enabled) === false) continue;
+            // Apply severity override
+            if (ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.severity) {
+                rule.severity = ruleConfig.severity;
+            }
+            selectedRules.push(rule);
+        }
+        return selectedRules;
+    }
+    /**
+   * Get specific rules by ID or legacy name.
+   */ getRulesByIds(ruleIds) {
+        const rules = [];
+        for (const id of ruleIds){
+            if (this.has(id)) {
+                rules.push(this.createInstance(id));
+            }
+        }
+        return rules;
+    }
+    constructor(){
+        _define_property(this, "rules", new Map());
+        _define_property(this, "legacyNameMap", new Map());
+    }
+};
+// Create singleton registry instance
+const registry = new RuleRegistry();
+const regexRuleRegistry = registry;
+
+
+/***/ }),
+
+/***/ 1146:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+// Models
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get HardcodedId () {
+        return _HardcodedId.HardcodedId;
+    },
+    get HardcodedSecret () {
+        return _HardcodedSecret.HardcodedSecret;
+    },
+    get HardcodedUrl () {
+        return _HardcodedUrl.HardcodedUrl;
+    },
+    get MetadataElement () {
+        return _MetadataFile.MetadataElement;
+    },
+    get MetadataFile () {
+        return _MetadataFile.MetadataFile;
+    },
+    get NamingConvention () {
+        return _NamingConvention.NamingConvention;
+    },
+    get RegexRule () {
+        return _RegexRule.RegexRule;
+    },
+    get RegexRuleConfig () {
+        return _RegexViolation.RegexRuleConfig;
+    },
+    get RegexRuleInfo () {
+        return _RegexRule.RegexRuleInfo;
+    },
+    get RegexScanConfig () {
+        return _RegexViolation.RegexScanConfig;
+    },
+    get RegexViolation () {
+        return _RegexViolation.RegexViolation;
+    },
+    get getRegexRuleIds () {
+        return _scan.getRegexRuleIds;
+    },
+    get hasRegexRule () {
+        return _scan.hasRegexRule;
+    },
+    get regexRuleRegistry () {
+        return _RuleRegistry.regexRuleRegistry;
+    },
+    get scanFile () {
+        return _scan.scanFile;
+    },
+    get scanRegex () {
+        return _scan.scanRegex;
+    }
+});
+const _MetadataFile = __nccwpck_require__(8242);
+const _RegexViolation = __nccwpck_require__(5799);
+const _RegexRule = __nccwpck_require__(7192);
+const _NamingConvention = __nccwpck_require__(4655);
+const _HardcodedId = __nccwpck_require__(515);
+const _HardcodedUrl = __nccwpck_require__(8877);
+const _HardcodedSecret = __nccwpck_require__(9982);
+const _RuleRegistry = __nccwpck_require__(2408);
+const _scan = __nccwpck_require__(5029);
+_RuleRegistry.regexRuleRegistry.register("naming-convention", _NamingConvention.NamingConvention, "NamingConvention");
+_RuleRegistry.regexRuleRegistry.register("hardcoded-id", _HardcodedId.HardcodedId, "HardcodedId");
+_RuleRegistry.regexRuleRegistry.register("hardcoded-url", _HardcodedUrl.HardcodedUrl, "HardcodedUrl");
+_RuleRegistry.regexRuleRegistry.register("hardcoded-secret", _HardcodedSecret.HardcodedSecret, "HardcodedSecret");
+
+
+/***/ }),
+
+/***/ 8242:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Represents a generic Salesforce metadata file that can be scanned by regex rules.
+ * This abstraction allows the same rules to work on Flows, Apex, Custom Objects, etc.
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+
+
+/***/ }),
+
+/***/ 7192:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "RegexRule", ({
+    enumerable: true,
+    get: function() {
+        return RegexRule;
+    }
+}));
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _object_spread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === "function") {
+            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+            }));
+        }
+        ownKeys.forEach(function(key) {
+            _define_property(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) {
+            symbols = symbols.filter(function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            });
+        }
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _object_spread_props(target, source) {
+    source = source != null ? source : {};
+    if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+let RegexRule = class RegexRule {
+    /**
+   * Execute the rule against a metadata file.
+   * Handles type filtering and config merging before calling check().
+   */ execute(file, config) {
+        // Skip if file type not supported
+        if (!this.supportedTypes.includes(file.metadataType)) {
+            return [];
+        }
+        // Skip if explicitly disabled
+        if ((config === null || config === void 0 ? void 0 : config.enabled) === false) {
+            return [];
+        }
+        var _config_severity;
+        // Apply severity override
+        const effectiveSeverity = (_config_severity = config === null || config === void 0 ? void 0 : config.severity) !== null && _config_severity !== void 0 ? _config_severity : this.severity;
+        // Run the rule check
+        const violations = this.check(file, config);
+        // Apply config overrides to violations
+        return violations.map((v)=>{
+            var _config_message, _config_messageUrl;
+            return _object_spread_props(_object_spread({}, v), {
+                severity: effectiveSeverity,
+                message: (_config_message = config === null || config === void 0 ? void 0 : config.message) !== null && _config_message !== void 0 ? _config_message : v.message,
+                messageUrl: (_config_messageUrl = config === null || config === void 0 ? void 0 : config.messageUrl) !== null && _config_messageUrl !== void 0 ? _config_messageUrl : v.messageUrl
+            });
+        });
+    }
+    /**
+   * Helper to create a violation with common fields populated
+   */ createViolation(file, overrides) {
+        var _file_filePath;
+        var _file_filePath_replace;
+        return _object_spread({
+            file: (_file_filePath_replace = (_file_filePath = file.filePath) === null || _file_filePath === void 0 ? void 0 : _file_filePath.replace(/\\/g, "/")) !== null && _file_filePath_replace !== void 0 ? _file_filePath_replace : file.fileName,
+            fileName: file.fileName,
+            metadataType: file.metadataType,
+            ruleId: this.ruleId,
+            ruleName: this.name,
+            severity: this.severity,
+            message: this.description,
+            lineNumber: 1,
+            columnNumber: 1,
+            name: file.name,
+            type: "name",
+            metaType: "attribute"
+        }, overrides);
+    }
+    constructor(info){
+        _define_property(this, "ruleId", void 0);
+        _define_property(this, "name", void 0);
+        _define_property(this, "label", void 0);
+        _define_property(this, "description", void 0);
+        _define_property(this, "summary", void 0);
+        _define_property(this, "supportedTypes", void 0);
+        _define_property(this, "docRefs", void 0);
+        _define_property(this, "isConfigurable", void 0);
+        _define_property(this, "severity", void 0);
+        this.ruleId = info.ruleId;
+        this.name = info.name;
+        this.label = info.label;
+        this.description = info.description;
+        this.summary = info.summary;
+        this.severity = info.severity;
+        this.supportedTypes = info.supportedTypes;
+        var _info_docRefs;
+        this.docRefs = (_info_docRefs = info.docRefs) !== null && _info_docRefs !== void 0 ? _info_docRefs : [];
+        this.isConfigurable = info.isConfigurable;
+    }
+};
+
+
+/***/ }),
+
+/***/ 5799:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Flat violation output from regex scanner.
+ * Designed to be compatible with FlatViolation from core, with no nested `details` object.
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+
+
+/***/ }),
+
+/***/ 515:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedId", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedId;
+    }
+}));
+const _RegexRule = __nccwpck_require__(7192);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let HardcodedId = class HardcodedId extends _RegexRule.RegexRule {
+    check(file, _config) {
+        const violations = [];
+        // If elements are provided, search each element
+        if (file.elements && file.elements.length > 0) {
+            for (const element of file.elements){
+                const content = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                // Reset regex state for each element
+                const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
+                const matches = content.match(regex);
+                if (matches) {
+                    violations.push(this.createViolation(file, {
+                        name: element.name,
+                        type: element.type,
+                        metaType: "element",
+                        matchedText: matches[0],
+                        message: this.description
+                    }));
+                }
+            }
+        } else {
+            // Fall back to searching raw content
+            const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
+            const matches = file.content.match(regex);
+            if (matches) {
+                for (const match of matches){
+                    violations.push(this.createViolation(file, {
+                        name: file.name,
+                        type: "content",
+                        metaType: "content",
+                        matchedText: match,
+                        message: this.description
+                    }));
+                }
+            }
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            ruleId: "hardcoded-id",
+            name: "HardcodedId",
+            label: "Hardcoded Salesforce Id",
+            description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a Get Records element—to make the Flow portable, maintainable, and flexible.",
+            summary: "Hardcoded IDs break portability across environments",
+            severity: "error",
+            supportedTypes: [
+                "Flow"
+            ],
+            docRefs: [
+                {
+                    label: "Flow Best Practices",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.flow_prep_bestpractices.htm&type=5"
+                },
+                {
+                    label: "Don't hard code Record Type IDs in Flow",
+                    path: "https://www.linkedin.com/feed/update/urn:li:activity:6947530300012826624/"
+                }
+            ],
+            isConfigurable: false
+        });
+    }
+};
+/**
+   * Regex pattern for Salesforce IDs:
+   * - 5 alphanumeric chars
+   * - followed by '0' (key prefix delimiter)
+   * - followed by 9 alphanumeric chars
+   * - optionally followed by 3 more chars (18-char ID)
+   */ _define_property(HardcodedId, "SALESFORCE_ID_PATTERN", /\b[a-zA-Z0-9]{5}0[a-zA-Z0-9]{9}(?:[a-zA-Z0-9]{3})?\b/g);
+
+
+/***/ }),
+
+/***/ 9982:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedSecret", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedSecret;
+    }
+}));
+const _RegexRule = __nccwpck_require__(7192);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let HardcodedSecret = class HardcodedSecret extends _RegexRule.RegexRule {
+    check(file, _config) {
+        const violations = [];
+        // If elements are provided, search each element
+        if (file.elements && file.elements.length > 0) {
+            for (const element of file.elements){
+                const content = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                const matches = this.findSecrets(content);
+                for (const match of matches){
+                    violations.push(this.createViolation(file, {
+                        name: element.name,
+                        type: element.type,
+                        metaType: "element",
+                        matchedText: this.maskSecret(match.matchedText),
+                        message: match.description
+                    }));
+                }
+            }
+        } else {
+            // Fall back to searching raw content
+            const matches = this.findSecrets(file.content);
+            for (const match of matches){
+                violations.push(this.createViolation(file, {
+                    name: file.name,
+                    type: "content",
+                    metaType: "content",
+                    matchedText: this.maskSecret(match.matchedText),
+                    message: match.description
+                }));
+            }
+        }
+        return violations;
+    }
+    /**
+   * Find all secrets in content using all patterns
+   */ findSecrets(content) {
+        const results = [];
+        const seen = new Set(); // Deduplicate matches
+        for (const secretPattern of HardcodedSecret.SECRET_PATTERNS){
+            // Create fresh regex for each search (reset lastIndex)
+            const regex = new RegExp(secretPattern.pattern.source, secretPattern.pattern.flags);
+            const matches = content.match(regex);
+            if (matches) {
+                for (const match of matches){
+                    if (!seen.has(match)) {
+                        seen.add(match);
+                        results.push({
+                            matchedText: match,
+                            description: secretPattern.description
+                        });
+                    }
+                }
+            }
+        }
+        return results;
+    }
+    /**
+   * Mask sensitive parts of the secret for display
+   * Shows first 4 and last 4 characters only
+   */ maskSecret(secret) {
+        if (secret.length <= 12) {
+            return secret.substring(0, 4) + "****";
+        }
+        return secret.substring(0, 4) + "****" + secret.substring(secret.length - 4);
+    }
+    constructor(){
+        super({
+            ruleId: "hardcoded-secret",
+            name: "HardcodedSecret",
+            label: "Hardcoded Secret",
+            description: "Avoid hardcoding secrets, API keys, tokens, or credentials in metadata files. These should be stored securely in Named Credentials, Custom Settings, Custom Metadata, or external secret management systems.",
+            summary: "Hardcoded secrets pose security risks",
+            severity: "error",
+            supportedTypes: [
+                "Flow",
+                "ApexClass",
+                "ApexTrigger",
+                "LightningComponentBundle",
+                "AuraDefinitionBundle"
+            ],
+            docRefs: [
+                {
+                    label: "Salesforce Named Credentials",
+                    path: "https://help.salesforce.com/s/articleView?id=sf.named_credentials_about.htm"
+                },
+                {
+                    label: "OWASP Secrets Management",
+                    path: "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html"
+                }
+            ],
+            isConfigurable: false
+        });
+    }
+};
+/**
+   * Collection of secret patterns to detect
+   */ _define_property(HardcodedSecret, "SECRET_PATTERNS", [
+    // Azure
+    {
+        name: "Azure Storage Account Key",
+        pattern: /AccountKey=[A-Za-z0-9+/]{88}==/g,
+        description: "Azure Storage account key detected"
+    },
+    {
+        name: "Azure Connection String",
+        pattern: /DefaultEndpointsProtocol=https;AccountName=[^;]+;AccountKey=[^;]+/g,
+        description: "Azure connection string detected"
+    },
+    // GCP Service Account Key
+    {
+        name: "GCP Service Account Key",
+        pattern: /"type"\s*:\s*"service_account"[\s\S]{0,500}"private_key"/g,
+        description: "GCP service account JSON key detected"
+    },
+    // Stripe
+    {
+        name: "Stripe API Key",
+        pattern: /(sk|pk|rk)_(test|live)_[0-9a-zA-Z]{24,}/g,
+        description: "Stripe API key detected"
+    },
+    // AWS
+    {
+        name: "AWS Access Key ID",
+        pattern: /\bAKIA[0-9A-Z]{16}\b/g,
+        description: "AWS access key ID detected"
+    },
+    {
+        name: "AWS Secret Access Key",
+        pattern: /aws[_-]?secret[_-]?access[_-]?key\s*[:=]\s*["'][A-Za-z0-9/+=]{40}["']/gi,
+        description: "AWS secret access key detected"
+    },
+    // Salesforce
+    {
+        name: "Salesforce Session ID",
+        pattern: /\b00D[a-zA-Z0-9]{15}![a-zA-Z0-9.]{80,}/g,
+        description: "Salesforce session ID detected"
+    },
+    {
+        name: "Salesforce Refresh Token",
+        pattern: /\b5Aep[a-zA-Z0-9._]{80,}/g,
+        description: "Salesforce refresh token detected"
+    },
+    {
+        name: "Hardcoded OAuth Token",
+        pattern: /(authorization|auth)\s*[:=]\s*["']Bearer\s+[A-Za-z0-9\-_\.]{20,}["']/gi,
+        description: "Hardcoded OAuth bearer token detected"
+    },
+    // Generic API Keys and Tokens
+    {
+        name: "Bearer Token",
+        pattern: /Bearer\s+[a-zA-Z0-9_\-.]{20,}/gi,
+        description: "Bearer token detected"
+    },
+    {
+        name: "Basic Auth",
+        pattern: /Basic\s+[a-zA-Z0-9+/=]{20,}/gi,
+        description: "Basic authentication credentials detected"
+    },
+    // Private Keys
+    {
+        name: "Private Key",
+        pattern: /-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----/g,
+        description: "Private key detected"
+    },
+    {
+        name: "Certificate",
+        pattern: /-----BEGIN\s+CERTIFICATE-----/g,
+        description: "Certificate detected"
+    },
+    {
+        name: "JWT Secret",
+        pattern: /jwt[_-]?secret\s*[:=]\s*["'][^"']{8,}["']/gi,
+        description: "Hardcoded JWT secret detected"
+    },
+    // GitHub
+    {
+        name: "GitHub Token",
+        pattern: /gh[puo]_[A-Za-z0-9_]{36,}/g,
+        description: "GitHub token detected"
+    },
+    // Slack
+    {
+        name: "Slack Token",
+        pattern: /xox[baprs]-[a-zA-Z0-9-]{10,}/g,
+        description: "Slack token detected"
+    },
+    {
+        name: "Slack Webhook",
+        pattern: /hooks\.slack\.com\/services\/[A-Z0-9]{9,}\/[A-Z0-9]{9,}\/[A-Za-z0-9]{20,}/g,
+        description: "Slack webhook URL detected"
+    },
+    // Google
+    {
+        name: "Google API Key",
+        pattern: /AIza[0-9A-Za-z_-]{35}/g,
+        description: "Google API key detected"
+    },
+    // Twilio
+    {
+        name: "Twilio API Key",
+        pattern: /SK[a-fA-F0-9]{32}/g,
+        description: "Twilio API key detected"
+    },
+    // SendGrid
+    {
+        name: "SendGrid API Key",
+        pattern: /SG\.[a-zA-Z0-9_-]{22}\.[a-zA-Z0-9_-]{43}/g,
+        description: "SendGrid API key detected"
+    },
+    // Mailchimp
+    {
+        name: "Mailchimp API Key",
+        pattern: /[a-f0-9]{32}-us[0-9]{1,2}/g,
+        description: "Mailchimp API key detected"
+    },
+    // Generic password patterns
+    {
+        name: "Password Assignment",
+        pattern: /(password|passwd|pwd|secret)\s*[:=]\s*["'][^"'\s]{8,}["']/gi,
+        description: "Hardcoded password or secret assignment detected"
+    },
+    // AI API Keys
+    {
+        name: "OpenAI API Key",
+        pattern: /sk-[A-Za-z0-9]{48,}/g,
+        description: "OpenAI API key detected"
+    },
+    {
+        name: "Anthropic API Key",
+        pattern: /sk-ant-[A-Za-z0-9_-]{20,}/g,
+        description: "Anthropic API key detected"
+    }
+]);
+
+
+/***/ }),
+
+/***/ 8877:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "HardcodedUrl", ({
+    enumerable: true,
+    get: function() {
+        return HardcodedUrl;
+    }
+}));
+const _RegexRule = __nccwpck_require__(7192);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let HardcodedUrl = class HardcodedUrl extends _RegexRule.RegexRule {
+    check(file, _config) {
+        const violations = [];
+        // If elements are provided, search each element
+        if (file.elements && file.elements.length > 0) {
+            for (const element of file.elements){
+                const content = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                // Reset regex state for each element
+                const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
+                const matches = content.match(regex);
+                if (matches) {
+                    violations.push(this.createViolation(file, {
+                        name: element.name,
+                        type: element.type,
+                        metaType: "element",
+                        matchedText: matches[0],
+                        message: this.description
+                    }));
+                }
+            }
+        } else {
+            // Fall back to searching raw content
+            const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
+            const matches = file.content.match(regex);
+            if (matches) {
+                for (const match of matches){
+                    violations.push(this.createViolation(file, {
+                        name: file.name,
+                        type: "content",
+                        metaType: "content",
+                        matchedText: match,
+                        message: this.description
+                    }));
+                }
+            }
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            ruleId: "hardcoded-url",
+            name: "HardcodedUrl",
+            label: "Hardcoded Salesforce Url",
+            description: "Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.",
+            summary: "Hardcoded URLs break across different environments",
+            severity: "error",
+            supportedTypes: [
+                "Flow"
+            ],
+            docRefs: [
+                {
+                    label: "The Ultimate Guide to Salesforce Flow Best Practices",
+                    path: "https://admin.salesforce.com/blog/2021/the-ultimate-guide-to-flow-best-practices-and-standards"
+                },
+                {
+                    label: "Why You Should Avoid Hard Coding and Three Alternative Solutions",
+                    path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"
+                }
+            ],
+            isConfigurable: false
+        });
+    }
+};
+/**
+   * Regex pattern for force.com URLs:
+   * - http or https protocol
+   * - optional www prefix
+   * - domain characters
+   * - ending with force.com
+   */ _define_property(HardcodedUrl, "FORCE_URL_PATTERN", /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}force\.com/g);
+
+
+/***/ }),
+
+/***/ 4655:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "NamingConvention", ({
+    enumerable: true,
+    get: function() {
+        return NamingConvention;
+    }
+}));
+const _RegexRule = __nccwpck_require__(7192);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+let NamingConvention = class NamingConvention extends _RegexRule.RegexRule {
+    check(file, config) {
+        var _config_expression;
+        const pattern = (_config_expression = config === null || config === void 0 ? void 0 : config.expression) !== null && _config_expression !== void 0 ? _config_expression : NamingConvention.DEFAULT_PATTERN;
+        var _file_name;
+        const name = (_file_name = file.name) !== null && _file_name !== void 0 ? _file_name : "";
+        // Test if name matches the pattern
+        if (new RegExp(pattern).test(name)) {
+            return []; // Matches = pass
+        }
+        // Name doesn't match pattern - create violation
+        return [
+            this.createViolation(file, {
+                name: name,
+                type: "name",
+                metaType: "attribute",
+                expression: pattern,
+                message: this.description
+            })
+        ];
+    }
+    constructor(){
+        super({
+            ruleId: "naming-convention",
+            name: "NamingConvention",
+            label: "Naming Convention",
+            description: "Using clear and consistent names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a file's purpose—for example, including a domain and brief description like Service_OrderFulfillment.",
+            summary: "Consistent naming improves discoverability and maintainability",
+            severity: "error",
+            supportedTypes: [
+                "Flow"
+            ],
+            docRefs: [
+                {
+                    label: "Naming your Flows is more critical than ever",
+                    path: "https://www.linkedin.com/posts/stephen-n-church_naming-your-flows-this-is-more-critical-activity-7099733198175158274-1sPx"
+                }
+            ],
+            isConfigurable: true
+        });
+    }
+};
+/** Default regex pattern if none configured */ _define_property(NamingConvention, "DEFAULT_PATTERN", "[A-Za-z0-9]+_[A-Za-z0-9]+");
+
+
+/***/ }),
+
+/***/ 5029:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get getRegexRuleIds () {
+        return getRegexRuleIds;
+    },
+    get hasRegexRule () {
+        return hasRegexRule;
+    },
+    get scanFile () {
+        return scanFile;
+    },
+    get scanRegex () {
+        return scanRegex;
+    }
+});
+const _RuleRegistry = __nccwpck_require__(2408);
+function scanRegex(files, config) {
+    const violations = [];
+    // Get all enabled rules based on config
+    const rules = _RuleRegistry.regexRuleRegistry.getRules(config);
+    for (const file of files){
+        for (const rule of rules){
+            var _config_rules, _config_rules1;
+            var _config_rules_rule_ruleId;
+            // Get rule-specific config
+            const ruleConfig = (_config_rules_rule_ruleId = config === null || config === void 0 ? void 0 : (_config_rules = config.rules) === null || _config_rules === void 0 ? void 0 : _config_rules[rule.ruleId]) !== null && _config_rules_rule_ruleId !== void 0 ? _config_rules_rule_ruleId : config === null || config === void 0 ? void 0 : (_config_rules1 = config.rules) === null || _config_rules1 === void 0 ? void 0 : _config_rules1[rule.name];
+            // Execute rule and collect violations
+            const ruleViolations = rule.execute(file, ruleConfig);
+            violations.push(...ruleViolations);
+        }
+    }
+    return violations;
+}
+function scanFile(file, config) {
+    return scanRegex([
+        file
+    ], config);
+}
+function getRegexRuleIds() {
+    return _RuleRegistry.regexRuleRegistry.getAllRuleIds();
+}
+function hasRegexRule(idOrName) {
+    return _RuleRegistry.regexRuleRegistry.has(idOrName);
+}
 
 
 /***/ }),
