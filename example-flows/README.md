@@ -42,15 +42,7 @@ The `force-app/testing/` directory contains additional flows used for integratio
 
 ## Getting Started
 
-Follow these steps to get up and running with the Lightning Flow Scanner Example Flows:
-
-1. To open this [Salesforce Project](../example-flows) in CLI:
-
-   ```bash
-   cd example-flows
-   ```
-
-2. Deploy Flows(optional)
+To deploy the Demo Flows using the Salesforce CLI:
 
    ```bash
    sf project deploy start --source-dir force-app
