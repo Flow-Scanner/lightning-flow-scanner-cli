@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>dosomethingelse</name>
-        <label>dosomethingelse</label>
-        <locationX>440</locationX>
-        <locationY>434</locationY>
-        <actionName>NewCase</actionName>
-        <actionType>quickAction</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <nameSegment>NewCase</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>sets error message</description>
+        <name>returnerror</name>
+        <label>returnerror</label>
+        <locationX>528</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <name>notnull</name>
         <label>notnull</label>
+        <description>
+            Checks whether the SOQL query returned a non-null result before entering the loop.
+        </description>
         <locationX>176</locationX>
-        <locationY>434</locationY>
+        <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>notnulln</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SOQL_Query_Example</leftValueReference>
+                <leftValueReference>queriedAccounts</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>aLoop</targetReference>
+            </connector>
             <label>notnull</label>
         </rules>
     </decisions>
-    <description>This flow demonstrates how to resolve a violation of the rule &quot;SOQL Query In A Loop&quot;.</description>
+    <description>This flow demonstrates proper bulkification - avoiding SOQL Query In A Loop.</description>
     <environments>Default</environments>
-    <interviewLabel>Fix: SOQL Query In A Loop {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Fix: SOQL Query In A Loop</label>
+    <interviewLabel>SOQL Query In A Loop Fixed {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOQL Query In A Loop Fixed</label>
     <loops>
         <description>an example loop</description>
         <name>aLoop</name>
         <label>aLoop</label>
         <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationY>458</locationY>
         <collectionReference>Accounts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
-        <noMoreValuesConnector>
-            <targetReference>SOQL_Query_Example</targetReference>
-        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -69,14 +76,17 @@
     <recordLookups>
         <name>SOQL_Query_Example</name>
         <label>SOQL Query Example</label>
+        <description>
+            Queries Account records BEFORE the loop to avoid SOQL Query In A Loop violation.
+        </description>
         <locationX>176</locationX>
-        <locationY>326</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>notnull</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>dosomethingelse</targetReference>
+            <targetReference>returnerror</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -86,15 +96,16 @@
                 <stringValue>None</stringValue>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Account</object>
+        <queriedFields>Id</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>aLoop</targetReference>
+            <targetReference>SOQL_Query_Example</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -105,6 +116,27 @@
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>errorMessage</name>
+        <description>
+            Stores an error message returned when the SOQL query fails.
+        </description>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>queriedAccounts</name>
+        <description>
+            Stores the Account records returned from the SOQL query.
+        </description>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
         <objectType>Account</objectType>
     </variables>
 </Flow>

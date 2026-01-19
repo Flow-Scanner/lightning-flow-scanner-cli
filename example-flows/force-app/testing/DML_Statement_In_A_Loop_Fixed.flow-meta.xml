@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>errorMessageDIL</description>
+        <name>errorMessageDIL</name>
+        <label>errorMessageDIL</label>
+        <locationX>660</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessageDILV</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Populate Case fields</description>
+        <name>populateCaseFields</name>
+        <label>Populate Case Fields</label>
+        <locationX>264</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>createCase.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>aLoop.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>addCaseToCollection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Add Case to collection</description>
+        <name>addCaseToCollection</name>
+        <label>Add Case to Collection</label>
+        <locationX>264</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>casesToCreate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>createCase</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>aLoop</targetReference>
+        </connector>
+    </assignments>
+    <description>This flow demonstrates proper bulkification - avoiding DML Statement In A Loop.</description>
+    <environments>Default</environments>
+    <interviewLabel>DML Statements In A Loop Fixed {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>DML Statement In A Loop Fixed</label>
+    <loops>
+        <description>an example loop</description>
+        <name>aLoop</name>
+        <label>aLoop</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <collectionReference>Accounts</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>populateCaseFields</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>createAllCases</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates all cases at once (bulk operation)</description>
+        <name>createAllCases</name>
+        <label>Create All Cases</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <faultConnector>
+            <targetReference>errorMessageDIL</targetReference>
+        </faultConnector>
+        <inputReference>casesToCreate</inputReference>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>aLoop</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>A collection of Accounts</description>
+        <name>Accounts</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>createCase</name>
+        <description>Holds the Case record data to be created in the loop (populated before the Record Create element).</description>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <description>Collection to hold all Cases to create</description>
+        <name>casesToCreate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <description>errorMessageDILV</description>
+        <name>errorMessageDILV</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>error</stringValue>
+        </value>
+    </variables>
+</Flow>
