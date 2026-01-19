@@ -25,7 +25,7 @@
         <locationX>176</locationX>
         <locationY>287</locationY>
         <inputAssignments>
-            <field>Active__c</field>
+            <field>Industry</field>
             <value><stringValue>Yes</stringValue></value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -37,10 +37,10 @@
             <targetReference>Update_triggering_records</targetReference>
         </connector>
         <filters>
-            <field>Active__c</field>
+            <field>Industry</field>
             <operator>NotEqualTo</operator>
             <value>
-                <stringValue>Yes</stringValue>
+                <stringValue>Apparel</stringValue>
             </value>
         </filters>
         <filterLogic>and</filterLogic>
