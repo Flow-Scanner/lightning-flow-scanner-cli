@@ -1,7 +1,7 @@
 {
   "packageDirectories": [
     {
-      "path": "force-app",
+      "path": "example-flows/force-app",
       "default": true
     }
   ],

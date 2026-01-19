@@ -628,7 +628,7 @@ For more on Programmatic API, types, and advanced usage of `@flow-scanner/lightn
 6. Deploy Demo Flows (Optional):
 
    ```bash
-   cd example-flows && sf project deploy start
+   sf project deploy start
    ```
 
    Navigate to the [Demo Readme](example-flows/README.md) for full details

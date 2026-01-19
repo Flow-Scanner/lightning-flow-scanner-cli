@@ -38,6 +38,8 @@ packages/regex-scanner/types
 # Ignore Salesforce DX generated files
 example-flows/.sf/
 example-flows/.sfdx/
+.sfdx
+.sf
 
 # Mac files
 **/.DS_Store
