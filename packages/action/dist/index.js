@@ -216890,6 +216890,15 @@ let FlowGraph = class FlowGraph {
         }, this.nodeMap, this.allConnectors);
     }
     /**
+   * Compute which elements are reachable from start using ONLY normal connectors (not fault connectors).
+   * Elements that are reachable overall but NOT reachable via normal connectors are part of fault handling.
+   */ computeNormalReachability(startReference) {
+        const compiler = new _Compiler.Compiler();
+        compiler.traverseFlow(startReference, (element)=>{
+            this.normalReachableFromStart.add(element.name);
+        }, this.nodeMap, this.normalConnectors);
+    }
+    /**
    * Use Compiler to compute which elements are inside loops.
    * Calls Compiler.traverseFlow() for each loop with endElementName.
    */ computeLoopBoundaries() {
@@ -216947,13 +216956,13 @@ let FlowGraph = class FlowGraph {
     getNode(elementName) {
         return this.nodeMap.get(elementName);
     }
-    isPartOfFaultHandling(elementName) {
-        const previous = this.getPreviousElements(elementName);
-        return previous.some((prev)=>{
-            const faultTargets = this.faultConnectors.get(prev);
-            var _faultTargets_has;
-            return (_faultTargets_has = faultTargets === null || faultTargets === void 0 ? void 0 : faultTargets.has(elementName)) !== null && _faultTargets_has !== void 0 ? _faultTargets_has : false;
-        });
+    /**
+   * Check if an element is part of fault handling flow.
+   * An element is part of fault handling if it's only reachable through fault paths
+   * (i.e., reachable overall but NOT reachable via normal connectors from START).
+   */ isPartOfFaultHandling(elementName) {
+        // Element is part of fault handling if it's reachable but NOT reachable via normal paths
+        return this.reachableFromStart.has(elementName) && !this.normalReachableFromStart.has(elementName);
     }
     getLoopNodes() {
         return Array.from(this.nodeMap.values()).filter((n)=>n.subtype === "loops");
@@ -217288,6 +217297,7 @@ let FlowGraph = class FlowGraph {
         _define_property(this, "nodeMap", new Map());
         // Pre-computed sets for common queries (built using Compiler)
         _define_property(this, "reachableFromStart", new Set());
+        _define_property(this, "normalReachableFromStart", new Set()); // Elements reachable via normal (non-fault) connectors only
         _define_property(this, "elementsInLoop", new Map()); // element -> loop name
         // Connector metadata (extracted during node processing)
         _define_property(this, "faultConnectors", new Map());
@@ -217307,6 +217317,7 @@ let FlowGraph = class FlowGraph {
         this.computeLoopBoundaries();
         if (startReference) {
             this.computeReachability(startReference);
+            this.computeNormalReachability(startReference);
         }
     }
 };
@@ -220192,11 +220203,13 @@ let MissingRecordTriggerFilter = class MissingRecordTriggerFilter extends _RuleC
         }
         // Check if the flow has filters or entry conditions at the flow level
         const filters = this.getStartProperty(flow, 'filters');
+        const filterFormula = this.getStartProperty(flow, 'filterFormula');
         const hasFilters = !!filters;
+        const hasFilterFormula = !!filterFormula;
         const scheduledPaths = (_flow_xmldata = flow.xmldata) === null || _flow_xmldata === void 0 ? void 0 : (_flow_xmldata_start = _flow_xmldata.start) === null || _flow_xmldata_start === void 0 ? void 0 : _flow_xmldata_start.scheduledPaths;
         const hasScheduledPaths = !!scheduledPaths;
-        // If no filters or scheduled paths (which have their own conditions), flag as violation
-        if (!hasFilters && !hasScheduledPaths) {
+        // If no filters, formula conditions, or scheduled paths (which have their own conditions), flag as violation
+        if (!hasFilters && !hasFilterFormula && !hasScheduledPaths) {
             violations.push(new _internals.Violation(new _internals.FlowAttribute(triggerType, "triggerType", "autolaunched && triggerType")));
         }
         return violations;
