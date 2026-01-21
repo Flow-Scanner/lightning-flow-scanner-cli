@@ -30,12 +30,14 @@ export class MissingRecordTriggerFilter extends RuleCommon implements IRuleDefin
   }
   // Check if the flow has filters or entry conditions at the flow level
   const filters = this.getStartProperty(flow, 'filters');
+  const filterFormula = this.getStartProperty(flow, 'filterFormula');
 
   const hasFilters = !!filters;
+  const hasFilterFormula = !!filterFormula;
   const scheduledPaths = flow.xmldata?.start?.scheduledPaths;
   const hasScheduledPaths = !!scheduledPaths;
-  // If no filters or scheduled paths (which have their own conditions), flag as violation
-  if (!hasFilters && !hasScheduledPaths) {
+  // If no filters, formula conditions, or scheduled paths (which have their own conditions), flag as violation
+  if (!hasFilters && !hasFilterFormula && !hasScheduledPaths) {
     violations.push(
       new core.Violation(
         new core.FlowAttribute(
