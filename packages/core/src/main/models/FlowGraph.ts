@@ -13,6 +13,7 @@ export class FlowGraph {
 
   // Pre-computed sets for common queries (built using Compiler)
   private reachableFromStart: Set<string> = new Set();
+  private normalReachableFromStart: Set<string> = new Set(); // Elements reachable via normal (non-fault) connectors only
   private elementsInLoop: Map<string, string> = new Map(); // element -> loop name
 
   // Connector metadata (extracted during node processing)
@@ -37,6 +38,7 @@ export class FlowGraph {
     this.computeLoopBoundaries();
     if (startReference) {
       this.computeReachability(startReference);
+      this.computeNormalReachability(startReference);
     }
   }
 
@@ -138,6 +140,17 @@ export class FlowGraph {
   }
 
   /**
+   * Compute which elements are reachable from start using ONLY normal connectors (not fault connectors).
+   * Elements that are reachable overall but NOT reachable via normal connectors are part of fault handling.
+   */
+  private computeNormalReachability(startReference: string): void {
+    const compiler = new Compiler();
+    compiler.traverseFlow(startReference, (element) => {
+      this.normalReachableFromStart.add(element.name);
+    }, this.nodeMap, this.normalConnectors);
+  }
+
+  /**
    * Use Compiler to compute which elements are inside loops.
    * Calls Compiler.traverseFlow() for each loop with endElementName.
    */
@@ -206,12 +219,15 @@ export class FlowGraph {
     return this.nodeMap.get(elementName);
   }
 
+  /**
+   * Check if an element is part of fault handling flow.
+   * An element is part of fault handling if it's only reachable through fault paths
+   * (i.e., reachable overall but NOT reachable via normal connectors from START).
+   */
   public isPartOfFaultHandling(elementName: string): boolean {
-    const previous = this.getPreviousElements(elementName);
-    return previous.some(prev => {
-      const faultTargets = this.faultConnectors.get(prev);
-      return faultTargets?.has(elementName) ?? false;
-    });
+    // Element is part of fault handling if it's reachable but NOT reachable via normal paths
+    return this.reachableFromStart.has(elementName) &&
+           !this.normalReachableFromStart.has(elementName);
   }
 
   public getLoopNodes(): FlowNode[] {

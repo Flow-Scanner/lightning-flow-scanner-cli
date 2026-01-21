@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>This action is downstream of the fault path (connected via normal connector from fault_handler). It should NOT be flagged for missing fault path since it's already part of fault handling.</description>
+        <name>downstream_action</name>
+        <label>downstream action</label>
+        <locationX>440</locationX>
+        <locationY>350</locationY>
+        <actionName>NewTask</actionName>
+        <actionType>quickAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>OwnerId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>NewTask</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <description>This is the fault handler - direct target of main_action's faultConnector. Should NOT be flagged.</description>
+        <name>fault_handler</name>
+        <label>fault handler</label>
+        <locationX>440</locationX>
+        <locationY>242</locationY>
+        <actionName>NewTask</actionName>
+        <actionType>quickAction</actionType>
+        <connector>
+            <targetReference>downstream_action</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>OwnerId</name>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>NewTask</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <description>This is the main action with a fault path. This element correctly has a faultConnector.</description>
+        <name>main_action</name>
+        <label>main action</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <actionName>LogACall</actionName>
+        <actionType>quickAction</actionType>
+        <faultConnector>
+            <targetReference>fault_handler</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>LogACall</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <description>This flow tests that elements downstream of a fault path (connected via normal connectors from fault handlers) are not flagged for missing fault paths. The downstream_action should NOT trigger a violation.</description>
+    <environments>Default</environments>
+    <interviewLabel>Missing Fault Path Downstream Test {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Missing Fault Path Downstream Test</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>main_action</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>
