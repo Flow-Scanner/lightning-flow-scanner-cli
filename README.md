@@ -472,7 +472,7 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 | **[Salesforce App](https://github.com/Flow-Scanner/lightning-flow-scanner-app)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000008CLlQAM` |
 | **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@main` |
 | **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
-| **[Regex Scanner](https://www.npmjs.com/package/@flow-scanner/regex-scanner)** (Node.js + Browser) |  a regex-based scanning engine   | `npm install -g @flow-scanner/regex-scanner`   
+| **[Regex Scanner](https://www.npmjs.com/package/@flow-scanner/regex-scanner)** |  Regex-based scanning   | `npm install -g @flow-scanner/regex-scanner`   
 
 **Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](SECURITY.md).
 
