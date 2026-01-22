@@ -1,0 +1,25 @@
+name: Scan Flows
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  scan-flows:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read           # Read flow files
+      security-events: write   # Upload SARIF to Code Scanning
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lightning Flow Scan
+        id: flowscanner
+        uses: Flow-Scanner/lightning-flow-scanner@action-v3.4.1
+        with:
+          sarif-only: false
+          config: example-flows/.flow-scanner.yml

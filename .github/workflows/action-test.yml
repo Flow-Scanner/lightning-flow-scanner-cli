@@ -20,6 +20,7 @@ jobs:
         uses: ./
         with:
           sarif-only: true  # Strict mode for PRs
+          config: example-flows/.flow-scanner.yml
    
       - name: Show SARIF file (debug)
         if: always()

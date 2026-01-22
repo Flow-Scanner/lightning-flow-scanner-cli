@@ -1,0 +1,117 @@
+# Flow Scanner Configuration
+# This file defines exceptions for demo flows to suppress expected violations
+
+# Ignore the demo folder - these flows intentionally contain violations for demonstration
+ignore:
+  - "**/testing/**"
+
+exceptions:
+  # Action Call In A Loop
+  Action_Call_In_A_Loop:
+    action-call-in-loop:
+      - Create_Task_For_Account
+
+  # DML Statement In A Loop
+  DML_Statement_In_A_Loop:
+    dml-in-loop:
+      - createNewCase
+
+  # Duplicate DML Operation
+  Duplicate_DML_Operation:
+    duplicate-dml:
+      - mock_screen_2
+
+  # Excessive Cyclomatic Complexity
+  Excessive_Cyclomatic_Complexity:
+    excessive-cyclomatic-complexity:
+      - "28"
+
+  # Flow Naming Convention
+  FlowNamingConvention:
+    invalid-naming-convention:
+      - FlowNamingConvention
+
+  # Get Records Stores All Fields
+  Get_Records_Stores_All_Fields:
+    get-record-all-fields:
+      - Get_Account_Record
+
+  # Hardcoded Id
+  Hardcoded_Id:
+    hardcoded-id:
+      - create_Test_Account
+
+  # Hardcoded URL
+  Hardcoded_Url:
+    hardcoded-url:
+      - Create_Case_With_URL
+
+  # Inactive Flow
+  Inactive_Flow:
+    inactive-flow:
+      - Draft
+
+  # Invalid API Version
+  Invalid_API_Version:
+    invalid-api-version:
+      - "49"
+
+  # Missing Auto Layout
+  Missing_Auto_Layout:
+    missing-auto-layout:
+      - FREE_FORM_CANVAS
+
+  # Missing Fault Path
+  Missing_Fault_Path:
+    missing-fault-path:
+      - log_call
+
+  # Missing Flow Description
+  Missing_Flow_Description:
+    missing-flow-description:
+      - "*"
+
+  # Missing Null Handler
+  Missing_Null_Handler_Simple:
+    missing-null-handler:
+      - Get_User
+
+  # Missing Trigger Order
+  Missing_Trigger_Order:
+    unspecified-trigger-order:
+      - TriggerOrder
+
+  # Recursive After Update
+  Recursive_After_Update:
+    recursive-record-update:
+      - Update_Account_Last_Modified_Info
+
+  # SOQL Query In A Loop
+  SOQL_Query_In_A_Loop:
+    soql-in-loop:
+      - SOQL_Query_Example
+
+  # Same Record Field Updates
+  Same_Record_Field_Updates:
+    same-record-field-updates:
+      - Update_triggering_records
+
+  # Unclear API Name
+  Unclear_API_Name:
+    unclear-api-naming:
+      - Copy_1_of_mockscreen
+
+  # Unreachable Element
+  Unreachable_Element:
+    unreachable-element:
+      - unused_assignment
+
+  # Unsafe Running Context
+  Unsafe_Running_Context:
+    unsafe-running-context:
+      - SystemModeWithoutSharing
+
+  # Unused Variable
+  Unused_Variable:
+    unused-variable:
+      - anUnusedVariable
