@@ -11,23 +11,6 @@ const SEVERITY_LEVELS = ["note", "warning", "error"];
 
 async function loadScannerOptions() {
   const configPath = core.getInput("config");
-  
-  if (configPath) {
-    core.info(`Using config file from input: ${configPath}`);
-    try {
-      const configContent = fs.readFileSync(configPath, "utf8");
-      const ext = path.extname(configPath);
-      if (ext === ".json") {
-        return JSON.parse(configContent);
-      } else if (ext === ".yaml" || ext === ".yml") {
-        const yaml = require("js-yaml");
-        return yaml.load(configContent);
-      }
-    } catch (error) {
-      core.warning(`Failed to load config from ${configPath}: ${error.message}`);
-    }
-  }
-
   const moduleName = "flow-scanner";
   const searchPlaces = [
     "package.json",
@@ -40,8 +23,26 @@ async function loadScannerOptions() {
   ];
   const explorer = cosmiconfig(moduleName, {
     searchPlaces,
-    stopDir: os.homedir() // Search up to home directory, not stopping at package boundaries
+    stopDir: os.homedir()
   });
+
+  if (configPath) {
+    // Resolve path relative to GITHUB_WORKSPACE
+    const resolvedPath = path.isAbsolute(configPath)
+      ? configPath
+      : path.join(process.env.GITHUB_WORKSPACE || process.cwd(), configPath);
+    core.info(`Using config file from input: ${resolvedPath}`);
+    try {
+      const result = await explorer.load(resolvedPath);
+      if (result && !result.isEmpty) {
+        return result.config;
+      }
+      throw new Error("Config file is empty");
+    } catch (error) {
+      throw new Error(`Failed to load config from ${resolvedPath}: ${error.message}`);
+    }
+  }
+
   const result = await explorer.search();
   if (result && !result.isEmpty) {
     core.info(`Found config file: ${result.filepath}`);
