@@ -73,7 +73,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Lightning Flow Scanner
+      - name: Lightning Flow Scan
         id: flowscanner
         uses: Flow-Scanner/lightning-flow-scanner@main
         with:
