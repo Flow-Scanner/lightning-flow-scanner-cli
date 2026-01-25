@@ -7,7 +7,7 @@ export class MissingStartReference extends RuleCommon implements IRuleDefinition
     constructor() {
       super({
         ruleId: "missing-start-reference",
-        category: "layout",
+        category: "system",
         name: "MissingStartReference",
         label: "Missing Start Reference",
         description: "When a flow has no start reference.",

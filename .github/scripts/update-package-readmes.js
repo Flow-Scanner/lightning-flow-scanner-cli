@@ -142,12 +142,12 @@ const configuration = ensureSeparator(extractSection(mainReadme, 'Configuration'
 const packageGifs = {
   cli: `
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Flow-Scanner/Lightning-Flow-Scanner/main/docs/media/cli.gif" alt="Flow Overview"/>
+  <img src="https://raw.githubusercontent.com/Flow-Scanner/Lightning-Flow-Scanner/main/docs/media/cli-demo.gif" alt="Flow Overview"/>
 </p>
 `,
   vsx: `
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Flow-Scanner/Lightning-Flow-Scanner/main/docs/media/vsx.gif" alt="Flow Overview"/>
+  <img src="https://raw.githubusercontent.com/Flow-Scanner/Lightning-Flow-Scanner/main/docs/media/vsx-demo.gif" alt="Flow Overview"/>
 </p>
 `,
   action: `
