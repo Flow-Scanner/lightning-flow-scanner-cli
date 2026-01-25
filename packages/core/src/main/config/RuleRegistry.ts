@@ -31,6 +31,7 @@ import { MissingRecordTriggerFilter } from "../rules/MissingRecordTriggerFilter"
 import { MissingStartReference } from "../rules/MissingStartReference";
 import { TransformInsteadOfLoop } from "../rules/TransformInsteadOfLoop";
 import { RecordIdAsString } from "../rules/RecordIdAsString";
+import { UnresolvedSubflow } from "../rules/UnresolvedSubflow";
 
 type RuleConstructor = new () => IRuleDefinition;
 
@@ -39,6 +40,7 @@ interface RuleRegistryEntry {
   ruleClass: RuleConstructor;
   legacyName: string;
   isBeta: boolean;
+  isSystem: boolean;
 }
 
 class RuleRegistry {
@@ -49,13 +51,14 @@ class RuleRegistry {
     ruleId: string,
     ruleClass: RuleConstructor,
     legacyName: string,
-    isBeta: boolean = false
+    options: { isBeta?: boolean; isSystem?: boolean } = {}
   ): void {
     const entry: RuleRegistryEntry = {
       ruleId,
       ruleClass,
       legacyName,
-      isBeta,
+      isBeta: options.isBeta ?? false,
+      isSystem: options.isSystem ?? false,
     };
     this.rules.set(ruleId, entry);
     this.legacyNameMap.set(legacyName, ruleId);
@@ -72,9 +75,14 @@ class RuleRegistry {
     return entry;
   }
 
-  getAllRuleIds(includeBeta: boolean = false): string[] {
+  getAllRuleIds(options: { includeBeta?: boolean; includeSystem?: boolean } = {}): string[] {
+    const { includeBeta = false, includeSystem = false } = options;
     return Array.from(this.rules.values())
-      .filter(entry => includeBeta || !entry.isBeta)
+      .filter(entry => {
+        if (entry.isBeta && !includeBeta) return false;
+        if (entry.isSystem && !includeSystem) return false;
+        return true;
+      })
       .map(entry => entry.ruleId);
   }
 
@@ -95,6 +103,7 @@ class RuleRegistry {
     options?: IRulesConfig
   ): IRuleDefinition[] {
     const includeBeta = options?.betaMode === true || options?.betamode === true;
+    const includeSystem = options?.systemRules === true;
     const rulesMode = options?.ruleMode || "merged";
     const selectedRules: IRuleDefinition[] = [];
 
@@ -102,6 +111,9 @@ class RuleRegistry {
       for (const key of ruleConfig.keys()) {
         const entry = this.get(key);
         if (!entry) continue;
+
+        // In isolated mode, still respect system rule filtering
+        if (entry.isSystem && !includeSystem) continue;
 
         const config = ruleConfig.get(key) as IRuleConfig | undefined;
         if (config?.enabled === false) continue;
@@ -116,7 +128,7 @@ class RuleRegistry {
       return selectedRules;
     }
 
-    const allRuleIds = this.getAllRuleIds(includeBeta);
+    const allRuleIds = this.getAllRuleIds({ includeBeta, includeSystem });
 
     for (const ruleId of allRuleIds) {
       const rule = this.createInstance(ruleId);
@@ -180,11 +192,15 @@ registry.register("unreachable-element", UnconnectedElement, "UnconnectedElement
 registry.register("unsafe-running-context", UnsafeRunningContext, "UnsafeRunningContext");
 registry.register("unused-variable", UnusedVariable, "UnusedVariable");
 
-registry.register("missing-metadata-description", MissingMetadataDescription, "MissingMetadataDescription", true);
-registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
-registry.register("missing-start-reference", MissingStartReference, "MissingStartReference",true);
-registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
-registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", true);
-registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", true);
+registry.register("missing-metadata-description", MissingMetadataDescription, "MissingMetadataDescription", { isBeta: true });
+registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", { isBeta: true });
+registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", { isBeta: true });
+registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", { isBeta: true });
+registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", { isBeta: true });
+
+// System rules - catch issues prevented by Flow Builder UI (valuable for AI-edited XML)
+// Disabled by default for performance; enable with systemRules: true
+registry.register("missing-start-reference", MissingStartReference, "MissingStartReference", { isBeta: true, isSystem: true });
+registry.register("unresolved-subflow", UnresolvedSubflow, "UnresolvedSubflow", { isBeta: true, isSystem: true });
 
 export const ruleRegistry = registry;

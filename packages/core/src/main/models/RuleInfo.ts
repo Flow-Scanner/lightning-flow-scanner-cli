@@ -31,6 +31,8 @@ export class RuleInfo {
 
   /**
    * The category for the rule.
+   * 'problem' | 'suggestion' | 'layout' | 'system'
+   * System rules catch issues prevented by Flow Builder UI (valuable for AI-edited XML)
    */
   public category: 'problem' | 'suggestion' | 'layout' | 'system';
 

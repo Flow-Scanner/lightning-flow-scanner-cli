@@ -85,9 +85,14 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
         const config = getRuleConfigByIdOrName(rule, ruleOptions?.rules);
         const suppressions = getSuppressionsForRule(rule, flow.name, ruleOptions?.exceptions);
 
+        // Merge subflowResolver into rule options if available
+        const ruleConfig = ruleOptions?.subflowResolver
+          ? { ...config, subflowResolver: ruleOptions.subflowResolver }
+          : config;
+
         const result =
-          config && Object.keys(config).length > 0
-            ? rule.execute(flow, config, suppressions)
+          ruleConfig && Object.keys(ruleConfig).length > 0
+            ? rule.execute(flow, ruleConfig, suppressions)
             : rule.execute(flow, undefined, suppressions);
 
         // Apply custom message if provided in config, otherwise use summary

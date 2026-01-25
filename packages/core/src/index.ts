@@ -10,6 +10,14 @@ import { fix } from "./main/libs/FixFlows";
 import { getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
 import { scan } from "./main/libs/ScanFlows";
+import {
+  NoOpResolver,
+  PreloadedResolver,
+  defaultResolver,
+  type SubflowResolver,
+  type SubflowResolutionContext,
+  type ResolvedSubflow,
+} from "./main/libs/SubflowResolver";
 import { Flow } from "./main/models/Flow";
 import { FlowAttribute } from "./main/models/FlowAttribute";
 import { FlowElement } from "./main/models/FlowElement";
@@ -54,5 +62,23 @@ export {
   meetsThreshold,
   countThresholdViolations,
   filterByThreshold,
+  // Subflow resolution
+  NoOpResolver,
+  PreloadedResolver,
+  defaultResolver,
 };
-export type { FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig };
+export type {
+  FlatViolation,
+  IRuleDefinition,
+  IRulesConfig,
+  RuleCategory,
+  Severity,
+  Threshold,
+  NodeIconConfig,
+  DiagramOptions,
+  VariableIconConfig,
+  // Subflow resolution types
+  SubflowResolver,
+  SubflowResolutionContext,
+  ResolvedSubflow,
+};

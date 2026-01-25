@@ -18,7 +18,9 @@ describe("Scan E2E Tests", () => {
 
   describe("Demo Flow Scanning", () => {
     it("should scan all demo flows and find violations", async () => {
-      const output = await new Scan(["-d", demoFlowsPath], config).run();
+      // Use root config which doesn't have exceptions (example-flows/.flow-scanner.yml suppresses all violations)
+      const rootConfigPath = path.resolve(projectRoot, ".flow-scanner.yml");
+      const output = await new Scan(["-d", demoFlowsPath, "--config", rootConfigPath], config).run();
 
       // Should find flows and violations (exact count depends on config categories)
       expect(output.summary.flowsNumber).to.be.greaterThan(0, "Should find flows to scan");
