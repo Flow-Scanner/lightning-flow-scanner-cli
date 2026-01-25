@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>create_new_case</name>
+        <label>create new case</label>
+        <description>this action is used for creating new Create </description>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>NewCase</actionName>
+        <actionType>quickAction</actionType>
+        <faultConnector>
+            <targetReference>faultStatus</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>NewCase</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>faultStatus</name>
+        <description>status for fault </description>
+        <label>faultStatus</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Missing Start Reference</description>
+    <environments>Default</environments>
+    <interviewLabel>Missing Start Reference Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Missing Start Reference Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <status>Active</status>
+    <variables>
+        <name>isSuccess</name>
+        <description>used for determining status of flow</description>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
+    </variables>
+</Flow>
