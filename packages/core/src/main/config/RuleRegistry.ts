@@ -28,6 +28,7 @@ import { UnsafeRunningContext } from "../rules/UnsafeRunningContext";
 import { UnusedVariable } from "../rules/UnusedVariable";
 import { MissingMetadataDescription } from "../rules/MissingMetadataDescription";
 import { MissingRecordTriggerFilter } from "../rules/MissingRecordTriggerFilter";
+import { MissingStartReference } from "../rules/MissingStartReference";
 import { TransformInsteadOfLoop } from "../rules/TransformInsteadOfLoop";
 import { RecordIdAsString } from "../rules/RecordIdAsString";
 
@@ -181,6 +182,7 @@ registry.register("unused-variable", UnusedVariable, "UnusedVariable");
 
 registry.register("missing-metadata-description", MissingMetadataDescription, "MissingMetadataDescription", true);
 registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
+registry.register("missing-start-reference", MissingStartReference, "MissingStartReference",true);
 registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
 registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", true);
 registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", true);
