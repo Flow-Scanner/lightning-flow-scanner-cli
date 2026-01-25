@@ -8,6 +8,7 @@ export function GetRuleDefinitions(
   options?: IRulesConfig
 ): IRuleDefinition[] {
   const includeBeta = options?.betaMode === true || options?.betamode === true;
+  const includeSystem = options?.systemRules !== false; // defaults to true
   const rulesMode = options?.ruleMode || "merged";
   const selectedRules: IRuleDefinition[] = [];
 
@@ -25,6 +26,9 @@ export function GetRuleDefinitions(
 
       const rule = ruleRegistry.createInstance(entry.ruleId);  // Always use ruleId to instantiate
 
+      // Skip system rules if disabled
+      if (rule.category === 'system' && !includeSystem) continue;
+
       if (config?.severity) {
         rule.severity = config.severity;
       }
@@ -37,6 +41,9 @@ export function GetRuleDefinitions(
   // MERGED MODE (default)
   for (const ruleId of ruleIds) {
     const rule = ruleRegistry.createInstance(ruleId);
+
+    // Skip system rules if disabled
+    if (rule.category === 'system' && !includeSystem) continue;
 
     // Try to find config by ruleId first, then fall back to legacy name
     const config = (

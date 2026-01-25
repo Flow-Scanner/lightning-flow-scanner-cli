@@ -2,7 +2,7 @@ import { RuleInfo } from "./RuleInfo";
 import * as core from "../internals/internals";
 
 export abstract class RuleCommon {
-  public category?: 'problem' | 'suggestion' | 'layout';
+  public category?: 'problem' | 'suggestion' | 'layout' | 'system';
   public description: string;
   public summary: string;
   public docRefs: Array<{ label: string; path: string }> = [];

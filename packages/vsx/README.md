@@ -284,6 +284,12 @@ Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas 
 **Rule ID:** `missing-auto-layout`
 **Class Name:** _[AutoLayout](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/AutoLayout.ts)_
 **Severity:** 🔵 *Note*
+
+---
+
+### System
+
+System rules detect issues that are normally prevented by the Flow Builder UI. See [System Rules Documentation](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/docs/system-rules.md) for the full list.
 <!-- END GENERATED_RULES -->
 
 ## Configuration
