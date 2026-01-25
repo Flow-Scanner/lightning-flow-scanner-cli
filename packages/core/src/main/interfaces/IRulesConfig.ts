@@ -9,6 +9,7 @@ export enum DetailLevel {
 export interface IRulesConfig {
   betaMode?: boolean;  // Toggles beta rules; defaults to false
   betamode?: boolean;  // Use betaMode instead; to be removed
+  systemRules?: boolean; // Toggles system rules (category: 'system'); defaults to true
   detailLevel?: 'enriched' | 'simple' | DetailLevel;
   exceptions?: IExceptions;
   rules?: IRuleOptions;

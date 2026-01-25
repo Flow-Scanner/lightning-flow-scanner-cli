@@ -2,6 +2,7 @@ import { Flow, RuleResult } from "../internals/internals";
 
 export interface IRuleDefinition {
   ruleId: string;
+  category?: 'problem' | 'suggestion' | 'layout' | 'system';
   description: string;
   summary: string; // Short summary (5-10 words) shown when no custom message
   docRefs: Array<{ label: string; path: string }>;

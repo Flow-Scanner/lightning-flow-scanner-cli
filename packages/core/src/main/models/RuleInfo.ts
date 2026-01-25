@@ -31,9 +31,8 @@ export class RuleInfo {
 
   /**
    * The category for the rule.
-   * 'problem' | 'suggestion' | 'layout'
    */
-  public category: 'problem' | 'suggestion' | 'layout';
+  public category: 'problem' | 'suggestion' | 'layout' | 'system';
 
   /**
    * Stable public identifier used for config, suppression, and reporting.
