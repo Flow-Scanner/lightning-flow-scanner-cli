@@ -271,11 +271,9 @@ Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas 
 **Class Name:** _[AutoLayout](packages/core/src/main/rules/AutoLayout.ts)_
 **Severity:** 🔵 *Note*
 
----
+#### System (subcategory)
 
-### System
-
-System rules detect issues that are normally prevented by the Flow Builder UI. See [System Rules Documentation](docs/system-rules.md) for the full list.
+System rules are a subset of Layout rules that detect structural issues normally prevented by the Flow Builder UI. See [System Rules Documentation](docs/system-rules.md) for the full list.
 <!-- END GENERATED_RULES -->
 
 ---
