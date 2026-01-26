@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import { SelectFlows } from '../libs/SelectFlows';
-import { SaveFlow } from '../libs/SaveFlow';
 import { ScanOverview } from '../panels/ScanOverviewPanel';
 import * as core from '@flow-scanner/lightning-flow-scanner-core';
 import { CacheProvider } from '../providers/cache-provider';
@@ -499,11 +498,107 @@ export default class Commands {
     }
     ScanOverview.createOrShow(this.context.extensionUri, results);
     const fixed = core.fix(results);
-    for (const r of fixed) {
-      await new SaveFlow().execute(r.flow, vscode.Uri.file(r.flow.fsPath));
+
+    if (fixed.length === 0) {
+      vscode.window.showInformationMessage('No auto-fixable issues found.');
+      return;
     }
+
+    // Count total fixes across all flows
+    const totalFixes = fixed.reduce((sum, r) => {
+      return sum + r.ruleResults.reduce((s, rr) => s + rr.details.length, 0);
+    }, 0);
+
+    // Ask user how to proceed via QuickPick (interactive, escape defaults to first option)
+    const choice = await vscode.window.showQuickPick(
+      [
+        { label: '$(preview) Preview Changes', value: 'preview', description: 'Review diff before applying' },
+        { label: '$(check) Apply All', value: 'apply', description: 'Apply fixes without preview' },
+        { label: '$(close) Cancel', value: 'cancel', description: 'Abort fix operation' }
+      ],
+      {
+        placeHolder: `${totalFixes} fix(es) in ${fixed.length} flow(s) - How would you like to proceed?`,
+        title: 'Flow Scanner Fix'
+      }
+    );
+
+    // Default to preview if user escapes or makes no selection
+    const action = choice?.value ?? 'preview';
+
+    if (action === 'cancel') {
+      return;
+    }
+
+    if (action === 'preview') {
+      // Register content provider if not already registered
+      this.registerPreviewProvider();
+
+      // Show diff for each file using virtual documents
+      for (const r of fixed) {
+        const originalUri = vscode.Uri.file(r.flow.fsPath);
+        const newContent = r.flow.toXMLString();
+
+        // Create a virtual URI for the proposed changes
+        const proposedUri = originalUri.with({
+          scheme: 'flowscanner-preview',
+          query: Buffer.from(newContent).toString('base64')
+        });
+
+        // Open diff view (don't use preview mode so tabs stay open)
+        await vscode.commands.executeCommand(
+          'vscode.diff',
+          originalUri,
+          proposedUri,
+          `Fix Preview: ${path.basename(r.flow.fsPath)}`,
+          { preview: false }
+        );
+      }
+
+      // Non-blocking notification - user can review tabs at their leisure
+      const confirm = await vscode.window.showInformationMessage(
+        `Review the ${fixed.length} diff tab(s) above, then click Apply when ready.`,
+        'Apply Changes',
+        'Cancel'
+      );
+
+      // Close preview tabs
+      await vscode.commands.executeCommand('workbench.action.closeEditorsInGroup');
+
+      if (confirm !== 'Apply Changes') {
+        vscode.window.showInformationMessage('Fix cancelled.');
+        return;
+      }
+    }
+
+    // Apply fixes
+    for (const r of fixed) {
+      const uri = vscode.Uri.file(r.flow.fsPath);
+      const newContent = r.flow.toXMLString();
+      const bytes = new TextEncoder().encode(newContent);
+      await vscode.workspace.fs.writeFile(uri, bytes);
+    }
+
     await CacheProvider.instance.set('results', fixed);
-    ScanOverview.createOrShow(this.context.extensionUri, fixed.length ? fixed : results);
+    ScanOverview.createOrShow(this.context.extensionUri, fixed);
+    vscode.window.showInformationMessage(`Applied ${totalFixes} fix(es) to ${fixed.length} flow(s).`);
+  }
+
+  private previewProviderRegistered = false;
+
+  private registerPreviewProvider() {
+    if (this.previewProviderRegistered) return;
+
+    const provider: vscode.TextDocumentContentProvider = {
+      provideTextDocumentContent(uri: vscode.Uri): string {
+        // Decode the content from the query parameter
+        return Buffer.from(uri.query, 'base64').toString('utf-8');
+      }
+    };
+
+    this.context.subscriptions.push(
+      vscode.workspace.registerTextDocumentContentProvider('flowscanner-preview', provider)
+    );
+    this.previewProviderRegistered = true;
   }
 
   private async selectFlows(prompt: string, configIgnore?: string[]): Promise<vscode.Uri[] | undefined> {
