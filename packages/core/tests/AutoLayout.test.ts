@@ -1,5 +1,6 @@
 import * as core from "../src";
 import * as path from "path";
+import { ParsedFlow } from "../src/main/models/ParsedFlow";
 
 import { describe, it, expect } from "@jest/globals";
 
@@ -37,5 +38,38 @@ describe("Autolayout", () => {
     const results: core.ScanResult[] = core.scan(flows, ruleConfig);
     const occurringResults = results[0].ruleResults.filter((rule) => rule.occurs);
     expect(occurringResults).toHaveLength(0);
+  });
+
+  it("should fix missing auto-layout by adding CanvasMode metadata", async () => {
+    const flows = await core.parse([example_uri]);
+    const ruleConfig = {
+      ruleMode: "isolated",
+      rules: {
+        AutoLayout: {
+          severity: "error",
+        },
+      },
+    };
+
+    // Scan and fix
+    const results: core.ScanResult[] = core.scan(flows, ruleConfig);
+    expect(results[0].ruleResults.find((r) => r.ruleName === "AutoLayout")?.occurs).toBe(true);
+
+    const fixedResults = core.fix(results);
+    expect(fixedResults).toHaveLength(1);
+
+    // Verify the fixed flow has AUTO_LAYOUT_CANVAS set
+    const fixedFlow = fixedResults[0].flow;
+    const canvasMode = fixedFlow.xmldata.processMetadataValues.find(
+      (mdv: any) => mdv.name === "CanvasMode"
+    );
+    expect(canvasMode).toBeDefined();
+    expect(canvasMode.value.stringValue).toBe("AUTO_LAYOUT_CANVAS");
+
+    // Verify the fixed flow passes the scan
+    const parsedFixedFlow = new ParsedFlow(example_uri, fixedFlow);
+    const reScannedResults = core.scan([parsedFixedFlow], ruleConfig);
+    const autoLayoutResult = reScannedResults[0].ruleResults.find((r) => r.ruleName === "AutoLayout");
+    expect(autoLayoutResult?.occurs).toBe(false);
   });
 });
