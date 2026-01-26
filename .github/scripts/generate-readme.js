@@ -124,12 +124,11 @@ function buildRulesContent(rules, systemRuleCount = 0) {
     });
   });
 
-  // Add System rules section if there are any
+  // Add System rules section as a subcategory of Layout (no separator)
   if (systemRuleCount > 0) {
-    content += '---\n\n';
-    content += '### System\n\n';
-    content += 'System rules detect issues that are normally prevented by the Flow Builder UI. ';
-    content += `See [System Rules Documentation](docs/system-rules.md) for the full list. \n\n`;
+    content += '#### System (subcategory)\n\n';
+    content += 'System rules are a subset of Layout rules that detect structural issues normally prevented by the Flow Builder UI. ';
+    content += `See [System Rules Documentation](docs/system-rules.md) for the full list.\n\n`;
   }
 
   return content.trim();
