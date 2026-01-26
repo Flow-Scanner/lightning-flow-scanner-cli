@@ -48,6 +48,10 @@
 
 ## Usage
 
+**Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner?tab=security-ov-file).
+
+### Scan Command
+
 Lightning Flow Scanner CLI is plug-and-play. Just open any Salesforce project and run:
 
 ```bash
@@ -60,9 +64,6 @@ All default rules are applied automatically.
 sf flow:scan # Scan flows in the current directory
 sf flow:scan --sarif > report.sarif # Export scan results as SARIF
 sf flow scan --csv > results.csv # Export scan results as CSV
-sf flow doc > flow-docs.md # Generate flow documentation (Single markdown file)
-sf flow doc --output flow-docs --separate # Generate one Markdown file per flow
-sf flow:fix -d src/force-app # Fix flows in a specific directory
 ```
 
 | Flag            | Alias | Description                                   | Example                             |
@@ -77,7 +78,25 @@ sf flow:fix -d src/force-app # Fix flows in a specific directory
 | `--betaMode`   | `-z`  | Enable beta rules                             | `--betaMode`                        |
 | `--loglevel`   |       | Logging level                                 | `--loglevel debug`                  |
 
-**Privacy:** Zero user data collected. All processing is client-side. → See our [Security Policy](https://github.com/Flow-Scanner/lightning-flow-scanner?tab=security-ov-file).
+### Fix Command
+
+The `flow:fix` command automatically fixes certain issues in your flows. It uses the same `.flow-scanner.yml` configuration as the scan command.
+
+```bash
+sf flow:fix -d src/flows                    # Apply fixes using config rules
+sf flow:fix -d src/flows --dry-run          # Preview changes without applying
+sf flow:fix -d src/flows -i                 # Interactive mode with confirmation
+sf flow:fix -d src/flows -r unused-variable # Filter to specific rule
+```
+
+| Flag            | Alias | Description                                   | Example                             |
+|-----------------|-------|-----------------------------------------------|-------------------------------------|
+| `--config`     | `-c`  | Path to configuration file                    | `-c .flow-scanner.yml`              |
+| `--directory`  | `-d`  | Directory containing flows                    | `-d force-app`                      |
+| `--files`      | `-f`  | Specific flow files                           | `-f "flows/MyFlow.flow-meta.xml"`   |
+| `--rules`      | `-r`  | Filter to specific rules (optional)           | `-r unused-variable`                |
+| `--dry-run`    |       | Preview changes without applying              | `--dry-run`                         |
+| `--interactive`| `-i`  | Show diff and prompt for confirmation         | `-i`                                |
 
 ## Default Rules
 

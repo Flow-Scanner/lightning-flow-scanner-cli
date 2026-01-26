@@ -8,7 +8,11 @@ import CoreFixService from "../../../src/libs/CoreFixService.js";
 
 describe("flow:fix", () => {
 
-  // e2e test using stub
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  // e2e test using stub (uses legacy fix() method by default)
   it("runs flow:fix e2e", async () => {
     sinon
       .stub(CoreFixService.prototype, "fix")
@@ -25,7 +29,7 @@ describe("flow:fix", () => {
     await config.load();
 
     const scanResult: ScanResult = await new FlowFix(
-      ["-r", "UnusedVariable", "-d", "."],
+      ["-d", "."],
       config
     ).run();
 
