@@ -69,6 +69,7 @@ jobs:
       contents: read           # Read flow files
       pull-requests: read      # List changed files in PR
       security-events: write   # Upload SARIF to Code Scanning
+      actions: read            # Required to gather metadata for telemetry
 
     steps:
       - name: Checkout repository
