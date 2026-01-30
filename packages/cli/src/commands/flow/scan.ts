@@ -16,7 +16,6 @@ const {
   scan: scanFlows,
   exportSarif: exportSarif,
   exportDetails: exportDetails,
-  filterByThreshold,
 } = pkg;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -138,13 +137,14 @@ export default class Scan extends SfCommand<Output> {
     const parsedFlows: ParsedFlow[] = await parseFlows(flowFiles);
     this.debug(`parsed flows ${parsedFlows.length}`, ...parsedFlows);
 
-    // ---- 5. Run the scan ----------------------------------------------------
+    // ---- 5. Run the scan (threshold filtering happens in core) ---------------
     let scanResults: ScanResult[];
     try {
       const scanConfig = {
         rules: mergedConfig.rules ?? {},
         betaMode: !!mergedConfig.betaMode,
         categories: mergedConfig.categories as RuleCategory[] | undefined,
+        threshold: this.threshold,
         ignoreFlows: mergedConfig.ignoreFlows,
         exceptions: mergedConfig.exceptions,
       };
@@ -154,10 +154,7 @@ export default class Scan extends SfCommand<Output> {
     }
     this.debug("Does every scanResult have fsPath?", scanResults.some(r => !r.flow?.fsPath));
     // ---- 6. Use exportDetails to get flattened results with line numbers ----
-    const allResults = exportDetails(scanResults, true); // includeDetails=true for full info
-
-    // ---- 7. Filter results by threshold -------------------------------------
-    const flatResults = filterByThreshold(allResults, this.threshold);
+    const flatResults = exportDetails(scanResults, true); // includeDetails=true for full info
     this.flatResults = flatResults;
 
     // ---- 8. Handle output formats -------------------------------------------
