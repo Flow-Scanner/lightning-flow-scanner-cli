@@ -1,5 +1,7 @@
 ## Contributing Guidelines
 
+[![Star History Chart](https://app.repohistory.com/api/svg?repo=Flow-Scanner/lightning-flow-scanner&type=Date&background=0D1117&color=f86262)](https://app.repohistory.com/star-history)
+
 Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code tool to empower Salesforce Developers across six free and open-source platforms—from developer tools to native Salesforce App—delivering a unified experience for robust static analysis of Flows. Our dedicated community has shared their expertise to deepen understanding of Flow optimization. Your support can amplify our impact. Here’s how you can contribute:
 
 - 💬 Share feedback to help us improve.
