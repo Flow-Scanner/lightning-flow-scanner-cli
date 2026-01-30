@@ -1,6 +1,6 @@
 import { IRuleConfig } from "../interfaces/IRuleConfig";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
-import { IRulesConfig } from "../interfaces/IRulesConfig";
+import { IRulesConfig, RuleCategory } from "../interfaces/IRulesConfig";
 import { ruleRegistry } from "../config/RuleRegistry";
 
 export function GetRuleDefinitions(
@@ -9,6 +9,7 @@ export function GetRuleDefinitions(
 ): IRuleDefinition[] {
   const includeBeta = options?.betaMode === true || options?.betamode === true;
   const includeSystem = options?.systemRules !== false; // defaults to true
+  const categories = options?.categories; // undefined means all categories
   const rulesMode = options?.ruleMode || "merged";
   const selectedRules: IRuleDefinition[] = [];
 
@@ -29,6 +30,9 @@ export function GetRuleDefinitions(
       // Skip system rules if disabled
       if (rule.category === 'system' && !includeSystem) continue;
 
+      // Skip rules not in selected categories (if categories filter is specified)
+      if (!isCategoryIncluded(rule.category, categories, includeSystem)) continue;
+
       if (config?.severity) {
         rule.severity = config.severity;
       }
@@ -44,6 +48,9 @@ export function GetRuleDefinitions(
 
     // Skip system rules if disabled
     if (rule.category === 'system' && !includeSystem) continue;
+
+    // Skip rules not in selected categories (if categories filter is specified)
+    if (!isCategoryIncluded(rule.category, categories, includeSystem)) continue;
 
     // Try to find config by ruleId first, then fall back to legacy name
     const config = (
@@ -61,6 +68,35 @@ export function GetRuleDefinitions(
   }
 
   return selectedRules;
+}
+
+/**
+ * Check if a rule's category should be included based on the categories filter.
+ * - If no categories filter is specified, all categories are included
+ * - System rules are handled separately via includeSystem flag
+ * - Rules with matching category are included
+ * - Category matching is case-insensitive
+ */
+function isCategoryIncluded(
+  ruleCategory: string | undefined,
+  categories: RuleCategory[] | undefined,
+  includeSystem: boolean
+): boolean {
+  // System category is controlled by systemRules flag, not categories filter
+  if (ruleCategory === 'system') {
+    return includeSystem;
+  }
+
+  // If no categories filter specified, include all non-system categories
+  if (!categories || categories.length === 0) {
+    return true;
+  }
+
+  // Normalize categories to lowercase for case-insensitive matching
+  const normalizedCategories = categories.map(c => c.toLowerCase() as RuleCategory);
+
+  // Check if rule's category is in the allowed list (case-insensitive)
+  return normalizedCategories.includes(ruleCategory?.toLowerCase() as RuleCategory);
 }
 
 export function getRules(

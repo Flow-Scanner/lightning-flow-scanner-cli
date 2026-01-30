@@ -39,7 +39,7 @@
   - [Configure Rules](#configure-rules)
   - [Define Exceptions](#define-exceptions)
   - [Exclude Flows](#exclude-flows)
-  - [Scan Modes](#scan-modes)
+  - [Scan Options](#scan-options)
 - **[Installation](#installation)**
   - [Distributions](#distributions)
   - [CICD Templates](#cicd-templates)
@@ -285,19 +285,25 @@ It is recommend to configure and define:
 - The severity of violating any specific rule.
 - Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
+- (Optional) Implement filters based on a severity **threshold** or **rule categories**.
+
+Most distributions automatically load configuration from: 
+- `.flow-scanner.yml`  
+- `.flow-scanner.json`  
+- `package.json` → `"flowScanner"` key
 
 ```json
 {
   "rules": {
-    // Your rule configurations
+    // rule customizations (severity, expression, enabled, ...)
   },
   "exceptions": {
-    // Your defined exceptions
-  }
+    // flow → rule → result suppressions
+  },
+  "threshold": "error",                    // only consider errors
+  "categories": ["problem", "layout"]  // only run rules from these categories
 }
 ```
-
-Most Lightning Flow Scanner distributions automatically resolve configurations from `.flow-scanner.yml`, `.flow-scanner.json`, or `package.json` → `flowScanner`.
 
 ### Configure Rules
 
@@ -319,7 +325,7 @@ By default, all default rules are executed. You can customize individual rules a
 
 #### Configure Severity
 
-When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as demonstrated below:
+Available values for severity are `error`, `warning` and `note`. If no severity is provided, a default value is applied. Configure the severity per rule as demonstrated below:
 
 ```json
 {
@@ -448,7 +454,19 @@ Exclude specific flows by their unique API names, regardless of their location. 
 
 **Environment compatibility**: works in **all environments** including Node.js and browser/web distributions, as it operates on parsed flow data rather than file system paths.
 
-### Scan Modes
+### Scan Options
+
+#### Severity Threshold
+Only report on violations at or above a chosen severity level:
+```json
+{ "threshold": "error" }
+```
+
+#### Filter by category
+Restrict the scan to specific categories of rules:
+```json
+{ "categories": ["problem", "layout"] }
+```
 
 #### Beta Mode
 
