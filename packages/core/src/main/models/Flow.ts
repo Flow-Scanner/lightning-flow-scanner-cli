@@ -311,15 +311,43 @@ export class Flow {
     const builder = new XMLBuilder(builderOptions);
     const xmldataWithNs = { ...this.xmldata };
 
+    // Always ensure the base xmlns is present
     if (!xmldataWithNs["@_xmlns"]) {
       xmldataWithNs["@_xmlns"] = flowXmlNamespace;
     }
 
-    if (!xmldataWithNs["@_xmlns:xsi"]) {
+    // Only add xmlns:xsi if the content actually uses xsi: attributes
+    // Don't add it unconditionally to avoid unnecessary diffs
+    if (!xmldataWithNs["@_xmlns:xsi"] && this.hasXsiAttributes(xmldataWithNs)) {
       xmldataWithNs["@_xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
     }
 
     const rootObj = { Flow: xmldataWithNs };
-    return builder.build(rootObj);
+    const xmlContent = builder.build(rootObj);
+
+    // Add XML declaration if not present
+    const xmlDeclaration = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    if (!xmlContent.startsWith('<?xml')) {
+      return xmlDeclaration + xmlContent;
+    }
+    return xmlContent;
+  }
+
+  private hasXsiAttributes(obj: unknown): boolean {
+    if (obj === null || obj === undefined) {
+      return false;
+    }
+    if (typeof obj !== 'object') {
+      return false;
+    }
+    for (const key of Object.keys(obj as Record<string, unknown>)) {
+      if (key.includes(':xsi') || key.includes('xsi:')) {
+        return true;
+      }
+      if (this.hasXsiAttributes((obj as Record<string, unknown>)[key])) {
+        return true;
+      }
+    }
+    return false;
   }
 }
