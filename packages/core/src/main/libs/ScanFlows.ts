@@ -5,7 +5,7 @@ import {
   RuleResult,
   ScanResult,
 } from "../../main/internals/internals";
-import { DetailLevel } from "../interfaces/IRulesConfig";
+import { DetailLevel, meetsThreshold } from "../interfaces/IRulesConfig";
 import { ParsedFlow } from "../models/ParsedFlow";
 import { enrichViolationsWithLineNumbers } from "../models/Violation";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
@@ -136,6 +136,19 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
         });
       });
     });
+  }
+
+  // Apply threshold filtering if specified
+  const threshold = ruleOptions?.threshold;
+  if (threshold && threshold !== 'never') {
+    for (const scanResult of flowResults) {
+      scanResult.ruleResults = scanResult.ruleResults.filter(ruleResult => {
+        // Get effective severity (config override or rule default)
+        const config = getRuleConfigByIdOrName(ruleResult.ruleDefinition, ruleOptions?.rules);
+        const severity = config?.severity || ruleResult.severity || 'warning';
+        return meetsThreshold(severity, threshold);
+      });
+    }
   }
 
   return flowResults;
