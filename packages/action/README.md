@@ -128,7 +128,8 @@ Scan all flows on every push to selected branches.
 |----------------|------------------|-----------------------------------------------------------------------------|
 | `GITHUB_TOKEN` | `github.token`   | GitHub token for API access. **Usually not required** — the default token works in nearly all cases. |
 | `config`       | auto-detect      | Path to configuration file (e.g., `.flow-scanner.yaml`).                    |
-| `threshold`    | `error`          | Fail if issues of this severity or higher are found (`note`, `warning`, `error`). |
+| `threshold`    | `never`          | Filter results by minimum severity (`error`, `warning`, `note`, `never`). `never` shows all. |
+| `categories`   | all              | Filter rules by category. Comma or space-separated (`problem`, `suggestion`, `layout`). |
 | `sarif-only`   | `false`          | Only generate SARIF (no structured output). Fails on any violation.         |
 | `betaMode`     | `false`          | Enable beta rules at run-time (experimental).                               |
 | `branch`       | auto-detect      | Branch to scan (defaults to event branch or repository default).            |
@@ -368,19 +369,25 @@ It is recommend to configure and define:
 - The severity of violating any specific rule.
 - Expressions used for rules, such as REGEX patterns and comparison operators.
 - Any known exceptions that should be ignored during scanning.
+- (Optional) Implement filters based on a severity **threshold** or **rule categories**.
+
+Most distributions automatically load configuration from: 
+- `.flow-scanner.yml`  
+- `.flow-scanner.json`  
+- `package.json` → `"flowScanner"` key
 
 ```json
 {
   "rules": {
-    // Your rule configurations
+    // rule customizations (severity, expression, enabled, ...)
   },
   "exceptions": {
-    // Your defined exceptions
-  }
+    // flow → rule → result suppressions
+  },
+  "threshold": "error",                    // only consider errors
+  "categories": ["problem", "layout"]  // only run rules from these categories
 }
 ```
-
-Most Lightning Flow Scanner distributions automatically resolve configurations from `.flow-scanner.yml`, `.flow-scanner.json`, or `package.json` → `flowScanner`.
 
 ### Configure Rules
 
@@ -402,7 +409,7 @@ By default, all default rules are executed. You can customize individual rules a
 
 #### Configure Severity
 
-When the severity is not provided it will be `warning` by default. Other available values for severity are `error` and `note`. Configure the severity per rule as demonstrated below:
+Available values for severity are `error`, `warning` and `note`. If no severity is provided, a default value is applied. Configure the severity per rule as demonstrated below:
 
 ```json
 {
@@ -531,7 +538,19 @@ Exclude specific flows by their unique API names, regardless of their location. 
 
 **Environment compatibility**: works in **all environments** including Node.js and browser/web distributions, as it operates on parsed flow data rather than file system paths.
 
-### Scan Modes
+### Scan Options
+
+#### Severity Threshold
+Only report on violations at or above a chosen severity level:
+```json
+{ "threshold": "error" }
+```
+
+#### Filter by category
+Restrict the scan to specific categories of rules:
+```json
+{ "categories": ["problem", "layout"] }
+```
 
 #### Beta Mode
 
@@ -575,13 +594,7 @@ npm i -g @vercel/ncc
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash 
 ```
 
-1. Clone the repository
-
-   ```bash
-   git clone https://github.com/Flow-Scanner/lightning-flow-scanner.git
-   ```
-
-2. Compile a new version
+1. Compile a new version
 ```bash
 pnpm build:action
 ```

@@ -214648,11 +214648,18 @@ _export(exports, {
     get RuleResult () {
         return _RuleResult.RuleResult;
     },
+    get // Threshold utilities
+    SEVERITY_ORDER () {
+        return _IRulesConfig.SEVERITY_ORDER;
+    },
     get ScanResult () {
         return _ScanResult.ScanResult;
     },
     get Violation () {
         return _Violation.Violation;
+    },
+    get countThresholdViolations () {
+        return _IRulesConfig.countThresholdViolations;
     },
     get exportDetails () {
         return _ExportDetails.exportDetails;
@@ -214663,11 +214670,17 @@ _export(exports, {
     get exportSarif () {
         return _ExportSarif.exportSarif;
     },
+    get filterByThreshold () {
+        return _IRulesConfig.filterByThreshold;
+    },
     get fix () {
         return _FixFlows.fix;
     },
     get getRules () {
         return _GetRuleDefinitions.getRules;
+    },
+    get meetsThreshold () {
+        return _IRulesConfig.meetsThreshold;
     },
     get parse () {
         return _ParseFlows.parse;
@@ -214676,6 +214689,7 @@ _export(exports, {
         return _ScanFlows.scan;
     }
 });
+const _IRulesConfig = __nccwpck_require__(1960);
 const _Compiler = __nccwpck_require__(7361);
 const _ExportDetails = __nccwpck_require__(10);
 const _ExportSarif = __nccwpck_require__(961);
@@ -214965,6 +214979,7 @@ const _UnsafeRunningContext = __nccwpck_require__(257);
 const _UnusedVariable = __nccwpck_require__(8519);
 const _MissingMetadataDescription = __nccwpck_require__(104);
 const _MissingRecordTriggerFilter = __nccwpck_require__(1312);
+const _MissingStartReference = __nccwpck_require__(3692);
 const _TransformInsteadOfLoop = __nccwpck_require__(8296);
 const _RecordIdAsString = __nccwpck_require__(6920);
 function _define_property(obj, key, value) {
@@ -215132,6 +215147,7 @@ registry.register("unsafe-running-context", _UnsafeRunningContext.UnsafeRunningC
 registry.register("unused-variable", _UnusedVariable.UnusedVariable, "UnusedVariable");
 registry.register("missing-metadata-description", _MissingMetadataDescription.MissingMetadataDescription, "MissingMetadataDescription", true);
 registry.register("missing-record-trigger-filter", _MissingRecordTriggerFilter.MissingRecordTriggerFilter, "MissingFilterRecordTrigger", true);
+registry.register("missing-start-reference", _MissingStartReference.MissingStartReference, "MissingStartReference", true);
 registry.register("transform-instead-of-loop", _TransformInsteadOfLoop.TransformInsteadOfLoop, "TransformInsteadOfLoop", true);
 registry.register("record-id-as-string", _RecordIdAsString.RecordIdAsString, "RecordIdAsString", true);
 registry.register("hardcoded-secret", _HardcodedSecret.HardcodedSecret, "HardcodedSecret", true);
@@ -215234,17 +215250,55 @@ var MetaType = /*#__PURE__*/ function(MetaType) {
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
-Object.defineProperty(exports, "DetailLevel", ({
-    enumerable: true,
-    get: function() {
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get DetailLevel () {
         return DetailLevel;
+    },
+    get SEVERITY_ORDER () {
+        return SEVERITY_ORDER;
+    },
+    get countThresholdViolations () {
+        return countThresholdViolations;
+    },
+    get filterByThreshold () {
+        return filterByThreshold;
+    },
+    get meetsThreshold () {
+        return meetsThreshold;
     }
-}));
+});
 var DetailLevel = /*#__PURE__*/ function(DetailLevel) {
     DetailLevel["ENRICHED"] = "enriched";
     DetailLevel["SIMPLE"] = "simple";
     return DetailLevel;
 }({});
+const SEVERITY_ORDER = [
+    'error',
+    'warning',
+    'note'
+];
+function meetsThreshold(severity, threshold) {
+    if (threshold === 'never') return false;
+    const sev = severity || 'warning';
+    const sevIndex = SEVERITY_ORDER.indexOf(sev);
+    const thresholdIndex = SEVERITY_ORDER.indexOf(threshold);
+    // Lower index = more severe, so severity meets threshold if sevIndex <= thresholdIndex
+    return sevIndex >= 0 && sevIndex <= thresholdIndex;
+}
+function countThresholdViolations(results, threshold) {
+    if (threshold === 'never') return 0;
+    return results.filter((r)=>meetsThreshold(r.severity, threshold)).length;
+}
+function filterByThreshold(results, threshold) {
+    if (threshold === 'never') return results;
+    return results.filter((r)=>meetsThreshold(r.severity, threshold));
+}
 
 
 /***/ }),
@@ -215317,37 +215371,6 @@ const _RuleCommon = __nccwpck_require__(7137);
 const _RuleResult = __nccwpck_require__(777);
 const _ScanResult = __nccwpck_require__(2614);
 const _Violation = __nccwpck_require__(4323);
-
-
-/***/ }),
-
-/***/ 882:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-Object.defineProperty(exports, "BuildFlow", ({
-    enumerable: true,
-    get: function() {
-        return BuildFlow;
-    }
-}));
-function BuildFlow(nodesToMerge) {
-    let res = {};
-    for (const nodeToMerge of nodesToMerge){
-        const subtype = nodeToMerge.subtype;
-        const nodesOfType = nodesToMerge.filter((node)=>subtype === node.subtype);
-        res = convertFlowNodes(res, nodesOfType, subtype);
-    }
-    return res;
-}
-function convertFlowNodes(obj, nodes, key) {
-    obj[key] = nodes.map((node)=>node.element);
-    return obj;
-}
 
 
 /***/ }),
@@ -215784,7 +215807,6 @@ _export(exports, {
     }
 });
 const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
-const _BuildFlow = __nccwpck_require__(882);
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -215830,47 +215852,107 @@ function fix(results) {
     const newResults = [];
     for (const result of results){
         if (!result.ruleResults || result.ruleResults.length === 0) continue;
-        const fixables = result.ruleResults.filter((r)=>r.ruleName === "UnusedVariable" && r.occurs || r.ruleName === "UnconnectedElement" && r.occurs);
+        const fixables = result.ruleResults.filter((r)=>r.ruleName === "UnusedVariable" && r.occurs || r.ruleName === "UnconnectedElement" && r.occurs || r.ruleName === "AutoLayout" && r.occurs);
         if (fixables.length === 0) continue;
-        const newFlow = FixFlows(result.flow, fixables);
-        const hasRemainingElements = newFlow.elements && newFlow.elements.length > 0;
-        if (hasRemainingElements) {
-            result.flow = newFlow;
-            newResults.push(result);
+        // Handle AutoLayout fix separately (modifies metadata, not elements)
+        const autoLayoutFix = fixables.find((r)=>r.ruleName === "AutoLayout");
+        if (autoLayoutFix) {
+            applyAutoLayoutFix(result.flow);
         }
+        // Handle element-based fixes (UnusedVariable, UnconnectedElement)
+        // These modify xmldata in place to preserve element order and formatting
+        const elementFixables = fixables.filter((r)=>r.ruleName !== "AutoLayout");
+        if (elementFixables.length > 0) {
+            applyElementFixes(result.flow, elementFixables);
+        }
+        newResults.push(result);
     }
     return newResults;
 }
-function FixFlows(flow, ruleResults) {
-    var _unusedVariableRes_details, _unconnectedElementsRes_details, _flow_elements;
+function applyAutoLayoutFix(flow) {
+    if (!flow.xmldata) return;
+    // Ensure processMetadataValues is an array
+    if (!flow.xmldata.processMetadataValues) {
+        flow.xmldata.processMetadataValues = [];
+    } else if (!Array.isArray(flow.xmldata.processMetadataValues)) {
+        flow.xmldata.processMetadataValues = [
+            flow.xmldata.processMetadataValues
+        ];
+    }
+    // Find existing CanvasMode entry
+    const canvasModeIndex = flow.xmldata.processMetadataValues.findIndex((mdv)=>mdv.name === "CanvasMode");
+    const autoLayoutValue = {
+        name: "CanvasMode",
+        value: {
+            stringValue: "AUTO_LAYOUT_CANVAS"
+        }
+    };
+    if (canvasModeIndex >= 0) {
+        // Update existing entry
+        flow.xmldata.processMetadataValues[canvasModeIndex] = autoLayoutValue;
+    } else {
+        // Add new entry
+        flow.xmldata.processMetadataValues.push(autoLayoutValue);
+    }
+    // Update the flow's processMetadataValues property
+    flow.processMetadataValues = flow.xmldata.processMetadataValues;
+}
+/**
+ * Apply element-based fixes (UnusedVariable, UnconnectedElement) by modifying xmldata in place.
+ * This preserves element order and formatting from the original file.
+ */ function applyElementFixes(flow, ruleResults) {
+    var _unusedVariableRes_details, _unconnectedElementsRes_details;
+    if (!flow.xmldata) return;
     const unusedVariableRes = ruleResults.find((r)=>r.ruleName === "UnusedVariable");
     var _unusedVariableRes_details_map;
     const unusedVariableNames = new Set((_unusedVariableRes_details_map = unusedVariableRes === null || unusedVariableRes === void 0 ? void 0 : (_unusedVariableRes_details = unusedVariableRes.details) === null || _unusedVariableRes_details === void 0 ? void 0 : _unusedVariableRes_details.map((d)=>d.name)) !== null && _unusedVariableRes_details_map !== void 0 ? _unusedVariableRes_details_map : []);
     const unconnectedElementsRes = ruleResults.find((r)=>r.ruleName === "UnconnectedElement");
     var _unconnectedElementsRes_details_map;
     const unconnectedElementNames = new Set((_unconnectedElementsRes_details_map = unconnectedElementsRes === null || unconnectedElementsRes === void 0 ? void 0 : (_unconnectedElementsRes_details = unconnectedElementsRes.details) === null || _unconnectedElementsRes_details === void 0 ? void 0 : _unconnectedElementsRes_details.map((d)=>d.name)) !== null && _unconnectedElementsRes_details_map !== void 0 ? _unconnectedElementsRes_details_map : []);
-    var _flow_elements_filter;
-    const nodesToKeep = (_flow_elements_filter = (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>{
-        switch(node.metaType){
-            case "attribute":
-            case "resource":
-                return true;
-            case "node":
-                {
-                    const nodeElement = node;
-                    return !unconnectedElementNames.has(nodeElement.name);
-                }
-            case "variable":
-                {
-                    const nodeVar = node;
-                    return !unusedVariableNames.has(nodeVar.name);
-                }
-            default:
-                return false;
+    // Remove unused variables from xmldata
+    if (unusedVariableNames.size > 0) {
+        for (const varTag of _internals.Flow.VARIABLE_TAGS){
+            removeElementsByName(flow.xmldata, varTag, unusedVariableNames);
         }
-    })) !== null && _flow_elements_filter !== void 0 ? _flow_elements_filter : [];
-    const xmldata = (0, _BuildFlow.BuildFlow)(nodesToKeep);
-    return new _internals.Flow(flow.fsPath, xmldata);
+    }
+    // Remove unconnected elements from xmldata
+    if (unconnectedElementNames.size > 0) {
+        for (const nodeTag of _internals.Flow.NODE_TAGS){
+            removeElementsByName(flow.xmldata, nodeTag, unconnectedElementNames);
+        }
+    }
+    // Update the flow's elements array to match the modified xmldata
+    flow.preProcessNodes();
+}
+/**
+ * Remove elements from xmldata by name.
+ * Handles both single element and array cases.
+ */ function removeElementsByName(xmldata, tagName, namesToRemove) {
+    const elements = xmldata[tagName];
+    if (!elements) return;
+    if (Array.isArray(elements)) {
+        const filtered = elements.filter((el)=>!namesToRemove.has(el === null || el === void 0 ? void 0 : el.name));
+        if (filtered.length === 0) {
+            delete xmldata[tagName];
+        } else if (filtered.length === 1) {
+            // Keep as single element if only one remains (matches original format)
+            xmldata[tagName] = filtered[0];
+        } else {
+            xmldata[tagName] = filtered;
+        }
+    } else if (typeof elements === 'object' && elements !== null) {
+        // Single element case
+        if (namesToRemove.has(elements.name)) {
+            delete xmldata[tagName];
+        }
+    }
+}
+function FixFlows(flow, ruleResults) {
+    // Create a shallow clone of xmldata to avoid modifying the original
+    const clonedXmldata = JSON.parse(JSON.stringify(flow.xmldata));
+    const clonedFlow = new _internals.Flow(flow.fsPath, clonedXmldata);
+    applyElementFixes(clonedFlow, ruleResults);
+    return clonedFlow;
 }
 
 
@@ -215901,6 +215983,8 @@ _export(exports, {
 const _RuleRegistry = __nccwpck_require__(9287);
 function GetRuleDefinitions(ruleConfig, options) {
     const includeBeta = (options === null || options === void 0 ? void 0 : options.betaMode) === true || (options === null || options === void 0 ? void 0 : options.betamode) === true;
+    const includeSystem = (options === null || options === void 0 ? void 0 : options.systemRules) !== false; // defaults to true
+    const categories = options === null || options === void 0 ? void 0 : options.categories; // undefined means all categories
     const rulesMode = (options === null || options === void 0 ? void 0 : options.ruleMode) || "merged";
     const selectedRules = [];
     const ruleIds = _RuleRegistry.ruleRegistry.getAllRuleIds(includeBeta);
@@ -215913,6 +215997,10 @@ function GetRuleDefinitions(ruleConfig, options) {
             const config = ruleConfig.get(key);
             if ((config === null || config === void 0 ? void 0 : config.enabled) === false) continue;
             const rule = _RuleRegistry.ruleRegistry.createInstance(entry.ruleId); // Always use ruleId to instantiate
+            // Skip system rules if disabled
+            if (rule.category === 'system' && !includeSystem) continue;
+            // Skip rules not in selected categories (if categories filter is specified)
+            if (!isCategoryIncluded(rule.category, categories, includeSystem)) continue;
             if (config === null || config === void 0 ? void 0 : config.severity) {
                 rule.severity = config.severity;
             }
@@ -215923,6 +216011,10 @@ function GetRuleDefinitions(ruleConfig, options) {
     // MERGED MODE (default)
     for (const ruleId of ruleIds){
         const rule = _RuleRegistry.ruleRegistry.createInstance(ruleId);
+        // Skip system rules if disabled
+        if (rule.category === 'system' && !includeSystem) continue;
+        // Skip rules not in selected categories (if categories filter is specified)
+        if (!isCategoryIncluded(rule.category, categories, includeSystem)) continue;
         var _ruleConfig_get;
         // Try to find config by ruleId first, then fall back to legacy name
         const config = (_ruleConfig_get = ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.ruleId)) !== null && _ruleConfig_get !== void 0 ? _ruleConfig_get : ruleConfig === null || ruleConfig === void 0 ? void 0 : ruleConfig.get(rule.name) // rule.name is the legacy camelCase name (e.g. "ActionCallsInLoop")
@@ -215934,6 +216026,26 @@ function GetRuleDefinitions(ruleConfig, options) {
         selectedRules.push(rule);
     }
     return selectedRules;
+}
+/**
+ * Check if a rule's category should be included based on the categories filter.
+ * - If no categories filter is specified, all categories are included
+ * - System rules are handled separately via includeSystem flag
+ * - Rules with matching category are included
+ * - Category matching is case-insensitive
+ */ function isCategoryIncluded(ruleCategory, categories, includeSystem) {
+    // System category is controlled by systemRules flag, not categories filter
+    if (ruleCategory === 'system') {
+        return includeSystem;
+    }
+    // If no categories filter specified, include all non-system categories
+    if (!categories || categories.length === 0) {
+        return true;
+    }
+    // Normalize categories to lowercase for case-insensitive matching
+    const normalizedCategories = categories.map((c)=>c.toLowerCase());
+    // Check if rule's category is in the allowed list (case-insensitive)
+    return normalizedCategories.includes(ruleCategory === null || ruleCategory === void 0 ? void 0 : ruleCategory.toLowerCase());
 }
 function getRules(ruleNames, options) {
     return _RuleRegistry.ruleRegistry.getRulesByNames(ruleNames, options);
@@ -216503,16 +216615,42 @@ let Flow = class Flow {
         };
         const builder = new _fastxmlparser.XMLBuilder(builderOptions);
         const xmldataWithNs = _object_spread({}, this.xmldata);
+        // Always ensure the base xmlns is present
         if (!xmldataWithNs["@_xmlns"]) {
             xmldataWithNs["@_xmlns"] = flowXmlNamespace;
         }
-        if (!xmldataWithNs["@_xmlns:xsi"]) {
+        // Only add xmlns:xsi if the content actually uses xsi: attributes
+        // Don't add it unconditionally to avoid unnecessary diffs
+        if (!xmldataWithNs["@_xmlns:xsi"] && this.hasXsiAttributes(xmldataWithNs)) {
             xmldataWithNs["@_xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
         }
         const rootObj = {
             Flow: xmldataWithNs
         };
-        return builder.build(rootObj);
+        const xmlContent = builder.build(rootObj);
+        // Add XML declaration if not present
+        const xmlDeclaration = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        if (!xmlContent.startsWith('<?xml')) {
+            return xmlDeclaration + xmlContent;
+        }
+        return xmlContent;
+    }
+    hasXsiAttributes(obj) {
+        if (obj === null || obj === undefined) {
+            return false;
+        }
+        if (typeof obj !== 'object') {
+            return false;
+        }
+        for (const key of Object.keys(obj)){
+            if (key.includes(':xsi') || key.includes('xsi:')) {
+                return true;
+            }
+            if (this.hasXsiAttributes(obj[key])) {
+                return true;
+            }
+        }
+        return false;
     }
     constructor(path, data){
         // Flow elements (excludes legacy start nodes)
@@ -220228,6 +220366,90 @@ let MissingRecordTriggerFilter = class MissingRecordTriggerFilter extends _RuleC
             docRefs: []
         }, {
             severity: "warning"
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ 3692:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "MissingStartReference", ({
+    enumerable: true,
+    get: function() {
+        return MissingStartReference;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let MissingStartReference = class MissingStartReference extends _RuleCommon.RuleCommon {
+    check(flow, _options, _suppressions) {
+        const violations = [];
+        if (!flow.startNode) {
+            violations.push(new _internals.Violation(new _internals.FlowAttribute("undefined", "startNode", "startNode")));
+        }
+        return violations;
+    }
+    constructor(){
+        super({
+            ruleId: "missing-start-reference",
+            category: "system",
+            name: "MissingStartReference",
+            label: "Missing Start Reference",
+            description: "When a flow has no start reference.",
+            summary: "Ensure flow has a start reference node",
+            supportedTypes: _internals.FlowType.allTypes(),
+            docRefs: []
+        }, {
+            severity: "error"
         });
     }
 };
@@ -226492,8 +226714,7 @@ const path = __nccwpck_require__(6928);
 const os = __nccwpck_require__(857);
 const { cosmiconfig } = __nccwpck_require__(8489);
 const { minimatch } = __nccwpck_require__(3638);
-const { exportSarif } = lfs_core;
-const SEVERITY_LEVELS = ["note", "warning", "error"];
+const { exportSarif, meetsThreshold } = lfs_core;
 
 async function loadScannerOptions() {
   const configPath = core.getInput("config");
@@ -226538,18 +226759,22 @@ async function loadScannerOptions() {
   return {};
 }
 
+
 function getThreshold(config) {
+  const validThresholds = ["error", "warning", "note", "never"];
   const thresholdInput = core.getInput("threshold");
-  if (thresholdInput && (SEVERITY_LEVELS.includes(thresholdInput) || thresholdInput === "never")) {
+
+  if (thresholdInput && validThresholds.includes(thresholdInput)) {
     core.info(`Using threshold from workflow input: ${thresholdInput}`);
     return thresholdInput;
   }
-  if (config?.threshold && (SEVERITY_LEVELS.includes(config.threshold) || config.threshold === "never")) {
+
+  if (config?.threshold && validThresholds.includes(config.threshold)) {
     core.info(`Using threshold from config file: ${config.threshold}`);
     return config.threshold;
   }
-  core.info("Using default threshold: warning");
-  return "warning";
+
+  return "never"; // Default: no filtering
 }
 
 function getBetaMode(config) {
@@ -226563,6 +226788,30 @@ function getBetaMode(config) {
     return true;
   }
   return false;
+}
+
+function getCategories(config) {
+  const validCategories = ["problem", "suggestion", "layout"];
+  const categoriesInput = core.getInput("categories");
+
+  if (categoriesInput) {
+    // Parse comma-separated or space-separated input
+    const parsed = categoriesInput.split(/[,\s]+/).map(c => c.trim().toLowerCase()).filter(c => validCategories.includes(c));
+    if (parsed.length > 0) {
+      core.info(`Using categories from workflow input: ${parsed.join(", ")}`);
+      return parsed;
+    }
+  }
+
+  if (config?.categories && Array.isArray(config.categories)) {
+    const filtered = config.categories.filter(c => validCategories.includes(c));
+    if (filtered.length > 0) {
+      core.info(`Using categories from config file: ${filtered.join(", ")}`);
+      return filtered;
+    }
+  }
+
+  return undefined; // No filter - all categories
 }
 
 function getSarifOnly() {
@@ -226599,12 +226848,6 @@ function applyIgnorePatterns(files, ignorePatterns) {
   return filtered;
 }
 
-function meetsThreshold(severity, threshold) {
-  if (threshold === "never") return false;
-  const sevIndex = SEVERITY_LEVELS.indexOf(severity);
-  const thIndex = SEVERITY_LEVELS.indexOf(threshold);
-  return sevIndex >= thIndex;
-}
 
 async function getDefaultBranch(octokit, repo) {
   try {
@@ -226705,14 +226948,20 @@ async function run() {
       core.info(`After applying ignore patterns: ${files.length} flow files to scan`);
     }
     const betaMode = getBetaMode(fileConfig);
+    const categories = getCategories(fileConfig);
     const config = {
       ...fileConfig,
       betaMode: betaMode,
+      categories: categories,
       rules: fileConfig.rules || {}
     };
-    
-    const threshold = getThreshold(config);
+
     const sarifOnly = getSarifOnly();
+    const threshold = getThreshold(fileConfig);
+
+    if (categories) {
+      core.info(`Filtering rules by categories: ${categories.join(", ")}`);
+    }
 
     // Parse flows
     let pFlows = [];
@@ -226763,6 +227012,7 @@ async function run() {
           if (ruleResult.occurs && Array.isArray(ruleResult.details)) {
             for (const detail of ruleResult.details) {
               const severity =
+                config.rules?.[ruleResult.ruleId]?.severity ||
                 config.rules?.[ruleResult.ruleName]?.severity ||
                 ruleResult.severity ||
                 "warning";
@@ -226792,11 +227042,47 @@ async function run() {
       }
     }
 
-    // Generate SARIF (always)
+    // Filter results by threshold (like CLI does)
+    const filteredResults = threshold === "never"
+      ? results
+      : results.filter(r => {
+          const meets = meetsThreshold(r.severity, threshold);
+          core.debug(`Rule ${r.ruleId}: severity=${r.severity}, threshold=${threshold}, meets=${meets}`);
+          return meets;
+        });
+
+    if (threshold !== "never") {
+      core.info(`Filtered ${results.length} results to ${filteredResults.length} (threshold: ${threshold})`);
+    }
+
+    // Recalculate severity counts from filtered results
+    const filteredSeverityCounts = { error: 0, warning: 0, note: 0 };
+    for (const r of filteredResults) {
+      filteredSeverityCounts[r.severity] = (filteredSeverityCounts[r.severity] || 0) + 1;
+    }
+
+    // Filter scanResults for SARIF generation (apply same threshold)
+    let filteredScanResults = scanResults;
+    if (threshold !== "never") {
+      filteredScanResults = scanResults.map(scanResult => {
+        const filteredRuleResults = scanResult.ruleResults.filter(ruleResult => {
+          const severity =
+            config.rules?.[ruleResult.ruleId]?.severity ||
+            config.rules?.[ruleResult.ruleName]?.severity ||
+            ruleResult.severity ||
+            "warning";
+          return meetsThreshold(severity, threshold);
+        });
+        scanResult.ruleResults = filteredRuleResults;
+        return scanResult;
+      }).filter(scanResult => scanResult.ruleResults.some(rr => rr.details && rr.details.length > 0));
+    }
+
+    // Generate SARIF (uses filtered scanResults)
     const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
     let sarifOutput;
 
-    if (scanResults.length === 0 || results.length === 0) {
+    if (filteredScanResults.length === 0 || filteredResults.length === 0) {
       const emptySarif = {
         version: "2.1.0",
         $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
@@ -226813,7 +227099,7 @@ async function run() {
       };
       sarifOutput = JSON.stringify(emptySarif, null, 2);
     } else {
-      const baseSarif = exportSarif(scanResults);
+      const baseSarif = exportSarif(filteredScanResults);
       const parsed = JSON.parse(baseSarif);
       if (parsed.runs && parsed.runs.length > 1) {
         core.info(`Merging ${parsed.runs.length} SARIF runs into 1`);
@@ -226833,16 +227119,15 @@ async function run() {
     fs.writeFileSync(sarifPath, sarifOutput);
     core.setOutput('sarifPath', sarifPath);
 
-    // Build summary
+    // Build summary (uses filtered results)
     const summary = {
       totalFlows: scanResults.length,
-      totalViolations: results.length,
-      severityCounts: severityCounts,
-      threshold: threshold,
-      thresholdViolations: threshold === "never" ? 0 : results.filter(r => meetsThreshold(r.severity, threshold)).length
+      totalViolations: filteredResults.length,
+      severityCounts: filteredSeverityCounts,
+      threshold: threshold
     };
 
-    core.setOutput('results', JSON.stringify(results));
+    core.setOutput('results', JSON.stringify(filteredResults));
     core.setOutput('summary', JSON.stringify(summary));
 
     // Log summary
@@ -226850,31 +227135,15 @@ async function run() {
     core.info(`Scan Results Summary`);
     core.info(`${'='.repeat(60)}`);
     core.info(`Flows scanned: ${summary.totalFlows}`);
-    core.info(`Total violations: ${summary.totalViolations}`);
-    core.info(`  - Errors: ${severityCounts.error}`);
-    core.info(`  - Warnings: ${severityCounts.warning}`);
-    core.info(`  - Notes: ${severityCounts.note}`);
-    core.info(`Threshold: ${threshold}`);
-    core.info(`Violations >= threshold: ${summary.thresholdViolations}`);
+    core.info(`Total violations: ${summary.totalViolations}${threshold !== 'never' ? ` (filtered by threshold: ${threshold})` : ''}`);
+    core.info(`  - Errors: ${filteredSeverityCounts.error}`);
+    core.info(`  - Warnings: ${filteredSeverityCounts.warning}`);
+    core.info(`  - Notes: ${filteredSeverityCounts.note}`);
     core.info(`${'='.repeat(60)}\n`);
 
-    // Determine pass/fail
-    if (sarifOnly) {
-      // SARIF-only mode: fail on any violation
-      if (results.length > 0) {
-        core.setFailed(`${results.length} flow issue(s) found. SARIF-only mode fails on any result.`);
-      } else {
-        core.info("No issues found. SARIF uploaded with zero results.");
-      }
-    } else {
-      // Threshold mode: fail based on threshold
-      if (threshold === "never") {
-        core.info("Threshold set to 'never' — action passes regardless of findings.");
-      } else if (summary.thresholdViolations > 0) {
-        core.setFailed(`${summary.thresholdViolations} violation(s) at severity >= ${threshold}.`);
-      } else {
-        core.info("All findings below threshold. Action passes.");
-      }
+    // SARIF-only mode: fail on any filtered violation (strict mode for PRs)
+    if (sarifOnly && filteredResults.length > 0) {
+      core.setFailed(`${filteredResults.length} flow issue(s) found. SARIF-only mode fails on any result.`);
     }
 
   } catch (e) {

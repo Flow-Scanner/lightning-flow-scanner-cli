@@ -15,10 +15,13 @@ inputs:
     required: false
   
   threshold:
-    description: 'Fail if issues of this severity or higher are found'
+    description: 'Filter results by minimum severity (error, warning, note, never). Config file takes precedence if not set.'
     required: false
-    default: 'error'
-  
+
+  categories:
+    description: 'Filter rules by category (problem, suggestion, layout). Comma or space-separated.'
+    required: false
+
   sarif-only:
     description: 'Only generate SARIF (no structured output). Fails on any violation.'
     required: false
