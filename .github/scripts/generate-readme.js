@@ -32,7 +32,9 @@ function getRuleMetadata(ruleRegistry, options = {}) {
       description: instance.description,
       severity: instance.severity,
       category: instance.category,
-      isBeta: entry.isBeta
+      isBeta: entry.isBeta,
+      isConfigurable: instance.isConfigurable,
+      configurableOptions: instance.configurableOptions
     });
   }
   return rules;
@@ -65,17 +67,34 @@ function formatSeverity(severity) {
   return severityMap[severity?.toLowerCase()] || '🟡 *Warning*';
 }
 
-// 4. Format each rule as markdown (now using ####)
+// 4. Format configurable options as markdown
+function formatConfigurableOptions(options) {
+  if (!options || options.length === 0) return '';
+
+  let content = '\n\n';
+  content += '| Option | Type | Default | Description |\n';
+  content += '|--------|------|---------|-------------|\n';
+
+  for (const opt of options) {
+    const defaultVal = opt.defaultValue !== undefined ? `\`${opt.defaultValue}\`` : '-';
+    content += `| ${opt.name} | ${opt.type} | ${defaultVal} | ${opt.description} |\n`;
+  }
+
+  return content;
+}
+
+// 5. Format each rule as markdown (now using ####)
 function formatRule(rule) {
   const betaBadge = rule.isBeta
     ? ' ![Beta](https://img.shields.io/badge/status-beta-yellow)'
     : '';
+  const optionsSection = formatConfigurableOptions(rule.configurableOptions);
   return `#### ${rule.title}${betaBadge}
 ${rule.description}
 
 **Rule ID:** \`${rule.ruleId}\`
 **Class Name:** _[${rule.className}](packages/core/src/main/rules/${rule.className}.ts)_
-**Severity:** ${formatSeverity(rule.severity)}`;
+**Severity:** ${formatSeverity(rule.severity)}${optionsSection}`;
 }
 
 // Format rule for system rules doc (with relative path)
@@ -83,12 +102,13 @@ function formatSystemRule(rule) {
   const betaBadge = rule.isBeta
     ? ' ![Beta](https://img.shields.io/badge/status-beta-yellow)'
     : '';
+  const optionsSection = formatConfigurableOptions(rule.configurableOptions);
   return `### ${rule.title}${betaBadge}
 ${rule.description}
 
 **Rule ID:** \`${rule.ruleId}\`
 **Class Name:** _[${rule.className}](../packages/core/src/main/rules/${rule.className}.ts)_
-**Severity:** ${formatSeverity(rule.severity)}`;
+**Severity:** ${formatSeverity(rule.severity)}${optionsSection}`;
 }
 
 // 5. Build rules content with category headers + formal introductions
