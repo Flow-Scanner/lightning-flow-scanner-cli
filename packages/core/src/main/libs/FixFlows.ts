@@ -1,5 +1,4 @@
 import * as core from "../internals/internals";
-import { BuildFlow } from "./BuildFlow";
 
 export function fix(results: core.ScanResult[]): core.ScanResult[] {
   const newResults: core.ScanResult[] = [];
@@ -23,13 +22,10 @@ export function fix(results: core.ScanResult[]): core.ScanResult[] {
     }
 
     // Handle element-based fixes (UnusedVariable, UnconnectedElement)
+    // These modify xmldata in place to preserve element order and formatting
     const elementFixables = fixables.filter((r) => r.ruleName !== "AutoLayout");
     if (elementFixables.length > 0) {
-      const newFlow = FixFlows(result.flow, elementFixables);
-      const hasRemainingElements = newFlow.elements && newFlow.elements.length > 0;
-      if (hasRemainingElements) {
-        result.flow = newFlow;
-      }
+      applyElementFixes(result.flow, elementFixables);
     }
 
     newResults.push(result);
@@ -70,7 +66,13 @@ function applyAutoLayoutFix(flow: core.Flow): void {
   flow.processMetadataValues = flow.xmldata.processMetadataValues;
 }
 
-export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.Flow {
+/**
+ * Apply element-based fixes (UnusedVariable, UnconnectedElement) by modifying xmldata in place.
+ * This preserves element order and formatting from the original file.
+ */
+function applyElementFixes(flow: core.Flow, ruleResults: core.RuleResult[]): void {
+  if (!flow.xmldata) return;
+
   const unusedVariableRes = ruleResults.find((r) => r.ruleName === "UnusedVariable");
   const unusedVariableNames = new Set(
     unusedVariableRes?.details?.map((d) => d.name) ?? []
@@ -81,41 +83,64 @@ export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.
     unconnectedElementsRes?.details?.map((d) => d.name) ?? []
   );
 
-  const nodesToKeep = flow.elements?.filter((node) => {
-    switch (node.metaType) {
-      case "attribute":
-      case "resource":
-        return true;
-      case "node": {
-        const nodeElement = node as core.FlowNode;
-        return !unconnectedElementNames.has(nodeElement.name);
-      }
-      case "variable": {
-        const nodeVar = node as core.FlowVariable;
-        return !unusedVariableNames.has(nodeVar.name);
-      }
-      default:
-        return false;
-    }
-  }) ?? [];
-
-  const rebuiltXmldata = BuildFlow(nodesToKeep);
-
-  // Preserve original XML attributes and elements not in the elements array
-  const xmldata: Record<string, unknown> = {};
-
-  // Copy original attributes (xmlns, xmlns:xsi, etc.) and special elements (start, etc.)
-  if (flow.xmldata) {
-    for (const key of Object.keys(flow.xmldata)) {
-      // Preserve XML attributes (start with @_) and the start element
-      if (key.startsWith("@_") || key === "start") {
-        xmldata[key] = flow.xmldata[key];
-      }
+  // Remove unused variables from xmldata
+  if (unusedVariableNames.size > 0) {
+    for (const varTag of core.Flow.VARIABLE_TAGS) {
+      removeElementsByName(flow.xmldata, varTag, unusedVariableNames);
     }
   }
 
-  // Merge in the rebuilt elements
-  Object.assign(xmldata, rebuiltXmldata);
+  // Remove unconnected elements from xmldata
+  if (unconnectedElementNames.size > 0) {
+    for (const nodeTag of core.Flow.NODE_TAGS) {
+      removeElementsByName(flow.xmldata, nodeTag, unconnectedElementNames);
+    }
+  }
 
-  return new core.Flow(flow.fsPath, xmldata);
+  // Update the flow's elements array to match the modified xmldata
+  flow.preProcessNodes();
+}
+
+/**
+ * Remove elements from xmldata by name.
+ * Handles both single element and array cases.
+ */
+function removeElementsByName(
+  xmldata: Record<string, unknown>,
+  tagName: string,
+  namesToRemove: Set<string>
+): void {
+  const elements = xmldata[tagName];
+  if (!elements) return;
+
+  if (Array.isArray(elements)) {
+    const filtered = elements.filter((el: any) => !namesToRemove.has(el?.name));
+    if (filtered.length === 0) {
+      delete xmldata[tagName];
+    } else if (filtered.length === 1) {
+      // Keep as single element if only one remains (matches original format)
+      xmldata[tagName] = filtered[0];
+    } else {
+      xmldata[tagName] = filtered;
+    }
+  } else if (typeof elements === 'object' && elements !== null) {
+    // Single element case
+    if (namesToRemove.has((elements as any).name)) {
+      delete xmldata[tagName];
+    }
+  }
+}
+
+/**
+ * @deprecated Use fix() instead which modifies flows in place.
+ * Kept for backward compatibility.
+ */
+export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.Flow {
+  // Create a shallow clone of xmldata to avoid modifying the original
+  const clonedXmldata = JSON.parse(JSON.stringify(flow.xmldata));
+  const clonedFlow = new core.Flow(flow.fsPath, clonedXmldata);
+
+  applyElementFixes(clonedFlow, ruleResults);
+
+  return clonedFlow;
 }
