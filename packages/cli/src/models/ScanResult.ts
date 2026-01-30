@@ -2,7 +2,8 @@ export interface FlatViolation {
   flowName: string;
   flowApiName: string;
   flowUri: string;
-  rule: string;
+  ruleId: string;
+  ruleName: string;
   severity: string;
   type?: string;
   name?: string;

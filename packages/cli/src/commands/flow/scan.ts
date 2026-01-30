@@ -8,6 +8,7 @@ import pkg, {
   ParsedFlow,
   ScanResult,
 } from "@flow-scanner/lightning-flow-scanner-core";
+import type { Threshold, RuleCategory } from "@flow-scanner/lightning-flow-scanner-core";
 import { stringify as csvStringify } from "csv-stringify/sync";
 
 const {
@@ -15,6 +16,7 @@ const {
   scan: scanFlows,
   exportSarif: exportSarif,
   exportDetails: exportDetails,
+  filterByThreshold,
 } = pkg;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -33,14 +35,17 @@ export default class Scan extends SfCommand<Output> {
     "sf flow scan -p path/to/single/file.flow-meta.xml path/to/another/file.flow-meta.xml",
     "sf flow scan --sarif > results.sarif",
     "sf flow scan --csv > results.csv",
+    "sf flow scan --categories problem",
+    "sf flow scan --categories problem suggestion",
+    "sf flow scan -g problem -g suggestion",
   ];
   protected static requiresUsername = false;
   protected static supportsDevhubUsername = false;
   public static requiresProject = false;
   protected static supportsUsername = true;
-  protected failOn = "error";
+  protected threshold: Threshold = "never";
   protected static supportsRawOutput = true;
-  protected errorCounters: Map<string, number> = new Map<string, number>();
+  protected flatResults: Array<{ severity?: string }> = [];
 
   public static readonly flags = {
     config: Flags.file({
@@ -58,16 +63,14 @@ export default class Scan extends SfCommand<Output> {
     threshold: Flags.option({
       char: "t",
       description:
-        "Fail the command if issues of this severity or higher are found (error, warning, note, never)",
+        "Filter results by minimum severity (error, warning, note, never). 'never' shows all results.",
       options: ["error", "warning", "note", "never"] as const,
-      default: "error",
     })(),
     failon: Flags.option({
       char: "f",
       description:
-        "[DEPRECATED] Use --threshold (-t) instead. Threshold failure level (error, warning, note, or never) defining when the command return code will be 1",
+        "[DEPRECATED] Use --threshold (-t) instead.",
       options: ["error", "warning", "note", "never"] as const,
-      default: "error",
       deprecated: true,
     })(),
     files: Flags.file({
@@ -94,11 +97,16 @@ export default class Scan extends SfCommand<Output> {
       description: "Enable beta rules at run-time (experimental)",
       default: false,
     }),
+    categories: Flags.option({
+      char: "g",
+      description: "Filter rules by category (problem, suggestion, layout). Can specify multiple.",
+      options: ["problem", "suggestion", "layout"] as const,
+      multiple: true,
+    })(),
   };
 
   public async run(): Promise<Output> {
     const { flags } = await this.parse(Scan);
-    this.failOn = flags.threshold ?? flags.failon ?? "error";
 
     if (flags.failon && !flags.threshold) {
       this.warn("--failon is deprecated. Use --threshold (-t) instead.");
@@ -112,11 +120,15 @@ export default class Scan extends SfCommand<Output> {
     // ---- 2. Load config file -------------------------------------------------
     const fileConfig = await loadScannerOptions(flags.config, {}, searchDirectory);
 
-    // ---- 3. Merge CLI overrides (betamode) ----------------------------------
+    // ---- 3. Merge CLI overrides (betaMode, categories, threshold) -----------
+    // CLI flags take precedence over file config
     const mergedConfig = {
       ...fileConfig,
       betaMode: flags.betaMode ?? fileConfig.betaMode ?? false,
+      categories: flags.categories ?? fileConfig.categories,
+      threshold: flags.threshold ?? flags.failon ?? fileConfig.threshold ?? "never",
     };
+    this.threshold = mergedConfig.threshold as Threshold;
 
     // ---- 4. Locate flows ----------------------------------------------------
     const flowFiles = this.findFlows(flags.directory, flags.files, mergedConfig.ignore);
@@ -132,6 +144,7 @@ export default class Scan extends SfCommand<Output> {
       const scanConfig = {
         rules: mergedConfig.rules ?? {},
         betaMode: !!mergedConfig.betaMode,
+        categories: mergedConfig.categories as RuleCategory[] | undefined,
         ignoreFlows: mergedConfig.ignoreFlows,
         exceptions: mergedConfig.exceptions,
       };
@@ -141,12 +154,13 @@ export default class Scan extends SfCommand<Output> {
     }
     this.debug("Does every scanResult have fsPath?", scanResults.some(r => !r.flow?.fsPath));
     // ---- 6. Use exportDetails to get flattened results with line numbers ----
-    const flatResults = exportDetails(scanResults, true); // includeDetails=true for full info
-    
-    // Build error counters
-    this.buildErrorCounters(flatResults);
+    const allResults = exportDetails(scanResults, true); // includeDetails=true for full info
 
-    // ---- 7. Handle output formats -------------------------------------------
+    // ---- 7. Filter results by threshold -------------------------------------
+    const flatResults = filterByThreshold(allResults, this.threshold);
+    this.flatResults = flatResults;
+
+    // ---- 8. Handle output formats -------------------------------------------
     if (flags.sarif) {
       const sarif = await exportSarif(scanResults);
       this.spinner.stop();
@@ -160,17 +174,13 @@ export default class Scan extends SfCommand<Output> {
       this.displayHumanReadable(flatResults, scanResults);
     }
 
-    // ---- 8. Exit code -------------------------------------------------------
-    const status = this.getStatus();
-    if (status > 0) process.exitCode = status;
-
     const summary = {
       flowsNumber: scanResults.length,
       results: flatResults.length,
       message: `A total of ${flatResults.length} results have been found in ${scanResults.length} flows.`,
     };
 
-    return { summary, status, results: this.convertToCliViolations(flatResults) };
+    return { summary, status: 0, results: this.convertToCliViolations(flatResults) };
   }
 
   private findFlows(directory?: string, sourcepath?: string[], configIgnore?: string[]) {
@@ -179,30 +189,8 @@ export default class Scan extends SfCommand<Output> {
     return FindFlows(".", configIgnore);
   }
 
-  private getStatus() {
-    if (this.failOn === "never") return 0;
-    if (this.failOn === "error" && (this.errorCounters.get("error") ?? 0) > 0) return 1;
-    if (
-      this.failOn === "warning" &&
-      ((this.errorCounters.get("error") ?? 0) > 0 || (this.errorCounters.get("warning") ?? 0) > 0)
-    )
-      return 1;
-    if (
-      this.failOn === "note" &&
-      ((this.errorCounters.get("error") ?? 0) > 0 ||
-        (this.errorCounters.get("warning") ?? 0) > 0 ||
-        (this.errorCounters.get("note") ?? 0) > 0)
-    )
-      return 1;
-    return 0;
-  }
-
-  private buildErrorCounters(flatResults: any[]) {
-    this.errorCounters.clear();
-    for (const result of flatResults) {
-      const severity = result.severity ?? "warning";
-      this.errorCounters.set(severity, (this.errorCounters.get(severity) ?? 0) + 1);
-    }
+  private countBySeverity(severity: string): number {
+    return this.flatResults.filter(r => (r.severity ?? "warning") === severity).length;
   }
 
   private generateCSV(flatResults: any[]): string {
@@ -303,7 +291,7 @@ export default class Scan extends SfCommand<Output> {
       )}.`
     );
     for (const sev of ["error", "warning", "note"]) {
-      const cnt = this.errorCounters.get(sev) ?? 0;
+      const cnt = this.countBySeverity(sev);
       this.log(`- ${sev}: ${cnt}`);
     }
     this.log("");

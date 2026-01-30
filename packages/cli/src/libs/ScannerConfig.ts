@@ -8,6 +8,8 @@ export interface ScannerOptions {
   betaMode?: boolean;
   ignore?: string[];
   ignoreFlows?: string[];
+  categories?: string[];
+  threshold?: string;
   [key: string]: any;
 }
 
