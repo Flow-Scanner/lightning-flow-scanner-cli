@@ -6,8 +6,7 @@ const path = require("path");
 const os = require("os");
 const { cosmiconfig } = require("cosmiconfig");
 const { minimatch } = require("minimatch");
-const { exportSarif } = lfs_core;
-const SEVERITY_LEVELS = ["note", "warning", "error"];
+const { exportSarif, meetsThreshold } = lfs_core;
 
 async function loadScannerOptions() {
   const configPath = core.getInput("config");
@@ -52,18 +51,22 @@ async function loadScannerOptions() {
   return {};
 }
 
+
 function getThreshold(config) {
+  const validThresholds = ["error", "warning", "note", "never"];
   const thresholdInput = core.getInput("threshold");
-  if (thresholdInput && (SEVERITY_LEVELS.includes(thresholdInput) || thresholdInput === "never")) {
+
+  if (thresholdInput && validThresholds.includes(thresholdInput)) {
     core.info(`Using threshold from workflow input: ${thresholdInput}`);
     return thresholdInput;
   }
-  if (config?.threshold && (SEVERITY_LEVELS.includes(config.threshold) || config.threshold === "never")) {
+
+  if (config?.threshold && validThresholds.includes(config.threshold)) {
     core.info(`Using threshold from config file: ${config.threshold}`);
     return config.threshold;
   }
-  core.info("Using default threshold: warning");
-  return "warning";
+
+  return "never"; // Default: no filtering
 }
 
 function getBetaMode(config) {
@@ -77,6 +80,30 @@ function getBetaMode(config) {
     return true;
   }
   return false;
+}
+
+function getCategories(config) {
+  const validCategories = ["problem", "suggestion", "layout"];
+  const categoriesInput = core.getInput("categories");
+
+  if (categoriesInput) {
+    // Parse comma-separated or space-separated input
+    const parsed = categoriesInput.split(/[,\s]+/).map(c => c.trim().toLowerCase()).filter(c => validCategories.includes(c));
+    if (parsed.length > 0) {
+      core.info(`Using categories from workflow input: ${parsed.join(", ")}`);
+      return parsed;
+    }
+  }
+
+  if (config?.categories && Array.isArray(config.categories)) {
+    const filtered = config.categories.filter(c => validCategories.includes(c));
+    if (filtered.length > 0) {
+      core.info(`Using categories from config file: ${filtered.join(", ")}`);
+      return filtered;
+    }
+  }
+
+  return undefined; // No filter - all categories
 }
 
 function getSarifOnly() {
@@ -113,12 +140,6 @@ function applyIgnorePatterns(files, ignorePatterns) {
   return filtered;
 }
 
-function meetsThreshold(severity, threshold) {
-  if (threshold === "never") return false;
-  const sevIndex = SEVERITY_LEVELS.indexOf(severity);
-  const thIndex = SEVERITY_LEVELS.indexOf(threshold);
-  return sevIndex >= thIndex;
-}
 
 async function getDefaultBranch(octokit, repo) {
   try {
@@ -219,14 +240,20 @@ async function run() {
       core.info(`After applying ignore patterns: ${files.length} flow files to scan`);
     }
     const betaMode = getBetaMode(fileConfig);
+    const categories = getCategories(fileConfig);
     const config = {
       ...fileConfig,
       betaMode: betaMode,
+      categories: categories,
       rules: fileConfig.rules || {}
     };
-    
-    const threshold = getThreshold(config);
+
     const sarifOnly = getSarifOnly();
+    const threshold = getThreshold(fileConfig);
+
+    if (categories) {
+      core.info(`Filtering rules by categories: ${categories.join(", ")}`);
+    }
 
     // Parse flows
     let pFlows = [];
@@ -277,6 +304,7 @@ async function run() {
           if (ruleResult.occurs && Array.isArray(ruleResult.details)) {
             for (const detail of ruleResult.details) {
               const severity =
+                config.rules?.[ruleResult.ruleId]?.severity ||
                 config.rules?.[ruleResult.ruleName]?.severity ||
                 ruleResult.severity ||
                 "warning";
@@ -306,11 +334,47 @@ async function run() {
       }
     }
 
-    // Generate SARIF (always)
+    // Filter results by threshold (like CLI does)
+    const filteredResults = threshold === "never"
+      ? results
+      : results.filter(r => {
+          const meets = meetsThreshold(r.severity, threshold);
+          core.debug(`Rule ${r.ruleId}: severity=${r.severity}, threshold=${threshold}, meets=${meets}`);
+          return meets;
+        });
+
+    if (threshold !== "never") {
+      core.info(`Filtered ${results.length} results to ${filteredResults.length} (threshold: ${threshold})`);
+    }
+
+    // Recalculate severity counts from filtered results
+    const filteredSeverityCounts = { error: 0, warning: 0, note: 0 };
+    for (const r of filteredResults) {
+      filteredSeverityCounts[r.severity] = (filteredSeverityCounts[r.severity] || 0) + 1;
+    }
+
+    // Filter scanResults for SARIF generation (apply same threshold)
+    let filteredScanResults = scanResults;
+    if (threshold !== "never") {
+      filteredScanResults = scanResults.map(scanResult => {
+        const filteredRuleResults = scanResult.ruleResults.filter(ruleResult => {
+          const severity =
+            config.rules?.[ruleResult.ruleId]?.severity ||
+            config.rules?.[ruleResult.ruleName]?.severity ||
+            ruleResult.severity ||
+            "warning";
+          return meetsThreshold(severity, threshold);
+        });
+        scanResult.ruleResults = filteredRuleResults;
+        return scanResult;
+      }).filter(scanResult => scanResult.ruleResults.some(rr => rr.details && rr.details.length > 0));
+    }
+
+    // Generate SARIF (uses filtered scanResults)
     const sarifPath = path.join(process.env.GITHUB_WORKSPACE || '', 'flow-scanner-results.sarif');
     let sarifOutput;
 
-    if (scanResults.length === 0 || results.length === 0) {
+    if (filteredScanResults.length === 0 || filteredResults.length === 0) {
       const emptySarif = {
         version: "2.1.0",
         $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
@@ -327,7 +391,7 @@ async function run() {
       };
       sarifOutput = JSON.stringify(emptySarif, null, 2);
     } else {
-      const baseSarif = exportSarif(scanResults);
+      const baseSarif = exportSarif(filteredScanResults);
       const parsed = JSON.parse(baseSarif);
       if (parsed.runs && parsed.runs.length > 1) {
         core.info(`Merging ${parsed.runs.length} SARIF runs into 1`);
@@ -347,16 +411,15 @@ async function run() {
     fs.writeFileSync(sarifPath, sarifOutput);
     core.setOutput('sarifPath', sarifPath);
 
-    // Build summary
+    // Build summary (uses filtered results)
     const summary = {
       totalFlows: scanResults.length,
-      totalViolations: results.length,
-      severityCounts: severityCounts,
-      threshold: threshold,
-      thresholdViolations: threshold === "never" ? 0 : results.filter(r => meetsThreshold(r.severity, threshold)).length
+      totalViolations: filteredResults.length,
+      severityCounts: filteredSeverityCounts,
+      threshold: threshold
     };
 
-    core.setOutput('results', JSON.stringify(results));
+    core.setOutput('results', JSON.stringify(filteredResults));
     core.setOutput('summary', JSON.stringify(summary));
 
     // Log summary
@@ -364,31 +427,15 @@ async function run() {
     core.info(`Scan Results Summary`);
     core.info(`${'='.repeat(60)}`);
     core.info(`Flows scanned: ${summary.totalFlows}`);
-    core.info(`Total violations: ${summary.totalViolations}`);
-    core.info(`  - Errors: ${severityCounts.error}`);
-    core.info(`  - Warnings: ${severityCounts.warning}`);
-    core.info(`  - Notes: ${severityCounts.note}`);
-    core.info(`Threshold: ${threshold}`);
-    core.info(`Violations >= threshold: ${summary.thresholdViolations}`);
+    core.info(`Total violations: ${summary.totalViolations}${threshold !== 'never' ? ` (filtered by threshold: ${threshold})` : ''}`);
+    core.info(`  - Errors: ${filteredSeverityCounts.error}`);
+    core.info(`  - Warnings: ${filteredSeverityCounts.warning}`);
+    core.info(`  - Notes: ${filteredSeverityCounts.note}`);
     core.info(`${'='.repeat(60)}\n`);
 
-    // Determine pass/fail
-    if (sarifOnly) {
-      // SARIF-only mode: fail on any violation
-      if (results.length > 0) {
-        core.setFailed(`${results.length} flow issue(s) found. SARIF-only mode fails on any result.`);
-      } else {
-        core.info("No issues found. SARIF uploaded with zero results.");
-      }
-    } else {
-      // Threshold mode: fail based on threshold
-      if (threshold === "never") {
-        core.info("Threshold set to 'never' — action passes regardless of findings.");
-      } else if (summary.thresholdViolations > 0) {
-        core.setFailed(`${summary.thresholdViolations} violation(s) at severity >= ${threshold}.`);
-      } else {
-        core.info("All findings below threshold. Action passes.");
-      }
+    // SARIF-only mode: fail on any filtered violation (strict mode for PRs)
+    if (sarifOnly && filteredResults.length > 0) {
+      core.setFailed(`${filteredResults.length} flow issue(s) found. SARIF-only mode fails on any result.`);
     }
 
   } catch (e) {
