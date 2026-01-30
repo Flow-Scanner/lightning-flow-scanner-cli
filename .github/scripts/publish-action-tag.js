@@ -14,18 +14,41 @@ if (!fs.existsSync(pkgPath)) {
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 const version = pkg.version;
 const tag = `action-v${version}`;
-console.log(`Creating action tag: ${tag}`);
+console.log(`Checking action tag: ${tag}`);
+
+// Check if tag exists locally
+let localTagExists = false;
+try {
+  execSync(`git rev-parse "${tag}"`, { stdio: 'ignore' });
+  localTagExists = true;
+} catch (_) {}
+
+// Check if tag exists on remote
+let remoteTagExists = false;
+try {
+  execSync(`git ls-remote --tags origin "refs/tags/${tag}"`, { stdio: 'pipe' }).toString().trim();
+  const result = execSync(`git ls-remote --tags origin "refs/tags/${tag}"`, { encoding: 'utf8' }).trim();
+  remoteTagExists = result.length > 0;
+} catch (_) {}
+
+if (localTagExists || remoteTagExists) {
+  console.error(`\nERROR: Tag "${tag}" already exists!`);
+  console.error(`  - Local: ${localTagExists ? 'YES' : 'no'}`);
+  console.error(`  - Remote: ${remoteTagExists ? 'YES' : 'no'}`);
+  console.error(`\nTo publish a new action version:`);
+  console.error(`  1. Update version in packages/action/package.json`);
+  console.error(`  2. Run this script again`);
+  console.error(`\nTo force overwrite (not recommended), delete the tag first:`);
+  console.error(`  git tag -d "${tag}" && git push origin :refs/tags/${tag}`);
+  process.exit(1);
+}
 
 try {
-  // Delete old tag — FULLY IGNORE ANY ERROR (Windows + tag doesn't exist)
-  try {
-    execSync(`git tag -d "${tag}"`, { stdio: 'ignore' });
-  } catch (_) {}
   // Create tag
   execSync(`git tag "${tag}"`, { stdio: 'inherit' });
-  // Push ONLY this tag
-  execSync(`git push origin "${tag}" --force`, { stdio: 'inherit' });
-  console.log(`${tag} created and pushed successfully!`);
+  // Push tag
+  execSync(`git push origin "${tag}"`, { stdio: 'inherit' });
+  console.log(`\n${tag} created and pushed successfully!`);
 } catch (err) {
   console.error('Failed to create tag:', err.message);
   process.exit(1);
