@@ -23,6 +23,10 @@
   let showScanOptions = false;
   let scanIsolatedMode = false;  // false = merged (default), true = isolated
   let scanBetaMode = false;      // false = no beta (default), true = beta
+  let scanThreshold = 'never';   // 'error' | 'warning' | 'note' | 'never'
+  let scanCategoryProblem = false;
+  let scanCategorySuggestion = false;
+  let scanCategoryLayout = false;
 
   // Load preferences + environment
   onMount(async () => {
@@ -227,17 +231,25 @@
   }
 
   function handleScanFlows() {
-    // Only override if any setting is non-default (true)
-    const hasOverrides = scanIsolatedMode || scanBetaMode;
-    
+    // Build categories array from checkboxes
+    const categories = [];
+    if (scanCategoryProblem) categories.push('problem');
+    if (scanCategorySuggestion) categories.push('suggestion');
+    if (scanCategoryLayout) categories.push('layout');
+
+    // Only override if any setting is non-default
+    const hasOverrides = scanIsolatedMode || scanBetaMode || scanThreshold !== 'never' || categories.length > 0;
+
     const options = hasOverrides
       ? {
           ruleMode: scanIsolatedMode ? 'isolated' : 'merged',
           betaMode: scanBetaMode,
+          threshold: scanThreshold,
+          categories: categories.length > 0 ? categories : undefined,
           overrideConfig: true
         }
       : undefined;
-    
+
     tsvscode.postMessage({
       type: 'scanFlows',
       options
@@ -279,19 +291,50 @@
             </div>
             
             <div class="flex items-center gap-2">
-              <input 
-                type="checkbox" 
-                id="scanBetaMode" 
-                bind:checked={scanBetaMode} 
-                class="rounded" 
+              <input
+                type="checkbox"
+                id="scanBetaMode"
+                bind:checked={scanBetaMode}
+                class="rounded"
               />
               <label for="scanBetaMode" class="text-xs text-gray-700">
                 🧪 Enable Beta Rules
               </label>
             </div>
-            
+
+            <!-- Threshold Filter -->
+            <div class="mt-3">
+              <label class="text-xs font-medium text-gray-700 block mb-1">📊 Threshold (min severity)</label>
+              <select bind:value={scanThreshold} class="w-full text-sm border rounded px-2 py-1">
+                <option value="never">None (show all)</option>
+                <option value="note">Note and above</option>
+                <option value="warning">Warning and above</option>
+                <option value="error">Error only</option>
+              </select>
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="mt-3">
+              <label class="text-xs font-medium text-gray-700 block mb-1">🏷️ Categories (multi-select)</label>
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="catProblem" bind:checked={scanCategoryProblem} class="rounded" />
+                  <label for="catProblem" class="text-xs text-gray-700">Problem</label>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="catSuggestion" bind:checked={scanCategorySuggestion} class="rounded" />
+                  <label for="catSuggestion" class="text-xs text-gray-700">Suggestion</label>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="catLayout" bind:checked={scanCategoryLayout} class="rounded" />
+                  <label for="catLayout" class="text-xs text-gray-700">Layout</label>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">Leave all unchecked for all categories</p>
+            </div>
+
             <p class="text-xs text-gray-500 italic mt-2">
-              These settings override config file when checked
+              These settings override config file when set
             </p>
           </div>
         {/if}
