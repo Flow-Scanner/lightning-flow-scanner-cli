@@ -346,21 +346,10 @@ export default class Commands {
       ignoreFlows: config.ignoreFlows,
       exceptions: config.exceptions,
       categories: effectiveCategories,
+      threshold: effectiveThreshold,
     };
     const parsed = await core.parse(toFsPaths(selectedUris));
-    let results = core.scan(parsed, scanConfig);
-
-    // Apply threshold filtering if specified (from config or sidebar)
-    if (effectiveThreshold && effectiveThreshold !== 'never') {
-      results = results.map(scanResult => {
-        const filteredRuleResults = scanResult.ruleResults.filter(ruleResult =>
-          core.meetsThreshold(ruleResult.severity, effectiveThreshold!)
-        );
-        // Mutate the ruleResults to preserve the ScanResult instance
-        scanResult.ruleResults = filteredRuleResults;
-        return scanResult;
-      }).filter(scanResult => scanResult.ruleResults.some(rr => rr.details.length > 0));
-    }
+    const results = core.scan(parsed, scanConfig);
 
     await CacheProvider.instance.set('results', results);
     ScanOverview.createOrShow(this.context.extensionUri, results);
