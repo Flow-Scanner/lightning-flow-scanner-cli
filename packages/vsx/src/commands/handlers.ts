@@ -47,7 +47,16 @@ export default class Commands {
     vscode.env.openExternal(url);
   }
 
-  private async loadConfig(workspacePath: string): Promise<{ rules: RuleConfig; betamode: boolean; ruleMode: "merged" | "isolated"; ignore?: string[]; ignoreFlows?: string[]; exceptions?: Record<string, Record<string, string[]>> }> {
+  private async loadConfig(workspacePath: string): Promise<{
+    rules: RuleConfig;
+    betamode: boolean;
+    ruleMode: "merged" | "isolated";
+    ignore?: string[];
+    ignoreFlows?: string[];
+    exceptions?: Record<string, Record<string, string[]>>;
+    threshold?: 'error' | 'warning' | 'note' | 'never';
+    categories?: ('problem' | 'suggestion' | 'layout')[];
+  }> {
     const rawConfig = await loadScannerConfig(workspacePath);
     // OutputChannel.getInstance().logChannel.debug('Raw config loaded:', JSON.stringify(rawConfig, null, 2));
     const rawRules = (rawConfig.rules as Record<string, unknown>) || {};
@@ -67,8 +76,19 @@ export default class Commands {
     const ignore = Array.isArray(rawConfig.ignore) ? rawConfig.ignore as string[] : undefined;
     const ignoreFlows = Array.isArray(rawConfig.ignoreFlows) ? rawConfig.ignoreFlows as string[] : undefined;
     const exceptions = rawConfig.exceptions as Record<string, Record<string, string[]>> | undefined;
+
+    // Load threshold from config (validate it's a valid value)
+    const validThresholds = ['error', 'warning', 'note', 'never'];
+    const threshold = validThresholds.includes(rawConfig.threshold) ? rawConfig.threshold as 'error' | 'warning' | 'note' | 'never' : undefined;
+
+    // Load categories from config (validate they're valid values)
+    const validCategories = ['problem', 'suggestion', 'layout'];
+    const categories = Array.isArray(rawConfig.categories)
+      ? (rawConfig.categories as string[]).filter(c => validCategories.includes(c)) as ('problem' | 'suggestion' | 'layout')[]
+      : undefined;
+
     await CacheProvider.instance.set('ruleconfig', { rules, betamode, ruleMode });
-    return { rules, betamode, ruleMode, ignore, ignoreFlows, exceptions };
+    return { rules, betamode, ruleMode, ignore, ignoreFlows, exceptions, threshold, categories };
   }
 
   private async saveConfig(workspacePath: string, rules: RuleConfig, betamode: boolean, ruleMode: "merged" | "isolated") {
@@ -229,6 +249,8 @@ export default class Commands {
   private async scanFlows(options?: {
     ruleMode?: 'merged' | 'isolated';
     betaMode?: boolean;
+    threshold?: 'error' | 'warning' | 'note' | 'never';
+    categories?: ('problem' | 'suggestion' | 'layout')[];
     overrideConfig?: boolean;
   }) {
     const root = vscode.workspace.workspaceFolders![0].uri;
@@ -242,7 +264,10 @@ export default class Commands {
     const selectedUris = await this.selectFlows('Select flow files or folder to scan:', config.ignore);
     if (!selectedUris) return;
 
-    // Apply sidebar overwrites if enabled
+    // Start with config file values, then apply sidebar overwrites if enabled
+    let effectiveThreshold: 'error' | 'warning' | 'note' | 'never' | undefined = config.threshold;
+    let effectiveCategories: ('problem' | 'suggestion' | 'layout')[] | undefined = config.categories;
+
     if (options?.overrideConfig) {
       OutputChannel.getInstance().logChannel.debug('Applying sidebar scan options:', options);
 
@@ -252,6 +277,16 @@ export default class Commands {
 
       if (options.betaMode !== undefined) {
         config.betamode = options.betaMode;
+      }
+
+      // Sidebar threshold overrides config if not 'never' (the default/unset value)
+      if (options.threshold !== undefined && options.threshold !== 'never') {
+        effectiveThreshold = options.threshold;
+      }
+
+      // Sidebar categories override config if not empty (the default/unset value)
+      if (options.categories !== undefined && options.categories.length > 0) {
+        effectiveCategories = options.categories;
       }
     }
 
@@ -272,13 +307,22 @@ export default class Commands {
         // RELOAD config after configuration
         config = await this.loadConfig(root.fsPath);
 
-        // Re-apply sidebar overwrites after reload
+        // Re-apply effective values from reloaded config, then sidebar overwrites
+        effectiveThreshold = config.threshold;
+        effectiveCategories = config.categories;
+
         if (options?.overrideConfig) {
           if (options.ruleMode !== undefined) {
             config.ruleMode = options.ruleMode;
           }
           if (options.betaMode !== undefined) {
             config.betamode = options.betaMode;
+          }
+          if (options.threshold !== undefined && options.threshold !== 'never') {
+            effectiveThreshold = options.threshold;
+          }
+          if (options.categories !== undefined && options.categories.length > 0) {
+            effectiveCategories = options.categories;
           }
         }
 
@@ -295,9 +339,29 @@ export default class Commands {
     ScanOverview.createOrShow(this.context.extensionUri, []);
 
     OutputChannel.getInstance().logChannel.debug('Using rule config for scan:', config);
-    const scanConfig = { rules: config.rules, betamode: config.betamode, ruleMode: config.ruleMode, ignoreFlows: config.ignoreFlows, exceptions: config.exceptions };
+    const scanConfig = {
+      rules: config.rules,
+      betamode: config.betamode,
+      ruleMode: config.ruleMode,
+      ignoreFlows: config.ignoreFlows,
+      exceptions: config.exceptions,
+      categories: effectiveCategories,
+    };
     const parsed = await core.parse(toFsPaths(selectedUris));
-    const results = core.scan(parsed, scanConfig);
+    let results = core.scan(parsed, scanConfig);
+
+    // Apply threshold filtering if specified (from config or sidebar)
+    if (effectiveThreshold && effectiveThreshold !== 'never') {
+      results = results.map(scanResult => {
+        const filteredRuleResults = scanResult.ruleResults.filter(ruleResult =>
+          core.meetsThreshold(ruleResult.severity, effectiveThreshold!)
+        );
+        // Mutate the ruleResults to preserve the ScanResult instance
+        scanResult.ruleResults = filteredRuleResults;
+        return scanResult;
+      }).filter(scanResult => scanResult.ruleResults.some(rr => rr.details.length > 0));
+    }
+
     await CacheProvider.instance.set('results', results);
     ScanOverview.createOrShow(this.context.extensionUri, results);
   }
