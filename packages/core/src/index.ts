@@ -1,6 +1,7 @@
 // Updated exports in index.ts
 import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
-import type { IRulesConfig } from "./main/interfaces/IRulesConfig";
+import type { IRulesConfig, RuleCategory, Severity, Threshold } from "./main/interfaces/IRulesConfig";
+import { SEVERITY_ORDER, meetsThreshold, countThresholdViolations, filterByThreshold } from "./main/interfaces/IRulesConfig";
 import type { FlatViolation } from "./main/models/FlatViolation";
 import { Compiler } from "./main/libs/Compiler";
 import { exportDetails } from "./main/libs/ExportDetails";
@@ -48,5 +49,10 @@ export {
   ASCII_ICONS,
   DEFAULT_VARIABLE_ICONS,
   ASCII_VARIABLE_ICONS,
+  // Threshold utilities
+  SEVERITY_ORDER,
+  meetsThreshold,
+  countThresholdViolations,
+  filterByThreshold,
 };
-export type { FlatViolation, IRuleDefinition, IRulesConfig, NodeIconConfig, DiagramOptions, VariableIconConfig };
+export type { FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig };
