@@ -99,6 +99,23 @@ export function FixFlows(flow: core.Flow, ruleResults: core.RuleResult[]): core.
     }
   }) ?? [];
 
-  const xmldata = BuildFlow(nodesToKeep);
+  const rebuiltXmldata = BuildFlow(nodesToKeep);
+
+  // Preserve original XML attributes and elements not in the elements array
+  const xmldata: Record<string, unknown> = {};
+
+  // Copy original attributes (xmlns, xmlns:xsi, etc.) and special elements (start, etc.)
+  if (flow.xmldata) {
+    for (const key of Object.keys(flow.xmldata)) {
+      // Preserve XML attributes (start with @_) and the start element
+      if (key.startsWith("@_") || key === "start") {
+        xmldata[key] = flow.xmldata[key];
+      }
+    }
+  }
+
+  // Merge in the rebuilt elements
+  Object.assign(xmldata, rebuiltXmldata);
+
   return new core.Flow(flow.fsPath, xmldata);
 }
