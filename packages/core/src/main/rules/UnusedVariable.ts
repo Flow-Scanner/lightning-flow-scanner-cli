@@ -13,6 +13,7 @@ export class UnusedVariable extends RuleCommon implements IRuleDefinition {
       summary: "Unused variables add clutter and hurt maintainability",
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
       docRefs: [],
+      isFixable: true,
     });
   }
 

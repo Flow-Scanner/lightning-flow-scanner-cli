@@ -91,10 +91,11 @@ describe("Scan E2E Tests", () => {
       // Verify we got results
       expect(output.summary.results).to.be.greaterThan(0, "Should find suggestion violations");
 
-      // Suggestion rules: action-call-in-loop, invalid-api-version, excessive-cyclomatic-complexity,
-      // get-record-all-fields, inactive-flow, unspecified-trigger-order, same-record-field-updates
+      // Suggestion rules: action-call-in-loop, cognitive-complexity, invalid-api-version,
+      // excessive-cyclomatic-complexity, get-record-all-fields, inactive-flow, unspecified-trigger-order, same-record-field-updates
       const suggestionRuleIds = [
         "action-call-in-loop",
+        "cognitive-complexity",
         "invalid-api-version",
         "excessive-cyclomatic-complexity",
         "get-record-all-fields",

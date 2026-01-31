@@ -27,6 +27,14 @@ export class FlowName extends RuleCommon implements IRuleDefinition {
       label: "Flow Naming Convention",
       name: "FlowName",
       supportedTypes: core.FlowType.allTypes(),
+      configurableOptions: [
+        {
+          name: "expression",
+          type: "expression",
+          description: "Regex pattern for valid Flow names",
+          defaultValue: "[A-Za-z0-9]+_[A-Za-z0-9]+",
+        },
+      ],
     }, { severity: "error" });
   }
 

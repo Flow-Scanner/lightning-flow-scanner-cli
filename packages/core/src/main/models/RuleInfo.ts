@@ -5,6 +5,16 @@ export type RuleDefinitionExpression = {
 };
 
 /**
+ * Describes a configurable option for a rule.
+ */
+export interface ConfigurableOption {
+  name: string;
+  type: 'number' | 'string' | 'boolean' | 'expression';
+  description: string;
+  defaultValue?: unknown;
+}
+
+/**
  * Represents a rule metadata; this contains properties to describe the rule
  */
 export class RuleInfo {
@@ -50,4 +60,15 @@ export class RuleInfo {
    * Use defined types in @see FlowType
    */
   public supportedTypes: string[];
+
+  /**
+   * Configurable options for this rule.
+   * Used for documentation generation.
+   */
+  public configurableOptions?: ConfigurableOption[];
+
+  /**
+   * Whether this rule supports auto-fix.
+   */
+  public isFixable?: boolean;
 }

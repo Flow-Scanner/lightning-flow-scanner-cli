@@ -1,6 +1,6 @@
 import * as core from "../internals/internals";
 
-export function fix(results: core.ScanResult[]): core.ScanResult[] {
+export function fix(results: core.ScanResult[], ruleOptions?: Map<string, unknown>): core.ScanResult[] {
   const newResults: core.ScanResult[] = [];
 
   for (const result of results) {
@@ -10,7 +10,8 @@ export function fix(results: core.ScanResult[]): core.ScanResult[] {
       (r) =>
         (r.ruleName === "UnusedVariable" && r.occurs) ||
         (r.ruleName === "UnconnectedElement" && r.occurs) ||
-        (r.ruleName === "AutoLayout" && r.occurs)
+        (r.ruleName === "AutoLayout" && r.occurs) ||
+        (r.ruleName === "APIVersion" && r.occurs)
     );
 
     if (fixables.length === 0) continue;
@@ -19,6 +20,13 @@ export function fix(results: core.ScanResult[]): core.ScanResult[] {
     const autoLayoutFix = fixables.find((r) => r.ruleName === "AutoLayout");
     if (autoLayoutFix) {
       applyAutoLayoutFix(result.flow);
+    }
+
+    // Handle APIVersion fix (modifies apiVersion attribute)
+    const apiVersionFix = fixables.find((r) => r.ruleName === "APIVersion");
+    if (apiVersionFix) {
+      const options = ruleOptions?.get("invalid-api-version") ?? ruleOptions?.get("APIVersion");
+      applyAPIVersionFix(result.flow, options as { expression?: string } | undefined);
     }
 
     // Handle element-based fixes (UnusedVariable, UnconnectedElement)
@@ -64,6 +72,47 @@ function applyAutoLayoutFix(flow: core.Flow): void {
 
   // Update the flow's processMetadataValues property
   flow.processMetadataValues = flow.xmldata.processMetadataValues;
+}
+
+/**
+ * Parse an API version expression and return the target version for auto-fix.
+ * Fixable expressions: >= N, === N, > N
+ * Returns undefined for unfixable expressions (<, <=, !==)
+ */
+function parseAPIVersionExpression(expression?: string): number | undefined {
+  if (!expression) {
+    // Default behavior: >= 50
+    return 50;
+  }
+
+  const match = expression.match(/^\s*(>=|<=|>|<|===|!==)\s*(\d+)\s*$/);
+  if (!match) return undefined;
+
+  const [, operator, versionStr] = match;
+  const version = parseInt(versionStr, 10);
+
+  switch (operator) {
+    case '>=':
+    case '===':
+      return version;
+    case '>':
+      return version + 1;
+    // These don't have a clear target version
+    case '<':
+    case '<=':
+    case '!==':
+    default:
+      return undefined;
+  }
+}
+
+function applyAPIVersionFix(flow: core.Flow, options?: { expression?: string }): void {
+  if (!flow.xmldata) return;
+
+  const targetVersion = parseAPIVersionExpression(options?.expression);
+  if (targetVersion === undefined) return;
+
+  flow.xmldata.apiVersion = targetVersion.toString();
 }
 
 /**
