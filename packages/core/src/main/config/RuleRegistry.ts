@@ -5,6 +5,7 @@ import { IRulesConfig } from "../interfaces/IRulesConfig";
 import { ActionCallsInLoop } from "../rules/ActionCallsInLoop";
 import { APIVersion } from "../rules/APIVersion";
 import { AutoLayout } from "../rules/AutoLayout";
+import { CognitiveComplexity } from "../rules/CognitiveComplexity";
 import { CopyAPIName } from "../rules/CopyAPIName";
 import { CyclomaticComplexity } from "../rules/CyclomaticComplexity";
 import { DMLStatementInLoop } from "../rules/DMLStatementInLoop";
@@ -160,6 +161,7 @@ registry.register("action-call-in-loop", ActionCallsInLoop, "ActionCallsInLoop")
 registry.register("invalid-api-version", APIVersion, "APIVersion");
 registry.register("missing-auto-layout", AutoLayout, "AutoLayout");
 registry.register("unclear-api-naming", CopyAPIName, "CopyAPIName");
+registry.register("cognitive-complexity", CognitiveComplexity, "CognitiveComplexity");
 registry.register("excessive-cyclomatic-complexity", CyclomaticComplexity, "CyclomaticComplexity");
 registry.register("dml-in-loop", DMLStatementInLoop, "DMLStatementInLoop");
 registry.register("duplicate-dml", DuplicateDMLOperation, "DuplicateDMLOperation");

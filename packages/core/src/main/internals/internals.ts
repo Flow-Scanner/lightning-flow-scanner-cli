@@ -6,6 +6,7 @@ import { FlatViolation } from "../models/FlatViolation";
 import { Flow } from "../models/Flow";
 import { FlowAttribute } from "../models/FlowAttribute";
 import { FlowElement } from "../models/FlowElement";
+import { FlowGraph } from "../models/FlowGraph";
 import { FlowNode } from "../models/FlowNode";
 import { FlowResource } from "../models/FlowResource";
 import { FlowType } from "../models/FlowType";
@@ -20,6 +21,7 @@ import { Violation } from "../models/Violation";
 export {
   FlowAttribute,
   FlowElement,
+  FlowGraph,
   FlowNode,
   FlowType,
   FlowVariable,

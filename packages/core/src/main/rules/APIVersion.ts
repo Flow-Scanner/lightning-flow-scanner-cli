@@ -13,6 +13,15 @@ export class APIVersion extends RuleCommon implements IRuleDefinition {
       summary: "Outdated API versions risk compatibility issues",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
+      configurableOptions: [
+        {
+          name: "expression",
+          type: "expression",
+          description: "Comparison expression for API version (e.g., `>= 58`, `< 50`, `=== 60`)",
+          defaultValue: ">= 50",
+        },
+      ],
+      isFixable: true,
     });
   }
 
