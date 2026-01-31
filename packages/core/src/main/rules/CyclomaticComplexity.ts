@@ -22,6 +22,14 @@ export class CyclomaticComplexity extends RuleCommon implements IRuleDefinition 
             path: "https://en.wikipedia.org/wiki/Cyclomatic_complexity",
           },
         ],
+        configurableOptions: [
+          {
+            name: "threshold",
+            type: "number",
+            description: "Maximum cyclomatic complexity score before triggering a violation",
+            defaultValue: 25,
+          },
+        ],
       },
       { severity: "note" }
     );
@@ -31,7 +39,7 @@ export class CyclomaticComplexity extends RuleCommon implements IRuleDefinition 
   flow: core.Flow,
   options: { threshold?: number } | undefined
 ): core.Violation[] {
-  const threshold = options?.threshold || this.defaultThreshold;
+  const threshold = options?.threshold ?? this.defaultThreshold;
   let cyclomaticComplexity = 1;
 
   const flowDecisions = flow?.elements?.filter(

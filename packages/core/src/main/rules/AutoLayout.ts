@@ -12,6 +12,7 @@ export class AutoLayout extends RuleCommon implements IRuleDefinition {
       summary: "Auto-Layout improves canvas organization and readability",
       supportedTypes: core.FlowType.allTypes(),
       docRefs: [],
+      isFixable: true,
     }, { severity: "note" });
   }
   

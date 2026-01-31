@@ -12,6 +12,7 @@ export class UnconnectedElement extends RuleCommon implements IRuleDefinition {
       label: "Unreachable Element",
       name: "UnconnectedElement",
       supportedTypes: [...core.FlowType.backEndTypes, ...core.FlowType.visualTypes],
+      isFixable: true,
     });
   }
   protected check(

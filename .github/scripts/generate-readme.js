@@ -34,7 +34,8 @@ function getRuleMetadata(ruleRegistry, options = {}) {
       category: instance.category,
       isBeta: entry.isBeta,
       isConfigurable: instance.isConfigurable,
-      configurableOptions: instance.configurableOptions
+      configurableOptions: instance.configurableOptions,
+      isFixable: instance.isFixable
     });
   }
   return rules;
@@ -88,8 +89,11 @@ function formatRule(rule) {
   const betaBadge = rule.isBeta
     ? ' ![Beta](https://img.shields.io/badge/status-beta-yellow)'
     : '';
+  const fixableBadge = rule.isFixable
+    ? ' ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)'
+    : '';
   const optionsSection = formatConfigurableOptions(rule.configurableOptions);
-  return `#### ${rule.title}${betaBadge}
+  return `#### ${rule.title}${betaBadge}${fixableBadge}
 ${rule.description}
 
 **Rule ID:** \`${rule.ruleId}\`
@@ -102,8 +106,11 @@ function formatSystemRule(rule) {
   const betaBadge = rule.isBeta
     ? ' ![Beta](https://img.shields.io/badge/status-beta-yellow)'
     : '';
+  const fixableBadge = rule.isFixable
+    ? ' ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)'
+    : '';
   const optionsSection = formatConfigurableOptions(rule.configurableOptions);
-  return `### ${rule.title}${betaBadge}
+  return `### ${rule.title}${betaBadge}${fixableBadge}
 ${rule.description}
 
 **Rule ID:** \`${rule.ruleId}\`

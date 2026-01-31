@@ -1,4 +1,4 @@
-import { RuleInfo } from "./RuleInfo";
+import { RuleInfo, ConfigurableOption } from "./RuleInfo";
 import * as core from "../internals/internals";
 
 export abstract class RuleCommon {
@@ -7,6 +7,8 @@ export abstract class RuleCommon {
   public summary: string;
   public docRefs: Array<{ label: string; path: string }> = [];
   public isConfigurable: boolean;
+  public configurableOptions?: ConfigurableOption[];
+  public isFixable: boolean;
   public label: string;
   public name: string;
   public severity?: string;
@@ -25,13 +27,9 @@ export abstract class RuleCommon {
     this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner/tree/main/src/main/rules/${info.name}.ts`;
     this.docRefs = info.docRefs;
 
-    const checkImpl = (this as any).check;
-    if (typeof checkImpl === "function") {
-      const source = checkImpl.toString();
-      this.isConfigurable = /options[.\?]/.test(source);
-    } else {
-      this.isConfigurable = false;
-    }
+    this.configurableOptions = info.configurableOptions;
+    this.isConfigurable = !!(info.configurableOptions && info.configurableOptions.length > 0);
+    this.isFixable = info.isFixable ?? false;
 
     this.severity = optional?.severity ?? "warning";
   }

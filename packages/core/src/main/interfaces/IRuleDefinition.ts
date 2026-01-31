@@ -1,4 +1,5 @@
 import { Flow, RuleResult } from "../internals/internals";
+import { ConfigurableOption } from "../models/RuleInfo";
 
 export interface IRuleDefinition {
   ruleId: string;
@@ -8,6 +9,8 @@ export interface IRuleDefinition {
   docRefs: Array<{ label: string; path: string }>;
   execute(flow: Flow, options?: object, suppressions?: string[]): RuleResult;
   isConfigurable: boolean;
+  configurableOptions?: ConfigurableOption[];
+  isFixable: boolean;
   label: string;
   name: string;
   severity?: string;

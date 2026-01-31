@@ -181,12 +181,17 @@ Inactive Flows should be deleted or archived to reduce risk. Even when inactive,
 **Class Name:** _[InactiveFlow](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/InactiveFlow.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Invalid API Version
+#### Invalid API Version ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)
 Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.
 
 **Rule ID:** `invalid-api-version`
 **Class Name:** _[APIVersion](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/APIVersion.ts)_
 **Severity:** 🟡 *Warning*
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| expression | expression | `>= 50` | Comparison expression for API version (e.g., `>= 58`, `< 50`, `=== 60`) |
+
 
 #### Missing Filter Record Trigger ![Beta](https://img.shields.io/badge/status-beta-yellow)
 Record-triggered Flows without filters on changed fields or entry conditions execute on every record change. Adding filters ensures the Flow runs only when needed, improving performance.
@@ -202,12 +207,29 @@ Before-save Flows can safely update the triggering record directly via $Record, 
 **Class Name:** _[SameRecordFieldUpdates](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/SameRecordFieldUpdates.ts)_
 **Severity:** 🟡 *Warning*
 
+#### Cognitive Complexity
+Flows with deeply nested loops and decisions are hard to understand. Unlike cyclomatic complexity which counts paths, cognitive complexity penalizes nesting depth. Consider extracting nested logic into subflows.
+
+**Rule ID:** `cognitive-complexity`
+**Class Name:** _[CognitiveComplexity](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/CognitiveComplexity.ts)_
+**Severity:** 🔵 *Note*
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| threshold | number | `15` | Maximum cognitive complexity score before triggering a violation |
+
+
 #### Excessive Cyclomatic Complexity
 High numbers of loops and decision elements increase a Flow's cyclomatic complexity. To maintain simplicity and readability, consider using subflows or splitting a Flow into smaller, ordered Flows.
 
 **Rule ID:** `excessive-cyclomatic-complexity`
 **Class Name:** _[CyclomaticComplexity](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/CyclomaticComplexity.ts)_
 **Severity:** 🔵 *Note*
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| threshold | number | `25` | Maximum cyclomatic complexity score before triggering a violation |
+
 
 #### Missing Trigger Order
 Record-triggered Flows without a specified Trigger Order may execute in an unpredictable sequence. Setting a Trigger Order ensures your Flows run in the intended order.
@@ -243,6 +265,11 @@ Using clear and consistent Flow names improves readability, discoverability, and
 **Class Name:** _[FlowName](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/FlowName.ts)_
 **Severity:** 🔴 *Error*
 
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| expression | expression | `[A-Za-z0-9]+_[A-Za-z0-9]+` | Regex pattern for valid Flow names |
+
+
 #### Missing Flow Description
 Flow descriptions are essential for documentation and maintainability. Include a description for each Flow, explaining its purpose and where it's used.
 
@@ -264,21 +291,21 @@ Elements with unclear or duplicated API names, like Copy_X_Of_Element, reduce Fl
 **Class Name:** _[CopyAPIName](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/CopyAPIName.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Unreachable Element
+#### Unreachable Element ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)
 Unconnected elements never execute and add unnecessary clutter. Remove or connect unused Flow elements to keep Flows clean and efficient.
 
 **Rule ID:** `unreachable-element`
 **Class Name:** _[UnconnectedElement](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/UnconnectedElement.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Unused Variable
+#### Unused Variable ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)
 Unused variables are never referenced and add unnecessary clutter. Remove them to keep Flows efficient and easy to maintain.
 
 **Rule ID:** `unused-variable`
 **Class Name:** _[UnusedVariable](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/UnusedVariable.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Missing Auto Layout
+#### Missing Auto Layout ![Auto-Fix](https://img.shields.io/badge/-auto--fix-green)
 Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.
 
 **Rule ID:** `missing-auto-layout`
@@ -352,9 +379,9 @@ Available values for severity are `error`, `warning` and `note`. If no severity 
 }
 ```
 
-#### Override Expressions
+#### Customize Rules
 
-Some rules are configurable and allow overriding their default expressions. You configure these overrides the same way as severity, as shown in the examples below.
+Some rules are configurable and allow overriding their default expressions, or setting a threshold as shown in the examples below.
 
 ```json
 {
@@ -364,12 +391,15 @@ Some rules are configurable and allow overriding their default expressions. You 
     },
     "invalid-naming-convention": {
       "expression": "[A-Za-z0-9]" // regular expression
+    },
+    "excessive-cyclomatic-complexity": {
+      "threshold": 10 // threshold
     }
   }
 }
 ```
 
-#### Customize Messages
+#### Customize Rule Messages
 
 If not provided, `message` shows the standard rule summary and `messageUrl` links to the README; providing either overrides the default behavior.
 
