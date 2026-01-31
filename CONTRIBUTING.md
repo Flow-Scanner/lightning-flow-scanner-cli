@@ -1,8 +1,8 @@
 ## Contributing Guidelines
 
-[![Star History Chart](https://app.repohistory.com/api/svg?repo=Flow-Scanner/lightning-flow-scanner&type=Date&background=0D1117&color=f86262)](https://app.repohistory.com/star-history)
+[![Star History Chart](https://app.repohistory.com/api/svg?repo=Flow-Scanner/lightning-flow-scanner&type=Date&background=0D1117&color=f86262)]([https://app.repohistory.com/star-history](https://activity.lightningflowscanner.org))
 
-Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code tool to empower Salesforce Developers across six free and open-source platforms—from developer tools to native Salesforce App—delivering a unified experience for robust static analysis of Flows. Our dedicated community has shared their expertise to deepen understanding of Flow optimization. Your support can amplify our impact. Here’s how you can contribute:
+Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code tool to empower Salesforce Developers across six free and open-source platforms—from developer tools to native Salesforce App—delivering a unified experience for robust static analysis of Flows. [Our dedicated community](https://activity.lightningflowscanner.org/) has shared their expertise to deepen understanding of Flow optimization. Your support can amplify our impact. Here’s how you can contribute:
 
 - 💬 Share feedback to help us improve.
 - 📢 Share our work with your network.
@@ -14,7 +14,7 @@ Since 2021, the _Lightning Flow Scanner_ has grown from its roots as VS Code too
 
 For general questions, ideas, or seeking input on topics that might (or might not) turn into issues, we recommend to use our [Discussions](https://github.com/orgs/Flow-Scanner/discussions) forum. This is best for open-ended conversations, brainstorming, and gathering community input before creating a feature request.
 
-If it's more specific like a bug or a new feature—use [GitHub Issues](https://github.com/features/issues) instead. Before creating a new issue, please take a moment to search the existing [Issues](https://github.com/Flow-Scanner/lightning-flow-scanner/issues) to prevent duplicates. If you find something relevant, adding an upvote helps us understand demand and prioritize better. We've prepared a few templates to guide you through the process of issue reporting:
+If it's more specific like a bug or a new feature—use GitHub Issues instead. Before creating a new issue, please take a moment to search the existing [Issues](https://github.com/Flow-Scanner/lightning-flow-scanner/issues) to prevent duplicates. If you find something relevant, adding an upvote helps us understand demand and prioritize better. We've prepared a few templates to guide you through the process of issue reporting:
 
 ###### Core Engine - For issues or requests related to the core functionality of the scanner, use the following links to submit your request:
 
