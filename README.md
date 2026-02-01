@@ -2,11 +2,11 @@
   <a href="https://github.com/Flow-Scanner/lightning-flow-scanner/stargazers">
     <img src="https://img.shields.io/github/stars/Flow-Scanner/lightning-flow-scanner?label=Stargazers&style=flat-square" alt="GitHub stars">
   </a>
-   <a href="https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core">
-    <img src="https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core?label=Core&style=flat-square" alt="Core version">
-  </a>
   <a href="https://www.npmjs.com/package/lightning-flow-scanner">
     <img src="https://img.shields.io/npm/v/lightning-flow-scanner?label=CLI&style=flat-square" alt="CLI version">
+  </a>
+   <a href="https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core">
+    <img src="https://img.shields.io/npm/v/@flow-scanner/lightning-flow-scanner-core?label=Core&style=flat-square" alt="Core version">
   </a>
   <a href="https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx">
     <img src="https://img.shields.io/open-vsx/v/ForceConfigControl/lightning-flow-scanner-vsx?label=VS%20Code&style=flat-square" alt="VS Code version">
