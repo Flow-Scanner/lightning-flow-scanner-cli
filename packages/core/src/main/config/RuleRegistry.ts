@@ -161,7 +161,7 @@ registry.register("action-call-in-loop", ActionCallsInLoop, "ActionCallsInLoop")
 registry.register("invalid-api-version", APIVersion, "APIVersion");
 registry.register("missing-auto-layout", AutoLayout, "AutoLayout");
 registry.register("unclear-api-naming", CopyAPIName, "CopyAPIName");
-registry.register("cognitive-complexity", CognitiveComplexity, "CognitiveComplexity");
+registry.register("cognitive-complexity", CognitiveComplexity, "CognitiveComplexity", true);
 registry.register("excessive-cyclomatic-complexity", CyclomaticComplexity, "CyclomaticComplexity");
 registry.register("dml-in-loop", DMLStatementInLoop, "DMLStatementInLoop");
 registry.register("duplicate-dml", DuplicateDMLOperation, "DuplicateDMLOperation");
