@@ -1,6 +1,7 @@
 import { MetadataFile } from "../models/MetadataFile";
 import { RegexRule } from "../models/RegexRule";
 import { RegexViolation, RegexRuleConfig } from "../models/RegexViolation";
+import { stripDescriptionContent } from "../utils/stripDescriptionContent";
 
 /**
  * Detects hardcoded Salesforce record IDs in metadata files.
@@ -50,10 +51,12 @@ export class HardcodedId extends RegexRule {
     // If elements are provided, search each element
     if (file.elements && file.elements.length > 0) {
       for (const element of file.elements) {
-        const content =
+        // Strip description content to avoid false positives from documentation
+        const rawContent =
           typeof element.content === "string"
             ? element.content
             : JSON.stringify(element.content);
+        const content = stripDescriptionContent(rawContent);
 
         // Reset regex state for each element
         const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
@@ -72,9 +75,10 @@ export class HardcodedId extends RegexRule {
         }
       }
     } else {
-      // Fall back to searching raw content
+      // Fall back to searching raw content (strip descriptions)
+      const content = stripDescriptionContent(file.content);
       const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
-      const matches = file.content.match(regex);
+      const matches = content.match(regex);
 
       if (matches) {
         for (const match of matches) {
