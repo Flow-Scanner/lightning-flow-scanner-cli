@@ -1,6 +1,7 @@
 import { MetadataFile } from "../models/MetadataFile";
 import { RegexRule } from "../models/RegexRule";
 import { RegexViolation, RegexRuleConfig } from "../models/RegexViolation";
+import { stripDescriptionContent } from "../utils/stripDescriptionContent";
 
 /**
  * Detects hardcoded Salesforce URLs (force.com domains) in metadata files.
@@ -49,10 +50,12 @@ export class HardcodedUrl extends RegexRule {
     // If elements are provided, search each element
     if (file.elements && file.elements.length > 0) {
       for (const element of file.elements) {
-        const content =
+        // Strip description content to avoid false positives from documentation
+        const rawContent =
           typeof element.content === "string"
             ? element.content
             : JSON.stringify(element.content);
+        const content = stripDescriptionContent(rawContent);
 
         // Reset regex state for each element
         const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
@@ -71,9 +74,10 @@ export class HardcodedUrl extends RegexRule {
         }
       }
     } else {
-      // Fall back to searching raw content
+      // Fall back to searching raw content (strip descriptions)
+      const content = stripDescriptionContent(file.content);
       const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
-      const matches = file.content.match(regex);
+      const matches = content.match(regex);
 
       if (matches) {
         for (const match of matches) {

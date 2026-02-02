@@ -146,6 +146,100 @@ describe("HardcodedUrl", () => {
     });
   });
 
+  describe("description field", () => {
+    it("should NOT flag URLs in description field (bug fix: false positives from documentation)", () => {
+      // This test verifies the fix for the bug where URLs in <description> tags
+      // were being flagged as hardcoded URLs. These are documentation references
+      // and should be ignored.
+      const flow = {
+        type: "AutoLaunchedFlow",
+        elements: [
+          {
+            name: "Save_Application_Event",
+            subtype: "actionCalls",
+            metaType: "node",
+            element: {
+              description: "Saves the Application Event. See https://ideas.salesforce.com/s/idea/a0B8W00000J8A6cUAF/long-text-areas-in-flow",
+              name: "Save_Application_Event",
+              label: "Save Application Event",
+              actionName: "rflib_SaveAppEventOccurrenceAction",
+              actionType: "apex",
+            },
+          },
+        ],
+      } as Partial<Flow> as Flow;
+
+      const result = rule.execute(flow);
+      expect(result).toBeDefined();
+      expect(result.occurs).toBe(false);
+    });
+
+    it("should still flag URLs in actual flow values (not in description)", () => {
+      const flow = {
+        type: "AutoLaunchedFlow",
+        elements: [
+          {
+            name: "testVariable",
+            subtype: "variables",
+            metaType: "variable",
+            element: {
+              description: "Safe description without URLs",
+              name: "testVariable",
+              dataType: "String",
+              value: {
+                stringValue: "https://mydomain.my.salesforce.com/", // This should be flagged
+              },
+            },
+          },
+        ],
+      } as Partial<Flow> as Flow;
+
+      const result = rule.execute(flow);
+      expect(result).toBeDefined();
+      expect(result.occurs).toBe(true);
+    });
+
+    it("should handle e2e scan with description containing URL", () => {
+      const config = {
+        rules: {
+          HardcodedUrl: {
+            severity: "error",
+          },
+        },
+      };
+
+      const parsedFlows: ParsedFlow[] = [
+        {
+          flow: {
+            type: "AutoLaunchedFlow",
+            status: "Active",
+            elements: [
+              {
+                name: "Save_Application_Event",
+                subtype: "actionCalls",
+                metaType: "node",
+                element: {
+                  description: "See https://ideas.salesforce.com/s/idea/test",
+                  name: "Save_Application_Event",
+                  label: "Save Application Event",
+                  actionName: "myAction",
+                  actionType: "apex",
+                },
+              },
+            ],
+          },
+        } as Partial<ParsedFlow> as ParsedFlow,
+      ];
+
+      const results: ScanResult[] = scan(parsedFlows, config);
+      const scanResults = results.pop();
+      const ruleResults = scanResults?.ruleResults.filter((rule) => {
+        return rule.ruleDefinition.name === "HardcodedUrl" && rule.occurs;
+      });
+      expect(ruleResults).toHaveLength(0);
+    });
+  });
+
   describe("error unit", () => {
     describe("flow formula", () => {
       it("should return results when hardcoding sandbox org url", () => {
