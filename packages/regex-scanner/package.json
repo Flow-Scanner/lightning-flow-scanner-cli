@@ -1,7 +1,7 @@
 {
   "name": "@flow-scanner/regex-scanner",
   "description": "Generic regex-based scanning engine.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "out/index.js",
   "exports": {
     ".": {
@@ -20,6 +20,9 @@
     "build:types": "tsc -p tsconfig.types.json --declaration --emitDeclarationOnly --outDir out",
     "build": "npm run clean && npm run build:js && npm run build:types",
     "test": "jest --passWithNoTests",
+    "version:patch": "pnpm version patch --no-git-tag-version",
+    "version:minor": "pnpm version minor --no-git-tag-version",
+    "version:major": "pnpm version major --no-git-tag-version",
     "prepare:publish": "node scripts/prepare-publish.js",
     "publish:npm": "npm run build && npm run prepare:publish && cd out && npm publish --access public"
   },

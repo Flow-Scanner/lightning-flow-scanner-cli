@@ -29,7 +29,7 @@ export class HardcodedUrl extends RuleCommon implements IRuleDefinition {
             path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions",
           },
         ],
-        label: "Hardcoded Salesforce Url",
+        label: "Hardcoded Url",
         name: "HardcodedUrl",
         supportedTypes: FlowType.allTypes(),
       },
