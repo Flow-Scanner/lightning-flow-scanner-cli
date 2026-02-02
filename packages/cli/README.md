@@ -243,7 +243,7 @@ Before-save Flows can safely update the triggering record directly via $Record, 
 **Class Name:** _[SameRecordFieldUpdates](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/SameRecordFieldUpdates.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Cognitive Complexity
+#### Cognitive Complexity ![Beta](https://img.shields.io/badge/status-beta-yellow)
 Flows with deeply nested loops and decisions are hard to understand. Unlike cyclomatic complexity which counts paths, cognitive complexity penalizes nesting depth. Consider extracting nested logic into subflows.
 
 **Rule ID:** `cognitive-complexity`
