@@ -214956,6 +214956,7 @@ Object.defineProperty(exports, "ruleRegistry", ({
 const _ActionCallsInLoop = __nccwpck_require__(2971);
 const _APIVersion = __nccwpck_require__(8385);
 const _AutoLayout = __nccwpck_require__(8648);
+const _CognitiveComplexity = __nccwpck_require__(9493);
 const _CopyAPIName = __nccwpck_require__(1397);
 const _CyclomaticComplexity = __nccwpck_require__(5371);
 const _DMLStatementInLoop = __nccwpck_require__(2706);
@@ -215126,6 +215127,7 @@ registry.register("action-call-in-loop", _ActionCallsInLoop.ActionCallsInLoop, "
 registry.register("invalid-api-version", _APIVersion.APIVersion, "APIVersion");
 registry.register("missing-auto-layout", _AutoLayout.AutoLayout, "AutoLayout");
 registry.register("unclear-api-naming", _CopyAPIName.CopyAPIName, "CopyAPIName");
+registry.register("cognitive-complexity", _CognitiveComplexity.CognitiveComplexity, "CognitiveComplexity", true);
 registry.register("excessive-cyclomatic-complexity", _CyclomaticComplexity.CyclomaticComplexity, "CyclomaticComplexity");
 registry.register("dml-in-loop", _DMLStatementInLoop.DMLStatementInLoop, "DMLStatementInLoop");
 registry.register("duplicate-dml", _DuplicateDMLOperation.DuplicateDMLOperation, "DuplicateDMLOperation");
@@ -215330,6 +215332,9 @@ _export(exports, {
     get FlowElement () {
         return _FlowElement.FlowElement;
     },
+    get FlowGraph () {
+        return _FlowGraph.FlowGraph;
+    },
     get FlowNode () {
         return _FlowNode.FlowNode;
     },
@@ -215362,6 +215367,7 @@ const _Compiler = __nccwpck_require__(7361);
 const _Flow = __nccwpck_require__(1970);
 const _FlowAttribute = __nccwpck_require__(3656);
 const _FlowElement = __nccwpck_require__(7264);
+const _FlowGraph = __nccwpck_require__(9456);
 const _FlowNode = __nccwpck_require__(1274);
 const _FlowResource = __nccwpck_require__(50);
 const _FlowType = __nccwpck_require__(2602);
@@ -215848,16 +215854,23 @@ function _interop_require_wildcard(obj, nodeInterop) {
     }
     return newObj;
 }
-function fix(results) {
+function fix(results, ruleOptions) {
     const newResults = [];
     for (const result of results){
         if (!result.ruleResults || result.ruleResults.length === 0) continue;
-        const fixables = result.ruleResults.filter((r)=>r.ruleName === "UnusedVariable" && r.occurs || r.ruleName === "UnconnectedElement" && r.occurs || r.ruleName === "AutoLayout" && r.occurs);
+        const fixables = result.ruleResults.filter((r)=>r.ruleName === "UnusedVariable" && r.occurs || r.ruleName === "UnconnectedElement" && r.occurs || r.ruleName === "AutoLayout" && r.occurs || r.ruleName === "APIVersion" && r.occurs);
         if (fixables.length === 0) continue;
         // Handle AutoLayout fix separately (modifies metadata, not elements)
         const autoLayoutFix = fixables.find((r)=>r.ruleName === "AutoLayout");
         if (autoLayoutFix) {
             applyAutoLayoutFix(result.flow);
+        }
+        // Handle APIVersion fix (modifies apiVersion attribute)
+        const apiVersionFix = fixables.find((r)=>r.ruleName === "APIVersion");
+        if (apiVersionFix) {
+            var _ruleOptions_get;
+            const options = (_ruleOptions_get = ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.get("invalid-api-version")) !== null && _ruleOptions_get !== void 0 ? _ruleOptions_get : ruleOptions === null || ruleOptions === void 0 ? void 0 : ruleOptions.get("APIVersion");
+            applyAPIVersionFix(result.flow, options);
         }
         // Handle element-based fixes (UnusedVariable, UnconnectedElement)
         // These modify xmldata in place to preserve element order and formatting
@@ -215896,6 +215909,39 @@ function applyAutoLayoutFix(flow) {
     }
     // Update the flow's processMetadataValues property
     flow.processMetadataValues = flow.xmldata.processMetadataValues;
+}
+/**
+ * Parse an API version expression and return the target version for auto-fix.
+ * Fixable expressions: >= N, === N, > N
+ * Returns undefined for unfixable expressions (<, <=, !==)
+ */ function parseAPIVersionExpression(expression) {
+    if (!expression) {
+        // Default behavior: >= 50
+        return 50;
+    }
+    const match = expression.match(/^\s*(>=|<=|>|<|===|!==)\s*(\d+)\s*$/);
+    if (!match) return undefined;
+    const [, operator, versionStr] = match;
+    const version = parseInt(versionStr, 10);
+    switch(operator){
+        case '>=':
+        case '===':
+            return version;
+        case '>':
+            return version + 1;
+        // These don't have a clear target version
+        case '<':
+        case '<=':
+        case '!==':
+        default:
+            return undefined;
+    }
+}
+function applyAPIVersionFix(flow, options) {
+    if (!flow.xmldata) return;
+    const targetVersion = parseAPIVersionExpression(options === null || options === void 0 ? void 0 : options.expression);
+    if (targetVersion === undefined) return;
+    flow.xmldata.apiVersion = targetVersion.toString();
 }
 /**
  * Apply element-based fixes (UnusedVariable, UnconnectedElement) by modifying xmldata in place.
@@ -218342,6 +218388,8 @@ let RuleCommon = class RuleCommon {
         _define_property(this, "summary", void 0);
         _define_property(this, "docRefs", []);
         _define_property(this, "isConfigurable", void 0);
+        _define_property(this, "configurableOptions", void 0);
+        _define_property(this, "isFixable", void 0);
         _define_property(this, "label", void 0);
         _define_property(this, "name", void 0);
         _define_property(this, "severity", void 0);
@@ -218357,13 +218405,10 @@ let RuleCommon = class RuleCommon {
         this.summary = info.summary;
         this.uri = `https://github.com/Lightning-Flow-Scanner/lightning-flow-scanner/tree/main/src/main/rules/${info.name}.ts`;
         this.docRefs = info.docRefs;
-        const checkImpl = this.check;
-        if (typeof checkImpl === "function") {
-            const source = checkImpl.toString();
-            this.isConfigurable = /options[.\?]/.test(source);
-        } else {
-            this.isConfigurable = false;
-        }
+        this.configurableOptions = info.configurableOptions;
+        this.isConfigurable = !!(info.configurableOptions && info.configurableOptions.length > 0);
+        var _info_isFixable;
+        this.isFixable = (_info_isFixable = info.isFixable) !== null && _info_isFixable !== void 0 ? _info_isFixable : false;
         var _optional_severity;
         this.severity = (_optional_severity = optional === null || optional === void 0 ? void 0 : optional.severity) !== null && _optional_severity !== void 0 ? _optional_severity : "warning";
     }
@@ -218703,7 +218748,16 @@ let APIVersion = class APIVersion extends _RuleCommon.RuleCommon {
             description: "Flows running on outdated API versions may behave inconsistently when newer platform features or components are used. From API version 50.0 onward, the API Version attribute explicitly controls Flow runtime behavior. Keeping Flows aligned with a supported API version helps prevent compatibility issues and ensures predictable execution.",
             summary: "Outdated API versions risk compatibility issues",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: []
+            docRefs: [],
+            configurableOptions: [
+                {
+                    name: "expression",
+                    type: "expression",
+                    description: "Comparison expression for API version (e.g., `>= 58`, `< 50`, `=== 60`)",
+                    defaultValue: ">= 50"
+                }
+            ],
+            isFixable: true
         });
     }
 };
@@ -218836,10 +218890,194 @@ let AutoLayout = class AutoLayout extends _RuleCommon.RuleCommon {
             description: "Auto-Layout automatically arranges and aligns Flow elements, keeping the canvas organized and easier to maintain. Enabling it saves time and improves readability.",
             summary: "Auto-Layout improves canvas organization and readability",
             supportedTypes: _internals.FlowType.allTypes(),
-            docRefs: []
+            docRefs: [],
+            isFixable: true
         }, {
             severity: "note"
         });
+    }
+};
+
+
+/***/ }),
+
+/***/ 9493:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "CognitiveComplexity", ({
+    enumerable: true,
+    get: function() {
+        return CognitiveComplexity;
+    }
+}));
+const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
+const _RuleCommon = __nccwpck_require__(7137);
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+let CognitiveComplexity = class CognitiveComplexity extends _RuleCommon.RuleCommon {
+    check(flow, options) {
+        var _options_threshold;
+        const threshold = (_options_threshold = options === null || options === void 0 ? void 0 : options.threshold) !== null && _options_threshold !== void 0 ? _options_threshold : this.defaultThreshold;
+        const complexity = this.calculateCognitiveComplexity(flow);
+        if (complexity > threshold) {
+            return [
+                new _internals.Violation(new _internals.FlowAttribute(`${complexity}`, "CognitiveComplexity", `>${threshold}`))
+            ];
+        }
+        return [];
+    }
+    /**
+   * Calculate cognitive complexity for a flow.
+   *
+   * Algorithm:
+   * 1. Find all loops and decisions
+   * 2. Calculate nesting depth for each (how many loops/decisions contain it)
+   * 3. Add 1 + nesting_depth for each control structure
+   */ calculateCognitiveComplexity(flow) {
+        let complexity = 0;
+        const graph = flow.graph;
+        // Get all loops and decisions
+        const loops = flow.elements.filter((e)=>e.subtype === "loops");
+        const decisions = flow.elements.filter((e)=>e.subtype === "decisions");
+        // Build a map of which elements are contained within which control structures
+        const nestingDepth = new Map();
+        // Calculate nesting depth for each element
+        for (const element of flow.elements){
+            if (!(element instanceof _internals.FlowNode)) continue;
+            let depth = 0;
+            // Check if inside any loop
+            if (graph.isInLoop(element.name)) {
+                depth++;
+                // Check for nested loops (loop inside loop)
+                const containingLoop = graph.getContainingLoop(element.name);
+                if (containingLoop && containingLoop !== element.name) {
+                    // Check if the containing loop is itself inside another loop
+                    depth += this.countParentLoops(containingLoop, graph, loops);
+                }
+            }
+            nestingDepth.set(element.name, depth);
+        }
+        // Add complexity for each loop: 1 + nesting depth
+        for (const loop of loops){
+            var _nestingDepth_get;
+            const depth = (_nestingDepth_get = nestingDepth.get(loop.name)) !== null && _nestingDepth_get !== void 0 ? _nestingDepth_get : 0;
+            complexity += 1 + depth;
+        }
+        // Add complexity for each decision: 1 + nesting depth
+        // Also count additional branches beyond 2 (if-else is base, more adds complexity)
+        for (const decision of decisions){
+            var _decision_rules;
+            var _nestingDepth_get1;
+            const depth = (_nestingDepth_get1 = nestingDepth.get(decision.name)) !== null && _nestingDepth_get1 !== void 0 ? _nestingDepth_get1 : 0;
+            var _decision_rules_length;
+            const rulesCount = (_decision_rules_length = (_decision_rules = decision.rules) === null || _decision_rules === void 0 ? void 0 : _decision_rules.length) !== null && _decision_rules_length !== void 0 ? _decision_rules_length : 0;
+            // Base complexity: 1 + nesting depth
+            complexity += 1 + depth;
+            // Additional complexity for multiple branches (beyond binary decision)
+            // Each additional rule beyond the first adds complexity
+            if (rulesCount > 1) {
+                complexity += rulesCount - 1;
+            }
+        }
+        return complexity;
+    }
+    /**
+   * Count how many parent loops contain this loop
+   */ countParentLoops(loopName, graph, allLoops) {
+        let count = 0;
+        for (const parentLoop of allLoops){
+            if (parentLoop.name === loopName) continue;
+            // Check if loopName is within this parent loop's body
+            const loopElements = graph.getLoopElements(parentLoop.name);
+            if (loopElements.has(loopName)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    constructor(){
+        super({
+            ruleId: "cognitive-complexity",
+            category: "suggestion",
+            name: "CognitiveComplexity",
+            label: "Cognitive Complexity",
+            description: "Flows with deeply nested loops and decisions are hard to understand. Unlike cyclomatic complexity which counts paths, cognitive complexity penalizes nesting depth. Consider extracting nested logic into subflows.",
+            summary: "Deeply nested logic harms readability",
+            supportedTypes: _internals.FlowType.backEndTypes,
+            docRefs: [
+                {
+                    label: "Cognitive Complexity is a measure of how difficult code is to understand, as opposed to Cyclomatic Complexity which measures testability.",
+                    path: "https://www.sonarsource.com/docs/CognitiveComplexity.pdf"
+                }
+            ],
+            configurableOptions: [
+                {
+                    name: "threshold",
+                    type: "number",
+                    description: "Maximum cognitive complexity score before triggering a violation",
+                    defaultValue: 15
+                }
+            ]
+        }, {
+            severity: "note"
+        }), _define_property(this, "defaultThreshold", 15);
     }
 };
 
@@ -218999,7 +219237,8 @@ function _interop_require_wildcard(obj, nodeInterop) {
 let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCommon {
     check(flow, options) {
         var _flow_elements, _flow_elements1;
-        const threshold = (options === null || options === void 0 ? void 0 : options.threshold) || this.defaultThreshold;
+        var _options_threshold;
+        const threshold = (_options_threshold = options === null || options === void 0 ? void 0 : options.threshold) !== null && _options_threshold !== void 0 ? _options_threshold : this.defaultThreshold;
         let cyclomaticComplexity = 1;
         const flowDecisions = flow === null || flow === void 0 ? void 0 : (_flow_elements = flow.elements) === null || _flow_elements === void 0 ? void 0 : _flow_elements.filter((node)=>node.subtype === "decisions");
         const flowLoops = flow === null || flow === void 0 ? void 0 : (_flow_elements1 = flow.elements) === null || _flow_elements1 === void 0 ? void 0 : _flow_elements1.filter((node)=>node.subtype === "loops");
@@ -219030,6 +219269,14 @@ let CyclomaticComplexity = class CyclomaticComplexity extends _RuleCommon.RuleCo
                 {
                     label: `Cyclomatic complexity is a software metric used to indicate the complexity of a program. It is a quantitative measure of the number of linearly independent paths through a program's source code.`,
                     path: "https://en.wikipedia.org/wiki/Cyclomatic_complexity"
+                }
+            ],
+            configurableOptions: [
+                {
+                    name: "threshold",
+                    type: "number",
+                    description: "Maximum cyclomatic complexity score before triggering a violation",
+                    defaultValue: 25
                 }
             ]
         }, {
@@ -219390,7 +219637,15 @@ let FlowName = class FlowName extends _RuleCommon.RuleCommon {
             ],
             label: "Flow Naming Convention",
             name: "FlowName",
-            supportedTypes: _internals.FlowType.allTypes()
+            supportedTypes: _internals.FlowType.allTypes(),
+            configurableOptions: [
+                {
+                    name: "expression",
+                    type: "expression",
+                    description: "Regex pattern for valid Flow names",
+                    defaultValue: "[A-Za-z0-9]+_[A-Za-z0-9]+"
+                }
+            ]
         }, {
             severity: "error"
         }), _define_property(this, "regexRule", new _regexscanner.NamingConvention());
@@ -219586,7 +219841,7 @@ let HardcodedId = class HardcodedId extends _RuleCommon.RuleCommon {
             ruleId: "hardcoded-id",
             name: "HardcodedId",
             category: "problem",
-            label: "Hardcoded Salesforce Id",
+            label: "Hardcoded Id",
             description: "Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.",
             summary: "Hardcoded IDs break portability across environments",
             supportedTypes: _internals.FlowType.allTypes(),
@@ -219774,7 +220029,7 @@ let HardcodedUrl = class HardcodedUrl extends _RuleCommon.RuleCommon {
                     path: "https://admin.salesforce.com/blog/2021/why-you-should-avoid-hard-coding-and-three-alternative-solutions"
                 }
             ],
-            label: "Hardcoded Salesforce Url",
+            label: "Hardcoded Url",
             name: "HardcodedUrl",
             supportedTypes: _internals.FlowType.allTypes()
         }, {
@@ -221243,7 +221498,8 @@ let UnconnectedElement = class UnconnectedElement extends _RuleCommon.RuleCommon
             supportedTypes: [
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
-            ]
+            ],
+            isFixable: true
         });
     }
 };
@@ -221444,7 +221700,8 @@ let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
                 ..._internals.FlowType.backEndTypes,
                 ..._internals.FlowType.visualTypes
             ],
-            docRefs: []
+            docRefs: [],
+            isFixable: true
         });
     }
 };
@@ -221823,6 +222080,7 @@ Object.defineProperty(exports, "HardcodedId", ({
     }
 }));
 const _RegexRule = __nccwpck_require__(7192);
+const _stripDescriptionContent = __nccwpck_require__(2249);
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -221842,7 +222100,9 @@ let HardcodedId = class HardcodedId extends _RegexRule.RegexRule {
         // If elements are provided, search each element
         if (file.elements && file.elements.length > 0) {
             for (const element of file.elements){
-                const content = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                // Strip description content to avoid false positives from documentation
+                const rawContent = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                const content = (0, _stripDescriptionContent.stripDescriptionContent)(rawContent);
                 // Reset regex state for each element
                 const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
                 const matches = content.match(regex);
@@ -221857,9 +222117,10 @@ let HardcodedId = class HardcodedId extends _RegexRule.RegexRule {
                 }
             }
         } else {
-            // Fall back to searching raw content
+            // Fall back to searching raw content (strip descriptions)
+            const content = (0, _stripDescriptionContent.stripDescriptionContent)(file.content);
             const regex = new RegExp(HardcodedId.SALESFORCE_ID_PATTERN);
-            const matches = file.content.match(regex);
+            const matches = content.match(regex);
             if (matches) {
                 for (const match of matches){
                     violations.push(this.createViolation(file, {
@@ -222190,6 +222451,7 @@ Object.defineProperty(exports, "HardcodedUrl", ({
     }
 }));
 const _RegexRule = __nccwpck_require__(7192);
+const _stripDescriptionContent = __nccwpck_require__(2249);
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -222209,7 +222471,9 @@ let HardcodedUrl = class HardcodedUrl extends _RegexRule.RegexRule {
         // If elements are provided, search each element
         if (file.elements && file.elements.length > 0) {
             for (const element of file.elements){
-                const content = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                // Strip description content to avoid false positives from documentation
+                const rawContent = typeof element.content === "string" ? element.content : JSON.stringify(element.content);
+                const content = (0, _stripDescriptionContent.stripDescriptionContent)(rawContent);
                 // Reset regex state for each element
                 const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
                 const matches = content.match(regex);
@@ -222224,9 +222488,10 @@ let HardcodedUrl = class HardcodedUrl extends _RegexRule.RegexRule {
                 }
             }
         } else {
-            // Fall back to searching raw content
+            // Fall back to searching raw content (strip descriptions)
+            const content = (0, _stripDescriptionContent.stripDescriptionContent)(file.content);
             const regex = new RegExp(HardcodedUrl.FORCE_URL_PATTERN);
-            const matches = file.content.match(regex);
+            const matches = content.match(regex);
             if (matches) {
                 for (const match of matches){
                     violations.push(this.createViolation(file, {
@@ -222408,6 +222673,40 @@ function getRegexRuleIds() {
 }
 function hasRegexRule(idOrName) {
     return _RuleRegistry.regexRuleRegistry.has(idOrName);
+}
+
+
+/***/ }),
+
+/***/ 2249:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * Strips description content from strings to avoid false positives in rule scanning.
+ * Description tags in Flow elements often contain documentation URLs and IDs
+ * that should not trigger hardcoded-id or hardcoded-url violations.
+ *
+ * Handles both formats:
+ * - XML: <description>...</description>
+ * - JSON: "description":"..."
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "stripDescriptionContent", ({
+    enumerable: true,
+    get: function() {
+        return stripDescriptionContent;
+    }
+}));
+function stripDescriptionContent(content) {
+    // Remove XML-style description tags (handles multiline content)
+    let result = content.replace(/<description>[\s\S]*?<\/description>/gi, "");
+    // Remove JSON-style description properties
+    // Matches "description":"value" with proper JSON string escaping
+    result = result.replace(/"description"\s*:\s*"(?:[^"\\]|\\.)*"/g, "");
+    return result;
 }
 
 

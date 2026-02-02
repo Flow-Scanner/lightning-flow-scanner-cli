@@ -156,18 +156,11 @@ Executing DML operations (insert, update, delete) inside a loop is a high-risk a
 **Class Name:** _[DMLStatementInLoop](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/DMLStatementInLoop.ts)_
 **Severity:** 🔴 *Error*
 
-#### Hardcoded Salesforce Id
+#### Hardcoded Id
 Avoid hard-coding record IDs, as they are unique to a specific org and will not work in other environments. Instead, store IDs in variables—such as merge-field URL parameters or a **Get Records** element—to make the Flow portable, maintainable, and flexible.
 
 **Rule ID:** `hardcoded-id`
 **Class Name:** _[HardcodedId](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/HardcodedId.ts)_
-**Severity:** 🔴 *Error*
-
-#### Hardcoded Salesforce Url
-Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.
-
-**Rule ID:** `hardcoded-url`
-**Class Name:** _[HardcodedUrl](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/HardcodedUrl.ts)_
 **Severity:** 🔴 *Error*
 
 #### Hardcoded Secret ![Beta](https://img.shields.io/badge/status-beta-yellow)
@@ -175,6 +168,13 @@ Avoid hardcoding secrets, API keys, tokens, or credentials in Flows. These shoul
 
 **Rule ID:** `hardcoded-secret`
 **Class Name:** _[HardcodedSecret](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/HardcodedSecret.ts)_
+**Severity:** 🔴 *Error*
+
+#### Hardcoded Url
+Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.
+
+**Rule ID:** `hardcoded-url`
+**Class Name:** _[HardcodedUrl](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/HardcodedUrl.ts)_
 **Severity:** 🔴 *Error*
 
 #### Process Builder
@@ -279,7 +279,7 @@ Before-save Flows can safely update the triggering record directly via $Record, 
 **Class Name:** _[SameRecordFieldUpdates](https://github.com/Flow-Scanner/lightning-flow-scanner/blob/main/packages/core/src/main/rules/SameRecordFieldUpdates.ts)_
 **Severity:** 🟡 *Warning*
 
-#### Cognitive Complexity
+#### Cognitive Complexity ![Beta](https://img.shields.io/badge/status-beta-yellow)
 Flows with deeply nested loops and decisions are hard to understand. Unlike cyclomatic complexity which counts paths, cognitive complexity penalizes nesting depth. Consider extracting nested logic into subflows.
 
 **Rule ID:** `cognitive-complexity`
