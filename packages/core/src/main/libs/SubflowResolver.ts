@@ -1,15 +1,14 @@
 import { Flow } from "../models/Flow";
 
 /**
- * Context provided when resolving a subflow
+ * Context provided when resolving a subflow.
+ * Contains information about the parent flow for context-aware resolution.
  */
 export interface SubflowResolutionContext {
   /** The parent flow containing the subflow reference */
   parentFlow: Flow;
   /** File path of the parent flow (if available) */
   parentFlowPath?: string;
-  /** Additional paths to search for subflows */
-  searchPaths?: string[];
 }
 
 /**

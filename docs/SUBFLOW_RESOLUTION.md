@@ -62,6 +62,11 @@ interface SubflowResolver {
   has(flowName: string): boolean;
 }
 
+interface SubflowResolutionContext {
+  parentFlow: Flow;        // The parent flow containing the subflow reference
+  parentFlowPath?: string; // File path of the parent flow (if available)
+}
+
 interface ResolvedSubflow {
   flowName: string;
   flow?: Flow;          // The resolved Flow object

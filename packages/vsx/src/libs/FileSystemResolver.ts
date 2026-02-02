@@ -1,4 +1,5 @@
 import * as path from "path";
+import { promises as fs } from "fs";
 import { FindFlows } from "./FindFlows";
 import {
   parse,
@@ -7,6 +8,9 @@ import {
   type SubflowResolutionContext,
   type ResolvedSubflow,
 } from "@flow-scanner/lightning-flow-scanner-core";
+
+/** Pattern to validate Salesforce Flow XML structure */
+const FLOW_ROOT_PATTERN = /<Flow\s+xmlns=/;
 
 export interface FileSystemResolverOptions {
   /** Base directories to search for flows */
@@ -22,6 +26,8 @@ export interface FileSystemResolverOptions {
 /**
  * Resolves subflows from the local filesystem.
  * For use in VS Code extension (Node.js environment).
+ *
+ * Search paths are fixed at construction time for security.
  */
 export class FileSystemResolver implements SubflowResolver {
   private flowIndex: Map<string, string> = new Map(); // flowName -> filePath
@@ -125,6 +131,24 @@ export class FileSystemResolver implements SubflowResolver {
   }
 
   /**
+   * Validate that file content appears to be a Salesforce Flow XML.
+   * Checks for <Flow xmlns= pattern to prevent parsing arbitrary XML files.
+   */
+  private async validateFlowContent(filePath: string): Promise<boolean> {
+    try {
+      // Read only the first 1KB to check for Flow root element
+      const fd = await fs.open(filePath, "r");
+      const buffer = Buffer.alloc(1024);
+      await fd.read(buffer, 0, 1024, 0);
+      await fd.close();
+      const header = buffer.toString("utf8");
+      return FLOW_ROOT_PATTERN.test(header);
+    } catch {
+      return false;
+    }
+  }
+
+  /**
    * Load a flow from the filesystem.
    */
   private async loadFlow(flowName: string): Promise<Flow | undefined> {
@@ -136,6 +160,13 @@ export class FileSystemResolver implements SubflowResolver {
     if (!filePath) return undefined;
 
     try {
+      // Validate file appears to be a Salesforce Flow before parsing
+      const isValid = await this.validateFlowContent(filePath);
+      if (!isValid) {
+        console.warn(`Skipping "${flowName}": file does not appear to be a valid Salesforce Flow`);
+        return undefined;
+      }
+
       const parsed = await parse([filePath]);
       if (parsed.length > 0 && parsed[0].flow) {
         this.loadedFlows.set(flowName, parsed[0].flow);
@@ -156,17 +187,7 @@ export class FileSystemResolver implements SubflowResolver {
     await Promise.all(flowNames.map((name) => this.loadFlow(name)));
   }
 
-  async resolve(flowName: string, context?: SubflowResolutionContext): Promise<ResolvedSubflow> {
-    if (context?.searchPaths && context.searchPaths.length > 0) {
-      const newPaths = context.searchPaths.filter(
-        (p) => !this.options.searchPaths.includes(p)
-      );
-      if (newPaths.length > 0) {
-        this.options.searchPaths.push(...newPaths);
-        await this.buildIndex();
-      }
-    }
-
+  async resolve(flowName: string, _context?: SubflowResolutionContext): Promise<ResolvedSubflow> {
     const isManaged = this.managedFlows.has(flowName);
 
     if (isManaged && this.options.skipManaged) {
@@ -190,19 +211,9 @@ export class FileSystemResolver implements SubflowResolver {
 
   async resolveMany(
     flowNames: string[],
-    context?: SubflowResolutionContext
+    _context?: SubflowResolutionContext
   ): Promise<Map<string, ResolvedSubflow>> {
     const results = new Map<string, ResolvedSubflow>();
-
-    if (context?.searchPaths && context.searchPaths.length > 0) {
-      const newPaths = context.searchPaths.filter(
-        (p) => !this.options.searchPaths.includes(p)
-      );
-      if (newPaths.length > 0) {
-        this.options.searchPaths.push(...newPaths);
-        await this.buildIndex();
-      }
-    }
 
     await Promise.all(
       flowNames.map(async (name) => {
