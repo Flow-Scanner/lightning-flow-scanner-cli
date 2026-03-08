@@ -8,9 +8,9 @@
   <a href="https://www.npmjs.com/package/lightning-flow-scanner">
     <img src="https://img.shields.io/npm/v/lightning-flow-scanner?label=CLI&style=flat-square" alt="CLI version">
   </a>
-  <a href="https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx">
-    <img src="https://img.shields.io/open-vsx/v/ForceConfigControl/lightning-flow-scanner-vsx?label=VS%20Code&style=flat-square" alt="VS Code version">
-  </a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx">
+  <img src="https://img.shields.io/visual-studio-marketplace/v/ForceConfigControl.lightning-flow-scanner-vsx?label=VS%20Code&style=flat-square" alt="VS Code Marketplace version">
+</a>
   <a href="https://www.npmjs.com/package/lightning-flow-scanner-core">
   <img src="https://img.shields.io/npm/dt/lightning-flow-scanner-core?label=Downloads%3Cv6&style=flat-square" alt="Downloads <v6">
 </a>
@@ -535,7 +535,7 @@ Ready-to-use CI/CD templates and a **Copado Plugin**.
 |----------------|-----------------------------------|------|
 | [Azure DevOps](docs/azure-templates.md)   | Full Project Scan                 | [`azure-pipelines-flow-FullScan.yml`](docs/templates/azure-devops/azure-pipelines-flow-FullScan.yml) |
 | [Azure DevOps](docs/azure-templates.md)   | Change-Based Scan                 | [`azure-pipelines-flow-changedFiles.yml`](docs/templates/azure-devops/azure-pipelines-flow-changedFiles.yml) |
-| **[Copado Plugin](https://github.com/Flow-Scanner/lightning-flow-scanner-copado)** | Copado Plugin                       | [Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS) |
+| **Copado Plugin** ⚠️ *(Deprecated — use Code Analyzer)* | Copado Plugin | ~~[Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS)~~ |
 
 ## Quick Start
 
