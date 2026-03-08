@@ -519,9 +519,9 @@ By default, Lightning Flow Scanner runs **all** default rules and merges any cus
 
 | Distribution                                      | Best for                                      | Install                                                                                           |
 |----------------------------------------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| **[Salesforce App](https://appexchange.salesforce.com/appxListingDetail?listingId=80d6caf3-d4a8-41ec-b48e-da1fe3457e98)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000008CLlQAM` |
 | **[Salesforce CLI Plugin](https://www.npmjs.com/package/lightning-flow-scanner)** | Local development, scratch orgs, CI/CD        | `sf plugins install lightning-flow-scanner`                                                             |
 | **[VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx)** | Real-time scanning inside VS Code             | `code --install-extension ForceConfigControl.lightning-flow-scanner-vsx`                               |
-| **[Salesforce App](https://appexchange.salesforce.com/appxListingDetail?listingId=80d6caf3-d4a8-41ec-b48e-da1fe3457e98)** | Run scans directly inside a Salesforce org  | `sf package install --package 04tgK0000008CLlQAM` |
 | **[GitHub Action](https://github.com/marketplace/actions/lightning-flow-scan)** | Native PR checks        | `uses: Flow-Scanner/lightning-flow-scanner@main` |
 | **[Core Library](https://www.npmjs.com/package/@flow-scanner/lightning-flow-scanner-core)** (Node.js + Browser) | Custom tools, scripts, extensions, web apps   | `npm install -g @flow-scanner/lightning-flow-scanner-core`                                                 |
 | **[Regex Scanner](https://www.npmjs.com/package/@flow-scanner/regex-scanner)** |  Regex-based scanning   | `npm install -g @flow-scanner/regex-scanner`   
@@ -535,7 +535,7 @@ Ready-to-use CI/CD templates and a **Copado Plugin**.
 |----------------|-----------------------------------|------|
 | [Azure DevOps](docs/azure-templates.md)   | Full Project Scan                 | [`azure-pipelines-flow-FullScan.yml`](docs/templates/azure-devops/azure-pipelines-flow-FullScan.yml) |
 | [Azure DevOps](docs/azure-templates.md)   | Change-Based Scan                 | [`azure-pipelines-flow-changedFiles.yml`](docs/templates/azure-devops/azure-pipelines-flow-changedFiles.yml) |
-| **Copado Plugin** ⚠️ *(Deprecated — use Code Analyzer)* | Copado Plugin | ~~[Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS)~~ |
+| **Copado Plugin** ⚠️ *(Deprecated)* | Copado Plugin | ~~[Copado Marketplace](https://success.copado.com/s/listing-detail?language=en_US&recordId=a54P7000003G3gBIAS)~~ |
 
 ## Quick Start
 
