@@ -17,7 +17,7 @@
     "@flow-scanner/lightning-flow-scanner-core": "workspace:*",
     "@vercel/ncc": "^0.38.1",
     "cosmiconfig": "^9.0.0",
-    "minimatch": "^9.0.0"
+    "minimatch": "^10.2.3"
   },
   "keywords": [
     "best-practices",
