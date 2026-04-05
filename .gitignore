@@ -58,3 +58,4 @@ coverage/**
 
 # stryker temp files
 packages/core/out.stryker-tmp
+docs/deploy.md
