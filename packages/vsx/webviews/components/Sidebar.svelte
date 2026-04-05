@@ -203,14 +203,10 @@
 
   function rateAndRedirect(rating) {
     selectedRating = rating;
-    if (isVSCode) {
       tsvscode.postMessage({
         type: "openReviewPage",
         url: "https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx"
       });
-    } else {
-      window.open("https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx/reviews", "_blank");
-    }
   }
 
   function openDocumentation() { tsvscode.postMessage({ type: "openDocumentation" }); }

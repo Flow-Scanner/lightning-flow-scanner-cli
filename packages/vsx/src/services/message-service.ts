@@ -66,12 +66,6 @@ export default class MessageService {
     vscode.commands.executeCommand('flowscanner.configRules');
   }
 
-  openVsxReviews(_query: any) {
-    const reviewUrl =
-      "https://open-vsx.org/extension/ForceConfigControl/lightning-flow-scanner-vsx/reviews";
-    vscode.env.openExternal(vscode.Uri.parse(reviewUrl));
-  }
-
   openReviewPage(query: any) {
   const url = query.url || "https://marketplace.visualstudio.com/items?itemName=ForceConfigControl.lightning-flow-scanner-vsx&ssr=false#review-details";
   vscode.env.openExternal(vscode.Uri.parse(url));
