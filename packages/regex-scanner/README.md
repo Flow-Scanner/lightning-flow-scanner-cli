@@ -20,10 +20,20 @@ const file: MetadataFile = {
   content: "<Flow>...</Flow>",
 };
 
+// Works with any Salesforce metadata type
+const prompt: MetadataFile = {
+  name: "My_Prompt",
+  fileName: "My_Prompt.aiPromptTemplate-meta.xml",
+  metadataType: "AiPromptTemplate",
+  content: "<AiPromptTemplate>...</AiPromptTemplate>",
+};
+
 const violations = scanRegex([file]);
 ```
 
 ## Built-in Rules
+
+All built-in rules apply to any metadata type by default.
 
 | Rule ID | Description |
 |---------|-------------|
@@ -69,7 +79,7 @@ export class MyCustomRule extends RegexRule {
       description: "Detects something specific",
       summary: "Short summary",
       severity: "warning",
-      supportedTypes: ["Flow", "ApexClass"],
+      supportedTypes: ["*"], // or specific types like ["Flow", "ApexClass"]
       isConfigurable: false,
     });
   }

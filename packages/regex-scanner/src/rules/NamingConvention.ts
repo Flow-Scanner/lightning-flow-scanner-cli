@@ -19,7 +19,7 @@ export class NamingConvention extends RegexRule {
         "Using clear and consistent names improves readability, discoverability, and maintainability. A good naming convention helps team members quickly understand a file's purpose—for example, including a domain and brief description like Service_OrderFulfillment.",
       summary: "Consistent naming improves discoverability and maintainability",
       severity: "error",
-      supportedTypes: ["Flow"], // Start with Flow only, extensible later
+      supportedTypes: ["*"],
       docRefs: [
         {
           label: "Naming your Flows is more critical than ever",

@@ -26,7 +26,7 @@ export class HardcodedUrl extends RegexRule {
         "Avoid hard-coding URLs, as they may change between environments or over time. Instead, store URLs in variables or custom settings to make the Flow adaptable, maintainable, and environment-independent.",
       summary: "Hardcoded URLs break across different environments",
       severity: "error",
-      supportedTypes: ["Flow"], // Start with Flow only, extensible later
+      supportedTypes: ["*"],
       docRefs: [
         {
           label: "The Ultimate Guide to Salesforce Flow Best Practices",

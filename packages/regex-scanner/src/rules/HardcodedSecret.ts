@@ -166,7 +166,7 @@ export class HardcodedSecret extends RegexRule {
         "Avoid hardcoding secrets, API keys, tokens, or credentials in metadata files. These should be stored securely in Named Credentials, Custom Settings, Custom Metadata, or external secret management systems.",
       summary: "Hardcoded secrets pose security risks",
       severity: "error",
-      supportedTypes: ["Flow", "ApexClass", "ApexTrigger", "LightningComponentBundle", "AuraDefinitionBundle"],
+      supportedTypes: ["*"],
       docRefs: [
         {
           label: "Salesforce Named Credentials",

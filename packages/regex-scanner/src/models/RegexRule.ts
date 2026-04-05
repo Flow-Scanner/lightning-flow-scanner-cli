@@ -61,8 +61,8 @@ export abstract class RegexRule {
     file: MetadataFile,
     config?: RegexRuleConfig
   ): RegexViolation[] {
-    // Skip if file type not supported
-    if (!this.supportedTypes.includes(file.metadataType)) {
+    // Skip if file type not supported ("*" matches any type)
+    if (!this.supportedTypes.includes("*") && !this.supportedTypes.includes(file.metadataType)) {
       return [];
     }
 
