@@ -1,7 +1,7 @@
 {
   "name": "@flow-scanner/regex-scanner",
   "description": "Generic regex-based scanning engine.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "out/index.js",
   "exports": {
     ".": {
