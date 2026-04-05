@@ -26,9 +26,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
+      - name: Build regex-scanner (core dependency)
+        run: pnpm --filter=@flow-scanner/regex-scanner run build
+
       - name: Build core package
         run: pnpm --filter=@flow-scanner/lightning-flow-scanner-core run build
-      
+
       - name: Publish
         working-directory: packages/core
         run: npm publish --provenance --access public
