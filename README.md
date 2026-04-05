@@ -692,4 +692,3 @@ For more on Programmatic API, types, and advanced usage of `@flow-scanner/lightn
      pnpm dist
    ```
    This creates UMD at `dist/lightning-flow-scanner-core.umd.js`.
-
