@@ -20,6 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
       
       - name: Install dependencies
@@ -31,6 +32,10 @@ jobs:
       - name: Build core package
         run: pnpm --filter=@flow-scanner/lightning-flow-scanner-core run build
 
-      - name: Publish
+      - name: Prepare publish
         working-directory: packages/core
+        run: node ../../.github/scripts/prepare-publish.js
+
+      - name: Publish
+        working-directory: packages/core/out
         run: npm publish --provenance --access public
