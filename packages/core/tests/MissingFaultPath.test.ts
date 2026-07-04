@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import * as path from "path";
 
-import { Flow, parse, RuleResult, scan, ScanResult } from "../src";
+import { Flow, parse, ParsedFlow, RuleResult, scan, ScanResult } from "../src";
 
 describe("MissingFaultPath", () => {
   const exampleUri = path.join(
@@ -50,6 +50,67 @@ describe("MissingFaultPath", () => {
     const occurringResults = results[0].ruleResults.filter((r) => r.occurs);
 
     // Should have no violations - both fault_handler and downstream_action are on the fault path
+    expect(occurringResults).toHaveLength(0);
+  });
+
+  it("should not flag a logging subflow that is only reachable from a fault path", () => {
+    const flow = new Flow(undefined, {
+      "@_xmlns": "http://soap.sforce.com/2006/04/metadata",
+      apiVersion: "66.0",
+      interviewLabel: "Fault path subflow test {!$Flow.CurrentDateTime}",
+      label: "Fault path subflow test",
+      processMetadataValues: [
+        {
+          name: "BuilderType",
+          value: { stringValue: "LightningFlowBuilder" },
+        },
+        {
+          name: "CanvasMode",
+          value: { stringValue: "AUTO_LAYOUT_CANVAS" },
+        },
+        {
+          name: "OriginBuilderType",
+          value: { stringValue: "LightningFlowBuilder" },
+        },
+      ],
+      processType: "AutoLaunchedFlow",
+      recordCreates: {
+        name: "create_group",
+        label: "Create Group",
+        locationX: "176",
+        locationY: "134",
+        faultConnector: {
+          targetReference: "log_error_subflow",
+        },
+        inputReference: "new_group",
+      },
+      start: {
+        locationX: "50",
+        locationY: "0",
+        connector: {
+          targetReference: "create_group",
+        },
+        object: "Custom_Object__c",
+        recordTriggerType: "CreateAndUpdate",
+        triggerType: "RecordAfterSave",
+      },
+      status: "Draft",
+      subflows: {
+        name: "log_error_subflow",
+        label: "Log Error",
+        locationX: "440",
+        locationY: "242",
+        flowName: "Logging_Subflow",
+      },
+    });
+
+    const config = {
+      ruleMode: "isolated",
+      rules: { MissingFaultPath: { severity: "error" } },
+    };
+    const results: ScanResult[] = scan([new ParsedFlow("inline.flow-meta.xml", flow)], config);
+    const occurringResults = results[0].ruleResults.filter((r) => r.occurs);
+
     expect(occurringResults).toHaveLength(0);
   });
 
