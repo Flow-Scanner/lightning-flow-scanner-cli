@@ -152,7 +152,7 @@
     "cosmiconfig": "^9.0.0",
     "glob": "^11.1.0",
     "tabulator-tables": "^6.3.1",
-    "uuid": "^11.0.5"
+    "uuid": "^11.1.1"
   },
   "keywords": [
     "salesforce",
