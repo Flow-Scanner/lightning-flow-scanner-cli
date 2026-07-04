@@ -1,5 +1,6 @@
 // Updated exports in index.ts
 import type { IRuleDefinition } from "./main/interfaces/IRuleDefinition";
+import type { ConfigurableOption } from "./main/models/RuleInfo";
 import type { IRulesConfig, RuleCategory, Severity, Threshold } from "./main/interfaces/IRulesConfig";
 import { SEVERITY_ORDER, meetsThreshold, countThresholdViolations, filterByThreshold } from "./main/interfaces/IRulesConfig";
 import type { FlatViolation } from "./main/models/FlatViolation";
@@ -55,4 +56,4 @@ export {
   countThresholdViolations,
   filterByThreshold,
 };
-export type { FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig };
+export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig };
