@@ -15,8 +15,8 @@ type Severity = "error" | "warning" | "note";
 
 interface RuleEntry {
   severity: Severity;
-  expression?: string;
   enabled?: boolean;
+  [optionName: string]: unknown;
 }
 
 function normalizeSeverity(s: unknown): Severity {
@@ -65,8 +65,8 @@ export default class Commands {
       if (typeof rule === 'object' && rule !== null) {
         const r = rule as Record<string, unknown>;
         rules[name] = {
+          ...r,
           severity: normalizeSeverity(r.severity),
-          expression: r.expression !== undefined ? String(r.expression) : undefined,
           enabled: r.enabled !== undefined ? !!r.enabled : undefined
         };
       }
@@ -108,8 +108,9 @@ export default class Commands {
           yamlLines.push(`    enabled: ${entry.enabled}`); // 4 spaces
         }
         yamlLines.push(`    severity: ${entry.severity}`); // 4 spaces
-        if (entry.expression) {
-          yamlLines.push(`    expression: ${JSON.stringify(entry.expression)}`); // 4 spaces
+        for (const [optionName, optionValue] of Object.entries(entry)) {
+          if (optionName === 'enabled' || optionName === 'severity' || optionValue === undefined) continue;
+          yamlLines.push(`    ${optionName}: ${JSON.stringify(optionValue)}`); // 4 spaces
         }
       }
     }
@@ -164,11 +165,13 @@ export default class Commands {
     const allRules = core.getRules(undefined, { betaMode: betamode });
     const currentNames = Object.keys(rules);
     const isEmptyConfig = currentNames.length === 0;
+    const getExistingRuleConfig = (rule: core.IRuleDefinition): RuleEntry | undefined =>
+      rules[rule.ruleId] ?? rules[rule.name];
 
     const items = allRules.map(rule => ({
       label: rule.label,
       description: rule.ruleId,
-      picked: isEmptyConfig ? true : (rules[rule.ruleId]?.enabled ?? true),
+      picked: isEmptyConfig ? true : (getExistingRuleConfig(rule)?.enabled ?? true),
     }));
 
     const selected = await vscode.window.showQuickPick(items, { canPickMany: true, placeHolder: 'Select rules to enable/disable' });
@@ -180,60 +183,75 @@ export default class Commands {
     if (ruleMode === 'isolated') {
       for (const item of selected) {
         const def = allRules.find(r => r.ruleId === item.description)!;
-        const severity = normalizeSeverity(rules[def.ruleId]?.severity ?? def.severity ?? 'warning');
-        const expression = rules[def.ruleId]?.expression;
-        newRules[def.ruleId] = { severity };
-        if (expression !== undefined) newRules[def.ruleId].expression = expression;
+        const existing = getExistingRuleConfig(def);
+        const severity = normalizeSeverity(existing?.severity ?? def.severity ?? 'warning');
+        newRules[def.ruleId] = { ...existing, severity };
+        delete newRules[def.ruleId].enabled;
       }
     } else {
       for (const def of allRules) {
         const ruleId = def.ruleId;
         const isSelected = selectedNames.has(ruleId);
-        const ruleConfig = rules[ruleId];
+        const ruleConfig = getExistingRuleConfig(def);
         const severity = normalizeSeverity(ruleConfig?.severity ?? def.severity ?? 'warning');
-        const expression = ruleConfig?.expression;
         const enabled = isSelected;
         const hasCustomSeverity = severity !== normalizeSeverity(def.severity ?? 'warning');
-        const hasCustomExpression = expression !== undefined;
+        const hasCustomOptions = Object.keys(ruleConfig ?? {}).some(key => key !== 'severity' && key !== 'enabled');
         const hasCustomEnabled = !enabled;
 
-        if (hasCustomSeverity || hasCustomExpression || hasCustomEnabled) {
-          newRules[ruleId] = { severity };
-          if (expression !== undefined) newRules[ruleId].expression = expression;
+        if (hasCustomSeverity || hasCustomOptions || hasCustomEnabled) {
+          newRules[ruleId] = { ...ruleConfig, severity };
           if (hasCustomEnabled) newRules[ruleId].enabled = enabled;
+          else delete newRules[ruleId].enabled;
         }
       }
     }
 
     let changed = false;
 
-    if (selectedNames.has('invalid-naming-convention')) {
-      const def = allRules.find(r => r.ruleId === 'invalid-naming-convention')!;
-      const current = newRules['invalid-naming-convention']?.expression || '';
-      const expr = await vscode.window.showInputBox({
-        prompt: 'Define naming convention (REGEX) for Flow Name',
-        placeHolder: '[A-Za-z0-9]+_[A-Za-z0-9]+',
-        value: current || '[A-Za-z0-9]+_[A-Za-z0-9]+',
-      });
-      if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules['invalid-naming-convention']) newRules['invalid-naming-convention'] = { severity: normalizeSeverity(def.severity ?? 'warning') };
-        newRules['invalid-naming-convention'].expression = expr.trim() || undefined;
-        changed = true;
-      }
-    }
+    for (const def of allRules.filter(rule => selectedNames.has(rule.ruleId))) {
+      for (const option of def.configurableOptions ?? []) {
+        const existing = getExistingRuleConfig(def);
+        const storedValue = newRules[def.ruleId]?.[option.name] ?? existing?.[option.name];
+        const displayedValue = storedValue ?? option.defaultValue;
+        let configuredValue: string | number | boolean | undefined;
+        let accepted = false;
 
-    if (selectedNames.has('invalid-api-version')) {
-      const def = allRules.find(r => r.ruleId === 'invalid-api-version')!;
-      const current = newRules['invalid-api-version']?.expression || '';
-      const expr = await vscode.window.showInputBox({
-        prompt: 'Set API version rule (e.g. ">=50")',
-        placeHolder: '>=50',
-        value: current || '>=50',
-      });
-      if (expr !== undefined && expr.trim() !== current) {
-        if (!newRules['invalid-api-version']) newRules['invalid-api-version'] = { severity: normalizeSeverity(def.severity ?? 'warning') };
-        newRules['invalid-api-version'].expression = expr.trim() || undefined;
-        changed = true;
+        if (option.type === 'boolean') {
+          const choices = displayedValue === true ? ['Yes', 'No'] : ['No', 'Yes'];
+          const choice = await vscode.window.showQuickPick(choices, {
+            placeHolder: `${def.label}: ${option.description}`,
+          });
+          if (choice !== undefined) {
+            accepted = true;
+            configuredValue = choice === 'Yes';
+          }
+        } else {
+          const value = await vscode.window.showInputBox({
+            prompt: `${def.label}: ${option.description}`,
+            placeHolder: option.defaultValue === undefined ? undefined : String(option.defaultValue),
+            value: displayedValue === undefined ? '' : String(displayedValue),
+            validateInput: option.type === 'number'
+              ? input => input.trim() !== '' && Number.isFinite(Number(input)) ? undefined : 'Enter a valid number'
+              : undefined,
+          });
+          if (value !== undefined) {
+            accepted = true;
+            configuredValue = option.type === 'number' ? Number(value) : (value.trim() || undefined);
+          }
+        }
+
+        if (accepted && configuredValue !== storedValue) {
+          if (!newRules[def.ruleId]) {
+            newRules[def.ruleId] = {
+              ...existing,
+              severity: normalizeSeverity(existing?.severity ?? def.severity ?? 'warning'),
+            };
+          }
+          if (configuredValue === undefined) delete newRules[def.ruleId][option.name];
+          else newRules[def.ruleId][option.name] = configuredValue;
+          changed = true;
+        }
       }
     }
 
