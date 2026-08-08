@@ -33,12 +33,21 @@ import {
   type SubflowResolutionContext,
   type ResolvedSubflow,
 } from "./main/libs/SubflowResolver";
+import {
+  buildResolver,
+  type FlowSource,
+  type BuildResolverOptions,
+} from "./main/libs/BuildResolver";
+import { parseFlowXml, createFlowParser } from "./main/libs/ParseFlowXml";
 
 export {
   Compiler,
   NoOpResolver,
   PreloadedResolver,
   defaultResolver,
+  buildResolver,
+  parseFlowXml,
+  createFlowParser,
   exportDetails,
   exportDiagram,
   exportSarif,
@@ -67,4 +76,4 @@ export {
   countThresholdViolations,
   filterByThreshold,
 };
-export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, SubflowResolutionContext, ResolvedSubflow };
+export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, SubflowResolutionContext, ResolvedSubflow, FlowSource, BuildResolverOptions };

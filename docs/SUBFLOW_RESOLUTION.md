@@ -587,3 +587,48 @@ const resolver = await FileSystemResolver.create({
 ```
 
 6. **Enable System Rules for AI/Script Workflows**: When flows are edited outside Flow Builder, enable `systemRules: true` to catch issues that would normally be prevented by the UI.
+
+## Browser / UMD environments (no filesystem)
+
+`FileSystemResolver` is Node-only (it uses `fs`/`glob`). In a browser — for
+example a Chrome extension integrating with Salesforce Inspector Reloaded — the
+UMD build of core still performs all analysis, but flows must come from an
+async source (an org's Tooling/Metadata API) rather than disk.
+
+Because the rule engine resolves subflows **synchronously** (`getSync`), the
+subflow dependency closure must be resolved **up front** into a
+`PreloadedResolver`. `buildResolver(roots, source)` does exactly this: it walks
+the transitive `<subflows>` references breadth-first (deduped and cycle-safe),
+fetching each referenced flow through a source you provide, and returns an eager
+resolver ready to pass into `scan()`.
+
+```typescript
+import { parseFlowXml, buildResolver, scan, parse } from
+  "@flow-scanner/lightning-flow-scanner-core";
+
+// 1. A source that fetches one flow's XML from the org and parses it (no fs).
+const orgSource = async (flowName: string) => {
+  const xml = await fetchFlowXmlFromOrg(flowName); // your Tooling API call
+  return xml ? parseFlowXml(flowName, xml) : undefined;
+};
+
+// 2. The root flows the user is scanning (already parsed to Flow objects).
+const roots = rootFlows; // Flow[]
+
+// 3. Resolve the subflow closure into an eager, synchronous-capable resolver.
+const subflowResolver = await buildResolver(roots, orgSource);
+
+// 4. Scan with cross-flow analysis enabled.
+const results = scan(
+  roots.map((flow) => ({ flow })),
+  { rules: {}, betaMode: true, subflowResolver }
+);
+```
+
+Notes:
+- `buildResolver` fetches only the flows actually referenced (transitively), not
+  every flow in the org — one source call per referenced flow, deduped.
+- Managed-package subflows (API names containing `__`) are skipped by default
+  and can't usually be retrieved anyway; the `UnresolvedSubflow` rule surfaces
+  anything that can't be resolved.
+- `maxDepth` caps how many subflow hops are followed if you need to bound work.
