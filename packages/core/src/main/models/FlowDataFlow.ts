@@ -68,6 +68,15 @@ export class FlowDataFlow {
     return this.formulaRefs.has(name);
   }
 
+  public getFormulaNames(): string[] {
+    return Array.from(this.formulaRefs.keys());
+  }
+
+  /** Every subflow call boundary in the flow. */
+  public getSubflowBoundaries(): SubflowBoundary[] {
+    return Array.from(this.subflowBoundaries.values());
+  }
+
   public getSubflowBoundary(nodeName: string): SubflowBoundary | undefined {
     return this.subflowBoundaries.get(nodeName);
   }
@@ -281,8 +290,12 @@ export class FlowDataFlow {
   ): void {
     for (const field of fields) {
       if (!field) continue;
-      // Input components produce a value referenceable by their name.
-      if (field.name) writes.add(field.name);
+      // Input components produce a user-entered value referenceable by their name;
+      // display-only components (text/rich text/dividers) do not.
+      if (field.name && this.isScreenInputField(field)) {
+        writes.add(field.name);
+        this.screenInputNames.add(field.name);
+      }
       this.addBase(reads, valueReference(field.defaultValue));
       for (const ref of extractMergeFields(field.fieldText)) {
         this.addBase(reads, ref);
@@ -292,6 +305,26 @@ export class FlowDataFlow {
         this.walkScreenFields(asArray(field.fields), reads, writes);
       }
     }
+  }
+
+  private static readonly DISPLAY_ONLY_FIELD_TYPES = new Set([
+    "DisplayText",
+    "DisplayRichText",
+    "Divider",
+  ]);
+
+  private isScreenInputField(field: Record<string, any>): boolean {
+    if (FlowDataFlow.DISPLAY_ONLY_FIELD_TYPES.has(field.fieldType)) return false;
+    // Anything that captures or stores a value: input fields, component
+    // instances with automatic output, or fields declaring a data type.
+    return (
+      !!field.dataType ||
+      field.storeOutputAutomatically === true ||
+      field.storeOutputAutomatically === "true" ||
+      field.fieldType === "InputField" ||
+      field.fieldType === "PasswordField" ||
+      field.fieldType === "ComponentInstance"
+    );
   }
 
   private processCustomError(el: Record<string, any>, reads: Set<string>): void {

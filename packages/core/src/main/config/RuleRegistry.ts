@@ -33,6 +33,7 @@ import { MissingStartReference } from "../rules/MissingStartReference";
 import { TransformInsteadOfLoop } from "../rules/TransformInsteadOfLoop";
 import { RecordIdAsString } from "../rules/RecordIdAsString";
 import { UnresolvedSubflow } from "../rules/UnresolvedSubflow";
+import { PreventPassingUserDataIntoElementWithSharing } from "../rules/PreventPassingUserDataIntoElementWithSharing";
 
 type RuleConstructor = new () => IRuleDefinition;
 
@@ -200,6 +201,7 @@ registry.register("missing-start-reference", MissingStartReference, "MissingStar
 registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", { isBeta: true });
 registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", { isBeta: true });
 registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", { isBeta: true });
+registry.register("prevent-passing-user-data-into-element-with-sharing", PreventPassingUserDataIntoElementWithSharing, "PreventPassingUserDataIntoElementWithSharing", { isBeta: true });
 
 // System rules - catch issues prevented by Flow Builder UI (valuable for AI-edited XML).
 // Disabled by default; enable with systemRules: true.
