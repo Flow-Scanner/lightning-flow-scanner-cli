@@ -25,9 +25,20 @@ import { Violation } from "./main/models/Violation";
 import { DEFAULT_ICONS, ASCII_ICONS, type NodeIconConfig } from "./main/config/NodeIcons";
 import { DEFAULT_VARIABLE_ICONS, ASCII_VARIABLE_ICONS, type VariableIconConfig } from "./main/config/VariableIcons";
 import { exportDiagram, type DiagramOptions } from "./main/libs/ExportDiagram";
+import {
+  NoOpResolver,
+  PreloadedResolver,
+  defaultResolver,
+  type SubflowResolver,
+  type SubflowResolutionContext,
+  type ResolvedSubflow,
+} from "./main/libs/SubflowResolver";
 
 export {
   Compiler,
+  NoOpResolver,
+  PreloadedResolver,
+  defaultResolver,
   exportDetails,
   exportDiagram,
   exportSarif,
@@ -56,4 +67,4 @@ export {
   countThresholdViolations,
   filterByThreshold,
 };
-export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig };
+export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, SubflowResolutionContext, ResolvedSubflow };

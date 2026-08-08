@@ -13,7 +13,7 @@ export function GetRuleDefinitions(
   const rulesMode = options?.ruleMode || "merged";
   const selectedRules: IRuleDefinition[] = [];
 
-  const ruleIds = ruleRegistry.getAllRuleIds(includeBeta);
+  const ruleIds = ruleRegistry.getAllRuleIds({ includeBeta, includeSystem });
 
   // ISOLATED MODE
   if (rulesMode === "isolated" && ruleConfig && ruleConfig.size > 0) {
