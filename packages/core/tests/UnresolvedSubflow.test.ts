@@ -166,7 +166,7 @@ describe("UnresolvedSubflow System Rule", () => {
 
       const violation = violations[0].details[0];
       expect(violation.name).toBe("Call_Child_Flow");
-      expect(violation.details?.referencedFlow).toBe("Child_With_DML");
+      expect(violation.referencedFlow).toBe("Child_With_DML");
     });
 
     it("should flag nested unresolved subflows", () => {
@@ -278,7 +278,7 @@ describe("UnresolvedSubflow System Rule", () => {
         .filter(rr => rr.ruleId === "unresolved-subflow" && rr.occurs);
 
       expect(violations.length).toBe(1);
-      expect(violations[0].details[0].details?.error).toContain("missing the flowName attribute");
+      expect(violations[0].details[0].description).toContain("missing the flowName attribute");
     });
   });
 });

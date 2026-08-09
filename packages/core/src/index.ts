@@ -5,12 +5,12 @@ import type { IRulesConfig, RuleCategory, Severity, Threshold } from "./main/int
 import { SEVERITY_ORDER, meetsThreshold, countThresholdViolations, filterByThreshold } from "./main/interfaces/IRulesConfig";
 import type { FlatViolation } from "./main/models/FlatViolation";
 import { Compiler } from "./main/libs/Compiler";
-import { exportDetails } from "./main/libs/ExportDetails";
+import { flatten } from "./main/libs/Flatten";
 import { exportSarif } from "./main/libs/ExportSarif";
 import { fix } from "./main/libs/FixFlows";
 import { getRules } from "./main/libs/GetRuleDefinitions";
 import { parse } from "./main/libs/ParseFlows";
-import { scan } from "./main/libs/ScanFlows";
+import { scan, scanFlat } from "./main/libs/ScanFlows";
 import { Flow } from "./main/models/Flow";
 import { FlowAttribute } from "./main/models/FlowAttribute";
 import { FlowElement } from "./main/models/FlowElement";
@@ -53,7 +53,7 @@ export {
   buildResolver,
   parseFlowXml,
   createFlowParser,
-  exportDetails,
+  flatten,
   exportDiagram,
   exportSarif,
   fix,
@@ -70,6 +70,7 @@ export {
   Violation,
   RuleResult,
   scan,
+  scanFlat,
   ScanResult,
   DEFAULT_ICONS,
   ASCII_ICONS,

@@ -59,10 +59,7 @@ export class UnresolvedSubflow extends RuleCommon implements IRuleDefinition {
       if (!subflowName) {
         // Missing flowName attribute - definitely an error
         const violation = new Violation(node);
-        violation.details = {
-          ...violation.details,
-          error: "Subflow element is missing the flowName attribute",
-        };
+        violation.description = "Subflow element is missing the flowName attribute";
         violations.push(violation);
         continue;
       }
@@ -75,11 +72,8 @@ export class UnresolvedSubflow extends RuleCommon implements IRuleDefinition {
       // Check if the subflow can be resolved
       if (!resolver.has(subflowName)) {
         const violation = new Violation(node);
-        violation.details = {
-          ...violation.details,
-          referencedFlow: subflowName,
-          error: `Referenced flow "${subflowName}" could not be found`,
-        };
+        violation.referencedFlow = subflowName;
+        violation.description = `Referenced flow "${subflowName}" could not be found`;
         violations.push(violation);
       }
     }

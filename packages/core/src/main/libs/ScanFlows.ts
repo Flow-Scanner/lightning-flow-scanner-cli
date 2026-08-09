@@ -7,8 +7,10 @@ import {
 } from "../../main/internals/internals";
 import { DetailLevel, meetsThreshold } from "../interfaces/IRulesConfig";
 import { ParsedFlow } from "../models/ParsedFlow";
-import { enrichViolationsWithLineNumbers } from "../models/Violation";
+import { enrichViolationsWithLineNumbers, stripViolationDetails } from "../models/Violation";
+import { FlatViolation } from "../models/FlatViolation";
 import { GetRuleDefinitions } from "./GetRuleDefinitions";
+import { flatten } from "./Flatten";
 import { getRuleDocumentationUrl } from "./RuleDocumentation";
 
 function getRuleConfigByIdOrName(
@@ -48,6 +50,15 @@ export function scan(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): Sca
   }
   const scanResults = ScanFlows(flows, ruleOptions);
   return scanResults;
+}
+
+/**
+ * Scan and return one flat, uniformly-typed record per violation — the
+ * primary output shape for downstream consumers (CSV, CI annotations,
+ * dashboards). Use scan() when the per-flow tree is needed (e.g. SARIF).
+ */
+export function scanFlat(parsedFlows: ParsedFlow[], ruleOptions?: IRulesConfig): FlatViolation[] {
+  return flatten(scan(parsedFlows, ruleOptions));
 }
 
 export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult[] {
@@ -136,9 +147,7 @@ export function ScanFlows(flows: Flow[], ruleOptions?: IRulesConfig): ScanResult
   if (detailLevel === DetailLevel.SIMPLE) {
     flowResults.forEach(scanResult => {
       scanResult.ruleResults.forEach(ruleResult => {
-        ruleResult.details.forEach(violation => {
-          delete violation.details;
-        });
+        ruleResult.details.forEach(stripViolationDetails);
       });
     });
   }

@@ -18,7 +18,7 @@ const {
   parse: parseFlows,
   scan: scanFlows,
   exportSarif: exportSarif,
-  exportDetails: exportDetails,
+  flatten: flattenResults,
 } = pkg;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -168,8 +168,8 @@ export default class Scan extends SfCommand<Output> {
       this.error(`Scan failed: ${(err as Error).message}`);
     }
     this.debug("Does every scanResult have fsPath?", scanResults.some(r => !r.flow?.fsPath));
-    // ---- 6. Use exportDetails to get flattened results with line numbers ----
-    const flatResults = exportDetails(scanResults, true); // includeDetails=true for full info
+    // ---- 6. Flatten to one self-contained record per violation --------------
+    const flatResults = flattenResults(scanResults);
     this.flatResults = flatResults;
 
     // ---- 8. Handle output formats -------------------------------------------
@@ -251,6 +251,13 @@ export default class Scan extends SfCommand<Output> {
       "locationY",
       "connectsTo",
       "expression",
+      "description",
+      "referencedFlow",
+      "referencedElement",
+      "referencedType",
+      "callChain",
+      "taintedVariables",
+      "sinkType",
     ];
 
     const records = flatResults.map(r => ({
@@ -269,8 +276,15 @@ export default class Scan extends SfCommand<Output> {
       dataType: r.dataType ?? "",
       locationX: r.locationX ?? "",
       locationY: r.locationY ?? "",
-      connectsTo: r.connectsTo ?? "",
+      connectsTo: (r.connectsTo ?? []).join(", "),
       expression: r.expression ?? "",
+      description: r.description ?? "",
+      referencedFlow: r.referencedFlow ?? "",
+      referencedElement: r.referencedElement ?? "",
+      referencedType: r.referencedType ?? "",
+      callChain: (r.callChain ?? []).join(" -> "),
+      taintedVariables: (r.taintedVariables ?? []).join(", "),
+      sinkType: r.sinkType ?? "",
     }));
 
     return csvStringify(records, {
@@ -350,6 +364,13 @@ export default class Scan extends SfCommand<Output> {
       locationY: r.locationY,
       connectsTo: r.connectsTo,
       expression: r.expression,
+      description: r.description,
+      referencedFlow: r.referencedFlow,
+      referencedElement: r.referencedElement,
+      referencedType: r.referencedType,
+      callChain: r.callChain,
+      taintedVariables: r.taintedVariables,
+      sinkType: r.sinkType,
     }));
   }
 }

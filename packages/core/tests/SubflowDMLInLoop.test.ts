@@ -99,8 +99,8 @@ describe("Subflow Resolution - DML in Loop Detection", () => {
       // The violation should be on the subflow call node
       const violation = dmlInLoopViolations[0].details[0];
       expect(violation.name).toBe("Call_Child_Flow");
-      expect(violation.details?.subflowName).toBe("Child_With_DML");
-      expect(violation.details?.subflowViolatingElement).toBe("Create_Task");
+      expect(violation.referencedFlow).toBe("Child_With_DML");
+      expect(violation.referencedElement).toBe("Create_Task");
     });
   });
 
@@ -138,8 +138,8 @@ describe("Subflow Resolution - DML in Loop Detection", () => {
       expect(violation.name).toBe("Call_Middle_Flow");
 
       // Should show the full call chain
-      expect(violation.details?.subflowCallChain).toEqual(["Middle_Flow", "Child_With_DML"]);
-      expect(violation.details?.subflowViolatingElement).toBe("Create_Task");
+      expect(violation.callChain).toEqual(["Middle_Flow", "Child_With_DML"]);
+      expect(violation.referencedElement).toBe("Create_Task");
     });
 
     it("should handle missing flows in chain gracefully", () => {

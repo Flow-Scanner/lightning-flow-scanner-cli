@@ -56,16 +56,15 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
       for (const sv of subflowViolations) {
         // Check suppression on the subflow call node (not the internal node)
         if (!suppressions.has(sv.subflowNode.name)) {
-          // Create violation on the subflow node with details about the internal issue
+          // Report on the subflow call node, pointing at the internal issue
           const violation = new Violation(sv.subflowNode);
-          violation.details = {
-            ...violation.details,
-            subflowName: sv.childFlow.name,
-            subflowViolatingElement: sv.violatingNode.name,
-            subflowViolatingType: sv.violatingNode.subtype,
-            // Include call chain for nested subflows (e.g., ["FlowA", "FlowB", "FlowC"])
-            ...(sv.callChain ? { subflowCallChain: sv.callChain } : {}),
-          };
+          violation.referencedFlow = sv.childFlow.name;
+          violation.referencedElement = sv.violatingNode.name;
+          violation.referencedType = sv.violatingNode.subtype;
+          // Call chain for nested subflows (e.g., ["FlowA", "FlowB", "FlowC"])
+          if (sv.callChain) {
+            violation.callChain = sv.callChain;
+          }
           results.push(violation);
         }
       }

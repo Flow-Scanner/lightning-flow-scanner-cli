@@ -73,24 +73,21 @@ export class PreventPassingUserDataIntoElementWithSharing
       if (!node) continue;
 
       const violation = new Violation(node);
-      violation.details = {
-        ...violation.details,
-        ...this.describe(finding),
-      };
+      Object.assign(violation, this.describe(finding));
       violations.push(violation);
     }
 
     return violations;
   }
 
-  private describe(finding: TaintFinding): Record<string, unknown> {
+  private describe(finding: TaintFinding): Partial<Violation> {
     const tainted = finding.taintedVariables.join(", ");
     if (finding.kind === "cross-sharing") {
       return {
         taintedVariables: finding.taintedVariables,
         referencedFlow: finding.targetFlow,
         ...(finding.callChain ? { callChain: finding.callChain } : {}),
-        error:
+        description:
           `User-controlled data (${tainted}) is passed into subflow ` +
           `"${finding.targetFlow}", which runs in System Mode Without Sharing.`,
       };
@@ -98,7 +95,7 @@ export class PreventPassingUserDataIntoElementWithSharing
     return {
       taintedVariables: finding.taintedVariables,
       sinkType: finding.sinkType,
-      error:
+      description:
         `User-controlled data (${tainted}) reaches a ${finding.sinkType} operation ` +
         `in a flow running in System Mode Without Sharing.`,
     };

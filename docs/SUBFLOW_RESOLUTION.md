@@ -428,16 +428,14 @@ Parent Flow (has loop)
                               └── DML Operation ← VIOLATION DETECTED!
 ```
 
-**Violation details include the full call chain:**
+**The violation carries the full call chain — flat, at the top level:**
 ```typescript
 {
-  name: "Call_Middle_Flow",  // The subflow call in the loop
-  details: {
-    subflowName: "Child_Flow",           // Flow containing the violation
-    subflowViolatingElement: "Create_Record",
-    subflowViolatingType: "recordCreates",
-    subflowCallChain: ["Middle_Flow", "Child_Flow"]  // Full path
-  }
+  name: "Call_Middle_Flow",              // The subflow call in the loop
+  referencedFlow: "Child_Flow",          // Flow containing the violation
+  referencedElement: "Create_Record",
+  referencedType: "recordCreates",
+  callChain: ["Middle_Flow", "Child_Flow"]  // Full path
 }
 ```
 
