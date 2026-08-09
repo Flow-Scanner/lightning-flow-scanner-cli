@@ -255,10 +255,10 @@ async function handleScanFlows(connection: SalesforceConnection, flowNames: stri
   }
 
   // 5. Scan with full subflow resolution
-  const parsedFlows = flowNames.map(name => {
-    const resolved = resolver.has(name) ? resolver['flows'].get(name)?.flow : undefined;
-    return { flow: resolved };
-  }).filter(p => p.flow);
+  const resolved = await Promise.all(flowNames.map(name => resolver.resolve(name)));
+  const parsedFlows = resolved
+    .filter(r => r.flow)
+    .map(r => ({ flow: r.flow }));
 
   return scan(parsedFlows, { subflowResolver: resolver });
 }
@@ -395,7 +395,7 @@ class FileSystemResolver implements SubflowResolver {
 interface FileSystemResolverOptions {
   searchPaths: string[];      // Directories to search
   ignorePatterns?: string[];  // Glob patterns to ignore
-  eager?: boolean;            // Load all flows immediately (default: false)
+  eager?: boolean;            // Load all flows immediately (default: true)
   skipManaged?: boolean;      // Skip ns__FlowName flows (default: true)
 }
 ```
@@ -577,12 +577,12 @@ System rules are particularly useful when:
 
 4. **Handle Missing Subflows**: The scanner gracefully handles missing flows - violations in unreachable subflows simply won't be detected.
 
-5. **Use Eager Loading for Node.js**: With `FileSystemResolver`, use `eager: true` or call `loadAll()` to pre-load all flows for recursive resolution:
+5. **Keep Eager Loading On for Node.js**: `FileSystemResolver` pre-loads all flows by default (`eager: true`) because rules resolve subflows synchronously — with `eager: false`, cross-flow analysis silently finds nothing unless you call `loadAll()` before scanning:
 
 ```typescript
 const resolver = await FileSystemResolver.create({
   searchPaths: ['/path/to/flows'],
-  eager: true,  // Pre-loads all flows for recursive resolution
+  // eager defaults to true — only disable it if you call loadAll() yourself
 });
 ```
 

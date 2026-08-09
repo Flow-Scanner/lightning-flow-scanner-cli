@@ -20,7 +20,9 @@ export interface FileSystemResolverOptions {
   searchPaths: string[];
   /** Patterns to ignore (merged with .gitignore) */
   ignorePatterns?: string[];
-  /** Whether to eagerly load all flows on init (default: false = lazy loading) */
+  /** Whether to eagerly load all flows on init. Defaults to true: rules resolve
+   * subflows synchronously via getSync(), which only sees loaded flows — lazy
+   * mode silently disables cross-flow analysis unless loadAll() is called. */
   eager?: boolean;
   /** Skip managed packages (flows with namespace prefix). Default: true */
   skipManaged?: boolean;
@@ -51,6 +53,7 @@ export class FileSystemResolver implements SubflowResolver {
   private constructor(options: FileSystemResolverOptions) {
     this.options = {
       skipManaged: true,
+      eager: true,
       ...options,
     };
   }
@@ -63,7 +66,7 @@ export class FileSystemResolver implements SubflowResolver {
     const resolver = new FileSystemResolver(options);
     await resolver.buildIndex();
 
-    if (options.eager) {
+    if (resolver.options.eager) {
       await resolver.loadAll();
     }
 
