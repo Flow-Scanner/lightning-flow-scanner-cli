@@ -56,7 +56,22 @@ export function runsWithoutSharing(flow: Flow): boolean {
  * analysis follows subflow calls via the resolver, with cycle detection.
  */
 export class TaintAnalyzer {
+  /** Def-use graphs are pure derivations of a flow's structure, so they are
+   * memoized by flow name for the analyzer's lifetime — a shared utility
+   * subflow referenced by many flows is only analyzed structurally once. */
+  private readonly dataFlowCache = new Map<string, FlowDataFlow>();
+
   constructor(private readonly resolver?: SubflowResolver) {}
+
+  /** Get (or build and cache) the def-use graph for a flow. */
+  public getDataFlow(flow: Flow): FlowDataFlow {
+    let dataFlow = this.dataFlowCache.get(flow.name);
+    if (!dataFlow) {
+      dataFlow = new FlowDataFlow(flow);
+      this.dataFlowCache.set(flow.name, dataFlow);
+    }
+    return dataFlow;
+  }
 
   /** Collect the initial set of untrusted (tainted) variables for a flow. */
   public collectSeeds(dataFlow: FlowDataFlow, options: TaintSeedOptions = {}): Set<string> {
@@ -196,7 +211,7 @@ export class TaintAnalyzer {
     if (!callee) return;
 
     const currentChain = [...chain, flowName];
-    const calleeDataFlow = new FlowDataFlow(callee);
+    const calleeDataFlow = this.getDataFlow(callee);
     const calleeTainted = this.computeTaintedVariables(
       callee,
       calleeDataFlow,

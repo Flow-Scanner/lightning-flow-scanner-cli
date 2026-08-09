@@ -2,7 +2,6 @@ import { Flow, FlowNode, Violation } from "../internals/internals";
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import { FlowType } from "../models/FlowType";
 import { RuleCommon } from "../models/RuleCommon";
-import { FlowDataFlow } from "../models/FlowDataFlow";
 import { SubflowResolver } from "../libs/SubflowResolver";
 import { TaintAnalyzer, TaintFinding } from "../libs/TaintAnalyzer";
 
@@ -28,6 +27,12 @@ export class PreventPassingUserDataIntoElementWithSharing
   extends RuleCommon
   implements IRuleDefinition
 {
+  // The analyzer memoizes def-use graphs, so it is kept for the rule
+  // instance's lifetime (one scan) rather than rebuilt per flow — shared
+  // subflows are then analyzed once per scan instead of once per caller.
+  private analyzer?: TaintAnalyzer;
+  private analyzerResolver?: SubflowResolver;
+
   constructor() {
     super(
       {
@@ -53,9 +58,13 @@ export class PreventPassingUserDataIntoElementWithSharing
     options: PreventPassingUserDataOptions | undefined,
     suppressions: Set<string>
   ): Violation[] {
-    const dataFlow = new FlowDataFlow(flow);
-    const analyzer = new TaintAnalyzer(options?.subflowResolver);
-    const findings = analyzer.findViolations(flow, dataFlow);
+    const resolver = options?.subflowResolver;
+    if (!this.analyzer || this.analyzerResolver !== resolver) {
+      this.analyzer = new TaintAnalyzer(resolver);
+      this.analyzerResolver = resolver;
+    }
+    const dataFlow = this.analyzer.getDataFlow(flow);
+    const findings = this.analyzer.findViolations(flow, dataFlow);
 
     const violations: Violation[] = [];
     for (const finding of findings) {
