@@ -5,7 +5,6 @@ import {
   parse,
   Flow,
   type SubflowResolver,
-  type SubflowResolutionContext,
   type ResolvedSubflow,
 } from "@flow-scanner/lightning-flow-scanner-core";
 
@@ -192,7 +191,7 @@ export class FileSystemResolver implements SubflowResolver {
     await Promise.all(flowNames.map((name) => this.loadFlow(name)));
   }
 
-  async resolve(flowName: string, _context?: SubflowResolutionContext): Promise<ResolvedSubflow> {
+  async resolve(flowName: string): Promise<ResolvedSubflow> {
     const isManaged = this.managedFlows.has(flowName);
 
     if (isManaged && this.options.skipManaged) {
@@ -214,10 +213,7 @@ export class FileSystemResolver implements SubflowResolver {
     };
   }
 
-  async resolveMany(
-    flowNames: string[],
-    _context?: SubflowResolutionContext
-  ): Promise<Map<string, ResolvedSubflow>> {
+  async resolveMany(flowNames: string[]): Promise<Map<string, ResolvedSubflow>> {
     const results = new Map<string, ResolvedSubflow>();
 
     await Promise.all(

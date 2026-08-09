@@ -4,7 +4,6 @@ import { promises as fs } from "fs";
 import pkg, {
   type Flow,
   type SubflowResolver,
-  type SubflowResolutionContext,
   type ResolvedSubflow,
 } from "@flow-scanner/lightning-flow-scanner-core";
 import { loadIgnorePatterns } from "./LoadIgnorePatterns.js";
@@ -223,7 +222,7 @@ export class FileSystemResolver implements SubflowResolver {
   /**
    * Resolve a single subflow.
    */
-  async resolve(flowName: string, _context?: SubflowResolutionContext): Promise<ResolvedSubflow> {
+  async resolve(flowName: string): Promise<ResolvedSubflow> {
     const isManaged = this.managedFlows.has(flowName);
 
     // Skip managed flows if configured
@@ -249,10 +248,7 @@ export class FileSystemResolver implements SubflowResolver {
   /**
    * Resolve multiple subflows at once.
    */
-  async resolveMany(
-    flowNames: string[],
-    _context?: SubflowResolutionContext
-  ): Promise<Map<string, ResolvedSubflow>> {
+  async resolveMany(flowNames: string[]): Promise<Map<string, ResolvedSubflow>> {
     const results = new Map<string, ResolvedSubflow>();
 
     // Load all in parallel

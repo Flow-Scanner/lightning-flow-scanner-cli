@@ -1,6 +1,7 @@
 import { IRuleDefinition } from "../interfaces/IRuleDefinition";
 import { Flow, FlowNode, Violation } from "../internals/internals";
 import { SubflowResolver } from "../libs/SubflowResolver";
+import { SubflowWalkStep, walkSubflowChainSync } from "../libs/SubflowWalker";
 import { RuleCommon } from "./RuleCommon";
 import { RuleInfo } from "./RuleInfo";
 
@@ -21,9 +22,6 @@ interface SubflowViolation {
 }
 
 export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefinition {
-  // Cache for resolved subflows during a single check
-  private resolvedSubflows: Map<string, Flow | undefined> = new Map();
-
   constructor(info: RuleInfo, optional?: { severity?: string }) {
     super(info, optional);
   }
@@ -33,9 +31,6 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
     options: LoopRuleOptions | undefined,
     suppressions: Set<string>
   ): Violation[] {
-    // Clear cache for each flow check
-    this.resolvedSubflows.clear();
-
     const loopElements = flow.graph.getLoopNodes();
     if (!loopElements.length) {
       return [];
@@ -131,15 +126,14 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
         const subflowName = node.flowName;
         if (!subflowName) continue;
 
-        // Recursively find violations in this subflow and its children
-        const subflowViolations = this.findViolationsInSubflowRecursive(
-          subflowName,
-          node,
+        // Walk this subflow and its nested subflows for violating statements,
+        // always reporting on the original subflow call node in the loop.
+        walkSubflowChainSync<null>(
           resolver,
-          new Set<string>() // Track visited flows to prevent infinite loops
+          { flowName: subflowName, payload: null },
+          (childFlow, _payload, chain) =>
+            this.collectSubflowViolations(childFlow, chain, node, violations)
         );
-
-        violations.push(...subflowViolations);
       }
     }
 
@@ -147,74 +141,35 @@ export abstract class LoopRuleCommon extends RuleCommon implements IRuleDefiniti
   }
 
   /**
-   * Recursively check a subflow (and its nested subflows) for violating statements.
-   * @param subflowName - The API name of the subflow to check
-   * @param originalSubflowNode - The original subflow node in the parent flow (for reporting)
-   * @param resolver - The subflow resolver
-   * @param visited - Set of already-visited flow names to prevent cycles
-   * @param callChain - Optional chain of flow names for detailed reporting
+   * Walk callback for one resolved subflow: record its violating statements
+   * and continue into its nested subflow calls.
    */
-  private findViolationsInSubflowRecursive(
-    subflowName: string,
+  private collectSubflowViolations(
+    childFlow: Flow,
+    chain: string[],
     originalSubflowNode: FlowNode,
-    resolver: SubflowResolver,
-    visited: Set<string>,
-    callChain: string[] = []
-  ): SubflowViolation[] {
-    const violations: SubflowViolation[] = [];
+    violations: SubflowViolation[]
+  ): SubflowWalkStep<null>[] {
     const statementTypes = this.getStatementTypes();
+    const nested: SubflowWalkStep<null>[] = [];
 
-    // Prevent infinite recursion from circular subflow references
-    if (visited.has(subflowName)) {
-      return violations;
-    }
-    visited.add(subflowName);
-
-    // Check if resolver has this flow
-    if (!resolver.has(subflowName)) {
-      return violations;
-    }
-
-    // Get from cache or resolve synchronously
-    let childFlow = this.resolvedSubflows.get(subflowName);
-    if (childFlow === undefined && !this.resolvedSubflows.has(subflowName)) {
-      childFlow = resolver.getSync!(subflowName);
-      this.resolvedSubflows.set(subflowName, childFlow);
-    }
-
-    if (!childFlow) {
-      return violations;
-    }
-
-    const currentChain = [...callChain, subflowName];
-
-    // Check all elements in the child flow
     for (const childElement of childFlow.elements) {
       if (!(childElement instanceof FlowNode)) continue;
 
-      // Check for direct violations
       if (statementTypes.includes(childElement.subtype)) {
         violations.push({
           subflowNode: originalSubflowNode,
           violatingNode: childElement,
           childFlow: childFlow,
-          callChain: currentChain.length > 1 ? currentChain : undefined,
+          callChain: chain.length > 1 ? chain : undefined,
         });
       }
 
-      // Recursively check nested subflows
       if (childElement.subtype === "subflows" && childElement.flowName) {
-        const nestedViolations = this.findViolationsInSubflowRecursive(
-          childElement.flowName,
-          originalSubflowNode, // Keep reporting on the original subflow call
-          resolver,
-          visited,
-          currentChain
-        );
-        violations.push(...nestedViolations);
+        nested.push({ flowName: childElement.flowName, payload: null });
       }
     }
 
-    return violations;
+    return nested;
   }
 }

@@ -30,7 +30,6 @@ import {
   PreloadedResolver,
   defaultResolver,
   type SubflowResolver,
-  type SubflowResolutionContext,
   type ResolvedSubflow,
 } from "./main/libs/SubflowResolver";
 import {
@@ -76,4 +75,4 @@ export {
   countThresholdViolations,
   filterByThreshold,
 };
-export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, SubflowResolutionContext, ResolvedSubflow, FlowSource, BuildResolverOptions };
+export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, ResolvedSubflow, FlowSource, BuildResolverOptions };

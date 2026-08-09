@@ -53,18 +53,17 @@ This document explains how to enable subflow resolution in different environment
 ```typescript
 interface SubflowResolver {
   // Resolve a single subflow by API name
-  resolve(flowName: string, context?: SubflowResolutionContext): Promise<ResolvedSubflow>;
+  resolve(flowName: string): Promise<ResolvedSubflow>;
 
   // Resolve multiple subflows at once
-  resolveMany(flowNames: string[], context?: SubflowResolutionContext): Promise<Map<string, ResolvedSubflow>>;
+  resolveMany(flowNames: string[]): Promise<Map<string, ResolvedSubflow>>;
 
   // Check if a subflow is available
   has(flowName: string): boolean;
-}
 
-interface SubflowResolutionContext {
-  parentFlow: Flow;        // The parent flow containing the subflow reference
-  parentFlowPath?: string; // File path of the parent flow (if available)
+  // Synchronous access to an already-loaded flow — this is what rules use
+  // during check(), so cross-flow analysis only sees pre-loaded flows
+  getSync?(flowName: string): Flow | undefined;
 }
 
 interface ResolvedSubflow {
@@ -387,9 +386,10 @@ class FileSystemResolver implements SubflowResolver {
   refresh(): Promise<void>;
 
   // SubflowResolver interface
-  resolve(flowName: string, context?: SubflowResolutionContext): Promise<ResolvedSubflow>;
-  resolveMany(flowNames: string[], context?: SubflowResolutionContext): Promise<Map<string, ResolvedSubflow>>;
+  resolve(flowName: string): Promise<ResolvedSubflow>;
+  resolveMany(flowNames: string[]): Promise<Map<string, ResolvedSubflow>>;
   has(flowName: string): boolean;
+  getSync(flowName: string): Flow | undefined;
 }
 
 interface FileSystemResolverOptions {

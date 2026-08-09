@@ -1,17 +1,6 @@
 import { Flow } from "../models/Flow";
 
 /**
- * Context provided when resolving a subflow.
- * Contains information about the parent flow for context-aware resolution.
- */
-export interface SubflowResolutionContext {
-  /** The parent flow containing the subflow reference */
-  parentFlow: Flow;
-  /** File path of the parent flow (if available) */
-  parentFlowPath?: string;
-}
-
-/**
  * Result of subflow resolution
  */
 export interface ResolvedSubflow {
@@ -37,19 +26,17 @@ export interface SubflowResolver {
   /**
    * Resolve a single subflow by its API name.
    * @param flowName - The API name of the subflow
-   * @param context - Context about the parent flow
    * @returns Resolution result with flow or error
    */
-  resolve(flowName: string, context?: SubflowResolutionContext): Promise<ResolvedSubflow>;
+  resolve(flowName: string): Promise<ResolvedSubflow>;
 
   /**
    * Resolve multiple subflows at once.
    * Default implementation calls resolve() for each name.
    * @param flowNames - Array of subflow API names
-   * @param context - Context about the parent flow
    * @returns Map of flow names to resolution results
    */
-  resolveMany(flowNames: string[], context?: SubflowResolutionContext): Promise<Map<string, ResolvedSubflow>>;
+  resolveMany(flowNames: string[]): Promise<Map<string, ResolvedSubflow>>;
 
   /**
    * Check if a subflow is available for resolution.

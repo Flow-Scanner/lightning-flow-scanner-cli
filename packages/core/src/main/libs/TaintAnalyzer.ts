@@ -2,6 +2,7 @@ import { Flow } from "../models/Flow";
 import { FlowNode } from "../models/FlowNode";
 import { FlowDataFlow, SubflowBoundary } from "../models/FlowDataFlow";
 import { SubflowResolver } from "./SubflowResolver";
+import { SubflowWalkStep, walkSubflowChainSync } from "./SubflowWalker";
 
 /** Elements that touch the database — potential sinks for untrusted data. */
 const RECORD_OPERATIONS = new Set([
@@ -169,15 +170,16 @@ export class TaintAnalyzer {
     }
 
     // Cross-subflow: untrusted data handed to a flow running without sharing.
-    if (this.resolver?.getSync) {
+    const resolver = this.resolver;
+    if (resolver?.getSync) {
       for (const boundary of dataFlow.getSubflowBoundaries()) {
         const taintedInputs = this.taintedCalleeInputs(boundary, tainted);
         if (taintedInputs.length === 0 || !boundary.flowName) continue;
-        this.traceSubflowChain(
-          boundary.nodeName,
-          boundary.flowName,
-          taintedInputs,
-          findings,
+        walkSubflowChainSync<string[]>(
+          resolver,
+          { flowName: boundary.flowName, payload: taintedInputs },
+          (callee, calleeInputs, chain) =>
+            this.visitTaintedCallee(callee, calleeInputs, chain, boundary.nodeName, findings),
           new Set<string>([flow.name]),
           [flow.name]
         );
@@ -187,30 +189,17 @@ export class TaintAnalyzer {
     return findings;
   }
 
-  private taintedCalleeInputs(
-    boundary: SubflowBoundary,
-    tainted: Set<string>
-  ): string[] {
-    return boundary.inputs
-      .filter((i) => i.callerRefs.some((r) => tainted.has(r)))
-      .map((i) => i.calleeVar);
-  }
-
-  private traceSubflowChain(
-    reportNode: string,
-    flowName: string,
+  /**
+   * Walk callback for one tainted subflow call: report the callee if it runs
+   * without sharing, and continue into deeper calls that still carry taint.
+   */
+  private visitTaintedCallee(
+    callee: Flow,
     taintedCalleeInputs: string[],
-    findings: TaintFinding[],
-    visited: Set<string>,
-    chain: string[]
-  ): void {
-    if (visited.has(flowName)) return;
-    visited.add(flowName);
-
-    const callee = this.resolver?.getSync?.(flowName);
-    if (!callee) return;
-
-    const currentChain = [...chain, flowName];
+    chain: string[],
+    reportNode: string,
+    findings: TaintFinding[]
+  ): SubflowWalkStep<string[]>[] {
     const calleeDataFlow = this.getDataFlow(callee);
     const calleeTainted = this.computeTaintedVariables(
       callee,
@@ -224,24 +213,28 @@ export class TaintAnalyzer {
         kind: "cross-sharing",
         sinkType: "subflows",
         taintedVariables: taintedCalleeInputs,
-        targetFlow: flowName,
-        callChain: currentChain.length > 1 ? currentChain : undefined,
+        targetFlow: chain[chain.length - 1],
+        callChain: chain.length > 1 ? chain : undefined,
       });
     }
 
-    // Follow deeper subflow calls that continue to carry tainted data.
+    const deeperSteps: SubflowWalkStep<string[]>[] = [];
     for (const boundary of calleeDataFlow.getSubflowBoundaries()) {
       const deeper = this.taintedCalleeInputs(boundary, calleeTainted);
       if (deeper.length > 0 && boundary.flowName) {
-        this.traceSubflowChain(
-          reportNode,
-          boundary.flowName,
-          deeper,
-          findings,
-          visited,
-          currentChain
-        );
+        deeperSteps.push({ flowName: boundary.flowName, payload: deeper });
       }
     }
+    return deeperSteps;
   }
+
+  private taintedCalleeInputs(
+    boundary: SubflowBoundary,
+    tainted: Set<string>
+  ): string[] {
+    return boundary.inputs
+      .filter((i) => i.callerRefs.some((r) => tainted.has(r)))
+      .map((i) => i.calleeVar);
+  }
+
 }

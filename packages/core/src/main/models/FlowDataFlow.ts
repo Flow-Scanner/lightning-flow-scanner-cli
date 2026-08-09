@@ -14,7 +14,9 @@ export interface NodeDefUse {
   writes: Set<string>;
 }
 
-/** The data-flow boundary of a subflow call: caller <-> callee variable mapping. */
+/** The data-flow boundary of a subflow call: caller -> callee input mapping.
+ * (Output-side mapping is intentionally absent: callee outputs are tracked
+ * conservatively as plain writes of the subflow call node.) */
 export interface SubflowBoundary {
   /** Name of the subflow call node in the parent flow. */
   nodeName: string;
@@ -22,8 +24,6 @@ export interface SubflowBoundary {
   flowName?: string;
   /** For each callee input variable, the caller references feeding it. */
   inputs: Array<{ calleeVar: string; callerRefs: string[] }>;
-  /** For each caller variable written from output, the callee variable feeding it. */
-  outputs: Array<{ callerVar: string; calleeVar: string }>;
 }
 
 /**
@@ -233,7 +233,6 @@ export class FlowDataFlow {
       nodeName: node.name,
       flowName: node.flowName,
       inputs: [],
-      outputs: [],
     };
     for (const ia of asArray(el?.inputAssignments)) {
       const ref = valueReference(ia?.value);
@@ -246,14 +245,7 @@ export class FlowDataFlow {
       }
     }
     for (const oa of asArray(el?.outputAssignments)) {
-      const target = oa?.assignToReference;
-      this.addBase(writes, target);
-      if (oa?.name && target) {
-        boundary.outputs.push({
-          callerVar: baseVariable(target),
-          calleeVar: oa.name,
-        });
-      }
+      this.addBase(writes, oa?.assignToReference);
     }
     this.subflowBoundaries.set(node.name, boundary);
   }
