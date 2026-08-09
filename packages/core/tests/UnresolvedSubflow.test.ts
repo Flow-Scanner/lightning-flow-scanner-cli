@@ -225,6 +225,35 @@ describe("UnresolvedSubflow System Rule", () => {
     });
   });
 
+  describe("Managed package subflows", () => {
+    it("should NOT flag references to managed-package subflows", () => {
+      // ns__FlowName references live in the installed package, never in local
+      // source — the resolver can't see them, but that's not an error.
+      const flowWithManagedSubflow = new Flow("Managed_Subflow_Caller", {
+        label: "Managed Subflow Caller",
+        processType: "AutoLaunchedFlow",
+        status: "Active",
+        subflows: [{
+          name: "Call_Managed_Flow",
+          flowName: "npsp__Recurring_Donation",
+        }],
+      });
+
+      const results = scan([{ flow: flowWithManagedSubflow }], {
+        rules: {},
+        systemRules: true,
+        betaMode: true,
+        subflowResolver: new PreloadedResolver(),
+      });
+
+      const violations = results
+        .flatMap(r => r.ruleResults)
+        .filter(rr => rr.ruleId === "unresolved-subflow" && rr.occurs);
+
+      expect(violations.length).toBe(0);
+    });
+  });
+
   describe("Programmatic flow with missing flowName attribute", () => {
     it("should flag subflow element missing flowName", () => {
       const flowWithBadSubflow = new Flow("Bad_Subflow_Reference", {

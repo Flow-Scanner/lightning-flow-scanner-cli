@@ -67,6 +67,11 @@ export class UnresolvedSubflow extends RuleCommon implements IRuleDefinition {
         continue;
       }
 
+      // Managed-package subflows (ns__FlowName) live in the installed package,
+      // not in local source — resolvers can't see them, so absence is expected
+      // and not an error. Same naming convention as FileSystemResolver.
+      if (subflowName.includes("__")) continue;
+
       // Check if the subflow can be resolved
       if (!resolver.has(subflowName)) {
         const violation = new Violation(node);
