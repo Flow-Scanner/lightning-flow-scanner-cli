@@ -17,7 +17,7 @@ interface UnresolvedSubflowOptions {
  *
  * System rules:
  * - Are not documented in the main README
- * - Can be disabled via `systemRules: false` for performance
+ * - Are opt-in: enable with `systemRules: true`
  * - Only valuable when XML files are edited outside Flow Builder
  */
 export class UnresolvedSubflow extends RuleCommon implements IRuleDefinition {

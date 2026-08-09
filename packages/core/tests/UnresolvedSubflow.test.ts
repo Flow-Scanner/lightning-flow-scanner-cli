@@ -1,5 +1,5 @@
 import * as path from "path";
-import { parse, scan, PreloadedResolver, Flow } from "../src/index";
+import { parse, scan, getRules, PreloadedResolver, Flow } from "../src/index";
 
 const testFlowsDir = path.resolve(__dirname, "../../../example-flows/force-app/testing/subflow-resolution");
 
@@ -63,6 +63,52 @@ describe("UnresolvedSubflow System Rule", () => {
 
       // Rule is beta, so betaMode is also required
       expect(unresolvedSubflowRules.length).toBe(0);
+    });
+
+    it("should NOT include system rules with only betaMode: true (system rules are opt-in)", () => {
+      const results = scan([{ flow: parentFlow }], {
+        rules: {},
+        betaMode: true,
+        // No systemRules key - must default to off
+        subflowResolver: resolver,
+      });
+
+      const unresolvedSubflowRules = results
+        .flatMap(r => r.ruleResults)
+        .filter(rr => rr.ruleId === "unresolved-subflow");
+
+      expect(unresolvedSubflowRules.length).toBe(0);
+    });
+
+    it("should run system rules when explicitly configured in isolated mode", () => {
+      const results = scan([{ flow: parentFlow }], {
+        ruleMode: "isolated",
+        rules: { "unresolved-subflow": { severity: "error" } },
+        // No systemRules key - explicit selection overrides the default gate
+        subflowResolver: resolver,
+      });
+
+      const unresolvedSubflowRules = results
+        .flatMap(r => r.ruleResults)
+        .filter(rr => rr.ruleId === "unresolved-subflow");
+
+      expect(unresolvedSubflowRules.length).toBe(1);
+    });
+
+    it("should gate system rules identically in getRules() and scan()", () => {
+      // Default off in merged mode, for both system rules
+      const merged = getRules(undefined, { betaMode: true });
+      expect(merged.some(r => r.ruleId === "unresolved-subflow")).toBe(false);
+      expect(merged.some(r => r.ruleId === "missing-start-reference")).toBe(false);
+
+      // Opt-in includes both
+      const withSystem = getRules(undefined, { betaMode: true, systemRules: true });
+      expect(withSystem.some(r => r.ruleId === "unresolved-subflow")).toBe(true);
+      expect(withSystem.some(r => r.ruleId === "missing-start-reference")).toBe(true);
+
+      // Explicit selection works without the flag
+      const explicit = getRules(["unresolved-subflow"]);
+      expect(explicit.some(r => r.ruleId === "unresolved-subflow")).toBe(true);
     });
 
     it("should include system rules when both systemRules: true AND betaMode: true", () => {

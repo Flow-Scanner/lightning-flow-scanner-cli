@@ -114,9 +114,8 @@ class RuleRegistry {
         const entry = this.get(key);
         if (!entry) continue;
 
-        // In isolated mode, still respect system rule filtering
-        if (entry.isSystem && !includeSystem) continue;
-
+        // Explicitly configured rules run even when they are system rules — the
+        // systemRules flag only gates default (merged-mode) selection.
         const config = ruleConfig.get(key) as IRuleConfig | undefined;
         if (config?.enabled === false) continue;
 
@@ -197,7 +196,7 @@ registry.register("unused-variable", UnusedVariable, "UnusedVariable");
 
 registry.register("missing-metadata-description", MissingMetadataDescription, "MissingMetadataDescription", { isBeta: true });
 registry.register("missing-record-trigger-filter", MissingRecordTriggerFilter, "MissingFilterRecordTrigger", { isBeta: true });
-registry.register("missing-start-reference", MissingStartReference, "MissingStartReference", { isBeta: true });
+registry.register("missing-start-reference", MissingStartReference, "MissingStartReference", { isBeta: true, isSystem: true });
 registry.register("transform-instead-of-loop", TransformInsteadOfLoop, "TransformInsteadOfLoop", { isBeta: true });
 registry.register("record-id-as-string", RecordIdAsString, "RecordIdAsString", { isBeta: true });
 registry.register("hardcoded-secret", HardcodedSecret, "HardcodedSecret", { isBeta: true });

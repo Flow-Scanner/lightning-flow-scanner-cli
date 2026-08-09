@@ -17,7 +17,7 @@ export const SEVERITY_ORDER: Severity[] = ['error', 'warning', 'note'];
 export interface IRulesConfig {
   betaMode?: boolean;  // Toggles beta rules; defaults to false
   betamode?: boolean;  // Use betaMode instead; to be removed
-  systemRules?: boolean; // Toggles system rules (category: 'system', e.g. unresolved subflows); defaults to true
+  systemRules?: boolean; // Opts into system rules (category: 'system', e.g. unresolved subflows); defaults to false
   categories?: RuleCategory[]; // Filter rules by category; if specified, only these categories run
   threshold?: Threshold; // Minimum severity to report; 'never' means report all but don't fail
   detailLevel?: 'enriched' | 'simple' | DetailLevel;
