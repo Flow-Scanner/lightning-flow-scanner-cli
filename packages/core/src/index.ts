@@ -33,6 +33,11 @@ import {
   type ResolvedSubflow,
 } from "./main/libs/SubflowResolver";
 import {
+  FileSystemResolver,
+  type FileSystemResolverOptions,
+  type FlowFileFinder,
+} from "./main/libs/FileSystemResolver";
+import {
   buildResolver,
   type FlowSource,
   type BuildResolverOptions,
@@ -43,6 +48,7 @@ export {
   Compiler,
   NoOpResolver,
   PreloadedResolver,
+  FileSystemResolver,
   defaultResolver,
   buildResolver,
   parseFlowXml,
@@ -75,4 +81,4 @@ export {
   countThresholdViolations,
   filterByThreshold,
 };
-export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, ResolvedSubflow, FlowSource, BuildResolverOptions };
+export type { ConfigurableOption, FlatViolation, IRuleDefinition, IRulesConfig, RuleCategory, Severity, Threshold, NodeIconConfig, DiagramOptions, VariableIconConfig, SubflowResolver, ResolvedSubflow, FileSystemResolverOptions, FlowFileFinder, FlowSource, BuildResolverOptions };

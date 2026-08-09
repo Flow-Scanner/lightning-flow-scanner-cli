@@ -130,16 +130,6 @@ async function scanWithSubflows(flowPaths: string[], projectRoot: string) {
 }
 ```
 
-**Alternative: Create resolver from a flow's location**
-
-```typescript
-// Resolve sibling flows in the same directory
-const resolver = await FileSystemResolver.fromFlow(parentFlow);
-
-// Or from a specific directory
-const resolver = await FileSystemResolver.fromDirectory('/path/to/flows');
-```
-
 ---
 
 ### VS Code Extension
@@ -359,16 +349,14 @@ class PreloadedResolver implements SubflowResolver {
 
 ### FileSystemResolver (Node.js only)
 
+The shared implementation lives in core; the CLI and VS Code extension each
+wrap it with their own file-discovery (glob) strategy via the `findFlowFiles`
+option.
+
 ```typescript
 class FileSystemResolver implements SubflowResolver {
   // Create with options
   static create(options: FileSystemResolverOptions): Promise<FileSystemResolver>;
-
-  // Create from a single directory
-  static fromDirectory(dir: string, ignorePatterns?: string[]): Promise<FileSystemResolver>;
-
-  // Create from a flow's location (resolves siblings)
-  static fromFlow(flow: Flow, additionalPaths?: string[]): Promise<FileSystemResolver>;
 
   // Get available flow names
   getAvailableFlows(): string[];
