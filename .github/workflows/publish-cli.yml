@@ -1,0 +1,42 @@
+name: Publish CLI to npm
+on:
+  push:
+    tags:
+      - "cli-v*"  # Use cli-v1.0.0 for CLI releases
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing needs npm 11.5.1 or newer; the bundled npm is older
+      # and falls back to token auth, which fails with ENEEDAUTH.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm run build:cli
+
+      # pnpm pack rewrites the workspace:* core dependency to the released version.
+      - name: Pack
+        working-directory: packages/cli
+        run: pnpm pack --pack-destination /tmp
+
+      - name: Publish
+        run: npm publish /tmp/lightning-flow-scanner-*.tgz --provenance --access public
