@@ -243704,12 +243704,20 @@ let UnsafeRunningContext = class UnsafeRunningContext extends _RuleCommon.RuleCo
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
-Object.defineProperty(exports, "UnusedVariable", ({
-    enumerable: true,
-    get: function() {
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: Object.getOwnPropertyDescriptor(all, name).get
+    });
+}
+_export(exports, {
+    get UnusedVariable () {
         return UnusedVariable;
+    },
+    get countLiteralOccurrences () {
+        return countLiteralOccurrences;
     }
-}));
+});
 const _internals = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(934));
 const _RuleCommon = __nccwpck_require__(7137);
 function _getRequireWildcardCache(nodeInterop) {
@@ -243753,27 +243761,43 @@ function _interop_require_wildcard(obj, nodeInterop) {
     }
     return newObj;
 }
+function countLiteralOccurrences(haystack, needle) {
+    if (!needle) {
+        return 0;
+    }
+    const lowerHaystack = haystack.toLowerCase();
+    const lowerNeedle = needle.toLowerCase();
+    let count = 0;
+    let fromIndex = 0;
+    while(fromIndex <= lowerHaystack.length - lowerNeedle.length){
+        const foundAt = lowerHaystack.indexOf(lowerNeedle, fromIndex);
+        if (foundAt === -1) {
+            break;
+        }
+        count += 1;
+        fromIndex = foundAt + lowerNeedle.length;
+    }
+    return count;
+}
 let UnusedVariable = class UnusedVariable extends _RuleCommon.RuleCommon {
     check(flow, _options, _suppressions) {
         const variables = flow.elements.filter((node)=>node instanceof _internals.FlowVariable);
+        // Serialize once per collection — same search surface as before, without per-variable RegExp.
+        const nodesJson = JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowNode));
+        const resourcesJson = JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowResource));
+        const variablesJson = JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowVariable));
         const unusedVariables = [];
         for (const variable of variables){
             const variableName = variable.name;
-            const nodeMatches = [
-                ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowNode)).matchAll(new RegExp(variableName, "gi"))
-            ].map((a)=>a.index);
-            if (nodeMatches.length > 0) continue;
-            const resourceMatches = [
-                ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowResource)).matchAll(new RegExp(variableName, "gi"))
-            ].map((a)=>a.index);
-            if (resourceMatches.length > 0) continue;
-            const insideCounter = [
-                ...JSON.stringify(variable).matchAll(new RegExp(variable.name, "gi"))
-            ].map((a)=>a.index);
-            const variableUsage = [
-                ...JSON.stringify(flow.elements.filter((node)=>node instanceof _internals.FlowVariable)).matchAll(new RegExp(variableName, "gi"))
-            ].map((a)=>a.index);
-            if (variableUsage.length === insideCounter.length) {
+            if (countLiteralOccurrences(nodesJson, variableName) > 0) {
+                continue;
+            }
+            if (countLiteralOccurrences(resourcesJson, variableName) > 0) {
+                continue;
+            }
+            const insideCounter = countLiteralOccurrences(JSON.stringify(variable), variableName);
+            const variableUsage = countLiteralOccurrences(variablesJson, variableName);
+            if (variableUsage === insideCounter) {
                 unusedVariables.push(variable);
             }
         }
