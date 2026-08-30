@@ -159,6 +159,9 @@ const packageGifs = {
 `
 };
 
+// Availability note — moved below the demo GIF in package READMEs
+const AVAILABILITY_NOTE = /\n*<p align="center">Also available in[\s\S]*?<\/p>\n*/;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Sync function — fully stable, GIF always injected
 function syncPackageReadme(packagePath, packageName) {
@@ -191,11 +194,24 @@ function syncPackageReadme(packagePath, packageName) {
     // Remove the trailing --- and any whitespace around it
     newHeader = sharedHeader.replace(/\s*---\s*$/, '').trimEnd();
 
+    // In the root README the availability note sits directly under the subtitle.
+    // Package READMEs lead with the demo GIF, so the note belongs below it.
+    let availabilityNote = '';
+    const availabilityMatch = newHeader.match(AVAILABILITY_NOTE);
+    if (availabilityMatch) {
+      availabilityNote = availabilityMatch[0].trim();
+      newHeader = newHeader.replace(AVAILABILITY_NOTE, '\n\n').trimEnd();
+    }
+
     // Ensure exactly two blank lines before the GIF
     newHeader += '\n\n';
 
     // Add the GIF block
     newHeader += gifBlockTrimmed + '\n\n';
+
+    if (availabilityNote) {
+      newHeader += availabilityNote + '\n\n';
+    }
 
     // Add the separator with exactly one blank line before it
     newHeader += '---\n';
