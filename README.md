@@ -27,7 +27,7 @@
 
 <p align="center"><i>Detect unsafe contexts, queries in loops, hardcoded IDs, and more to optimize Salesforce Flows</i></p>
 
-<p align="center">Also available in the <a href="https://chromewebstore.google.com/detail/salesforce-inspector-relo/hpijlohoihegkfehhibggnkbjhoemldh"><b>Salesforce Inspector Reloaded</b></a> extension and <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000HA0X2UAL"><b>OrgCheck</b></a> app</p>
+<p align="center">Also available in the <a href="https://chromewebstore.google.com/detail/salesforce-inspector-relo/hpijlohoihegkfehhibggnkbjhoemldh"><b>Salesforce Inspector Reloaded</b></a> extension and <a href="https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000HA0X2UAL"><b>Org Check</b></a> app</p>
 
 ---
 
