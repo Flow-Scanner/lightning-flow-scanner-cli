@@ -19,11 +19,14 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Configure npm registry
-        run: npm config set registry https://registry.npmjs.org/
+      # Trusted publishing needs npm 11.5.1 or newer; the bundled npm is older
+      # and falls back to token auth, which fails with ENEEDAUTH.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
       
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
